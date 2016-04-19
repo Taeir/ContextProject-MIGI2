@@ -1,0 +1,10 @@
+# Ignore binary files
+*.class
+bin/
+target/
+
+# Ignore eclipse settings files
+.settings/
+
+# Ignore windows auxilary files
+Thumbs.db
