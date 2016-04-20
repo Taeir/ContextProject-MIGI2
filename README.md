@@ -1,16 +1,16 @@
 # ContextProject-MIGI2 [![Build Status](https://travis-ci.org/Taeir/ContextProject-MIGI2.svg?branch=master)](https://travis-ci.org/Taeir/ContextProject-MIGI2)
-An "Oculus Rift" game made in java, based on the jMonkey engine.\\
+An "Oculus Rift" game made in java, based on the jMonkey engine. 
 This project is made by the group *MIGI2* for the [TU Delft] context project 2015-2016.
 
 ### About the game
 TBA
 
 ### The team
-The development team consists of the following people\\
-*Taico Aerts*\\
-*Chiel Bruin*\\
-*Bram Crielaard*\\
-*Wytze Elhorst*\\
+The development team consists of the following people 
+*Taico Aerts* 
+*Chiel Bruin* 
+*Bram Crielaard* 
+*Wytze Elhorst* 
 *Robin van der Wal*
 
 ### Documentation
