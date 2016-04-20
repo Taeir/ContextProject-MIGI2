@@ -1,4 +1,4 @@
-package com.github.contextproject;
+package nl.tudelft.contextproject;
 
 public class Main {
 	
