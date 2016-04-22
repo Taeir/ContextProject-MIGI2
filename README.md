@@ -23,7 +23,7 @@ The development team consists of the following people
 ### Documentation
 All required documentation for this game can be found on github, in the folder [Documents]. Extra documentation, such as minutes, can be found on our [Google Drive].
 
-[Documents]: https://github.com/Taeir/ContextProject-MIGI2/Documents/
+[Documents]: https://github.com/Taeir/ContextProject-MIGI2/documentation/
 [Google Drive]: https://drive.google.com/folderview?id=0B1ltTFwLvmz_N2p6WkRwblZ5bDA&usp=sharing
 [TU Delft]: http://tudelft.nl/
 [Taico Aerts]: https://github.com/Taeir
