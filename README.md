@@ -1,4 +1,11 @@
-# ContextProject-MIGI2 [![Build Status](https://travis-ci.org/Taeir/ContextProject-MIGI2.svg?branch=master)](https://travis-ci.org/Taeir/ContextProject-MIGI2)
+# ContextProject-MIGI2 
+[![Build Status](https://travis-ci.org/Taeir/ContextProject-MIGI2.svg?branch=master)](https://travis-ci.org/Taeir/ContextProject-MIGI2)
+[![Bugs](https://badge.waffle.io/Taeir/ContextProject-MIGI2.svg?label=bug&title=Bugs)](http://waffle.io/Taeir/ContextProject-MIGI2)
+
+[![Stories in Sprint](https://badge.waffle.io/Taeir/ContextProject-MIGI2.svg?label=ready%20for%20sprint&title=Sprint%20Backlog)](http://waffle.io/Taeir/ContextProject-MIGI2)
+[![In Progress](https://badge.waffle.io/Taeir/ContextProject-MIGI2.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/Taeir/ContextProject-MIGI2)
+[![Review](https://badge.waffle.io/Taeir/ContextProject-MIGI2.svg?label=review&title=Ready%20for%20Review)](http://waffle.io/Taeir/ContextProject-MIGI2)
+
 An "Oculus Rift" game made in java, based on the jMonkey engine. 
 This project is made by the group *MIGI2* for the [TU Delft] context project 2015-2016.
 
