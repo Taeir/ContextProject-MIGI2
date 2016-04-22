@@ -34,7 +34,31 @@
 			<version>2.0.2-beta</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.jme3</groupId>
+			<artifactId>jme3-core</artifactId>
+			<version>${jme3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jme3</groupId>
+			<artifactId>jme3-desktop</artifactId>
+			<version>${jme3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jme3</groupId>
+			<artifactId>jme3-lwjgl</artifactId>
+			<version>${jme3.version}</version>
+        	</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>jme3-repo</id>
+			<name>JME3 maven repo</name>
+			<url>http://updates.jmonkeyengine.org/maven/</url>
+		</repository>
+	</repositories>
 	
 	<build>
 		<defaultGoal>clean verify</defaultGoal>
