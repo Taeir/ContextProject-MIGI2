@@ -12,6 +12,7 @@
 		<findbugs.version>3.0.2</findbugs.version>
 		<checkstyle.version>2.17</checkstyle.version>
 		<pmd.version>3.5</pmd.version>
+		<jme3.version>3.0.10</jme3.version>
 	</properties>
 
 	<dependencies>
