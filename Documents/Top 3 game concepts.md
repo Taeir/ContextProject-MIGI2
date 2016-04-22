@@ -9,8 +9,8 @@ Oculus rift user:
 The oculus rift user sits in a high tower next to the course armed with a sniper or a laser beam, this gives him a full overview of the entire course, barring some blind spots (such as behind houses and other obstacles). This user needs to pay attention to the course and must manage to spot the other players and attempt to shoot them. If the player manages to kill all the other players before they reach the end of the course, he wins.
 
 Other users:
+The other users are all placed on a course next to the sniper tower; their aim is to get to the end of the course without getting shot by the sniper. To do this they have to make clever use of their surroundings (by hiding behind objects) or work together to get one person through (distracting the sniper and taking the bullet). As soon as one of these players makes it through to the end of the course, they all win. The users can interact with the environment to create more obstacles to hide behind (activating switches etc.) and the more players there are, the longer/more difficult the course will be.
 
-The other users are all placed on a course next to the sniper tower, their aim is to get to the end of the course without getting shot by the sniper. To do this they have to make clever use of their surroundings (by hiding behind objects) or work together to get one person through (distracting the sniper and taking the bullet). As soon as one of these players make it through to the end of the course, they all win. The more players there are, the longer/more difficult the course will be.
 
 <img src="media/Top_3_game_concepts/media/image1.png" width="290" height="205" />
 
