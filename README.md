@@ -1,4 +1,4 @@
-# The Cave of Caerbannog™
+# The Cave of Caerbannog
 ### ContextProject-MIGI2 
 [![Build Status](https://travis-ci.org/Taeir/ContextProject-MIGI2.svg?branch=master)](https://travis-ci.org/Taeir/ContextProject-MIGI2)
 [![Bugs](https://badge.waffle.io/Taeir/ContextProject-MIGI2.svg?label=bug&title=Bugs)](http://waffle.io/Taeir/ContextProject-MIGI2)
@@ -11,7 +11,7 @@ An "Oculus Rift" game made in java, based on the jMonkey engine.
 This project is made by the group *MIGI2* for the [TU Delft] context project 2015-2016.
 
 ### About the game
-The Cave of Caerbannog™ is a dungeon slash maze game with a simple goal: get to the treasure without
+The Cave of Caerbannog is a dungeon slash maze game with a simple goal: get to the treasure without
 dying. At least, that is the goal for some of the players.
 
 The players are divided into 2 teams, with 3 different roles:
