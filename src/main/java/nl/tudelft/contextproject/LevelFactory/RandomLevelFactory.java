@@ -50,15 +50,14 @@ public class RandomLevelFactory implements LevelFactory {
 					mazeTiles[x][y] = new MazeTile(am);
 					// spawn some randomly despawning entities.
 					if (rand.nextFloat() < .5f) {
-						entities.add(new Entity() {
+						Entity e = new Entity() {
 							private Geometry geometry;
 							{
 								Sphere b = new Sphere(10, 10, .2f);
 								geometry = new Geometry("entity", b);
 								Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-								mat.setColor("Color", ColorRGBA.Red);
+								mat.setColor("Color", ColorRGBA.randomColor());
 								geometry.setMaterial(mat);
-								geometry.move((float) (Math.random() * 10), 1, 2);
 							}
 
 							@Override
@@ -70,7 +69,9 @@ public class RandomLevelFactory implements LevelFactory {
 							public void simpleUpdate(float tpf) {
 								if (rand.nextFloat() < .001) setState(EntityState.DEAD);
 							}
-						});
+						};
+						e.getGeometry().move(x, y, 1);
+						entities.add(e);
 					}
 				}
 			}

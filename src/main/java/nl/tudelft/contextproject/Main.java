@@ -35,6 +35,7 @@ public class Main extends SimpleApplication {
 			for (int y = 0; y < level.getHeight(); y++) {
 				if (level.isTileAtPosition(x, y)) {
 					Geometry g = level.getTile(x, y).getGeometry();
+					g.move(x, y, 0);
 					rootNode.attachChild(g);
 				}
 			}
