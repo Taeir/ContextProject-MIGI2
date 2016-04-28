@@ -3,6 +3,9 @@
 bin/
 target/
 *.so
+OpenAL64.dll
+lwjgl64.dll
+
 
 # Ignore eclipse settings files
 .settings/
