@@ -1,6 +1,4 @@
-package nl.tudelft.contextproject.LevelFactory;
-
-import nl.tudelft.contextproject.Level;
+package nl.tudelft.contextproject.Level;
 
 /**
  * Interface for a level factory

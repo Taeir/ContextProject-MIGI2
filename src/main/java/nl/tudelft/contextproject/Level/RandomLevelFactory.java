@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.LevelFactory;
+package nl.tudelft.contextproject.Level;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -12,9 +12,7 @@ import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Entity;
 import nl.tudelft.contextproject.EntityState;
-import nl.tudelft.contextproject.Level;
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.MazeTile;
 import nl.tudelft.contextproject.VRPlayer;
 
 /**

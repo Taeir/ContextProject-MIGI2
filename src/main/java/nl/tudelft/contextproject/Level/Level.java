@@ -1,6 +1,9 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.Level;
 
 import java.util.Set;
+
+import nl.tudelft.contextproject.Entity;
+import nl.tudelft.contextproject.VRPlayer;
 
 /**
  * Class representing the entire level in the game.

@@ -5,8 +5,9 @@ import java.util.Iterator;
 import com.jme3.app.SimpleApplication;
 import com.jme3.scene.Geometry;
 
-import nl.tudelft.contextproject.LevelFactory.LevelFactory;
-import nl.tudelft.contextproject.LevelFactory.RandomLevelFactory;
+import nl.tudelft.contextproject.Level.Level;
+import nl.tudelft.contextproject.Level.LevelFactory;
+import nl.tudelft.contextproject.Level.RandomLevelFactory;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
