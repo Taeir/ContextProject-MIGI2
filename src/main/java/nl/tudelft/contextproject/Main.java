@@ -1,8 +1,12 @@
 package nl.tudelft.contextproject;
 
+import java.util.Iterator;
+
 import com.jme3.app.SimpleApplication;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+
+import nl.tudelft.contextproject.LevelFactory.LevelFactory;
+import nl.tudelft.contextproject.LevelFactory.RandomLevelFactory;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
@@ -10,7 +14,8 @@ import com.jme3.scene.Geometry;
 public class Main extends SimpleApplication {
 	private static Main instance;
 	private Level level;
- 
+	private LevelFactory levelFactory;
+
 	/**
 	 * Main method that is called when the program is started.
 	 * @param args run-specific arguments.
@@ -23,15 +28,48 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
-		this.level = new Level(12, 10);
-		
+		levelFactory = new RandomLevelFactory(10, 10);
+		this.level = levelFactory.generateRandom();
+
 		for (int x = 0; x < level.getWidth(); x++) {
 			for (int y = 0; y < level.getHeight(); y++) {
 				if (level.isTileAtPosition(x, y)) {
 					Geometry g = level.getTile(x, y).getGeometry();
-					g.move(new Vector3f(x, y, 0));
 					rootNode.attachChild(g);
 				}
+			}
+		}
+		rootNode.attachChild(level.getPlayer().getGeometry());
+	}
+
+
+	@Override
+	public void simpleUpdate(float tpf) {
+		level.getPlayer().simpleUpdate(tpf);
+		updateEntities(tpf);
+	}
+
+	/**
+	 * Update all the entities in the level.
+	 * Add all new entities to should be added to the rootNode and all dead ones should be removed.
+	 */
+	private void updateEntities(float tpf) {
+		for (Iterator<Entity> i = level.getEntities().iterator(); i.hasNext();) {
+			Entity e = i.next();
+		    EntityState state = e.getState();
+			switch (state) {
+			case DEAD:
+				rootNode.detachChild(e.getGeometry());
+				i.remove();
+				continue;
+			case NEW:
+				rootNode.attachChild(e.getGeometry());
+				e.setState(EntityState.ALIVE);
+				e.simpleUpdate(tpf);
+				break;
+			default:
+				e.simpleUpdate(tpf);
+				break;
 			}
 		}
 	}
