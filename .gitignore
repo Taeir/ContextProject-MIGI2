@@ -12,3 +12,7 @@ lwjgl64.dll
 
 # Ignore windows auxilary files
 Thumbs.db
+
+# Ignore IntelliJ settings files
+contextproject-migi2.iml
+.idea/

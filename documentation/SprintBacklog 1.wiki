@@ -1,0 +1,145 @@
+Backlog on Sprint #1
+
+Context project: Computer games<br />
+Group: MIGI2
+
+{|
+! '''User Story'''
+! '''Task'''
+! '''Member responsible for task'''
+! '''Task Assigned To'''
+! '''Estimated Effort per Task''' (in hours)
+! '''Priority (A-E)<br />
+'''(A is highest)
+|-
+|
+'''Game concept'''
+
+As the development team we want to pick a concept and expand on it.
+| Pick concept.
+| Everyone
+| Everyone
+| 0.5
+| A
+|-
+|
+
+| Pick a game name.
+| Everyone
+| Everyone
+| 0.5
+| A
+|-
+|
+
+| Game logo.
+| Wytze
+| Wytze
+| 1
+| A
+|-
+|
+
+| Prepare and pitch concept.
+| Taico
+| Taico
+| 3
+| A
+|-
+|
+'''Create basic code base'''
+
+As the development team we want to get to known the library jMonkey and prepare a prototype code base on which we can expand on later.
+| Find information and basic implementations of jMonkey.
+| Chiel
+| Chiel
+| 3
+| A
+|-
+|
+
+| Create a basic code frame work on which a gaming window can be created.
+| Chiel
+| Chiel, Bram
+| 16
+| A
+|-
+|
+
+| Create a basic scene in which a camera can be controlled.
+| Robin
+| Robin
+| 6
+| B
+|-
+|
+
+| Import an audio engine.
+| Taico
+| Taico
+| 3
+| C
+|-
+|
+
+| Import a Logging frame-work.
+| Taico
+| Taico
+| 1
+| C
+|-
+|
+'''Product Vision'''
+
+The development team is required to deliver a product vision document of the game.
+| Write the product vision .
+| Robin
+| Robin
+| 8
+| A
+|-
+|
+
+| Check the product vision.
+| Bram
+| Bram
+| 2
+| A
+|-
+|
+'''Product planning'''
+
+The development team is required to deliver a product planning document of the game.
+| Release plan, DoD, roadmap.
+| Wytze
+| Wytze
+| 8
+| A
+|-
+|
+
+| User stories.
+| Taico
+| Taico
+| 2
+| A
+|-
+|
+
+| Check the product planning.
+| Taico
+| Taico
+| 1
+| A
+|-
+|
+'''Architecture design'''
+
+The development team is required to deliver an architecture design of the game each week.
+| Create the initial architecture design document.
+| Bram
+| Bram
+| 4
+| A
+|}
+
