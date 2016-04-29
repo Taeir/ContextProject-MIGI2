@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject;
 
+import java.awt.Graphics2D;
+
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
@@ -31,5 +33,10 @@ public class VRPlayer extends Entity {
 	@Override
 	public void simpleUpdate(float tdf) {
 		geometry.move(1 * tdf, 0, 0);
+	}
+
+	@Override
+	public void mapDraw(Graphics2D g, int resolution) {
+		//TODO
 	}
 }

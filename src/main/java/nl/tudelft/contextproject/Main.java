@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject;
 
+import java.awt.Graphics2D;
 import java.util.Iterator;
 
 import com.jme3.app.SimpleApplication;
@@ -10,8 +11,10 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 
+import nl.tudelft.contextproject.Level.DrawableFilter;
 import nl.tudelft.contextproject.Level.Level;
 import nl.tudelft.contextproject.Level.LevelFactory;
+import nl.tudelft.contextproject.Level.MapBuilder;
 import nl.tudelft.contextproject.Level.RandomLevelFactory;
 
 /**
@@ -41,7 +44,6 @@ public class Main extends SimpleApplication {
 			for (int y = 0; y < level.getHeight(); y++) {
 				if (level.isTileAtPosition(x, y)) {
 					Geometry g = level.getTile(x, y).getGeometry();
-					g.move(x, y, 0);
 					rootNode.attachChild(g);
 				}
 			}
@@ -53,6 +55,31 @@ public class Main extends SimpleApplication {
 		p.setColor(ColorRGBA.randomColor());
 		p.setRadius(20);
 		rootNode.addLight(p);
+		
+		MapBuilder.setLevel(level);
+		DrawableFilter filter = new DrawableFilter(false);
+		filter.addEntity(new Entity(){
+
+			@Override
+			public Geometry getGeometry() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void simpleUpdate(float tpf) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mapDraw(Graphics2D g, int resolution) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		MapBuilder.export("hello.png", filter, 16);
 	}
 
 

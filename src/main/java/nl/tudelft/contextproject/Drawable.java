@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject;
 
+import java.awt.Graphics2D;
+
 import com.jme3.scene.Geometry;
 
 /**
@@ -19,4 +21,6 @@ public interface Drawable {
 	 * @param tpf The time between this and the previous frame.
 	 */
 	public void simpleUpdate(float tpf);
+	
+	public void mapDraw(Graphics2D g, int resolution);
 }

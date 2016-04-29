@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.Level;
 
+import java.awt.Graphics2D;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -45,7 +46,7 @@ public class RandomLevelFactory implements LevelFactory {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				if (rand.nextFloat() < .3f) {
-					mazeTiles[x][y] = new MazeTile(am);
+					mazeTiles[x][y] = new MazeTile(am, x, y);
 					// spawn some randomly despawning entities.
 					if (rand.nextFloat() < .5f) {
 						Entity e = new Entity() {
