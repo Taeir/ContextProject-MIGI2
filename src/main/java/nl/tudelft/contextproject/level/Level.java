@@ -1,6 +1,9 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.level;
 
-import com.jme3.asset.AssetManager;
+import java.util.Set;
+
+import nl.tudelft.contextproject.Entity;
+import nl.tudelft.contextproject.VRPlayer;
 
 /**
  * Class representing the entire level in the game.
@@ -9,25 +12,37 @@ import com.jme3.asset.AssetManager;
  */
 public class Level {
 	private MazeTile[][] mazeTiles;
+	private Set<Entity> entities;
+	private VRPlayer player;
 	
 	/**
-	 * Constructor that creates a level with specified dimensions.
-	 * NOTE: this will later be replaced by a number of rooms.
-	 * @param width the with of the maze
-	 * @param height the height of the maze
+	 * Constructor to create a maze with specific mazeTiles.
+	 * @param maze The set of tiles to include in the maze.
+	 * @param p The player that is placed in the maze.
+	 * @param entities The list of entities that is present in the maze.
 	 */
-	public Level(int width, int height) {
-		AssetManager am = Main.getInstance().getAssetManager();
-		mazeTiles = new MazeTile[width][height];
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				if (Math.random() < .3f) {
-					mazeTiles[x][y] = new MazeTile(am);
-				}
-			}
-		}
+	public Level(MazeTile[][] maze, VRPlayer p, Set<Entity> entities) {
+		this.mazeTiles = maze;
+		this.player = p;
+		this.entities = entities;
 	}
 	
+	/**
+	 * Getter for the list of entities.
+	 * @return A list of entities.
+	 */
+	public Set<Entity> getEntities() {
+		return entities;
+	}
+
+	/**
+	 * Getter for the player.
+	 * @return The player.
+	 */
+	public VRPlayer getPlayer() {
+		return player;
+	}
+
 	/**
 	 * Getter for the height of the maze.
 	 * @return the height of the maze.
