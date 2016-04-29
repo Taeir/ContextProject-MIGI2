@@ -5,6 +5,7 @@ target/
 *.so
 OpenAL64.dll
 lwjgl64.dll
+*.dylib
 
 
 # Ignore eclipse settings files
