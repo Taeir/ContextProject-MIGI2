@@ -8,11 +8,11 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
-import nl.tudelft.contextproject.Level.DrawableFilter;
-import nl.tudelft.contextproject.Level.Level;
-import nl.tudelft.contextproject.Level.LevelFactory;
-import nl.tudelft.contextproject.Level.MapBuilder;
-import nl.tudelft.contextproject.Level.RandomLevelFactory;
+import nl.tudelft.contextproject.level.DrawableFilter;
+import nl.tudelft.contextproject.level.Level;
+import nl.tudelft.contextproject.level.LevelFactory;
+import nl.tudelft.contextproject.level.MapBuilder;
+import nl.tudelft.contextproject.level.RandomLevelFactory;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.

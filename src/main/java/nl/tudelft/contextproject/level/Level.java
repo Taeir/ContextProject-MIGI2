@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.Level;
+package nl.tudelft.contextproject.level;
 
 import java.util.Set;
 
