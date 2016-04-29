@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.Level;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 
@@ -29,9 +30,11 @@ public class MazeTile {
 	public Geometry getGeometry() {
 		Box b = new Box(.5f, .5f, .5f); // create cube shape
         Geometry geom = new Geometry("Box", b);  // create cube geometry from the shape
-        Material mat = new Material(am,
-          "Common/MatDefs/Misc/Unshaded.j3md");  // create a simple material
-        mat.setColor("Color", ColorRGBA.randomColor());   // set color of material to blue
+        Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+        mat.setBoolean("UseMaterialColors", true);    
+        mat.setColor("Diffuse", ColorRGBA.randomColor());
+        mat.setColor("Specular", ColorRGBA.White);
+        mat.setFloat("Shininess", 64f);  // [0,128]
         geom.setMaterial(mat);                   // set the cube's material
         return geom;
 	}
