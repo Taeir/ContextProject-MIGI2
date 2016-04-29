@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.Level;
 
-import java.awt.Graphics2D;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;

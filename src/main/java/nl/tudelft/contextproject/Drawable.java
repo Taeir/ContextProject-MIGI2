@@ -2,6 +2,7 @@ package nl.tudelft.contextproject;
 
 import java.awt.Graphics2D;
 
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
 /**
@@ -20,7 +21,18 @@ public interface Drawable {
 	 * This method should update the exact geometry that is returned by {@link #getGeometry()}.
 	 * @param tpf The time between this and the previous frame.
 	 */
-	public void simpleUpdate(float tpf);
+	public default void simpleUpdate(float tpf){ }
 	
-	public void mapDraw(Graphics2D g, int resolution);
+	/**
+	 * Draw the Drawable on a map.
+	 * @param g The Graphics2D to draw on.
+	 * @param resolution The resolution of a single tile on the map.
+	 */
+	public default void mapDraw(Graphics2D g, int resolution) {
+		Vector3f trans = getGeometry().getLocalTranslation();
+		int x = (int) trans.x * resolution;
+		int y = (int) trans.y * resolution;
+
+		g.drawOval(x, y, resolution, resolution);
+	}
 }

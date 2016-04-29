@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 
@@ -37,6 +38,12 @@ public class VRPlayer extends Entity {
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
-		//TODO
+		Vector3f trans = geometry.getLocalTranslation();
+		int x = (int) trans.x * resolution;
+		int y = (int) trans.y * resolution;
+		int width = resolution / 2;
+		int offset = resolution / 4;
+
+		g.fillOval(x + offset, y + offset, width, width);
 	}
 }
