@@ -1,3 +1,7 @@
+= Sprint Retrospective, Iteration #1 =
+Context Project: Computer Games
+Group: MIGI 2
+
 {|
 ! '''User Story #'''
 !
@@ -12,7 +16,7 @@
 ! '''Notes'''
 |-
 | '''#1 Game concept'''
-| #4
+| 4
 | Everyone
 | A
 | 0.5
@@ -22,7 +26,7 @@
 |-
 |
 
-| #16
+| 16
 | Everyone
 | A
 | 0.5
@@ -32,7 +36,7 @@
 |-
 |
 
-| #17
+| 17
 | Wytze
 | A
 | 1
@@ -42,7 +46,7 @@
 |-
 |
 
-| #3
+| 3
 | Taico
 | A
 | 3
@@ -51,7 +55,7 @@
 | -
 |-
 | '''#2 Create basic code base'''
-| #10
+| 10
 | Chiel
 | A
 | 3
@@ -61,7 +65,7 @@
 |-
 |
 
-| #19
+| 19
 | Chiel, Bram
 | A
 | 16
@@ -71,7 +75,7 @@
 |-
 |
 
-| #20
+| 20
 | Robin, done by Chiel
 | B
 | 6
@@ -81,7 +85,7 @@
 |-
 |
 
-| #21
+| 21
 | Taico
 | C
 | 3
@@ -91,7 +95,7 @@
 |-
 |
 
-| #29
+| 29
 | Taico
 | C
 | 1
@@ -100,7 +104,7 @@
 | Testing was more difficult than anticipated.
 |-
 | '''#3 Product Vision'''
-| #5
+| 5
 | Robin
 | A
 | 8
@@ -110,7 +114,7 @@
 |-
 |
 
-| #5
+| 5
 | Chiel
 | A
 | 0
@@ -120,7 +124,7 @@
 |-
 |
 
-| #22
+| 22
 | Bram
 | A
 | 2
@@ -130,7 +134,7 @@
 |-
 |
 
-| #22
+| 22
 | Taico
 | A
 | 0
@@ -139,7 +143,7 @@
 | As the Product Vision itself was more difficult than expected the review was as well.
 |-
 | '''#4 Product planning'''
-| #6
+| 6
 | Wytze
 | A
 | 8
@@ -149,7 +153,7 @@
 |-
 |
 
-| #23
+| 23
 | Taico
 | A
 | 2
@@ -159,7 +163,7 @@
 |-
 |
 
-| #35
+| 35
 | Taico
 | A
 | 1
@@ -168,7 +172,7 @@
 | -
 |-
 | '''#5 Architecture design'''
-| #7
+| 7
 | Bram
 | A
 | 4
@@ -177,7 +181,7 @@
 | Concept had to be reworked as a result of the pitch on Tuesday. Because of this the initial version had be changed.
 |-
 | '''Additional'''
-| #33
+| 33
 | Taico
 | -
 | -
@@ -187,7 +191,7 @@
 |-
 |
 
-| #34
+| 34
 | Bram
 | -
 | -
