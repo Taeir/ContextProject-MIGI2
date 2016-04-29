@@ -1,0 +1,246 @@
+= Sprint Retrospective, Iteration #1 =
+Context Project: Computer Games<br />
+Group: MIGI 2
+
+{|
+! '''User Story #'''
+!
+'''Task #'''
+
+'''(refer to issue numbers on GitHub)'''
+! '''Task assigned To'''
+! '''Priority (A - E, A is highest)'''
+! '''Estimated Effort Per Task (in hours)'''
+! '''Actual Effort per Task (in hours)'''
+! '''Done'''
+! '''Notes'''
+|-
+| '''#1 Game concept'''
+| 4
+| Everyone
+| A
+| 0.5
+| 3
+| Yes
+| Took more effort than initially anticipated. Game concepts had to be expanded upon before we could make a final decision.
+|-
+|
+
+| 16
+| Everyone
+| A
+| 0.5
+| 0.5
+| Yes
+| None.
+|-
+|
+
+| 17
+| Wytze
+| A
+| 1
+| 3
+| No
+| Logo took longer to design than anticipated. Has been completed, but has not been uploaded to GitHub.
+|-
+|
+
+| 3
+| Taico
+| A
+| 3
+| 3
+| Yes
+| -
+|-
+| '''#2 Create basic code base'''
+| 10
+| Chiel
+| A
+| 3
+| 2
+| Yes
+| Additional research was done during development.
+|-
+|
+
+| 19
+| Chiel, Bram
+| A
+| 16
+| 6
+| No
+| Completion was not feasible because of problem 1.
+|-
+|
+
+| 20
+| Robin, done by Chiel
+| B
+| 6
+| 1
+| No
+| Chiel basically had to do this while implementing his basic framework, but has not been uploaded to GitHub.
+|-
+|
+
+| 21
+| Taico
+| C
+| 3
+| 0
+| No
+| Not feasible because of problem 1.
+|-
+|
+
+| 29
+| Taico
+| C
+| 1
+| 2
+| Yes
+| Testing was more difficult than anticipated.
+|-
+| '''#3 Product Vision'''
+| 5
+| Robin
+| A
+| 8
+| 16
+| Yes
+| The guidelines were unclear, therefore the literature study was underestimated.
+|-
+|
+
+| 5
+| Chiel
+| A
+| 0
+| 3.5
+| Yes
+| Helped Robin with the product vision. Took over a small part.
+|-
+|
+
+| 22
+| Bram
+| A
+| 2
+| 3
+| Yes
+| As the Product Vision itself was more difficult than expected the review was as well.
+|-
+|
+
+| 22
+| Taico
+| A
+| 0
+| 3
+| Yes
+| As the Product Vision itself was more difficult than expected the review was as well.
+|-
+| '''#4 Product planning'''
+| 6
+| Wytze
+| A
+| 8
+| 8
+| Yes
+| -
+|-
+|
+
+| 23
+| Taico
+| A
+| 2
+| 2
+| Yes
+| -
+|-
+|
+
+| 35
+| Taico
+| A
+| 1
+| 1
+| Yes
+| -
+|-
+| '''#5 Architecture design'''
+| 7
+| Bram
+| A
+| 4
+| 5
+| Yes
+| Concept had to be reworked as a result of the pitch on Tuesday. Because of this the initial version had be changed.
+|-
+| '''Additional'''
+| 33
+| Taico
+| -
+| -
+| 0.5
+| Yes
+| Had to be done.
+|-
+|
+
+| 34
+| Bram
+| -
+| -
+| 0
+| Yes
+| GitHub broke our link.
+|}
+
+Every week, each group member also reviews pull requests of other members. Since we put a lot of time into this we also want to document time spent reviewing a separate table.
+
+{|
+! '''Group Member name'''
+! '''Time Spent Reviewing and creating Pull Requests (in hours)'''
+|-
+| Taico
+| 4
+|-
+| Chiel
+| 2
+|-
+| Bram
+| 3
+|-
+| Wytze
+| 0
+|-
+| Robin
+| 3
+|}
+
+= Main Problems Encountered =
+
+== Problem 1 ==
+
+Description: Documentation underestimation.
+
+Cause: Unclear guidelines.
+
+Reaction: More time spent on documentation than estimated, less time spent on code.
+
+== Problem 2 ==
+
+Description: Most of the work was done in the last two days.
+
+Cause: Problem 1 and lectures were accounted for.
+
+Reaction: Less time spent on code.
+
+= Adjustments for the next Sprint Plan =
+
+Take into account the lectures. This means we will try to distribute the workload more evenly across the week and among team members.
+
