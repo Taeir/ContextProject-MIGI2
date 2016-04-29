@@ -16,7 +16,7 @@ Group: MIGI 2
 ! '''Notes'''
 |-
 | '''#1 Game concept'''
-| 4
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/4 #4 - Pick concept]
 | Everyone
 | A
 | 0.5
@@ -26,7 +26,7 @@ Group: MIGI 2
 |-
 |
 
-| 16
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/16 #16 - Game name]
 | Everyone
 | A
 | 0.5
@@ -36,7 +36,7 @@ Group: MIGI 2
 |-
 |
 
-| 17
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/17 #17 - Game logo]
 | Wytze
 | A
 | 1
@@ -46,7 +46,7 @@ Group: MIGI 2
 |-
 |
 
-| 3
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/3 #3 - Pitch concept]
 | Taico
 | A
 | 3
@@ -55,7 +55,7 @@ Group: MIGI 2
 | -
 |-
 | '''#2 Create basic code base'''
-| 10
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/10 #10 - jMonkey exploration]
 | Chiel
 | A
 | 3
@@ -65,7 +65,7 @@ Group: MIGI 2
 |-
 |
 
-| 19
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/19 #19 - Base Framework]
 | Chiel, Bram
 | A
 | 16
@@ -75,7 +75,7 @@ Group: MIGI 2
 |-
 |
 
-| 20
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/20 #20 - Basis Level]
 | Robin, done by Chiel
 | B
 | 6
@@ -85,7 +85,7 @@ Group: MIGI 2
 |-
 |
 
-| 21
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/21 #21 - Explore audio]
 | Taico
 | C
 | 3
@@ -95,7 +95,7 @@ Group: MIGI 2
 |-
 |
 
-| 29
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/29 #29 - Create Logging Framework]
 | Taico
 | C
 | 1
@@ -104,7 +104,7 @@ Group: MIGI 2
 | Testing was more difficult than anticipated.
 |-
 | '''#3 Product Vision'''
-| 5
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/5 #5 - Product Vision]
 | Robin
 | A
 | 8
@@ -114,7 +114,7 @@ Group: MIGI 2
 |-
 |
 
-| 5
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/5 #5 - Product Vision]
 | Chiel
 | A
 | 0
@@ -124,7 +124,7 @@ Group: MIGI 2
 |-
 |
 
-| 22
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/22 #22 - Review Product Vision]
 | Bram
 | A
 | 2
@@ -134,7 +134,7 @@ Group: MIGI 2
 |-
 |
 
-| 22
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/22 #22 - Review Product Vision]
 | Taico
 | A
 | 0
@@ -143,7 +143,7 @@ Group: MIGI 2
 | As the Product Vision itself was more difficult than expected the review was as well.
 |-
 | '''#4 Product planning'''
-| 6
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/6 #6 - Product Planning]
 | Wytze
 | A
 | 8
@@ -153,7 +153,7 @@ Group: MIGI 2
 |-
 |
 
-| 23
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/23 #23 - User stories]
 | Taico
 | A
 | 2
@@ -163,7 +163,7 @@ Group: MIGI 2
 |-
 |
 
-| 35
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/35 #35 - Review Product Planning]
 | Taico
 | A
 | 1
@@ -172,7 +172,7 @@ Group: MIGI 2
 | -
 |-
 | '''#5 Architecture design'''
-| 7
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/7 #7 - Architecture Design]
 | Bram
 | A
 | 4
@@ -181,7 +181,7 @@ Group: MIGI 2
 | Concept had to be reworked as a result of the pitch on Tuesday. Because of this the initial version had be changed.
 |-
 | '''Additional'''
-| 33
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/33 #33 - Travis: Update Java]
 | Taico
 | -
 | -
@@ -191,7 +191,7 @@ Group: MIGI 2
 |-
 |
 
-| 34
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/34 #34 - Fix readme]
 | Bram
 | -
 | -
