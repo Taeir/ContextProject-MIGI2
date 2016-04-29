@@ -46,6 +46,7 @@ public class Main extends SimpleApplication {
 				}
 			}
 		}
+		rootNode.attachChild(level.getPlayer().getGeometry());
 		
 		PointLight p = new PointLight();
 		p.setPosition(new Vector3f(1, 1, -4));
