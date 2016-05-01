@@ -152,6 +152,14 @@
 					<include>**/*</include>
 				</includes>
 			</resource>
+			<resource>
+				<targetPath>.</targetPath>
+				<filtering>false</filtering>
+				<directory>src/main/assets/</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
 		</resources>
 		
 		<plugins>
