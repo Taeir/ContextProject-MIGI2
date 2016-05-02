@@ -8,6 +8,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
+import nl.tudelft.contextproject.audio.AudioManager;
+import nl.tudelft.contextproject.audio.BackgroundMusic;
 import nl.tudelft.contextproject.level.DrawableFilter;
 import nl.tudelft.contextproject.level.Level;
 import nl.tudelft.contextproject.level.LevelFactory;
@@ -28,8 +30,9 @@ public class Main extends SimpleApplication {
 	 */
 	public static void main(String[] args) {
 		Main app = new Main();
-		app.start();
+		
 		instance = app;
+		app.start();
 	}
 
 	@Override
@@ -66,13 +69,32 @@ public class Main extends SimpleApplication {
 			public void simpleUpdate(float tpf) { }
 		});
 		MapBuilder.export("hello.png", filter, 16);
+		
+		//Initialize the AudioManager.
+		AudioManager.getInstance().init();
+		
+		//Start the background music
+		BackgroundMusic.getInstance().start();
 	}
-
+	
+	@Override
+	public void stop() {
+		//Stop the background music
+		BackgroundMusic.getInstance().stop();
+		
+		super.stop();
+	}
 
 	@Override
 	public void simpleUpdate(float tpf) {
 		level.getPlayer().simpleUpdate(tpf);
 		updateEntities(tpf);
+		
+		//Update location for 3D audio
+		listener.setLocation(getCamera().getLocation());
+		listener.setRotation(getCamera().getRotation());
+		
+		BackgroundMusic.getInstance().update(tpf);
 	}
 
 	/**
