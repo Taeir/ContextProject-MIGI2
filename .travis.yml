@@ -1,5 +1,8 @@
 language: java
 sudo: false
+cache:
+  directories:
+  - $HOME/.m2
 addons:
   apt:
     packages:
@@ -10,7 +13,7 @@ before_install:
   - if [ $USE_FRAMEBUFFER = "true" ]; then export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi
 env:
   - USE_FRAMEBUFFER=false
-script: mvn clean test site -Dmaven.javadoc.skip=true
+
 after_script:
   - echo "== CHECKSTYLE_RESULT =="; cat "target/checkstyle-result.xml"; echo "== END_CHECKSTYLE_RESULT =="
   - echo "== PMD_RESULT =="; cat "target/pmd.xml"; echo "== END_PMD_RESULT =="
