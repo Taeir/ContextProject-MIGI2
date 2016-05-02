@@ -37,7 +37,7 @@
 	</dependencies>
 	
 	<build>
-		<defaultGoal>clean verify</defaultGoal>
+		<defaultGoal>clean verify site</defaultGoal>
 		<finalName>${project.name}-${project.version}</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
