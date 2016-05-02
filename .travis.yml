@@ -15,3 +15,4 @@ after_script:
   - echo "== CHECKSTYLE_RESULT =="; cat "target/checkstyle-result.xml"; echo "== END_CHECKSTYLE_RESULT =="
   - echo "== PMD_RESULT =="; cat "target/pmd.xml"; echo "== END_PMD_RESULT =="
   - echo "== FINDBUGS_RESULT =="; cat "target/findbugsXml.xml"; echo "== END_FINDBUGS_RESULT =="
+  - bash <(curl -s https://codecov.io/bash)
