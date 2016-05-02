@@ -2,12 +2,15 @@ package nl.tudelft.contextproject;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Abstract test class for Entity.
  */
 public abstract class EntityTest {
+	
+	private Entity entity;
 	
 	/**
 	 * Getter for a specific instance of Entity.
@@ -16,12 +19,19 @@ public abstract class EntityTest {
 	public abstract Entity getEntity();
 
 	/**
+	 * create a new (clean) entity to test with.
+	 */
+	@Before
+	public void setUp() {
+		entity = getEntity();
+	}
+	
+	/**
 	 * Test if the initial state of an entity is NEW.
 	 */
 	@Test
 	public void testInitialState() {
-		Entity e = getEntity();
-		assertEquals(e.getState(), EntityState.NEW);
+		assertEquals(entity.getState(), EntityState.NEW);
 	}
 	
 	/**
@@ -29,8 +39,7 @@ public abstract class EntityTest {
 	 */
 	@Test
 	public void testSetState() {
-		Entity e = getEntity();
-		e.setState(EntityState.ALIVE);
-		assertEquals(e.getState(), EntityState.ALIVE);
+		entity.setState(EntityState.ALIVE);
+		assertEquals(entity.getState(), EntityState.ALIVE);
 	}
 }
