@@ -1,6 +1,9 @@
 package nl.tudelft.contextproject.level;
 
+import java.util.List;
 import java.util.Set;
+
+import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.Entity;
 import nl.tudelft.contextproject.VRPlayer;
@@ -14,6 +17,7 @@ public class Level {
 	private MazeTile[][] mazeTiles;
 	private Set<Entity> entities;
 	private VRPlayer player;
+	private List<Light> lightList;
 	
 	/**
 	 * Constructor to create a maze with specific mazeTiles.
@@ -21,10 +25,11 @@ public class Level {
 	 * @param p The player that is placed in the maze.
 	 * @param entities The list of entities that is present in the maze.
 	 */
-	public Level(MazeTile[][] maze, VRPlayer p, Set<Entity> entities) {
+	public Level(MazeTile[][] maze, VRPlayer p, Set<Entity> entities, List<Light> lights) {
 		this.mazeTiles = maze;
 		this.player = p;
 		this.entities = entities;
+		this.lightList = lights;
 	}
 	
 	/**
@@ -77,5 +82,9 @@ public class Level {
 	 */
 	public MazeTile getTile(int x, int y) {
 		return mazeTiles[x][y];
+	}
+
+	public List<Light> getLights() {
+		return lightList;
 	}
 }

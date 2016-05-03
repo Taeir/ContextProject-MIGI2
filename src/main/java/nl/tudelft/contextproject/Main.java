@@ -4,10 +4,12 @@ import java.util.Iterator;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
+import com.jme3.light.Light;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.level.DrawableFilter;
 import nl.tudelft.contextproject.level.Level;
@@ -27,6 +29,10 @@ public class Main extends SimpleApplication {
 	public static void setInstance(Main main) {
 		instance = main;
 	}
+	
+	public void setRootNode(Node rn) {
+		rootNode = rn;
+	}
 
 	/**
 	 * Main method that is called when the program is started.
@@ -41,23 +47,9 @@ public class Main extends SimpleApplication {
 	@Override
 	public void simpleInitApp() {
 		levelFactory = new RandomLevelFactory(10, 10);
-		this.level = levelFactory.generateRandom();
-
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					Geometry g = level.getTile(x, y).getGeometry();
-					rootNode.attachChild(g);
-				}
-			}
-		}
-		rootNode.attachChild(level.getPlayer().getGeometry());
+		buildLevel(levelFactory);
 		
-		PointLight p = new PointLight();
-		p.setPosition(new Vector3f(1, 1, 4));
-		p.setColor(ColorRGBA.randomColor());
-		p.setRadius(20);
-		rootNode.addLight(p);
+		
 		
 		MapBuilder.setLevel(level);
 		DrawableFilter filter = new DrawableFilter(false);
@@ -77,6 +69,32 @@ public class Main extends SimpleApplication {
 		MapBuilder.export("hello.png", filter, 16);
 	}
 
+
+	public void buildLevel(LevelFactory levelFactory2) {
+		clearLevel();		
+		this.level = levelFactory.generateRandom();
+
+		for (int x = 0; x < level.getWidth(); x++) {
+			for (int y = 0; y < level.getHeight(); y++) {
+				if (level.isTileAtPosition(x, y)) {
+					Geometry g = level.getTile(x, y).getGeometry();
+					rootNode.attachChild(g);
+				}
+			}
+		}
+		rootNode.attachChild(level.getPlayer().getGeometry());
+		
+		for(Light l : level.getLights()) {
+			rootNode.addLight(l);
+		}
+	}
+
+	public void clearLevel() {
+		rootNode.detachAllChildren();
+		for (Light l : rootNode.getLocalLightList()) {
+			rootNode.removeLight(l);
+		}
+	}
 
 	@Override
 	public void simpleUpdate(float tpf) {

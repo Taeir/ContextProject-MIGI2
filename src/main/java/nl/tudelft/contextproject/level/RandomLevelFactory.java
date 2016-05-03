@@ -1,12 +1,16 @@
 package nl.tudelft.contextproject.level;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.light.Light;
+import com.jme3.light.PointLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 
@@ -77,7 +81,13 @@ public class RandomLevelFactory implements LevelFactory {
 				}
 			}
 		}
-		return new Level(mazeTiles, new VRPlayer(), entities);
+		ArrayList<Light> lights = new ArrayList<>(1);
+		PointLight p = new PointLight();
+		p.setPosition(new Vector3f(1, 1, 4));
+		p.setColor(ColorRGBA.randomColor());
+		p.setRadius(20);
+		lights.add(p);
+		return new Level(mazeTiles, new VRPlayer(), entities, lights);
 	}
 
 }
