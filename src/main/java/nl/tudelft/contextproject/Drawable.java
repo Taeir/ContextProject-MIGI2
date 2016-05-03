@@ -16,6 +16,8 @@ public interface Drawable {
 	 */
 	public Geometry getGeometry();
 	
+	public void setGeometry(Geometry geometry);
+	
 	/**
 	 * Update method called once per frame.
 	 * This method should update the exact geometry that is returned by {@link #getGeometry()}.

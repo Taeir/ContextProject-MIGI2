@@ -1,16 +1,20 @@
 package nl.tudelft.contextproject;
 
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Abstract test class for Entity.
  */
-public abstract class EntityTest {
+public abstract class EntityTest extends DrawableTest {
 	
 	private Entity entity;
+	
+	@Override
+	public Drawable getDrawable() {
+		return getEntity();
+	}
 	
 	/**
 	 * Getter for a specific instance of Entity.
@@ -21,8 +25,7 @@ public abstract class EntityTest {
 	/**
 	 * create a new (clean) entity to test with.
 	 */
-	@Before
-	public void setUp() {
+	public void setupEntity() {
 		entity = getEntity();
 	}
 	
@@ -31,6 +34,7 @@ public abstract class EntityTest {
 	 */
 	@Test
 	public void testInitialState() {
+		setupEntity();
 		assertEquals(entity.getState(), EntityState.NEW);
 	}
 	
@@ -39,6 +43,7 @@ public abstract class EntityTest {
 	 */
 	@Test
 	public void testSetState() {
+		setupEntity();
 		entity.setState(EntityState.ALIVE);
 		assertEquals(entity.getState(), EntityState.ALIVE);
 	}

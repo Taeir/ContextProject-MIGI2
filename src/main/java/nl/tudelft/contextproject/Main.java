@@ -3,6 +3,7 @@ package nl.tudelft.contextproject;
 import java.util.Iterator;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.AssetManager;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -21,6 +22,11 @@ public class Main extends SimpleApplication {
 	private static Main instance;
 	private Level level;
 	private LevelFactory levelFactory;
+
+	
+	public static void setInstance(Main main) {
+		instance = main;
+	}
 
 	/**
 	 * Main method that is called when the program is started.
@@ -64,6 +70,9 @@ public class Main extends SimpleApplication {
 
 			@Override
 			public void simpleUpdate(float tpf) { }
+
+			@Override
+			public void setGeometry(Geometry geometry) { }
 		});
 		MapBuilder.export("hello.png", filter, 16);
 	}
@@ -105,6 +114,7 @@ public class Main extends SimpleApplication {
 	 * @return the running instance of the game.
 	 */
 	public static Main getInstance() {
+		if (instance == null) instance = new Main();
 		return instance;
 	}
 }
