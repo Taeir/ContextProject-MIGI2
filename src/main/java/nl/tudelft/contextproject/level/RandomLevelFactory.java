@@ -67,6 +67,9 @@ public class RandomLevelFactory implements LevelFactory {
 							public void simpleUpdate(float tpf) {
 								if (rand.nextFloat() < .001) setState(EntityState.DEAD);
 							}
+
+							@Override
+							public void setGeometry(Geometry geometry) {}
 						};
 						e.getGeometry().move(x, y, 1);
 						entities.add(e);
