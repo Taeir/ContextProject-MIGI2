@@ -39,9 +39,8 @@ public class Main extends SimpleApplication {
 	 * @param args run-specific arguments.
 	 */
 	public static void main(String[] args) {
-		Main app = new Main();
-		app.start();
-		instance = app;
+		instance = getInstance();
+		instance.start();
 	}
 
 	@Override
