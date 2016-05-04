@@ -11,7 +11,9 @@ import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource.Status;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -20,6 +22,22 @@ import org.junit.Test;
 public class TestBackgroundMusic {
 	public AudioNode an;
 
+	/**
+	 * Enable testing mode.
+	 */
+	@BeforeClass
+	public static void setUpClass() {
+		BackgroundMusic.getInstance().setTesting(true);
+	}
+	
+	/**
+	 * Disable testing mode after all tests have run.
+	 */
+	@AfterClass
+	public static void tearDownClass() {
+		BackgroundMusic.getInstance().setTesting(false);
+	}
+	
 	/**
 	 * Creates the mocked AudioNode before each test.
 	 */
