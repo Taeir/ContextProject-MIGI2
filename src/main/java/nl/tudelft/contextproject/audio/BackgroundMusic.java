@@ -61,11 +61,42 @@ public final class BackgroundMusic {
 	}
 	
 	/**
-	 * Switches to the next song.
+	 * Plays the given AudioNode as background music.
+	 * 
+	 * This stops playing any song that was already running.
+	 * 
+	 * @param an
+	 * 		the AudioNode to play
+	 */
+	public synchronized void playSong(AudioNode an) {
+		//Register for volume changes
+		AudioManager.getInstance().registerVolume(an, SoundType.BACKGROUND_MUSIC);
+		
+		//Start the given song
+		an.play();
+		
+		if (current != null) {
+			//Stop the old music
+			stop();
+		}
+		
+		current = an;
+	}
+	
+	/**
+	 * Stops the currently playing song and switches to the next song.
+	 * If there are no songs, this method does the same as {@link #stop()}.
 	 */
 	public synchronized void next() {
 		//If we have no music, we cannot play any.
-		if (music.isEmpty()) return;
+		if (music.isEmpty()) {
+			//If a song is currently playing, then stop it.
+			if (current != null) {
+				stop();
+			}
+			
+			return;
+		}
 		
 		//Get the next song
 		int index = currentIndex + 1 % music.size();
@@ -74,7 +105,6 @@ public final class BackgroundMusic {
 		//Create the AudioNode
 		AudioNode nextAudioNode = new AudioNode(Main.getInstance().getAssetManager(), "Sound/Music/" + nextName, DataType.Stream);
 		nextAudioNode.setPositional(false);
-		nextAudioNode.setLooping(false);
 		
 		//Register for volume changes
 		AudioManager.getInstance().registerVolume(nextAudioNode, SoundType.BACKGROUND_MUSIC);
@@ -83,9 +113,8 @@ public final class BackgroundMusic {
 		nextAudioNode.play();
 		
 		if (current != null) {
-			//Stop the old music, and unregister it from the AudioManager
-			current.stop();
-			AudioManager.getInstance().unregisterVolume(current, SoundType.BACKGROUND_MUSIC);
+			//Stop the old music
+			stop();
 		}
 		
 		//Update the fields
@@ -102,7 +131,7 @@ public final class BackgroundMusic {
 	public synchronized void start() {
 		if (current == null) {
 			next();
-		} else {
+		} else if (current.getStatus() == AudioSource.Status.Paused) {
 			current.play();
 		}
 	}
@@ -133,7 +162,7 @@ public final class BackgroundMusic {
 	 * Called to indicate an update.
 	 * 
 	 * @param tpf
-	 * 		?? TODO
+	 * 		tick indicator
 	 */
 	public void update(double tpf) {
 		AudioNode an = current;
