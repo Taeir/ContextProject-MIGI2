@@ -11,6 +11,8 @@ import com.jme3.audio.AudioSource;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.logging.Log;
 
+import org.mockito.Mockito;
+
 /**
  * Class for playing/managing background music.
  */
@@ -20,6 +22,7 @@ public final class BackgroundMusic {
 	private List<String> music = new ArrayList<String>();
 	private int currentIndex = -1;
 	private AudioNode current;
+	private boolean testing;
 	
 	/**
 	 * Creates a new BackgroundMusic object and loads the music.
@@ -58,6 +61,17 @@ public final class BackgroundMusic {
 			
 			music.add(file.getName());
 		}
+	}
+	
+	/**
+	 * Sets testing on or off. When testing, audio is not played from the
+	 * default location.
+	 * 
+	 * @param testing
+	 * 	disable or enable testing mode
+	 */
+	void setTesting(boolean testing) {
+		this.testing = testing;
 	}
 	
 	/**
@@ -103,7 +117,14 @@ public final class BackgroundMusic {
 		String nextName = music.get(index);
 		
 		//Create the AudioNode
-		AudioNode nextAudioNode = new AudioNode(Main.getInstance().getAssetManager(), "Sound/Music/" + nextName, DataType.Stream);
+		AudioNode nextAudioNode;
+		if (testing) {
+			//For testing, create a mocked audio node
+			nextAudioNode = Mockito.mock(AudioNode.class);
+		} else {
+			nextAudioNode = new AudioNode(Main.getInstance().getAssetManager(), "Sound/Music/" + nextName, DataType.Stream);
+		}
+		
 		nextAudioNode.setPositional(false);
 		
 		//Register for volume changes
