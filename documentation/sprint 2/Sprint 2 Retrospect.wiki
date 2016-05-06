@@ -1,0 +1,245 @@
+{|
+! '''User Story #'''
+!
+'''Task'''
+
+(Numbers refer to github issues)
+! '''Task assigned to'''
+!
+'''Priority'''
+
+(A highest)
+!
+'''Estimated Effort Per Task '''
+
+(in hours)
+!
+'''Actual Effort per Task'''
+
+(in hours)
+! '''Done'''
+! '''Notes'''
+|-
+| '''1. Game design document'''
+| #47 Overview.
+| Bram
+| A
+| 4
+| 4
+| Yes
+| -
+|-
+|
+
+| #48 What sets the project apart, first half.
+| Taico
+| A
+| 4
+| 0
+| Yes
+| Chiel has taken over entire task.
+|-
+|
+
+| #48 What sets the project apart, second half.
+| Chiel
+| A
+| 4
+| 2
+| Yes
+| Was more concise than anticipated.
+|-
+|
+
+| #49 Story and Gameplay.
+| Robin
+| A
+| 4
+| 6
+| Yes
+| Story took more time.
+|-
+|
+
+| #50 Assets.
+| Wytze
+| A
+| 4
+| 4
+| Yes
+| -
+|-
+|
+
+| #51 Schedule.
+| Taico
+| A
+| 1
+| 0
+| No
+| Scraped from game design document.
+|-
+| '''2. Basic framework'''
+| #19 Basic framework.
+| Chiel
+| A
+| 3
+| 4
+|
+
+| Testing always takes more time than expected.
+|-
+| '''3. Maze Generator'''
+| #46 Simple maze generation - working mazes.
+| Bram
+| C
+| 3
+| 4
+| No
+| The entire idea behind this generation was changed, which means the code is no longer relevant to the project and hasn’t been added to the master.
+|-
+|
+
+| #46 Advanced maze generation - route always possible/random.
+| Bram
+| C
+| 4
+| 0
+| No
+| As the entire idea behind the simple maze generation was changed this wasn’t finished either.
+|-
+| '''4. Collisions'''
+| #54 Examine JMonkey support for collisions.
+| Robin
+| B
+| 2
+| 2
+| Yes
+| -
+|-
+|
+
+| #55 Implementation in the CoC.
+| Robin
+| B
+| 5
+| 3
+| No
+| Not completed yet due to timing of other deliverables.
+|-
+| '''5. Basic implementation of assets'''
+| #56 Implement bombs as static objects in the world.
+| Wytze
+| B
+| 5
+| 8
+| No
+| Hasn’t been pushed to master yet.
+|-
+|
+
+| #57 Create simple bomb texture and apply them.
+| Wytze
+| D
+| 2
+| 3
+| No
+| Texture has been created but isn’t loaded in yet.
+|-
+| '''6. Finalize and update deliverables'''
+| #58 Finalize product vision.
+| Chiel
+| A
+| 3
+| 4
+| Yes
+| Slightly underestimated the time it would take to process the comments.
+|-
+|
+
+| #59 Finalize product planning.
+| Taico
+| A
+| 1
+| 4
+| Yes
+| Rewriting requirements and user stories took longer than expected.
+|-
+|
+
+| #60 Update Architecture design.
+| Taico
+| A
+| 0.5
+| 0.5
+| No
+| Partially taken over by Bram.
+|-
+| '''7. Additional features'''
+| #53 Convert JMonkey VR project to Eclipse.
+| Taico
+| B
+| 1.5
+| 1.5
+| Yes
+| -
+|-
+|
+
+| #21 Implement audio.
+| Taico
+| E
+| 2
+| 4
+| Yes
+| Testing was more complicated than expected, due to travis.
+|}
+
+Every week, each group member also reviews pull requests of other members. Since we put a lot of time into this we also want to document time spent reviewing a separate table.
+
+{|
+! '''Group Member name'''
+! '''Time Spent Reviewing and creating Pull Requests (in hours)'''
+|-
+| Taico
+| 2
+|-
+| Chiel
+| 1
+|-
+| Bram
+| 4
+|-
+| Wytze
+| 0
+|-
+| Robin
+| 2
+|}
+
+= '''Main Problems Encountered''' =
+
+== '''Problem 1''' ==
+
+Description: GUI related testing was more difficult than expected. Travis is headless which means the tests are rather difficult to write while still having the travis build succeed.
+
+Reaction: More time spent on testing to make sure they run headless. This meant investing a lot more time on tests than was originally accounted for.
+
+== '''Problem 2''' ==
+
+Description: Taico’s personal plans made it difficult to do a proper retrospect at the end of the week.
+
+Reaction: Sprint retrospect was discussed on wednesday instead of friday, and was expanded upon by other team members.
+
+== '''Problem 3''' ==
+
+Description: Definition of done is too strict, which means we are obstructing ourselves.
+
+Reaction: Multiple “done” branches couldn’t be merged into the master. All of the relevant branches will be tested next week and merged into the master.
+
+= '''Adjustments for the next Sprint Plan''' =
+
+Tasks will be more clearly defined.
+
+Motivation for priorities will be given.
+
