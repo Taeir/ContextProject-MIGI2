@@ -21,12 +21,21 @@ public class Main extends SimpleApplication {
 	private Level level;
 	private LevelFactory levelFactory;
 
-	
-	public static void setInstance(Main main) {
+	/**
+	 * Method used for testing.
+	 * Sets the instance of this singleton to the provided instance.
+	 * @param main The new value of the instance.
+	 */
+	static void setInstance(Main main) {
 		instance = main;
 	}
 	
-	public void setRootNode(Node rn) {
+	/**
+	 * Method used for testing.
+	 * Sets the rootNode of Main to a new Node.
+	 * @param rn The new node to replace the rootNode.
+	 */
+	void setRootNode(Node rn) {
 		rootNode = rn;
 	}
 
@@ -62,8 +71,12 @@ public class Main extends SimpleApplication {
 		MapBuilder.export("hello.png", filter, 16);
 	}
 
-
+	/**
+	 * Attaches the current level to the renderer.
+	 * Note: this method does not clear the previous level, use {@link #clearLevel()} for that.
+	 */
 	public void attachLevel() {
+		if (level == null) throw new IllegalStateException("No level set!");
 		for (int x = 0; x < level.getWidth(); x++) {
 			for (int y = 0; y < level.getHeight(); y++) {
 				if (level.isTileAtPosition(x, y)) {
@@ -79,11 +92,17 @@ public class Main extends SimpleApplication {
 		}
 	}
 
+	/**
+	 * Setter for the level.
+	 * @param level The new level.
+	 */
 	public void setLevel(Level level) {
 		this.level = level;
-		System.out.println("!");
 	}
 
+	/**
+	 * Removes the current level from the renderer.
+	 */
 	public void clearLevel() {
 		rootNode.detachAllChildren();
 		for (Light l : rootNode.getLocalLightList()) {
@@ -93,7 +112,6 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleUpdate(float tpf) {
-		System.out.println(level.getPlayer());
 		level.getPlayer().simpleUpdate(tpf);
 		updateEntities(tpf);
 	}
@@ -101,6 +119,7 @@ public class Main extends SimpleApplication {
 	/**
 	 * Update all the entities in the level.
 	 * Add all new entities to should be added to the rootNode and all dead ones should be removed.
+	 * @param tpf The time per frame for this update.
 	 */
 	void updateEntities(float tpf) {
 		for (Iterator<Entity> i = level.getEntities().iterator(); i.hasNext();) {
@@ -132,6 +151,10 @@ public class Main extends SimpleApplication {
 		return instance;
 	}
 	
+	/**
+	 * Getter for the current level.
+	 * @return The current level.
+	 */
 	public Level getLevel() {
 		return level;
 	}

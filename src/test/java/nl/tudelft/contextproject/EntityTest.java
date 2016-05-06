@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 /**

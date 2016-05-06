@@ -2,24 +2,22 @@ package nl.tudelft.contextproject.level;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.jme3.light.Light;
+import nl.tudelft.contextproject.Entity;
+import nl.tudelft.contextproject.VRPlayer;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import com.jme3.light.Light;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
-
-import nl.tudelft.contextproject.Entity;
-import nl.tudelft.contextproject.EntityState;
-import nl.tudelft.contextproject.VRPlayer;
-
+/**
+ * Test class for Level.
+ */
 public class LevelTest {
 
 	private Light lMock;
@@ -29,6 +27,10 @@ public class LevelTest {
 	private Entity eMock;
 	private Level level;
 
+	/**
+	 * Setup method.
+	 * Creates fresh mocks and levels for each test.
+	 */
 	@Before
 	public void setup() {
 		lMock = mock(Light.class);
@@ -47,46 +49,70 @@ public class LevelTest {
 		level = new Level(tiles, pMock, entities, lights);
 	}
 
+	/**
+	 * Test if the entity list is changes when adding items.
+	 */
 	@Test
 	public void testGetEntitiesSize() {
 		assertEquals(1, level.getEntities().size());
-		level.getEntities().add(mock(Entity.class));
+		level.addEntity(mock(Entity.class));
 		assertEquals(2, level.getEntities().size());
 	}
 	
+	/**
+	 * Test for getting the player from the level.
+	 */
 	@Test
 	public void testGetPlayer() {
 		assertEquals(pMock, level.getPlayer());
 	}
 	
+	/**
+	 * Test for the width calculation of the level.
+	 */
 	@Test
 	public void testGetWidth() {
 		assertEquals(2, level.getWidth());
 	}
 	
+	/**
+	 * Test for the height calculation of the level.
+	 */
 	@Test
 	public void testGetHeight() {
 		assertEquals(3, level.getHeight());
 	}
 	
+	/**
+	 * Test for existing tile in the maze.
+	 */
 	@Test
 	public void testIsTileAtPosition() {
 		assertTrue(level.isTileAtPosition(0, 0));
 		assertEquals(tMock1, level.getTile(0, 0));
 	}
 
+	/**
+	 * Test for correct coordinate order in getting a tile.
+	 */
 	@Test
 	public void testIsTileAtPosition2() {
 		assertTrue(level.isTileAtPosition(0, 2));
 		assertEquals(tMock2, level.getTile(0, 2));
 	}
 
+	/**
+	 * Test existence on an empty location.
+	 */
 	@Test
 	public void testIsTileNotAtPosition() {
 		assertFalse(level.isTileAtPosition(1, 2));
 		assertEquals(null, level.getTile(1, 2));
 	}
 	
+	/**
+	 * Test the getter for the lights in the level.
+	 */
 	@Test
 	public void testGetLights() {
 		assertEquals(1, level.getLights().size());

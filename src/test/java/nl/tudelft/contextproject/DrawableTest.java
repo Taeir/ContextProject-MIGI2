@@ -15,7 +15,6 @@ import com.jme3.material.MaterialDef;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.exceptions.verification.NoInteractionsWanted;
 
@@ -25,7 +24,6 @@ import org.mockito.exceptions.verification.NoInteractionsWanted;
 public abstract class DrawableTest {
 
 	private Drawable dable;
-	private Geometry geom;
 	
 	/**
 	 * Getter for a specific instance of Drawable.
@@ -33,6 +31,9 @@ public abstract class DrawableTest {
 	 */
 	public abstract Drawable getDrawable();
 	
+	/**
+	 * Method to setup the drawables for a test.
+	 */
 	private void setupDrawable() {
 		dable = getDrawable();
 		Geometry geom = mock(Geometry.class);
@@ -75,6 +76,10 @@ public abstract class DrawableTest {
 		fail();
 	}
 	
+	/**
+	 * Setup the mocks in the Main class.
+	 * This enables testing using {@link #getGeometry()}.
+	 */
 	@SuppressWarnings("unchecked")
 	public void setupGeometryMock() {
 		Main mockedMain = mock(Main.class);

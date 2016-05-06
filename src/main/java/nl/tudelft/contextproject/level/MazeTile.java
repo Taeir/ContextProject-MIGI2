@@ -66,6 +66,11 @@ public class MazeTile implements Drawable {
 		return explored;
 	}
 	
+	/**
+	 * Set the explored value for this tile.
+	 * @param newValue The new explored value.
+	 * @return The old value associated with this field.
+	 */
 	public boolean setExplored(boolean newValue) {
 		boolean res = explored;
 		explored = newValue;

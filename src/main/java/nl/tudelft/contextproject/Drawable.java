@@ -16,7 +16,13 @@ public interface Drawable {
 	 */
 	public Geometry getGeometry();
 	
-	public void setGeometry(Geometry geometry);
+	
+	/**
+	 * Method used for testing with mocked geometry.
+	 * Sets the geometry of this instance to the specified geometry.
+	 * @param geometry The new geometry.
+	 */
+	void setGeometry(Geometry geometry);
 	
 	/**
 	 * Update method called once per frame.
