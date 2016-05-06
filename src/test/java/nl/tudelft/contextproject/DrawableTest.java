@@ -1,10 +1,17 @@
 package nl.tudelft.contextproject;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
+import com.jme3.asset.AssetKey;
+import com.jme3.asset.AssetManager;
+import com.jme3.material.MatParam;
+import com.jme3.material.MaterialDef;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
@@ -66,5 +73,18 @@ public abstract class DrawableTest {
 			return;
 		}
 		fail();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setupGeometryMock() {
+		Main mockedMain = mock(Main.class);
+		AssetManager mockedAssetManager = mock(AssetManager.class);
+		MaterialDef mockedMaterialDef = mock(MaterialDef.class);
+		MatParam mockedMatParam = mock(MatParam.class);
+		Main.setInstance(mockedMain);
+		when(mockedMain.getAssetManager()).thenReturn(mockedAssetManager);
+		when(mockedAssetManager.loadAsset(any(AssetKey.class))).thenReturn(mockedMaterialDef);
+		when(mockedMaterialDef.getMaterialParams()).thenReturn(new ArrayList<>());
+		when(mockedMaterialDef.getMaterialParam(anyString())).thenReturn(mockedMatParam);
 	}
 }

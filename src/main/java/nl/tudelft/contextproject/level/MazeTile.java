@@ -65,6 +65,12 @@ public class MazeTile implements Drawable {
 	public boolean isExplored() {
 		return explored;
 	}
+	
+	public boolean setExplored(boolean newValue) {
+		boolean res = explored;
+		explored = newValue;
+		return res;
+	}
 
 	@Override
 	public void setGeometry(Geometry geometry) {
