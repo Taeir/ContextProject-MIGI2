@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.level;
 
 import java.awt.Graphics2D;
 
-import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
@@ -22,11 +21,10 @@ public class MazeTile implements Drawable {
 	
 	/**
 	 * Constructor for a tile in the maze.
-	 * @param am the Assetmanager from where materials can be loaded.
 	 * @param x The x-coordinate of this tile.
 	 * @param y The y-coordinate of this tile.
 	 */
-	public MazeTile(AssetManager am, int x, int y) {
+	public MazeTile(int x, int y) {
 		this.explored = false;
 		this.position = new Vector2f(x, y);
 	}

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import com.jme3.asset.AssetManager;
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
 import com.jme3.material.Material;
@@ -42,14 +41,13 @@ public class RandomLevelFactory implements LevelFactory {
 	public Level generateSeeded(long seed) {
 		rand = new Random(seed);
 		
-		AssetManager am = Main.getInstance().getAssetManager();
 		MazeTile[][] mazeTiles = new MazeTile[width][height];
 		Set<Entity> entities = new HashSet<Entity>();
 		
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				if (rand.nextFloat() < .3f) {
-					mazeTiles[x][y] = new MazeTile(am, x, y);
+					mazeTiles[x][y] = new MazeTile(x, y);
 					// spawn some randomly despawning entities.
 					if (rand.nextFloat() < .5f) {
 						Entity e = new Entity() {
