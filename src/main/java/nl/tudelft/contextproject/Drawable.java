@@ -36,11 +36,5 @@ public interface Drawable {
 	 * @param g The Graphics2D to draw on.
 	 * @param resolution The resolution of a single tile on the map.
 	 */
-	public default void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = getGeometry().getLocalTranslation();
-		int x = (int) trans.x * resolution;
-		int y = (int) trans.y * resolution;
-
-		g.drawOval(x, y, resolution, resolution);
-	}
+	public default void mapDraw(Graphics2D g, int resolution) { }
 }
