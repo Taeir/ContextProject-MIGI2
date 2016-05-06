@@ -3,11 +3,7 @@ package nl.tudelft.contextproject;
 import java.util.Iterator;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.asset.AssetManager;
 import com.jme3.light.Light;
-import com.jme3.light.PointLight;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
@@ -45,10 +41,10 @@ public class Main extends SimpleApplication {
 	@Override
 	public void simpleInitApp() {
 		levelFactory = new RandomLevelFactory(10, 10);
-		buildLevel(levelFactory);
+		setLevel(levelFactory.generateRandom());
+		attachLevel();
 		
-		
-		
+		/* Temp code*/
 		MapBuilder.setLevel(level);
 		DrawableFilter filter = new DrawableFilter(false);
 		filter.addEntity(level.getPlayer());
@@ -57,7 +53,6 @@ public class Main extends SimpleApplication {
 			public Geometry getGeometry() {
 				 return null;
 			}
-
 			@Override
 			public void simpleUpdate(float tpf) { }
 
@@ -68,10 +63,7 @@ public class Main extends SimpleApplication {
 	}
 
 
-	public void buildLevel(LevelFactory levelFactory2) {
-		clearLevel();		
-		this.level = levelFactory.generateRandom();
-
+	public void attachLevel() {
 		for (int x = 0; x < level.getWidth(); x++) {
 			for (int y = 0; y < level.getHeight(); y++) {
 				if (level.isTileAtPosition(x, y)) {
@@ -82,9 +74,14 @@ public class Main extends SimpleApplication {
 		}
 		rootNode.attachChild(level.getPlayer().getGeometry());
 		
-		for(Light l : level.getLights()) {
+		for (Light l : level.getLights()) {
 			rootNode.addLight(l);
 		}
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+		System.out.println("!");
 	}
 
 	public void clearLevel() {
@@ -96,6 +93,7 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleUpdate(float tpf) {
+		System.out.println(level.getPlayer());
 		level.getPlayer().simpleUpdate(tpf);
 		updateEntities(tpf);
 	}
@@ -104,7 +102,7 @@ public class Main extends SimpleApplication {
 	 * Update all the entities in the level.
 	 * Add all new entities to should be added to the rootNode and all dead ones should be removed.
 	 */
-	private void updateEntities(float tpf) {
+	void updateEntities(float tpf) {
 		for (Iterator<Entity> i = level.getEntities().iterator(); i.hasNext();) {
 			Entity e = i.next();
 		    EntityState state = e.getState();
@@ -132,5 +130,9 @@ public class Main extends SimpleApplication {
 	public static Main getInstance() {
 		if (instance == null) instance = new Main();
 		return instance;
+	}
+	
+	public Level getLevel() {
+		return level;
 	}
 }
