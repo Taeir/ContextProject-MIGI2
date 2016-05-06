@@ -21,7 +21,7 @@ public class DrawableFilterTest {
 	 * Creates fresh instances to test with.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		filter = new DrawableFilter(true);
 		e = mock(Entity.class);
 	}

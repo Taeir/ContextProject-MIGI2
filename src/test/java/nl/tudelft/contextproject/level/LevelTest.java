@@ -32,7 +32,7 @@ public class LevelTest {
 	 * Creates fresh mocks and levels for each test.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		lMock = mock(Light.class);
 		tMock1 = mock(MazeTile.class);
 		tMock2 = mock(MazeTile.class);

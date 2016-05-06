@@ -20,7 +20,7 @@ public class MazeTileTest extends DrawableTest {
 	 * Create a fresh mazeTile for each test.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		tile = new MazeTile(10, 123);
 	}
 

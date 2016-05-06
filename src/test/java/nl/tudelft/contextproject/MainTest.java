@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,7 +31,7 @@ public class MainTest {
 	 * Sets the instance to a fresh instance.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		Main.setInstance(null);
 	}
 	
@@ -106,7 +107,7 @@ public class MainTest {
         verify(eMock, times(0)).simpleUpdate(0.5f);
         
         verify(rn, times(1)).detachChild(geom); 
-        assertEquals(false, set.contains(eMock));
+        assertFalse(set.contains(eMock));
 	}
 	
 	/**
