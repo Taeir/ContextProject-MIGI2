@@ -16,6 +16,14 @@ public interface Drawable {
 	 */
 	public Geometry getGeometry();
 	
+	
+	/**
+	 * Method used for testing with mocked geometry.
+	 * Sets the geometry of this instance to the specified geometry.
+	 * @param geometry The new geometry.
+	 */
+	void setGeometry(Geometry geometry);
+	
 	/**
 	 * Update method called once per frame.
 	 * This method should update the exact geometry that is returned by {@link #getGeometry()}.
@@ -28,11 +36,5 @@ public interface Drawable {
 	 * @param g The Graphics2D to draw on.
 	 * @param resolution The resolution of a single tile on the map.
 	 */
-	public default void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = getGeometry().getLocalTranslation();
-		int x = (int) trans.x * resolution;
-		int y = (int) trans.y * resolution;
-
-		g.drawOval(x, y, resolution, resolution);
-	}
+	public default void mapDraw(Graphics2D g, int resolution) { }
 }

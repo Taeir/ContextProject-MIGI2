@@ -1,0 +1,246 @@
+= Sprint Retrospective, Iteration #1 =
+Context Project: Computer Games<br />
+Group: MIGI 2
+
+{|
+! '''User Story #'''
+!
+'''Task #'''
+
+'''(refer to issue numbers on GitHub)'''
+! '''Task assigned To'''
+! '''Priority (A - E, A is highest)'''
+! '''Estimated Effort Per Task (in hours)'''
+! '''Actual Effort per Task (in hours)'''
+! '''Done'''
+! '''Notes'''
+|-
+| '''#1 Game concept'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/4 #4 - Pick concept]
+| Everyone
+| A
+| 0.5
+| 3
+| Yes
+| Took more effort than initially anticipated. Game concepts had to be expanded upon before we could make a final decision.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/16 #16 - Game name]
+| Everyone
+| A
+| 0.5
+| 0.5
+| Yes
+| None.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/17 #17 - Game logo]
+| Wytze
+| A
+| 1
+| 3
+| No
+| Logo took longer to design than anticipated. Has been completed, but has not been uploaded to GitHub.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/3 #3 - Pitch concept]
+| Taico
+| A
+| 3
+| 3
+| Yes
+| -
+|-
+| '''#2 Create basic code base'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/10 #10 - jMonkey exploration]
+| Chiel
+| A
+| 3
+| 2
+| Yes
+| Additional research was done during development.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/19 #19 - Base Framework]
+| Chiel, Bram
+| A
+| 16
+| 6
+| No
+| Completion was not feasible because of problem 1.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/20 #20 - Basis Level]
+| Robin, done by Chiel
+| B
+| 6
+| 1
+| No
+| Chiel basically had to do this while implementing his basic framework, but has not been uploaded to GitHub.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/21 #21 - Explore audio]
+| Taico
+| C
+| 3
+| 0
+| No
+| Not feasible because of problem 1.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/29 #29 - Create Logging Framework]
+| Taico
+| C
+| 1
+| 2
+| Yes
+| Testing was more difficult than anticipated.
+|-
+| '''#3 Product Vision'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/5 #5 - Product Vision]
+| Robin
+| A
+| 8
+| 16
+| Yes
+| The guidelines were unclear, therefore the literature study was underestimated.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/5 #5 - Product Vision]
+| Chiel
+| A
+| 0
+| 3.5
+| Yes
+| Helped Robin with the product vision. Took over a small part.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/22 #22 - Review Product Vision]
+| Bram
+| A
+| 2
+| 3
+| Yes
+| As the Product Vision itself was more difficult than expected the review was as well.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/22 #22 - Review Product Vision]
+| Taico
+| A
+| 0
+| 3
+| Yes
+| As the Product Vision itself was more difficult than expected the review was as well.
+|-
+| '''#4 Product planning'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/6 #6 - Product Planning]
+| Wytze
+| A
+| 8
+| 8
+| Yes
+| -
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/23 #23 - User stories]
+| Taico
+| A
+| 2
+| 2
+| Yes
+| -
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/35 #35 - Review Product Planning]
+| Taico
+| A
+| 1
+| 1
+| Yes
+| -
+|-
+| '''#5 Architecture design'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/7 #7 - Architecture Design]
+| Bram
+| A
+| 4
+| 5
+| Yes
+| Concept had to be reworked as a result of the pitch on Tuesday. Because of this the initial version had be changed.
+|-
+| '''Additional'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/33 #33 - Travis: Update Java]
+| Taico
+| -
+| -
+| 0.5
+| Yes
+| Had to be done.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/34 #34 - Fix readme]
+| Bram
+| -
+| -
+| 0
+| Yes
+| GitHub broke our link.
+|}
+
+Every week, each group member also reviews pull requests of other members. Since we put a lot of time into this we also want to document time spent reviewing a separate table.
+
+{|
+! '''Group Member name'''
+! '''Time Spent Reviewing and creating Pull Requests (in hours)'''
+|-
+| Taico
+| 4
+|-
+| Chiel
+| 2
+|-
+| Bram
+| 3
+|-
+| Wytze
+| 0
+|-
+| Robin
+| 3
+|}
+
+= Main Problems Encountered =
+
+== Problem 1 ==
+
+Description: Documentation underestimation.
+
+Cause: Unclear guidelines.
+
+Reaction: More time spent on documentation than estimated, less time spent on code.
+
+== Problem 2 ==
+
+Description: Most of the work was done in the last two days.
+
+Cause: Problem 1 and lectures were accounted for.
+
+Reaction: Less time spent on code.
+
+= Adjustments for the next Sprint Plan =
+
+Take into account the lectures. This means we will try to distribute the workload more evenly across the week and among team members.
+

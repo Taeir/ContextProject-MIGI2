@@ -18,16 +18,16 @@ public class VRPlayer extends Entity {
 	 * Constructor for a default player.
 	 * This player is (for now) a red sphere.
 	 */
-	public VRPlayer() {
+	public VRPlayer() { }
+
+	@Override
+	public Geometry getGeometry() {
+		if (geometry != null) return geometry;
 		Sphere b = new Sphere(10, 10, .2f);
 		geometry = new Geometry("blue cube", b);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.Red);
 		geometry.setMaterial(mat);
-	}
-
-	@Override
-	public Geometry getGeometry() {
 		return geometry;
 	}
 
@@ -45,5 +45,10 @@ public class VRPlayer extends Entity {
 		int offset = resolution / 4;
 
 		g.fillOval(x + offset, y + offset, width, width);
+	}
+
+	@Override
+	public void setGeometry(Geometry geometry) {
+		this.geometry = geometry;
 	}
 }
