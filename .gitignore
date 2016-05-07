@@ -3,6 +3,11 @@
 bin/
 target/
 
+# Ignore system specific binaries
+*.so
+*.dll
+*.dylib
+
 # Ignore eclipse settings files
 .settings/
 
@@ -12,3 +17,6 @@ Thumbs.db
 # Ignore IntelliJ settings files
 contextproject-migi2.iml
 .idea/
+
+# Ignore log files
+logs/
