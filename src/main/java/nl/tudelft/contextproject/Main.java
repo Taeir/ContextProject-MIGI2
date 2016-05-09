@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.level.RandomLevelFactory;
@@ -60,7 +62,15 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
+		setupControlMappings();
 		setController(new GameController(this, new RandomLevelFactory(10, 10)));
+	}
+
+	/**
+	 * Setup all the key mappings.
+	 */
+	private void setupControlMappings() {
+		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
 
 	/**
