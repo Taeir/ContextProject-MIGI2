@@ -1,5 +1,13 @@
 package nl.tudelft.contextproject.util;
 
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.File;
+import java.io.IOException;
+
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -7,25 +15,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.io.File;
-import java.io.IOException;
-
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
  * Test for the JSONUtil class.
  */
 public class JSONUtilTest {
 
-    private JSONObject mockedJSONObject;
-    private File testFile;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    private JSONObject mockedJSONObject;
+    private File testFile;
 
     /**
      * Set up all objects used in testing.
@@ -42,7 +41,7 @@ public class JSONUtilTest {
      */
     @After
     public void tearDown() {
-        if(testFile.exists()) {
+        if (testFile.exists()) {
             testFile.delete();
         }
     }
@@ -59,6 +58,10 @@ public class JSONUtilTest {
         JSONUtil.load(notFound);
     }
 
+    /**
+     * Test for loading an existing file.
+     * @throws IOException - File not found.
+     */
     @Test
     public void testLoadExistingFile() throws IOException {
         JSONUtil.save(mockedJSONObject, testFile);
