@@ -28,7 +28,7 @@ public class HelloCollision extends SimpleApplication implements ActionListener 
 	private RigidBodyControl landscape;
 	private CharacterControl player;
 	private Vector3f walkDirection = new Vector3f();
-	private boolean left = false, right = false, up = false, down = false;
+	private boolean left, right, up, down;
 
 	//Temporary vectors used on each frame.
 	//They here to avoid instanciating new vectors on each frame
@@ -62,7 +62,7 @@ public class HelloCollision extends SimpleApplication implements ActionListener 
 		setUpLight();
 
 		// We load the scene from the zip file and adjust its size.
-		assetManager.registerLocator("town.zip", ZipLocator.class);
+		assetManager.registerLocator("src/main/assets/Scenes/town.zip", ZipLocator.class);
 		sceneModel = assetManager.loadModel("main.scene");
 		sceneModel.setLocalScale(2f);
 
@@ -121,12 +121,14 @@ public class HelloCollision extends SimpleApplication implements ActionListener 
 	}
 
 	/** These are our custom actions triggered by key presses.
-	 * We do not walk yet, we just keep track of the direction the user pressed. */
+	 * We do not walk yet, we just keep track of the direction the user pressed. 
+	 * 
+	 */
 	public void onAction(String binding, boolean isPressed, float tpf) {
 		if (binding.equals("Left")) {
 			left = isPressed;
 		} else if (binding.equals("Right")) {
-			right= isPressed;
+			right = isPressed;
 		} else if (binding.equals("Up")) {
 			up = isPressed;
 		} else if (binding.equals("Down")) {
