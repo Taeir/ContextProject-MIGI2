@@ -14,7 +14,7 @@ import org.json.JSONObject;
 /**
  * Create easy overhead for loading and saving of JSON objects.
  */
-public class JSONUtil {
+public final class JSONUtil {
 
     /**
      * Avoid initialization.
