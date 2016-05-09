@@ -5,6 +5,7 @@ import java.util.Iterator;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.input.controls.ActionListener;
 import com.jme3.light.Light;
 import com.jme3.scene.Geometry;
 
@@ -28,15 +29,34 @@ public class GameController extends Controller {
 	public GameController(SimpleApplication app, LevelFactory levelFactory) {
 		super(app);
 		this.levelFactory = levelFactory;
+		setLevel(levelFactory.generateRandom());
+	}
+
+	@Override
+	public void cleanup() {
+		super.cleanup();
+		for (Entity e : level.getEntities()) {
+			e.setState(EntityState.NEW);
+		}
 	}
 	
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
-		super.initialize(stateManager, app);
-		
-		setLevel(levelFactory.generateRandom());
 		attachLevel();
 		
+		Controller t = this;
+		ActionListener al = new ActionListener() {
+			@Override
+			public void onAction(String name, boolean isPressed, float tpf) {
+				if (!isPressed) {
+					Main main = Main.getInstance();
+					main.getInputManager().removeListener(this);
+					main.setController(new PauseController(t, main));
+				}
+			}
+		};
+		Main.getInstance().getInputManager().addListener(al, "pause");
+
 		/* Temp code*/
 		MapBuilder.setLevel(level);
 		DrawableFilter filter = new DrawableFilter(false);
@@ -44,7 +64,7 @@ public class GameController extends Controller {
 		filter.addEntity(new Entity() {
 			@Override
 			public Geometry getGeometry() {
-				 return null;
+				return null;
 			}
 			@Override
 			public void simpleUpdate(float tpf) { }
@@ -54,7 +74,7 @@ public class GameController extends Controller {
 		});
 		MapBuilder.export("hello.png", filter, 16);
 	}
-	
+
 	/**
 	 * Attaches the current level to the renderer.
 	 * Note: this method does not clear the previous level, use {@link #clearLevel()} for that.
@@ -69,7 +89,7 @@ public class GameController extends Controller {
 			}
 		}
 		addDrawable(level.getPlayer());
-		
+
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
@@ -97,7 +117,7 @@ public class GameController extends Controller {
 	void updateEntities(float tpf) {
 		for (Iterator<Entity> i = level.getEntities().iterator(); i.hasNext();) {
 			Entity e = i.next();
-		    EntityState state = e.getState();
+			EntityState state = e.getState();
 			switch (state) {
 			case DEAD:
 				removeDrawable(e);
@@ -114,7 +134,7 @@ public class GameController extends Controller {
 			}
 		}
 	}
-	
+
 	/**
 	 * Getter for the current level.
 	 * @return The current level.

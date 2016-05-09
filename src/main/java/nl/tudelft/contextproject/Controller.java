@@ -20,8 +20,8 @@ public abstract class Controller extends AbstractAppState {
 	 * @param app The main app that is the parent of this controller.
 	 */
 	protected Controller(SimpleApplication app) {
-		this.rootNode     = app.getRootNode();
-		this.guiNode      = app.getGuiNode(); 
+		this.rootNode = app.getRootNode();
+		this.guiNode = app.getGuiNode(); 
 	}
 
 	@Override
@@ -89,6 +89,7 @@ public abstract class Controller extends AbstractAppState {
 	@Override
 	public void cleanup() {
 		Main main = Main.getInstance();
+		main.getRootNode().detachAllChildren();
 		main.getRootNode().detachChild(rootNode);
 		main.getGuiNode().detachChild(guiNode);
 
