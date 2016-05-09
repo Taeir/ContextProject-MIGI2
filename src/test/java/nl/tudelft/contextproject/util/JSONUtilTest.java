@@ -10,6 +10,7 @@ import org.junit.rules.ExpectedException;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -33,6 +34,7 @@ public class JSONUtilTest {
     public void setUp() {
         mockedJSONObject = mock(JSONObject.class);
         testFile = new File("UtilTestFile.json");
+        when(mockedJSONObject.toString(anyInt())).thenReturn("{}");
     }
 
     /**
@@ -57,13 +59,18 @@ public class JSONUtilTest {
         JSONUtil.load(notFound);
     }
 
+    @Test
+    public void testLoadExistingFile() throws IOException {
+        JSONUtil.save(mockedJSONObject, testFile);
+        assertNotNull(JSONUtil.load(testFile));
+    }
+
     /**
      * Test saving of a file.
      * @throws IOException - If file writing goes wrong.
      */
     @Test
     public void testSaveFile() throws IOException {
-        when(mockedJSONObject.toString(anyInt())).thenReturn("{}");
         JSONUtil.save(mockedJSONObject, testFile);
     }
 }
