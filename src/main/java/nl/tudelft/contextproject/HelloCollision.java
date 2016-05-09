@@ -4,9 +4,9 @@ import com.jme3.app.SimpleApplication;
 
 /**
  * Temporary class for examining FP control schemes and collisions.
- *
+ * Copy write rights to jMonkey tutorial.
  */
-public class TempMain extends SimpleApplication {
+public class HelloCollision extends SimpleApplication {
 
 	/**
 	 * Call instance to start.
