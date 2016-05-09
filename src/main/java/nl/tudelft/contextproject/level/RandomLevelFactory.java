@@ -47,7 +47,7 @@ public class RandomLevelFactory implements LevelFactory {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				if (rand.nextFloat() < .3f) {
-					mazeTiles[x][y] = new MazeTile(x, y, Math.abs(rand.nextInt())%10);
+					mazeTiles[x][y] = new MazeTile(x, y, Math.abs(rand.nextInt()) % 5);
 					// spawn some randomly despawning entities.
 					if (rand.nextFloat() < .5f) {
 						Entity e = new Entity() {

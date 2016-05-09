@@ -52,7 +52,7 @@ public class MazeTile implements Drawable {
 	public Geometry getGeometry() {
         if (geom != null) return geom;
         
-        Box b = new Box(.5f, .5f, .5f + (.5f * height)); // create cube shape
+        Box b = new Box(.5f, .5f, .5f + height); // create cube shape
         this.geom = new Geometry("Box", b);  // create cube geometry from the shape
         Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
         mat.setBoolean("UseMaterialColors", true);    
@@ -61,7 +61,7 @@ public class MazeTile implements Drawable {
         mat.setFloat("Shininess", 64f);  // [0,128]
 		mat.setColor("Ambient", ColorRGBA.randomColor());
         this.geom.setMaterial(mat);                   // set the cube's material
-        this.geom.move(position.x, position.y, .5f * height);
+        this.geom.move(position.x, position.y, height);
         return geom;
 	}
 
