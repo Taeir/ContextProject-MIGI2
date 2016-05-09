@@ -51,7 +51,8 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
-		levelFactory = new RandomLevelFactory(10, 10);
+		getFlyByCamera().setMoveSpeed(50);
+		levelFactory = new RandomLevelFactory(100, 100);
 		setLevel(levelFactory.generateRandom());
 		attachLevel();
 		

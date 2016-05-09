@@ -19,7 +19,7 @@ public class MazeTile implements Drawable {
 	private Geometry geom;
 	private Vector2f position;
 	private int height;
-	public static final int MAX_HEIGHT = 5;
+	public static final int MAX_HEIGHT = 1;
 	
 	/**
 	 * Constructor for a tile in the maze.

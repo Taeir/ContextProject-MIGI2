@@ -26,6 +26,8 @@ public class RandomLevelFactory implements LevelFactory {
 	private Random rand;
 	private int width;
 	private int height;
+	private int[][] preCreate;
+	private MazeTile[][] mazeTiles;
 	
 	/**
 	 * Constructor for the random level factory.
@@ -36,46 +38,62 @@ public class RandomLevelFactory implements LevelFactory {
 		this.height = height;
 		this.width = width;
 	}
+
+	public void smoothMap(int minNeighbours) {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				int countNeighbours = getNeighbourCount(x, y);
+				if (countNeighbours > minNeighbours) {
+					preCreate[x][y] = 1;
+				} else if (countNeighbours < minNeighbours) {
+					preCreate[x][y] = 0;
+				}
+			}
+		}
+	}
+
+	public int getNeighbourCount(int x, int y) {
+		int result = 0;
+		for (int movX = x - 1; movX <= x + 1; movX++) {
+			for (int movY = y - 1; movY <= y + 1; movY++) {
+				if (movY >= 0 && movY < height && movX >= 0 && movX < width) {
+					if (movY != y && movX != x) {
+						result += preCreate[movX][movY];
+					}
+				} else {
+					result++;
+				}
+			}
+		}
+		return result;
+	}
 	
 	@Override
 	public Level generateSeeded(long seed) {
 		rand = new Random(seed);
 		
-		MazeTile[][] mazeTiles = new MazeTile[width][height];
+		mazeTiles = new MazeTile[width][height];
+		preCreate = new int[width][height];
 		Set<Entity> entities = new HashSet<Entity>();
 		
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				if (rand.nextFloat() < .3f) {
+				if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
+					preCreate[x][y] = 1;
+				} else if (rand.nextFloat() < 0.45f) {
+					preCreate[x][y] = 1;
+				} else {
+					preCreate[x][y] = 0;
+				}
+			}
+		}
+		for (int i = 0; i < 2; i++) {
+			smoothMap(2);
+		}
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				if (preCreate[x][y] == 1) {
 					mazeTiles[x][y] = new MazeTile(x, y, Math.abs(rand.nextInt()) % MazeTile.MAX_HEIGHT);
-					// spawn some randomly despawning entities.
-					if (rand.nextFloat() < .5f) {
-						Entity e = new Entity() {
-							private Geometry geometry;
-							{
-								Sphere b = new Sphere(10, 10, .2f);
-								geometry = new Geometry("entity", b);
-								Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-								mat.setColor("Color", ColorRGBA.randomColor());
-								geometry.setMaterial(mat);
-							}
-
-							@Override
-							public Geometry getGeometry() {
-								return geometry;
-							}
-
-							@Override
-							public void simpleUpdate(float tpf) {
-								if (rand.nextFloat() < .001) setState(EntityState.DEAD);
-							}
-
-							@Override
-							public void setGeometry(Geometry geometry) {}
-						};
-						e.getGeometry().move(x, y, 1);
-						entities.add(e);
-					}
 				}
 			}
 		}
