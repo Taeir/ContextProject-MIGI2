@@ -20,3 +20,6 @@ contextproject-migi2.iml
 
 # Ignore log files
 logs/
+
+# Ignore temporary .png
+hello.png

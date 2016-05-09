@@ -3,7 +3,9 @@ package nl.tudelft.contextproject;
 import java.util.Iterator;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
@@ -90,6 +92,9 @@ public class Main extends SimpleApplication {
 		for (Light l : level.getLights()) {
 			rootNode.addLight(l);
 		}
+		AmbientLight al = new AmbientLight();
+		al.setColor(ColorRGBA.White.mult(1.3f));
+		rootNode.addLight(al);
 	}
 
 	/**
