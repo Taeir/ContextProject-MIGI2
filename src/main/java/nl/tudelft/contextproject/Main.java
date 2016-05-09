@@ -1,16 +1,8 @@
 package nl.tudelft.contextproject;
 
-import java.util.Iterator;
-
 import com.jme3.app.SimpleApplication;
-import com.jme3.light.Light;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
-import nl.tudelft.contextproject.level.DrawableFilter;
-import nl.tudelft.contextproject.level.Level;
-import nl.tudelft.contextproject.level.LevelFactory;
-import nl.tudelft.contextproject.level.MapBuilder;
 import nl.tudelft.contextproject.level.RandomLevelFactory;
 
 /**
@@ -18,9 +10,8 @@ import nl.tudelft.contextproject.level.RandomLevelFactory;
  */
 public class Main extends SimpleApplication {
 	private static Main instance;
-	private Level level;
-	private LevelFactory levelFactory;
-
+	private Controller controller;
+	
 	/**
 	 * Method used for testing.
 	 * Sets the instance of this singleton to the provided instance.
@@ -28,6 +19,26 @@ public class Main extends SimpleApplication {
 	 */
 	static void setInstance(Main main) {
 		instance = main;
+	}
+	
+	/**
+	 * Set the controller for the current scene.
+	 * Cleans up the old scene before initializing the new one.
+	 * @param c The new controller.
+	 * @return true is the controller was changed, false otherwise.
+	 */
+	public boolean setController(Controller c) {
+		if (c != controller) {
+			if (controller != null) {
+				controller.cleanup();
+				stateManager.detach(controller);
+			}
+			controller = c;
+			stateManager.attach(controller);
+			c.initialize(stateManager, this);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -49,97 +60,7 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
-		levelFactory = new RandomLevelFactory(10, 10);
-		setLevel(levelFactory.generateRandom());
-		attachLevel();
-		
-		/* Temp code*/
-		MapBuilder.setLevel(level);
-		DrawableFilter filter = new DrawableFilter(false);
-		filter.addEntity(level.getPlayer());
-		filter.addEntity(new Entity() {
-			@Override
-			public Geometry getGeometry() {
-				 return null;
-			}
-			@Override
-			public void simpleUpdate(float tpf) { }
-
-			@Override
-			public void setGeometry(Geometry geometry) { }
-		});
-		MapBuilder.export("hello.png", filter, 16);
-	}
-
-	/**
-	 * Attaches the current level to the renderer.
-	 * Note: this method does not clear the previous level, use {@link #clearLevel()} for that.
-	 */
-	public void attachLevel() {
-		if (level == null) throw new IllegalStateException("No level set!");
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					Geometry g = level.getTile(x, y).getGeometry();
-					rootNode.attachChild(g);
-				}
-			}
-		}
-		rootNode.attachChild(level.getPlayer().getGeometry());
-		
-		for (Light l : level.getLights()) {
-			rootNode.addLight(l);
-		}
-	}
-
-	/**
-	 * Setter for the level.
-	 * @param level The new level.
-	 */
-	public void setLevel(Level level) {
-		this.level = level;
-	}
-
-	/**
-	 * Removes the current level from the renderer.
-	 */
-	public void clearLevel() {
-		rootNode.detachAllChildren();
-		for (Light l : rootNode.getLocalLightList()) {
-			rootNode.removeLight(l);
-		}
-	}
-
-	@Override
-	public void simpleUpdate(float tpf) {
-		level.getPlayer().simpleUpdate(tpf);
-		updateEntities(tpf);
-	}
-
-	/**
-	 * Update all the entities in the level.
-	 * Add all new entities to should be added to the rootNode and all dead ones should be removed.
-	 * @param tpf The time per frame for this update.
-	 */
-	void updateEntities(float tpf) {
-		for (Iterator<Entity> i = level.getEntities().iterator(); i.hasNext();) {
-			Entity e = i.next();
-		    EntityState state = e.getState();
-			switch (state) {
-			case DEAD:
-				rootNode.detachChild(e.getGeometry());
-				i.remove();
-				continue;
-			case NEW:
-				rootNode.attachChild(e.getGeometry());
-				e.setState(EntityState.ALIVE);
-				e.simpleUpdate(tpf);
-				break;
-			default:
-				e.simpleUpdate(tpf);
-				break;
-			}
-		}
+		setController(new GameController(this, new RandomLevelFactory(10, 10)));
 	}
 
 	/**
@@ -151,11 +72,5 @@ public class Main extends SimpleApplication {
 		return instance;
 	}
 	
-	/**
-	 * Getter for the current level.
-	 * @return The current level.
-	 */
-	public Level getLevel() {
-		return level;
-	}
+	
 }
