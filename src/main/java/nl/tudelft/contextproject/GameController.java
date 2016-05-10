@@ -6,12 +6,12 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
-import com.jme3.scene.Geometry;
-import nl.tudelft.contextproject.level.DrawableFilter;
+import com.jme3.math.ColorRGBA;
 import nl.tudelft.contextproject.level.Level;
 import nl.tudelft.contextproject.level.LevelFactory;
-import nl.tudelft.contextproject.level.MapBuilder;
+import nl.tudelft.contextproject.level.Room;
 
 /**
  * Controller for the main game.
@@ -19,7 +19,7 @@ import nl.tudelft.contextproject.level.MapBuilder;
 public class GameController extends Controller {
 	private Game game;
 	private LevelFactory levelFactory;
-	
+
 	/**
 	 * Constructor for the game controller.
 	 * @param app The Main instance of this game.
@@ -38,12 +38,12 @@ public class GameController extends Controller {
 			e.setState(EntityState.NEW);
 		}
 	}
-	
+
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
 		attachLevel();
-		
+
 		Controller t = this;
 		ActionListener al = new ActionListener() {
 			@Override
@@ -57,22 +57,22 @@ public class GameController extends Controller {
 		};
 		addInputListener(al, "pause");
 
-		/* Temp code*/
-		MapBuilder.setLevel(game.getLevel());
-		DrawableFilter filter = new DrawableFilter(false);
-		filter.addEntity(game.getPlayer());
-		filter.addEntity(new Entity() {
-			@Override
-			public Geometry getGeometry() {
-				return null;
-			}
-			@Override
-			public void update(float tpf) { }
-
-			@Override
-			public void setGeometry(Geometry geometry) { }
-		});
-		MapBuilder.export("hello.png", filter, 16);
+		//		/* Temp code*/
+		//		MapBuilder.setLevel(game.getLevel());
+		//		DrawableFilter filter = new DrawableFilter(false);
+		//		filter.addEntity(game.getPlayer());
+		//		filter.addEntity(new Entity() {
+		//			@Override
+		//			public Geometry getGeometry() {
+		//				return null;
+		//			}
+		//			@Override
+		//			public void update(float tpf) { }
+		//
+		//			@Override
+		//			public void setGeometry(Geometry geometry) { }
+		//		});
+		//		MapBuilder.export("hello.png", filter, 16);
 	}
 
 	/**
@@ -82,10 +82,13 @@ public class GameController extends Controller {
 	public void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					addDrawable(level.getTile(x, y));
+		for (int i = 0; i < level.getRooms().length; i++) {
+			Room room = level.getRooms()[i];
+			for (int x = 0; x < room.getWidth(); x++) {
+				for (int y = 0; y < room.getHeight(); y++) {
+					if (room.isTileAtPosition(x, y)) {
+						addDrawable(room.getTile(x, y));
+					}
 				}
 			}
 		}
@@ -94,6 +97,10 @@ public class GameController extends Controller {
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
+
+		AmbientLight al = new AmbientLight();
+		al.setColor(ColorRGBA.White.mult(.9f));
+		addLight(al);
 	}
 
 	@Override
@@ -139,5 +146,9 @@ public class GameController extends Controller {
 	@Override
 	public GameState getGameState() {
 		return GameState.RUNNING;
+	}
+
+	public void setLevel(Level level) {
+		game.setLevel(level);
 	}
 }

@@ -55,4 +55,8 @@ public class Game {
 	public boolean addEntity(Entity entity) {
 		return entities.add(entity);
 	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
 }

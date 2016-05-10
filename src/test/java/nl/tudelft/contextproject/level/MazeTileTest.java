@@ -29,31 +29,31 @@ public class MazeTileTest extends DrawableTest {
 		return tile;
 	}
 	
-	/**
-	 * Test for default exploration value.
-	 */
-	@Test
-	public void testIsExplored() {
-		assertFalse(tile.isExplored());
-	}
-	
-	/**
-	 * Test for setting explored value for a tile with no change in value.
-	 */
-	@Test
-	public void testSetExploredNoChange() {
-		assertFalse(tile.setExplored(false));
-		assertFalse(tile.isExplored());
-	}
-	
-	/**
-	 * Test for setting the explored value to a new value.
-	 */
-	@Test
-	public void testSetExplored() {
-		assertFalse(tile.setExplored(true));
-		assertTrue(tile.isExplored());
-	}
+//	/**
+//	 * Test for default exploration value.
+//	 */
+//	@Test
+//	public void testIsExplored() {
+//		assertFalse(tile.isExplored());
+//	}
+//
+//	/**
+//	 * Test for setting explored value for a tile with no change in value.
+//	 */
+//	@Test
+//	public void testSetExploredNoChange() {
+//		assertFalse(tile.setExplored(false));
+//		assertFalse(tile.isExplored());
+//	}
+//
+//	/**
+//	 * Test for setting the explored value to a new value.
+//	 */
+//	@Test
+//	public void testSetExplored() {
+//		assertFalse(tile.setExplored(true));
+//		assertTrue(tile.isExplored());
+//	}
 	
 	/**
 	 * Check if the position of the tile is according to the values given when constructiong.
@@ -61,7 +61,7 @@ public class MazeTileTest extends DrawableTest {
 	@Test
 	public void testGetGeometryPosition() {
 		setupGeometryMock();
-		assertEquals(new Vector3f(10, 123, 0), tile.getGeometry().getLocalTranslation());		
+		assertEquals(new Vector3f(10, 123, MazeTile.MAX_HEIGHT), tile.getGeometry().getLocalTranslation());
 	}
 
 }
