@@ -5,7 +5,26 @@
 	<artifactId>contextproject-migi2</artifactId>
 	<version>0.1.0</version>
 	<packaging>jar</packaging>
-	<name>ContextProject MIGI 2</name>
+	<name>The Cave of Caerbannog</name>
+
+	<developers>
+		<developer>
+			<name>Bram Crielaard</name>
+		</developer>
+		<developer>
+			<name>Chiel Bruin</name>
+		</developer>
+		<developer>
+			<name>Robin van der Wal</name>
+		</developer>
+		<developer>
+			<name>Wytze Elhorst</name>
+		</developer>
+		<developer>
+			<name>Taico Aerts</name>
+		</developer>
+	</developers>
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,105 +60,99 @@
 			<version>20150729</version>
 		</dependency>
 		<dependency>
-			<groupId>com.jme3</groupId>
+			<groupId>com.jme3.vr</groupId>
 			<artifactId>jme3-blender</artifactId>
 			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jme3-blender.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.jme3</groupId>
+			<groupId>com.jme3.vr</groupId>
 			<artifactId>jme3-core</artifactId>
 			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jme3-core.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.jme3</groupId>
+			<groupId>com.jme3.vr</groupId>
 			<artifactId>jme3-desktop</artifactId>
 			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jme3-desktop.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.jme3</groupId>
+			<groupId>com.jme3.vr</groupId>
 			<artifactId>jme3-effects</artifactId>
 			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jme3-effects.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.jme3</groupId>
+			<groupId>com.jme3.vr</groupId>
 			<artifactId>jme3-jogg</artifactId>
 			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jme3-jogg.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.jogg</groupId>
 			<artifactId>j-ogg-all</artifactId>
 			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/j-ogg-all.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.jme3</groupId>
+			<groupId>com.jme3.vr</groupId>
 			<artifactId>jme3-lwjgl3</artifactId>
 			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jme3-lwjgl3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl3</artifactId>
 			<version>3.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/lwjgl-3.0.0.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl3-natives</artifactId>
 			<version>3.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/lwjgl-3.0.0-natives.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.jme3</groupId>
+			<groupId>com.jme3.vr</groupId>
 			<artifactId>jme3-plugins</artifactId>
 			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jme3-plugins.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.jme3</groupId>
+			<groupId>com.jme3.vr</groupId>
 			<artifactId>JMonkeyVR</artifactId>
 			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/JMonkeyVR.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.sun</groupId>
 			<artifactId>jna</artifactId>
 			<version>4.2.1</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jna-4.2.1.jar</systemPath>
 		</dependency>
 		
 		<!-- Physics -->
 		<dependency>
-			<groupId>com.jme3</groupId>
+			<groupId>com.jme3.vr</groupId>
 			<artifactId>jme3-jbullet</artifactId>
 			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jme3-jbullet.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.jme3.vr</groupId>
+			<artifactId>jme3-terrain</artifactId>
+			<version>${jme3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>vecmath</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>cz.advel</groupId>
+			<artifactId>stack</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.bulletphysics</groupId>
+			<artifactId>jbullet</artifactId>
+			<version>${jme3.version}</version>
 		</dependency>
 	</dependencies>
 
 	<repositories>
 		<repository>
-			<id>jme3-repo</id>
-			<name>JME3 maven repo</name>
-			<url>http://updates.jmonkeyengine.org/maven/</url>
+			<id>local-repo</id>
+			<name>Local Repository</name>
+			<url>file://${basedir}/libs</url>
 		</repository>
 	</repositories>
 	
@@ -184,7 +197,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<addClasspath>true</addClasspath>
+							<addClasspath>false</addClasspath>
 							<mainClass>nl.tudelft.contextproject.Main</mainClass>
 						</manifest>
 						<manifestEntries>
