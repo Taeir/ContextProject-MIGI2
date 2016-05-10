@@ -16,7 +16,7 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 public class ClientServlet extends DefaultServlet {
 	private static final long serialVersionUID = -8897739798010474802L;
 	
-	private final WebServer server;
+	private final transient WebServer server;
 	
 	/**
 	 * Creates a new ClientServlet for the given WebServer.
