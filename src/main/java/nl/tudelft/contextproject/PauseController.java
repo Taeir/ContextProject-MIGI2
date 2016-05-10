@@ -3,6 +3,8 @@ package nl.tudelft.contextproject;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
 import com.jme3.input.controls.ActionListener;
 
 /**
@@ -34,7 +36,12 @@ public class PauseController extends Controller {
 				}
 			}
 		};
-		Main.getInstance().getInputManager().addListener(al, "pause");
+		addInputListener(al, "pause");
+		
+		BitmapFont guiFont = Main.getInstance().getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+		BitmapText hudText = guiFont.createLabel("Paused"); 
+		hudText.setLocalTranslation(200, 200, 0);
+		addGuiElement(hudText);
 	}
 	
 	@Override
