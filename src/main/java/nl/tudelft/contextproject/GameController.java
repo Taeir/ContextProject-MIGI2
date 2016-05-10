@@ -42,6 +42,7 @@ public class GameController extends Controller {
 	
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
+		super.initialize(stateManager, app);
 		attachLevel();
 		
 		Controller t = this;
