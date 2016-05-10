@@ -19,7 +19,10 @@ import com.jme3.scene.Spatial;
 
 /**
  * Temporary class for examining FP control schemes and collisions.
- * Copy write rights to jMonkey tutorial. Please use this class to understand collisions.
+ * This class can be ran independently.
+ * Loads a simple town scene. 
+ * Copy write rights to jMonkey tutorial. Please use this class to understand collisions in jMonkey.
+ * @see <a href="https://wiki.jmonkeyengine.org/doku.php/jme3:advanced:physics">jMonkey physics</a>
  */
 public class HelloCollision extends SimpleApplication implements ActionListener {
 
@@ -50,51 +53,46 @@ public class HelloCollision extends SimpleApplication implements ActionListener 
 	@Override
 	public void simpleInitApp() {
 		//Set-up physics
-		/** Set up Physics */
 		bulletAppState = new BulletAppState();
 		stateManager.attach(bulletAppState);
-		//bulletAppState.getPhysicsSpace().enableDebug(assetManager);
 
-		// We re-use the flyby camera for rotation, while positioning is handled by physics
+		//Use a fly camera 
 		viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
 		flyCam.setMoveSpeed(100);
 		setUpKeys();
 		setUpLight();
 
-		// We load the scene from the zip file and adjust its size.
+		//Load town scene in and set it in the scene model.
 		assetManager.registerLocator("src/main/assets/Scenes/town.zip", ZipLocator.class);
 		sceneModel = assetManager.loadModel("main.scene");
 		sceneModel.setLocalScale(2f);
 
-		// We set up collision detection for the scene by creating a
-		// compound collision shape and a static RigidBodyControl with mass zero.
+		//Create a collision shape of the town. 
 		CollisionShape sceneShape =
 				CollisionShapeFactory.createMeshShape(sceneModel);
 		landscape = new RigidBodyControl(sceneShape, 0);
 		sceneModel.addControl(landscape);
 
-		// We set up collision detection for the player by creating
-		// a capsule collision shape and a CharacterControl.
-		// The CharacterControl offers extra settings for
-		// size, stepheight, jumping, falling, and gravity.
-		// We also put the player in its starting position.
+		//Set up a collision shape, use this shape to create player.
 		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
 		player = new CharacterControl(capsuleShape, 0.05f);
+		
+		//Player physics settings
 		player.setJumpSpeed(20);
 		player.setFallSpeed(30);
 		player.setGravity(30);
 		player.setPhysicsLocation(new Vector3f(0, 10, 0));
 
-		// We attach the scene and the player to the rootnode and the physics space,
-		// to make them appear in the game world.
+		//Add scene to render the town.
 		rootNode.attachChild(sceneModel);
+		
+		//This adds the player and landscape to the game world
 		bulletAppState.getPhysicsSpace().add(landscape);
 		bulletAppState.getPhysicsSpace().add(player);
 
 	}
 
 	private void setUpLight() {
-		// We add light so we see the scene
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(1.3f));
 		rootNode.addLight(al);
