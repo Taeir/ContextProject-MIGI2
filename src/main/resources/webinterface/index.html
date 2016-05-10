@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>The Cave of Caerbanogh</title>
+		<script src="jquery-1.12.3.min.js"></script>
+		<script src="main.js"></script>
+		<script>
+			//On load
+			$(document).ready(function() {
+				authenticate();
+			});
+		</script>
+	</head>
+
+	<body>
+	<button onclick="requestSetTeam('ELVES')">Elves</button>
+	<button onclick="requestSetTeam('DWARFS')">Dwarfs</button>
+	<button onclick="requestSetTeam('NONE')">No team</button>
+	<br>
+	
+	Current team: <div class="team">No team</div>
+	
+	Select team
+	<form method="post" action="setteam" autocomplete="off" novalidate>
+		<input type="radio" id="team" name="team" value="ELVES"/>Elves
+		<input type="radio" id="team" name="team" value="DWARFS"/>Dwarfs
+		<input type="submit" value="Submit"/>
+	</form>
+	</body>
+
+</html>
