@@ -27,7 +27,7 @@ public class GameController extends Controller {
 	 * @param levelFactory The factory that creates levels for this game.
 	 */
 	public GameController(SimpleApplication app, LevelFactory levelFactory) {
-		super(app);
+		super(app, "GameController");
 		this.levelFactory = levelFactory;
 		setLevel(levelFactory.generateRandom());
 	}
@@ -49,13 +49,13 @@ public class GameController extends Controller {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
 				if (!isPressed) {
+					removeInputListener(this);
 					Main main = Main.getInstance();
-					main.getInputManager().removeListener(this);
-					main.setController(new PauseController(t, main));
+					Main.getInstance().setController(new PauseController(t, main));
 				}
 			}
 		};
-		Main.getInstance().getInputManager().addListener(al, "pause");
+		addInputListener(al, "pause");
 
 		/* Temp code*/
 		MapBuilder.setLevel(level);

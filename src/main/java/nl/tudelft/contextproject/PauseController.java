@@ -18,7 +18,7 @@ public class PauseController extends Controller {
 	 * @param app The main app.
 	 */
 	public PauseController(Controller old, SimpleApplication app) {
-		super(app);
+		super(app, "PauseController");
 		this.resumeController = old;
 	}
 
@@ -29,9 +29,8 @@ public class PauseController extends Controller {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
 				if (!isPressed) {
-					Main main = Main.getInstance();
-					main.getInputManager().removeListener(this);
-					main.setController(resumeController);
+					removeInputListener(this);
+					Main.getInstance().setController(resumeController);
 				}
 			}
 		};

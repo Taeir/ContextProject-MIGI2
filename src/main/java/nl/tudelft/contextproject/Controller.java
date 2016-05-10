@@ -4,6 +4,8 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.input.InputManager;
+import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -14,22 +16,26 @@ import com.jme3.scene.Spatial;
 public abstract class Controller extends AbstractAppState {
 	private Node rootNode = new Node();
 	private Node guiNode = new Node();
+	private InputManager inputManager;
 
 	/**
-	 * protected constructor for the controller class.
-	 * @param app The main app that is the parent of this controller.
+	 * Protected constructor for the controller class.
+	 * @param app The application initializing this controller.
+	 * @param name The controller name.
 	 */
-	protected Controller(SimpleApplication app) {
-		this.rootNode = app.getRootNode();
-		this.guiNode = app.getGuiNode(); 
+	protected Controller(SimpleApplication app, String name) {
+		this.rootNode = new Node(name + "RootNode");
+		this.guiNode = new Node(name + "GuiNode"); 
+		this.inputManager = app.getInputManager();
 	}
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
 
-		Main.getInstance().getRootNode().attachChild(rootNode);
-		Main.getInstance().getGuiNode().attachChild(guiNode);  
+		Main main = Main.getInstance();
+		main.getRootNode().attachChild(rootNode);
+		main.getGuiNode().attachChild(guiNode);
 	}
 	
 	@Override
@@ -85,14 +91,29 @@ public abstract class Controller extends AbstractAppState {
 		rootNode.removeLight(l);
 	}
 	
+	/**
+	 * Remove the specified listener form the input manager.
+	 * @param listener The listener to remove.
+	 */
+	public void removeInputListener(InputListener listener) {
+		inputManager.removeListener(listener);
+	}
+	
+	/**
+	 * Add a listener to the specified mappings.
+	 * @param listener The listener to add.
+	 * @param mappingNames One ore more mappingNames to map the listener to.
+	 */
+	public void addInputListener(InputListener listener, String... mappingNames) {
+		inputManager.addListener(listener, mappingNames);
+	}
+	
 
 	@Override
 	public void cleanup() {
+		super.cleanup();
 		Main main = Main.getInstance();
-		main.getRootNode().detachAllChildren();
 		main.getRootNode().detachChild(rootNode);
 		main.getGuiNode().detachChild(guiNode);
-
-		super.cleanup();
 	}
 }
