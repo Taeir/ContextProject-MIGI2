@@ -30,6 +30,12 @@ public class ClientServlet extends DefaultServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Redirect the root to index.html
+		if (request.getRequestURI().equals("/")) {
+			response.sendRedirect("/index.html");
+			return;
+		}
+		
 		super.doGet(request, response);
 	}
 	
