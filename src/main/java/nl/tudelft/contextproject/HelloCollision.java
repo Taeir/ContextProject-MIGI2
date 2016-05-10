@@ -162,8 +162,9 @@ public class HelloCollision extends SimpleApplication implements ActionListener 
 		if (down) {
 			walkDirection.addLocal(camDir.negate());
 		}
+		
 		player.setWalkDirection(walkDirection);
-		cam.setLocation(player.getPhysicsLocation());
+		getCamera().setLocation(player.getPhysicsLocation());
 	}
 }
 
