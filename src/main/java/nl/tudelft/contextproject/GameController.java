@@ -17,7 +17,7 @@ import nl.tudelft.contextproject.level.MapBuilder;
  * Controller for the main game.
  */
 public class GameController extends Controller {
-	private Level level;
+	private Game game;
 	private LevelFactory levelFactory;
 	
 	/**
@@ -28,13 +28,13 @@ public class GameController extends Controller {
 	public GameController(SimpleApplication app, LevelFactory levelFactory) {
 		super(app, "GameController");
 		this.levelFactory = levelFactory;
-		setLevel(levelFactory.generateRandom());
+		game = new Game(levelFactory.generateRandom());
 	}
 
 	@Override
 	public void cleanup() {
 		super.cleanup();
-		for (Entity e : level.getEntities()) {
+		for (Entity e : game.getEntities()) {
 			e.setState(EntityState.NEW);
 		}
 	}
@@ -58,9 +58,9 @@ public class GameController extends Controller {
 		addInputListener(al, "pause");
 
 		/* Temp code*/
-		MapBuilder.setLevel(level);
+		MapBuilder.setLevel(game.getLevel());
 		DrawableFilter filter = new DrawableFilter(false);
-		filter.addEntity(level.getPlayer());
+		filter.addEntity(game.getPlayer());
 		filter.addEntity(new Entity() {
 			@Override
 			public Geometry getGeometry() {
@@ -80,6 +80,7 @@ public class GameController extends Controller {
 	 * Note: this method does not clear the previous level, use {@link #clearLevel()} for that.
 	 */
 	public void attachLevel() {
+		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
 		for (int x = 0; x < level.getWidth(); x++) {
 			for (int y = 0; y < level.getHeight(); y++) {
@@ -88,24 +89,16 @@ public class GameController extends Controller {
 				}
 			}
 		}
-		addDrawable(level.getPlayer());
+		addDrawable(game.getPlayer());
 
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
 	}
 
-	/**
-	 * Setter for the level.
-	 * @param level The new level.
-	 */
-	public void setLevel(Level level) {
-		this.level = level;
-	}
-
 	@Override
 	public void update(float tpf) {
-		level.getPlayer().update(tpf);
+		game.getPlayer().update(tpf);
 		updateEntities(tpf);
 	}
 
@@ -115,7 +108,7 @@ public class GameController extends Controller {
 	 * @param tpf The time per frame for this update.
 	 */
 	void updateEntities(float tpf) {
-		for (Iterator<Entity> i = level.getEntities().iterator(); i.hasNext();) {
+		for (Iterator<Entity> i = game.getEntities().iterator(); i.hasNext();) {
 			Entity e = i.next();
 			EntityState state = e.getState();
 			switch (state) {
@@ -140,7 +133,7 @@ public class GameController extends Controller {
 	 * @return The current level.
 	 */
 	public Level getLevel() {
-		return level;
+		return game.getLevel();
 	}
 
 	@Override
