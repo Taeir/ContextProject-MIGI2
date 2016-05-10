@@ -16,6 +16,8 @@ import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 
+import static nl.tudelft.contextproject.model.level.RandomGenerator.attempt;
+
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
@@ -89,10 +91,11 @@ public class Main extends SimpleApplication {
 	 * @param args run-specific arguments.
 	 */
 	public static void main(String[] args) {
-		Main main = getInstance();
-		List<String> a = Arrays.asList(args);
-		debugHud = a.contains("--debugHud");
-		main.start();
+//		Main main = getInstance();
+//		List<String> a = Arrays.asList(args);
+//		debugHud = a.contains("--debugHud");
+//		main.start();
+		attempt();
 	}
 
 	@Override
