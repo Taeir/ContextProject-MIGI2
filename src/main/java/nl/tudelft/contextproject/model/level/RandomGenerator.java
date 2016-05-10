@@ -4,7 +4,9 @@ import java.io.File;
 
 import nl.tudelft.contextproject.util.Size;
 
-
+/**
+ * Extremely hacked together and will be refactored before it's merged.
+ */
 public class RandomGenerator {
     private static final String FOLDERSTRING =
             "src" + File.separator + "main" + File.separator + "resources" + File.separator + "rooms";
