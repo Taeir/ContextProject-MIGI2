@@ -141,5 +141,8 @@ public abstract class Controller extends AbstractAppState {
 		Main main = Main.getInstance();
 		main.getRootNode().detachChild(rootNode);
 		main.getGuiNode().detachChild(guiNode);
+		for (Light l: rootNode.getLocalLightList()) {
+			rootNode.removeLight(l);
+		}
 	}
 }
