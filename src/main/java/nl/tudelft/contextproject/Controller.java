@@ -108,7 +108,10 @@ public abstract class Controller extends AbstractAppState {
 		inputManager.addListener(listener, mappingNames);
 	}
 	
-
+	protected void setRootNode(Node rn) {
+		this.rootNode = rn;
+	}
+	
 	@Override
 	public void cleanup() {
 		super.cleanup();
