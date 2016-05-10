@@ -46,4 +46,9 @@ public class PauseController extends Controller {
 	
 	@Override
 	public void update(float tpf) { }
+
+	@Override
+	public GameState getGameState() {
+		return GameState.PAUSED;
+	}
 }

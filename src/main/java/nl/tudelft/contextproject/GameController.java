@@ -144,4 +144,9 @@ public class GameController extends Controller {
 	public Level getLevel() {
 		return level;
 	}
+
+	@Override
+	public GameState getGameState() {
+		return GameState.RUNNING;
+	}
 }

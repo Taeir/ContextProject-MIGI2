@@ -41,6 +41,8 @@ public abstract class Controller extends AbstractAppState {
 	@Override
 	public abstract void update(float tpf);
 	
+	public abstract GameState getGameState();
+	
 	/**
 	 * Add an element to the GUI.
 	 * @param s A Spatial to add to the GUI.

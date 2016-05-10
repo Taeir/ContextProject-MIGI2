@@ -92,7 +92,14 @@ public class Main extends SimpleApplication {
 	 * @return the running instance of the game.
 	 */
 	public static Main getInstance() {
-		if (instance == null) instance = new Main();
+		if (instance == null) {
+			instance = new Main();
+		}
 		return instance;
-	}	
+	}
+	
+	public GameState getGameState() {
+		if (controller == null) return null;
+		return controller.getGameState();
+	}
 }
