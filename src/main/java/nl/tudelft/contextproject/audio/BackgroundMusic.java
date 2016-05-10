@@ -184,6 +184,17 @@ public final class BackgroundMusic {
 	}
 	
 	/**
+	 * Returns the AudioNode that is currently playing/paused.
+	 * If there is no AudioNode being played, then this method returns null.
+	 * 
+	 * @return
+	 * 		the current AudioNode
+	 */
+	public synchronized AudioNode getCurrent() {
+		return current;
+	}
+	
+	/**
 	 * Called to indicate an update.
 	 * 
 	 * @param tpf

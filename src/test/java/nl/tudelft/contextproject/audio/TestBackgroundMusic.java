@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.audio;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -94,7 +95,7 @@ public class TestBackgroundMusic {
 	 * Tests if {@link BackgroundMusic#start()} correctly resumes paused playback.
 	 */
 	@Test
-	public void testStart_playing() {
+	public void testStart_paused() {
 		//Play the mocked song
 		BackgroundMusic.getInstance().playSong(an);
 		
@@ -109,6 +110,44 @@ public class TestBackgroundMusic {
 		
 		//Verify that play has been called to resume playback.
 		verify(an, times(1)).play();
+	}
+	
+	/**
+	 * Tests if {@link BackgroundMusic#start()} correctly starts music when none was playing.
+	 */
+	@Test
+	public void testStart_notPlaying() {
+		//Call start
+		BackgroundMusic.getInstance().start();
+		
+		AudioNode an = BackgroundMusic.getInstance().getCurrent();
+		
+		//Assert that a song is currently being played.
+		assertNotNull(an);
+		
+		//Verify that play has been called to start playback.
+		verify(an, times(1)).play();
+	}
+	
+	/**
+	 * Tests if {@link BackgroundMusic#start()} correctly resumes paused playback.
+	 */
+	@Test
+	public void testStart_playing() {
+		//Play the mocked song
+		BackgroundMusic.getInstance().playSong(an);
+		
+		//Reset the mock
+		reset(an);
+		
+		//Make the audioNode act as being paused
+		when(an.getStatus()).thenReturn(Status.Playing);
+		
+		//Call start
+		BackgroundMusic.getInstance().start();
+		
+		//Verify that play has not been called, as the song is already playing.
+		verify(an, times(0)).play();
 	}
 
 	/**
