@@ -1,5 +1,8 @@
 package nl.tudelft.contextproject;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
@@ -11,6 +14,8 @@ import nl.tudelft.contextproject.level.RandomLevelFactory;
  * Main class of the game 'The Cave of Caerbannog'.
  */
 public class Main extends SimpleApplication {
+	private static boolean debugHud;
+	
 	private static Main instance;
 	private Controller controller;
 	
@@ -55,11 +60,17 @@ public class Main extends SimpleApplication {
 	 * @param args run-specific arguments.
 	 */
 	public static void main(String[] args) {
-		getInstance().start();
+		Main main = getInstance();
+		List<String> a = Arrays.asList(args);
+		debugHud = a.contains("--debugHud");
+		main.start();
 	}
 
 	@Override
 	public void simpleInitApp() {
+		setDisplayFps(debugHud);
+		setDisplayStatView(debugHud);
+		
 		setupControlMappings();
 		setController(new GameController(this, new RandomLevelFactory(10, 10)));
 	}
