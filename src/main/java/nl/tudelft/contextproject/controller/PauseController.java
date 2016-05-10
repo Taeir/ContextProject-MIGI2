@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -6,6 +6,8 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.input.controls.ActionListener;
+
+import nl.tudelft.contextproject.Main;
 
 /**
  * Controller for a pause screen.

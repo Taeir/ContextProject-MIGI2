@@ -1,10 +1,11 @@
-package nl.tudelft.contextproject.level;
+package nl.tudelft.contextproject.model.level;
 
 import java.util.List;
 import java.util.Set;
 
 import com.jme3.light.Light;
-import nl.tudelft.contextproject.Entity;
+
+import nl.tudelft.contextproject.model.Entity;
 
 /**
  * Class to contain rooms.

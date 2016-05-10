@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -9,6 +9,9 @@ import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+
+import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Drawable;
 
 /**
  * Abstract class for controllers.

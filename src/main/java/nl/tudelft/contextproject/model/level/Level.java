@@ -1,12 +1,9 @@
-package nl.tudelft.contextproject.level;
+package nl.tudelft.contextproject.model.level;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import com.jme3.light.Light;
-
-import nl.tudelft.contextproject.Entity;
 
 /**
  * Class representing the entire level in the game.

@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
 
@@ -7,6 +7,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
+
+import nl.tudelft.contextproject.Main;
 
 /**
  * Class representing the player wearing the VR headset.

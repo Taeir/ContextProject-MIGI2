@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.level;
+package nl.tudelft.contextproject.model.level;
 
 import java.awt.Graphics2D;
 
@@ -8,8 +8,8 @@ import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 
-import nl.tudelft.contextproject.Drawable;
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Drawable;
 
 /**
  * Class representing a tile in the maze.

@@ -9,7 +9,11 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
-import nl.tudelft.contextproject.level.RandomLevelFactory;
+import nl.tudelft.contextproject.controller.Controller;
+import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
@@ -27,7 +31,7 @@ public class Main extends SimpleApplication {
 	 * Sets the instance of this singleton to the provided instance.
 	 * @param main The new value of the instance.
 	 */
-	static void setInstance(Main main) {
+	public static void setInstance(Main main) {
 		instance = main;
 	}
 	

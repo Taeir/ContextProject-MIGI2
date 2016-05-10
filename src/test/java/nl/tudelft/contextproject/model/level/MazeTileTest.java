@@ -1,11 +1,12 @@
-package nl.tudelft.contextproject.level;
+package nl.tudelft.contextproject.model.level;
 
 import static org.junit.Assert.*;
 
 import com.jme3.math.Vector3f;
 
-import nl.tudelft.contextproject.Drawable;
-import nl.tudelft.contextproject.DrawableTest;
+import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.DrawableTest;
+import nl.tudelft.contextproject.model.level.MazeTile;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,10 +1,10 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.model;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import nl.tudelft.contextproject.level.Level;
+import nl.tudelft.contextproject.model.level.Level;
 
 public class Game {
 	private Level level;

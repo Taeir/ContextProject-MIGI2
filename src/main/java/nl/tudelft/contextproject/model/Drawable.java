@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
 

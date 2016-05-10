@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.controller;
 
 /**
  * Enum representing the state of the game.

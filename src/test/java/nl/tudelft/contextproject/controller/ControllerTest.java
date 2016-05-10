@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.controller;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -8,6 +8,9 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+
+import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.controller.Controller;
 
 import org.junit.Test;
 

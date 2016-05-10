@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.controller;
 
 import java.util.Iterator;
 
@@ -9,9 +9,14 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.math.ColorRGBA;
-import nl.tudelft.contextproject.level.Level;
-import nl.tudelft.contextproject.level.LevelFactory;
-import nl.tudelft.contextproject.level.Room;
+
+import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Entity;
+import nl.tudelft.contextproject.model.EntityState;
+import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.LevelFactory;
+import nl.tudelft.contextproject.model.level.Room;
 
 /**
  * Controller for the main game.

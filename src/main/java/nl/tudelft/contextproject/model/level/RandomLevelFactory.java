@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.level;
+package nl.tudelft.contextproject.model.level;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 
-import nl.tudelft.contextproject.Entity;
+import nl.tudelft.contextproject.model.Entity;
 
 /**
  * An implementation of a LevelFactory that creates tiles randomly.

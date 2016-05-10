@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.model;
 
 /**
  * Abstract parent class for all entities.

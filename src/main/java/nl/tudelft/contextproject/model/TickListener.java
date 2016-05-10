@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.model;
 
 /**
  * Interface for objects that listen to the game ticks.
