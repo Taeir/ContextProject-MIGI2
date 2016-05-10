@@ -78,8 +78,8 @@ function requestStatus() {
         //Switch to the correct state
         if (data.state == "WAITING") {
             switchTo("WAITING");
-        } else if (data.state == "STARTED") {
-            switchTo("STARTED");
+        } else if (data.state == "RUNNING") {
+            switchTo("RUNNING");
             updateGame(data);
         } else if (data.state == "PAUSED") {
             switchTo("PAUSED");
@@ -104,7 +104,7 @@ function showError(msg) {
  * Switches to the given view.
  *
  * @param view
- *      the view to switch to. Must be in [team, waiting, elf, dwarf, paused]
+ *      the view to switch to. Must be in [WAITING, RUNNING, PAUSED, ENDED]
  */
 function switchTo(view) {
     //We don't need to switch to our current state.
@@ -116,7 +116,7 @@ function switchTo(view) {
         case "WAITING":
             //TODO
             break;
-        case "STARTED":
+        case "RUNNING":
             //TODO
             break;
         case "PAUSED":

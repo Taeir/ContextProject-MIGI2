@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.logging.Log;
 
 import org.eclipse.jetty.http.HttpStatus;
@@ -225,15 +226,15 @@ public class WebServer {
 		if (cookie == null || !clients.containsKey(cookie.getValue())) {
 			//This is a new user
 			
-//			if (game.isStarted()) {
-//				//User attempts to connect while game has already started
-//				Log.getLog("WebInterface").fine("Disallowed user from joining game: cannot join in progress game");
-//				response.setStatus(HttpStatus.OK_200);
-//				response.getWriter().write("IN_PROGRESS");
-//			
-//				return false;
-//			}
-//			
+			if (Main.getInstance().getGameState().isStarted()) {
+				//User attempts to connect while game has already started
+				Log.getLog("WebInterface").fine("Disallowed user from joining game: cannot join in progress game");
+				response.setStatus(HttpStatus.OK_200);
+				response.getWriter().write("IN_PROGRESS");
+			
+				return false;
+			}
+			
 //			if (game.isFull()) {
 //				//The game is full, user cannot join.
 //				Log.getLog("WebInterface").fine("Disallowing user from joining game: game is full");
@@ -243,7 +244,7 @@ public class WebServer {
 //			
 //				return false;
 //			}
-//			
+			
 			//User is allowed to join
 			Log.getLog("WebInterface").fine("Allowing user to join");
 

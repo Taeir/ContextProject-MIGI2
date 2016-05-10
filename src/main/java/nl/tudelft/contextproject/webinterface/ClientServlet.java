@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.tudelft.contextproject.Main;
+
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
 
@@ -90,12 +92,12 @@ public class ClientServlet extends DefaultServlet {
 			return;
 		}
 		
-//		if (game.isInProgress()) {
-//			//You cannot switch teams while the game is in progress, so we send back the current team to fix up the client.
-//			response.setStatus(HttpStatus.OK_200);
-//			response.getWriter().write(client.getTeam().toUpperCase());
-//			return;
-//		}
+		if (Main.getInstance().getGameState().isStarted()) {
+			//You cannot switch teams while the game is in progress, so we send back the current team to fix up the client.
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write(client.getTeam().toUpperCase());
+			return;
+		}
 		
 		String team = request.getParameter("team");
 		if (team == null) {
@@ -159,27 +161,27 @@ public class ClientServlet extends DefaultServlet {
 		@SuppressWarnings("resource")
 		PrintWriter writer = response.getWriter();
 		writer.append("{team: ").append(client.getTeam().toUpperCase());
-//		writer.append(", state: ").append(game.getState().name());
+		writer.append(", state: ").append(Main.getInstance().getGameState().name());
 		
 
-//		switch (game.getState()) {
-//			//If the state is STARTED or PAUSED, then send map and player information
-//			case STARTED:
-//			case PAUSED:
-//				//TODO Actual player information
-//				writer.append(", player: { x: 0, y: 0, z: 0, hp: 0, bombs: 0, keys: [] }");
-//		
-//				//TODO Add map updates
-//				break;
-//
-//			//If the state is ENDED, then send the game statistics
-//			case ENDED:
-//				//TODO Add game statistics
-//				break;
-//			
-//			default:
-//				break;
-//		}
+		switch (Main.getInstance().getGameState()) {
+			//If the state is RUNNING or PAUSED, then send map and player information
+			case RUNNING:
+			case PAUSED:
+				//TODO Actual player information
+				writer.append(", player: { x: 0, y: 0, z: 0, hp: 0, bombs: 0, keys: [] }");
+		
+				//TODO Add map updates
+				break;
+
+			//If the state is ENDED, then send the game statistics
+			case ENDED:
+				//TODO Add game statistics
+				break;
+			
+			default:
+				break;
+		}
 		
 		writer.append(" }");
 	}
