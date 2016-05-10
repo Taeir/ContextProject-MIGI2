@@ -1,0 +1,172 @@
+= Sprint Backlog, Iteration #2 =
+Context project: Computer games<br />
+Group: MIGI2
+
+{|
+! '''User Story'''
+! '''Task'''
+! '''Member responsible for task'''
+! '''Task Assigned To'''
+! '''Estimated Effort per Task''' (in hours)
+! '''Priority(A-E)<br />
+'''(A is highest)
+|-
+|
+'''1. Game design document'''
+
+The development team is required to deliver a game design document.
+| Overview.
+| Bram
+| Bram
+| 4
+| A
+|-
+|
+
+| What sets the project apart, first half.
+| Taico
+| Taico
+| 4
+| A
+|-
+|
+
+| What sets the project apart, second half.
+| Chiel
+| Chiel
+| 4
+| A
+|-
+|
+
+| Story and Gameplay.
+| Robin
+| Robin
+| 4
+| A
+|-
+|
+
+| Assets.
+| Wytze
+| Wytze
+| 4
+| A
+|-
+|
+
+| Schedule.
+| Taico
+| Taico
+| 1
+| A
+|-
+|
+'''2. Basic framework.'''
+
+The development team should finish the basic framework of the game of last week.
+| Basic framework
+| Chiel
+| Chiel
+| 3
+| A
+|-
+|
+'''3. Maze Generator'''
+
+The game should include a maze generator.
+| Simple maze generation – working mazes.
+| Bram
+| Bram
+| 3
+| C
+|-
+|
+
+| Advanced maze generation – route always possible/random.
+| Bram
+| Bram
+| 4
+| C
+|-
+|
+'''4. Collisions '''
+
+In order to stay in the maze the player should be able to collide with walls.
+| Examine JMonkey support for collisions.
+| Robin
+| Robin
+| 2
+| B
+|-
+|
+
+| Implementation in the CoC.
+| Robin
+| Robin
+| 5
+| B
+|-
+|
+'''5. Basic implementation of assets'''
+
+The game will require assets and we must be able to implement them.
+| Implement bombs as static objects in the world.
+| Wytze
+| Wytze
+| 5
+| B
+|-
+|
+
+| Create simple bomb texture and apply them.
+| Wytze
+| Wytze
+| 2
+| D
+|-
+|
+'''6. Finalize and update deliverables.'''
+
+The development team (should) have received feedback of all drafts of deliverables. The final versions should be created.
+| Finalize product vision
+| Chiel
+| Chiel
+| 3
+| A
+|-
+|
+
+| Finalize product planning
+| Taico
+| Taico
+| 1
+| A
+|-
+|
+
+| Update Architecture design.
+| Taico
+| Taico
+| 0.5
+| A
+|-
+|
+'''7. Additional features'''
+
+In order to save work later down the line, the development team should implement loose features.
+| Convert JMonkey VR project to Eclipse.
+| Taico
+| Taico
+| 1.5
+| B
+|-
+|
+
+| Implement audio
+| Taico
+| Taico
+| 2
+| E
+|}
+

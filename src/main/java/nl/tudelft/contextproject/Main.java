@@ -3,10 +3,9 @@ package nl.tudelft.contextproject;
 import java.util.Iterator;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.light.PointLight;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
+import com.jme3.light.Light;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.audio.BackgroundMusic;
@@ -25,37 +24,38 @@ public class Main extends SimpleApplication {
 	private LevelFactory levelFactory;
 
 	/**
+	 * Method used for testing.
+	 * Sets the instance of this singleton to the provided instance.
+	 * @param main The new value of the instance.
+	 */
+	static void setInstance(Main main) {
+		instance = main;
+	}
+	
+	/**
+	 * Method used for testing.
+	 * Sets the rootNode of Main to a new Node.
+	 * @param rn The new node to replace the rootNode.
+	 */
+	void setRootNode(Node rn) {
+		rootNode = rn;
+	}
+
+	/**
 	 * Main method that is called when the program is started.
 	 * @param args run-specific arguments.
 	 */
 	public static void main(String[] args) {
-		Main app = new Main();
-		
-		instance = app;
-		app.start();
+		getInstance().start();
 	}
 
 	@Override
 	public void simpleInitApp() {
 		levelFactory = new RandomLevelFactory(10, 10);
-		this.level = levelFactory.generateRandom();
-
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					Geometry g = level.getTile(x, y).getGeometry();
-					rootNode.attachChild(g);
-				}
-			}
-		}
-		rootNode.attachChild(level.getPlayer().getGeometry());
+		setLevel(levelFactory.generateRandom());
+		attachLevel();
 		
-		PointLight p = new PointLight();
-		p.setPosition(new Vector3f(1, 1, 4));
-		p.setColor(ColorRGBA.randomColor());
-		p.setRadius(20);
-		rootNode.addLight(p);
-		
+		/* Temp code*/
 		MapBuilder.setLevel(level);
 		DrawableFilter filter = new DrawableFilter(false);
 		filter.addEntity(level.getPlayer());
@@ -64,9 +64,11 @@ public class Main extends SimpleApplication {
 			public Geometry getGeometry() {
 				 return null;
 			}
-
 			@Override
 			public void simpleUpdate(float tpf) { }
+
+			@Override
+			public void setGeometry(Geometry geometry) { }
 		});
 		MapBuilder.export("hello.png", filter, 16);
 		
@@ -85,6 +87,45 @@ public class Main extends SimpleApplication {
 		super.stop();
 	}
 
+	/**
+	 * Attaches the current level to the renderer.
+	 * Note: this method does not clear the previous level, use {@link #clearLevel()} for that.
+	 */
+	public void attachLevel() {
+		if (level == null) throw new IllegalStateException("No level set!");
+		for (int x = 0; x < level.getWidth(); x++) {
+			for (int y = 0; y < level.getHeight(); y++) {
+				if (level.isTileAtPosition(x, y)) {
+					Geometry g = level.getTile(x, y).getGeometry();
+					rootNode.attachChild(g);
+				}
+			}
+		}
+		rootNode.attachChild(level.getPlayer().getGeometry());
+		
+		for (Light l : level.getLights()) {
+			rootNode.addLight(l);
+		}
+	}
+
+	/**
+	 * Setter for the level.
+	 * @param level The new level.
+	 */
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+
+	/**
+	 * Removes the current level from the renderer.
+	 */
+	public void clearLevel() {
+		rootNode.detachAllChildren();
+		for (Light l : rootNode.getLocalLightList()) {
+			rootNode.removeLight(l);
+		}
+	}
+
 	@Override
 	public void simpleUpdate(float tpf) {
 		level.getPlayer().simpleUpdate(tpf);
@@ -94,14 +135,16 @@ public class Main extends SimpleApplication {
 		listener.setLocation(getCamera().getLocation());
 		listener.setRotation(getCamera().getRotation());
 		
+		//Update BackgroundMusic
 		BackgroundMusic.getInstance().update(tpf);
 	}
 
 	/**
 	 * Update all the entities in the level.
 	 * Add all new entities to should be added to the rootNode and all dead ones should be removed.
+	 * @param tpf The time per frame for this update.
 	 */
-	private void updateEntities(float tpf) {
+	void updateEntities(float tpf) {
 		for (Iterator<Entity> i = level.getEntities().iterator(); i.hasNext();) {
 			Entity e = i.next();
 		    EntityState state = e.getState();
@@ -127,6 +170,15 @@ public class Main extends SimpleApplication {
 	 * @return the running instance of the game.
 	 */
 	public static Main getInstance() {
+		if (instance == null) instance = new Main();
 		return instance;
+	}
+	
+	/**
+	 * Getter for the current level.
+	 * @return The current level.
+	 */
+	public Level getLevel() {
+		return level;
 	}
 }
