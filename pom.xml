@@ -7,6 +7,25 @@
 	<packaging>jar</packaging>
 	<name>The Cave of Caerbannog</name>
 
+	<developers>
+		<developer>
+			<name>Bram Crielaard</name>
+		</developer>
+		<developer>
+			<name>Chiel Bruin</name>
+		</developer>
+		<developer>
+			<name>Robin van der Wal</name>
+		</developer>
+		<developer>
+			<name>Wytze Elhorst</name>
+		</developer>
+		<developer>
+			<name>Taico Aerts</name>
+		</developer>
+	</developers>
+
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<findbugs.version>3.0.2</findbugs.version>
