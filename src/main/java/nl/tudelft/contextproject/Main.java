@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 
-import static nl.tudelft.contextproject.model.level.RandomGenerator.attempt;
+import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.RandomGenerator.attempt;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
@@ -95,7 +94,7 @@ public class Main extends SimpleApplication {
 //		List<String> a = Arrays.asList(args);
 //		debugHud = a.contains("--debugHud");
 //		main.start();
-		attempt();
+		attempt(100, 5);
 	}
 
 	@Override
