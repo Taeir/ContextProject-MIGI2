@@ -105,8 +105,9 @@ public class HelloCollision extends SimpleApplication implements ActionListener 
 		rootNode.addLight(dl);
 	}
 
-	/** We over-write some navigational key mappings here, so we can
-	 * add physics-controlled walking and jumping: */
+	/** 
+	 *  Temporary key setup.
+	 */
 	private void setUpKeys() {
 		inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
 		inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
@@ -120,9 +121,11 @@ public class HelloCollision extends SimpleApplication implements ActionListener 
 		inputManager.addListener(this, "Jump");
 	}
 
-	/** These are our custom actions triggered by key presses.
-	 * We do not walk yet, we just keep track of the direction the user pressed. 
-	 * 
+	/** These are custom actions triggered by key presses.
+	 *	 We do not walk yet, we just keep track of the direction the user pressed. 
+	 * @param tpf - float value
+	 * @param isPressed - if button is pressed.
+	 * @param binding - Binding name
 	 */
 	public void onAction(String binding, boolean isPressed, float tpf) {
 		if (binding.equals("Left")) {
@@ -134,7 +137,9 @@ public class HelloCollision extends SimpleApplication implements ActionListener 
 		} else if (binding.equals("Down")) {
 			down = isPressed;
 		} else if (binding.equals("Jump")) {
-			if (isPressed) { player.jump(); }
+			if (isPressed) { 
+				player.jump(); 
+			}
 		}
 	}
 
