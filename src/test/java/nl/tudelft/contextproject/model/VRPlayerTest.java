@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyFloat;
@@ -7,6 +7,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.jme3.scene.Geometry;
+
+import nl.tudelft.contextproject.Main;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +41,7 @@ public class VRPlayerTest extends EntityTest {
 	public void testSimpleUpdate() {
 		Geometry mockedGeometry = mock(Geometry.class);
 		player.setGeometry(mockedGeometry);
-		player.simpleUpdate(0.f);
+		player.update(0.f);
 		verify(mockedGeometry, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
 

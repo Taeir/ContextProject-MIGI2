@@ -1,33 +1,69 @@
 package nl.tudelft.contextproject;
 
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.light.Light;
-import com.jme3.scene.Geometry;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
-import nl.tudelft.contextproject.level.DrawableFilter;
-import nl.tudelft.contextproject.level.Level;
-import nl.tudelft.contextproject.level.LevelFactory;
-import nl.tudelft.contextproject.level.MapBuilder;
-import nl.tudelft.contextproject.level.RandomLevelFactory;
+import nl.tudelft.contextproject.controller.Controller;
+import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
 public class Main extends SimpleApplication {
+	private static boolean debugHud;
+	
 	private static Main instance;
-	private Level level;
-	private LevelFactory levelFactory;
+	private Controller controller;
 
+	private List<TickListener> tickListeners;
+	
 	/**
 	 * Method used for testing.
 	 * Sets the instance of this singleton to the provided instance.
 	 * @param main The new value of the instance.
 	 */
-	static void setInstance(Main main) {
+	public static void setInstance(Main main) {
 		instance = main;
+	}
+	
+	/**
+	 * Set the controller for the current scene.
+	 * Cleans up the old scene before initializing the new one.
+	 * @param c The new controller.
+	 * @return true is the controller was changed, false otherwise.
+	 */
+	public boolean setController(Controller c) {
+		if (c != controller) {
+			if (controller != null) {
+				stateManager.detach(controller);
+			}
+			controller = c;
+			stateManager.attach(controller);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Get the instance of the current game.
+	 * @return the current instance of the game.
+	 * @throws IllegalStateException when the current controller is not a game Controller.
+	 */
+	public Game getCurrentGame() throws IllegalStateException {
+		if (!getGameState().isStarted() || !(controller instanceof GameController)) {
+			throw new IllegalStateException("The game is not running!");
+		}
+		return ((GameController) controller).getGame();		
 	}
 	
 	/**
@@ -35,8 +71,17 @@ public class Main extends SimpleApplication {
 	 * Sets the rootNode of Main to a new Node.
 	 * @param rn The new node to replace the rootNode.
 	 */
-	void setRootNode(Node rn) {
+	protected void setRootNode(Node rn) {
 		rootNode = rn;
+	}
+
+	/**
+	 * Method used for testing.
+	 * Sets the guiNode of Main to a new Node.
+	 * @param gn The new node to replace the guiNode.
+	 */
+	protected void setGuiNode(Node gn) {
+		guiNode = gn;
 	}
 
 	/**
@@ -44,102 +89,51 @@ public class Main extends SimpleApplication {
 	 * @param args run-specific arguments.
 	 */
 	public static void main(String[] args) {
-		getInstance().start();
+		Main main = getInstance();
+		List<String> a = Arrays.asList(args);
+		debugHud = a.contains("--debugHud");
+		main.start();
 	}
 
 	@Override
 	public void simpleInitApp() {
-		levelFactory = new RandomLevelFactory(10, 10);
-		setLevel(levelFactory.generateRandom());
-		attachLevel();
+		tickListeners = new LinkedList<>();
+		setDisplayFps(debugHud);
+		setDisplayStatView(debugHud);
+		getFlyByCamera().setMoveSpeed(50);
 		
-		/* Temp code*/
-		MapBuilder.setLevel(level);
-		DrawableFilter filter = new DrawableFilter(false);
-		filter.addEntity(level.getPlayer());
-		filter.addEntity(new Entity() {
-			@Override
-			public Geometry getGeometry() {
-				 return null;
-			}
-			@Override
-			public void simpleUpdate(float tpf) { }
-
-			@Override
-			public void setGeometry(Geometry geometry) { }
-		});
-		MapBuilder.export("hello.png", filter, 16);
+		setupControlMappings();
+		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
 	}
 
 	/**
-	 * Attaches the current level to the renderer.
-	 * Note: this method does not clear the previous level, use {@link #clearLevel()} for that.
+	 * Setup all the key mappings.
 	 */
-	public void attachLevel() {
-		if (level == null) throw new IllegalStateException("No level set!");
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					Geometry g = level.getTile(x, y).getGeometry();
-					rootNode.attachChild(g);
-				}
-			}
-		}
-		rootNode.attachChild(level.getPlayer().getGeometry());
-		
-		for (Light l : level.getLights()) {
-			rootNode.addLight(l);
-		}
+	private void setupControlMappings() {
+		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
-
-	/**
-	 * Setter for the level.
-	 * @param level The new level.
-	 */
-	public void setLevel(Level level) {
-		this.level = level;
-	}
-
-	/**
-	 * Removes the current level from the renderer.
-	 */
-	public void clearLevel() {
-		rootNode.detachAllChildren();
-		for (Light l : rootNode.getLocalLightList()) {
-			rootNode.removeLight(l);
-		}
-	}
-
+	
 	@Override
 	public void simpleUpdate(float tpf) {
-		level.getPlayer().simpleUpdate(tpf);
-		updateEntities(tpf);
-	}
-
-	/**
-	 * Update all the entities in the level.
-	 * Add all new entities to should be added to the rootNode and all dead ones should be removed.
-	 * @param tpf The time per frame for this update.
-	 */
-	void updateEntities(float tpf) {
-		for (Iterator<Entity> i = level.getEntities().iterator(); i.hasNext();) {
-			Entity e = i.next();
-		    EntityState state = e.getState();
-			switch (state) {
-			case DEAD:
-				rootNode.detachChild(e.getGeometry());
-				i.remove();
-				continue;
-			case NEW:
-				rootNode.attachChild(e.getGeometry());
-				e.setState(EntityState.ALIVE);
-				e.simpleUpdate(tpf);
-				break;
-			default:
-				e.simpleUpdate(tpf);
-				break;
-			}
+		for (TickListener tl : tickListeners) {
+			tl.update(tpf);
 		}
+	}
+	
+	/**
+	 * Add a Ticklistener.
+	 * @param tl The ticklistener to add.
+	 */
+	public void attachTickListener(TickListener tl) {
+		tickListeners.add(tl);
+	}
+	
+	/**
+	 * Remove a registered TickListener.
+	 * @param tl The ticklistener to remove.
+	 */
+	public void removeTickListener(TickListener tl) {
+		tickListeners.remove(tl);
 	}
 
 	/**
@@ -147,15 +141,18 @@ public class Main extends SimpleApplication {
 	 * @return the running instance of the game.
 	 */
 	public static Main getInstance() {
-		if (instance == null) instance = new Main();
+		if (instance == null) {
+			instance = new Main();
+		}
 		return instance;
 	}
 	
 	/**
-	 * Getter for the current level.
-	 * @return The current level.
+	 * Get the current game state.
+	 * @return The current game state.
 	 */
-	public Level getLevel() {
-		return level;
+	public GameState getGameState() {
+		if (controller == null) return null;
+		return controller.getGameState();
 	}
 }
