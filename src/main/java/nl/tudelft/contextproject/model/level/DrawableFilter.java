@@ -1,9 +1,9 @@
-package nl.tudelft.contextproject.level;
+package nl.tudelft.contextproject.model.level;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import nl.tudelft.contextproject.Entity;
+import nl.tudelft.contextproject.model.Entity;
 
 /**
  * A class representing a filter for drawing a map.

@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.level;
+package nl.tudelft.contextproject.model.level;
 
 /**
  * Interface for a level factory

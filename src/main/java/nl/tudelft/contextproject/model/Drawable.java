@@ -1,8 +1,7 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
 
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
 /**
@@ -23,13 +22,6 @@ public interface Drawable {
 	 * @param geometry The new geometry.
 	 */
 	void setGeometry(Geometry geometry);
-	
-	/**
-	 * Update method called once per frame.
-	 * This method should update the exact geometry that is returned by {@link #getGeometry()}.
-	 * @param tpf The time between this and the previous frame.
-	 */
-	public default void simpleUpdate(float tpf){ }
 	
 	/**
 	 * Draw the Drawable on a map.

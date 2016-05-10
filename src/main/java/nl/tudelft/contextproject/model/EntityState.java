@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.model;
 
 /**
  * Enum representing the state of an Entity.
