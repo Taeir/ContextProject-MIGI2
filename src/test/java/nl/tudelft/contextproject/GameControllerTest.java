@@ -13,37 +13,30 @@ import java.util.List;
 import java.util.Set;
 
 import com.jme3.light.Light;
-import com.jme3.light.LightList;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import nl.tudelft.contextproject.level.Level;
+import nl.tudelft.contextproject.level.LevelFactory;
 import nl.tudelft.contextproject.level.MazeTile;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for the Main class.
+ * Tests for the GameController class.
  */
-public class MainTest {
+public class GameControllerTest extends ControllerTest {
+	private GameController controller;
+	private Main main;
+	private Level level;
 	
-	/**
-	 * Setup method for this test suit.
-	 * Sets the instance to a fresh instance.
-	 */
 	@Before
 	public void setUp() {
-		Main.setInstance(null);
-	}
-	
-	/**
-	 * Check if start is called when starting the game.
-	 */
-	@Test
-	public void testMain() {
-		Main mMock = mock(Main.class);
-		Main.setInstance(mMock);
-	    Main.main(new String[0]);
-        verify(mMock, times(1)).start();
+		main = mock(Main.class);
+		LevelFactory factory = mock(LevelFactory.class);
+		level = mock(Level.class);
+		
+		controller = new GameController(main, factory);
+		controller.setLevel(level);
 	}
 	
 	/**
@@ -53,8 +46,8 @@ public class MainTest {
 	public void testSimpleUpdatePlayer() {
 		VRPlayer player = mock(VRPlayer.class);
 		Level level = new Level(null, player, new HashSet<Entity>(), null);
-		Main.getInstance().setLevel(level);
-        Main.getInstance().simpleUpdate(0.5f);
+		controller.setLevel(level);
+        controller.update(0.5f);
         verify(player, times(1)).simpleUpdate(0.5f);
 	}
 	
@@ -74,9 +67,9 @@ public class MainTest {
 		set.add(eMock);
 		Level level = new Level(null, null, set, null);
 		
-		Main.getInstance().setLevel(level);
-		Main.getInstance().setRootNode(rn);
-        Main.getInstance().updateEntities(0.5f);
+		controller.setLevel(level);
+		controller.setRootNode(rn);
+        controller.updateEntities(0.5f);
         
         verify(eMock, times(1)).simpleUpdate(0.5f);
         verify(eMock, times(1)).setState(EntityState.ALIVE);
@@ -100,9 +93,9 @@ public class MainTest {
 		set.add(eMock);
 		Level level = new Level(null, null, set, null);
 		
-		Main.getInstance().setLevel(level);
-		Main.getInstance().setRootNode(rn);
-        Main.getInstance().updateEntities(0.5f);
+		controller.setLevel(level);
+		controller.setRootNode(rn);
+        controller.updateEntities(0.5f);
         
         verify(eMock, times(0)).simpleUpdate(0.5f);
         
@@ -123,8 +116,8 @@ public class MainTest {
 		set.add(eMock);
 		Level level = new Level(null, null, set, null);
 		
-		Main.getInstance().setLevel(level);
-        Main.getInstance().updateEntities(0.5f);
+		controller.setLevel(level);
+        controller.updateEntities(0.5f);
         
         verify(eMock, times(1)).simpleUpdate(0.5f);
 	}
@@ -135,27 +128,8 @@ public class MainTest {
 	@Test
 	public void testLevel() {
 		Level level = new Level(null, null, null, null);
-		Main.getInstance().setLevel(level);
-		assertEquals(level, Main.getInstance().getLevel());
-	}
-	
-	/**
-	 * Test if clearing a level clears correctly.
-	 */
-	@Test
-	public void testClearLevel() {
-		Node rn = mock(Node.class);
-		Light lMock = mock(Light.class);
-		
-		LightList list = new LightList(rn);
-		list.add(lMock);
-		when(rn.getLocalLightList()).thenReturn(list);
-		
-		Main.getInstance().setRootNode(rn);		
-        Main.getInstance().clearLevel();
-        
-        verify(rn, times(1)).detachAllChildren();
-        verify(rn, times(1)).removeLight(lMock);
+		controller.setLevel(level);
+		assertEquals(level, controller.getLevel());
 	}
 	
 	/**
@@ -163,8 +137,8 @@ public class MainTest {
 	 */
 	@Test (expected = IllegalStateException.class)
 	public void testAttachLevelNull() {
-		Main.getInstance().setLevel(null);
-		Main.getInstance().attachLevel();
+		controller.setLevel(null);
+		controller.attachLevel();
 	}
 	
 	/**
@@ -188,13 +162,23 @@ public class MainTest {
 		MazeTile[][] tiles = {{t, null, t}, {t, t, t}};
 		Level level = new Level(tiles, player, null, lights);
 		
-		Main.getInstance().setRootNode(rn);
-		Main.getInstance().setLevel(level);
-		Main.getInstance().attachLevel();
+		controller.setRootNode(rn);
+		controller.setLevel(level);
+		controller.attachLevel();
         
         verify(rn, times(5)).attachChild(geom);
         verify(rn, times(1)).attachChild(playerGeom);
         verify(rn, times(2)).addLight(lMock);
+	}
+
+	@Override
+	public Controller getController() {
+		return controller;
+	}
+
+	@Override
+	public Main getMain() {
+		return main;
 	}
 
 

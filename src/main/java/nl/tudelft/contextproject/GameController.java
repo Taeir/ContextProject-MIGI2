@@ -8,6 +8,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.Light;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.level.DrawableFilter;
 import nl.tudelft.contextproject.level.Level;

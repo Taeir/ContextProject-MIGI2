@@ -51,8 +51,13 @@ public class Main extends SimpleApplication {
 	 * Sets the rootNode of Main to a new Node.
 	 * @param rn The new node to replace the rootNode.
 	 */
-	void setRootNode(Node rn) {
+	protected void setRootNode(Node rn) {
 		rootNode = rn;
+	}
+
+
+	protected void setGuiNode(Node gn) {
+		guiNode = gn;
 	}
 
 	/**
@@ -89,7 +94,5 @@ public class Main extends SimpleApplication {
 	public static Main getInstance() {
 		if (instance == null) instance = new Main();
 		return instance;
-	}
-	
-	
+	}	
 }
