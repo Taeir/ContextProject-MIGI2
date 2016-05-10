@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.audio;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.logging.Log;
 
 import org.mockito.Mockito;
+
+import lombok.SneakyThrows;
 
 /**
  * Class for playing/managing background music.
@@ -44,9 +47,10 @@ public final class BackgroundMusic {
 	 * 
 	 * This method should only be called once.
 	 */
+	@SneakyThrows(URISyntaxException.class)
 	private final void loadMusic() {
 		//Get a list of all music files available.
-		File folder = new File("Sound", "Music");
+		File folder = new File(getClass().getResource("/Sound/Music/").toURI());
 		File[] files = folder.listFiles();
 		if (files == null) {
 			Log.getLog("Audio").warning("No music could be found!");
@@ -113,7 +117,7 @@ public final class BackgroundMusic {
 		}
 		
 		//Get the next song
-		int index = currentIndex + 1 % music.size();
+		int index = (currentIndex + 1) % music.size();
 		String nextName = music.get(index);
 		
 		//Create the AudioNode
