@@ -24,13 +24,6 @@ public interface Drawable {
 	void setGeometry(Geometry geometry);
 	
 	/**
-	 * Update method called once per frame.
-	 * This method should update the exact geometry that is returned by {@link #getGeometry()}.
-	 * @param tpf The time between this and the previous frame.
-	 */
-	public default void simpleUpdate(float tpf){ }
-	
-	/**
 	 * Draw the Drawable on a map.
 	 * @param g The Graphics2D to draw on.
 	 * @param resolution The resolution of a single tile on the map.

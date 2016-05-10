@@ -66,7 +66,7 @@ public class RandomLevelFactory implements LevelFactory {
 							}
 
 							@Override
-							public void simpleUpdate(float tpf) {
+							public void update(float tpf) {
 								if (rand.nextFloat() < .001) setState(EntityState.DEAD);
 							}
 

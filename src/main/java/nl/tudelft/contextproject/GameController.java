@@ -8,8 +8,6 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.Light;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
-
 import nl.tudelft.contextproject.level.DrawableFilter;
 import nl.tudelft.contextproject.level.Level;
 import nl.tudelft.contextproject.level.LevelFactory;
@@ -69,7 +67,7 @@ public class GameController extends Controller {
 				return null;
 			}
 			@Override
-			public void simpleUpdate(float tpf) { }
+			public void update(float tpf) { }
 
 			@Override
 			public void setGeometry(Geometry geometry) { }
@@ -107,7 +105,7 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
-		level.getPlayer().simpleUpdate(tpf);
+		level.getPlayer().update(tpf);
 		updateEntities(tpf);
 	}
 
@@ -128,10 +126,10 @@ public class GameController extends Controller {
 			case NEW:
 				addDrawable(e);
 				e.setState(EntityState.ALIVE);
-				e.simpleUpdate(tpf);
+				e.update(tpf);
 				break;
 			default:
-				e.simpleUpdate(tpf);
+				e.update(tpf);
 				break;
 			}
 		}

@@ -38,7 +38,7 @@ public class VRPlayerTest extends EntityTest {
 	public void testSimpleUpdate() {
 		Geometry mockedGeometry = mock(Geometry.class);
 		player.setGeometry(mockedGeometry);
-		player.simpleUpdate(0.f);
+		player.update(0.f);
 		verify(mockedGeometry, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
 

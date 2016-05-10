@@ -48,7 +48,7 @@ public class GameControllerTest extends ControllerTest {
 		Level level = new Level(null, player, new HashSet<Entity>(), null);
 		controller.setLevel(level);
         controller.update(0.5f);
-        verify(player, times(1)).simpleUpdate(0.5f);
+        verify(player, times(1)).update(0.5f);
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class GameControllerTest extends ControllerTest {
 		controller.setRootNode(rn);
         controller.updateEntities(0.5f);
         
-        verify(eMock, times(1)).simpleUpdate(0.5f);
+        verify(eMock, times(1)).update(0.5f);
         verify(eMock, times(1)).setState(EntityState.ALIVE);
         
         verify(rn, times(1)).attachChild(geom);        
@@ -97,7 +97,7 @@ public class GameControllerTest extends ControllerTest {
 		controller.setRootNode(rn);
         controller.updateEntities(0.5f);
         
-        verify(eMock, times(0)).simpleUpdate(0.5f);
+        verify(eMock, times(0)).update(0.5f);
         
         verify(rn, times(1)).detachChild(geom); 
         assertFalse(set.contains(eMock));
@@ -119,7 +119,7 @@ public class GameControllerTest extends ControllerTest {
 		controller.setLevel(level);
         controller.updateEntities(0.5f);
         
-        verify(eMock, times(1)).simpleUpdate(0.5f);
+        verify(eMock, times(1)).update(0.5f);
 	}
 	
 	/**

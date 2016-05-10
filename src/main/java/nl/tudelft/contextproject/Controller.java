@@ -41,6 +41,10 @@ public abstract class Controller extends AbstractAppState {
 	@Override
 	public abstract void update(float tpf);
 	
+	/**
+	 * Get the gamestate of this controller.
+	 * @return The gamestate of this controller.
+	 */
 	public abstract GameState getGameState();
 	
 	/**
@@ -110,8 +114,22 @@ public abstract class Controller extends AbstractAppState {
 		inputManager.addListener(listener, mappingNames);
 	}
 	
+	/**
+	 * Method used for testing.
+	 * Sets the rootNode of Main to a new Node.
+	 * @param rn The new node to replace the rootNode.
+	 */
 	protected void setRootNode(Node rn) {
-		this.rootNode = rn;
+		rootNode = rn;
+	}
+
+	/**
+	 * Method used for testing.
+	 * Sets the guiNode of Main to a new Node.
+	 * @param gn The new node to replace the guiNode.
+	 */
+	protected void setGuiNode(Node gn) {
+		guiNode = gn;
 	}
 	
 	@Override

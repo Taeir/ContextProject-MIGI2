@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.SimpleApplication;
@@ -18,6 +19,8 @@ public class Main extends SimpleApplication {
 	
 	private static Main instance;
 	private Controller controller;
+
+	private List<TickListener> tickListeners;
 	
 	/**
 	 * Method used for testing.
@@ -55,7 +58,11 @@ public class Main extends SimpleApplication {
 		rootNode = rn;
 	}
 
-
+	/**
+	 * Method used for testing.
+	 * Sets the guiNode of Main to a new Node.
+	 * @param gn The new node to replace the guiNode.
+	 */
 	protected void setGuiNode(Node gn) {
 		guiNode = gn;
 	}
@@ -73,6 +80,7 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
+		tickListeners = new LinkedList<>();
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
 		
@@ -86,6 +94,29 @@ public class Main extends SimpleApplication {
 	private void setupControlMappings() {
 		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
+	
+	@Override
+	public void simpleUpdate(float tpf) {
+		for (TickListener tl : tickListeners) {
+			tl.update(tpf);
+		}
+	}
+	
+	/**
+	 * Add a Ticklistener.
+	 * @param tl The ticklistener to add.
+	 */
+	public void attachTickListener(TickListener tl) {
+		tickListeners.add(tl);
+	}
+	
+	/**
+	 * Remove a registered TickListener.
+	 * @param tl The ticklistener to remove.
+	 */
+	public void removeTickListener(TickListener tl) {
+		tickListeners.remove(tl);
+	}
 
 	/**
 	 * Return the singleton instance of the game.
@@ -98,6 +129,10 @@ public class Main extends SimpleApplication {
 		return instance;
 	}
 	
+	/**
+	 * Get the current game state.
+	 * @return The current game state.
+	 */
 	public GameState getGameState() {
 		if (controller == null) return null;
 		return controller.getGameState();

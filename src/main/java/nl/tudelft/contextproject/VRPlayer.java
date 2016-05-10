@@ -30,9 +30,9 @@ public class VRPlayer extends Entity {
 		geometry.setMaterial(mat);
 		return geometry;
 	}
-
+	
 	@Override
-	public void simpleUpdate(float tdf) {
+	public void update(float tdf) {
 		geometry.move(1 * tdf, 0, 0);
 	}
 

@@ -4,7 +4,7 @@ package nl.tudelft.contextproject;
  * Abstract parent class for all entities.
  * All entities have a state and are Drawable.
  */
-public abstract class Entity implements Drawable {
+public abstract class Entity implements Drawable, TickListener {
 	private EntityState state = EntityState.NEW;
 
 	/**
