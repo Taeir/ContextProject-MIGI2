@@ -9,10 +9,10 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
-import nl.tudelft.contextproject.level.DrawableFilter;
+//import nl.tudelft.contextproject.level.DrawableFilter;
 import nl.tudelft.contextproject.level.Level;
 import nl.tudelft.contextproject.level.LevelFactory;
-import nl.tudelft.contextproject.level.MapBuilder;
+//import nl.tudelft.contextproject.level.MapBuilder;
 import nl.tudelft.contextproject.level.RandomLevelFactory;
 
 /**
@@ -52,26 +52,26 @@ public class Main extends SimpleApplication {
 	@Override
 	public void simpleInitApp() {
 		getFlyByCamera().setMoveSpeed(50);
-		levelFactory = new RandomLevelFactory(100, 100);
+		levelFactory = new RandomLevelFactory(10, 10);
 		setLevel(levelFactory.generateRandom());
 		attachLevel();
 		
-		/* Temp code*/
-		MapBuilder.setLevel(level);
-		DrawableFilter filter = new DrawableFilter(false);
-		filter.addEntity(level.getPlayer());
-		filter.addEntity(new Entity() {
-			@Override
-			public Geometry getGeometry() {
-				 return null;
-			}
-			@Override
-			public void simpleUpdate(float tpf) { }
-
-			@Override
-			public void setGeometry(Geometry geometry) { }
-		});
-		MapBuilder.export("hello.png", filter, 16);
+//		/* Temp code*/
+//		MapBuilder.setLevel(level);
+//		DrawableFilter filter = new DrawableFilter(false);
+//		filter.addEntity(level.getPlayer());
+//		filter.addEntity(new Entity() {
+//			@Override
+//			public Geometry getGeometry() {
+//				 return null;
+//			}
+//			@Override
+//			public void simpleUpdate(float tpf) { }
+//
+//			@Override
+//			public void setGeometry(Geometry geometry) { }
+//		});
+//		MapBuilder.export("hello.png", filter, 16);
 	}
 
 	/**
@@ -80,17 +80,17 @@ public class Main extends SimpleApplication {
 	 */
 	public void attachLevel() {
 		if (level == null) throw new IllegalStateException("No level set!");
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					Geometry g = level.getTile(x, y).getGeometry();
+		for (int x = 0; x < level.getRooms()[0].getWidth(); x++) {
+			for (int y = 0; y < level.getRooms()[0].getHeight(); y++) {
+				if (level.getRooms()[0].isTileAtPosition(x, y)) {
+					Geometry g = level.getRooms()[0].getTile(x, y).getGeometry();
 					rootNode.attachChild(g);
 				}
 			}
 		}
 		rootNode.attachChild(level.getPlayer().getGeometry());
 		
-		for (Light l : level.getLights()) {
+		for (Light l : level.getRooms()[0].getLights()) {
 			rootNode.addLight(l);
 		}
 		AmbientLight al = new AmbientLight();
@@ -128,7 +128,7 @@ public class Main extends SimpleApplication {
 	 * @param tpf The time per frame for this update.
 	 */
 	void updateEntities(float tpf) {
-		for (Iterator<Entity> i = level.getEntities().iterator(); i.hasNext();) {
+		for (Iterator<Entity> i = level.getRooms()[0].getEntities().iterator(); i.hasNext();) {
 			Entity e = i.next();
 		    EntityState state = e.getState();
 			switch (state) {

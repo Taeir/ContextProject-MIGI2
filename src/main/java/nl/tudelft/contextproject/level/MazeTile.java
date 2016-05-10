@@ -15,7 +15,6 @@ import nl.tudelft.contextproject.Main;
  * Class representing a tile in the maze.
  */
 public class MazeTile implements Drawable {
-	private boolean explored;
 	private Geometry geom;
 	private Vector2f position;
 	private int height;
@@ -27,7 +26,6 @@ public class MazeTile implements Drawable {
 	 * @param y The y-coordinate of this tile.
 	 */
 	public MazeTile(int x, int y) {
-		this.explored = false;
 		this.position = new Vector2f(x, y);
 		this.height = MAX_HEIGHT;
 	}
@@ -71,25 +69,6 @@ public class MazeTile implements Drawable {
 		int y = (int) geom.getLocalTranslation().y * resolution;
 		g.fillRect(x, y, resolution, resolution);
 		
-	}
-
-	/**
-	 * Check if this tile is explored.
-	 * @return True when explored, else otherwise.
-	 */
-	public boolean isExplored() {
-		return explored;
-	}
-	
-	/**
-	 * Set the explored value for this tile.
-	 * @param newValue The new explored value.
-	 * @return The old value associated with this field.
-	 */
-	public boolean setExplored(boolean newValue) {
-		boolean res = explored;
-		explored = newValue;
-		return res;
 	}
 
 	@Override

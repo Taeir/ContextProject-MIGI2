@@ -7,15 +7,10 @@ import java.util.Set;
 
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Entity;
-import nl.tudelft.contextproject.EntityState;
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.VRPlayer;
 
 /**
@@ -28,6 +23,7 @@ public class RandomLevelFactory implements LevelFactory {
 	private int height;
 	private int[][] preCreate;
 	private MazeTile[][] mazeTiles;
+	private Room[] rooms;
 	
 	/**
 	 * Constructor for the random level factory.
@@ -103,7 +99,11 @@ public class RandomLevelFactory implements LevelFactory {
 		p.setColor(ColorRGBA.randomColor());
 		p.setRadius(20);
 		lights.add(p);
-		return new Level(mazeTiles, new VRPlayer(), entities, lights);
+		lights.clear();
+		entities.clear();
+		rooms = new Room[1];
+		rooms[0] = new Room(mazeTiles, entities, lights);
+		return new Level(new VRPlayer(), rooms);
 	}
 
 }
