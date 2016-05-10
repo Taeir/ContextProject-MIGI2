@@ -74,7 +74,7 @@ public final class BackgroundMusic {
 	 * @param testing
 	 * 	disable or enable testing mode
 	 */
-	void setTesting(boolean testing) {
+	synchronized void setTesting(boolean testing) {
 		this.testing = testing;
 	}
 	
