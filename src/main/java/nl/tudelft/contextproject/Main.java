@@ -132,8 +132,8 @@ public class Main extends SimpleApplication {
 		updateEntities(tpf);
 		
 		//Update location for 3D audio
-		listener.setLocation(getCamera().getLocation());
-		listener.setRotation(getCamera().getRotation());
+		getListener().setLocation(getCamera().getLocation());
+		getListener().setRotation(getCamera().getRotation());
 		
 		//Update BackgroundMusic
 		BackgroundMusic.getInstance().update(tpf);
