@@ -156,4 +156,14 @@ public class GameController extends Controller {
 	public void setLevel(Level level) {
 		game.setLevel(level);
 	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		cleanup();
+		this.game = game;
+		attachLevel();
+	}
 }
