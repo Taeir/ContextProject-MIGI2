@@ -19,7 +19,7 @@ import com.jme3.scene.Spatial;
 
 /**
  * Temporary class for examining FP control schemes and collisions.
- * Copy write rights to jMonkey tutorial.
+ * Copy write rights to jMonkey tutorial. Please use this class to understand collisions.
  */
 public class HelloCollision extends SimpleApplication implements ActionListener {
 
