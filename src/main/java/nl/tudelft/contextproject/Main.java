@@ -52,7 +52,9 @@ public class Main extends SimpleApplication {
 		levelFactory = new RandomLevelFactory(10, 10);
 		setLevel(levelFactory.generateRandom());
 		attachLevel();
-		
+		Key keys =  new Key();
+		keys.getGeometry().move(0, 0, 1);
+		rootNode.attachChild(keys.getGeometry());
 		/* Temp code*/
 		MapBuilder.setLevel(level);
 		DrawableFilter filter = new DrawableFilter(false);
