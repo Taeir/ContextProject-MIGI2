@@ -73,7 +73,7 @@ public class Game {
 	 * Sets the current level.
 	 * @param level The new level.
 	 */
-	protected void setLevel(Level level) {
+	public void setLevel(Level level) {
 		this.level = level;
 	}
 }

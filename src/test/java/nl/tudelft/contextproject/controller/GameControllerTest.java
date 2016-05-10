@@ -16,7 +16,6 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
 import nl.tudelft.contextproject.model.level.Level;
-import nl.tudelft.contextproject.model.level.LevelFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,14 +27,16 @@ public class GameControllerTest extends ControllerTest {
 	private Main main;
 	private Level level;
 	
+	/**
+	 * Setup method for the test suit.
+	 * Creates a new instance of the controller for each test.
+	 */
 	@Before
 	public void setUp() {
 		main = mock(Main.class);
-		LevelFactory factory = mock(LevelFactory.class);
 		level = mock(Level.class);
 		
-		controller = new GameController(main, factory);
-		controller.setLevel(level);
+		controller = new GameController(main, level);
 	}
 	
 //	/**
@@ -88,7 +89,7 @@ public class GameControllerTest extends ControllerTest {
 		
 		list.add(eMock);
 		
-		controller.setLevel(level);
+		controller.getGame().setLevel(level);
 		controller.setRootNode(rn);
         controller.updateEntities(0.5f);
         
@@ -109,7 +110,7 @@ public class GameControllerTest extends ControllerTest {
 		when(eMock.getState()).thenReturn(EntityState.ALIVE);
 		
 		list.add(eMock);
-		controller.setLevel(level);
+		controller.getGame().setLevel(level);
         controller.updateEntities(0.5f);
         
         verify(eMock, times(1)).update(0.5f);
@@ -121,7 +122,7 @@ public class GameControllerTest extends ControllerTest {
 	@Test
 	public void testLevel() {
 		Level level = new Level(null);
-		controller.setLevel(level);
+		controller.getGame().setLevel(level);
 		assertEquals(level, controller.getLevel());
 	}
 	
@@ -130,7 +131,7 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test (expected = IllegalStateException.class)
 	public void testAttachLevelNull() {
-		controller.setLevel(null);
+		controller.getGame().setLevel(null);
 		controller.attachLevel();
 	}
 	

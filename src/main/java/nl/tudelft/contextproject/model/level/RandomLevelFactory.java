@@ -33,7 +33,7 @@ public class RandomLevelFactory implements LevelFactory {
 		this.height = height;
 		this.width = width;
 	}
-
+	
 	public void smoothMap(int minNeighbours) {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {

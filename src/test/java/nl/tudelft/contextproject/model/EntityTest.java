@@ -4,10 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import nl.tudelft.contextproject.model.Drawable;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.EntityState;
-
 /**
  * Abstract test class for Entity.
  */

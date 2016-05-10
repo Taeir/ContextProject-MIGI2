@@ -16,7 +16,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Drawable;
 
 import org.junit.Test;
 import org.mockito.exceptions.verification.NoInteractionsWanted;

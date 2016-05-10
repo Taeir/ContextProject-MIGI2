@@ -9,8 +9,6 @@ import static org.mockito.Mockito.verify;
 import com.jme3.scene.Geometry;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.VRPlayer;
 
 import org.junit.Before;
 import org.junit.Test;
