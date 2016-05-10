@@ -32,12 +32,10 @@ public class Main extends SimpleApplication {
 	public boolean setController(Controller c) {
 		if (c != controller) {
 			if (controller != null) {
-				controller.cleanup();
 				stateManager.detach(controller);
 			}
 			controller = c;
 			stateManager.attach(controller);
-			c.initialize(stateManager, this);
 			return true;
 		}
 		return false;
