@@ -12,13 +12,25 @@ import com.jme3.light.Light;
  */
 public class Level {
 	private Room[] rooms;
+	private List<Light> lightList;
 	
 	/**
-	 * Constructor to create a Level with specific mazeTiles.
-	 * @param p The player that is placed in the maze.
+	 * Constructor to create a Level with specific rooms.
+	 * @param rooms An array of rooms to be placed in the level
 	 */
 	public Level(Room[] rooms) {
 		this.rooms = rooms;
+		this.lightList = new LinkedList<>();
+	}
+	
+	/**
+	 * Constructor to create a Level with specific rooms and lights.
+	 * @param rooms An array of rooms to be placed in the level
+	 * @param lights A list of all the lights in the level.
+	 */
+	public Level(Room[] rooms, List<Light> lights) {
+		this.rooms = rooms;
+		this.lightList = lights;
 	}
 
 	/**
@@ -26,13 +38,21 @@ public class Level {
 	 * @return A list with all lights in the scene.
 	 */
 	public List<Light> getLights() {
-		List<Light> lightList = new LinkedList<Light>();
-		for (int i = 0; i < rooms.length; i++) {
-			lightList.addAll(rooms[i].getLights());
-		}
 		return lightList;
 	}
 	
+	/**
+	 * Add a light to the level.
+	 * @param l Light to ad to the level.
+	 */
+	public void addLight(Light l) {
+		lightList.add(l);
+	}
+	
+	/**
+	 * Get all the rooms in this level.
+	 * @return An array of rooms.
+	 */
 	public Room[] getRooms() {
 		return rooms;
 	}

@@ -101,8 +101,8 @@ public class RandomLevelFactory implements LevelFactory {
 		lights.clear();
 		entities.clear();
 		rooms = new Room[1];
-		rooms[0] = new Room(mazeTiles, lights);
-		return new Level(rooms);
+		rooms[0] = new Room(mazeTiles);
+		return new Level(rooms, lights);
 	}
 
 }

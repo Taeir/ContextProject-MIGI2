@@ -15,10 +15,11 @@ import nl.tudelft.contextproject.model.Drawable;
  * Class representing a tile in the maze.
  */
 public class MazeTile implements Drawable {
+	public static final int MAX_HEIGHT = 1;
+	
 	private Geometry geom;
 	private Vector2f position;
 	private int height;
-	public static final int MAX_HEIGHT = 1;
 	
 	/**
 	 * Constructor for a tile in the maze.

@@ -15,7 +15,6 @@ import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
-import nl.tudelft.contextproject.model.level.LevelFactory;
 import nl.tudelft.contextproject.model.level.Room;
 
 /**
@@ -23,17 +22,15 @@ import nl.tudelft.contextproject.model.level.Room;
  */
 public class GameController extends Controller {
 	private Game game;
-	private LevelFactory levelFactory;
 
 	/**
 	 * Constructor for the game controller.
 	 * @param app The Main instance of this game.
-	 * @param levelFactory The factory that creates levels for this game.
+	 * @param level The level for this game.
 	 */
-	public GameController(SimpleApplication app, LevelFactory levelFactory) {
+	public GameController(SimpleApplication app, Level level) {
 		super(app, "GameController");
-		this.levelFactory = levelFactory;
-		game = new Game(levelFactory.generateRandom());
+		game = new Game(level);
 	}
 
 	@Override
@@ -61,23 +58,6 @@ public class GameController extends Controller {
 			}
 		};
 		addInputListener(al, "pause");
-
-		//		/* Temp code*/
-		//		MapBuilder.setLevel(game.getLevel());
-		//		DrawableFilter filter = new DrawableFilter(false);
-		//		filter.addEntity(game.getPlayer());
-		//		filter.addEntity(new Entity() {
-		//			@Override
-		//			public Geometry getGeometry() {
-		//				return null;
-		//			}
-		//			@Override
-		//			public void update(float tpf) { }
-		//
-		//			@Override
-		//			public void setGeometry(Geometry geometry) { }
-		//		});
-		//		MapBuilder.export("hello.png", filter, 16);
 	}
 
 	/**
@@ -87,8 +67,10 @@ public class GameController extends Controller {
 	public void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
+		
 		for (int i = 0; i < level.getRooms().length; i++) {
 			Room room = level.getRooms()[i];
+			
 			for (int x = 0; x < room.getWidth(); x++) {
 				for (int y = 0; y < room.getHeight(); y++) {
 					if (room.isTileAtPosition(x, y)) {
@@ -153,16 +135,20 @@ public class GameController extends Controller {
 		return GameState.RUNNING;
 	}
 
-	public void setLevel(Level level) {
-		game.setLevel(level);
-	}
-
+	/**
+	 * Getter for the current game.
+	 * @return The current game.
+	 */
 	public Game getGame() {
 		return game;
 	}
 
-	public void setGame(Game game) {
-		cleanup();
+	/**
+	 * Method used for testing.
+	 * Set the instance of the game.
+	 * @param game The new game instance.
+	 */
+	protected void setGame(Game game) {
 		this.game = game;
 		attachLevel();
 	}

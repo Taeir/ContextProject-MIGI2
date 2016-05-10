@@ -1,29 +1,37 @@
 package nl.tudelft.contextproject.model.level;
 
 import java.util.List;
-import java.util.Set;
 
 import com.jme3.light.Light;
-
-import nl.tudelft.contextproject.model.Entity;
 
 /**
  * Class to contain rooms.
  */
 public class Room {
     private MazeTile[][] mazeTiles;
-    private List<Light> lightList;
     private boolean explored;
 
     /**
      * Constructor to create a maze with specific mazeTiles.
      * @param maze The set of tiles to include in the maze.
-     * @param entities The list of entities that is present in the maze.
      * @param lights A list with all the lights in the level.
+     * @param level The level to add the lights to.
      */
-    public Room(MazeTile[][] maze, List<Light> lights) {
+    public Room(MazeTile[][] maze, List<Light> lights, Level level) {
         this.mazeTiles = maze;
-        this.lightList = lights;
+        for (Light l : lights) {
+        	level.addLight(l);
+        }
+        this.explored = false;
+    }
+    
+    /**
+     * Simple constructor for a room.
+     * @param maze The collection of MazeTiles in this room.
+     */
+    public Room(MazeTile[][] maze) {
+        this.mazeTiles = maze;
+        this.explored = false;
     }
 
     /**
@@ -61,15 +69,6 @@ public class Room {
     public MazeTile getTile(int x, int y) {
         return mazeTiles[x][y];
     }
-
-    /**
-     * Getter for the lights.
-     * @return A list with all lights in the scene.
-     */
-    public List<Light> getLights() {
-        return lightList;
-    }
-
 
     /**
      * Check if this tile is explored.

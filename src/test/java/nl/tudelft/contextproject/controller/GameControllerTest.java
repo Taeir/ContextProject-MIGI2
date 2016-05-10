@@ -7,23 +7,16 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.jme3.light.Light;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
-import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.LevelFactory;
-import nl.tudelft.contextproject.model.level.MazeTile;
-import nl.tudelft.contextproject.model.level.Room;
-
 import org.junit.Before;
 import org.junit.Test;
 

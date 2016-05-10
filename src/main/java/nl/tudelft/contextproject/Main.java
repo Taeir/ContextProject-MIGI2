@@ -90,7 +90,7 @@ public class Main extends SimpleApplication {
 		getFlyByCamera().setMoveSpeed(50);
 		
 		setupControlMappings();
-		setController(new GameController(this, new RandomLevelFactory(10, 10)));
+		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
 	}
 
 	/**
