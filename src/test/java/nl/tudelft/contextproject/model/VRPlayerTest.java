@@ -46,7 +46,7 @@ public class VRPlayerTest extends EntityTest {
 	@Test
 	public void testSimpleUpdate() {
 		Geometry mockedGeometry = mock(Geometry.class);
-		player.setGeometry(mockedGeometry);
+		player.setSpatial(mockedGeometry);
 		player.update(0.f);
 		verify(mockedGeometry, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
@@ -57,8 +57,8 @@ public class VRPlayerTest extends EntityTest {
 	@Test
 	public void testGetGeometryNotNull() {
 		Geometry mockedGeometry = mock(Geometry.class);
-		player.setGeometry(mockedGeometry);
-		assertEquals(player.getGeometry(), mockedGeometry);
+		player.setSpatial(mockedGeometry);
+		assertEquals(player.getSpatial(), mockedGeometry);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class VRPlayerTest extends EntityTest {
 	@Test
 	public void testGetGeometryNull() {
 		setupGeometryMock();
-		player.getGeometry();
+		player.getSpatial();
 		verify(Main.getInstance(), times(1)).getAssetManager();
 	}
 
@@ -77,7 +77,7 @@ public class VRPlayerTest extends EntityTest {
 	@Test
 	public void testGetSpatielInstance() {
 		setupGeometryMock();
-		assertTrue(player.getSpatial() instanceof CharacterControl);
+		assertTrue(player.getPhysicsObject() instanceof CharacterControl);
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class VRPlayerTest extends EntityTest {
 	@Test
 	public void testGetSpatialCheckFallspeed() {
 		setupGeometryMock();
-		Object ob = player.getSpatial();
+		Object ob = player.getPhysicsObject();
 		if (ob instanceof CharacterControl) {
 			CharacterControl playerControl = (CharacterControl) ob;
 			assertEquals(playerControl.getFallSpeed(), VRPlayer.FALL_SPEED, EPSILON);
@@ -101,7 +101,7 @@ public class VRPlayerTest extends EntityTest {
 	@Test
 	public void testGetSpatialCheckJumpSpeed() {
 		setupGeometryMock();
-		Object ob = player.getSpatial();
+		Object ob = player.getPhysicsObject();
 		if (ob instanceof CharacterControl) {
 			CharacterControl playerControl = (CharacterControl) ob;
 			assertEquals(playerControl.getJumpSpeed(), VRPlayer.JUMP_SPEED, EPSILON);
@@ -116,7 +116,7 @@ public class VRPlayerTest extends EntityTest {
 	@Test
 	public void testGetSpatialCheckGravity() {
 		setupGeometryMock();
-		Object ob = player.getSpatial();
+		Object ob = player.getPhysicsObject();
 		if (ob instanceof CharacterControl) {
 			CharacterControl playerControl = (CharacterControl) ob;
 			assertEquals(playerControl.getGravity(), VRPlayer.PLAYER_GRAVITY, EPSILON);

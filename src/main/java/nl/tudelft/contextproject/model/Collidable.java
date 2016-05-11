@@ -13,6 +13,6 @@ public interface Collidable {
 	 * @return
 	 * 		an object that implements PhysicsControl.
 	 */
-	public Object getSpatial();
+	public Object getPhysicsObject();
 
 }

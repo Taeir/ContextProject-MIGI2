@@ -8,6 +8,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Main;
@@ -16,7 +17,6 @@ import nl.tudelft.contextproject.Main;
  * Class representing the player wearing the VR headset.
  */
 public class VRPlayer extends Entity {
-
 	//Physics interaction constants
 	public static final int JUMP_SPEED = 20;
 	public static final int FALL_SPEED = 30;
@@ -28,7 +28,7 @@ public class VRPlayer extends Entity {
 	public static final float PLAYER_HEIGHT = 6f;
 	public static final int PLAYER_AXIS = 1;
 
-	private Geometry geometry;
+	private Spatial spatial;
 
 	/**
 	 * Constructor for a default player.
@@ -39,24 +39,24 @@ public class VRPlayer extends Entity {
 	}
 
 	@Override
-	public Geometry getGeometry() {		
-		if (geometry != null) return geometry;
+	public Spatial getSpatial() {
+		if (spatial != null) return spatial;
 		Sphere b = new Sphere(10, 10, .2f);
-		geometry = new Geometry("blue cube", b);
+		spatial = new Geometry("blue cube", b);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.Red);
-		geometry.setMaterial(mat);
-		return geometry;
+		spatial.setMaterial(mat);
+		return spatial;
 	}
 
 	@Override
 	public void update(float tdf) {
-		geometry.move(1 * tdf, 0, 0);
+		spatial.move(1 * tdf, 0, 0);
 	}
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = geometry.getLocalTranslation();
+		Vector3f trans = spatial.getLocalTranslation();
 		int x = (int) trans.x * resolution;
 		int y = (int) trans.y * resolution;
 		int width = resolution / 2;
@@ -66,8 +66,8 @@ public class VRPlayer extends Entity {
 	}
 
 	@Override
-	public void setGeometry(Geometry geometry) {
-		this.geometry = geometry;
+	public void setSpatial(Spatial spatial) {
+		this.spatial = spatial;
 	}
 
 	/**
@@ -77,9 +77,9 @@ public class VRPlayer extends Entity {
 	 * 				player physics object
 	 */
 	@Override
-	public Object getSpatial() {
-		if (geometry == null) {
-			this.getGeometry();
+	public Object getPhysicsObject() {
+		if (spatial == null) {
+			this.getSpatial();
 		}
 		
 		//create a shape that implements PhysicsControl
@@ -92,7 +92,7 @@ public class VRPlayer extends Entity {
 		player.setGravity(PLAYER_GRAVITY);
 
 		//set physics location of player
-		player.setPhysicsLocation(geometry.getLocalTranslation());
+		player.setPhysicsLocation(spatial.getLocalTranslation());
 
 		return player;
 	}

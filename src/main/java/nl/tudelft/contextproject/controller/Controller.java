@@ -76,8 +76,8 @@ public abstract class Controller extends AbstractAppState {
 	 * @param d The drawable to add.
 	 */
 	public void addDrawable(Drawable d) {
-		rootNode.attachChild(d.getGeometry());
 		physicsEnvironment.getPhysicsSpace().add(d.getSpatial());
+		rootNode.attachChild(d.getSpatial());
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public abstract class Controller extends AbstractAppState {
 	 * @return True when the Drawable was removed, false otherwise.
 	 */
 	public boolean removeDrawable(Drawable d) {
-		return rootNode.detachChild(d.getGeometry()) != -1;
+		return rootNode.detachChild(d.getSpatial()) != -1;
 	}
 	
 	/**
