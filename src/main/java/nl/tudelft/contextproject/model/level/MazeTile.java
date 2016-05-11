@@ -78,6 +78,10 @@ public class MazeTile implements Drawable {
 
 	@Override
 	public Object getPhysicsObject() {
+		if (spatial == null) {
+			this.getSpatial();
+		}
+		
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(spatial);
 		return new RigidBodyControl(sceneShape, 0);
 	}

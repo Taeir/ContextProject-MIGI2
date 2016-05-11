@@ -6,6 +6,8 @@ import static org.mockito.Mockito.*;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.light.Light;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -66,6 +68,11 @@ public abstract class ControllerTest {
 		Node rn = mock(Node.class);
 		c.setRootNode(rn);
 		Geometry geom = mock(Geometry.class);
+		BulletAppState phe = mock(BulletAppState.class);
+		c.setPhysicsEnvironmentNode(phe);
+		PhysicsSpace phs = mock(PhysicsSpace.class);
+		
+		when(phe.getPhysicsSpace()).thenReturn(phs);
 		
 		Drawable d = new Drawable() {
 			@Override

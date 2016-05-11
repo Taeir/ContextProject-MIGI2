@@ -43,16 +43,16 @@ public abstract class Controller extends AbstractAppState {
 		main.getGuiNode().attachChild(guiNode);
 		main.getStateManager().attach(physicsEnvironment);
 	}
-	
+
 	@Override
 	public abstract void update(float tpf);
-	
+
 	/**
 	 * Get the gamestate of this controller.
 	 * @return The gamestate of this controller.
 	 */
 	public abstract GameState getGameState();
-	
+
 	/**
 	 * Add an element to the GUI.
 	 * @param s A Spatial to add to the GUI.
@@ -60,7 +60,7 @@ public abstract class Controller extends AbstractAppState {
 	public void addGuiElement(Spatial s) {
 		guiNode.attachChild(s);
 	}
-	
+
 	/**
 	 * Removes an element from the GUI.
 	 * @param s The Spatial to remove.
@@ -69,7 +69,7 @@ public abstract class Controller extends AbstractAppState {
 	public boolean removeGuiElement(Spatial s) {
 		return guiNode.detachChild(s) != -1;
 	}
-	
+
 	/**
 	 * Add a Drawable to the renderer.
 	 * Drawables should also have a collision
@@ -79,7 +79,7 @@ public abstract class Controller extends AbstractAppState {
 		physicsEnvironment.getPhysicsSpace().add(d.getSpatial());
 		rootNode.attachChild(d.getSpatial());
 	}
-	
+
 	/**
 	 * Removes a Drawable from the renderer.
 	 * @param d The Drawable to remove.
@@ -88,7 +88,7 @@ public abstract class Controller extends AbstractAppState {
 	public boolean removeDrawable(Drawable d) {
 		return rootNode.detachChild(d.getSpatial()) != -1;
 	}
-	
+
 	/**
 	 * Add a light to the scene.
 	 * @param l The light to add.
@@ -96,7 +96,7 @@ public abstract class Controller extends AbstractAppState {
 	public void addLight(Light l) {
 		rootNode.addLight(l);
 	}
-	
+
 	/**
 	 * Removes the specified light from the scene.
 	 * @param l The light to remove.
@@ -104,7 +104,7 @@ public abstract class Controller extends AbstractAppState {
 	public void removeLight(Light l) {
 		rootNode.removeLight(l);
 	}
-	
+
 	/**
 	 * Remove the specified listener form the input manager.
 	 * @param listener The listener to remove.
@@ -112,7 +112,7 @@ public abstract class Controller extends AbstractAppState {
 	public void removeInputListener(InputListener listener) {
 		inputManager.removeListener(listener);
 	}
-	
+
 	/**
 	 * Add a listener to the specified mappings.
 	 * @param listener The listener to add.
@@ -121,7 +121,7 @@ public abstract class Controller extends AbstractAppState {
 	public void addInputListener(InputListener listener, String... mappingNames) {
 		inputManager.addListener(listener, mappingNames);
 	}
-	
+
 	/**
 	 * Method used for testing.
 	 * Sets the rootNode of Main to a new Node.
@@ -139,7 +139,16 @@ public abstract class Controller extends AbstractAppState {
 	protected void setGuiNode(Node gn) {
 		guiNode = gn;
 	}
-	
+
+	/**
+	 * Set the physic environment.
+	 * @param phe
+	 * 				A bullet app state.
+	 */
+	protected void setPhysicsEnvironmentNode(BulletAppState phe) {
+		physicsEnvironment = phe;
+	}
+
 	@Override
 	public void cleanup() {
 		super.cleanup();
