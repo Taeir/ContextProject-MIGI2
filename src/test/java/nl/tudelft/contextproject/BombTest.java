@@ -1,50 +1,83 @@
 package nl.tudelft.contextproject;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract test class for bomb.
+ * Test class for the Bomb class.
  */
-public abstract class BombTest extends EntityTest{
-	
+public class BombTest extends EntityTest {
 	private Bomb bomb;
-	@Before
-	public Drawable getDrawable() {
-		return getBomb();
+
+	@Override
+	public Entity getEntity() {
+		return new Bomb();
 	}
 	
 	/**
-	 * Getter for a specific instance of bomb.
-	 * @return an bomb to test with.
+	 * Setup method.
+	 * Creates a fresh Bomb for every test.
 	 */
-	public abstract Bomb getBomb();
+	@Before
+	public void setUp() {
+		setupGeometryMock();
+		bomb = new Bomb();
+	}
 
 	/**
-	 * create a new (clean) bomb to test with.
-	 */
-	public void setupbomb() {
-		bomb = getBomb();
-	}
-	
-	/**
-	 * Test if the initial state of an bomb is NEW.
+	 * Test if updating the Bomb makes it move by 0.
 	 */
 	@Test
-	public void testInitialState() {
-		setupbomb();
-		assertEquals(bomb.getState(), EntityState.NEW);
+	public void testSimpleUpdate() {
+		Geometry mockedGeometry = mock(Geometry.class);
+		bomb.setGeometry(mockedGeometry);
+		bomb.simpleUpdate(0.f);
+		verify(mockedGeometry, times(1)).move(0, 0, 0);
 	}
-	
+
 	/**
-	 * Test if setting a new state changes the state.
+	 * Test getGeometry().
 	 */
 	@Test
-	public void testSetState() {
-		setupbomb();
-		bomb.setState(EntityState.ALIVE);
-		assertEquals(bomb.getState(), EntityState.ALIVE);
+	public void testGetGeometryNotNull() {
+		Geometry mockedGeometry = mock(Geometry.class);
+		bomb.setGeometry(mockedGeometry);
+		assertEquals(bomb.getGeometry(), mockedGeometry);
 	}
+	/**
+	 * Test getGeometry().
+	 */
+	@Test
+	public void testGetGeometry() {
+		Box cube1Mesh = new Box( 1f,1f,1f);
+		Geometry geometry = new Geometry("dink", cube1Mesh); 
+		bomb.setGeometry(geometry);
+		assertEquals(bomb.getGeometry(), geometry);
+	}
+	/**
+	 * Test getSpatial().
+	 */
+	@Test
+	public void testGetSpatialNotNull(){
+		Spatial mockedSpatial = mock(Spatial.class);
+		bomb.setSpatial(mockedSpatial);
+		assertEquals(bomb.getSpatial(), mockedSpatial);
+	}
+
+	@Override
+	public Drawable getDrawable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }
