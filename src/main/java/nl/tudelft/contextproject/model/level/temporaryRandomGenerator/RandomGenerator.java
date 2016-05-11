@@ -5,8 +5,9 @@ import nl.tudelft.contextproject.util.Size;
 import java.util.ArrayList;
 
 public class RandomGenerator {
-    private static final int MAX_HEIGHT = 100;
-    private static final int MAX_WIDTH = 100;
+    private static final int MAX_HEIGHT = 50;
+    private static final int MAX_WIDTH = 50;
+    private static final int MAX_ATTEMPTS = 10;
 
     public static void makeMeSomeRoomsForTesting() {
         ArrayList<GeneratorRoom> rooms = create(5, false);
@@ -31,10 +32,14 @@ public class RandomGenerator {
             throw new IllegalArgumentException("You are requesting more rooms than there are.");
         }
         for (int i = 0; i < amount; i++) {
+            int attempts = 0;
             boolean success = false;
             Size rSize = getRandomSizes(sizes, allowDuplicates);
             GeneratorRoom newRoom = null;
-            while (!success) {
+            if (rSize.getWidth() >= MAX_WIDTH || rSize.getHeight() >= MAX_HEIGHT) {
+                throw new IllegalArgumentException("It is impossible for this level to fit in your map size.");
+            }
+            while (!success && attempts < MAX_ATTEMPTS) {
                 success = true;
                 int xCoord = GeneratorHelper.getRandom(0, MAX_WIDTH - rSize.getWidth());
                 int yCoord = GeneratorHelper.getRandom(0, MAX_HEIGHT - rSize.getHeight());
@@ -42,12 +47,21 @@ public class RandomGenerator {
                 for (GeneratorRoom r : rooms) {
                     if (newRoom.intersects(r)) {
                         success = false;
+                        attempts++;
                     }
                 }
             }
-            rooms.add(newRoom);
+            if (success) {
+                rooms.add(newRoom);
+            } else {
+                break;
+            }
         }
-        return rooms;
+        if (rooms.size() == amount) {
+            return rooms;
+        } else {
+            return create(amount, allowDuplicates);
+        }
     }
 
     private static Size getRandomSizes(ArrayList<Size> sizes, boolean allowDuplicates) {
