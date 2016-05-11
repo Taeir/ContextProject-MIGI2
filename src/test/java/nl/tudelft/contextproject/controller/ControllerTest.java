@@ -3,6 +3,8 @@ package nl.tudelft.contextproject.controller;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.awt.Graphics2D;
+
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
@@ -97,10 +99,12 @@ public abstract class ControllerTest {
 			public Spatial getSpatial() {
 				return geom;
 			}
-
+			
 			@Override
 			public void setSpatial(Spatial spatial) { }
-			
+
+			@Override
+			public void mapDraw(Graphics2D g, int resolution) { }			
 		};		
 		c.addDrawable(d);
 		verify(rn, times(1)).attachChild(geom);
@@ -123,7 +127,9 @@ public abstract class ControllerTest {
 
 			@Override
 			public void setSpatial(Spatial spatial) { }
-			
+
+			@Override
+			public void mapDraw(Graphics2D g, int resolution) { }			
 		};	
 		when(rn.detachChild(any(Spatial.class))).thenReturn(12);
 		assertTrue(c.removeDrawable(d));
@@ -147,7 +153,9 @@ public abstract class ControllerTest {
 
 			@Override
 			public void setSpatial(Spatial spatial) { }
-			
+
+			@Override
+			public void mapDraw(Graphics2D g, int resolution) { }			
 		};		
 		when(rn.detachChild(any(Spatial.class))).thenReturn(-1);
 		assertFalse(c.removeDrawable(d));
