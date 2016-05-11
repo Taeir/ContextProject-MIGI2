@@ -141,6 +141,10 @@ function requestSetTeam(team) {
     //Send a post request to the server to set the team
     $.post("/setteam", {team: team}, function(data, status) {
         if (status == "success") {
+            if (data != team) {
+                showError("Game has already started!");
+            }
+            
             if (data == "DWARFS") {
                 //Team was set to dwarfs
                 gTeam = "DWARFS";

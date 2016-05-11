@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.logging.Log;
 
 import org.eclipse.jetty.http.HttpStatus;
@@ -25,11 +26,14 @@ import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.mockito.Mockito;
 
 /**
  * Class to run the web interface.
  */
 public class WebServer {
+	private static final int MAX_PLAYERS = 4;
+
 	//The name of the SESSION2 cookie
 	private static final String SESSION2_COOKIE = "COC_SESSION2";
 	
@@ -50,6 +54,10 @@ public class WebServer {
 	 * 		if an exception occurs
 	 */
 	public static void main(String[] args) throws Exception {
+		Main main = Mockito.mock(Main.class);
+		Mockito.when(main.getGameState()).thenReturn(GameState.WAITING);
+		
+		Main.setInstance(main);
 		WebServer ws = new WebServer();
 		ws.start(8080);
 		
@@ -59,6 +67,14 @@ public class WebServer {
 		String s;
 		while ((s = sc.next()) != null) {
 			if (s.equalsIgnoreCase("stop")) break;
+			if (s.equalsIgnoreCase("w")) {
+				Mockito.when(main.getGameState()).thenReturn(GameState.WAITING);
+			} else if (s.equalsIgnoreCase("p")) {
+				Mockito.when(main.getGameState()).thenReturn(GameState.PAUSED);
+			} else if (s.equalsIgnoreCase("r")) {
+				Mockito.when(main.getGameState()).thenReturn(GameState.RUNNING);
+			}
+			
 			System.out.println(ws.clients);
 		}
 		
@@ -235,15 +251,18 @@ public class WebServer {
 				return false;
 			}
 			
-//			if (game.isFull()) {
-//				//The game is full, user cannot join.
-//				Log.getLog("WebInterface").fine("Disallowing user from joining game: game is full");
-//				
-//				response.setStatus(HttpStatus.OK_200);
-//				response.getWriter().write("FULL");
-//			
-//				return false;
-//			}
+			int players = (int) clients.values().stream().distinct().count();
+			
+			//Check if the game is full
+			if (players >= MAX_PLAYERS) {
+				//The game is full, user cannot join.
+				Log.getLog("WebInterface").fine("Disallowing user from joining game: game is full");
+				
+				response.setStatus(HttpStatus.OK_200);
+				response.getWriter().write("FULL");
+			
+				return false;
+			}
 			
 			//User is allowed to join
 			Log.getLog("WebInterface").fine("Allowing user to join");
