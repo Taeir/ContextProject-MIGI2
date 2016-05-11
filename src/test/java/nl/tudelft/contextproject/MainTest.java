@@ -16,6 +16,8 @@ import com.jme3.light.Light;
 import com.jme3.light.LightList;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+
+import nl.tudelft.contextproject.audio.AudioTestUtil;
 import nl.tudelft.contextproject.level.Level;
 import nl.tudelft.contextproject.level.MazeTile;
 import org.junit.Before;
@@ -32,7 +34,7 @@ public class MainTest {
 	 */
 	@Before
 	public void setUp() {
-		Main.setInstance(null);
+		Main.setInstance(AudioTestUtil.fakeMain());
 	}
 	
 	/**
