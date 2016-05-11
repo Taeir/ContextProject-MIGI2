@@ -6,11 +6,14 @@ import static org.mockito.Mockito.*;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.light.Light;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.Controller;
+import nl.tudelft.contextproject.model.Drawable;
 
 import org.junit.Test;
 
