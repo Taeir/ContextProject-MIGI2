@@ -2,6 +2,7 @@ package nl.tudelft.contextproject;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -10,7 +11,7 @@ import org.junit.Test;
 public abstract class BombTest extends EntityTest{
 	
 	private Bomb bomb;
-	
+	@Before
 	public Drawable getDrawable() {
 		return getBomb();
 	}
