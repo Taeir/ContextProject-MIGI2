@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.level.Level;
 
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
+import org.json.JSONObject;
 
 /**
  * Servlet for handling client requests.
@@ -58,6 +60,11 @@ public class ClientServlet extends DefaultServlet {
 				setTeam(request, response);
 				break;
 				
+			case "map":
+				//Client wants the initial map
+				getMap(request, response);
+				break;
+				
 			case "status":
 				//Client wants a status update
 				statusUpdate(request, response);
@@ -68,6 +75,39 @@ public class ClientServlet extends DefaultServlet {
 				super.doPost(request, response);
 				break;
 		}
+	}
+	
+	/**
+	 * If the given client is not null, this method returns true.
+	 * 
+	 * <p>If the client is null, UNAUTHORIZED is sent in the response, and this method returns
+	 * false.
+	 * 
+	 * @param client
+	 * 		the client to check
+	 * @param response
+	 * 		the response to write to in case of not authorized
+	 * @param json
+	 * 		if true, uses json for the response 
+	 * 
+	 * @return
+	 * 		true if the client is authorized
+	 * 
+	 * @throws IOException
+	 * 		if writing to the response causes an IOException
+	 */
+	public boolean checkAuthorized(WebClient client, HttpServletResponse response, boolean json) throws IOException {
+		if (client != null) return true;
+		
+		//Client is not known: unauthorized request
+		response.setStatus(HttpStatus.OK_200);
+		if (json) {
+			response.setContentType("text/json");
+			response.getWriter().write("{auth: false}");
+		} else {
+			response.getWriter().write("UNAUTHORIZED");
+		}
+		return false;
 	}
 	
 	/**
@@ -85,12 +125,8 @@ public class ClientServlet extends DefaultServlet {
 		//Get the WebClient of the request
 		WebClient client = server.getUser(request);
 		
-		if (client == null) {
-			//Client is not known: unauthorized request
-			response.setStatus(HttpStatus.OK_200);
-			response.getWriter().write("UNAUTHORIZED");
-			return;
-		}
+		//Check authorized
+		if (!checkAuthorized(client, response, false)) return;
 		
 		if (Main.getInstance().getGameState().isStarted()) {
 			//You cannot switch teams while the game is in progress, so we send back the current team to fix up the client.
@@ -131,6 +167,33 @@ public class ClientServlet extends DefaultServlet {
 	}
 	
 	/**
+	 * Handles a map request.
+	 * 
+	 * @param request
+	 * 		the HTTP request
+	 * @param response
+	 * 		the HTTP response object
+	 * 
+	 * @throws IOException
+	 * 		if sending the response to the client causes an IOException
+	 */
+	public void getMap(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//Get the WebClient of the request
+		WebClient client = server.getUser(request);
+		
+		if (client == null) {
+			//Client is not known: unauthorized request
+			response.setStatus(HttpStatus.OK_200);
+			response.setContentType("text/json");
+			response.getWriter().write("{auth: false}");
+			return;
+		}
+		
+		//We need to send the map to the clients
+		
+	}
+	
+	/**
 	 * Handles a statusUpdate request.
 	 * 
 	 * @param request
@@ -157,7 +220,11 @@ public class ClientServlet extends DefaultServlet {
 		response.setStatus(HttpStatus.OK_200);
 		response.setContentType("text/json");
 		
-
+		JSONObject json = new JSONObject();
+		json.append("team", client.getTeam().toUpperCase());
+		json.append("state", Main.getInstance().getGameState().name());
+		//TODO Finish conversion to JSONObject
+		
 		@SuppressWarnings("resource")
 		PrintWriter writer = response.getWriter();
 		writer.append("{team: ").append(client.getTeam().toUpperCase());
