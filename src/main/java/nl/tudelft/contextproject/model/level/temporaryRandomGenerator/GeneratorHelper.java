@@ -1,5 +1,9 @@
 package nl.tudelft.contextproject.model.level.temporaryRandomGenerator;
 
+import nl.tudelft.contextproject.util.Size;
+
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -7,24 +11,9 @@ import java.util.Random;
  */
 public final class GeneratorHelper {
     private static Random rand;
-
-    public enum Direction {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST;
-
-        /**
-         * Get the direction for a Direction if it is rotated right "times" times.
-         * @param times
-         *          The amount of times to rate right.
-         * @return
-         *          The direction found after the rotation.
-         */
-        public Direction getRotated(int times) {
-            return values()[((ordinal()) + times) % 4];
-        }
-    }
+    private static final String FOLDERSTRING =
+            "src" + File.separator + "main" + File.separator + "resources" + File.separator + "rooms";
+    private static final File FOLDERFILE = new File(FOLDERSTRING);
 
     /**
      * Avoid instantiation of the helper.
@@ -32,7 +21,7 @@ public final class GeneratorHelper {
     private GeneratorHelper() {}
 
     /**
-     * Return a random number between *and including* two values.
+     * Return a random number between two values.
      * @param min
      *          The minimum value the random number can be.
      * @param max
@@ -44,7 +33,7 @@ public final class GeneratorHelper {
         if (rand == null) {
             createRNG(System.currentTimeMillis());
         }
-        return (rand.nextInt((max - min) + 1) + min);
+        return (rand.nextInt((max - min)) + min);
     }
 
     /**
@@ -57,5 +46,20 @@ public final class GeneratorHelper {
         if (rand == null) {
             rand = new Random(seed);
         }
+    }
+
+    public static ArrayList<Size> loadRooms() {
+        File[] files = FOLDERFILE.listFiles();
+        if (files == null) {
+            throw new NullPointerException("There are no rooms.");
+        }
+        ArrayList<Size> sizes = new ArrayList<>();
+        for (int i = 0; i < files.length; i++) {
+            String size = files[i].getName().substring(0, files[i].getName().indexOf("_"));
+            int width = Integer.parseInt(size.substring(0, size.indexOf("x")));
+            int height = Integer.parseInt(size.substring(size.indexOf("x") + 1, size.length()));
+            sizes.add(new Size(width, height));
+        }
+        return sizes;
     }
 }

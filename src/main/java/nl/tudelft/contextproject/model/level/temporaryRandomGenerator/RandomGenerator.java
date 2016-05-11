@@ -1,243 +1,48 @@
 package nl.tudelft.contextproject.model.level.temporaryRandomGenerator;
 
-import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.GeneratorHelper.*;
+import nl.tudelft.contextproject.util.Size;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import nl.tudelft.contextproject.util.Size;
-import org.lwjgl.system.libffi.Closure;
+public class RandomGenerator {
+    private static final int MAX_HEIGHT = 200;
+    private static final int MAX_WIDTH = 200;
 
-
-/**
- * Extremely hacked together and will be refactored before it's merged.
- */
-public final class RandomGenerator {
-    private static final String FOLDERSTRING =
-            "src" + File.separator + "main" + File.separator + "resources" + File.separator + "rooms";
-    private static final File FOLDERFILE = new File(FOLDERSTRING);
-    private static int[][] tiles;
-    private static GeneratorRoom[] rooms;
-    private static GeneratorCorridor[] corridors;
-    private static int hDim = Integer.MIN_VALUE;
-    private static int wDim = Integer.MIN_VALUE;
-    private static int highestRoom = Integer.MIN_VALUE;
-    private static int widestRoom = Integer.MIN_VALUE;
-    private static int maxCorrLength;
-    private static int minCorrLength;
-
-    private RandomGenerator() {}
-
-    public static void attempt(int cRooms, int corrLengthMax, int corrLengthMin, long seed) {
-        createRNG(seed);
-        attempt(cRooms, corrLengthMax, corrLengthMin);
+    public static void makeMeSomeRoomsForTesting() {
+        ArrayList<GeneratorRoom> rooms = create(5, false);
     }
 
-    private static ArrayList<Size> loadRooms() {
-        File[] files = FOLDERFILE.listFiles();
-        if (files == null) {
-            throw new NullPointerException("There are no rooms.");
+    public static ArrayList<GeneratorRoom> create(int amount, boolean allowDuplicates) {
+        ArrayList<GeneratorRoom> rooms = new ArrayList<>();
+        ArrayList<Size> sizes = GeneratorHelper.loadRooms();
+        if (!allowDuplicates && sizes.size() < amount) {
+            throw new IllegalArgumentException("You are requesting more rooms than there are.");
         }
-        ArrayList<Size> sizes = new ArrayList<>();
-        for (int i = 0; i < files.length; i++) {
-            String size = files[i].getName().substring(0, files[i].getName().indexOf("_"));
-            int width = Integer.parseInt(size.substring(0, size.indexOf("x")));
-            if (width > wDim) {
-                wDim = width;
-                widestRoom = width;
-            }
-            int height = Integer.parseInt(size.substring(size.indexOf("x") + 1, size.length()));
-            if (height > hDim) {
-                hDim = height;
-                highestRoom = height;
-            }
-            sizes.add(new Size(width, height));
-        }
-        return sizes;
-    }
-
-    public static void attempt(int cRooms, int corrLengthMax, int corrLengthMin) {
-        ArrayList<Size> foundSizes = loadRooms();
-        if (foundSizes.size() < cRooms) {
-            throw new IllegalArgumentException("You want more rooms than there are available.");
-        }
-        maxCorrLength = corrLengthMax;
-        minCorrLength = corrLengthMin;
-        wDim = cRooms * wDim + (cRooms - 1) * maxCorrLength;
-        hDim = cRooms * hDim + (cRooms - 1) * maxCorrLength;
-        tiles = new int[wDim][hDim];
-        rooms = new GeneratorRoom[cRooms];
-        corridors = new GeneratorCorridor[cRooms - 1];
-
-        createRoomsAndCorridors(foundSizes);
-        for (int i = wDim - 1; i >= 0; i--) {
-            for (int j = 0; j < hDim; j++) {
-                if(tiles[i][j] == 0) {
-                    System.out.print(" ");
-                } else {
-                    System.out.print(tiles[i][j]);
+        for (int i = 0; i < amount; i++) {
+            boolean success = false;
+            Size rSize = getRandomSizes(sizes, allowDuplicates);
+            GeneratorRoom newRoom = null;
+            while (!success) {
+                success = true;
+                int xCoord = GeneratorHelper.getRandom(0, MAX_WIDTH - rSize.getWidth());
+                int yCoord = GeneratorHelper.getRandom(0, MAX_HEIGHT - rSize.getHeight());
+                newRoom = new GeneratorRoom(xCoord, yCoord, rSize);
+                for (GeneratorRoom r : rooms) {
+                    if (newRoom.intersects(r)) {
+                        success = false;
+                    }
                 }
             }
-            System.out.println();
+            rooms.add(newRoom);
         }
+        return rooms;
     }
 
-    private static Size getRandomSizeAndRemove(ArrayList<Size> sizes) {
-        Size selected = sizes.get(getRandom(0, sizes.size() - 1));
-        sizes.remove(selected);
+    private static Size getRandomSizes(ArrayList<Size> sizes, boolean allowDuplicates) {
+        Size selected = sizes.get(GeneratorHelper.getRandom(0, sizes.size() - 1));
+        if (!allowDuplicates) {
+            sizes.remove(selected);
+        }
         return selected;
-    }
-
-    private static void createRoomsAndCorridors(ArrayList<Size> sizes) {
-        Size selected = getRandomSizeAndRemove(sizes);
-        rooms[0] = new GeneratorRoom(selected);
-        setTilesValuesForRoom(rooms[0]);
-        corridors[0] = new GeneratorCorridor(rooms[0], minCorrLength, maxCorrLength);
-        setTilesValuesForCorridor(corridors[0]);
-
-        for (int i = 1; i < rooms.length; i++) {
-            selected = getRandomSizeAndRemove(sizes);
-            rooms[i] = new GeneratorRoom(selected, corridors[i - 1]);
-            setTilesValuesForRoom(rooms[i]);
-
-            if (i < corridors.length) {
-                corridors[i] = new GeneratorCorridor(rooms[i], minCorrLength, maxCorrLength);
-                setTilesValuesForCorridor(corridors[i]);
-            }
-        }
-    }
-
-    private static void setTilesValuesForRoom(GeneratorRoom curr) {
-        for (int j = 0; j < curr.getWidth(); j++) {
-            int x = curr.getxStartPosition() + j;
-            for (int k = 0; k < curr.getHeight(); k++) {
-                int y = curr.getyStartPosition() + k;
-                tiles[x][y] = 1;
-            }
-        }
-    }
-
-    private static void setTilesValuesForCorridor(GeneratorCorridor curr) {
-        for (int j = 0; j < curr.getLength(); j++) {
-            int x = curr.getX();
-            int y = curr.getY();
-
-            switch (curr.getDirection()) {
-                case NORTH:
-                    y += j;
-                    break;
-                case EAST:
-                    x += j;
-                    break;
-                case SOUTH:
-                    y -= j;
-                    break;
-                case WEST:
-                    x -= j;
-                    break;
-                default:
-                    throw new IllegalStateException("Not a valid direction");
-            }
-
-            tiles[x][y] = 1;
-        }
-    }
-
-    public static boolean checkValid(GeneratorCorridor toCheck) {
-        if (toCheck.getY() < 0 || toCheck.getX() < 0 || toCheck.getY() >= hDim || toCheck.getX() >= wDim) {
-            return false;
-        }
-        switch (toCheck.getDirection()) {
-            case NORTH:
-                if (toCheck.endPositionY() + highestRoom > hDim) {
-                    return false;
-                }
-                for (int y = toCheck.getY(); y < toCheck.endPositionY(); y++) {
-                    if (tiles[toCheck.getX()][y] == 1) {
-                        return false;
-                    }
-                }
-                break;
-            case EAST:
-                if (toCheck.endPositionX() + widestRoom > wDim) {
-                    return false;
-                }
-                for (int x = toCheck.getX(); x < toCheck.endPositionX() + widestRoom; x++) {
-                    if (tiles[x][toCheck.getY()] == 1) {
-                        return false;
-                    }
-                }
-                break;
-            case SOUTH:
-                if (toCheck.endPositionY() - highestRoom < 0) {
-                    return false;
-                }
-                for (int y = toCheck.getY(); y > toCheck.endPositionY() - highestRoom; y--) {
-                    if (tiles[toCheck.getX()][y] == 1) {
-                        return false;
-                    }
-                }
-                break;
-            case WEST:
-                if (toCheck.endPositionX() - widestRoom < 0) {
-                    return false;
-                }
-                for (int x = toCheck.getX(); x > toCheck.endPositionX() - widestRoom; x--) {
-                    if (tiles[x][toCheck.getY()] == 1) {
-                        return false;
-                    }
-                }
-                break;
-            default:
-                return false;
-        }
-        return true;
-    }
-
-    public static boolean checkValid(GeneratorRoom toCheck) {
-        if (toCheck.getyStartPosition() < 0 || toCheck.getxStartPosition() < 0 || toCheck.getyStartPosition() >= hDim || toCheck.getxStartPosition() >= wDim) {
-            System.out.println("-----------------");
-            System.out.println(toCheck.getyStartPosition() < 0);
-            System.out.println(toCheck.getxStartPosition() < 0);
-            System.out.println(toCheck.getyStartPosition() >= hDim);
-            System.out.println(toCheck.getyStartPosition() >= hDim);
-            System.out.println(hDim);
-            System.out.println(wDim);
-            System.out.println("-----------------");
-            return false;
-        }
-        switch (toCheck.getEnteringCorridor()) {
-            case NORTH:
-                if (toCheck.getxStartPosition() + toCheck.getWidth() > wDim) {
-                    return false;
-                }
-                break;
-            case EAST:
-                if (toCheck.getyStartPosition() + toCheck.getHeight() > hDim) {
-                    return false;
-                }
-                break;
-            case SOUTH:
-                if (toCheck.getxStartPosition() + toCheck.getWidth() > wDim) {
-                    return false;
-                }
-                break;
-            case WEST:
-                if (toCheck.getyStartPosition() + toCheck.getHeight() > hDim) {
-                    return false;
-                }
-                break;
-            default:
-                return false;
-        }
-        for (int x = toCheck.getxStartPosition(); x < toCheck.getxStartPosition() + toCheck.getWidth() - 1; x++) {
-            for (int y = toCheck.getyStartPosition(); y < toCheck.getyStartPosition() + toCheck.getHeight() - 1; y++) {
-                if (tiles[x][y] == 1) {
-                    System.out.println("Collision at: " + x + ", " + y);
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }

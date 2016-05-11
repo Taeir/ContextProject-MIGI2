@@ -14,8 +14,7 @@ import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
-
-import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.RandomGenerator.attempt;
+import nl.tudelft.contextproject.model.level.temporaryRandomGenerator.RandomGenerator;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
@@ -94,7 +93,7 @@ public class Main extends SimpleApplication {
 //		List<String> a = Arrays.asList(args);
 //		debugHud = a.contains("--debugHud");
 //		main.start();
-		attempt(5, 10, 5);
+		RandomGenerator.makeMeSomeRoomsForTesting();
 	}
 
 	@Override
