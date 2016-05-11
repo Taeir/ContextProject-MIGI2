@@ -16,25 +16,30 @@ import nl.tudelft.contextproject.Main;
  * Class representing the player wearing the VR headset.
  */
 public class VRPlayer extends Entity {
+
+	//Physics interaction constants
+	public static final int JUMP_SPEED = 20;
+	public static final int FALL_SPEED = 30;
+	public static final int PLAYER_GRAVITY = 30;
+
+	//Physical collision model
+	public static final float PLAYER_STEP_HEIGHT = 0.5f;
+	public static final float PLAYER_RADIUS = 1.5f;
+	public static final float PLAYER_HEIGHT = 6f;
+	public static final int PLAYER_AXIS = 1;
+
 	private Geometry geometry;
-	
-	private final int jumpSpeed = 20;
-	private final int fallSpeed = 30;
-	private final int playerGravity = 30;
-	
-	private final float playerStepHeight = 0.5f;
-	private final float playerRadius = 1.5f;
-	private final float playerHeight = 6f;
-	private final int playerAxis = 1;
-	
+
 	/**
 	 * Constructor for a default player.
 	 * This player is (for now) a red sphere.
 	 */
-	public VRPlayer() { }
+	public VRPlayer() { 
+		//Set geometry of player
+	}
 
 	@Override
-	public Geometry getGeometry() {
+	public Geometry getGeometry() {		
 		if (geometry != null) return geometry;
 		Sphere b = new Sphere(10, 10, .2f);
 		geometry = new Geometry("blue cube", b);
@@ -43,7 +48,7 @@ public class VRPlayer extends Entity {
 		geometry.setMaterial(mat);
 		return geometry;
 	}
-	
+
 	@Override
 	public void update(float tdf) {
 		geometry.move(1 * tdf, 0, 0);
@@ -67,24 +72,28 @@ public class VRPlayer extends Entity {
 
 	/**
 	 * Get the player hit box.
+	 * 
 	 * @return	
-	 * 				player object
+	 * 				player physics object
 	 */
 	@Override
 	public Object getSpatial() {
-
+		if (geometry == null) {
+			this.getGeometry();
+		}
+		
 		//create a shape that implements PhysicsControl
-		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(playerRadius, playerHeight, playerAxis);
-		CharacterControl player = new CharacterControl(capsuleShape, playerStepHeight);
-		
+		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(PLAYER_RADIUS, PLAYER_HEIGHT, PLAYER_AXIS);
+		CharacterControl player = new CharacterControl(capsuleShape, PLAYER_STEP_HEIGHT);
+
 		//Add physical constants of player
-		player.setJumpSpeed(jumpSpeed);
-		player.setFallSpeed(fallSpeed);
-		player.setGravity(playerGravity);
-		
+		player.setJumpSpeed(JUMP_SPEED);
+		player.setFallSpeed(FALL_SPEED);
+		player.setGravity(PLAYER_GRAVITY);
+
 		//set physics location of player
 		player.setPhysicsLocation(geometry.getLocalTranslation());
-		
+
 		return player;
 	}
 }

@@ -1,11 +1,14 @@
 package nl.tudelft.contextproject.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.jme3.bullet.control.CharacterControl;
 import com.jme3.scene.Geometry;
 
 import nl.tudelft.contextproject.Main;
@@ -17,6 +20,8 @@ import org.junit.Test;
  * Test class for the VRPlayer class.
  */
 public class VRPlayerTest extends EntityTest {
+	
+	private static final double EPSILON = 1e-5;
 	private VRPlayer player;
 
 	@Override
@@ -30,6 +35,7 @@ public class VRPlayerTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
+		
 		player = new VRPlayer();
 	}
 
@@ -65,6 +71,28 @@ public class VRPlayerTest extends EntityTest {
 		verify(Main.getInstance(), times(1)).getAssetManager();
 	}
 
-
+	/**
+	 * Test if the spatial is an instance of CharacterControl.
+	 */
+	@Test
+	public void testGetSpatielInstance() {
+		setupGeometryMock();
+		assertTrue(player.getSpatial() instanceof CharacterControl);
+	}
+	
+	/**
+	 * Test if the spatial is an instance of CharacterControl.
+	 */
+	@Test
+	public void testGetSpatialCheckFallspeed() {
+		setupGeometryMock();
+		Object ob = player.getSpatial();
+		if (ob instanceof CharacterControl) {
+			CharacterControl playerControl = (CharacterControl) ob;
+			assertEquals(playerControl.getFallSpeed(), VRPlayer.FALL_SPEED, EPSILON);
+		} else {
+			fail();
+		}
+	}
 
 }
