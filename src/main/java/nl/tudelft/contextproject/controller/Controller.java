@@ -135,6 +135,15 @@ public abstract class Controller extends AbstractAppState {
 		guiNode = gn;
 	}
 	
+	/**
+	 * Method used for testing.
+	 * Sets the inputMainager a specified InputManager.
+	 * @param inputManager The new InputManager.
+	 */
+	protected void setInputManager(InputManager inputManager) {
+		this.inputManager = inputManager;
+	}
+	
 	@Override
 	public void cleanup() {
 		super.cleanup();
