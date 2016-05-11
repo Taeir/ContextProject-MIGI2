@@ -46,7 +46,7 @@ public class GameController extends Controller {
 		super.initialize(stateManager, app);
 		attachLevel();
 
-		Controller t = this;
+		GameController t = this;
 		ActionListener al = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {

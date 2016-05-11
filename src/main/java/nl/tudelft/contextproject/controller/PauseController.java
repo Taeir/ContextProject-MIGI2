@@ -14,14 +14,14 @@ import nl.tudelft.contextproject.Main;
  */
 public class PauseController extends Controller {
 
-	private Controller resumeController;
+	private GameController resumeController;
 
 	/**
 	 * Constructor for the PauseController.
 	 * @param old The old controller to resume to.
 	 * @param app The main app.
 	 */
-	public PauseController(Controller old, SimpleApplication app) {
+	public PauseController(GameController old, SimpleApplication app) {
 		super(app, "PauseController");
 		this.resumeController = old;
 	}
@@ -52,5 +52,13 @@ public class PauseController extends Controller {
 	@Override
 	public GameState getGameState() {
 		return GameState.PAUSED;
+	}
+	
+	/**
+	 * Get the controller that was paused by this controller.
+	 * @return The paused controller.
+	 */
+	public GameController getPausedController() {
+		return resumeController;
 	}
 }

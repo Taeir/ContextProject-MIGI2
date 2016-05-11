@@ -12,6 +12,7 @@ import com.jme3.scene.Node;
 import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
@@ -60,10 +61,13 @@ public class Main extends SimpleApplication {
 	 * @throws IllegalStateException when the current controller is not a game Controller.
 	 */
 	public Game getCurrentGame() throws IllegalStateException {
-		if (!getGameState().isStarted() || !(controller instanceof GameController)) {
-			throw new IllegalStateException("The game is not running!");
+		if (controller instanceof GameController) {
+			return ((GameController) controller).getGame();				
 		}
-		return ((GameController) controller).getGame();		
+		if (controller instanceof PauseController) {
+			return ((PauseController) controller).getPausedController().getGame();				
+		}
+		throw new IllegalStateException("The game is not running!");
 	}
 	
 	/**

@@ -5,12 +5,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.exceptions.base.MockitoAssertionError;
-
-import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
@@ -22,15 +16,26 @@ import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.Main;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import org.mockito.ArgumentCaptor;
+
+/**
+ * Test class for the PauseController class.
+ */
 public class PauseControllerTest extends ControllerTest {
 
-	private Controller controller;
+	private PauseController controller;
 	private Node rootNode;
 	private Node guiNode;
 	private Main main;
 	private InputManager inputManager;
-	private Controller old;
+	private GameController old;
 
+	/**
+	 * Setup all the mocks for each test.
+	 */
 	@SuppressWarnings("deprecation") @Before
 	public void setUp() {
 		controller = getController();
@@ -91,9 +96,17 @@ public class PauseControllerTest extends ControllerTest {
 		assertNotNull(main.getStateManager().getState(old.getClass()));
 	}
 	
+	/**
+	 * Test if pausedController returns the controller given to the constructor.
+	 */
+	@Test
+	public void testGetPausedController() {
+		assertEquals(old, controller.getPausedController());
+	}
+	
 	@Override
-	public Controller getController() {
-		old = mock(Controller.class);
+	public PauseController getController() {
+		old = mock(GameController.class);
 		return new PauseController(old, getMain());
 	}
 
