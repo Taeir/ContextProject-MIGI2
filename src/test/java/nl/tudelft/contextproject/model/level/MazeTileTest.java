@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model.level;
 
 import static org.junit.Assert.*;
 
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.model.Drawable;
@@ -62,6 +63,15 @@ public class MazeTileTest extends DrawableTest {
 	public void testGetGeometryPosition() {
 		setupGeometryMock();
 		assertEquals(new Vector3f(10, 123, MazeTile.MAX_HEIGHT), tile.getGeometry().getLocalTranslation());
+	}
+	
+	/**
+	 * Test if the spatial is an instance of CharacterControl.
+	 */
+	@Test
+	public void testGetSpatielInstance() {
+		setupGeometryMock();
+		assertTrue(tile.getSpatial() instanceof RigidBodyControl);
 	}
 
 }
