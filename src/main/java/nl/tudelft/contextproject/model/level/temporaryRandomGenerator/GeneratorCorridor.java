@@ -35,7 +35,7 @@ public class GeneratorCorridor {
         return y - length + 1;
     }
 
-    public void setupCorridor(GeneratorRoom room, int dim, boolean fst) {
+    public void setupCorridor(GeneratorRoom room, int wDim, int hDim, boolean fst) {
         direction = rand.nextInt(4);
         int oppositeDirection = (room.getEnteringCorridor() + 2) % 4;
 
@@ -50,12 +50,12 @@ public class GeneratorCorridor {
             case 0:
                 x = getRandom(room.getX(), room.getX() + room.getWidth() - 1);
                 y = room.getY() + room.getHeight();
-                maxLength = dim - y - room.getHeight();
+                maxLength = hDim - y - room.getHeight();
                 break;
             case 1:
                 x = room.getX() + room.getWidth();
                 y = getRandom(room.getY(), room.getY() + room.getHeight() - 1);
-                maxLength = dim - x - room.getWidth();
+                maxLength = wDim - x - room.getWidth();
                 break;
             case 2:
                 x = getRandom(room.getX(), room.getX() + room.getWidth());

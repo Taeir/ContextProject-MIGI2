@@ -14,14 +14,14 @@ public class GeneratorRoom {
     @Getter private int enteringCorridor;
     private static Random rand = new Random();
 
-    public void setupRoom(Size size, int dim) {
+    public void setupRoom(Size size) {
         width = size.getWidth();
         height = size.getHeight();
-        x = Math.round(dim / 2f - width / 2f);
-        y = Math.round(dim / 2f - height / 2f);
+        x = 0;
+        y = 0;
     }
 
-    public void setupRoom(Size size, int dim, GeneratorCorridor corridor) {
+    public void setupRoom(Size size, int wDim, int hDim, GeneratorCorridor corridor) {
         enteringCorridor = corridor.getDirection();
         width = size.getWidth();
         height = size.getHeight();
@@ -44,13 +44,13 @@ public class GeneratorRoom {
                 y = getRandom(corridor.endPositionY() - height + 1, corridor.endPositionY());
                 break;
         }
-        while (x >= dim) {
+        while (x + size.getWidth() >= wDim) {
             x--;
         }
         while (x < 0) {
             x++;
         }
-        while (y >= dim) {
+        while (y + size.getHeight() >= hDim) {
             y--;
         }
         while (y < 0) {
