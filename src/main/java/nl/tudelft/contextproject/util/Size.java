@@ -21,18 +21,18 @@ public class Size {
     }
 
     /**
-     * Get the width of the size.
+     * Get the width of the Size.
      * @return
-     *          The width of the size.
+     *          The width of the Size.
      */
     public int getWidth() {
         return this.width;
     }
 
     /**
-     * Get the height of the size.
+     * Get the height of the Size.
      * @return
-     *          The height of the size.
+     *          The height of the Size.
      */
     public int getHeight() {
         return this.height;

@@ -1,79 +1,70 @@
 package nl.tudelft.contextproject.model.level.temporaryRandomGenerator;
 
 import lombok.Getter;
+import lombok.ToString;
 
-import nl.tudelft.contextproject.util.Size;
+import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.GeneratorHelper.*;
+import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.RandomGenerator.*;
 
-import java.util.Random;
-
-import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.GeneratorRoom.getRandom;
-
+@ToString
 public class GeneratorCorridor {
     @Getter int x;
     @Getter private int y;
     @Getter private int length;
-    @Getter private int direction;
-    private static Random rand = new Random();
+    @Getter private Direction direction;
 
     public int endPositionX() {
-        if (direction == 0 || direction == 2) {
+        if (direction == Direction.NORTH || direction == Direction.SOUTH) {
             return x;
-        }
-        if (direction == 1) {
+        } else if (direction == Direction.EAST) {
             return x + length - 1;
+        } else if (direction == Direction.WEST) {
+            return x - length + 1;
+        } else {
+            throw new IllegalStateException("Not a valid direction.");
         }
-        return x - length + 1;
     }
 
     public int endPositionY() {
-        if (direction == 1 || direction == 3) {
+        if (direction == Direction.EAST || direction == Direction.WEST) {
             return y;
-        }
-        if (direction == 0) {
+        } else if (direction == Direction.NORTH) {
             return y + length - 1;
-        }
-        return y - length + 1;
-    }
-
-    public void setupCorridor(GeneratorRoom room, int wDim, int hDim, boolean fst) {
-        direction = rand.nextInt(4);
-        int oppositeDirection = (room.getEnteringCorridor() + 2) % 4;
-
-        if (!fst && direction == oppositeDirection) {
-            direction++;
-            direction %= 4;
-        }
-
-        length = rand.nextInt(8);
-        int maxLength = 8;
-        switch (direction) {
-            case 0:
-                x = getRandom(room.getX(), room.getX() + room.getWidth() - 1);
-                y = room.getY() + room.getHeight();
-                maxLength = hDim - y - room.getHeight();
-                break;
-            case 1:
-                x = room.getX() + room.getWidth();
-                y = getRandom(room.getY(), room.getY() + room.getHeight() - 1);
-                maxLength = wDim - x - room.getWidth();
-                break;
-            case 2:
-                x = getRandom(room.getX(), room.getX() + room.getWidth());
-                y = room.getY();
-                maxLength = y - room.getHeight();
-                break;
-            case 3:
-                x = room.getX();
-                y = getRandom(room.getY(), room.getY() + room.getHeight());
-                maxLength = x - room.getWidth();
-                break;
-        }
-        while (length > maxLength) {
-            length--;
-        }
-        while (length <= 0) {
-            length++;
+        } else if (direction == Direction.SOUTH) {
+            return y - length + 1;
+        } else {
+            throw new IllegalStateException("Not a valid direction.");
         }
     }
 
+    public GeneratorCorridor(GeneratorRoom room, int minCorr, int maxCorr) {
+        boolean valid = false;
+        while (!valid) {
+            length = getRandom(minCorr, maxCorr);
+            direction = room.getEnteringCorridor().getRotated(getRandom(0, 4));
+            switch (direction) {
+                case NORTH:
+                    x = getRandom(room.getxStartPosition(), room.getxStartPosition() + room.getWidth() - 1);
+                    y = room.getyStartPosition() + room.getHeight();
+                    break;
+                case EAST:
+                    x = room.getxStartPosition() + room.getWidth();
+                    y = getRandom(room.getyStartPosition(), room.getyStartPosition() + room.getHeight() - 1);
+                    break;
+                case SOUTH:
+                    x = getRandom(room.getxStartPosition(), room.getxStartPosition() + room.getWidth());
+                    y = room.getyStartPosition();
+                    break;
+                case WEST:
+                    x = room.getxStartPosition();
+                    y = getRandom(room.getyStartPosition(), room.getyStartPosition() + room.getHeight());
+                    break;
+                default:
+                    throw new IllegalStateException("Not a valid direction");
+            }
+            valid = checkValid(this);
+            System.out.println("Stuck");
+            System.out.println(this.toString());
+        }
+    }
 }

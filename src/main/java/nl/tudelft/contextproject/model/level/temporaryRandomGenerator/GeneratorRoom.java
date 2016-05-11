@@ -1,64 +1,76 @@
 package nl.tudelft.contextproject.model.level.temporaryRandomGenerator;
 
-import lombok.Getter;
+import lombok.ToString;
 
 import nl.tudelft.contextproject.util.Size;
 
-import java.util.Random;
+import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.GeneratorHelper.*;
 
+
+@ToString
 public class GeneratorRoom {
-    @Getter private int x;
-    @Getter private int y;
-    @Getter private int width;
-    @Getter private int height;
-    @Getter private int enteringCorridor;
-    private static Random rand = new Random();
+    private int xStartPosition;
+    private int yStartPosition;
+    private int width;
+    private int height;
+    private Direction enteringCorridor;
 
-    public void setupRoom(Size size) {
+    public GeneratorRoom(Size size) {
         width = size.getWidth();
         height = size.getHeight();
-        x = 0;
-        y = 0;
+        xStartPosition = 0;
+        yStartPosition = 0;
+        /**
+         * As the first room spawns in the bottom left corner it's safe to presume we don't want to go left and leave the map.
+         * This guarantees that.
+         */
+        enteringCorridor = Direction.WEST;
     }
 
-    public void setupRoom(Size size, int wDim, int hDim, GeneratorCorridor corridor) {
+    public GeneratorRoom(Size size, int wDim, int hDim, GeneratorCorridor corridor) {
         enteringCorridor = corridor.getDirection();
         width = size.getWidth();
         height = size.getHeight();
 
-        switch (corridor.getDirection()) {
-            case 0:
-                y = corridor.endPositionY();
-                x = getRandom(corridor.endPositionX() - width + 1, corridor.endPositionX());
+        switch (enteringCorridor) {
+            case NORTH:
+                yStartPosition = corridor.endPositionY();
+                xStartPosition = getRandom(corridor.endPositionX() - width + 1, corridor.endPositionX());
                 break;
-            case 1:
-                x = corridor.endPositionX();
-                y = getRandom(corridor.endPositionY() - height + 1, corridor.endPositionY());
+            case EAST:
+                xStartPosition = corridor.endPositionX();
+                yStartPosition = getRandom(corridor.endPositionY() - height + 1, corridor.endPositionY());
                 break;
-            case 2:
-                y = corridor.endPositionY() - height + 1;
-                x = getRandom(corridor.endPositionX() - width + 1, corridor.endPositionX());
+            case SOUTH:
+                yStartPosition = corridor.endPositionY() - height + 1;
+                xStartPosition = getRandom(corridor.endPositionX() - width + 1, corridor.endPositionX());
                 break;
-            case 3:
-                x = corridor.endPositionX() - width + 1;
-                y = getRandom(corridor.endPositionY() - height + 1, corridor.endPositionY());
+            case WEST:
+                xStartPosition = corridor.endPositionX() - width + 1;
+                yStartPosition = getRandom(corridor.endPositionY() - height + 1, corridor.endPositionY());
                 break;
-        }
-        while (x + size.getWidth() >= wDim) {
-            x--;
-        }
-        while (x < 0) {
-            x++;
-        }
-        while (y + size.getHeight() >= hDim) {
-            y--;
-        }
-        while (y < 0) {
-            y++;
+            default:
+                throw new IllegalStateException("Not a valid direction");
         }
     }
 
-    protected static int getRandom(int min, int max) {
-        return (rand.nextInt((max - min) + 1) + min);
+    public int getxStartPosition() {
+        return xStartPosition;
+    }
+
+    public int getyStartPosition() {
+        return yStartPosition;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public Direction getEnteringCorridor() {
+        return enteringCorridor;
     }
 }
