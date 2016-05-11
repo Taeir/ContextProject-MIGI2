@@ -20,10 +20,12 @@ public final class RandomGenerator {
     private static int hDim = Integer.MIN_VALUE;
     private static int wDim = Integer.MIN_VALUE;
     private static Random rand = new Random();
+    private static int maxCorrLength;
+    private static int minCorrLength;
 
     private RandomGenerator() {}
 
-    public static void attempt(int cRooms) {
+    public static void attempt(int cRooms, int corrLengthMax, int corrLengthMin) {
         File[] files = FOLDERFILE.listFiles();
         if (files == null) {
             throw new NullPointerException("There are no rooms.");
@@ -43,6 +45,9 @@ public final class RandomGenerator {
             sizes.add(new Size(width, height));
             System.out.println(sizes.get(sizes.size() - 1).toString());
         }
+
+        maxCorrLength = corrLengthMax;
+        minCorrLength = corrLengthMin;
         wDim = cRooms * wDim;
         hDim = cRooms * hDim;
         tiles = new int[wDim][hDim];

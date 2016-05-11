@@ -1,17 +1,13 @@
 package nl.tudelft.contextproject.util;
 
-import lombok.Getter;
-import lombok.ToString;
-import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
  * Class for storing a pair of width and height values.
- * This class makes use of the lombok ToString, getter and constructor tags, which means
- * these methods are available but aren't described in the code.
+ * This class makes use of the lombok data tag, which means
+ * constructors, getters and equals are available.
  */
-@ToString
-@AllArgsConstructor
+@Data
 public class Size {
-    @Getter private final int width;
-    @Getter private final int height;
+    private final int width, height;
 }

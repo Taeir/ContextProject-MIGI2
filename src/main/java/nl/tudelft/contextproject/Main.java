@@ -94,7 +94,7 @@ public class Main extends SimpleApplication {
 //		List<String> a = Arrays.asList(args);
 //		debugHud = a.contains("--debugHud");
 //		main.start();
-		attempt(5);
+		attempt(5, 10, 5);
 	}
 
 	@Override
