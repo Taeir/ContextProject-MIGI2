@@ -5,11 +5,23 @@ import nl.tudelft.contextproject.util.Size;
 import java.util.ArrayList;
 
 public class RandomGenerator {
-    private static final int MAX_HEIGHT = 200;
-    private static final int MAX_WIDTH = 200;
+    private static final int MAX_HEIGHT = 100;
+    private static final int MAX_WIDTH = 100;
 
     public static void makeMeSomeRoomsForTesting() {
         ArrayList<GeneratorRoom> rooms = create(5, false);
+        int[][] carved = carve(rooms);
+        for (int x = 0; x < carved.length; x++) {
+            for (int y = 0; y < carved[0].length; y++) {
+                if (carved[x][y] == 1) {
+                    System.out.print(1);
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+
     }
 
     public static ArrayList<GeneratorRoom> create(int amount, boolean allowDuplicates) {
@@ -39,10 +51,22 @@ public class RandomGenerator {
     }
 
     private static Size getRandomSizes(ArrayList<Size> sizes, boolean allowDuplicates) {
-        Size selected = sizes.get(GeneratorHelper.getRandom(0, sizes.size() - 1));
+        Size selected = sizes.get(GeneratorHelper.getRandom(0, sizes.size()));
         if (!allowDuplicates) {
             sizes.remove(selected);
         }
         return selected;
+    }
+
+    public static int[][] carve(ArrayList<GeneratorRoom> rooms) {
+        int[][] carved = new int[MAX_WIDTH][MAX_HEIGHT];
+        for (GeneratorRoom r : rooms) {
+            for (int x = r.getxLeft(); x < r.getxRight(); x++) {
+                for (int y = r.getyLeft(); y < r.getyRight(); y++) {
+                    carved[x][y] = 1;
+                }
+            }
+        }
+        return carved;
     }
 }

@@ -31,4 +31,28 @@ public class GeneratorRoom {
                 this.yRight >= room.yLeft
         );
     }
+
+    public int getxLeft() {
+        return xLeft;
+    }
+
+    public int getxRight() {
+        return xRight;
+    }
+
+    public int getyLeft() {
+        return yLeft;
+    }
+
+    public int getyRight() {
+        return yRight;
+    }
+
+    public Size getSize() {
+        return size;
+    }
+
+    public Point getCenter() {
+        return center;
+    }
 }
