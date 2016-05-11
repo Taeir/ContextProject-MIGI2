@@ -33,7 +33,7 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Before
 	public void setUp() {
-		main = mock(Main.class);
+		main = Main.getInstance();
 		level = mock(Level.class);
 		
 		controller = new GameController(main, level);
@@ -61,7 +61,7 @@ public class GameControllerTest extends ControllerTest {
 		Geometry geom = mock(Geometry.class);
 		
 		when(eMock.getState()).thenReturn(EntityState.NEW);
-		when(eMock.getGeometry()).thenReturn(geom);
+		when(eMock.getSpatial()).thenReturn(geom);
 		
 		list.add(eMock);
 		
@@ -85,7 +85,7 @@ public class GameControllerTest extends ControllerTest {
 		Geometry geom = mock(Geometry.class);
 		
 		when(eMock.getState()).thenReturn(EntityState.DEAD);
-		when(eMock.getGeometry()).thenReturn(geom);
+		when(eMock.getSpatial()).thenReturn(geom);
 		
 		list.add(eMock);
 		
