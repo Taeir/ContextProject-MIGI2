@@ -2,6 +2,9 @@ package nl.tudelft.contextproject.model.level;
 
 import java.awt.Graphics2D;
 
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
@@ -75,5 +78,11 @@ public class MazeTile implements Drawable {
 	@Override
 	public void setGeometry(Geometry geometry) {
 		geom = geometry;
+	}
+
+	@Override
+	public Object getSpatial() {
+		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(geom);
+		return new RigidBodyControl(sceneShape, 0);
 	}
 }
