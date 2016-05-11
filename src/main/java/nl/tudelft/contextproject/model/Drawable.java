@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
 
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 
 /**
