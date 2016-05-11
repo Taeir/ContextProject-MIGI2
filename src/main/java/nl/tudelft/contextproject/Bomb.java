@@ -11,14 +11,13 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 
 /**
- * Class representing the player wearing the VR headset.
+ * Class representing a bomb.
  */
 public class Bomb extends Entity {
 	private Geometry geometry;
 	private Spatial sp;
 	/**
-	 * Constructor for a default player.
-	 * This player is (for now) a red sphere.
+	 * Constructor for a bomb.
 	 */
 	public Bomb() {
 		Node nod = (Node) Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o");
