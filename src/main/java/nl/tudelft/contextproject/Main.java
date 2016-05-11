@@ -7,6 +7,8 @@ import com.jme3.light.Light;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
+import nl.tudelft.contextproject.audio.AudioManager;
+import nl.tudelft.contextproject.audio.BackgroundMusic;
 import nl.tudelft.contextproject.level.DrawableFilter;
 import nl.tudelft.contextproject.level.Level;
 import nl.tudelft.contextproject.level.LevelFactory;
@@ -69,6 +71,20 @@ public class Main extends SimpleApplication {
 			public void setGeometry(Geometry geometry) { }
 		});
 		MapBuilder.export("hello.png", filter, 16);
+		
+		//Initialize the AudioManager.
+		AudioManager.getInstance().init();
+		
+		//Start the background music
+		BackgroundMusic.getInstance().start();
+	}
+	
+	@Override
+	public void stop() {
+		//Stop the background music
+		BackgroundMusic.getInstance().stop();
+		
+		super.stop();
 	}
 
 	/**
@@ -114,6 +130,13 @@ public class Main extends SimpleApplication {
 	public void simpleUpdate(float tpf) {
 		level.getPlayer().simpleUpdate(tpf);
 		updateEntities(tpf);
+		
+		//Update location for 3D audio
+		getListener().setLocation(getCamera().getLocation());
+		getListener().setRotation(getCamera().getRotation());
+		
+		//Update BackgroundMusic
+		BackgroundMusic.getInstance().update(tpf);
 	}
 
 	/**

@@ -52,7 +52,6 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>2.0.2-beta</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
@@ -167,6 +166,8 @@
 				<directory>src/main/resources/</directory>
 				<includes>
 					<include>**/*</include>
+					<include>**/**/*</include>
+					<include>**/**/**/*</include>
 				</includes>
 			</resource>
 			<resource>
@@ -175,9 +176,33 @@
 				<directory>src/main/assets/</directory>
 				<includes>
 					<include>**/*</include>
+					<include>**/**/*</include>
+					<include>**/**/**/*</include>
 				</includes>
 			</resource>
 		</resources>
+		<testResources>
+			<testResource>
+				<targetPath>.</targetPath>
+				<filtering>false</filtering>
+				<directory>src/test/resources/</directory>
+				<includes>
+					<include>**/*</include>
+					<include>**/**/*</include>
+					<include>**/**/**/*</include>
+				</includes>
+			</testResource>
+			<testResource>
+				<targetPath>.</targetPath>
+				<filtering>false</filtering>
+				<directory>src/test/assets/</directory>
+				<includes>
+					<include>**/*</include>
+					<include>**/**/*</include>
+					<include>**/**/**/*</include>
+				</includes>
+			</testResource>
+		</testResources>
 		
 		<plugins>
 			<plugin>
