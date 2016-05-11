@@ -49,6 +49,9 @@ public class PauseControllerTest extends ControllerTest {
 		controller.setInputManager(inputManager);
 	}
 	
+	/**
+	 * Test that updating does not change the root and Gui node.
+	 */
 	@Test
 	public void testUpdate() {
 		controller.update(0.1f);
