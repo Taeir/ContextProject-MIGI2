@@ -28,5 +28,5 @@ public interface Drawable {
 	 * @param g The Graphics2D to draw on.
 	 * @param resolution The resolution of a single tile on the map.
 	 */
-	public default void mapDraw(Graphics2D g, int resolution) { }
+	public void mapDraw(Graphics2D g, int resolution);
 }
