@@ -81,7 +81,7 @@ public class VRPlayerTest extends EntityTest {
 	}
 	
 	/**
-	 * Test if the spatial is an instance of CharacterControl.
+	 * Test if the spatial is an instance of fall speed is set correctly.
 	 */
 	@Test
 	public void testGetSpatialCheckFallspeed() {
@@ -95,4 +95,33 @@ public class VRPlayerTest extends EntityTest {
 		}
 	}
 
+	/**
+	 * Test if the spatial is an instance of jump speed is set correctly.
+	 */
+	@Test
+	public void testGetSpatialCheckJumpSpeed() {
+		setupGeometryMock();
+		Object ob = player.getSpatial();
+		if (ob instanceof CharacterControl) {
+			CharacterControl playerControl = (CharacterControl) ob;
+			assertEquals(playerControl.getJumpSpeed(), VRPlayer.JUMP_SPEED, EPSILON);
+		} else {
+			fail();
+		}
+	}
+	
+	/**
+	 * Test if the spatial is an instance of jump speed is set correctly.
+	 */
+	@Test
+	public void testGetSpatialCheckGravity() {
+		setupGeometryMock();
+		Object ob = player.getSpatial();
+		if (ob instanceof CharacterControl) {
+			CharacterControl playerControl = (CharacterControl) ob;
+			assertEquals(playerControl.getGravity(), VRPlayer.PLAYER_GRAVITY, EPSILON);
+		} else {
+			fail();
+		}
+	}
 }
