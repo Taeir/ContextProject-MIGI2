@@ -4,34 +4,46 @@ import java.awt.Graphics2D;
 
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
+import com.jme3.texture.Texture.WrapMode;
 
 /**
- * Class representing a key.
+ * Class representing a door.
  */
-public class Key extends Entity {
+public class Door implements Drawable {
 	private Geometry geometry;
 	private Spatial sp;
 	/**
-	 * Constructor for a key.
+	 * Constructor for a door.
 	 */
-	public Key() {
+	public Door() {
 		Box cube1Mesh = new Box( 1f,1f,1f);
 		geometry = new Geometry("dink", cube1Mesh); 
+		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
 		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null){
 			sp =  geometry;
 		}
-		else{
-			sp = Main.getInstance().getAssetManager().loadModel("Models/key.j3o");
+		if (sp instanceof Node){
+			Node node = (Node) sp;
+			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+			mat.setColor("Color", ColorRGBA.Brown);
+			node.setMaterial(mat);
+			Material mat2 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+			mat2.setColor("Color", ColorRGBA.Gray);
+			node.getChild("Sphere").setMaterial(mat2);
+			Material mat3 = Main.getInstance().getAssetManager().loadMaterial("Materials/newMaterial.j3m");
+			geometry = (Geometry)((Node) node.getChild("Cube.001")).getChild(0);
+			geometry.setMaterial(mat3);
 		}
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Yellow);
-
-		sp.setMaterial(mat);
+		if (sp instanceof Geometry){
+			geometry = (Geometry) sp;
+		}
 	}
 
 	@Override
@@ -41,9 +53,7 @@ public class Key extends Entity {
 	public Spatial getSpatial(){
 		return sp;
 	}
-	public void setSpatial(Spatial spatial){
-		sp = spatial;
-	}
+
 	@Override
 	public void simpleUpdate(float tdf) {
 		sp.move(0, 0, 0);
@@ -64,6 +74,11 @@ public class Key extends Entity {
 	@Override
 	public void setGeometry(Geometry geo) {
 		geometry = geo;
+
+	}
+
+	public void setSpatial(Spatial spatial) {
+		sp = spatial;
 
 	}
 }

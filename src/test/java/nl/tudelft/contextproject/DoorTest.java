@@ -14,34 +14,34 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test class for the Key class.
+ * Test class for the Door class.
  */
-public class KeyTest extends EntityTest {
-	private Key key;
+public class DoorTest extends DrawableTest {
+	private Door door;
 
 	@Override
-	public Entity getEntity() {
-		return new Key();
+	public Drawable getDrawable() {
+		return new Door();
 	}
 	
 	/**
 	 * Setup method.
-	 * Creates a fresh key for every test.
+	 * Creates a fresh Door for every test.
 	 */
 	@Before
 	public void setUp() {
 		setupGeometryMock();
-		key = new Key();
+		door = new Door();
 	}
 
 	/**
-	 * Test if updating the key makes it move by 0.
+	 * Test if updating the Door makes it move by 0.
 	 */
 	@Test
 	public void testSimpleUpdate() {
 		Geometry mockedGeometry = mock(Geometry.class);
-		key.setGeometry(mockedGeometry);
-		key.simpleUpdate(0.f);
+		door.setGeometry(mockedGeometry);
+		door.simpleUpdate(0.f);
 		verify(mockedGeometry, times(1)).move(0, 0, 0);
 	}
 
@@ -51,18 +51,15 @@ public class KeyTest extends EntityTest {
 	@Test
 	public void testGetGeometryNotNull() {
 		Geometry mockedGeometry = mock(Geometry.class);
-		key.setGeometry(mockedGeometry);
-		assertEquals(key.getGeometry(), mockedGeometry);
+		door.setGeometry(mockedGeometry);
+		assertEquals(door.getGeometry(), mockedGeometry);
 	}
-	/**
-	 * Test getGeometry().
-	 */
 	@Test
 	public void testGetGeometry() {
 		Box cube1Mesh = new Box( 1f,1f,1f);
 		Geometry geometry = new Geometry("dink", cube1Mesh); 
-		key.setGeometry(geometry);
-		assertEquals(key.getGeometry(), geometry);
+		door.setGeometry(geometry);
+		assertEquals(door.getGeometry(), geometry);
 	}
 	/**
 	 * Test getSpatial().
@@ -70,8 +67,8 @@ public class KeyTest extends EntityTest {
 	@Test
 	public void testGetSpatialNotNull(){
 		Spatial mockedSpatial = mock(Spatial.class);
-		key.setSpatial(mockedSpatial);
-		assertEquals(key.getSpatial(), mockedSpatial);
+		door.setSpatial(mockedSpatial);
+		assertEquals(door.getSpatial(), mockedSpatial);
 	}
 
 
