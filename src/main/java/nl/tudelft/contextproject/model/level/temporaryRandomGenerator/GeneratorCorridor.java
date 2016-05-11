@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.GeneratorHelper.*;
-import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.RandomGenerator.*;
+import static nl.tudelft.contextproject.model.level.temporaryRandomGenerator.RandomGenerator.checkValid;
 
 @ToString
 public class GeneratorCorridor {
@@ -63,7 +63,7 @@ public class GeneratorCorridor {
                     throw new IllegalStateException("Not a valid direction");
             }
             valid = checkValid(this);
-            System.out.println("Stuck");
+            System.out.println("Stuck CORR");
             System.out.println(this.toString());
         }
     }

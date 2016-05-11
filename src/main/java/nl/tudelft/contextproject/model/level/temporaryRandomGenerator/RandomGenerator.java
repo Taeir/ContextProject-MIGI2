@@ -97,7 +97,7 @@ public final class RandomGenerator {
 
         for (int i = 1; i < rooms.length; i++) {
             selected = getRandomSizeAndRemove(sizes);
-            rooms[i] = new GeneratorRoom(selected, wDim, hDim, corridors[i - 1]);
+            rooms[i] = new GeneratorRoom(selected, corridors[i - 1]);
             setTilesValuesForRoom(rooms[i]);
 
             if (i < corridors.length) {
@@ -162,7 +162,7 @@ public final class RandomGenerator {
                 if (toCheck.endPositionX() + widestRoom > wDim) {
                     return false;
                 }
-                for (int x = toCheck.getX(); x < toCheck.endPositionX(); x++) {
+                for (int x = toCheck.getX(); x < toCheck.endPositionX() + widestRoom; x++) {
                     if (tiles[x][toCheck.getY()] == 1) {
                         return false;
                     }
@@ -172,7 +172,7 @@ public final class RandomGenerator {
                 if (toCheck.endPositionY() - highestRoom < 0) {
                     return false;
                 }
-                for (int y = toCheck.getY(); y > toCheck.endPositionY(); y--) {
+                for (int y = toCheck.getY(); y > toCheck.endPositionY() - highestRoom; y--) {
                     if (tiles[toCheck.getX()][y] == 1) {
                         return false;
                     }
@@ -182,7 +182,7 @@ public final class RandomGenerator {
                 if (toCheck.endPositionX() - widestRoom < 0) {
                     return false;
                 }
-                for (int x = toCheck.getX(); x > toCheck.endPositionX(); x--) {
+                for (int x = toCheck.getX(); x > toCheck.endPositionX() - widestRoom; x--) {
                     if (tiles[x][toCheck.getY()] == 1) {
                         return false;
                     }
@@ -190,6 +190,53 @@ public final class RandomGenerator {
                 break;
             default:
                 return false;
+        }
+        return true;
+    }
+
+    public static boolean checkValid(GeneratorRoom toCheck) {
+        if (toCheck.getyStartPosition() < 0 || toCheck.getxStartPosition() < 0 || toCheck.getyStartPosition() >= hDim || toCheck.getxStartPosition() >= wDim) {
+            System.out.println("-----------------");
+            System.out.println(toCheck.getyStartPosition() < 0);
+            System.out.println(toCheck.getxStartPosition() < 0);
+            System.out.println(toCheck.getyStartPosition() >= hDim);
+            System.out.println(toCheck.getyStartPosition() >= hDim);
+            System.out.println(hDim);
+            System.out.println(wDim);
+            System.out.println("-----------------");
+            return false;
+        }
+        switch (toCheck.getEnteringCorridor()) {
+            case NORTH:
+                if (toCheck.getxStartPosition() + toCheck.getWidth() > wDim) {
+                    return false;
+                }
+                break;
+            case EAST:
+                if (toCheck.getyStartPosition() + toCheck.getHeight() > hDim) {
+                    return false;
+                }
+                break;
+            case SOUTH:
+                if (toCheck.getxStartPosition() + toCheck.getWidth() > wDim) {
+                    return false;
+                }
+                break;
+            case WEST:
+                if (toCheck.getyStartPosition() + toCheck.getHeight() > hDim) {
+                    return false;
+                }
+                break;
+            default:
+                return false;
+        }
+        for (int x = toCheck.getxStartPosition(); x < toCheck.getxStartPosition() + toCheck.getWidth() - 1; x++) {
+            for (int y = toCheck.getyStartPosition(); y < toCheck.getyStartPosition() + toCheck.getHeight() - 1; y++) {
+                if (tiles[x][y] == 1) {
+                    System.out.println("Collision at: " + x + ", " + y);
+                    return false;
+                }
+            }
         }
         return true;
     }
