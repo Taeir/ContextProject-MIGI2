@@ -21,6 +21,12 @@ public class VRPlayer extends Entity {
 	private final int jumpSpeed = 20;
 	private final int fallSpeed = 30;
 	private final int playerGravity = 30;
+	
+	private final float playerStepHeight = 0.5f;
+	private final float playerRadius = 1.5f;
+	private final float playerHeight = 6f;
+	private final int playerAxis = 1;
+	
 	/**
 	 * Constructor for a default player.
 	 * This player is (for now) a red sphere.
@@ -68,8 +74,8 @@ public class VRPlayer extends Entity {
 	public Object getSpatial() {
 
 		//create a shape that implements PhysicsControl
-		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
-		CharacterControl player = new CharacterControl(capsuleShape, 0.05f);
+		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(playerRadius, playerHeight, playerAxis);
+		CharacterControl player = new CharacterControl(capsuleShape, playerStepHeight);
 		
 		//Add physical constants of player
 		player.setJumpSpeed(jumpSpeed);
