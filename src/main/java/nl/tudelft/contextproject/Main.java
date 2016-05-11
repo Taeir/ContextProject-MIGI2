@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
@@ -89,6 +90,24 @@ public class Main extends SimpleApplication {
 	}
 
 	/**
+	 * Method used for testing.
+	 * Sets the list of tickListeners to the specified list.
+	 * @param listeners The new List of ticklisteners.
+	 */
+	protected void setTickListeners(List<TickListener> listeners) {
+		tickListeners = listeners;
+	}
+	
+	/**
+	 * Method used for testing.
+	 * Sets the inputManager to the specified inputManager.
+	 * @param im The new InputManager.
+	 */
+	protected void setInputManager(InputManager im) {
+		inputManager = im;
+	}
+
+	/**
 	 * Main method that is called when the program is started.
 	 * @param args run-specific arguments.
 	 */
@@ -113,7 +132,7 @@ public class Main extends SimpleApplication {
 	/**
 	 * Setup all the key mappings.
 	 */
-	private void setupControlMappings() {
+	protected void setupControlMappings() {
 		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
 	
@@ -158,5 +177,13 @@ public class Main extends SimpleApplication {
 	public GameState getGameState() {
 		if (controller == null) return null;
 		return controller.getGameState();
+	}
+
+	/**
+	 * Check if the debug Hud is shown.
+	 * @return True when shown, false otherwise.
+	 */
+	public static boolean isDebugHudShown() {
+		return debugHud;
 	}
 }
