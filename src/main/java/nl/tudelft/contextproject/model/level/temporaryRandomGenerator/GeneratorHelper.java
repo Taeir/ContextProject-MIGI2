@@ -53,7 +53,7 @@ public final class GeneratorHelper {
      * @param seed
      *          The seed to use for creation of the RNG.
      */
-    public static void createRNG(Long seed) {
+    public static void createRNG(long seed) {
         if (rand == null) {
             rand = new Random(seed);
         }
