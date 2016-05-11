@@ -8,7 +8,7 @@ import com.jme3.scene.Geometry;
  * Interface representing a Drawable object.
  * This object has a geometry that can be updated.
  */
-public interface Drawable {	
+public interface Drawable extends Collidable {	
 	/**
 	 * Getter for the geometry of this Drawable.
 	 * @return The geometry representing this Drawable.

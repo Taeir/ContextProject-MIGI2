@@ -4,6 +4,7 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
@@ -19,6 +20,7 @@ import nl.tudelft.contextproject.model.Drawable;
 public abstract class Controller extends AbstractAppState {
 	private Node rootNode = new Node();
 	private Node guiNode = new Node();
+	private BulletAppState physicsEnvironment = new BulletAppState();
 	private InputManager inputManager;
 
 	/**
@@ -39,6 +41,7 @@ public abstract class Controller extends AbstractAppState {
 		Main main = Main.getInstance();
 		main.getRootNode().attachChild(rootNode);
 		main.getGuiNode().attachChild(guiNode);
+		main.getStateManager().attach(physicsEnvironment);
 	}
 	
 	@Override
@@ -69,10 +72,12 @@ public abstract class Controller extends AbstractAppState {
 	
 	/**
 	 * Add a Drawable to the renderer.
+	 * Drawables should also have a collision
 	 * @param d The drawable to add.
 	 */
 	public void addDrawable(Drawable d) {
 		rootNode.attachChild(d.getGeometry());
+		physicsEnvironment.getPhysicsSpace().add(d.getSpatial());
 	}
 	
 	/**
