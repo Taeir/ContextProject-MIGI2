@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject;
 
 import java.util.Arrays;
+
+import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.SimpleApplication;
@@ -8,7 +10,12 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
-import nl.tudelft.contextproject.level.RandomLevelFactory;
+import nl.tudelft.contextproject.controller.Controller;
+import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
@@ -18,13 +25,14 @@ public class Main extends SimpleApplication {
 	
 	private static Main instance;
 	private Controller controller;
+	private List<TickListener> tickListeners;
 	
 	/**
 	 * Method used for testing.
 	 * Sets the instance of this singleton to the provided instance.
 	 * @param main The new value of the instance.
 	 */
-	static void setInstance(Main main) {
+	public static void setInstance(Main main) {
 		instance = main;
 	}
 	
@@ -47,6 +55,18 @@ public class Main extends SimpleApplication {
 	}
 	
 	/**
+	 * Get the instance of the current game.
+	 * @return the current instance of the game.
+	 * @throws IllegalStateException when the current controller is not a game Controller.
+	 */
+	public Game getCurrentGame() throws IllegalStateException {
+		if (!getGameState().isStarted() || !(controller instanceof GameController)) {
+			throw new IllegalStateException("The game is not running!");
+		}
+		return ((GameController) controller).getGame();		
+	}
+	
+	/**
 	 * Method used for testing.
 	 * Sets the rootNode of Main to a new Node.
 	 * @param rn The new node to replace the rootNode.
@@ -55,7 +75,11 @@ public class Main extends SimpleApplication {
 		rootNode = rn;
 	}
 
-
+	/**
+	 * Method used for testing.
+	 * Sets the guiNode of Main to a new Node.
+	 * @param gn The new node to replace the guiNode.
+	 */
 	protected void setGuiNode(Node gn) {
 		guiNode = gn;
 	}
@@ -73,11 +97,13 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
+		tickListeners = new LinkedList<>();
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
+		getFlyByCamera().setMoveSpeed(50);
 		
 		setupControlMappings();
-		setController(new GameController(this, new RandomLevelFactory(10, 10)));
+		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
 	}
 
 	/**
@@ -86,13 +112,47 @@ public class Main extends SimpleApplication {
 	private void setupControlMappings() {
 		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
+	
+	@Override
+	public void simpleUpdate(float tpf) {
+		for (TickListener tl : tickListeners) {
+			tl.update(tpf);
+		}
+	}
+	
+	/**
+	 * Add a Ticklistener.
+	 * @param tl The ticklistener to add.
+	 */
+	public void attachTickListener(TickListener tl) {
+		tickListeners.add(tl);
+	}
+	
+	/**
+	 * Remove a registered TickListener.
+	 * @param tl The ticklistener to remove.
+	 */
+	public void removeTickListener(TickListener tl) {
+		tickListeners.remove(tl);
+	}
 
 	/**
 	 * Return the singleton instance of the game.
 	 * @return the running instance of the game.
 	 */
 	public static Main getInstance() {
-		if (instance == null) instance = new Main();
+		if (instance == null) {
+			instance = new Main();
+		}
 		return instance;
-	}	
+	}
+	
+	/**
+	 * Get the current game state.
+	 * @return The current game state.
+	 */
+	public GameState getGameState() {
+		if (controller == null) return null;
+		return controller.getGameState();
+	}
 }
