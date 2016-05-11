@@ -2,6 +2,8 @@ package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
 
+import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
+import com.jme3.bullet.control.CharacterControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -15,7 +17,10 @@ import nl.tudelft.contextproject.Main;
  */
 public class VRPlayer extends Entity {
 	private Geometry geometry;
-
+	
+	private final int jumpSpeed = 20;
+	private final int fallSpeed = 30;
+	private final int playerGravity = 30;
 	/**
 	 * Constructor for a default player.
 	 * This player is (for now) a red sphere.
@@ -52,5 +57,28 @@ public class VRPlayer extends Entity {
 	@Override
 	public void setGeometry(Geometry geometry) {
 		this.geometry = geometry;
+	}
+
+	/**
+	 * Get the player hit box.
+	 * @return	
+	 * 				player object
+	 */
+	@Override
+	public Object getSpatial() {
+
+		//create a shape that implements PhysicsControl
+		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
+		CharacterControl player = new CharacterControl(capsuleShape, 0.05f);
+		
+		//Add physical constants of player
+		player.setJumpSpeed(jumpSpeed);
+		player.setFallSpeed(fallSpeed);
+		player.setGravity(playerGravity);
+		
+		//set physics location of player
+		player.setPhysicsLocation(geometry.getLocalTranslation());
+		
+		return player;
 	}
 }
