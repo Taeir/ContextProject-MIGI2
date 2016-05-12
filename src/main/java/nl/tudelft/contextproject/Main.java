@@ -30,8 +30,6 @@ public class Main extends SimpleApplication {
 	private static Main instance;
 	private Controller controller;
 	private List<TickListener> tickListeners;
-
-
 	/**
 	 * Main method that is called when the program is started.
 	 * @param args run-specific arguments.
