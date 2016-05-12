@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -34,14 +35,14 @@ public class DoorTest extends DrawableTest {
 	}
 
 	/**
-	 * Test if updating the Door doesnt make it move.
+	 * Test if updating the Door makes it move by 0.
 	 */
 	@Test
 	public void testSimpleUpdate() {
 		Geometry mockedGeometry = mock(Geometry.class);
 		door.setGeometry(mockedGeometry);
 		door.simpleUpdate(0.f);
-		verify(mockedGeometry, times(0)).move(0, 0, 0);
+		verify(mockedGeometry, times(1)).move(0, 0, 0);
 	}
 
 	/**
@@ -53,25 +54,22 @@ public class DoorTest extends DrawableTest {
 		door.setGeometry(mockedGeometry);
 		assertEquals(door.getGeometry(), mockedGeometry);
 	}
-	
-	/**
-	 * Tests getGeometry() without mocking.
-	 */
 	@Test
 	public void testGetGeometry() {
-		Box cube1Mesh = new Box(1f, 1f, 1f);
+		Box cube1Mesh = new Box( 1f,1f,1f);
 		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		door.setGeometry(geometry);
 		assertEquals(door.getGeometry(), geometry);
 	}
-	
 	/**
 	 * Test getSpatial().
 	 */
 	@Test
-	public void testGetSpatialNotNull() {
+	public void testGetSpatialNotNull(){
 		Spatial mockedSpatial = mock(Spatial.class);
 		door.setSpatial(mockedSpatial);
 		assertEquals(door.getSpatial(), mockedSpatial);
 	}
+
+
 }

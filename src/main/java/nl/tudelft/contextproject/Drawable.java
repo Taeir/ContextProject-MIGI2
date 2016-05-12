@@ -2,6 +2,7 @@ package nl.tudelft.contextproject;
 
 import java.awt.Graphics2D;
 
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
 /**
