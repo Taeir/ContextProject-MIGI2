@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -35,14 +34,14 @@ public class KeyTest extends EntityTest {
 	}
 
 	/**
-	 * Test if updating the key makes it move by 0.
+	 * Test if updating the key doesn't make it move.
 	 */
 	@Test
 	public void testSimpleUpdate() {
 		Geometry mockedGeometry = mock(Geometry.class);
 		key.setGeometry(mockedGeometry);
 		key.simpleUpdate(0.f);
-		verify(mockedGeometry, times(1)).move(0, 0, 0);
+		verify(mockedGeometry, times(0)).move(0, 0, 0);
 	}
 
 	/**
@@ -59,7 +58,7 @@ public class KeyTest extends EntityTest {
 	 */
 	@Test
 	public void testGetGeometry() {
-		Box cube1Mesh = new Box( 1f,1f,1f);
+		Box cube1Mesh = new Box(1f, 1f, 1f);
 		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		key.setGeometry(geometry);
 		assertEquals(key.getGeometry(), geometry);
@@ -68,7 +67,7 @@ public class KeyTest extends EntityTest {
 	 * Test getSpatial().
 	 */
 	@Test
-	public void testGetSpatialNotNull(){
+	public void testGetSpatialNotNull() {
 		Spatial mockedSpatial = mock(Spatial.class);
 		key.setSpatial(mockedSpatial);
 		assertEquals(key.getSpatial(), mockedSpatial);

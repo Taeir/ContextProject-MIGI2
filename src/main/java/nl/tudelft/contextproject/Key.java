@@ -6,7 +6,6 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
@@ -20,17 +19,15 @@ public class Key extends Entity {
 	 * Constructor for a key.
 	 */
 	public Key() {
-		Box cube1Mesh = new Box( 1f,1f,1f);
+		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh); 
-		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null){
+		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
-		}
-		else{
+		} else {
 			sp = Main.getInstance().getAssetManager().loadModel("Models/key.j3o");
 		}
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.Yellow);
-
 		sp.setMaterial(mat);
 	}
 
@@ -38,17 +35,27 @@ public class Key extends Entity {
 	public Geometry getGeometry() {
 		return geometry;
 	}
-	public Spatial getSpatial(){
+
+	/**
+	 * 
+	 * @return 
+	 * 		the Spatial
+	 */
+	public Spatial getSpatial() {
 		return sp;
 	}
-	public void setSpatial(Spatial spatial){
+
+	/**
+	 * 
+	 * @param spatial 
+	 * 			Spatial to be set
+	 */
+	public void setSpatial(Spatial spatial) {
 		sp = spatial;
 	}
+
 	@Override
-	public void simpleUpdate(float tdf) {
-		sp.move(0, 0, 0);
-		geometry.move(0, 0, 0);
-	}
+	public void simpleUpdate(float tdf) { }
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
