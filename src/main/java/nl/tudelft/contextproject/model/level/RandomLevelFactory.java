@@ -115,7 +115,7 @@ public class RandomLevelFactory implements LevelFactory {
 		 * If the folder does not exist, we throw an IllegalStateException.
 		 */
 		if (files == null) {
-			throw new IllegalStateException("There rooms folder does not exist.");
+			throw new IllegalStateException("The rooms folder does not exist.");
 		}
 
 		List<Size> sizes = new ArrayList<>();
