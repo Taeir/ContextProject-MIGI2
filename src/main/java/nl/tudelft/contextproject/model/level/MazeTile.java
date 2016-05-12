@@ -6,6 +6,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
@@ -17,7 +18,7 @@ import nl.tudelft.contextproject.model.Drawable;
 public class MazeTile implements Drawable {
 	public static final int MAX_HEIGHT = 1;
 	
-	private Geometry geom;
+	private Spatial spatial;
 	private Vector2f position;
 	private int height;
 	
@@ -42,38 +43,33 @@ public class MazeTile implements Drawable {
 		this.height = height;
 	}
 	
-	/**
-	 * Getter for the geometry of the tile that will be rendered.
-	 * This geometry is centered at (0, 0, 0) (for now).
-	 * For now this method returns a randomly colored box.
-	 * @return The geometry representing this tile.
-	 */
-	public Geometry getGeometry() {
-        if (geom != null) return geom;
+	@Override
+	public Spatial getSpatial() {
+        if (spatial != null) return spatial;
         
         Box b = new Box(.5f, .5f, .5f + height); // create cube shape
-        this.geom = new Geometry("Box", b);  // create cube geometry from the shape
+        this.spatial = new Geometry("Box", b);  // create cube geometry from the shape
         Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
         mat.setBoolean("UseMaterialColors", true);    
         mat.setColor("Diffuse", ColorRGBA.randomColor());
         mat.setColor("Specular", ColorRGBA.White);
         mat.setFloat("Shininess", 64f);  // [0,128]
 		mat.setColor("Ambient", ColorRGBA.randomColor());
-        this.geom.setMaterial(mat);                   // set the cube's material
-        this.geom.move(position.x, position.y, height);
-        return geom;
+        this.spatial.setMaterial(mat);                   // set the cube's material
+        this.spatial.move(position.x, position.y, height);
+        return spatial;
 	}
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
-		int x = (int) geom.getLocalTranslation().x * resolution;
-		int y = (int) geom.getLocalTranslation().y * resolution;
+		int x = (int) spatial.getLocalTranslation().x * resolution;
+		int y = (int) spatial.getLocalTranslation().y * resolution;
 		g.fillRect(x, y, resolution, resolution);
 		
 	}
 
 	@Override
-	public void setGeometry(Geometry geometry) {
-		geom = geometry;
+	public void setSpatial(Spatial spatial) {
+		this.spatial = spatial;
 	}
 }
