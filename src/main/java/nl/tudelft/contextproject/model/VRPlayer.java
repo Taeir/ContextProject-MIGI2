@@ -19,20 +19,20 @@ import nl.tudelft.contextproject.Main;
  */
 public class VRPlayer extends Entity implements ActionListener {
 	//Physics interaction constants
-	public static final float JUMP_SPEED = 1f;
-	public static final float FALL_SPEED = 1f;
-	public static final float PLAYER_GRAVITY = 1f;
+	public static final float JUMP_SPEED = 4f;
+	public static final float FALL_SPEED = 15f;
+	public static final float PLAYER_GRAVITY = 8f;
 
 	//Physical collision model
 	public static final float PLAYER_STEP_HEIGHT = 0.1f;
 	public static final float PLAYER_RADIUS = .5f;
-	public static final float PLAYER_HEIGHT = 1f;
+	public static final float PLAYER_HEIGHT = 3f;
 	public static final int PLAYER_AXIS = 1;
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
 	private boolean left, right, up, down;
-	Vector3f walkDirection;
+	private Vector3f walkDirection;
 
 	/**
 	 * Constructor for a default player.
@@ -60,19 +60,21 @@ public class VRPlayer extends Entity implements ActionListener {
 		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
 		walkDirection = new Vector3f();
 		if (left) {
-			walkDirection.addLocal(camLeft.mult(.235f));
+			walkDirection.addLocal(camLeft.mult(.0235f));
 		}
 		if (right) {
-			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(.235f));
+			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(.0235f));
 		}
 		if (up) {
-			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(.5f));
+			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(.05f));
 		}
 		if (down) {
-			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(.5f));
+			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(.05f));
 		}
 
+		
 		playerControl.setWalkDirection(walkDirection);
+		spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
 	}
 
