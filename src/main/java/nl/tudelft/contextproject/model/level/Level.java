@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.model.level;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.light.Light;
@@ -11,26 +10,53 @@ import com.jme3.light.Light;
  * players and other entities.
  */
 public class Level {
-	private Room[] rooms;
+	private MazeTile[][] mazeTiles;
 	private List<Light> lightList;
-	
+
 	/**
-	 * Constructor to create a Level with specific rooms.
-	 * @param rooms An array of rooms to be placed in the level
+	 * Constructor to create a maze with specific mazeTiles.
+	 * @param maze The set of tiles to include in the maze.
+	 * @param lights A list with all the lights in the level.
 	 */
-	public Level(Room[] rooms) {
-		this.rooms = rooms;
-		this.lightList = new LinkedList<>();
-	}
-	
-	/**
-	 * Constructor to create a Level with specific rooms and lights.
-	 * @param rooms An array of rooms to be placed in the level
-	 * @param lights A list of all the lights in the level.
-	 */
-	public Level(Room[] rooms, List<Light> lights) {
-		this.rooms = rooms;
+	public Level(MazeTile[][] maze, List<Light> lights) {
+		this.mazeTiles = maze;
 		this.lightList = lights;
+	}
+
+	/**
+	 * Getter for the height of the maze.
+	 * @return the height of the maze.
+	 */
+	public int getHeight() {
+		return mazeTiles[0].length;
+	}
+
+	/**
+	 * Getter for the width of the maze.
+	 * @return the width of the maze.
+	 */
+	public int getWidth() {
+		return mazeTiles.length;
+	}
+
+	/**
+	 * Checks if there is a tile in the maze at the specified position.
+	 * @param x the x-location in the maze
+	 * @param y the y-location in the maze
+	 * @return true when there is a tile at that position, false otherwise.
+	 */
+	public boolean isTileAtPosition(int x, int y) {
+		return mazeTiles[x][y] != null;
+	}
+
+	/**
+	 * Getter for a tile at a certain position.
+	 * @param x the x-location in the maze
+	 * @param y the y-location in the maze
+	 * @return the tile at the specified location or null when no tile is present.
+	 */
+	public MazeTile getTile(int x, int y) {
+		return mazeTiles[x][y];
 	}
 
 	/**
@@ -39,21 +65,5 @@ public class Level {
 	 */
 	public List<Light> getLights() {
 		return lightList;
-	}
-	
-	/**
-	 * Add a light to the level.
-	 * @param l Light to ad to the level.
-	 */
-	public void addLight(Light l) {
-		lightList.add(l);
-	}
-	
-	/**
-	 * Get all the rooms in this level.
-	 * @return An array of rooms.
-	 */
-	public Room[] getRooms() {
-		return rooms;
 	}
 }
