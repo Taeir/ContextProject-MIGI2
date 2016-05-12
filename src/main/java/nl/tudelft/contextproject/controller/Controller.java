@@ -8,7 +8,6 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
@@ -43,8 +42,6 @@ public abstract class Controller extends AbstractAppState {
 		main.getRootNode().attachChild(rootNode);
 		main.getGuiNode().attachChild(guiNode);
 		main.getStateManager().attach(physicsEnvironment);
-		//TODO this does not work for some reason
-		physicsEnvironment.getPhysicsSpace().setGravity(new Vector3f(0f, 0f, 1f));
 	}
 
 	@Override
