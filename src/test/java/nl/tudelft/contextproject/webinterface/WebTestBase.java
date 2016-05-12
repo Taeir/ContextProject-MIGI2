@@ -12,12 +12,44 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+
+import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.test.TestUtil;
+
 import lombok.SneakyThrows;
 
 /**
  * Base class for the WebServer tests, with some convenience methods.
  */
 public class WebTestBase {
+	private static Main main;
+	
+	/**
+	 * Ensures that {@link Main#getInstance()} is properly set up before any tests run.
+	 */
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		//Store the old Main instance
+		main = Main.getInstance();
+		
+		//Clear the instance
+		Main.setInstance(null);
+		
+		//Ensure that the main is mocked
+		TestUtil.ensureMainMocked(true);
+	}
+
+	/**
+	 * Restores the original Main instance after all tests are done.
+	 */
+	@AfterClass
+	public static void tearDownAfterClass() {
+		//Restore the old main
+		Main.setInstance(main);
+	}
+	
 	/**
 	 * Creates a spied session2 cookie with the given id.
 	 * 

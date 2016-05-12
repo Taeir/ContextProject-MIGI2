@@ -16,12 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.test.TestUtil;
 
@@ -29,33 +26,7 @@ import nl.tudelft.contextproject.test.TestUtil;
  * Test class for {@link WebServer}.
  */
 public class WebServerTest extends WebTestBase {
-	private static Main main;
-	
 	public WebServer webServer;
-	
-	/**
-	 * Ensures that {@link Main#getInstance()} is properly set up befor any tests run.
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		//Store the old Main instance
-		WebServerTest.main = Main.getInstance();
-		
-		//Clear the instance
-		Main.setInstance(null);
-		
-		//Ensure that the main is mocked
-		TestUtil.ensureMainMocked(true);
-	}
-
-	/**
-	 * Restores the original Main instance after all tests are done.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		//Restore the old main
-		Main.setInstance(WebServerTest.main);
-	}
 
 	/**
 	 * Creates a webServer before every test.
