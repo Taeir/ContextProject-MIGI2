@@ -14,7 +14,7 @@ import com.jme3.scene.shape.Box;
 /**
  * Class representing a door.
  */
-public class Door implements Drawable {
+public class Door extends Entity {
 	private Geometry geometry;
 	private Spatial sp;
 	/**
