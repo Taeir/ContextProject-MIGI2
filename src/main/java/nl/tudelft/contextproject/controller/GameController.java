@@ -78,7 +78,7 @@ public class GameController extends Controller {
 			}
 		}
 		//Add player
-		addTrackedDrawable(game.getPlayer());
+		addVRPlayer(game.getPlayer());
 
 		for (Light l : level.getLights()) {
 			addLight(l);

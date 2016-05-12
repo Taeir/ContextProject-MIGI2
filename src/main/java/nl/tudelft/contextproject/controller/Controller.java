@@ -16,6 +16,7 @@ import com.jme3.scene.control.CameraControl.ControlDirection;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.VRPlayer;
 
 /**
  * Abstract class for controllers.
@@ -89,18 +90,14 @@ public abstract class Controller extends AbstractAppState {
 
 	/**
 	 * Add a Drawable and a camera tracker.
-	 * @param d
+	 * @param vrPlayer
 	 * 				a drawable with camera tracking
 	 */
-	public void addTrackedDrawable(Drawable d) {
-		playerPhysics = (CharacterControl) d.getPhysicsObject();
-		physicsEnvironment.getPhysicsSpace().add(playerPhysics);
+	public void addVRPlayer(VRPlayer vrPlayer) {
+		//Node playerNode = vrPlayer.getPhysicsObject().getPhysicsSpace();
+		//playerNode.attachChild(vrPlayer.getSpatial());
 		
-		//Set up Camera
-		rootNode.attachChild(d.getSpatial());
-		CameraNode cameraNode = new CameraNode("Camera Node", Main.getInstance().getCamera());
-		cameraNode.setControlDir(ControlDirection.SpatialToCamera);
-		rootNode.attachChild(cameraNode);
+		//player_node = getPhysicsSpace().createDynamicNode();
 	}
 	
 	/**

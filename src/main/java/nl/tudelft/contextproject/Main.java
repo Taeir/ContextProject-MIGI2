@@ -124,6 +124,7 @@ public class Main extends SimpleApplication {
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
 		flyCam.setEnabled(false);
+		
 		setupControlMappings();
 		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
 	}

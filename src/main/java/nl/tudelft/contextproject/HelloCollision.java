@@ -80,7 +80,7 @@ public class HelloCollision extends SimpleApplication implements ActionListener 
 		//Player physics settings
 		player.setJumpSpeed(20);
 		player.setFallSpeed(30);
-		player.setGravity(30);
+		player.setGravity(0);
 		player.setPhysicsLocation(new Vector3f(0, 10, 0));
 
 		//Add scene to render the town.

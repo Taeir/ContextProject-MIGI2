@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
-import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -48,14 +47,17 @@ public class VRPlayer extends Entity {
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.Red);
 		spatial.setMaterial(mat);
-		spatial.setLocalTranslation(-1f, 0f, -4f);
+		spatial.setLocalTranslation(-1f, 0f, 4f);
 		return spatial;
 	}
 
 	@Override
 	public void update(float tdf) {
-		spatial.move(1 * tdf, 0, 0);
+		spatial.move(1 * tdf, 0f, 0f);
+		System.out.println("spatial loc" + spatial.getLocalTranslation().toString());
 		physicObject.setPhysicsLocation(spatial.getLocalTranslation());
+		System.out.println("Physics loc" + physicObject.getPhysicsLocation().toString());
+		Main.getInstance().getCamera().setLocation(physicObject.getPhysicsLocation());
 	}
 
 	@Override
