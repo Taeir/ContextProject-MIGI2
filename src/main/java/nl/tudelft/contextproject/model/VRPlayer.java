@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
+import com.jme3.input.controls.ActionListener;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -16,20 +17,21 @@ import nl.tudelft.contextproject.Main;
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends Entity {
+public class VRPlayer extends Entity implements ActionListener {
 	//Physics interaction constants
-	public static final int JUMP_SPEED = 20;
-	public static final int FALL_SPEED = 30;
-	public static final int PLAYER_GRAVITY = 30;
+	public static final float JUMP_SPEED = 1f;
+	public static final float FALL_SPEED = 1f;
+	public static final float PLAYER_GRAVITY = 1f;
 
 	//Physical collision model
-	public static final float PLAYER_STEP_HEIGHT = 0.5f;
-	public static final float PLAYER_RADIUS = 1.5f;
-	public static final float PLAYER_HEIGHT = 6f;
+	public static final float PLAYER_STEP_HEIGHT = 0.1f;
+	public static final float PLAYER_RADIUS = .5f;
+	public static final float PLAYER_HEIGHT = 1f;
 	public static final int PLAYER_AXIS = 1;
 
 	private Spatial spatial;
-	private CharacterControl physicObject;
+	private CharacterControl playerControl;
+	private boolean left, right, up, down;
 
 	/**
 	 * Constructor for a default player.
@@ -47,17 +49,30 @@ public class VRPlayer extends Entity {
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.Red);
 		spatial.setMaterial(mat);
-		spatial.setLocalTranslation(-1f, 0f, 4f);
+		spatial.move(0, 10, 0);
 		return spatial;
 	}
 
 	@Override
 	public void update(float tdf) {
-		spatial.move(1 * tdf, 0f, 0f);
-		System.out.println("spatial loc" + spatial.getLocalTranslation().toString());
-		physicObject.setPhysicsLocation(spatial.getLocalTranslation());
-		System.out.println("Physics loc" + physicObject.getPhysicsLocation().toString());
-		Main.getInstance().getCamera().setLocation(physicObject.getPhysicsLocation());
+		Vector3f camDir = Main.getInstance().getCamera().getDirection().mult(0.1f);
+		Vector3f camLeft = Main.getInstance().getCamera().getLeft().mult(0.1f);
+		Vector3f walkDirection = new Vector3f();
+		if (left) {
+			walkDirection.addLocal(camLeft);
+		}
+		if (right) {
+			walkDirection.addLocal(camLeft.negate());
+		}
+		if (up) {
+			walkDirection.addLocal(camDir);
+		}
+		if (down) {
+			walkDirection.addLocal(camDir.negate());
+		}
+
+		playerControl.setWalkDirection(walkDirection);
+		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation(), playerControl.getViewDirection());
 	}
 
 	@Override
@@ -87,19 +102,42 @@ public class VRPlayer extends Entity {
 		if (spatial == null) {
 			this.getSpatial();
 		}
-		if (physicObject != null) return physicObject;
+		if (playerControl != null) return playerControl;
 		//create a shape that implements PhysicsControl
 		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(PLAYER_RADIUS, PLAYER_HEIGHT, PLAYER_AXIS);
-		physicObject = new CharacterControl(capsuleShape, PLAYER_STEP_HEIGHT);
+		playerControl = new CharacterControl(capsuleShape, PLAYER_STEP_HEIGHT);
 
 		//Add physical constants of player
-		physicObject.setJumpSpeed(JUMP_SPEED);
-		physicObject.setFallSpeed(FALL_SPEED);
-		physicObject.setGravity(PLAYER_GRAVITY);
+		playerControl.setJumpSpeed(JUMP_SPEED);
+		playerControl.setFallSpeed(FALL_SPEED);
+		playerControl.setGravity(PLAYER_GRAVITY);
 
 		//set physics location of player
-		physicObject.setPhysicsLocation(spatial.getLocalTranslation());
+		playerControl.setPhysicsLocation(spatial.getLocalTranslation());
 
-		return physicObject;
+		return playerControl;
+	}
+
+	/**
+	 * On button press, what the player should do.
+	 * @param name
+	 * @param isPressed
+	 * @param tpf
+	 */
+	@Override
+	public void onAction(String name, boolean isPressed, float tpf) {
+		if (name.equals("Left")) {
+			left = isPressed;
+		} else if (name.equals("Right")) {
+			right = isPressed;
+		} else if (name.equals("Up")) {
+			up = isPressed;
+		} else if (name.equals("Down")) {
+			down = isPressed;
+		} else if (name.equals("Jump")) {
+			if (isPressed) { 
+				playerControl.jump(); 
+			}
+		}
 	}
 }

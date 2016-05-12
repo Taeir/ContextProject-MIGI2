@@ -58,6 +58,11 @@ public class GameController extends Controller {
 			}
 		};
 		addInputListener(al, "pause");
+		addInputListener(game.getPlayer(), "Left");
+		addInputListener(game.getPlayer(), "Right");
+		addInputListener(game.getPlayer(), "Up");
+		addInputListener(game.getPlayer(), "Down");
+		addInputListener(game.getPlayer(), "Jump");
 	}
 
 	/**
@@ -78,7 +83,7 @@ public class GameController extends Controller {
 			}
 		}
 		//Add player
-		addVRPlayer(game.getPlayer());
+		addDrawable(game.getPlayer());
 
 		for (Light l : level.getLights()) {
 			addLight(l);
@@ -91,7 +96,6 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
-		super.update(tpf);
 		game.getPlayer().update(tpf);
 		updateEntities(tpf);
 	}

@@ -9,6 +9,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.controller.Controller;
@@ -123,7 +124,7 @@ public class Main extends SimpleApplication {
 		tickListeners = new LinkedList<>();
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
-		flyCam.setEnabled(false);
+		getFlyByCamera().setMoveSpeed(50);
 		
 		setupControlMappings();
 		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
@@ -134,6 +135,24 @@ public class Main extends SimpleApplication {
 	 */
 	protected void setupControlMappings() {
 		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+		inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
+		inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
+		inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
+		inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
+		inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+	}
+	
+	/**
+	 * Move the camera to a new location.
+	 * @param newLoc
+	 * 					the new location of the camera
+	 * @param lookDir
+	 * 					the direction that the camera is looking in
+	 */
+	public void moveCameraTo(Vector3f newLoc, Vector3f lookDir) {
+		System.out.println(newLoc);
+		getCamera().setLocation(newLoc);
+		getCamera().lookAtDirection(lookDir, new Vector3f(0, 1, 0));
 	}
 	
 	@Override

@@ -5,18 +5,15 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.control.CharacterControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
-import com.jme3.scene.CameraNode;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.CameraControl.ControlDirection;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
-import nl.tudelft.contextproject.model.VRPlayer;
 
 /**
  * Abstract class for controllers.
@@ -26,7 +23,6 @@ public abstract class Controller extends AbstractAppState {
 	private Node guiNode = new Node();
 	private BulletAppState physicsEnvironment = new BulletAppState();
 	private InputManager inputManager;
-	private CharacterControl playerPhysics;
 
 	/**
 	 * Protected constructor for the controller class.
@@ -42,17 +38,17 @@ public abstract class Controller extends AbstractAppState {
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-
+		
 		Main main = Main.getInstance();
 		main.getRootNode().attachChild(rootNode);
 		main.getGuiNode().attachChild(guiNode);
 		main.getStateManager().attach(physicsEnvironment);
+		//TODO this does not work for some reason
+		physicsEnvironment.getPhysicsSpace().setGravity(new Vector3f(0f, 0f, 1f));
 	}
 
 	@Override
-	public void update(float tpf) {
-		Main.getInstance().getCamera().setLocation(playerPhysics.getPhysicsLocation());
-	}
+	public abstract void update(float tpf);
 
 	/**
 	 * Get the gamestate of this controller.
@@ -86,18 +82,6 @@ public abstract class Controller extends AbstractAppState {
 	public void addDrawable(Drawable d) {
 		physicsEnvironment.getPhysicsSpace().add(d.getPhysicsObject());
 		rootNode.attachChild(d.getSpatial());
-	}
-
-	/**
-	 * Add a Drawable and a camera tracker.
-	 * @param vrPlayer
-	 * 				a drawable with camera tracking
-	 */
-	public void addVRPlayer(VRPlayer vrPlayer) {
-		//Node playerNode = vrPlayer.getPhysicsObject().getPhysicsSpace();
-		//playerNode.attachChild(vrPlayer.getSpatial());
-		
-		//player_node = getPhysicsSpace().createDynamicNode();
 	}
 	
 	/**
