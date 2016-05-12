@@ -53,6 +53,7 @@ public class KeyTest extends EntityTest {
 		key.setGeometry(mockedGeometry);
 		assertEquals(key.getGeometry(), mockedGeometry);
 	}
+	
 	/**
 	 * Test getGeometry().
 	 */
@@ -63,6 +64,7 @@ public class KeyTest extends EntityTest {
 		key.setGeometry(geometry);
 		assertEquals(key.getGeometry(), geometry);
 	}
+	
 	/**
 	 * Test getSpatial().
 	 */
@@ -72,6 +74,4 @@ public class KeyTest extends EntityTest {
 		key.setSpatial(mockedSpatial);
 		assertEquals(key.getSpatial(), mockedSpatial);
 	}
-
-
 }
