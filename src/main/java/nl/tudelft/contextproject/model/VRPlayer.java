@@ -19,9 +19,9 @@ import nl.tudelft.contextproject.Main;
  */
 public class VRPlayer extends Entity implements ActionListener {
 	//Physics interaction constants
-	public static final float JUMP_SPEED = 4f;
+	public static final float JUMP_SPEED = 13f;
 	public static final float FALL_SPEED = 15f;
-	public static final float PLAYER_GRAVITY = 8f;
+	public static final float PLAYER_GRAVITY = 13f;
 
 	//Physical collision model
 	public static final float PLAYER_STEP_HEIGHT = 0.1f;
