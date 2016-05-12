@@ -21,7 +21,7 @@ public class MazeTileTest extends DrawableTest {
 	 */
 	@Before
 	public void setUp() {
-		tile = new MazeTile(10, 123, 3);
+		tile = new MazeTile(10, 123, MazeTile.MAX_HEIGHT);
 	}
 
 	@Override

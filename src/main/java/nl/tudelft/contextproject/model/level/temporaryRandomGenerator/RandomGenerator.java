@@ -1,9 +1,11 @@
 package nl.tudelft.contextproject.model.level.temporaryRandomGenerator;
 
 import com.jme3.math.Vector2f;
+import nl.tudelft.contextproject.model.level.GeneratorRoom;
 import nl.tudelft.contextproject.util.Size;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RandomGenerator {
     private static final int MAX_HEIGHT = 50;
@@ -29,7 +31,7 @@ public class RandomGenerator {
 
     public static ArrayList<GeneratorRoom> create(int amount, boolean allowDuplicates) {
         ArrayList<GeneratorRoom> rooms = new ArrayList<>();
-        ArrayList<Size> sizes = GeneratorHelper.loadRooms();
+        List<Size> sizes = GeneratorHelper.loadRooms();
         if (!allowDuplicates && sizes.size() < amount) {
             throw new IllegalArgumentException("You are requesting more rooms than there are.");
         }
@@ -71,7 +73,7 @@ public class RandomGenerator {
         }
     }
 
-    private static Size getRandomSizes(ArrayList<Size> sizes, boolean allowDuplicates) {
+    private static Size getRandomSizes(List<Size> sizes, boolean allowDuplicates) {
         Size selected = sizes.get(GeneratorHelper.getRandom(0, sizes.size()));
         if (!allowDuplicates) {
             sizes.remove(selected);

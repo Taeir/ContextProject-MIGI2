@@ -30,7 +30,19 @@ public class Main extends SimpleApplication {
 	private Controller controller;
 
 	private List<TickListener> tickListeners;
-	
+
+	/**
+	 * Main method that is called when the program is started.
+	 * @param args run-specific arguments.
+	 */
+	public static void main(String[] args) {
+		Main main = getInstance();
+		List<String> a = Arrays.asList(args);
+		debugHud = a.contains("--debugHud");
+		main.start();
+//		RandomGenerator.makeMeSomeRoomsForTesting();
+	}
+
 	/**
 	 * Method used for testing.
 	 * Sets the instance of this singleton to the provided instance.
@@ -107,17 +119,6 @@ public class Main extends SimpleApplication {
 	 */
 	protected void setInputManager(InputManager im) {
 		inputManager = im;
-	}
-
-	/**
-	 * Main method that is called when the program is started.
-	 * @param args run-specific arguments.
-	 */
-	public static void main(String[] args) {
-		Main main = getInstance();
-		List<String> a = Arrays.asList(args);
-		debugHud = a.contains("--debugHud");
-		main.start();
 	}
 
 	@Override

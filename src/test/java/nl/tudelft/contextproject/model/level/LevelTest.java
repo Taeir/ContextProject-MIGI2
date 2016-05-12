@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import com.jme3.light.Light;
