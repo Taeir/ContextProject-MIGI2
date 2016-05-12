@@ -39,6 +39,14 @@ public class MazeTileTest extends DrawableTest {
 	}
 
 	/**
+	 * Test tile type getter.
+	 */
+	@Test
+	public void testGetTileType() {
+		assertEquals(TileType.CORRIDOR, tileCorridor.getTileType());
+	}
+	
+	/**
 	 * Test for setting explored value for a tile with no change in value.
 	 */
 	@Test
