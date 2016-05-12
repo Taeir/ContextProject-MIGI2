@@ -60,7 +60,7 @@ public class MazeTile implements Drawable {
         mat.setFloat("Shininess", 64f);  // [0,128]
 		mat.setColor("Ambient", ColorRGBA.randomColor());
         this.spatial.setMaterial(mat);                   // set the cube's material
-        this.spatial.move(position.x, position.y, height);
+        this.spatial.move(position.x, height, position.y);
         return spatial;
 	}
 
@@ -84,6 +84,8 @@ public class MazeTile implements Drawable {
 		}
 		
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(spatial);
-		return new RigidBodyControl(sceneShape, 0);
+		RigidBodyControl rigidBody = new RigidBodyControl(sceneShape, 0);
+		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
+		return rigidBody;
 	}
 }
