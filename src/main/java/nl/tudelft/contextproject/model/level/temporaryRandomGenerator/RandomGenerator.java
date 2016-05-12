@@ -11,7 +11,7 @@ public class RandomGenerator {
     private static final int MAX_ATTEMPTS = 10;
 
     public static void makeMeSomeRoomsForTesting() {
-        ArrayList<GeneratorRoom> rooms = create(5, false);
+        ArrayList<GeneratorRoom> rooms = create(10, true);
         int[][] carved = carveRooms(rooms);
         carved = carveCorridors(carved, rooms);
         for (int x = 0; x < carved.length; x++) {
@@ -92,11 +92,9 @@ public class RandomGenerator {
             Point currCenter = rooms.get(i).getCenter();
             int rn = GeneratorHelper.getRandom(0, 2);
             if (rn == 1) {
-                System.out.println("first");
                 map = hCorridor(map, prevCenter.getxCoord(), currCenter.getxCoord(), prevCenter.getyCoord());
                 map = vCorridor(map, prevCenter.getyCoord(), currCenter.getyCoord(), currCenter.getxCoord());
             } else {
-                System.out.println("second");
                 map = vCorridor(map, prevCenter.getyCoord(), currCenter.getyCoord(), prevCenter.getxCoord());
                 map = hCorridor(map, prevCenter.getxCoord(), currCenter.getxCoord(), currCenter.getyCoord());
             }
