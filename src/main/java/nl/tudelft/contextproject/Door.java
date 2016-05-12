@@ -2,16 +2,14 @@ package nl.tudelft.contextproject;
 
 import java.awt.Graphics2D;
 
+
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import com.jme3.texture.Texture;
-import com.jme3.texture.Texture.WrapMode;
 
 /**
  * Class representing a door.
@@ -23,25 +21,26 @@ public class Door implements Drawable {
 	 * Constructor for a door.
 	 */
 	public Door() {
-		Box cube1Mesh = new Box( 1f,1f,1f);
+		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh); 
 		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
-		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null){
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		mat.setColor("Color", ColorRGBA.Brown);
+		Material mat2 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		mat2.setColor("Color", ColorRGBA.Gray);
+		Material mat3 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		mat2.setColor("Color", ColorRGBA.Yellow);
+		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
 		}
-		if (sp instanceof Node){
+		if (sp instanceof Node) {
 			Node node = (Node) sp;
-			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-			mat.setColor("Color", ColorRGBA.Brown);
 			node.setMaterial(mat);
-			Material mat2 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-			mat2.setColor("Color", ColorRGBA.Gray);
 			node.getChild("Sphere").setMaterial(mat2);
-			Material mat3 = Main.getInstance().getAssetManager().loadMaterial("Materials/newMaterial.j3m");
-			geometry = (Geometry)((Node) node.getChild("Cube.001")).getChild(0);
+			geometry = (Geometry) ((Node) node.getChild("Cube.001")).getChild(0);
 			geometry.setMaterial(mat3);
 		}
-		if (sp instanceof Geometry){
+		if (sp instanceof Geometry) {
 			geometry = (Geometry) sp;
 		}
 	}
@@ -50,15 +49,18 @@ public class Door implements Drawable {
 	public Geometry getGeometry() {
 		return geometry;
 	}
-	public Spatial getSpatial(){
+
+	/**
+	 * 
+	 * @return
+	 * 		The Spatial
+	 */
+	public Spatial getSpatial() {
 		return sp;
 	}
 
 	@Override
-	public void simpleUpdate(float tdf) {
-		sp.move(0, 0, 0);
-		geometry.move(0, 0, 0);
-	}
+	public void simpleUpdate(float tdf) { }
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
@@ -77,6 +79,11 @@ public class Door implements Drawable {
 
 	}
 
+	/**
+	 * 
+	 * @param spatial
+	 * 			The spatial to be set
+	 */
 	public void setSpatial(Spatial spatial) {
 		sp = spatial;
 
