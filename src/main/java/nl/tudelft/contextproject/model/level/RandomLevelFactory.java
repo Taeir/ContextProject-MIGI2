@@ -22,8 +22,8 @@ import nl.tudelft.contextproject.util.Size;
  * NOTE: This factory becomes deprecated after a proper factory is introduced!
  */
 public class RandomLevelFactory implements LevelFactory {
-	private static final int MAX_WIDTH = 50;
-	private static final int MAX_HEIGHT = 50;
+	protected static final int MAX_WIDTH = 50;
+	protected static final int MAX_HEIGHT = 50;
 	private static final int MAX_ATTEMPTS = 10;
 	private static final Pattern PATTERN = Pattern.compile("(?<width>\\d+)x(?<height>\\d+)_.*");
 
@@ -40,13 +40,17 @@ public class RandomLevelFactory implements LevelFactory {
 	 * 			if duplicates are allowed
 	 */
 	public RandomLevelFactory(int amount, boolean allowDuplicates) {
+		if (amount < 1) {
+			throw new IllegalArgumentException("You must spawn at least 1 room.");
+		}
+
 		this.amount = amount;
 		this.allowDuplicates = allowDuplicates;
 	}
 
 	@Override
 	public Level generateSeeded(long seed) {
-		rand = new Random(seed);
+		createRNG(seed);
 
 		List<GeneratorRoom> generated = create();
 		TileType[][] carved = carveRooms(generated);
@@ -72,6 +76,16 @@ public class RandomLevelFactory implements LevelFactory {
 	}
 
 	/**
+	 * Create the random number generator.
+	 *
+	 * @param seed
+	 * 			the seed to use for the random number generator.
+     */
+	protected void createRNG(long seed) {
+		rand = new Random(seed);
+	}
+
+	/**
 	 * Return a random number between two values.
 	 * @param min
 	 *          The minimum value the random number can be.
@@ -80,7 +94,7 @@ public class RandomLevelFactory implements LevelFactory {
 	 * @return
 	 *          The random number.
 	 */
-	private int getRandom(int min, int max) {
+	protected int getRandom(int min, int max) {
 		return (rand.nextInt((max - min)) + min);
 	}
 
@@ -94,7 +108,7 @@ public class RandomLevelFactory implements LevelFactory {
 	 *          An ArrayList of sizes.
 	 */
 	@SneakyThrows(URISyntaxException.class)
-	public static List<Size> loadRooms() {
+	protected List<Size> loadRooms() {
 		File[] files = new File(RandomLevelFactory.class.getResource("/rooms").toURI()).listFiles();
 
 		/**
@@ -122,7 +136,7 @@ public class RandomLevelFactory implements LevelFactory {
 	 * @return
 	 * 			the created generatorrooms
      */
-	private List<GeneratorRoom> create() {
+	protected List<GeneratorRoom> create() {
 		List<GeneratorRoom> rooms = new ArrayList<>();
 		List<Size> sizes = loadRooms();
 		if (!allowDuplicates && sizes.size() < amount) {
@@ -135,7 +149,7 @@ public class RandomLevelFactory implements LevelFactory {
 		for (int i = 0; i < amount; i++) {
 			int attempts = 0;
 			boolean success = false;
-			Size rSize = getRandomSizes(sizes, allowDuplicates);
+			Size rSize = getRandomSize(sizes, allowDuplicates);
 			GeneratorRoom newRoom = null;
 			if (rSize.getWidth() >= MAX_WIDTH || rSize.getHeight() >= MAX_HEIGHT) {
 				throw new IllegalArgumentException("It is impossible for this level to fit in your map size.");
@@ -182,15 +196,32 @@ public class RandomLevelFactory implements LevelFactory {
 
 	/**
 	 * Create a matrix of TileTypes to represent the map which will be generated.
+	 * This method creates the rooms.
 	 *
 	 * @param rooms
 	 * 			the generated rooms
-	 *
 	 * @return
 	 * 			the generated matrix of TileTypes
      */
-	private TileType[][] carveRooms(List<GeneratorRoom> rooms) {
-		TileType[][] carved = new TileType[MAX_WIDTH][MAX_HEIGHT];
+	protected TileType[][] carveRooms(List<GeneratorRoom> rooms) {
+		return carveRooms(rooms, MAX_WIDTH, MAX_HEIGHT);
+	}
+
+	/**
+	 * Create a matrix of TileTypes to represent the map which will be generated.
+	 * This method creates the rooms.
+	 *
+	 * @param rooms
+	 * 			the generated rooms
+	 * @param maxWidth
+	 * 			the maximum width for the matrix
+	 * @param maxHeight
+	 * 			the maximum height for the matrix
+	 * @return
+	 * 			the generated matrix of TileTypes
+     */
+	protected TileType[][] carveRooms(List<GeneratorRoom> rooms, int maxWidth, int maxHeight) {
+		TileType[][] carved = new TileType[maxWidth][maxHeight];
 		for (GeneratorRoom r : rooms) {
 			for (int x = r.getxLeft(); x < r.getxRight(); x++) {
 				for (int y = r.getyLeft(); y < r.getyRight(); y++) {
@@ -205,7 +236,22 @@ public class RandomLevelFactory implements LevelFactory {
 		return carved;
 	}
 
-	private TileType[][] carveCorridors(TileType[][] map, List<GeneratorRoom> rooms) {
+	/**
+	 * Create a matrix of TileTypes to represent the map which will be generated.
+	 * This method creates the corridors.
+	 *
+	 * @param map
+	 * 		the map in which to place the corridors
+	 * @param rooms
+	 * 		the generated rooms
+     * @return
+	 * 		the generated matrix of TileTypes
+     */
+	protected TileType[][] carveCorridors(TileType[][] map, List<GeneratorRoom> rooms) {
+		if (rooms.size() == 1) {
+			return map;
+		}
+
 		for (int i = 1; i < rooms.size(); i++) {
 			Vector2f prevCenter = rooms.get(i - 1).getCenter();
 			Vector2f currCenter = rooms.get(i).getCenter();
@@ -221,7 +267,17 @@ public class RandomLevelFactory implements LevelFactory {
 		return map;
 	}
 
-	private Size getRandomSizes(List<Size> sizes, boolean allowDuplicates) {
+	/**
+	 * Get a random size from a list of sizes.
+	 *
+	 * @param sizes
+	 * 			the list of sizes from which to randomly select one
+	 * @param allowDuplicates
+	 * 			if the size should be deleted from the list after selection
+     * @return
+	 * 			the selected size
+     */
+	protected Size getRandomSize(List<Size> sizes, boolean allowDuplicates) {
 		Size selected = sizes.get(getRandom(0, sizes.size()));
 		if (!allowDuplicates) {
 			sizes.remove(selected);
@@ -243,7 +299,7 @@ public class RandomLevelFactory implements LevelFactory {
 	 * @return
 	 * 			the map with the corridor cut out
 	 */
-	private TileType[][] hCorridor(TileType[][] map, float x1, float x2, float yF) {
+	protected TileType[][] hCorridor(TileType[][] map, float x1, float x2, float yF) {
 		int min = (int) Math.floor(Math.min(x1, x2));
 		int max = (int) Math.floor(Math.max(x1, x2));
 		int y = (int) Math.floor(yF);
@@ -269,7 +325,7 @@ public class RandomLevelFactory implements LevelFactory {
 	 * @return
 	 * 			the map with the corridor cut out
 	 */
-	private TileType[][] vCorridor(TileType[][] map, float y1, float y2, float xF) {
+	protected TileType[][] vCorridor(TileType[][] map, float y1, float y2, float xF) {
 		int min = (int) Math.floor(Math.min(y1, y2));
 		int max = (int) Math.floor(Math.max(y1, y2));
 		int x = (int) Math.floor(xF);

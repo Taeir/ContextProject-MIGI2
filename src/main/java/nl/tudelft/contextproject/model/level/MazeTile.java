@@ -34,6 +34,7 @@ public class MazeTile implements Drawable {
 	public MazeTile(int x, int y, TileType type) {
 		this.position = new Vector2f(x, y);
 		this.explored = false;
+
 		switch (type) {
 			case FLOOR:
 				this.height = 0;
@@ -48,7 +49,7 @@ public class MazeTile implements Drawable {
 				this.color = ColorRGBA.DarkGray;
 				break;
 			default:
-				throw new IllegalArgumentException("This is not a valid type.");
+				throw new IllegalArgumentException("Invalid TileType: " + type);
 		}
 	}
 	

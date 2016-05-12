@@ -14,19 +14,19 @@ import org.junit.Test;
  * Test class for MazeTiles.
  */
 public class MazeTileTest extends DrawableTest {
-	MazeTile tile;
+	private MazeTile tileCorridor;
 
 	/**
 	 * Create a fresh mazeTile for each test.
 	 */
 	@Before
 	public void setUp() {
-		tile = new MazeTile(10, 123, TileType.CORRIDOR);
+		tileCorridor = new MazeTile(10, 123, TileType.CORRIDOR);
 	}
 
 	@Override
 	public Drawable getDrawable() {
-		return tile;
+		return tileCorridor;
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class MazeTileTest extends DrawableTest {
 	 */
 	@Test
 	public void testIsExplored() {
-		assertFalse(tile.isExplored());
+		assertFalse(tileCorridor.isExplored());
 	}
 
 	/**
@@ -42,8 +42,8 @@ public class MazeTileTest extends DrawableTest {
 	 */
 	@Test
 	public void testSetExploredNoChange() {
-		assertFalse(tile.setExplored(false));
-		assertFalse(tile.isExplored());
+		assertFalse(tileCorridor.setExplored(false));
+		assertFalse(tileCorridor.isExplored());
 	}
 
 	/**
@@ -51,8 +51,8 @@ public class MazeTileTest extends DrawableTest {
 	 */
 	@Test
 	public void testSetExplored() {
-		assertFalse(tile.setExplored(true));
-		assertTrue(tile.isExplored());
+		assertFalse(tileCorridor.setExplored(true));
+		assertTrue(tileCorridor.isExplored());
 	}
 	
 	/**
@@ -61,7 +61,12 @@ public class MazeTileTest extends DrawableTest {
 	@Test
 	public void testGetGeometryPosition() {
 		setupGeometryMock();
-		assertEquals(new Vector3f(10, 123, 0), tile.getSpatial().getLocalTranslation());
+		MazeTile tileFloor = new MazeTile(10, 123, TileType.FLOOR);
+		MazeTile tileWall = new MazeTile(10, 123, TileType.WALL);
+
+		assertEquals(new Vector3f(10, 123, 0), tileCorridor.getSpatial().getLocalTranslation());
+		assertEquals(new Vector3f(10, 123, 0), tileFloor.getSpatial().getLocalTranslation());
+		assertEquals(new Vector3f(10, 123, 3), tileWall.getSpatial().getLocalTranslation());
 	}
 
 }
