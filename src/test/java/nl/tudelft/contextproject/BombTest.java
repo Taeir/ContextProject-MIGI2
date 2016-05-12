@@ -34,17 +34,6 @@ public class BombTest extends EntityTest {
 	}
 
 	/**
-	 * Test if updating the Bomb makes it move by 0.
-	 */
-	@Test
-	public void testSimpleUpdate() {
-		Geometry mockedGeometry = mock(Geometry.class);
-		bomb.setGeometry(mockedGeometry);
-		bomb.simpleUpdate(0.f);
-		verify(mockedGeometry, times(1)).move(0, 0, 0);
-	}
-
-	/**
 	 * Test getGeometry().
 	 */
 	@Test
