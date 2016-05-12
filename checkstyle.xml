@@ -60,12 +60,6 @@
         <module name="AvoidStarImport">
             <property name="allowStaticMemberImports" value="true"/>
         </module>
-        <module name="CustomImportOrder">
-            <property name="customImportOrderRules" value="STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS"/>
-            <property name="specialImportsRegExp" value="javafx|org|com|nl"/>
-            <property name="sortImportsInGroupAlphabetically" value="true"/>
-            <property name="separateLineBetweenGroups" value="true"/>
-        </module>
         <module name="IllegalImport"/>
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>
