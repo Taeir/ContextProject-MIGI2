@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.servlet.SessionCookieConfig;
@@ -12,8 +13,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
@@ -32,10 +31,11 @@ import org.mockito.Mockito;
  * Class to run the web interface.
  */
 public class WebServer {
-	private static final int MAX_PLAYERS = 4;
-
 	//The name of the SESSION2 cookie
-	private static final String SESSION2_COOKIE = "COC_SESSION2";
+	public static final String SESSION2_COOKIE = "COC_SESSION2";
+	
+	//The maximum amount of players in the game
+	public static final int MAX_PLAYERS = 4;
 	
 	private HashMap<String, WebClient> clients = new HashMap<>();
 	private boolean running;
@@ -82,6 +82,22 @@ public class WebServer {
 	}
 	
 	/**
+	 * @return
+	 * 		the map of authenticated clients
+	 */
+	public Map<String, WebClient> getClients() {
+		return clients;
+	}
+	
+	/**
+	 * @return
+	 * 		the amount of unique clients connected
+	 */
+	public int getUniqueClientCount() {
+		return (int) clients.values().stream().distinct().count();
+	}
+	
+	/**
 	 * Starts this webserver on the given port.
 	 * 
 	 * @param port
@@ -125,9 +141,8 @@ public class WebServer {
 		contextHandler.setContextPath("/");
 		
 		//Fetch pages from the webinterface folder
-		/* DEBUG */ contextHandler.setResourceBase(new File("src/main/resources/webinterface").getAbsolutePath());
-		//contextHandler.setResourceBase(new File("webinterface").getAbsolutePath());
-		
+		contextHandler.setResourceBase(new File(getClass().getResource("/webinterface").toURI()).getAbsolutePath());
+
 		//Set the session handler
 		contextHandler.setSessionHandler(sessionHandler);
 		
@@ -137,20 +152,6 @@ public class WebServer {
 		//Add a servlet for handling sessions
 		ClientServlet cs = new ClientServlet(this);
 		contextHandler.addServlet(new ServletHolder(cs), "/");
-		
-		//Debug info about sessions
-		sessionManager.addEventListener(new HttpSessionListener() {
-			
-			@Override
-			public void sessionDestroyed(HttpSessionEvent se) {
-				System.out.println("[DEBUG] Session destroyed: " + se.getSession().getId());
-			}
-			
-			@Override
-			public void sessionCreated(HttpSessionEvent se) {
-				System.out.println("[DEBUG] Session created: " + se.getSession().getId());
-			}
-		});
 		
 		//Start the webserver
 		server.start();
@@ -167,6 +168,14 @@ public class WebServer {
 		
 		server.stop();
 		running = false;
+	}
+	
+	/**
+	 * @return
+	 * 		if the server is currently running
+	 */
+	public boolean isRunning() {
+		return running;
 	}
 	
 	/**
@@ -198,22 +207,6 @@ public class WebServer {
 		
 		//Return the WebClient of the SESSION2 id.
 		return clients.get(session2.getValue());
-	}
-	
-	/**
-	 * Checks if the user of the given request is authenticated.
-	 * 
-	 * @param request
-	 * 		the http request of the user
-	 * 
-	 * @return
-	 * 		true if the user is authenticated, false otherwise
-	 */
-	public boolean isAuthenticated(HttpServletRequest request) {
-		Cookie cookie = findCookie(SESSION2_COOKIE, request.getCookies());
-		if (cookie == null) return false;
-		
-		return clients.containsKey(cookie.getValue());
 	}
 	
 	/**
@@ -251,10 +244,8 @@ public class WebServer {
 				return false;
 			}
 			
-			int players = (int) clients.values().stream().distinct().count();
-			
 			//Check if the game is full
-			if (players >= MAX_PLAYERS) {
+			if (getUniqueClientCount() >= MAX_PLAYERS) {
 				//The game is full, user cannot join.
 				Log.getLog("WebInterface").fine("Disallowing user from joining game: game is full");
 				
@@ -321,7 +312,7 @@ public class WebServer {
 	 * @return
 	 * 		the cookie with the given name, or null if there is no such cookie
 	 */
-	public Cookie findCookie(String name, Cookie[] cookies) {
+	public static Cookie findCookie(String name, Cookie[] cookies) {
 		//There are no cookies, so return null
 		if (cookies == null) return null;
 		
@@ -347,8 +338,11 @@ public class WebServer {
 	 * @return
 	 * 		the newly created cookie
 	 */
-	public Cookie createCookie(HttpServletRequest request) {
+	public static Cookie createCookie(HttpServletRequest request) {
+		//Use the session to generate the Session ID.
 		HttpSession session = request.getSession(true);
+		
+		//Create the cookie
 		Cookie cookie = new Cookie(SESSION2_COOKIE, session.getId());
 		cookie.setMaxAge(24 * 60 * 60);
 		return cookie;
