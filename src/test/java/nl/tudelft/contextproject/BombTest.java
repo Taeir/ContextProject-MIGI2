@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -9,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,12 +25,23 @@ public class BombTest extends EntityTest {
 	
 	/**
 	 * Setup method.
-	 * Creates a fresh Bomb for every test.
+	 * Creates a fresh bomb for every test.
 	 */
 	@Before
 	public void setUp() {
 		setupGeometryMock();
 		bomb = new Bomb();
+	}
+
+	/**
+	 * Test if updating the bomb doesn't make it move.
+	 */
+	@Test
+	public void testSimpleUpdate() {
+		Geometry mockedGeometry = mock(Geometry.class);
+		bomb.setGeometry(mockedGeometry);
+		bomb.simpleUpdate(0.f);
+		verify(mockedGeometry, times(0)).move(0, 0, 0);
 	}
 
 	/**
@@ -42,31 +53,25 @@ public class BombTest extends EntityTest {
 		bomb.setGeometry(mockedGeometry);
 		assertEquals(bomb.getGeometry(), mockedGeometry);
 	}
+	
 	/**
 	 * Test getGeometry().
 	 */
 	@Test
 	public void testGetGeometry() {
-		Box cube1Mesh = new Box( 1f,1f,1f);
+		Box cube1Mesh = new Box(1f, 1f, 1f);
 		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		bomb.setGeometry(geometry);
 		assertEquals(bomb.getGeometry(), geometry);
 	}
+	
 	/**
 	 * Test getSpatial().
 	 */
 	@Test
-	public void testGetSpatialNotNull(){
+	public void testGetSpatialNotNull() {
 		Spatial mockedSpatial = mock(Spatial.class);
 		bomb.setSpatial(mockedSpatial);
 		assertEquals(bomb.getSpatial(), mockedSpatial);
 	}
-
-	@Override
-	public Drawable getDrawable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 }
