@@ -9,6 +9,8 @@ var gPlayer = {
     bombs: 0,
     keys: []
 };
+var gMap = null;
+var gExplored = null;
 
 /**
  * Sends an authentication request to the server.
@@ -43,6 +45,21 @@ function authenticate() {
 }
 
 /**
+ * Checks if the given data implies that we are authorized.
+ * If not, this method will attempt to authenticate and will return false.
+ */
+function checkAuthorized(data) {
+    if (data.auth == false) {
+        //We are not authenticated, so we will try to do so.
+        gAuth = false;
+        authenticate();
+        return false;
+    }
+    
+    return true;
+}
+
+/**
  * Requests the current status from the server.
  */
 function requestStatus() {
@@ -53,13 +70,8 @@ function requestStatus() {
             return;
         }
 
-        //Request was successful
-        if (data.auth == false) {
-            //We are not authenticated, so we will try to do so.
-            gAuth = false;
-            authenticate();
-            return;
-        }
+        //Check if we are authorized
+        if (!checkAuthorized(data)) return;
         
         //Set the correct team
         if (data.team == undefined || data.team == "NONE") {
@@ -163,6 +175,9 @@ function requestSetTeam(team) {
             } else if (data == "INVALID") {
                 //Invalid team was sent
                 showError("Invalid team!");
+            } else if (data == "UNAUTHORIZED") {
+                //Not in the current game, and game is running
+                showError("You are not in the game, and the game has already started!");
             } else {
                 //Unknown server response
                 showError("Unknown server response: " + data);
@@ -194,5 +209,121 @@ function updateTeam() {
 function updateGame(data) {
     if (data.player != undefined) {
         //TODO
+    }
+}
+
+function requestMap() {
+    console.log("[DEBUG] GETTING MAP");
+    
+    $.post("/map", function(data, status) {
+        if (status != "success") {
+            //HTTP Error
+            showError("Something went wrong: [" + status + "] " + data);
+            return;
+        }
+
+        //Check if we are authorized
+        if (!checkAuthorized(data)) return;
+        
+        //Update the map
+        updateMap(data);
+    }, "json");
+}
+
+function requestExplored() {
+    console.log("[DEBUG] GETTING EXPLORED");
+    
+    $.post("/explored", function(data, status) {
+        if (status != "success") {
+            //HTTP Error
+            showError("Something went wrong: [" + status + "] " + data);
+            return;
+        }
+
+        //Check if we are authorized
+        if (!checkAuthorized(data)) return;
+        
+        //Update the map
+        updateExplored(data);
+    }, "json");
+}
+
+function updateMap(data) {
+    if (gMap == null || gMap.width != data.width || gMap.height != data.height) {
+        var jqTableNode = $("#map");
+        
+        //Clear the map
+        jqTableNode.empty();
+        
+        //Extract from jQuery into javascript for better performance
+        var tableNode = jqTableNode[0];
+        for (y = 0; y < data.height; y++) {
+            var row = document.createElement("tr");
+            
+            //Set the row's id to the y coordinate
+            row.id = "y" + y;
+            
+            for (x = 0; x < data.width; x++) {
+                //Create a new cell
+                var cell = document.createElement("td");
+                
+                //Set the cell's id to the x coordinate
+                cell.id = "y" + y + "x" + x;
+                
+                //Set the classname to the type of the tile
+                cell.className = getClassForTileType(data.tiles[x][y]);
+                
+                //Add the cell to the row
+                row.appendChild(cell);
+            }
+            
+            //Add the row to the table
+            tableNode.appendChild(row);
+        }
+        
+        gMap = data;
+    } else {
+        //Map dimensions agree, so we can perform an update
+        for (y = 0; y < data.height; y++) {
+            for (x = 0; x < data.width; x++) {
+                //get the cell
+                var cell = document.getElementById("y" + y + "x" + x);
+                
+                //Update the className
+                cell.className = getClassForTileType(data.tiles[x][y]);
+            }
+        }
+        
+        gMap = data;
+    }
+}
+
+function updateExplored(data) {
+    for (x = 0; x < gMap.width; x++) {
+        var row = data[x];
+        
+        for (i = 0; i < row.length; i++) {
+            $(document.getElementById("y" + row[i] + "x" + x)).addClass("explored");
+        }
+    }
+    
+    gExplored = data;
+}
+
+function getClassForTileType(tileType) {
+    switch (tileType) {
+        case 0:
+            return "";
+        case 1:
+            return "floor";
+        case 2:
+            return "wall";
+        case 3:
+            return "corridor";
+        case 4:
+            return "invisible_wall";
+        default:
+            showError("Invalid tile type: " + tileType);
+            throw "Invalid tile type: " + tileType;
     }
 }
