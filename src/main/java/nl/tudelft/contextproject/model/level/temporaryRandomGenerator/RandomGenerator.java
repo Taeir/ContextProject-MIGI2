@@ -16,8 +16,8 @@ public class RandomGenerator {
         carved = carveCorridors(carved, rooms);
         for (int x = 0; x < carved.length; x++) {
             for (int y = 0; y < carved[0].length; y++) {
-                if (carved[x][y] == 1) {
-                    System.out.print(1);
+                if (carved[x][y] != 0) {
+                    System.out.print(carved[x][y]);
                 } else {
                     System.out.print(" ");
                 }
@@ -79,7 +79,11 @@ public class RandomGenerator {
         for (GeneratorRoom r : rooms) {
             for (int x = r.getxLeft(); x < r.getxRight(); x++) {
                 for (int y = r.getyLeft(); y < r.getyRight(); y++) {
-                    carved[x][y] = 1;
+                    if (x == r.getxLeft() || x == r.getxRight() - 1 || y == r.getyLeft() || y == r.getyRight() - 1) {
+                        carved[x][y] = 3;
+                    } else {
+                        carved[x][y] = 1;
+                    }
                 }
             }
         }
@@ -106,7 +110,9 @@ public class RandomGenerator {
         int min = (x1 < x2) ? x1 : x2;
         int max = (x1 > x2) ? x1 : x2;
         for (int x = min; x < max + 1; x++) {
-            map[x][y] = 1;
+            if (map[x][y] == 0 || map[x][y] == 3) {
+                map[x][y] = 2;
+            }
         }
         return map;
     }
@@ -115,7 +121,9 @@ public class RandomGenerator {
         int min = (y1 < y2) ? y1 : y2;
         int max = (y1 > y2) ? y1 : y2;
         for (int y = min; y < max + 1; y++) {
-            map[x][y] = 1;
+            if (map[x][y] == 0 || map[x][y] == 3) {
+                map[x][y] = 2;
+            }
         }
         return map;
     }

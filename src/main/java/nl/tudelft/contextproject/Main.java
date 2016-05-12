@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -112,10 +113,10 @@ public class Main extends SimpleApplication {
 	 * @param args run-specific arguments.
 	 */
 	public static void main(String[] args) {
-//		Main main = getInstance();
-//		List<String> a = Arrays.asList(args);
-//		debugHud = a.contains("--debugHud");
-//		main.start();
+		Main main = getInstance();
+		List<String> a = Arrays.asList(args);
+		debugHud = a.contains("--debugHud");
+		main.start();
 		RandomGenerator.makeMeSomeRoomsForTesting();
 	}
 

@@ -9,7 +9,6 @@ public class GeneratorRoom {
     private int xRight;
     private int yLeft;
     private int yRight;
-    private Size size;
 
     private Point center;
 
@@ -18,7 +17,6 @@ public class GeneratorRoom {
         this.xRight = xCoord + size.getWidth();
         this.yLeft = yCoord;
         this.yRight = yCoord + size.getHeight();
-        this.size = size;
 
         this.center = new Point((xLeft + xRight) / 2, (yLeft + yRight) / 2);
     }
@@ -46,10 +44,6 @@ public class GeneratorRoom {
 
     public int getyRight() {
         return yRight;
-    }
-
-    public Size getSize() {
-        return size;
     }
 
     public Point getCenter() {
