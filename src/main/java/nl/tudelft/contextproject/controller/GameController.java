@@ -77,7 +77,8 @@ public class GameController extends Controller {
 				}
 			}
 		}
-		addDrawable(game.getPlayer());
+		//Add player
+		addTrackedDrawable(game.getPlayer());
 
 		for (Light l : level.getLights()) {
 			addLight(l);
@@ -90,6 +91,7 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
+		super.update(tpf);
 		game.getPlayer().update(tpf);
 		updateEntities(tpf);
 	}

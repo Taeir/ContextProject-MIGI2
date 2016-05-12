@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
+import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -29,6 +30,7 @@ public class VRPlayer extends Entity {
 	public static final int PLAYER_AXIS = 1;
 
 	private Spatial spatial;
+	private CharacterControl physicObject;
 
 	/**
 	 * Constructor for a default player.
@@ -46,12 +48,14 @@ public class VRPlayer extends Entity {
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.Red);
 		spatial.setMaterial(mat);
+		spatial.setLocalTranslation(-1f, 0f, -4f);
 		return spatial;
 	}
 
 	@Override
 	public void update(float tdf) {
 		spatial.move(1 * tdf, 0, 0);
+		physicObject.setPhysicsLocation(spatial.getLocalTranslation());
 	}
 
 	@Override
@@ -77,23 +81,23 @@ public class VRPlayer extends Entity {
 	 * 				player physics object
 	 */
 	@Override
-	public Object getPhysicsObject() {
+	public CharacterControl getPhysicsObject() {
 		if (spatial == null) {
 			this.getSpatial();
 		}
-		
+		if (physicObject != null) return physicObject;
 		//create a shape that implements PhysicsControl
 		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(PLAYER_RADIUS, PLAYER_HEIGHT, PLAYER_AXIS);
-		CharacterControl player = new CharacterControl(capsuleShape, PLAYER_STEP_HEIGHT);
+		physicObject = new CharacterControl(capsuleShape, PLAYER_STEP_HEIGHT);
 
 		//Add physical constants of player
-		player.setJumpSpeed(JUMP_SPEED);
-		player.setFallSpeed(FALL_SPEED);
-		player.setGravity(PLAYER_GRAVITY);
+		physicObject.setJumpSpeed(JUMP_SPEED);
+		physicObject.setFallSpeed(FALL_SPEED);
+		physicObject.setGravity(PLAYER_GRAVITY);
 
 		//set physics location of player
-		player.setPhysicsLocation(spatial.getLocalTranslation());
+		physicObject.setPhysicsLocation(spatial.getLocalTranslation());
 
-		return player;
+		return physicObject;
 	}
 }

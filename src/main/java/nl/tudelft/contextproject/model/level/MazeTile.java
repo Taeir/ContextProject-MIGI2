@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.model.level;
 import java.awt.Graphics2D;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
@@ -77,7 +78,7 @@ public class MazeTile implements Drawable {
 	}
 
 	@Override
-	public Object getPhysicsObject() {
+	public PhysicsControl getPhysicsObject() {
 		if (spatial == null) {
 			this.getSpatial();
 		}

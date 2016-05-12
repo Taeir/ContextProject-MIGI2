@@ -10,6 +10,7 @@ import java.util.List;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
@@ -66,7 +67,7 @@ public class GameControllerTest extends ControllerTest {
 		when(entity.getSpatial()).thenReturn(mock(Spatial.class));
 		when(entity.getState()).thenReturn(EntityState.ALIVE);
 		
-		Geometry geom = mock(Geometry.class);
+		PhysicsControl geom = mock(PhysicsControl.class);
 		phe = mock(BulletAppState.class);
 		PhysicsSpace phs = mock(PhysicsSpace.class);
 		when(entity.getPhysicsObject()).thenReturn(geom);

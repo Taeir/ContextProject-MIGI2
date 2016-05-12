@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
@@ -112,7 +113,7 @@ public abstract class ControllerTest {
 			public void setSpatial(Spatial spatial) { }
 
 			@Override
-			public Object getPhysicsObject() {
+			public PhysicsControl getPhysicsObject() {
 				return null;
 			}
 			
@@ -141,7 +142,7 @@ public abstract class ControllerTest {
 			public void setSpatial(Spatial spatial) { }
 
 			@Override
-			public Object getPhysicsObject() {
+			public PhysicsControl getPhysicsObject() {
 				return null;
 			}
 			
@@ -171,7 +172,7 @@ public abstract class ControllerTest {
 			public void setSpatial(Spatial spatial) { }
 
 			@Override
-			public Object getPhysicsObject() {
+			public PhysicsControl getPhysicsObject() {
 				return null;
 			}
 			

@@ -123,8 +123,7 @@ public class Main extends SimpleApplication {
 		tickListeners = new LinkedList<>();
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
-		getFlyByCamera().setMoveSpeed(50);
-		
+		flyCam.setEnabled(false);
 		setupControlMappings();
 		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
 	}

@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.model;
 
+import com.jme3.bullet.control.PhysicsControl;
+
 /**
  * Collidable interface.
  *	Each object that uses some kind of physics should implement this class.
@@ -13,6 +15,6 @@ public interface Collidable {
 	 * @return
 	 * 		an object that implements PhysicsControl.
 	 */
-	public Object getPhysicsObject();
+	public PhysicsControl getPhysicsObject();
 
 }

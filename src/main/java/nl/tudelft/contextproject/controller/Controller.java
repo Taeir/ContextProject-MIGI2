@@ -5,11 +5,14 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.CharacterControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
+import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.CameraControl.ControlDirection;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
@@ -22,6 +25,7 @@ public abstract class Controller extends AbstractAppState {
 	private Node guiNode = new Node();
 	private BulletAppState physicsEnvironment = new BulletAppState();
 	private InputManager inputManager;
+	private CharacterControl playerPhysics;
 
 	/**
 	 * Protected constructor for the controller class.
@@ -45,7 +49,9 @@ public abstract class Controller extends AbstractAppState {
 	}
 
 	@Override
-	public abstract void update(float tpf);
+	public void update(float tpf) {
+		Main.getInstance().getCamera().setLocation(playerPhysics.getPhysicsLocation());
+	}
 
 	/**
 	 * Get the gamestate of this controller.
@@ -73,13 +79,30 @@ public abstract class Controller extends AbstractAppState {
 	/**
 	 * Add a Drawable to the renderer.
 	 * Drawables should also have a collision
-	 * @param d The drawable to add.
+	 * @param d 
+	 * 				The drawable to add.
 	 */
 	public void addDrawable(Drawable d) {
-		physicsEnvironment.getPhysicsSpace().add(d.getSpatial());
+		physicsEnvironment.getPhysicsSpace().add(d.getPhysicsObject());
 		rootNode.attachChild(d.getSpatial());
 	}
 
+	/**
+	 * Add a Drawable and a camera tracker.
+	 * @param d
+	 * 				a drawable with camera tracking
+	 */
+	public void addTrackedDrawable(Drawable d) {
+		playerPhysics = (CharacterControl) d.getPhysicsObject();
+		physicsEnvironment.getPhysicsSpace().add(playerPhysics);
+		
+		//Set up Camera
+		rootNode.attachChild(d.getSpatial());
+		CameraNode cameraNode = new CameraNode("Camera Node", Main.getInstance().getCamera());
+		cameraNode.setControlDir(ControlDirection.SpatialToCamera);
+		rootNode.attachChild(cameraNode);
+	}
+	
 	/**
 	 * Removes a Drawable from the renderer.
 	 * @param d The Drawable to remove.
