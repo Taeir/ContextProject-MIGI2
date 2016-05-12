@@ -23,18 +23,18 @@ public class Bomb extends Entity {
 	public Bomb() {
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh);
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		mat.setColor("Color", ColorRGBA.Red);
+		Material matb = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		matb.setColor("Color", ColorRGBA.White);
 		if (Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o") == null) {
 			sp = geometry;
 		} else {
 			Node nod = (Node) Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o");
-			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-			mat.setColor("Color", ColorRGBA.Red);
 			nod.setMaterial(mat);
-			Material matb = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-			matb.setColor("Color", ColorRGBA.White);
 			((Node) nod.getChild("Cylinder.001")).getChild(0).setMaterial(matb);
 			sp = nod;
-		}
+		}			
 	}
 
 	@Override
@@ -77,6 +77,5 @@ public class Bomb extends Entity {
 	 */
 	public void setSpatial(Spatial spatial) {
 		sp = spatial;
-
 	}
 }
