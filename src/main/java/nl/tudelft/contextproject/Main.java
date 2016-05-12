@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
@@ -13,6 +14,7 @@ import com.jme3.scene.Node;
 import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
@@ -60,10 +62,13 @@ public class Main extends SimpleApplication {
 	 * @throws IllegalStateException when the current controller is not a game Controller.
 	 */
 	public Game getCurrentGame() throws IllegalStateException {
-		if (!getGameState().isStarted() || !(controller instanceof GameController)) {
-			throw new IllegalStateException("The game is not running!");
+		if (controller instanceof GameController) {
+			return ((GameController) controller).getGame();				
 		}
-		return ((GameController) controller).getGame();		
+		if (controller instanceof PauseController) {
+			return ((PauseController) controller).getPausedController().getGame();				
+		}
+		throw new IllegalStateException("The game is not running!");
 	}
 	
 	/**
@@ -82,6 +87,24 @@ public class Main extends SimpleApplication {
 	 */
 	public void setGuiNode(Node gn) {
 		guiNode = gn;
+	}
+
+	/**
+	 * Method used for testing.
+	 * Sets the list of tickListeners to the specified list.
+	 * @param listeners The new List of ticklisteners.
+	 */
+	protected void setTickListeners(List<TickListener> listeners) {
+		tickListeners = listeners;
+	}
+	
+	/**
+	 * Method used for testing.
+	 * Sets the inputManager to the specified inputManager.
+	 * @param im The new InputManager.
+	 */
+	protected void setInputManager(InputManager im) {
+		inputManager = im;
 	}
 
 	/**
@@ -109,7 +132,7 @@ public class Main extends SimpleApplication {
 	/**
 	 * Setup all the key mappings.
 	 */
-	private void setupControlMappings() {
+	protected void setupControlMappings() {
 		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
 	
@@ -154,5 +177,13 @@ public class Main extends SimpleApplication {
 	public GameState getGameState() {
 		if (controller == null) return null;
 		return controller.getGameState();
+	}
+
+	/**
+	 * Check if the debug Hud is shown.
+	 * @return True when shown, false otherwise.
+	 */
+	public static boolean isDebugHudShown() {
+		return debugHud;
 	}
 }

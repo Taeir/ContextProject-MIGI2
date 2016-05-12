@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
 
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 
 /**
@@ -29,5 +28,5 @@ public interface Drawable extends Collidable {
 	 * @param g The Graphics2D to draw on.
 	 * @param resolution The resolution of a single tile on the map.
 	 */
-	public default void mapDraw(Graphics2D g, int resolution) { }
+	public void mapDraw(Graphics2D g, int resolution);
 }
