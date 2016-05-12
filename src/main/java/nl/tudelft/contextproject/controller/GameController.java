@@ -91,7 +91,11 @@ public class GameController extends Controller {
 		}
 		//Add player
 		addDrawable(game.getPlayer());
-		game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
+		
+		if (game.getPlayer().getPhysicsObject() != null) {
+			game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
+		}
+		
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
