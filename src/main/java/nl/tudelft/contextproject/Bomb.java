@@ -43,8 +43,7 @@ public class Bomb extends Entity {
 	}
 
 	/**
-	 * @return
-	 * 		the spatial.
+	 * @return	the spatial.
 	 */
 	public Spatial getSpatial() {
 		return sp;
