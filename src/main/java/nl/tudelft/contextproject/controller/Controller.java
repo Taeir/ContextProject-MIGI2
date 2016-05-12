@@ -72,7 +72,7 @@ public abstract class Controller extends AbstractAppState {
 	 * @param d The drawable to add.
 	 */
 	public void addDrawable(Drawable d) {
-		rootNode.attachChild(d.getGeometry());
+		rootNode.attachChild(d.getSpatial());
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public abstract class Controller extends AbstractAppState {
 	 * @return True when the Drawable was removed, false otherwise.
 	 */
 	public boolean removeDrawable(Drawable d) {
-		return rootNode.detachChild(d.getGeometry()) != -1;
+		return rootNode.detachChild(d.getSpatial()) != -1;
 	}
 	
 	/**
@@ -133,6 +133,15 @@ public abstract class Controller extends AbstractAppState {
 	 */
 	protected void setGuiNode(Node gn) {
 		guiNode = gn;
+	}
+	
+	/**
+	 * Method used for testing.
+	 * Sets the inputMainager a specified InputManager.
+	 * @param inputManager The new InputManager.
+	 */
+	protected void setInputManager(InputManager inputManager) {
+		this.inputManager = inputManager;
 	}
 	
 	@Override

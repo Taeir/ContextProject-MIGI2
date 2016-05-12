@@ -14,6 +14,7 @@ import com.jme3.material.MatParam;
 import com.jme3.material.MaterialDef;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 
@@ -39,7 +40,7 @@ public abstract class DrawableTest {
 	private void setupDrawable() {
 		dable = getDrawable();
 		Geometry geom = mock(Geometry.class);
-		dable.setGeometry(geom);
+		dable.setSpatial(geom);
 		when(geom.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
 	}
 	
@@ -49,7 +50,7 @@ public abstract class DrawableTest {
 	@Test
 	public void testGetGeometryNotNull() {
 		setupDrawable();
-		assertNotNull(dable.getGeometry());
+		assertNotNull(dable.getSpatial());
 	}
 	
 	/**
@@ -58,8 +59,8 @@ public abstract class DrawableTest {
 	@Test
 	public void testPersistentGeometry() {
 		setupDrawable();
-		Geometry geom = dable.getGeometry();
-		assertEquals(geom, dable.getGeometry());
+		Spatial s = dable.getSpatial();
+		assertEquals(s, dable.getSpatial());
 	}
 	
 	/**

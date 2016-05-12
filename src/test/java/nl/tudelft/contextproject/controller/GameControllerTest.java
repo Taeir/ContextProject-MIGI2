@@ -2,20 +2,28 @@ package nl.tudelft.contextproject.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import com.jme3.app.state.AppStateManager;
+import com.jme3.input.InputManager;
+import com.jme3.input.controls.InputListener;
+import com.jme3.light.Light;
+import com.jme3.light.LightList;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
+import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +33,11 @@ import org.junit.Test;
 public class GameControllerTest extends ControllerTest {
 	private GameController controller;
 	private Main main;
+	private Game game;
 	private Level level;
+	
+	private Node rootNode;
+	private InputManager inputManager;
 	
 	/**
 	 * Setup method for the test suit.
@@ -33,22 +45,56 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Before
 	public void setUp() {
-		main = mock(Main.class);
-		level = mock(Level.class);
+		Main.setInstance(new Main());
+		main = Main.getInstance();
+		controller = new GameController(main, null);
 		
-		controller = new GameController(main, level);
+		Light light = mock(Light.class);		
+		rootNode = mock(Node.class);
+		LightList lightList = new LightList(rootNode);
+		lightList.add(light);
+		when(rootNode.getLocalLightList()).thenReturn(lightList);
+		controller.setRootNode(rootNode);
+		inputManager = mock(InputManager.class);
+		controller.setInputManager(inputManager);
+		
+		LinkedList<Entity> entities = new LinkedList<>();
+		Entity entity = mock(Entity.class);
+		when(entity.getSpatial()).thenReturn(mock(Spatial.class));
+		when(entity.getState()).thenReturn(EntityState.ALIVE);
+		entities.add(entity);
+		VRPlayer player = mock(VRPlayer.class);
+		when(player.getSpatial()).thenReturn(mock(Spatial.class));
+		
+		MazeTile t = mock(MazeTile.class);
+		when(t.getSpatial()).thenReturn(mock(Spatial.class));
+		MazeTile[][] tiles = {{t, t}, {null, t}, {t, null}};
+		LinkedList<Light> lights = new LinkedList<>();
+		lights.add(light);
+		level = new Level(tiles, lights);
+		game = new Game(level, player, entities);
+		
+		controller.setGame(game);
 	}
 	
-//	/**
-//	 * Test the update on the player.
-//	 */
-//	@Test
-//	public void testUpdatePlayer() {
-//		VRPlayer player = mock(VRPlayer.class);
-//		controller.setLevel(level);
-//        controller.update(0.5f);
-//        verify(player, times(1)).update(0.5f);
-//	}
+	/**
+	 * Test if initializing adds a keyListener for pausing the game.
+	 */
+	@Test
+	public void testInitialize() {
+		AppStateManager sm = mock(AppStateManager.class);
+		controller.initialize(sm, main);
+		verify(inputManager, times(1)).addListener(any(InputListener.class), eq("pause"));
+	}
+	
+	/**
+	 * Test the update on the player.
+	 */
+	@Test
+	public void testUpdatePlayer() {
+        controller.update(0.5f);
+        verify(game.getPlayer(), times(1)).update(0.5f);
+	}
 	
 	/**
 	 * Test if a NEW entity is updated correctly.
@@ -61,7 +107,7 @@ public class GameControllerTest extends ControllerTest {
 		Geometry geom = mock(Geometry.class);
 		
 		when(eMock.getState()).thenReturn(EntityState.NEW);
-		when(eMock.getGeometry()).thenReturn(geom);
+		when(eMock.getSpatial()).thenReturn(geom);
 		
 		list.add(eMock);
 		
@@ -79,24 +125,15 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testUpdateEntityDEAD() {
-		List<Entity> list = controller.getGame().getEntities();
-		Entity eMock = mock(Entity.class);
-		Node rn = mock(Node.class);
-		Geometry geom = mock(Geometry.class);
+		Entity entity = controller.getGame().getEntities().get(0);
 		
-		when(eMock.getState()).thenReturn(EntityState.DEAD);
-		when(eMock.getGeometry()).thenReturn(geom);
+		when(entity.getState()).thenReturn(EntityState.DEAD);	
 		
-		list.add(eMock);
-		
-		controller.getGame().setLevel(level);
-		controller.setRootNode(rn);
         controller.updateEntities(0.5f);
         
-        verify(eMock, times(0)).update(0.5f);
-        
-        verify(rn, times(1)).detachChild(geom); 
-        assertFalse(list.contains(eMock));
+        verify(entity, times(0)).update(0.5f);        
+        verify(rootNode, times(1)).detachChild(entity.getSpatial()); 
+        assertFalse(game.getEntities().contains(entity));
 	}
 	
 	/**
@@ -104,16 +141,11 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testUpdateEntityALIVE() {
-		List<Entity> list = controller.getGame().getEntities();
-		Entity eMock = mock(Entity.class);
-		
-		when(eMock.getState()).thenReturn(EntityState.ALIVE);
-		
-		list.add(eMock);
-		controller.getGame().setLevel(level);
+		Entity entity = controller.getGame().getEntities().get(0);
+		when(entity.getState()).thenReturn(EntityState.ALIVE);
         controller.updateEntities(0.5f);
         
-        verify(eMock, times(1)).update(0.5f);
+        verify(entity, times(1)).update(0.5f);
 	}
 	
 	/**
@@ -121,7 +153,7 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testLevel() {
-		Level level = new Level(null);
+		Level level = new Level(null, null);
 		controller.getGame().setLevel(level);
 		assertEquals(level, controller.getLevel());
 	}
@@ -135,36 +167,32 @@ public class GameControllerTest extends ControllerTest {
 		controller.attachLevel();
 	}
 	
-//	/**
-//	 * Test if attaching a level correctly adds all elements to the renderer.
-//	 */
-//	@Test
-//	public void testAttachLevel() {
-//		Node rn = mock(Node.class);
-//		Light lMock = mock(Light.class);
-//		MazeTile t = mock(MazeTile.class);
-//		VRPlayer player = mock(VRPlayer.class);
-//		Geometry geom = mock(Geometry.class);
-//		Geometry playerGeom = mock(Geometry.class);
-//		
-//		when(t.getGeometry()).thenReturn(geom);
-//		when(player.getGeometry()).thenReturn(playerGeom);
-//		
-//		List<Light> lights = new ArrayList<>();
-//		lights.add(lMock);
-//		lights.add(lMock);
-//		MazeTile[][] tiles = {{t, null, t}, {t, t, t}};
-//		Room[] rooms = {new Room(tiles, lights)};
-//		Game game = new Game(new Level(rooms));
-//		
-//		controller.setRootNode(rn);
-//		controller.setGame(game);
-//		controller.attachLevel();
-//        
-//        verify(rn, times(5)).attachChild(geom);
-//        verify(rn, times(1)).attachChild(playerGeom);
-//        verify(rn, times(2)).addLight(lMock);
-//	}
+	/**
+	 * Test if attaching a level correctly adds all elements to the renderer.
+	 */
+	@Test
+	public void testAttachLevel() {
+		Game g = controller.getGame();
+		Spatial pSpatial = g.getPlayer().getSpatial();
+		Spatial tSpatial = g.getLevel().getTile(0, 0).getSpatial();
+		Light light = g.getLevel().getLights().get(0);
+
+		controller.attachLevel();
+		
+		verify(rootNode, times(4)).attachChild(tSpatial);
+        verify(rootNode, times(1)).attachChild(pSpatial);
+        verify(rootNode, times(1)).addLight(light);
+	}
+	
+	/**
+	 * Test if cleaning up cleans up the entities.
+	 */
+	@Test
+	public void testCleanUpEntities() {
+		Entity entity = game.getEntities().get(0);
+		controller.cleanup();
+		verify(entity, times(1)).setState(EntityState.NEW);
+	}
 
 	@Override
 	public Controller getController() {

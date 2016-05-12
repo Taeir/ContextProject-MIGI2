@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
@@ -12,6 +13,7 @@ import com.jme3.scene.Node;
 import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
@@ -25,8 +27,19 @@ public class Main extends SimpleApplication {
 	private static Main instance;
 	private Controller controller;
 
-	private final List<TickListener> tickListeners = new LinkedList<>();
-	
+	private List<TickListener> tickListeners = new LinkedList<>();
+
+	/**
+	 * Main method that is called when the program is started.
+	 * @param args run-specific arguments.
+	 */
+	public static void main(String[] args) {
+		Main main = getInstance();
+		List<String> a = Arrays.asList(args);
+		debugHud = a.contains("--debugHud");
+		main.start();
+	}
+
 	/**
 	 * Method used for testing.
 	 * Sets the instance of this singleton to the provided instance.
@@ -60,10 +73,13 @@ public class Main extends SimpleApplication {
 	 * @throws IllegalStateException when the current controller is not a game Controller.
 	 */
 	public Game getCurrentGame() throws IllegalStateException {
-		if (!getGameState().isStarted() || !(controller instanceof GameController)) {
-			throw new IllegalStateException("The game is not running!");
+		if (controller instanceof GameController) {
+			return ((GameController) controller).getGame();				
 		}
-		return ((GameController) controller).getGame();		
+		if (controller instanceof PauseController) {
+			return ((PauseController) controller).getPausedController().getGame();				
+		}
+		throw new IllegalStateException("The game is not running!");
 	}
 	
 	/**
@@ -71,7 +87,7 @@ public class Main extends SimpleApplication {
 	 * Sets the rootNode of Main to a new Node.
 	 * @param rn The new node to replace the rootNode.
 	 */
-	protected void setRootNode(Node rn) {
+	public void setRootNode(Node rn) {
 		rootNode = rn;
 	}
 
@@ -80,19 +96,26 @@ public class Main extends SimpleApplication {
 	 * Sets the guiNode of Main to a new Node.
 	 * @param gn The new node to replace the guiNode.
 	 */
-	protected void setGuiNode(Node gn) {
+	public void setGuiNode(Node gn) {
 		guiNode = gn;
 	}
 
 	/**
-	 * Main method that is called when the program is started.
-	 * @param args run-specific arguments.
+	 * Method used for testing.
+	 * Sets the list of tickListeners to the specified list.
+	 * @param listeners The new List of ticklisteners.
 	 */
-	public static void main(String[] args) {
-		Main main = getInstance();
-		List<String> a = Arrays.asList(args);
-		debugHud = a.contains("--debugHud");
-		main.start();
+	protected void setTickListeners(List<TickListener> listeners) {
+		tickListeners = listeners;
+	}
+	
+	/**
+	 * Method used for testing.
+	 * Sets the inputManager to the specified inputManager.
+	 * @param im The new InputManager.
+	 */
+	protected void setInputManager(InputManager im) {
+		inputManager = im;
 	}
 
 	@Override
@@ -102,13 +125,13 @@ public class Main extends SimpleApplication {
 		getFlyByCamera().setMoveSpeed(50);
 		
 		setupControlMappings();
-		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
+		setController(new GameController(this, (new RandomLevelFactory(5, false)).generateRandom()));
 	}
 
 	/**
 	 * Setup all the key mappings.
 	 */
-	private void setupControlMappings() {
+	protected void setupControlMappings() {
 		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
 	
@@ -153,5 +176,13 @@ public class Main extends SimpleApplication {
 	public GameState getGameState() {
 		if (controller == null) return null;
 		return controller.getGameState();
+	}
+
+	/**
+	 * Check if the debug Hud is shown.
+	 * @return True when shown, false otherwise.
+	 */
+	public static boolean isDebugHudShown() {
+		return debugHud;
 	}
 }
