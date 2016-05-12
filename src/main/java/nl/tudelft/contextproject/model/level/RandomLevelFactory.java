@@ -112,10 +112,10 @@ public class RandomLevelFactory implements LevelFactory {
 		File[] files = new File(RandomLevelFactory.class.getResource("/rooms").toURI()).listFiles();
 
 		/**
-		 * If the folder is not a folder, we throw an IllegalStateException exception.
+		 * If the folder does not exist, we throw an IllegalStateException.
 		 */
 		if (files == null) {
-			throw new IllegalStateException("There are no rooms.");
+			throw new IllegalStateException("There rooms folder does not exist.");
 		}
 
 		List<Size> sizes = new ArrayList<>();
@@ -140,7 +140,7 @@ public class RandomLevelFactory implements LevelFactory {
 		List<GeneratorRoom> rooms = new ArrayList<>();
 		List<Size> sizes = loadRooms();
 		if (!allowDuplicates && sizes.size() < amount) {
-			throw new IllegalArgumentException("You are requesting more rooms than there are.");
+			throw new IllegalArgumentException("You are requesting " + amount + " rooms, while there only are " + sizes.size() + " available.");
 		}
 
 		/**
