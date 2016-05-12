@@ -1,6 +1,6 @@
 package nl.tudelft.contextproject.model.level.temporaryRandomGenerator;
 
-import nl.tudelft.contextproject.util.Point;
+import com.jme3.math.Vector2f;
 import nl.tudelft.contextproject.util.Size;
 
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ public class RandomGenerator {
         if (!allowDuplicates && sizes.size() < amount) {
             throw new IllegalArgumentException("You are requesting more rooms than there are.");
         }
+
         for (int i = 0; i < amount; i++) {
             int attempts = 0;
             boolean success = false;
@@ -41,6 +42,8 @@ public class RandomGenerator {
             if (rSize.getWidth() >= MAX_WIDTH || rSize.getHeight() >= MAX_HEIGHT) {
                 throw new IllegalArgumentException("It is impossible for this level to fit in your map size.");
             }
+
+
             while (!success && attempts < MAX_ATTEMPTS) {
                 success = true;
                 int xCoord = GeneratorHelper.getRandom(0, MAX_WIDTH - rSize.getWidth());
@@ -53,12 +56,14 @@ public class RandomGenerator {
                     }
                 }
             }
+
             if (success) {
                 rooms.add(newRoom);
             } else {
                 break;
             }
         }
+
         if (rooms.size() == amount) {
             return rooms;
         } else {
@@ -92,23 +97,24 @@ public class RandomGenerator {
 
     public static int[][] carveCorridors(int[][] map, ArrayList<GeneratorRoom> rooms) {
         for (int i = 1; i < rooms.size(); i++) {
-            Point prevCenter = rooms.get(i - 1).getCenter();
-            Point currCenter = rooms.get(i).getCenter();
+            Vector2f prevCenter = rooms.get(i - 1).getCenter();
+            Vector2f currCenter = rooms.get(i).getCenter();
             int rn = GeneratorHelper.getRandom(0, 2);
             if (rn == 1) {
-                map = hCorridor(map, prevCenter.getxCoord(), currCenter.getxCoord(), prevCenter.getyCoord());
-                map = vCorridor(map, prevCenter.getyCoord(), currCenter.getyCoord(), currCenter.getxCoord());
+                map = hCorridor(map, prevCenter.getX(), currCenter.getX(), prevCenter.getY());
+                map = vCorridor(map, prevCenter.getY(), currCenter.getY(), currCenter.getX());
             } else {
-                map = vCorridor(map, prevCenter.getyCoord(), currCenter.getyCoord(), prevCenter.getxCoord());
-                map = hCorridor(map, prevCenter.getxCoord(), currCenter.getxCoord(), currCenter.getyCoord());
+                map = vCorridor(map, prevCenter.getY(), currCenter.getY(), prevCenter.getX());
+                map = hCorridor(map, prevCenter.getX(), currCenter.getX(), currCenter.getY());
             }
         }
         return map;
     }
 
-    public static int[][] hCorridor(int[][] map, int x1, int x2, int y) {
-        int min = (x1 < x2) ? x1 : x2;
-        int max = (x1 > x2) ? x1 : x2;
+    public static int[][] hCorridor(int[][] map, float x1, float x2, float yF) {
+        int min = (int) Math.floor(Math.min(x1, x2));
+        int max = (int) Math.floor(Math.max(x1, x2));
+        int y = (int) Math.floor(yF);
         for (int x = min; x < max + 1; x++) {
             if (map[x][y] == 0 || map[x][y] == 3) {
                 map[x][y] = 2;
@@ -117,9 +123,10 @@ public class RandomGenerator {
         return map;
     }
 
-    public static int[][] vCorridor(int[][] map, int y1, int y2, int x) {
-        int min = (y1 < y2) ? y1 : y2;
-        int max = (y1 > y2) ? y1 : y2;
+    public static int[][] vCorridor(int[][] map, float y1, float y2, float xF) {
+        int min = (int) Math.floor(Math.min(y1, y2));
+        int max = (int) Math.floor(Math.max(y1, y2));
+        int x = (int) Math.floor(xF);
         for (int y = min; y < max + 1; y++) {
             if (map[x][y] == 0 || map[x][y] == 3) {
                 map[x][y] = 2;

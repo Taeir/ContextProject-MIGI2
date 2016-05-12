@@ -16,11 +16,12 @@ import nl.tudelft.contextproject.model.Drawable;
  * Class representing a tile in the maze.
  */
 public class MazeTile implements Drawable {
-	public static final int MAX_HEIGHT = 1;
+	public static final int MAX_HEIGHT = 0;
 	
 	private Spatial spatial;
 	private Vector2f position;
 	private int height;
+	private boolean explored;
 	
 	/**
 	 * Constructor for a tile in the maze.
@@ -30,6 +31,7 @@ public class MazeTile implements Drawable {
 	public MazeTile(int x, int y) {
 		this.position = new Vector2f(x, y);
 		this.height = MAX_HEIGHT;
+		this.explored = false;
 	}
 
 	/**
@@ -71,5 +73,15 @@ public class MazeTile implements Drawable {
 	@Override
 	public void setSpatial(Spatial spatial) {
 		this.spatial = spatial;
+	}
+
+	public boolean isExplored() {
+		return explored;
+	}
+
+	public boolean setExplored(boolean explored) {
+		boolean returnValue = this.explored;
+		this.explored = explored;
+		return returnValue;
 	}
 }

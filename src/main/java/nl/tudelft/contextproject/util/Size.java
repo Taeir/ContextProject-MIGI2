@@ -10,10 +10,11 @@ public class Size {
 
     /**
      * Constructor for creating a "Size" pair.
+     *
      * @param width
-     *              The height of the size.
+     *              the height of the Size
      * @param height
-     *              The width of the size.
+     *              the width of the Size
      */
     public Size(int width, int height) {
         this.width = width;
@@ -21,18 +22,16 @@ public class Size {
     }
 
     /**
-     * Get the width of the Size.
      * @return
-     *          The width of the Size.
+     *          the width of the Size
      */
     public int getWidth() {
         return this.width;
     }
 
     /**
-     * Get the height of the Size.
      * @return
-     *          The height of the Size.
+     *          the height of the Size
      */
     public int getHeight() {
         return this.height;

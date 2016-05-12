@@ -21,7 +21,7 @@ public class MazeTileTest extends DrawableTest {
 	 */
 	@Before
 	public void setUp() {
-		tile = new MazeTile(10, 123);
+		tile = new MazeTile(10, 123, 3);
 	}
 
 	@Override
@@ -29,31 +29,31 @@ public class MazeTileTest extends DrawableTest {
 		return tile;
 	}
 	
-//	/**
-//	 * Test for default exploration value.
-//	 */
-//	@Test
-//	public void testIsExplored() {
-//		assertFalse(tile.isExplored());
-//	}
-//
-//	/**
-//	 * Test for setting explored value for a tile with no change in value.
-//	 */
-//	@Test
-//	public void testSetExploredNoChange() {
-//		assertFalse(tile.setExplored(false));
-//		assertFalse(tile.isExplored());
-//	}
-//
-//	/**
-//	 * Test for setting the explored value to a new value.
-//	 */
-//	@Test
-//	public void testSetExplored() {
-//		assertFalse(tile.setExplored(true));
-//		assertTrue(tile.isExplored());
-//	}
+	/**
+	 * Test for default exploration value.
+	 */
+	@Test
+	public void testIsExplored() {
+		assertFalse(tile.isExplored());
+	}
+
+	/**
+	 * Test for setting explored value for a tile with no change in value.
+	 */
+	@Test
+	public void testSetExploredNoChange() {
+		assertFalse(tile.setExplored(false));
+		assertFalse(tile.isExplored());
+	}
+
+	/**
+	 * Test for setting the explored value to a new value.
+	 */
+	@Test
+	public void testSetExplored() {
+		assertFalse(tile.setExplored(true));
+		assertTrue(tile.isExplored());
+	}
 	
 	/**
 	 * Check if the position of the tile is according to the values given when constructiong.

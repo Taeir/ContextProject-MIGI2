@@ -3,6 +3,7 @@ package nl.tudelft.contextproject;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
@@ -117,7 +118,6 @@ public class Main extends SimpleApplication {
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
 		main.start();
-		RandomGenerator.makeMeSomeRoomsForTesting();
 	}
 
 	@Override

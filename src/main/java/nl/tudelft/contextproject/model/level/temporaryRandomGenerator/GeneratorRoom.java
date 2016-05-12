@@ -1,7 +1,7 @@
 package nl.tudelft.contextproject.model.level.temporaryRandomGenerator;
 
 
-import nl.tudelft.contextproject.util.Point;
+import com.jme3.math.Vector2f;
 import nl.tudelft.contextproject.util.Size;
 
 public class GeneratorRoom {
@@ -10,7 +10,7 @@ public class GeneratorRoom {
     private int yLeft;
     private int yRight;
 
-    private Point center;
+    private Vector2f center;
 
     public GeneratorRoom(int xCoord, int yCoord, Size size) {
         this.xLeft = xCoord;
@@ -18,7 +18,7 @@ public class GeneratorRoom {
         this.yLeft = yCoord;
         this.yRight = yCoord + size.getHeight();
 
-        this.center = new Point((xLeft + xRight) / 2, (yLeft + yRight) / 2);
+        this.center = new Vector2f((xLeft + xRight) / 2, (yLeft + yRight) / 2);
     }
 
     public boolean intersects(GeneratorRoom room) {
@@ -46,7 +46,7 @@ public class GeneratorRoom {
         return yRight;
     }
 
-    public Point getCenter() {
+    public Vector2f getCenter() {
         return center;
     }
 }
