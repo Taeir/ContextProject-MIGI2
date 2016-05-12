@@ -3,7 +3,6 @@ package nl.tudelft.contextproject;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
@@ -18,7 +17,6 @@ import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
-import nl.tudelft.contextproject.model.level.temporaryRandomGenerator.RandomGenerator;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
@@ -40,7 +38,6 @@ public class Main extends SimpleApplication {
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
 		main.start();
-//		RandomGenerator.makeMeSomeRoomsForTesting();
 	}
 
 	/**
@@ -129,7 +126,7 @@ public class Main extends SimpleApplication {
 		getFlyByCamera().setMoveSpeed(50);
 		
 		setupControlMappings();
-		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
+		setController(new GameController(this, (new RandomLevelFactory(5, false)).generateRandom()));
 	}
 
 	/**

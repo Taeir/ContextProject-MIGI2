@@ -16,33 +16,40 @@ import nl.tudelft.contextproject.model.Drawable;
  * Class representing a tile in the maze.
  */
 public class MazeTile implements Drawable {
-	public static final int MAX_HEIGHT = 0;
-	
 	private Spatial spatial;
 	private Vector2f position;
 	private int height;
 	private boolean explored;
-	
-	/**
-	 * Constructor for a tile in the maze.
-	 * @param x The x-coordinate of this tile.
-	 * @param y The y-coordinate of this tile.
-	 */
-	public MazeTile(int x, int y) {
-		this.position = new Vector2f(x, y);
-		this.height = MAX_HEIGHT;
-		this.explored = false;
-	}
+	private ColorRGBA color;
 
 	/**
 	 * Constructor for a tile in the maze.
-	 * @param x The x-coordinate of this tile.
-	 * @param y The y coordinate of this tile.
-	 * @param height The height of this tile.
+	 * @param x
+	 * 			the x-coordinate of this tile
+	 * @param y
+	 * 			the y coordinate of this tile
+	 * @param type
+	 * 			the type of this tile
      */
-	public MazeTile(int x, int y, int height) {
-		this(x, y);
-		this.height = height;
+	public MazeTile(int x, int y, TileType type) {
+		this.position = new Vector2f(x, y);
+		this.explored = false;
+		switch (type) {
+			case FLOOR:
+				this.height = 0;
+				this.color = ColorRGBA.LightGray;
+				break;
+			case WALL:
+				this.height = 3;
+				this.color = ColorRGBA.Blue;
+				break;
+			case CORRIDOR:
+				this.height = 0;
+				this.color = ColorRGBA.DarkGray;
+				break;
+			default:
+				throw new IllegalArgumentException("This is not a valid type.");
+		}
 	}
 	
 	@Override
@@ -53,10 +60,10 @@ public class MazeTile implements Drawable {
         this.spatial = new Geometry("Box", b);  // create cube geometry from the shape
         Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
         mat.setBoolean("UseMaterialColors", true);    
-        mat.setColor("Diffuse", ColorRGBA.randomColor());
+        mat.setColor("Diffuse", color);
         mat.setColor("Specular", ColorRGBA.White);
         mat.setFloat("Shininess", 64f);  // [0,128]
-		mat.setColor("Ambient", ColorRGBA.randomColor());
+		mat.setColor("Ambient", color);
         this.spatial.setMaterial(mat);                   // set the cube's material
         this.spatial.move(position.x, position.y, height);
         return spatial;

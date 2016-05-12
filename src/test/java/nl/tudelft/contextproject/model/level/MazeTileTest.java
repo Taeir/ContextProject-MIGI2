@@ -21,7 +21,7 @@ public class MazeTileTest extends DrawableTest {
 	 */
 	@Before
 	public void setUp() {
-		tile = new MazeTile(10, 123, MazeTile.MAX_HEIGHT);
+		tile = new MazeTile(10, 123, TileType.CORRIDOR);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class MazeTileTest extends DrawableTest {
 	@Test
 	public void testGetGeometryPosition() {
 		setupGeometryMock();
-		assertEquals(new Vector3f(10, 123, MazeTile.MAX_HEIGHT), tile.getSpatial().getLocalTranslation());
+		assertEquals(new Vector3f(10, 123, 0), tile.getSpatial().getLocalTranslation());
 	}
 
 }
