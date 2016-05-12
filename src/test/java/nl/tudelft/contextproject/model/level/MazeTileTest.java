@@ -62,7 +62,7 @@ public class MazeTileTest extends DrawableTest {
 	@Test
 	public void testGetGeometryPosition() {
 		setupGeometryMock();
-		assertEquals(new Vector3f(10, 1, 123), tileCorridor.getSpatial().getLocalTranslation());
+		assertEquals(new Vector3f(10, 0, 123), tileCorridor.getSpatial().getLocalTranslation());
 	}
 	
 	/**
@@ -75,9 +75,9 @@ public class MazeTileTest extends DrawableTest {
 		MazeTile tileFloor = new MazeTile(10, 123, TileType.FLOOR);
 		MazeTile tileWall = new MazeTile(10, 123, TileType.WALL);
 
-		assertEquals(new Vector3f(10, 123, 0), tileCorridor.getSpatial().getLocalTranslation());
-		assertEquals(new Vector3f(10, 123, 0), tileFloor.getSpatial().getLocalTranslation());
-		assertEquals(new Vector3f(10, 123, 3), tileWall.getSpatial().getLocalTranslation());
+		assertEquals(new Vector3f(10, 0, 123), tileCorridor.getSpatial().getLocalTranslation());
+		assertEquals(new Vector3f(10, 0, 123), tileFloor.getSpatial().getLocalTranslation());
+		assertEquals(new Vector3f(10, 3, 123), tileWall.getSpatial().getLocalTranslation());
 	}
 
 }
