@@ -7,12 +7,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.level.Level;
-
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.json.JSONObject;
+
+import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.webinterface.temp.WebLevel2;
 
 /**
  * Servlet for handling client requests.
@@ -63,6 +63,11 @@ public class ClientServlet extends DefaultServlet {
 			case "map":
 				//Client wants the initial map
 				getMap(request, response);
+				break;
+				
+			case "explored":
+				//Client wants explored tiles
+				getExplored(request, response);
 				break;
 				
 			case "status":
@@ -181,16 +186,47 @@ public class ClientServlet extends DefaultServlet {
 		//Get the WebClient of the request
 		WebClient client = server.getUser(request);
 		
-		if (client == null) {
-			//Client is not known: unauthorized request
-			response.setStatus(HttpStatus.OK_200);
-			response.setContentType("text/json");
-			response.getWriter().write("{auth: false}");
-			return;
-		}
+		//Check authorized
+		if (!checkAuthorized(client, response, false)) return;
 		
 		//We need to send the map to the clients
+		//We send the map as a bunch of rooms, and tiles that make up the corridors.
+		//Entities (doors, keys, bombs, player, enemies) and such, are sent differently
 		
+		//Send the size of the level and all the tiles
+		JSONObject json = WebLevel2.testLevel().toJSON();
+
+		//Send the response
+		response.setStatus(HttpStatus.OK_200);
+		response.setContentType("text/json");
+		response.getWriter().write(json.toString());
+	}
+	
+	/**
+	 * Handles a explored request.
+	 * 
+	 * @param request
+	 * 		the HTTP request
+	 * @param response
+	 * 		the HTTP response object
+	 * 
+	 * @throws IOException
+	 * 		if sending the response to the client causes an IOException
+	 */
+	public void getExplored(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//Get the WebClient of the request
+		WebClient client = server.getUser(request);
+		
+		//Check authorized
+		if (!checkAuthorized(client, response, false)) return;
+		
+		//Send the explored map
+		JSONObject json = WebLevel2.testLevel().toExploredJSON();
+
+		//Send the response
+		response.setStatus(HttpStatus.OK_200);
+		response.setContentType("text/json");
+		response.getWriter().write(json.toString());
 	}
 	
 	/**
@@ -221,8 +257,8 @@ public class ClientServlet extends DefaultServlet {
 		response.setContentType("text/json");
 		
 		JSONObject json = new JSONObject();
-		json.append("team", client.getTeam().toUpperCase());
-		json.append("state", Main.getInstance().getGameState().name());
+		json.put("team", client.getTeam().toUpperCase());
+		json.put("state", Main.getInstance().getGameState().name());
 		//TODO Finish conversion to JSONObject
 		
 		@SuppressWarnings("resource")
