@@ -9,6 +9,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
@@ -124,7 +125,10 @@ public class Main extends SimpleApplication {
 		tickListeners = new LinkedList<>();
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
-		//getFlyByCamera().setMoveSpeed(50);
+		
+		flyCam.setMoveSpeed(100);
+		viewPort.setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
+		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
 		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
@@ -146,13 +150,9 @@ public class Main extends SimpleApplication {
 	 * Move the camera to a new location.
 	 * @param newLoc
 	 * 					the new location of the camera
-	 * @param lookDir
-	 * 					the direction that the camera is looking in
-	 */
-	public void moveCameraTo(Vector3f newLoc, Vector3f lookDir) {
-		System.out.println(newLoc);
+	 */ 
+	public void moveCameraTo(Vector3f newLoc) {
 		getCamera().setLocation(newLoc);
-		getCamera().lookAtDirection(lookDir, new Vector3f(0, 1, 0));
 	}
 	
 	@Override

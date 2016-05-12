@@ -32,6 +32,7 @@ public class VRPlayer extends Entity implements ActionListener {
 	private Spatial spatial;
 	private CharacterControl playerControl;
 	private boolean left, right, up, down;
+	Vector3f walkDirection;
 
 	/**
 	 * Constructor for a default player.
@@ -55,24 +56,24 @@ public class VRPlayer extends Entity implements ActionListener {
 
 	@Override
 	public void update(float tdf) {
-		Vector3f camDir = Main.getInstance().getCamera().getDirection().mult(0.1f);
-		Vector3f camLeft = Main.getInstance().getCamera().getLeft().mult(0.1f);
-		Vector3f walkDirection = new Vector3f();
+		Vector3f camDir = Main.getInstance().getCamera().getDirection();
+		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
+		walkDirection = new Vector3f();
 		if (left) {
-			walkDirection.addLocal(camLeft);
+			walkDirection.addLocal(camLeft.mult(.235f));
 		}
 		if (right) {
-			walkDirection.addLocal(camLeft.negate());
+			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(.235f));
 		}
 		if (up) {
-			walkDirection.addLocal(camDir);
+			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(.5f));
 		}
 		if (down) {
-			walkDirection.addLocal(camDir.negate());
+			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(.5f));
 		}
 
 		playerControl.setWalkDirection(walkDirection);
-		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation(), playerControl.getViewDirection());
+		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
 	}
 
 	@Override
