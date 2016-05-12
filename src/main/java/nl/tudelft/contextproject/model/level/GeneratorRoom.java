@@ -31,7 +31,7 @@ public class GeneratorRoom {
         this.yLeft = yCoord;
         this.yRight = yCoord + size.getHeight();
 
-        this.center = new Vector2f((xLeft + xRight) / 2, (yLeft + yRight) / 2);
+        this.center = new Vector2f((xLeft + xRight) / 2.f, (yLeft + yRight) / 2.f);
     }
 
     /**

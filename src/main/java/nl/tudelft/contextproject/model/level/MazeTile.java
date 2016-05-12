@@ -75,10 +75,20 @@ public class MazeTile implements Drawable {
 		this.spatial = spatial;
 	}
 
+	/**
+	 * @return
+	 * 			return if the tile has been explored
+     */
 	public boolean isExplored() {
 		return explored;
 	}
 
+	/**
+	 * @param explored
+	 * 			the new value to set
+	 * @return
+	 * 			the old value
+     */
 	public boolean setExplored(boolean explored) {
 		boolean returnValue = this.explored;
 		this.explored = explored;

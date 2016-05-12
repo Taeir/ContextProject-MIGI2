@@ -66,10 +66,10 @@ public final class GeneratorHelper {
         File[] files = new File(GeneratorHelper.class.getResource("/rooms").toURI()).listFiles();
 
         /**
-         * If the folder is not a folder, we throw a nullpointer exception.
+         * If the folder is not a folder, we throw an IllegalStateException exception.
          */
         if (files == null) {
-            throw new NullPointerException("There are no rooms.");
+            throw new IllegalStateException("There are no rooms.");
         }
 
         List<Size> sizes = new ArrayList<>();

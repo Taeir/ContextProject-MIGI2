@@ -8,6 +8,9 @@ import org.junit.Test;
  */
 public class SizeTest {
 
+    /**
+     * Test for checking the constructor and getters for Size.
+     */
     @Test
     public void testConstructor() {
         Size testSize = new Size(3, 5);
