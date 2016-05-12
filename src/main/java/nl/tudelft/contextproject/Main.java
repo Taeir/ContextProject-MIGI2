@@ -30,7 +30,19 @@ public class Main extends SimpleApplication {
 	private static Main instance;
 	private Controller controller;
 	private List<TickListener> tickListeners;
-	
+
+
+	/**
+	 * Main method that is called when the program is started.
+	 * @param args run-specific arguments.
+	 */
+	public static void main(String[] args) {
+		Main main = getInstance();
+		List<String> a = Arrays.asList(args);
+		debugHud = a.contains("--debugHud");
+		main.start();
+	}
+
 	/**
 	 * Method used for testing.
 	 * Sets the instance of this singleton to the provided instance.
@@ -109,16 +121,6 @@ public class Main extends SimpleApplication {
 		inputManager = im;
 	}
 
-	/**
-	 * Main method that is called when the program is started.
-	 * @param args run-specific arguments.
-	 */
-	public static void main(String[] args) {
-		Main main = getInstance();
-		List<String> a = Arrays.asList(args);
-		debugHud = a.contains("--debugHud");
-		main.start();
-	}
 
 	@Override
 	public void simpleInitApp() {
@@ -131,7 +133,7 @@ public class Main extends SimpleApplication {
 		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
-		setController(new GameController(this, (new RandomLevelFactory(10, 10)).generateRandom()));
+		setController(new GameController(this, (new RandomLevelFactory(5, false)).generateRandom()));
 	}
 
 	/**

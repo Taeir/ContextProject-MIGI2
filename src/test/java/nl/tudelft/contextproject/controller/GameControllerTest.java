@@ -26,7 +26,6 @@ import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
-import nl.tudelft.contextproject.model.level.Room;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -80,11 +79,9 @@ public class GameControllerTest extends ControllerTest {
 		MazeTile t = mock(MazeTile.class);
 		when(t.getSpatial()).thenReturn(mock(Spatial.class));
 		MazeTile[][] tiles = {{t, t}, {null, t}, {t, null}};
-		Room room = new Room(tiles);
-		Room[] rooms = {room};
 		LinkedList<Light> lights = new LinkedList<>();
 		lights.add(light);
-		level = new Level(rooms, lights);
+		level = new Level(tiles, lights);
 		game = new Game(level, player, entities);
 
 		controller.setGame(game);
@@ -170,7 +167,7 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testLevel() {
-		Level level = new Level(null);
+		Level level = new Level(null, null);
 		controller.getGame().setLevel(level);
 		assertEquals(level, controller.getLevel());
 	}
@@ -191,7 +188,7 @@ public class GameControllerTest extends ControllerTest {
 	public void testAttachLevel() {
 		Game g = controller.getGame();
 		Spatial pSpatial = g.getPlayer().getSpatial();
-		Spatial tSpatial = g.getLevel().getRooms()[0].getTile(0, 0).getSpatial();
+		Spatial tSpatial = g.getLevel().getTile(0, 0).getSpatial();
 		Light light = g.getLevel().getLights().get(0);
 
 		controller.attachLevel();
