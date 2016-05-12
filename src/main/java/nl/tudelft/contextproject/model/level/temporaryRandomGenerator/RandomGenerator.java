@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.level.temporaryRandomGenerator;
 
+import nl.tudelft.contextproject.util.Point;
 import nl.tudelft.contextproject.util.Size;
 
 import java.util.ArrayList;
@@ -11,7 +12,8 @@ public class RandomGenerator {
 
     public static void makeMeSomeRoomsForTesting() {
         ArrayList<GeneratorRoom> rooms = create(5, false);
-        int[][] carved = carve(rooms);
+        int[][] carved = carveRooms(rooms);
+        carved = carveCorridors(carved, rooms);
         for (int x = 0; x < carved.length; x++) {
             for (int y = 0; y < carved[0].length; y++) {
                 if (carved[x][y] == 1) {
@@ -72,7 +74,7 @@ public class RandomGenerator {
         return selected;
     }
 
-    public static int[][] carve(ArrayList<GeneratorRoom> rooms) {
+    public static int[][] carveRooms(ArrayList<GeneratorRoom> rooms) {
         int[][] carved = new int[MAX_WIDTH][MAX_HEIGHT];
         for (GeneratorRoom r : rooms) {
             for (int x = r.getxLeft(); x < r.getxRight(); x++) {
@@ -82,5 +84,41 @@ public class RandomGenerator {
             }
         }
         return carved;
+    }
+
+    public static int[][] carveCorridors(int[][] map, ArrayList<GeneratorRoom> rooms) {
+        for (int i = 1; i < rooms.size(); i++) {
+            Point prevCenter = rooms.get(i - 1).getCenter();
+            Point currCenter = rooms.get(i).getCenter();
+            int rn = GeneratorHelper.getRandom(0, 2);
+            if (rn == 1) {
+                System.out.println("first");
+                map = hCorridor(map, prevCenter.getxCoord(), currCenter.getxCoord(), prevCenter.getyCoord());
+                map = vCorridor(map, prevCenter.getyCoord(), currCenter.getyCoord(), currCenter.getxCoord());
+            } else {
+                System.out.println("second");
+                map = vCorridor(map, prevCenter.getyCoord(), currCenter.getyCoord(), prevCenter.getxCoord());
+                map = hCorridor(map, prevCenter.getxCoord(), currCenter.getxCoord(), currCenter.getyCoord());
+            }
+        }
+        return map;
+    }
+
+    public static int[][] hCorridor(int[][] map, int x1, int x2, int y) {
+        int min = (x1 < x2) ? x1 : x2;
+        int max = (x1 > x2) ? x1 : x2;
+        for (int x = min; x < max + 1; x++) {
+            map[x][y] = 1;
+        }
+        return map;
+    }
+
+    public static int[][] vCorridor(int[][] map, int y1, int y2, int x) {
+        int min = (y1 < y2) ? y1 : y2;
+        int max = (y1 > y2) ? y1 : y2;
+        for (int y = min; y < max + 1; y++) {
+            map[x][y] = 1;
+        }
+        return map;
     }
 }
