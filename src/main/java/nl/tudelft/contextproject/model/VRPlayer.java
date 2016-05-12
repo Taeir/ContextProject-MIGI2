@@ -95,6 +95,15 @@ public class VRPlayer extends Entity implements ActionListener {
 	}
 
 	/**
+	 * Set character control.
+	 * @param characterControl
+	 * 				control to set
+	 */
+	public void setCharacterControl(CharacterControl characterControl) {
+		this.playerControl = characterControl;
+	}
+	
+	/**
 	 * Get the player hit box.
 	 * 
 	 * @return	
@@ -117,7 +126,6 @@ public class VRPlayer extends Entity implements ActionListener {
 
 		//set physics location of player
 		playerControl.setPhysicsLocation(spatial.getLocalTranslation());
-
 		return playerControl;
 	}
 

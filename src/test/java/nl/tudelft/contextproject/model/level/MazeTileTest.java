@@ -62,7 +62,7 @@ public class MazeTileTest extends DrawableTest {
 	@Test
 	public void testGetGeometryPosition() {
 		setupGeometryMock();
-		assertEquals(new Vector3f(10, 123, MazeTile.MAX_HEIGHT), tile.getSpatial().getLocalTranslation());
+		assertEquals(new Vector3f(10, MazeTile.MAX_HEIGHT, 123), tile.getSpatial().getLocalTranslation());
 	}
 	
 	/**
