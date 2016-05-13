@@ -1,4 +1,4 @@
-= Sprint Retrospective, Iteration #1 =
+= Sprint Retrospective, Iteration #3 =
 Context Project: Computer Games<br />
 Group: MIGI 2
 
@@ -197,7 +197,7 @@ I have put more hours into this task simply because I had more available. This t
 | Was more difficult than expected, due to framework changes.
 |-
 | '''Animation'''
-| [https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 - Figure out how to use Animations in JMonkey]
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/113 #113 - Figure out how to use Animations in JMonkey]
 | Wytze
 | C
 | 2
@@ -208,7 +208,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| [https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 - Create animations for bombs]
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/113 #113 - Create animations for bombs]
 | Wytze
 | C
 | 7
@@ -218,7 +218,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| [https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 - Implement animations into our game #113]
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/113 #113 - Implement animations into our game]
 | Wytze
 | C
 | 3
@@ -227,7 +227,7 @@ I have put more hours into this task simply because I had more available. This t
 | Not enough time; Has been postponed to next sprint
 |-
 | '''Expand framework to support features that are being implemented this week'''
-| [https://github.com/Taeir/ContextProject-MIGI2/issues/96 #96 - Expand framework to support certain features][https://github.com/Taeir/ContextProject-MIGI2/issues/90 and #90]
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/96 #96 and ][https://github.com/Taeir/ContextProject-MIGI2/issues/90 and #90 - Expand framework to support certain features]
 | Chiel
 | A
 | 11
