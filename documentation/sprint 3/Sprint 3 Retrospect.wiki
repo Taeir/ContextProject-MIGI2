@@ -166,7 +166,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| 9e. Write tests
+| Write tests
 |
 
 |
@@ -264,7 +264,7 @@ Here old items from previous sprints that were not included in the backlog or un
 '''(Discuss why item was added to this sprint and status of item if not completed)
 |-
 | '''Old Tasks'''
-| Audio Engine #21 / #99
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/21 #21 and ] [https://github.com/Taeir/ContextProject-MIGI2/issues/99 #99 - Audio Engine]
 | Taico
 | E
 | 2
@@ -272,7 +272,7 @@ Here old items from previous sprints that were not included in the backlog or un
 | Task from sprint 2
 |-
 | '''Unplanned Tasks'''
-| Fix Maven #98
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/98 #98 - Fix Maven]
 | Taico
 | -
 | 1
@@ -281,7 +281,7 @@ Here old items from previous sprints that were not included in the backlog or un
 |-
 |
 
-| Exclude some FindBugs warnings #103
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/103 #103 - Exclude some FindBugs warnings]
 | Taico
 | -
 | 0.25
@@ -290,7 +290,7 @@ Here old items from previous sprints that were not included in the backlog or un
 |-
 |
 
-| Helped Robin with collisions #55
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/55 #55 - Helped Robin with collisions]
 | Chiel
 | -
 | 6
@@ -299,7 +299,7 @@ Here old items from previous sprints that were not included in the backlog or un
 |-
 |
 
-| Exclude some Checkstyle warnings #106
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/106 #106 - Exclude some Checkstyle warnings]
 | Robin
 | -
 | 0.25
@@ -316,12 +316,12 @@ Here old items from previous sprints that were not included in the backlog or un
 
 |-
 | '''Create retrospect'''
-| Create retrospect
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/177 #177 - Create retrospect]
 | Robin &amp; Wytze
 | A
-| 3+1
+| 5+1
 | yes
-| Robin updated retrospect template and wytze inserted tasks from last week.
+| Robin updated retrospect template, created the wiki and wytze inserted tasks from last week.
 |}
 
 = Pull requests =
