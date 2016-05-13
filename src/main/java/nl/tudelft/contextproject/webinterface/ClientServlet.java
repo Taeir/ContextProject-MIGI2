@@ -148,7 +148,6 @@ public class ClientServlet extends DefaultServlet {
 			//No team was specified: invalid request
 			response.setStatus(HttpStatus.OK_200);
 			response.getWriter().write("INVALID");
-			return;
 		} else if (team.equals("DWARFS")) {
 			//Change team to dwarfs
 			client.setTeam(false);

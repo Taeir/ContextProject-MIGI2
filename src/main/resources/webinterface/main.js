@@ -47,6 +47,9 @@ function authenticate() {
 /**
  * Checks if the given data implies that we are authorized.
  * If not, this method will attempt to authenticate and will return false.
+ *
+ * @param data
+ *      the json data sent from the server
  */
 function checkAuthorized(data) {
     if (data.auth == false) {
@@ -212,6 +215,9 @@ function updateGame(data) {
     }
 }
 
+/**
+ * Requests the map from the server.
+ */
 function requestMap() {
     console.log("[DEBUG] GETTING MAP");
     
@@ -230,6 +236,9 @@ function requestMap() {
     }, "json");
 }
 
+/**
+ * Requests locations of explored tiles from the server.
+ */
 function requestExplored() {
     console.log("[DEBUG] GETTING EXPLORED");
     
@@ -248,6 +257,12 @@ function requestExplored() {
     }, "json");
 }
 
+/**
+ * Updates the map with the data
+ *
+ * @param team
+ *      the map data sent from the server
+ */
 function updateMap(data) {
     if (gMap == null || gMap.width != data.width || gMap.height != data.height) {
         var jqTableNode = $("#map");
@@ -298,6 +313,12 @@ function updateMap(data) {
     }
 }
 
+/**
+ * Updates the map with explored data
+ *
+ * @param team
+ *      the explored data sent from the server
+ */
 function updateExplored(data) {
     for (x = 0; x < gMap.width; x++) {
         var row = data[x];
@@ -311,6 +332,12 @@ function updateExplored(data) {
     gExplored = data;
 }
 
+/**
+ * Converts the tile type id to the correct css class.
+ *
+ * @param tileType
+ *      the tileType id sent from the server
+ */
 function getClassForTileType(tileType) {
     switch (tileType) {
         case 0:
