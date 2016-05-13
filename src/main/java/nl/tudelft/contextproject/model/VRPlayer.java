@@ -18,16 +18,35 @@ import nl.tudelft.contextproject.Main;
  * Class representing the player wearing the VR headset.
  */
 public class VRPlayer extends Entity implements ActionListener {
-	//Physics interaction constants
+	/**
+	 * Physics interaction constants.
+	 */
+	//This is the jump speed of the player, works with gravity.
 	public static final float JUMP_SPEED = 13f;
+	//The maximum fall speed, AKA terminal velocity.
 	public static final float FALL_SPEED = 15f;
+	//The gravity constant, how fast the player accelerate during falling.
 	public static final float PLAYER_GRAVITY = 13f;
 
-	//Physical collision model
+	/**
+	 * Physical collision model.
+	 */
+	//Highest vertical step player can make, think of stairs.
 	public static final float PLAYER_STEP_HEIGHT = 0.1f;
+	//Collision radius of cylinder size.
 	public static final float PLAYER_RADIUS = .5f;
+	//Height of collision box.
 	public static final float PLAYER_HEIGHT = 3f;
+	//Gravity axis of the player, should not be changed!
 	public static final int PLAYER_AXIS = 1;
+	
+	/**
+	 * Movement control constants.
+	 */
+	//Left and Right movement speed multiplier.
+	public static final float SIDE_WAY_SPEED_MULTIPLIER = .04f;
+	//Up and Down movement speed multiplier.
+	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
@@ -56,23 +75,23 @@ public class VRPlayer extends Entity implements ActionListener {
 
 	@Override
 	public void update(float tdf) {
+		//TODO this will change after VR support is implemented
 		Vector3f camDir = Main.getInstance().getCamera().getDirection();
 		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
 		walkDirection = new Vector3f();
 		if (left) {
-			walkDirection.addLocal(camLeft.mult(.0235f));
+			walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
 		}
 		if (right) {
-			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(.0235f));
+			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
 		}
 		if (up) {
-			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(.05f));
+			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
 		}
 		if (down) {
-			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(.05f));
+			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
 		}
 
-		
 		playerControl.setWalkDirection(walkDirection);
 		spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
@@ -129,26 +148,30 @@ public class VRPlayer extends Entity implements ActionListener {
 		return playerControl;
 	}
 
-	/**
-	 * On button press, what the player should do.
-	 * @param name
-	 * @param isPressed
-	 * @param tpf
-	 */
 	@Override
 	public void onAction(String name, boolean isPressed, float tpf) {
-		if (name.equals("Left")) {
+		//TODO This should probably be at another place after controller support is implemented.
+		switch (name) {
+		case "Left":
 			left = isPressed;
-		} else if (name.equals("Right")) {
+			break;
+		case "Right":
 			right = isPressed;
-		} else if (name.equals("Up")) {
+			break;
+		case "Up":
 			up = isPressed;
-		} else if (name.equals("Down")) {
+			break;
+		case "Down":
 			down = isPressed;
-		} else if (name.equals("Jump")) {
+			break;
+		case "Jump":
 			if (isPressed) { 
 				playerControl.jump(); 
 			}
+			break;
+		default:
+			//Do nothing otherwise
+			break;
 		}
 	}
 }

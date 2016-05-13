@@ -4,9 +4,9 @@ import com.jme3.bullet.control.PhysicsControl;
 
 /**
  * Collidable interface.
- *	Each object that uses some kind of physics should implement this class.
+ * Each object that uses some kind of physics should implement this interface.
  */
-public interface Collidable {
+public interface PhysicsObject {
 	
 	/**
 	 * Get spatial object with physics control.

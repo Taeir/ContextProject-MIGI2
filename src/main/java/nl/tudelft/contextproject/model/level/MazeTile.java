@@ -42,20 +42,20 @@ public class MazeTile implements Drawable {
 		this.type = type;
 		
 		switch (type) {
-		case FLOOR:
-			this.height = 0;
-			this.color = ColorRGBA.LightGray;
-			break;
-		case WALL:
-			this.height = 3;
-			this.color = ColorRGBA.Blue;
-			break;
-		case CORRIDOR:
-			this.height = 0;
-			this.color = ColorRGBA.DarkGray;
-			break;
-		default:
-			throw new IllegalArgumentException("Invalid TileType: " + type);
+			case FLOOR:
+				this.height = 0;
+				this.color = ColorRGBA.LightGray;
+				break;
+			case WALL:
+				this.height = 3;
+				this.color = ColorRGBA.Blue;
+				break;
+			case CORRIDOR:
+				this.height = 0;
+				this.color = ColorRGBA.DarkGray;
+				break;
+			default:
+				throw new IllegalArgumentException("Invalid TileType: " + type);
 		}
 	}
 	
