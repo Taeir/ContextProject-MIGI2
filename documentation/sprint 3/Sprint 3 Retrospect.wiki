@@ -1,21 +1,7 @@
-Table of contents
+= Sprint Retrospective, Iteration #1 =
+Context Project: Computer Games<br />
+Group: MIGI 2
 
-<blockquote>[[#backlog-sprint-items|''Backlog sprint items'']]
-
-[[#old-and-unplanned-sprint-items|''Old and unplanned sprint items'']]
-
-[[#pull-requests|''Pull requests'']]
-
-[[#main-problems-encountered|''Main Problems Encountered'']]
-
-[[#problem-1-workload-discrepancy|''Problem 1: Workload discrepancy'']]
-
-[[#problem-2-loc-importance|''Problem 2: LOC importance'']]
-
-[[#problem-3-dependencies-on-others-code|''Problem 3: Dependencies on others code'']]
-
-[[#adjustments-for-the-next-sprint-plan|''Adjustments for the next Sprint Plan'']]
-</blockquote>
 = Backlog sprint items =
 
 In here sprint items that were described in the backlog of this sprint are discussed.
@@ -34,7 +20,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 ! '''Notes'''
 |-
 | '''Refactoring framework code'''
-| 1. Refactor framework code #104
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/104 #104 - Refactor framework code]
 | Chiel
 | A
 | 6
