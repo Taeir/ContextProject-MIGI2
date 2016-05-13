@@ -67,7 +67,7 @@ public class VRPlayer extends Entity implements ActionListener {
 		Sphere b = new Sphere(10, 10, .2f);
 		spatial = new Geometry("blue cube", b);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Red);
+		mat.setColor("Color", ColorRGBA.randomColor());
 		spatial.setMaterial(mat);
 		spatial.move(0, 10, 0);
 		return spatial;

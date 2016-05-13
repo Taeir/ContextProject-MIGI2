@@ -44,7 +44,7 @@ public class MazeTile implements Drawable {
 		switch (type) {
 			case FLOOR:
 				this.height = 0;
-				this.color = ColorRGBA.LightGray;
+				this.color = ColorRGBA.Green;
 				break;
 			case WALL:
 				this.height = 3;
@@ -52,7 +52,7 @@ public class MazeTile implements Drawable {
 				break;
 			case CORRIDOR:
 				this.height = 0;
-				this.color = ColorRGBA.DarkGray;
+				this.color = ColorRGBA.Red;
 				break;
 			default:
 				throw new IllegalArgumentException("Invalid TileType: " + type);
