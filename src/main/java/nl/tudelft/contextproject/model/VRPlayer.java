@@ -147,12 +147,6 @@ public class VRPlayer extends Entity implements ActionListener {
 		return playerControl;
 	}
 
-	/**
-	 * On button press, what the player should do.
-	 * @param name
-	 * @param isPressed
-	 * @param tpf
-	 */
 	@Override
 	public void onAction(String name, boolean isPressed, float tpf) {
 		switch (name) {
