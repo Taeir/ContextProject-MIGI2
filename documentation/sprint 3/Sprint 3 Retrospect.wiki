@@ -227,7 +227,7 @@ I have put more hours into this task simply because I had more available. This t
 | Not enough time; Has been postponed to next sprint
 |-
 | '''Expand framework to support features that are being implemented this week'''
-| [https://github.com/Taeir/ContextProject-MIGI2/issues/96 #96 and ][https://github.com/Taeir/ContextProject-MIGI2/issues/90 and #90 - Expand framework to support certain features]
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/96 #96 and ][https://github.com/Taeir/ContextProject-MIGI2/issues/90 #90 - Expand framework to support certain features]
 | Chiel
 | A
 | 11
