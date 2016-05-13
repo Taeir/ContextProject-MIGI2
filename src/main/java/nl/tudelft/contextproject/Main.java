@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject;
 
 import java.util.Arrays;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.controller.Controller;
@@ -26,9 +29,7 @@ public class Main extends SimpleApplication {
 	
 	private static Main instance;
 	private Controller controller;
-
-	private List<TickListener> tickListeners = new LinkedList<>();
-
+	private List<TickListener> tickListeners;
 	/**
 	 * Main method that is called when the program is started.
 	 * @param args run-specific arguments.
@@ -118,11 +119,17 @@ public class Main extends SimpleApplication {
 		inputManager = im;
 	}
 
+
 	@Override
 	public void simpleInitApp() {
+		tickListeners = new LinkedList<>();
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
-		getFlyByCamera().setMoveSpeed(50);
+		
+		//TODO if VR support is implemented the flyby camera should be disabled
+		getFlyByCamera().setMoveSpeed(100);
+		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
+		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
 		setController(new GameController(this, (new RandomLevelFactory(5, false)).generateRandom()));
@@ -132,7 +139,22 @@ public class Main extends SimpleApplication {
 	 * Setup all the key mappings.
 	 */
 	protected void setupControlMappings() {
-		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+		getInputManager().addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+		getInputManager().addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
+		getInputManager().addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
+		getInputManager().addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
+		getInputManager().addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
+		getInputManager().addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+	}
+	
+	//TODO this will be removed when camera type is changed
+	/**
+	 * Move the camera to a new location.
+	 * @param newLoc
+	 * 					the new location of the camera
+	 */ 
+	public void moveCameraTo(Vector3f newLoc) {
+		getCamera().setLocation(newLoc);
 	}
 	
 	@Override

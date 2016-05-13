@@ -146,6 +146,35 @@
 			<artifactId>jbullet</artifactId>
 			<version>${jme3.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.jme3</groupId>
+			<artifactId>jme3-terrain</artifactId>
+			<version>${jme3.version}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/jme_vr_libs/jme3-terrain.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>vecmath</artifactId>
+			<version>1.3.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/jme_vr_libs/vecmath.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>cz.advel</groupId>
+			<artifactId>stack</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/jme_vr_libs/stack-alloc.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.bulletphysics</groupId>
+			<artifactId>jbullet</artifactId>
+			<version>${jme3.version}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/jme_vr_libs/jbullet.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<repositories>
