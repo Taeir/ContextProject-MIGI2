@@ -8,6 +8,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
+import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 
@@ -100,8 +101,13 @@ public class GameController extends Controller {
 			addLight(l);
 		}
 
+		PointLight pl = new PointLight(new Vector3f(25, 100, 25));
+		 pl.setColor(ColorRGBA.White);
+		 pl.setRadius(500);
+		addLight(pl);
+		 
 		AmbientLight al = new AmbientLight();
-		al.setColor(ColorRGBA.White.mult(.9f));
+		 al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
 	}
 
