@@ -2,6 +2,9 @@ package nl.tudelft.contextproject.model.level;
 
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.jme3.light.Light;
 
 /**
@@ -65,5 +68,77 @@ public class Level {
 	 */
 	public List<Light> getLights() {
 		return lightList;
+	}
+	
+	/**
+	 * Returns a JSONObject which represents this level in JSON for the web interface.
+	 * 
+	 * @return
+	 * 		a JSONObject representing this Level
+	 */
+	public JSONObject toWebJSON() {
+		//Create a JSONObject
+		JSONObject json = new JSONObject();
+		
+		//Set the width and height
+		json.put("width", getWidth());
+		json.put("height", getHeight());
+		
+		//Store all the tiles in a JSONObject.
+		JSONObject jsonTiles = new JSONObject();
+		for (int x = 0; x < mazeTiles.length; x++) {
+			MazeTile[] row = mazeTiles[x];
+			
+			//Create a new JSONArray for this row
+			JSONArray jArray = new JSONArray();
+			
+			//Add all the tiles in the row to the JSONArray.
+			for (MazeTile tile : row) {
+				if (tile == null) {
+					jArray.put(0);
+				} else {
+					jArray.put(tile.getTileType().getJsonId());
+				}
+			}
+			
+			//Add the array to the outer object
+			jsonTiles.put("" + x, jArray);
+		}
+		
+		//Add the tiles
+		json.put("tiles", jsonTiles);
+		
+		return json;
+	}
+	
+	/**
+	 * Returns a JSONObject with the locations of explored tiles of this Level.
+	 * This is used by the web interface.
+	 * 
+	 * @return
+	 * 		a JSONObject with the locations of explored tiles
+	 */
+	public JSONObject toExploredWebJSON() {
+		JSONObject json = new JSONObject();
+		for (int x = 0; x < mazeTiles.length; x++) {
+			MazeTile[] row = mazeTiles[x];
+			
+			//Create a new JSONArray for this row
+			JSONArray jArray = new JSONArray();
+			
+			for (int y = 0; y < row.length; y++) {
+				//We are only interested in explored tiles
+				if (row[y] == null || !row[y].isExplored()) continue;
+				
+				jArray.put(y);
+			}
+			
+			//Add the JSONArray only if it contains elements
+			if (jArray.length() != 0) {
+				json.put("" + x, jArray);
+			}
+		}
+		
+		return json;
 	}
 }

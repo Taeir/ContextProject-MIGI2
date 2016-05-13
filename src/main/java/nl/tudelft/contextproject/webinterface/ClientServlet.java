@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.webinterface;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import org.json.JSONObject;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.logging.Log;
-import nl.tudelft.contextproject.webinterface.temp.WebLevel2;
 
 /**
  * Servlet for handling client requests.
@@ -195,11 +193,11 @@ public class ClientServlet extends DefaultServlet {
 		if (!checkAuthorized(client, response, true)) return;
 		
 		//We need to send the map to the clients
-		//We send the map as a bunch of rooms, and tiles that make up the corridors.
+		//We send the map as a width, height and a bunch of tiles.
 		//Entities (doors, keys, bombs, player, enemies) and such, are sent differently
 		
-		//Send the size of the level and all the tiles
-		JSONObject json = WebLevel2.testLevel().toJSON();
+		//Encode the level in JSON
+		JSONObject json = Main.getInstance().getCurrentGame().getLevel().toWebJSON();
 
 		//Send the response
 		response.setStatus(HttpStatus.OK_200);
@@ -226,7 +224,7 @@ public class ClientServlet extends DefaultServlet {
 		if (!checkAuthorized(client, response, true)) return;
 		
 		//Send the explored map
-		JSONObject json = WebLevel2.testLevel().toExploredJSON();
+		JSONObject json = Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON();
 
 		//Send the response
 		response.setStatus(HttpStatus.OK_200);
