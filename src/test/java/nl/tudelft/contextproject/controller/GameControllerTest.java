@@ -33,6 +33,8 @@ import org.junit.Test;
 /**
  * Tests for the GameController class.
  */
+//TODO This class should be refactored to use the TestUtil instead of mocking the main like this, as it 
+// can change
 public class GameControllerTest extends ControllerTest {
 	private GameController controller;
 	private Main main;

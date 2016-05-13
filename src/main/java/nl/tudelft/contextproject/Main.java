@@ -126,6 +126,7 @@ public class Main extends SimpleApplication {
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
 		
+		//TODO if VR support is implemented the flyby camera should be disabled
 		getFlyByCamera().setMoveSpeed(100);
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
@@ -146,6 +147,7 @@ public class Main extends SimpleApplication {
 		getInputManager().addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
 	}
 	
+	//TODO this will be removed when camera type is changed
 	/**
 	 * Move the camera to a new location.
 	 * @param newLoc

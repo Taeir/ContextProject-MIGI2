@@ -75,6 +75,7 @@ public class VRPlayer extends Entity implements ActionListener {
 
 	@Override
 	public void update(float tdf) {
+		//TODO this will change after VR support is implemented
 		Vector3f camDir = Main.getInstance().getCamera().getDirection();
 		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
 		walkDirection = new Vector3f();
@@ -149,6 +150,7 @@ public class VRPlayer extends Entity implements ActionListener {
 
 	@Override
 	public void onAction(String name, boolean isPressed, float tpf) {
+		//TODO This should probably be at another place after controller support is implemented.
 		switch (name) {
 		case "Left":
 			left = isPressed;
