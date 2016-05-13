@@ -1,47 +1,36 @@
 package nl.tudelft.contextproject;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.LinkedList;
 
-import com.jme3.light.Light;
-import com.jme3.light.LightList;
-import com.jme3.scene.Geometry;
+import com.jme3.input.InputManager;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.audio.AudioTestUtil;
-import nl.tudelft.contextproject.level.Level;
-import nl.tudelft.contextproject.level.MazeTile;
+import nl.tudelft.contextproject.controller.Controller;
+import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.controller.PauseController;
+import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.TickListener;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for the Main class.
+ * Test suit for the Main class.
  */
 public class MainTest {
 	
-	/**
-	 * Setup method for this test suit.
-	 * Sets the instance to a fresh instance.
-	 */
-	@Before
-	public void setUp() {
-		Main.setInstance(AudioTestUtil.fakeMain());
-	}
-	
+	private Main main;
+
 	/**
 	 * Check if start is called when starting the game.
 	 */
 	@Test
-	public void testMain() {
+	public void testMainStart() {
 		Main mMock = mock(Main.class);
 		Main.setInstance(mMock);
 	    Main.main(new String[0]);
@@ -49,156 +38,178 @@ public class MainTest {
 	}
 	
 	/**
-	 * Test the simpleUpdate on the player.
+	 * Setup that creates a fresch instance of main.
 	 */
-	@Test
-	public void testSimpleUpdatePlayer() {
-		VRPlayer player = mock(VRPlayer.class);
-		Level level = new Level(null, player, new HashSet<Entity>(), null);
-		Main.getInstance().setLevel(level);
-        Main.getInstance().simpleUpdate(0.5f);
-        verify(player, times(1)).simpleUpdate(0.5f);
+	@Before
+	public void setUp() {
+		Main.setInstance(AudioTestUtil.fakeMain());
+		main = Main.getInstance();
 	}
 	
 	/**
-	 * Test if a NEW entity is updated correctly.
+	 * Test if giving '--debugHud' shows the debug hud.
 	 */
 	@Test
-	public void testSimpleUpdateEntityNEW() {
-		Set<Entity> set = new HashSet<Entity>();
-		Entity eMock = mock(Entity.class);
-		Node rn = mock(Node.class);
-		Geometry geom = mock(Geometry.class);
-		
-		when(eMock.getState()).thenReturn(EntityState.NEW);
-		when(eMock.getGeometry()).thenReturn(geom);
-		
-		set.add(eMock);
-		Level level = new Level(null, null, set, null);
-		
-		Main.getInstance().setLevel(level);
-		Main.getInstance().setRootNode(rn);
-        Main.getInstance().updateEntities(0.5f);
-        
-        verify(eMock, times(1)).simpleUpdate(0.5f);
-        verify(eMock, times(1)).setState(EntityState.ALIVE);
-        
-        verify(rn, times(1)).attachChild(geom);        
+	public void testMainDebugHud() {
+		Main mMock = mock(Main.class);
+		Main.setInstance(mMock);
+		String[] args = {"a", "--debugHud", "b"};
+	    Main.main(args);
+	    assertTrue(Main.isDebugHudShown());
 	}
 	
 	/**
-	 * Test if a DEAD entity is removed correctly.
+	 * Test if debug hud is not shown when passing other arguments.
 	 */
 	@Test
-	public void testSimpleUpdateEntityDEAD() {
-		Set<Entity> set = new HashSet<Entity>();
-		Entity eMock = mock(Entity.class);
-		Node rn = mock(Node.class);
-		Geometry geom = mock(Geometry.class);
-		
-		when(eMock.getState()).thenReturn(EntityState.DEAD);
-		when(eMock.getGeometry()).thenReturn(geom);
-		
-		set.add(eMock);
-		Level level = new Level(null, null, set, null);
-		
-		Main.getInstance().setLevel(level);
-		Main.getInstance().setRootNode(rn);
-        Main.getInstance().updateEntities(0.5f);
-        
-        verify(eMock, times(0)).simpleUpdate(0.5f);
-        
-        verify(rn, times(1)).detachChild(geom); 
-        assertFalse(set.contains(eMock));
+	public void testMainHideDebugHud() {
+		Main mMock = mock(Main.class);
+		Main.setInstance(mMock);
+		String[] args = {"a", "--debugHudd", "b"};
+	    Main.main(args);
+	    assertFalse(Main.isDebugHudShown());
 	}
 	
 	/**
-	 * Test if an ALIVE entity is updated correctly.
+	 * Set a new controller without a previous one.
 	 */
 	@Test
-	public void testSimpleUpdateEntityALIVE() {
-		Set<Entity> set = new HashSet<Entity>();
-		Entity eMock = mock(Entity.class);
-		
-		when(eMock.getState()).thenReturn(EntityState.ALIVE);
-		
-		set.add(eMock);
-		Level level = new Level(null, null, set, null);
-		
-		Main.getInstance().setLevel(level);
-        Main.getInstance().updateEntities(0.5f);
-        
-        verify(eMock, times(1)).simpleUpdate(0.5f);
+	public void testSetControllerFromNull() {
+		Controller c = mock(Controller.class);
+		assertNull(main.getStateManager().getState(c.getClass()));
+		assertTrue(main.setController(c));
+		assertNotNull(main.getStateManager().getState(c.getClass()));
 	}
 	
 	/**
-	 * Test the setters and getters for the level.
+	 * Test if setting a new controller attaches and detaches correctly.
 	 */
 	@Test
-	public void testLevel() {
-		Level level = new Level(null, null, null, null);
-		Main.getInstance().setLevel(level);
-		assertEquals(level, Main.getInstance().getLevel());
-	}
-	
-	/**
-	 * Test if clearing a level clears correctly.
-	 */
-	@Test
-	public void testClearLevel() {
-		Node rn = mock(Node.class);
-		Light lMock = mock(Light.class);
+	public void testSetController() {
+		Controller cOld = mock(Controller.class);
+		Controller c = mock(Controller.class);
 		
-		LightList list = new LightList(rn);
-		list.add(lMock);
-		when(rn.getLocalLightList()).thenReturn(list);
-		
-		Main.getInstance().setRootNode(rn);		
-        Main.getInstance().clearLevel();
-        
-        verify(rn, times(1)).detachAllChildren();
-        verify(rn, times(1)).removeLight(lMock);
-	}
-	
-	/**
-	 * Test attaching an unset level to the renderer.
-	 */
-	@Test (expected = IllegalStateException.class)
-	public void testAttachLevelNull() {
-		Main.getInstance().setLevel(null);
-		Main.getInstance().attachLevel();
-	}
-	
-	/**
-	 * Test if attaching a level correctly adds all elements to the renderer.
-	 */
-	@Test
-	public void testAttachLevel() {
-		Node rn = mock(Node.class);
-		Light lMock = mock(Light.class);
-		MazeTile t = mock(MazeTile.class);
-		VRPlayer player = mock(VRPlayer.class);
-		Geometry geom = mock(Geometry.class);
-		Geometry playerGeom = mock(Geometry.class);
-		
-		when(t.getGeometry()).thenReturn(geom);
-		when(player.getGeometry()).thenReturn(playerGeom);
-		
-		List<Light> lights = new ArrayList<>();
-		lights.add(lMock);
-		lights.add(lMock);
-		MazeTile[][] tiles = {{t, null, t}, {t, t, t}};
-		Level level = new Level(tiles, player, null, lights);
-		
-		Main.getInstance().setRootNode(rn);
-		Main.getInstance().setLevel(level);
-		Main.getInstance().attachLevel();
-        
-        verify(rn, times(5)).attachChild(geom);
-        verify(rn, times(1)).attachChild(playerGeom);
-        verify(rn, times(2)).addLight(lMock);
-	}
+		main.setController(cOld);
+		assertTrue(main.setController(c));
 
-
-
+		assertFalse(main.getStateManager().attach(c));
+		assertTrue(main.getStateManager().attach(cOld));
+	}
+	
+	/**
+	 * Test setting the same controller twice.
+	 */
+	@Test
+	public void testSetControllerAgain() {
+		Controller c = mock(Controller.class);
+		
+		main.setController(c);
+		assertFalse(main.setController(c));
+	}
+	
+	/**
+	 * Try to get the current game from a state that does not have a current game.
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void testGetCurrentGameIllegalState() {
+		Controller c = mock(Controller.class);		
+		main.setController(c);		
+		main.getCurrentGame();
+	}
+	
+	/**
+	 * Get the current game from a GameController.
+	 */
+	@Test
+	public void testGetCurrentGameGameController() {
+		GameController c = mock(GameController.class);
+		Game game = mock(Game.class);
+		when(c.getGame()).thenReturn(game);
+		main.setController(c);		
+		assertEquals(game, main.getCurrentGame());
+	}
+	
+	/**
+	 * Get the current game from a PauseController.
+	 */
+	@Test
+	public void testGetCurrentGamePauseController() {
+		GameController gc = mock(GameController.class);
+		PauseController c = mock(PauseController.class);
+		when(c.getPausedController()).thenReturn(gc);
+		Game game = mock(Game.class);
+		when(gc.getGame()).thenReturn(game);
+		main.setController(c);		
+		assertEquals(game, main.getCurrentGame());
+	}
+	
+	/**
+	 * Check the game state without a state attached.
+	 */
+	@Test
+	public void testGetGameStateNull() {
+		assertNull(main.getGameState());
+	}
+	
+	/**
+	 * Test getting the gamestate.
+	 */
+	@Test
+	public void testGetGameState() {
+		Controller c = mock(Controller.class);
+		when(c.getGameState()).thenReturn(GameState.RUNNING);
+		main.setController(c);
+		assertEquals(GameState.RUNNING, main.getGameState());
+	}
+	
+	/**
+	 * Test ticklisteners by verifying that only added ticklisteners receive updates.
+	 */
+	@Test
+	public void testTickListeners() {
+		main.setTickListeners(new LinkedList<TickListener>());
+		TickListener tl = mock(TickListener.class);
+		
+		main.simpleUpdate(0.1f);
+		verify(tl, times(0)).update(0.1f);
+		
+		main.attachTickListener(tl);
+		main.simpleUpdate(0.1f);
+		verify(tl, times(1)).update(0.1f);
+		
+		main.removeTickListener(tl);
+		main.simpleUpdate(0.1f);
+		verifyNoMoreInteractions(tl);
+	}
+	
+	/**
+	 * Test if seting the control mappings sets the mappings.
+	 */
+	@Test
+	public void testSetupControlMappings() {
+		InputManager im = mock(InputManager.class);
+		main.setInputManager(im);
+		main.setupControlMappings();
+		verify(im, atLeast(1)).addMapping(anyString(), any(KeyTrigger.class));
+	}
+	
+	/**
+	 * Test if setting the RootNode sets the RootNode.
+	 */
+	@Test
+	public void testSetRootNode() {
+		Node node = mock(Node.class);
+		main.setRootNode(node);
+		assertEquals(node, main.getRootNode());
+	}
+	
+	/**
+	 * Test if setting the GuiNode sets the GuiNode.
+	 */
+	@Test
+	public void testSetGuiNode() {
+		Node node = mock(Node.class);
+		main.setGuiNode(node);
+		assertEquals(node, main.getGuiNode());
+	}
 }
