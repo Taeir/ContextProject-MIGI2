@@ -44,7 +44,7 @@ public class VRPlayer extends Entity implements ActionListener {
 	 * Movement control constants.
 	 */
 	//Left and Right movement speed multiplier.
-	public static final float SIDE_WAY_SPEED_MULTIPLIER = .0235f;
+	public static final float SIDE_WAY_SPEED_MULTIPLIER = .04f;
 	//Up and Down movement speed multiplier.
 	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
 
