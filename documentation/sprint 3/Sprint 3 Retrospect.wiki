@@ -1,0 +1,376 @@
+= Sprint Retrospective, Iteration #3 =
+Context Project: Computer Games<br />
+Group: MIGI 2
+
+= Backlog sprint items =
+
+In here sprint items that were described in the backlog of this sprint are discussed.
+
+{|
+! '''User Story #'''
+! '''Task #'''
+! '''Task assigned to'''
+! '''Priority''' (A highest)
+! '''Estimated Effort Per Task''' (in hours)
+!
+'''Actual Effort per Task'''
+
+(in hours)
+! '''Done'''
+! '''Notes'''
+|-
+| '''Refactoring framework code'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/104 #104 - Refactor framework code]
+| Chiel
+| A
+| 6
+| 7
+| yes
+| Slightly more work than anticipated
+|-
+| '''Collisions and movement'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/54 #54 - Implement movement and keylisteners]
+| Robin
+| A
+| 10
+| 8
+| Yes
+| Took less time than anticipated as JMonkey provided adequate support.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/55 #55 - Implement physics into the game]
+| Robin
+| B
+| 10
+| 16
+| Yes
+| Took more time as it was difficult to implement the physics in the new framework while it was being built.
+|-
+| '''Advanced maze generation'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/80 #80 - Explore possibilities]
+| Bram
+| A
+| 2
+| 2
+| yes
+|
+
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/46 #46 - Implement algorithm]
+| Bram
+| A
+| 14
+| 21
+| yes
+| A lot more work to get working correctly
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/46 #46 - Make loading and saving rooms possible]
+| Bram
+| C
+| 3
+| 3
+| no
+| Only sizes can be saved, for now.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/46 #46 - Combine the features above]
+| Bram
+| C
+| 1
+| 1
+| yes
+|
+
+|-
+| '''Webinterface'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/43 #43 - Explore possibilities]
+| Taico
+| A
+| 2
+| 2
+| yes
+|
+
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/43 #43 - Write web interface]
+| Taico
+| A
+| 18
+| (26)
+| yes*
+|
+Core functionality is implemented and has been included in this sprint’s release, but more functionality still needs to be added
+
+I have put more hours into this task simply because I had more available. This task will be continued by Bram next sprint.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/87 #87 - Write server communication]
+|
+
+|
+
+|
+
+| 8
+| yes
+|
+
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/88 #88 - Add jMonkey integration]
+|
+
+|
+
+|
+
+| 4
+| yes*
+| Some features are integrated (teams, game state and the map), some features still need to be added (entities)
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/85 #85 - Design the webpage (CSS / layout / styling)]
+|
+
+|
+
+|
+
+| 2
+| no
+| We wanted to implement the functional parts before focusing on styling.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/86 #86 - Write client side code (JavaScript)]
+|
+
+|
+
+|
+
+| 4
+| yes*
+| More features need to be added
+|-
+|
+
+| Write tests
+|
+
+|
+
+|
+
+| 8
+| yes
+| &gt; 95% line coverage
+|-
+| '''Keys and doors'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/100 #100 - Implement keys]
+| Wytze
+| A
+| 3
+| 8
+| yes
+| Was more difficult than expected, due to framework changes.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/40 #40 - Implements doors]
+| Wytze
+| A
+| 3
+| 8
+| yes
+| Was more difficult than expected, due to framework changes.
+|-
+| '''Animation'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/113 #113 - Figure out how to use Animations in JMonkey]
+| Wytze
+| C
+| 2
+| 2
+| yes
+|
+
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/113 #113 - Create animations for bombs]
+| Wytze
+| C
+| 7
+| 0
+| no
+| Not enough time; Has been postponed
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/113 #113 - Implement animations into our game]
+| Wytze
+| C
+| 3
+| 0
+| no
+| Not enough time; Has been postponed to next sprint
+|-
+| '''Expand framework to support features that are being implemented this week'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/96 #96 and ][https://github.com/Taeir/ContextProject-MIGI2/issues/90 #90 - Expand framework to support certain features]
+| Chiel
+| A
+| 11
+| 11
+| yes
+|
+
+|-
+| '''Controller support'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/37 #37 - Implement controller support]
+| Chiel
+| C
+| 1
+| .5
+| no
+| No time, so I only looked at how the inputManager works in jMonkey.
+|}
+
+= Old and unplanned sprint items =
+
+Here old items from previous sprints that were not included in the backlog or unplanned sprint items that appeared during the sprint are discussed.
+
+{|
+! '''Item or category'''
+! '''Task #'''
+! '''Task assigned to'''
+! '''Priority''' (A highest)
+!
+'''Effort per Task'''
+
+(in hours)
+! '''Done'''
+! '''Notes<br />
+'''(Discuss why item was added to this sprint and status of item if not completed)
+|-
+| '''Old Tasks'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/21 #21 and ] [https://github.com/Taeir/ContextProject-MIGI2/issues/99 #99 - Audio Engine]
+| Taico
+| E
+| 2
+| yes
+| Task from sprint 2
+|-
+| '''Unplanned Tasks'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/98 #98 - Fix Maven]
+| Taico
+| -
+| 1
+| yes
+| The jar file generated by maven was not runnable. To create proper releases, this is a requirement.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/103 #103 - Exclude some FindBugs warnings]
+| Taico
+| -
+| 0.25
+| yes
+| We agreed that some FindBugs warnings did not need to be reported.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/55 #55 - Helped Robin with collisions]
+| Chiel
+| -
+| 6
+| yes
+| The changes to the framework needed to be merged with the collisions.
+|-
+|
+
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/106 #106 - Exclude some Checkstyle warnings]
+| Robin
+| -
+| 0.25
+| yes
+| We agreed that some CheckStyle warnings did not need to be reported.
+|-
+| '''Properly Update product backlog'''
+| Update product backlog
+| Chiel
+| A
+| 2
+| yes
+|
+
+|-
+| '''Create retrospect'''
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/177 #177 - Create retrospect]
+| Robin &amp; Wytze
+| A
+| 5+1
+| yes
+| Robin updated retrospect template, created the wiki and wytze inserted tasks from last week.
+|}
+
+= Pull requests =
+
+Every week, each group member also reviews pull requests of other members. Since we put a lot of time into this we also want to document time spent reviewing a separate table.
+
+{|
+! '''Group Member name'''
+! '''Time Spent Reviewing and creating Pull Requests (in hours)'''
+|-
+| Taico
+| 4
+|-
+| Chiel
+| 2
+|-
+| Bram
+| 4
+|-
+| Wytze
+| 2
+|-
+| Robin
+| 4
+|}
+
+= Main Problems Encountered =
+
+== Problem 1: Workload discrepancy  ==
+
+'''Description:''' The workload was not evenly split over the week. We had to work a lot harder in the last part of the week. This was mainly caused by the fact that everyone needed the parts of the framework of the program to continue on their own parts. This meant lots of waiting on certain parts of the framework in the first few days of the week and weekend.
+
+'''Reaction:''' The basic framework is now largely done, so this problem should not occur anymore. Also priorities of tasks should reflect completion time in the sprint, this means that dependencies in a sprint have a higher priority than tasks that require those dependencies.
+
+== Problem 2: LOC importance ==
+
+'''Description:''' The Lines Of Code per person differ too much and we as a group find that there is too much importance on the number of commits and LOC. This caused a lot of stress for certain members of the team as they put a lot of hours in the project, but they felt that the didn’t contribute much.
+
+'''Reaction:''' During the sprint backlog meeting for sprint 4 we have tried to give code intensive tasks to members that have the fewest lines of code and we discussed the problem with the TAs during the stakeholder meeting. The TAs said that they look at a lot more details than just LOC and the number of commits as long as there is not a giant difference between the one the most LOC and commits and the persons with the least LOC and commits.
+
+== Problem 3: Dependencies on others code ==
+
+'''Description:''' As said earlier, everybody needed the framework to be done in order to correctly implement their features. To make matters worse, the framework relied on some other tasks too. This meant that sometimes it was very hard to correctly implement a feature or mistakes were made that had to be correct later. Each merge also was quite a challenge.
+
+'''Reaction:''' We managed to get everything done, although it took a lot of time.
+
+= Adjustments for the next Sprint Plan =
+
+In the next sprint backlog we will try to make sure that tasks that are dependencies for other task have a higher priority and do those task before tasks that can be done alone or tasks that need those dependencies. This will hopefully make merging easier and prevent people having to wait on others code. This will also prevent the workload discrepancy over the week as we will be able to spread out the workload more evenly if nobody has to wait on a certain amount of code first.
+
+The LOC and commit amount have been discussed with the TAs and we were assured that as long as there isn’t a difference of orders of magnitude in the number of commits or LOC that this is a non-issue. Though we should take care that not one person takes on all the difficult programming tasks and that we divide the work evenly.
+
