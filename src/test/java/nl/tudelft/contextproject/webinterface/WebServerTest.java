@@ -26,6 +26,9 @@ import nl.tudelft.contextproject.test.TestUtil;
  * Test class for {@link WebServer}.
  */
 public class WebServerTest extends WebTestBase {
+	private static final String ID1 = "TESTID1";
+	private static final String ID2 = "TESTID2";
+	
 	public WebServer webServer;
 
 	/**
@@ -116,7 +119,7 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetUser_unknown() {
-		HttpServletRequest request = createMockedRequest("TESTID1", "TESTID1", true, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true);
 		assertNull(webServer.getUser(request));
 	}
 	
@@ -126,7 +129,7 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetUser_unknown_noSession() {
-		HttpServletRequest request = createMockedRequest("TESTID1", "TESTID1", false, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false);
 		assertNull(webServer.getUser(request));
 	}
 
@@ -136,7 +139,7 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetUser_unknown_session1() {
-		HttpServletRequest request = createMockedRequest("TESTID1", null, true, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, null, true);
 		assertNull(webServer.getUser(request));
 	}
 	
@@ -146,7 +149,7 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetUser_unknown_session2() {
-		HttpServletRequest request = createMockedRequest("TESTID1", "TESTID2", true, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, ID2, true);
 		assertNull(webServer.getUser(request));
 	}
 	
@@ -158,10 +161,10 @@ public class WebServerTest extends WebTestBase {
 	public void testGetUser_known_session1() {
 		//Add the client with their session1 id
 		WebClient client = new WebClient();
-		webServer.getClients().put("TESTID1", client);
+		webServer.getClients().put(ID1, client);
 		
 		//Create the request
-		HttpServletRequest request = createMockedRequest("TESTID1", null, true, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, null, true);
 		
 		assertSame(client, webServer.getUser(request));
 	}
@@ -174,10 +177,10 @@ public class WebServerTest extends WebTestBase {
 	public void testGetUser_known_session2() {
 		//Add the client with their session2 id
 		WebClient client = new WebClient();
-		webServer.getClients().put("TESTID2", client);
+		webServer.getClients().put(ID2, client);
 		
 		//Create the request with an unknown session1 id and a known session2 id
-		HttpServletRequest request = createMockedRequest("TESTID1", "TESTID2", true, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, ID2, true);
 		
 		assertSame(client, webServer.getUser(request));
 	}
@@ -192,7 +195,7 @@ public class WebServerTest extends WebTestBase {
 	@Test
 	public void testHandleAuthentication_unknown() throws IOException {
 		//Create request and response mocks
-		HttpServletRequest request = createMockedRequest("TESTID1", null, false, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, null, false);
 		HttpServletResponse response = createMockedResponse();
 		
 		//Set the waiting GameState
@@ -220,7 +223,7 @@ public class WebServerTest extends WebTestBase {
 	@Test
 	public void testHandleAuthentication_unknown_inProgress() throws IOException {
 		//Create request and response mocks
-		HttpServletRequest request = createMockedRequest("TESTID1", null, false, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, null, false);
 		HttpServletResponse response = createMockedResponse();
 		
 		//Set the running GameState
@@ -252,7 +255,7 @@ public class WebServerTest extends WebTestBase {
 		}
 		
 		//Create request and response mocks
-		HttpServletRequest request = createMockedRequest("TESTID1", null, false, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, null, false);
 		HttpServletResponse response = createMockedResponse();
 		
 		//Set the waiting GameState
@@ -279,10 +282,10 @@ public class WebServerTest extends WebTestBase {
 	@Test
 	public void testHandleAuthentication_known_matching() throws IOException {
 		//Add the client
-		webServer.getClients().put("TESTID1", new WebClient());
+		webServer.getClients().put(ID1, new WebClient());
 		
 		//Create request and response mocks
-		HttpServletRequest request = createMockedRequest("TESTID1", "TESTID1", true, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true);
 		HttpServletResponse response = createMockedResponse();
 		
 		//Set the waiting GameState
@@ -309,10 +312,10 @@ public class WebServerTest extends WebTestBase {
 	@Test
 	public void testHandleAuthentication_known_notMatching() throws IOException {
 		//Add the client
-		webServer.getClients().put("TESTID2", new WebClient());
+		webServer.getClients().put(ID2, new WebClient());
 		
 		//Create request and response mocks
-		HttpServletRequest request = createMockedRequest("TESTID1", "TESTID2", true, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, ID2, true);
 		HttpServletResponse response = createMockedResponse();
 		
 		//Set the waiting GameState
@@ -365,7 +368,7 @@ public class WebServerTest extends WebTestBase {
 	@Test
 	public void testCreateCookie() {
 		//Create a mock request
-		HttpServletRequest request = createMockedRequest("ID", null, false, "GET", "/");
+		HttpServletRequest request = createMockedRequest("ID", null, false);
 		
 		Cookie cookie = WebServer.createCookie(request);
 		

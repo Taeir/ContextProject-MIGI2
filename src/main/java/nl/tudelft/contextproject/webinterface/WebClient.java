@@ -64,6 +64,6 @@ public class WebClient {
 	
 	@Override
 	public String toString() {
-		return "WebClient[team=" + getTeam() + "]";
+		return "WebClient<team=" + getTeam() + ">";
 	}
 }
