@@ -29,7 +29,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 | Slightly more work than anticipated
 |-
 | '''Collisions and movement'''
-| 2. Implement movement and keylisteners #54
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/54 #54 - Implement movement and keylisteners]
 | Robin
 | A
 | 10
@@ -39,7 +39,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 |-
 |
 
-| 3. Implement physics into the game #55
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/55 #55 - Implement physics into the game]
 | Robin
 | B
 | 10
@@ -48,7 +48,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 | Took more time as it was difficult to implement the physics in the new framework while it was being built.
 |-
 | '''Advanced maze generation'''
-| 4. Explore possibilities #80
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/80 #80 - Explore possibilities]
 | Bram
 | A
 | 2
@@ -59,7 +59,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 |-
 |
 
-| 5. Implement algorithm #46
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/46 #46 - Implement algorithm]
 | Bram
 | A
 | 14
@@ -69,7 +69,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 |-
 |
 
-| 6. Make loading and saving rooms possible #46
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/46 #46 - Make loading and saving rooms possible]
 | Bram
 | C
 | 3
@@ -79,7 +79,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 |-
 |
 
-| 7. Combine the features above #46
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/46 #46 - Combine the features above]
 | Bram
 | C
 | 1
@@ -89,7 +89,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 
 |-
 | '''Webinterface'''
-| 8. Explore possibilities #43
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/43 #43 - Explore possibilities]
 | Taico
 | A
 | 2
@@ -100,7 +100,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 |-
 |
 
-| 9. Write web interface #43
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/43 #43 - Write web interface]
 | Taico
 | A
 | 18
