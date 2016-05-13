@@ -6,6 +6,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -140,7 +143,49 @@ public class WebTestBase {
 		//Set the request URI (/index.html)
 		when(request.getRequestURI()).thenReturn(uri);
 		
+		//Set a parameter map
+		Map<String, String[]> map = new HashMap<>();
+		when(request.getParameterMap()).thenReturn(map);
+		when(request.getParameterNames()).thenAnswer(i -> Collections.enumeration(map.keySet()));
+
 		return request;
+	}
+	
+	/**
+	 * Sets a parameter on a mocked request.
+	 * 
+	 * <p>If values is null, then the parameter is removed
+	 * 
+	 * @param request
+	 * 		the mocked request to set a parameter of
+	 * @param param
+	 * 		the name of the parameter to set
+	 * @param values
+	 * 		the values of this parameter
+	 */
+	public void setParameter(HttpServletRequest request, String param, String... values) {
+		if (values == null) {
+			//Remove from the map
+			request.getParameterMap().remove(param);
+			
+			//"Unmock" methods
+			when(request.getParameterValues(param)).thenReturn(null);
+			when(request.getParameter(param)).thenReturn(null);
+			
+			return;
+		}
+		
+		//Add to the parameter map
+		request.getParameterMap().put(param, values);
+		
+		//Stub the getParameterValues method
+		when(request.getParameterValues(param)).thenReturn(values);
+		
+		if (values.length == 1) {
+			//If there is only one value, then stub the getParameter method
+			String param1 = values[0];
+			when(request.getParameter(param)).thenReturn(param1);
+		}
 	}
 	
 	/**
