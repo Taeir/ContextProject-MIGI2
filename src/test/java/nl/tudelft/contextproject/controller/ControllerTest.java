@@ -6,6 +6,9 @@ import static org.mockito.Mockito.*;
 import java.awt.Graphics2D;
 
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
+import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
@@ -94,6 +97,12 @@ public abstract class ControllerTest {
 		Node rn = mock(Node.class);
 		c.setRootNode(rn);
 		Geometry geom = mock(Geometry.class);
+		BulletAppState phe = mock(BulletAppState.class);
+		c.setPhysicsEnvironmentNode(phe);
+		PhysicsSpace phs = mock(PhysicsSpace.class);
+		
+		when(phe.getPhysicsSpace()).thenReturn(phs);
+		
 		Drawable d = new Drawable() {
 			@Override
 			public Spatial getSpatial() {
@@ -104,7 +113,11 @@ public abstract class ControllerTest {
 			public void setSpatial(Spatial spatial) { }
 
 			@Override
-			public void mapDraw(Graphics2D g, int resolution) { }			
+			public PhysicsControl getPhysicsObject() {
+				return null;
+			}
+			
+			public void mapDraw(Graphics2D g, int resolution) { }
 		};		
 		c.addDrawable(d);
 		verify(rn, times(1)).attachChild(geom);
@@ -129,7 +142,11 @@ public abstract class ControllerTest {
 			public void setSpatial(Spatial spatial) { }
 
 			@Override
-			public void mapDraw(Graphics2D g, int resolution) { }			
+			public PhysicsControl getPhysicsObject() {
+				return null;
+			}
+			
+			public void mapDraw(Graphics2D g, int resolution) { }
 		};	
 		when(rn.detachChild(any(Spatial.class))).thenReturn(12);
 		assertTrue(c.removeDrawable(d));
@@ -155,7 +172,11 @@ public abstract class ControllerTest {
 			public void setSpatial(Spatial spatial) { }
 
 			@Override
-			public void mapDraw(Graphics2D g, int resolution) { }			
+			public PhysicsControl getPhysicsObject() {
+				return null;
+			}
+			
+			public void mapDraw(Graphics2D g, int resolution) { }
 		};		
 		when(rn.detachChild(any(Spatial.class))).thenReturn(-1);
 		assertFalse(c.removeDrawable(d));

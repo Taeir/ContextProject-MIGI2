@@ -2,7 +2,7 @@ package nl.tudelft.contextproject.model;
 
 /**
  * Abstract parent class for all entities.
- * All entities have a state and are Drawable.
+ * All entities have a state, are Drawable and are Collidable.
  */
 public abstract class Entity implements Drawable, TickListener {
 	private EntityState state = EntityState.NEW;

@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject;
 
 import java.util.Arrays;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.controller.Controller;
@@ -26,7 +29,6 @@ public class Main extends SimpleApplication {
 	
 	private static Main instance;
 	private Controller controller;
-
 	private List<TickListener> tickListeners = new LinkedList<>();
 
 	/**
@@ -120,9 +122,13 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
+		tickListeners = new LinkedList<>();
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
-		getFlyByCamera().setMoveSpeed(50);
+		
+		flyCam.setMoveSpeed(100);
+		viewPort.setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
+		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
 		setController(new GameController(this, (new RandomLevelFactory(5, false)).generateRandom()));
@@ -133,6 +139,20 @@ public class Main extends SimpleApplication {
 	 */
 	protected void setupControlMappings() {
 		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+		inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
+		inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
+		inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
+		inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
+		inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+	}
+	
+	/**
+	 * Move the camera to a new location.
+	 * @param newLoc
+	 * 					the new location of the camera
+	 */ 
+	public void moveCameraTo(Vector3f newLoc) {
+		getCamera().setLocation(newLoc);
 	}
 	
 	@Override
