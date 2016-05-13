@@ -32,6 +32,7 @@
 		<checkstyle.version>2.17</checkstyle.version>
 		<pmd.version>3.5</pmd.version>
 		<jme3.version>3.1.0-SNAPSHOT</jme3.version>
+		<jetty.version>9.3.8.v20160314</jetty.version>
 	</properties>
 
 	<dependencies>
@@ -52,7 +53,6 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>2.0.2-beta</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
@@ -147,33 +147,17 @@
 			<version>${jme3.version}</version>
 		</dependency>
 		
+		<!--  Web Interface -->
 		<dependency>
-			<groupId>com.jme3</groupId>
-			<artifactId>jme3-terrain</artifactId>
-			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jme3-terrain.jar</systemPath>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>${jetty.version}</version>
 		</dependency>
+
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>vecmath</artifactId>
-			<version>1.3.1</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/vecmath.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>cz.advel</groupId>
-			<artifactId>stack</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/stack-alloc.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.bulletphysics</groupId>
-			<artifactId>jbullet</artifactId>
-			<version>${jme3.version}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jme_vr_libs/jbullet.jar</systemPath>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>${jetty.version}</version>
 		</dependency>
 	</dependencies>
 

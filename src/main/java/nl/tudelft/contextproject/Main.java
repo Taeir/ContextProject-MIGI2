@@ -17,9 +17,11 @@ import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
+import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
+import nl.tudelft.contextproject.webinterface.WebServer;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
@@ -29,7 +31,9 @@ public class Main extends SimpleApplication {
 	
 	private static Main instance;
 	private Controller controller;
-	private List<TickListener> tickListeners;
+	private WebServer webServer;
+	private List<TickListener> tickListeners = new LinkedList<>();
+
 	/**
 	 * Main method that is called when the program is started.
 	 * @param args run-specific arguments.
@@ -119,7 +123,6 @@ public class Main extends SimpleApplication {
 		inputManager = im;
 	}
 
-
 	@Override
 	public void simpleInitApp() {
 		tickListeners = new LinkedList<>();
@@ -133,6 +136,19 @@ public class Main extends SimpleApplication {
 		
 		setupControlMappings();
 		setController(new GameController(this, (new RandomLevelFactory(5, false)).generateRandom()));
+		setupWebServer();
+	}
+	
+	@Override
+	public void stop(boolean waitFor) {
+		//Stop the webServer before shutting down
+		try {
+			webServer.stop();
+		} catch (Exception ex) {
+			Log.getLog("WebInterface").warning("Exception while trying to stop webserver", ex);
+		}
+		
+		super.stop(waitFor);
 	}
 
 	/**
@@ -148,6 +164,19 @@ public class Main extends SimpleApplication {
 	}
 	
 	//TODO this will be removed when camera type is changed
+	/**
+	 * Creates the web server and starts it.
+	 */
+	protected void setupWebServer() {
+		webServer = new WebServer();
+		
+		try {
+			webServer.start(8080);
+		} catch (Exception ex) {
+			Log.getLog("WebInterface").severe("Exception while trying to start webserver", ex);
+		}
+	}
+	
 	/**
 	 * Move the camera to a new location.
 	 * @param newLoc
