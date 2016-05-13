@@ -113,7 +113,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| 9a. Write server communication #87
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/87 #87 - Write server communication]
 |
 
 |
@@ -127,7 +127,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| 9b. Add jMonkey integration #88
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/88 #88 - Add jMonkey integration]
 |
 
 |
@@ -140,7 +140,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| 9c. Design the webpage (CSS / layout / styling) #85
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/85 #85 - Design the webpage (CSS / layout / styling)]
 |
 
 |
@@ -153,7 +153,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| 9d. Write client side code (JavaScript) #86
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/86 #86 - Write client side code (JavaScript)]
 |
 
 |
@@ -178,7 +178,7 @@ I have put more hours into this task simply because I had more available. This t
 | &gt; 95% line coverage
 |-
 | '''Keys and doors'''
-| 10. Implement keys #100
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/100 #100 - Implement keys]
 | Wytze
 | A
 | 3
@@ -188,7 +188,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| 11. Implements doors #40
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/40 #40 - Implements doors]
 | Wytze
 | A
 | 3
@@ -197,7 +197,7 @@ I have put more hours into this task simply because I had more available. This t
 | Was more difficult than expected, due to framework changes.
 |-
 | '''Animation'''
-| 12. Figure out how to use Animations in JMonkey #113
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 - Figure out how to use Animations in JMonkey]
 | Wytze
 | C
 | 2
@@ -208,7 +208,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| 13. Create animations for bombs #133
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 - Create animations for bombs]
 | Wytze
 | C
 | 7
@@ -218,7 +218,7 @@ I have put more hours into this task simply because I had more available. This t
 |-
 |
 
-| 14. Implement animations into our game #113
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 - Implement animations into our game #113]
 | Wytze
 | C
 | 3
@@ -227,7 +227,7 @@ I have put more hours into this task simply because I had more available. This t
 | Not enough time; Has been postponed to next sprint
 |-
 | '''Expand framework to support features that are being implemented this week'''
-| 15. Expand framework to support certain features #96 #90
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/96 #96 - Expand framework to support certain features][https://github.com/Taeir/ContextProject-MIGI2/issues/90 and #90]
 | Chiel
 | A
 | 11
@@ -237,7 +237,7 @@ I have put more hours into this task simply because I had more available. This t
 
 |-
 | '''Controller support'''
-| 16. Implement controller support #37
+| [https://github.com/Taeir/ContextProject-MIGI2/issues/37 #37 - Implement controller support]
 | Chiel
 | C
 | 1
