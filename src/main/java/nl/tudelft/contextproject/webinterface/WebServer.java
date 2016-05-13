@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.logging.Log;
 
 import org.eclipse.jetty.http.HttpStatus;
@@ -25,7 +23,6 @@ import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.mockito.Mockito;
 
 /**
  * Class to run the web interface.
@@ -43,43 +40,6 @@ public class WebServer {
 	private Server server;
 	private HashSessionIdManager sessionIdManager;
 	private ServletContextHandler contextHandler;
-	
-	/**
-	 * Temporary main method, for debugging.
-	 * 
-	 * @param args
-	 * 		the program arguments
-	 * 
-	 * @throws Exception
-	 * 		if an exception occurs
-	 */
-	public static void main(String[] args) throws Exception {
-		Main main = Mockito.mock(Main.class);
-		Mockito.when(main.getGameState()).thenReturn(GameState.WAITING);
-		
-		Main.setInstance(main);
-		WebServer ws = new WebServer();
-		ws.start(8080);
-		
-		//DEBUG
-		@SuppressWarnings("resource")
-		Scanner sc = new Scanner(System.in);
-		String s;
-		while ((s = sc.next()) != null) {
-			if (s.equalsIgnoreCase("stop")) break;
-			if (s.equalsIgnoreCase("w")) {
-				Mockito.when(main.getGameState()).thenReturn(GameState.WAITING);
-			} else if (s.equalsIgnoreCase("p")) {
-				Mockito.when(main.getGameState()).thenReturn(GameState.PAUSED);
-			} else if (s.equalsIgnoreCase("r")) {
-				Mockito.when(main.getGameState()).thenReturn(GameState.RUNNING);
-			}
-			
-			System.out.println(ws.clients);
-		}
-		
-		ws.stop();
-	}
 	
 	/**
 	 * @return

@@ -11,10 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
@@ -22,9 +27,26 @@ import nl.tudelft.contextproject.test.TestUtil;
  */
 public class ClientServletTest extends WebTestBase {
 	private static final String ID1 = "TESTID1";
-	
+	private static final String JSON_CONTENT_TYPE = "text/json";
+	private static final String JSON_UNAUTHORIZED = "{auth: false}";
+
 	public WebServer webServer;
 	public ClientServlet servlet;
+	
+	/**
+	 * Initializes a level for the tests.
+	 */
+	@BeforeClass
+	public static void initializeLevel() {
+		//Create a new seeded level
+		Level level = new RandomLevelFactory(5, false).generateSeeded(1);
+		
+		//Create a new controller with that level
+		GameController controller = new GameController(Main.getInstance(), level);
+		
+		//Set the controller on Main
+		Main.getInstance().setController(controller);
+	}
 
 	/**
 	 * Creates a new ClientServlet before every test, and sets the game state to WAITING.
@@ -211,8 +233,8 @@ public class ClientServletTest extends WebTestBase {
 		
 		//Response should have been done in JSON format
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType("text/json");
-		verify(response.getWriter()).write("{auth: false}");
+		verify(response).setContentType(JSON_CONTENT_TYPE);
+		verify(response.getWriter()).write(JSON_UNAUTHORIZED);
 	}
 	
 	/**
@@ -268,7 +290,7 @@ public class ClientServletTest extends WebTestBase {
 		doReturn(client).when(webServer).getUser(any());
 		
 		//Put the client in FAKETEAM
-		doReturn("FAKETEAM").when(client).getTeam();
+		when(client.getTeam()).thenReturn("FAKETEAM");
 		
 		servlet.setTeam(request, response);
 		
@@ -425,8 +447,8 @@ public class ClientServletTest extends WebTestBase {
 		
 		//auth: false should have been written
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType("text/json");
-		verify(response.getWriter()).write("{auth: false}");
+		verify(response).setContentType(JSON_CONTENT_TYPE);
+		verify(response.getWriter()).write(JSON_UNAUTHORIZED);
 	}
 
 	/**
@@ -448,12 +470,12 @@ public class ClientServletTest extends WebTestBase {
 		
 		//Some JSON should have been written
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType("text/json");
+		verify(response).setContentType(JSON_CONTENT_TYPE);
 		verify(response.getWriter()).write(matches("\\{.*\\}"));
 	}
 	
 	/**
-	 * Test method for {@link ClientServlet#getExplored}, when the user is unauthorized
+	 * Test method for {@link ClientServlet#getExplored}, when the user is unauthorized.
 	 * 
 	 * @throws IOException
 	 * 		if an IOException occurs calling getExplored of the servlet.
@@ -467,8 +489,8 @@ public class ClientServletTest extends WebTestBase {
 		
 		//auth: false should have been written
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType("text/json");
-		verify(response.getWriter()).write("{auth: false}");
+		verify(response).setContentType(JSON_CONTENT_TYPE);
+		verify(response.getWriter()).write(JSON_UNAUTHORIZED);
 	}
 
 	/**
@@ -490,7 +512,7 @@ public class ClientServletTest extends WebTestBase {
 		
 		//Some JSON should have been written
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType("text/json");
+		verify(response).setContentType(JSON_CONTENT_TYPE);
 
 		verify(response.getWriter()).write(matches("\\{.*\\}"));
 	}
@@ -510,8 +532,8 @@ public class ClientServletTest extends WebTestBase {
 		
 		//{auth: false} JSON should have been written
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType("text/json");
-		verify(response.getWriter()).write("{auth: false}");
+		verify(response).setContentType(JSON_CONTENT_TYPE);
+		verify(response.getWriter()).write(JSON_UNAUTHORIZED);
 	}
 
 	/**
@@ -534,7 +556,7 @@ public class ClientServletTest extends WebTestBase {
 		
 		//Some JSON should have been written
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType("text/json");
+		verify(response).setContentType(JSON_CONTENT_TYPE);
 		
 		ArgumentCaptor<String> ac = ArgumentCaptor.forClass(String.class);
 		verify(response.getWriter()).write(ac.capture());
