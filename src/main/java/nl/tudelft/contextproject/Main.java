@@ -13,6 +13,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
+import nl.tudelft.contextproject.audio.AudioManager;
+import nl.tudelft.contextproject.audio.BackgroundMusic;
 import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
@@ -125,7 +127,6 @@ public class Main extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
-		tickListeners = new LinkedList<>();
 		setDisplayFps(debugHud);
 		setDisplayStatView(debugHud);
 		
@@ -137,6 +138,12 @@ public class Main extends SimpleApplication {
 		setupControlMappings();
 		setController(new GameController(this, (new RandomLevelFactory(5, false)).generateRandom()));
 		setupWebServer();
+
+		//Initialize the AudioManager.
+		AudioManager.getInstance().init();
+
+		//Start the background music
+		BackgroundMusic.getInstance().start();
 	}
 	
 	@Override
@@ -147,7 +154,8 @@ public class Main extends SimpleApplication {
 		} catch (Exception ex) {
 			Log.getLog("WebInterface").warning("Exception while trying to stop webserver", ex);
 		}
-		
+
+		BackgroundMusic.getInstance().stop();
 		super.stop(waitFor);
 	}
 
@@ -191,6 +199,13 @@ public class Main extends SimpleApplication {
 		for (TickListener tl : tickListeners) {
 			tl.update(tpf);
 		}
+
+		//Update location for 3D audio
+		getListener().setLocation(getCamera().getLocation());
+		getListener().setRotation(getCamera().getRotation());
+
+		//Update BackgroundMusic
+		BackgroundMusic.getInstance().update(tpf);
 	}
 	
 	/**

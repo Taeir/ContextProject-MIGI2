@@ -9,13 +9,13 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
+import nl.tudelft.contextproject.audio.AudioTestUtil;
 import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class MainTest {
 	 */
 	@Before
 	public void setUp() {
-		Main.setInstance(null);
+		Main.setInstance(AudioTestUtil.fakeMain());
 		main = Main.getInstance();
 	}
 	
