@@ -155,18 +155,27 @@ public class VRPlayer extends Entity implements ActionListener {
 	 */
 	@Override
 	public void onAction(String name, boolean isPressed, float tpf) {
-		if (name.equals("Left")) {
+		switch (name) {
+		case "Left":
 			left = isPressed;
-		} else if (name.equals("Right")) {
+			break;
+		case "Right":
 			right = isPressed;
-		} else if (name.equals("Up")) {
+			break;
+		case "Up":
 			up = isPressed;
-		} else if (name.equals("Down")) {
+			break;
+		case "Down":
 			down = isPressed;
-		} else if (name.equals("Jump")) {
+			break;
+		case "Jump":
 			if (isPressed) { 
 				playerControl.jump(); 
 			}
+			break;
+		default:
+			//Do nothing otherwise
+			break;
 		}
 	}
 }

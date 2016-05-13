@@ -117,6 +117,7 @@ public abstract class ControllerTest {
 				return null;
 			}
 			
+			@Override
 			public void mapDraw(Graphics2D g, int resolution) { }
 		};		
 		c.addDrawable(d);
@@ -146,6 +147,7 @@ public abstract class ControllerTest {
 				return null;
 			}
 			
+			@Override
 			public void mapDraw(Graphics2D g, int resolution) { }
 		};	
 		when(rn.detachChild(any(Spatial.class))).thenReturn(12);
@@ -176,6 +178,7 @@ public abstract class ControllerTest {
 				return null;
 			}
 			
+			@Override
 			public void mapDraw(Graphics2D g, int resolution) { }
 		};		
 		when(rn.detachChild(any(Spatial.class))).thenReturn(-1);
