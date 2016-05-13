@@ -301,6 +301,7 @@ function updateMap(data) {
 function updateExplored(data) {
     for (x = 0; x < gMap.width; x++) {
         var row = data[x];
+        if (row == undefined) continue;
         
         for (i = 0; i < row.length; i++) {
             $(document.getElementById("y" + row[i] + "x" + x)).addClass("explored");
