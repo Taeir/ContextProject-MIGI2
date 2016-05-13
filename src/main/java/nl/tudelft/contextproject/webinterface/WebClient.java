@@ -59,7 +59,6 @@ public class WebClient {
 	 * 		the team of this client
 	 */
 	public void setTeam(Boolean team) {
-		System.out.println("[DEBUG] setteam to " + team);
 		this.team = team;
 	}
 	

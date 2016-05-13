@@ -12,6 +12,7 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.json.JSONObject;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.webinterface.temp.WebLevel2;
 
 /**
@@ -34,6 +35,9 @@ public class ClientServlet extends DefaultServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Log event
+		Log.getLog("WebInterface").fine("Received GET Request: URI=\"" + request.getRequestURI() + "\", Parameters=" + request.getParameterMap());
+		
 		//Redirect the root to index.html
 		if (request.getRequestURI().equals("/")) {
 			response.sendRedirect("/index.html");
@@ -45,7 +49,8 @@ public class ClientServlet extends DefaultServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("[DEBUG] POST Request: URI=\"" + request.getRequestURI() + "\", Parameters=" + request.getParameterMap());
+		//Log event
+		Log.getLog("WebInterface").fine("Received POST Request: URI=\"" + request.getRequestURI() + "\", Parameters=" + request.getParameterMap());
 		
 		//Handle the post request differently based on the requested URL.
 		String uri = request.getRequestURI().substring(1);
@@ -187,7 +192,7 @@ public class ClientServlet extends DefaultServlet {
 		WebClient client = server.getUser(request);
 		
 		//Check authorized
-		if (!checkAuthorized(client, response, false)) return;
+		if (!checkAuthorized(client, response, true)) return;
 		
 		//We need to send the map to the clients
 		//We send the map as a bunch of rooms, and tiles that make up the corridors.
@@ -218,7 +223,7 @@ public class ClientServlet extends DefaultServlet {
 		WebClient client = server.getUser(request);
 		
 		//Check authorized
-		if (!checkAuthorized(client, response, false)) return;
+		if (!checkAuthorized(client, response, true)) return;
 		
 		//Send the explored map
 		JSONObject json = WebLevel2.testLevel().toExploredJSON();
@@ -244,13 +249,8 @@ public class ClientServlet extends DefaultServlet {
 		//Get the WebClient of the request
 		WebClient client = server.getUser(request);
 		
-		if (client == null) {
-			//Client is not known: unauthorized request
-			response.setStatus(HttpStatus.OK_200);
-			response.setContentType("text/json");
-			response.getWriter().write("{auth: false}");
-			return;
-		}
+		//Check authorization
+		if (!checkAuthorized(client, response, true)) return;
 
 		//We will send a JSON status update object.
 		response.setStatus(HttpStatus.OK_200);
@@ -259,22 +259,16 @@ public class ClientServlet extends DefaultServlet {
 		JSONObject json = new JSONObject();
 		json.put("team", client.getTeam().toUpperCase());
 		json.put("state", Main.getInstance().getGameState().name());
-		//TODO Finish conversion to JSONObject
 		
-		@SuppressWarnings("resource")
-		PrintWriter writer = response.getWriter();
-		writer.append("{team: ").append(client.getTeam().toUpperCase());
-		writer.append(", state: ").append(Main.getInstance().getGameState().name());
-		
-
 		switch (Main.getInstance().getGameState()) {
 			//If the state is RUNNING or PAUSED, then send map and player information
 			case RUNNING:
 			case PAUSED:
 				//TODO Actual player information
-				writer.append(", player: { x: 0, y: 0, z: 0, hp: 0, bombs: 0, keys: [] }");
+				//json.put("player", VRPlayer().toJSON());
 		
-				//TODO Add map updates
+				//TODO Add entity updates
+				//TODO Add explored updates
 				break;
 
 			//If the state is ENDED, then send the game statistics
@@ -286,6 +280,7 @@ public class ClientServlet extends DefaultServlet {
 				break;
 		}
 		
-		writer.append(" }");
+		//Write the json to the response
+		response.getWriter().write(json.toString());
 	}
 }
