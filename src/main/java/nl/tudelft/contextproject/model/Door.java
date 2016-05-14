@@ -22,10 +22,14 @@ import nl.tudelft.contextproject.Main;
 public class Door extends Entity {
 	private Geometry geometry;
 	private Spatial sp;
+	private ColorRGBA color;
 	/**
 	 * Constructor for a door.
+	 * @param col
+	 * 		Color of the door's lock
 	 */
-	public Door() {
+	public Door(ColorRGBA col) {
+		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh); 
 		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
@@ -34,7 +38,7 @@ public class Door extends Entity {
 		Material mat2 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat2.setColor("Color", ColorRGBA.Gray);
 		Material mat3 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat2.setColor("Color", ColorRGBA.Yellow);
+		mat2.setColor("Color", color);
 		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
 		}
@@ -80,5 +84,22 @@ public class Door extends Entity {
 		RigidBodyControl rigidBody = new RigidBodyControl(sceneShape, 0);
 		rigidBody.setPhysicsLocation(sp.getLocalTranslation());
 		return rigidBody;
+	}
+	
+	/**
+	 * Sets the color of the doors lock.
+	 * @param col
+	 * 		The color of the doors lock
+	 */
+	public void setColor(ColorRGBA col) {
+		color = col;
+	}
+	
+	/**
+	 * Gets the color of the doors lock.
+	 * @return The color of the doors lock
+	 */
+	public ColorRGBA getColor() {
+		return color;
 	}
 }
