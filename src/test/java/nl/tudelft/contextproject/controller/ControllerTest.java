@@ -111,11 +111,6 @@ public abstract class ControllerTest {
 			
 			@Override
 			public void setSpatial(Spatial spatial) { }
-
-			@Override
-			public PhysicsControl getPhysicsObject() {
-				return null;
-			}
 			
 			@Override
 			public void mapDraw(Graphics2D g, int resolution) { }
@@ -141,11 +136,6 @@ public abstract class ControllerTest {
 
 			@Override
 			public void setSpatial(Spatial spatial) { }
-
-			@Override
-			public PhysicsControl getPhysicsObject() {
-				return null;
-			}
 			
 			@Override
 			public void mapDraw(Graphics2D g, int resolution) { }
@@ -172,11 +162,6 @@ public abstract class ControllerTest {
 
 			@Override
 			public void setSpatial(Spatial spatial) { }
-
-			@Override
-			public PhysicsControl getPhysicsObject() {
-				return null;
-			}
 			
 			@Override
 			public void mapDraw(Graphics2D g, int resolution) { }
