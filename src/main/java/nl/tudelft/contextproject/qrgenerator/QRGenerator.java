@@ -35,10 +35,6 @@ public final class QRGenerator {
 	//Port number of server.
 	private static int portNumber = Main.PORT_NUMBER;
 
-
-
-
-
 	/**
 	 * Private constructor to prevent initialization elsewhere.
 	 * Will try to find IP.
@@ -50,6 +46,24 @@ public final class QRGenerator {
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Get the hosting address as an URL String.
+	 * @return
+	 * 			hosting address
+	 */
+	public static String getURL() {
+		return hostingAddress;
+	}
+	
+	/**
+	 * Set the hosting address as an URL String.
+	 * @param url
+	 * 				hosting addres
+	 */ 
+	public static void setURL(String url) {
+		hostingAddress = url;
 	}
 
 	/**
@@ -85,9 +99,9 @@ public final class QRGenerator {
 
 	/**
 	 * Set the correct ipv4 address of this computer.
-	 * This method gets all network interfaces of the computer.
-	 * Then for each network interface check all the network addresses.
-	 * The IP address will be among those, so all address that are local or LAN based
+	 * This method needs all network interfaces of the computer.
+	 * It will for each network interface check all the network addresses.
+	 * The IP address will be among those, so all address that are personally or locally based
 	 * are filtered out.
 	 * Please note that you cannot have other network adapters (such from virtual machines)
 	 * running as they will interfere with the correct adapter.
