@@ -31,6 +31,7 @@ public class Inventory {
 		array.add(key);
 		keys++;	
 	}
+	
 	/**
 	 * Adds a bomb to the inventory.
 	 * @param bomb
@@ -40,7 +41,37 @@ public class Inventory {
 		array.add(bomb);
 		bombs++;
 	}
-
+	
+	/**
+	 * Removes a key or bomb from your inventory.
+	 * @param ent
+	 * 		The bomb/key to remove
+	 */
+	public void remove(Entity ent) {
+		if (ent instanceof Bomb) {
+			for (int i = 0; i < array.size(); i++) {
+				if (array.get(i) instanceof Bomb) {
+					array.remove(i);
+					bombs--;
+					return;
+				}
+			}
+		}
+		if (ent instanceof Key) {
+			for (int i = 0; i < array.size(); i++) {
+				if (array.get(i) instanceof Key) {
+					Key key = (Key) array.get(i);
+					if (key.getColor().equals(((Key) ent).getColor())) {
+						array.remove(i);
+						keys--;
+						return;
+					}
+				}
+			}
+		}
+		return;
+	}
+	
 	/**
 	 * Returns a bomb from the inventory.
 	 * @return
