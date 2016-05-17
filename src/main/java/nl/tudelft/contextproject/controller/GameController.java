@@ -111,7 +111,7 @@ public class GameController extends Controller {
 		AmbientLight al = new AmbientLight();
 		 al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
-		game.addEntity(new WallFrame(new Vector3f(xStart, 1f, yStart), "logo.png", Direction.NORTH));
+		//game.addEntity(new WallFrame(new Vector3f(xStart, 1f, yStart), "logo.png", Direction.NORTH));
 	}
 
 	@Override
