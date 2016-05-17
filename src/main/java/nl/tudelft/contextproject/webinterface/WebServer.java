@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.logging.Log;
-import nl.tudelft.contextproject.qrgenerator.QRGenerator;
 
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Server;
@@ -70,9 +69,6 @@ public class WebServer {
 	public synchronized void start(int port) throws Exception {
 		//Check if the server is already running.
 		if (running) throw new IllegalStateException("Server is already running");
-		
-		//Generator QRcode on server start
-		QRGenerator.getInstance().generateQRcode();
 		
 		//Mark the server as now running and set the port
 		this.running = true;
