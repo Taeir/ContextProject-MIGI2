@@ -17,6 +17,8 @@ import nl.tudelft.contextproject.model.Direction;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.PlayerTrigger;
+import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.WallFrame;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.TileType;
@@ -111,7 +113,14 @@ public class GameController extends Controller {
 		AmbientLight al = new AmbientLight();
 		 al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
-		//game.addEntity(new WallFrame(new Vector3f(xStart, 1f, yStart), "logo.png", Direction.NORTH));
+//		game.addEntity(new WallFrame(new Vector3f(xStart, 1f, yStart), "logo.png", Direction.NORTH));
+//		PlayerTrigger e = new PlayerTrigger(.4f, 1f, new TickListener() {
+//			@Override
+//			public void update(float tpf) {
+//				System.out.println("BANG!");
+//			}			
+//		}, new Vector3f(xStart, 0, yStart));
+//		game.getEntities().add(e);
 	}
 
 	@Override
