@@ -24,8 +24,14 @@ public class Bomb extends Entity {
 
 	/**
 	 * Constructor for a bomb.
+	 * @param x
+	 * 		The x coordinate of the bomb
+	 * @param y
+	 * 		The y coordinate of the bomb
+	 * @param z
+	 * 		The z coordinate of the bomb
 	 */
-	public Bomb() {
+	public Bomb(int x, int y, int z) {
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -34,12 +40,15 @@ public class Bomb extends Entity {
 		matb.setColor("Color", ColorRGBA.White);
 		if (Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o") == null) {
 			sp = geometry;
+			sp.move(x, y, z);
 		} else {
 			Node nod = (Node) Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o");
 			nod.setMaterial(mat);
 			((Node) nod.getChild("Cylinder.001")).getChild(0).setMaterial(matb);
 			sp = nod;
-		}			
+			sp.move(x, y, z);
+		}
+		
 	}
 
 	@Override
@@ -73,5 +82,18 @@ public class Bomb extends Entity {
 		RigidBodyControl rigidBody = new RigidBodyControl(sceneShape, 0);
 		rigidBody.setPhysicsLocation(sp.getLocalTranslation());
 		return rigidBody;
+	}
+	
+	/**
+	 * Method to move the bomb.
+	 * @param x
+	 * 		The x coordinate of the bomb
+	 * @param y
+	 * 		The y coordinate of the bomb
+	 * @param z
+	 * 		The z coordinate of the bomb
+	 */
+	public void move(int x, int y, int z) {
+		sp.move(x, y, z);
 	}
 }

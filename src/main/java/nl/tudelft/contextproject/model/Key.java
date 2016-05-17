@@ -1,7 +1,7 @@
 package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
-
+import java.util.ArrayList;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
@@ -26,8 +26,14 @@ public class Key extends Entity {
 	 * Constructor for a key.
 	 * @param col
 	 * 		The color of the key
+	 * @param x
+	 * 		The x coordinate of the key
+	 * @param y
+	 * 		The y coordinate of the key
+	 * @param z
+	 * 		The z coordinate of the key
 	 */
-	public Key(ColorRGBA col) {
+	public Key(ColorRGBA col, int x, int y, int z) {
 		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh); 
@@ -35,10 +41,11 @@ public class Key extends Entity {
 			sp =  geometry;
 		} else {
 			sp = Main.getInstance().getAssetManager().loadModel("Models/key.j3o");
+			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+			mat.setColor("Color", color);
+			sp.setMaterial(mat);
 		}
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", color);
-		sp.setMaterial(mat);
+		sp.move(x, y, z);
 	}
 
 	@Override
@@ -88,5 +95,18 @@ public class Key extends Entity {
 	 */
 	public void setColor(ColorRGBA col) {
 		color = col;
+	}
+	
+	/**
+	 * Method to move the key.
+	 * @param x
+	 * 		The x coordinate of the key
+	 * @param y
+	 * 		The y coordinate of the key
+	 * @param z
+	 * 		The z coordinate of the key
+	 */
+	public void move(int x, int y, int z) {
+		sp.move(x, y, z);
 	}
 }

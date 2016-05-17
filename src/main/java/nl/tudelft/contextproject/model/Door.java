@@ -27,8 +27,14 @@ public class Door extends Entity {
 	 * Constructor for a door.
 	 * @param col
 	 * 		Color of the door's lock
+	 * @param x
+	 * 		The x coordinate of the door
+	 * @param y
+	 * 		The y coordinate of the door
+	 * @param z
+	 * 		The z coordinate of the door
 	 */
-	public Door(ColorRGBA col) {
+	public Door(ColorRGBA col, int x, int y, int z) {
 		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh); 
@@ -52,6 +58,7 @@ public class Door extends Entity {
 		if (sp instanceof Geometry) {
 			geometry = (Geometry) sp;
 		}
+		sp.move(x, y, z);
 	}
 
 	@Override

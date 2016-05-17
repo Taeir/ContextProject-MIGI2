@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model;
 
 import static org.mockito.Mockito.*;
 
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 
 import org.junit.Before;
@@ -15,7 +16,9 @@ public class DoorTest extends EntityTest {
 
 	@Override
 	public Entity getEntity() {
-		return new Door();
+		ColorRGBA color = new ColorRGBA();
+		color.set(ColorRGBA.Yellow);
+		return new Door(color, 0, 0, 0);
 	}
 	
 	/**
@@ -25,7 +28,9 @@ public class DoorTest extends EntityTest {
 	@Before
 	public void setUp() {
 		setupGeometryMock();
-		door = new Door();
+		ColorRGBA color = new ColorRGBA();
+		color.set(ColorRGBA.Yellow);
+		door = new Door(color, 0, 0, 0);
 	}
 
 	/**
