@@ -15,13 +15,13 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.logging.Log;
 
 /**
- *	QR code generator class. 
- *	Singleton that will generate a QR code and place it in {@link #location}.
+ * QR code generator class. 
+ * Singleton that will generate a QR code and place it in {@link #location}.
  *
- *	It possible to automatically try and find the hosting address and generate the QR code with:
- *	QRGenerator.getInstance().generateQRcode();
- *	
- *	or to manually set the URL and generate the QR code with:
+ * It possible to automatically try and find the hosting address and generate the QR code with:
+ * QRGenerator.getInstance().generateQRcode();
+ * 
+ * or to manually set the URL and generate the QR code with:
  * QRGenerator.getInstance().setURL("URL string");
  * QRGenerator.getIntance().generateQRcode();
  */
