@@ -100,8 +100,7 @@ public final class QRGenerator {
 	 * Set the correct ipv4 address of this computer.
 	 * This method needs all network interfaces of the computer.
 	 * It will for each network interface check all the network addresses.
-	 * The IP address will be among those, so all address that are personally or locally based
-	 * are filtered out.
+	 * The IP address will be among those, so all address that are fake or contain : are filtered out.
 	 * Please note that you cannot have other network adapters (such from virtual machines)
 	 * running as they will interfere with the correct adapter. 
 	 */
@@ -117,14 +116,13 @@ public final class QRGenerator {
 				while (a.hasMoreElements()) {
 					InetAddress addr = a.nextElement();
 					String hostAddress = addr.getHostAddress();
-					if ((!hostAddress.startsWith("127.") 
-							&& !hostAddress.contains(":"))
-							&& !hostAddress.startsWith("192.168.")) {
+					if (!hostAddress.startsWith("127.") 
+							&& !hostAddress.contains(":")) {
 						hostingAddress = addr.getHostAddress();
 					}
 				}
 			}
-			hostingAddress = "https://" + hostingAddress + ":" + portNumber + "/";
+			hostingAddress = "http://" + hostingAddress + ":" + portNumber + "/";
 		} catch (SocketException e) {
 			Log.getLog("WebInterface").severe("Unable to get network addresses.", e);
 			e.printStackTrace();
