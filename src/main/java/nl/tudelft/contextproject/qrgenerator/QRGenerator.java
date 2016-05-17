@@ -27,15 +27,16 @@ import nl.tudelft.contextproject.logging.Log;
  */
 public final class QRGenerator {
 
+	//Height of QR image.
+	public static final int HEIGTH = 250;
+	//Width of QR image.
+	public static final int WIDTH = 250;
+
 	//Use eager initialization of the singleton.
 	private static final QRGenerator INSTANCE = new QRGenerator();
 
-	//Location and name of QR image.
 	public final String location = "qrcode.png";
-	//Width of QR image.
-	public final int width = 250;
-	//Height of QR image.
-	public final int heigth = 250;
+
 
 	//Holds IP of server.
 	private String hostingAddress;
@@ -85,7 +86,7 @@ public final class QRGenerator {
 	 */
 	public void generateQRcode() {
 		Log.getLog("WebInterface").info("Creating QR code with address: " + hostingAddress);
-		ByteArrayOutputStream byteArrayOutputStream = QRCode.from(hostingAddress).to(ImageType.PNG).withSize(width, heigth).stream();
+		ByteArrayOutputStream byteArrayOutputStream = QRCode.from(hostingAddress).to(ImageType.PNG).withSize(WIDTH, HEIGTH).stream();
 
 		try (OutputStream outputStream = new FileOutputStream(location)) {
 			byteArrayOutputStream.writeTo(outputStream);
@@ -100,9 +101,10 @@ public final class QRGenerator {
 	 * Set the correct ipv4 address of this computer.
 	 * This method needs all network interfaces of the computer.
 	 * It will for each network interface check all the network addresses.
-	 * The IP address will be among those, so all address that are fake or contain : are filtered out.
+	 * The IP address will be among those, so all address that are fake or are
+	 * IPv6 are filtered out.
 	 * Please note that you cannot have other network adapters (such from virtual machines)
-	 * running as they will interfere with the correct adapter. 
+	 * running as they will interfere with the correct adapter!
 	 */
 	protected void searchForHostAddress() {
 		hostingAddress = "";
