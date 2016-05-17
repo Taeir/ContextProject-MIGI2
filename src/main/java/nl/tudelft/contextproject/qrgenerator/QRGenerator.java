@@ -23,7 +23,7 @@ import nl.tudelft.contextproject.logging.Log;
  * 
  * or to manually set the URL and generate the QR code with:
  * QRGenerator.getInstance().setURL("URL string");
- * QRGenerator.getIntance().generateQRcode();
+ * QRGenerator.getInstance().generateQRcode();
  */
 public final class QRGenerator {
 
