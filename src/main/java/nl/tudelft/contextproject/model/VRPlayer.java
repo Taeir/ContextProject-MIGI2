@@ -17,7 +17,7 @@ import nl.tudelft.contextproject.Main;
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends Entity implements ActionListener {
+public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	/**
 	 * Physics interaction constants.
 	 */

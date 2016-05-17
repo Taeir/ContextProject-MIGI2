@@ -8,7 +8,7 @@ import com.jme3.scene.Spatial;
  * Interface representing a Drawable object.
  * This object has a geometry that can be updated.
  */
-public interface Drawable extends PhysicsObject {	
+public interface Drawable {	
 	/**
 	 * Getter for the spatial of this Drawable.
 	 * @return The spatial representing this Drawable.
