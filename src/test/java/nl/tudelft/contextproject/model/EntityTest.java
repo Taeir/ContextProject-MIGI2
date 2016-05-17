@@ -76,7 +76,7 @@ public abstract class EntityTest extends DrawableTest {
 	}
 	
 	/**
-	 * Test if collision detection returns flase when it should.
+	 * Test if collision detection returns false when it should.
 	 */
 	@Test
 	public void testPlayerCollisionFalse() {
