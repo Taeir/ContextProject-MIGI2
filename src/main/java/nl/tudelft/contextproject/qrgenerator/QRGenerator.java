@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.qrcontrol;
+package nl.tudelft.contextproject.qrgenerator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;

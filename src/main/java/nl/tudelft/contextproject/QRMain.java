@@ -1,6 +1,6 @@
 package nl.tudelft.contextproject;
 
-import nl.tudelft.contextproject.qrcontrol.QRGenerator;
+import nl.tudelft.contextproject.qrgenerator.QRGenerator;
 
 /**
  * Temporary manual test class for QRgenerator.
