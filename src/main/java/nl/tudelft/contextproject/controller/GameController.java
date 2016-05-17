@@ -13,9 +13,11 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Direction;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.WallFrame;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.TileType;
 
@@ -109,6 +111,7 @@ public class GameController extends Controller {
 		AmbientLight al = new AmbientLight();
 		 al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
+		game.addEntity(new WallFrame(new Vector3f(xStart, 1f, yStart), "logo.png", Direction.NORTH));
 	}
 
 	@Override

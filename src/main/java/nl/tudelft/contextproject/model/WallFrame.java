@@ -23,7 +23,7 @@ public class WallFrame extends Entity {
 	 * @param texture The name of the resource for the displayed image.
 	 * @param orientation The orientation of the panel.
 	 */
-	public WallFrame(Vector3f position, String texture, int orientation) {
+	public WallFrame(Vector3f position, String texture, Direction orientation) {
 		Quad b = new Quad(1, 3);
 		spatial = new Geometry("WallFrame", b);
 		AssetManager am = Main.getInstance().getAssetManager();
@@ -46,19 +46,25 @@ public class WallFrame extends Entity {
 	 * @param orientation The orientation of the frame.
 	 *
 	 */
-	//TODO change orientation to Enum?
-	private void snapToWall(int orientation) {
-		switch (orientation % 4) {
-			case 1: spatial.rotate(0f, (float) Math.toRadians(90), 0f);	
-					spatial.move(-.49f, 0, .5f);
-					break;
-			case 2:	spatial.rotate(0f, (float) Math.toRadians(180), 0f);	
-					spatial.move(.5f, 0, .49f);
-					break;
-			case 3: spatial.rotate(0f, (float) Math.toRadians(270), 0f);	
-					spatial.move(+.49f, 0, -.5f);
-					break;
-			default: spatial.move(-.5f, 0, -.49f);
+	private void snapToWall(Direction orientation) {
+		switch (orientation) {
+			case EAST: 
+				spatial.rotate(0f, (float) Math.toRadians(90), 0f);	
+				spatial.move(-.49f, 0, .5f);
+				break;
+			case SOUTH:	
+				spatial.rotate(0f, (float) Math.toRadians(180), 0f);	
+				spatial.move(.5f, 0, .49f);
+				break;
+			case WEST: 
+				spatial.rotate(0f, (float) Math.toRadians(270), 0f);	
+				spatial.move(+.49f, 0, -.5f);
+				break;
+			case NORTH: 
+				spatial.move(-.5f, 0, -.49f);
+				break;
+			default: 
+				throw new IllegalStateException("Illegal orientation " + orientation);
 		}
 	}
 
