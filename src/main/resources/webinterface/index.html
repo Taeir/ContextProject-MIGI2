@@ -11,12 +11,24 @@
 		});
 	</script>
 	<style>
-		#left,
+		html, body {
+			height: 100%;
+		}
 		#right {
-			width: 50%;
+			width: 20%;
 			height: 100%;
 			display: inline;
 			float: left;
+			overflow-x: auto;
+			overflow-y: auto;
+		}
+		#left {
+			width: 80%;
+			height: 100%;
+			display: inline;
+			float: left;
+			overflow-x: auto;
+			overflow-y: auto;
 		}
 		#map {
 			border-spacing: 1px;
@@ -41,6 +53,7 @@
 </head>
 
 <body>
+	<div id="left">
 	<div id="authorized">
 		<div id="selectTeam">
 			<button onclick="requestSetTeam('ELVES')">Elves</button>
@@ -261,6 +274,10 @@
 		<div id="ended" style="visibility:hidden">
 	
 		</div>
+	</div>
+	</div>
+	<div id="right">
+		RIGHT
 	</div>
 	<div id="unauthorized">
 	
