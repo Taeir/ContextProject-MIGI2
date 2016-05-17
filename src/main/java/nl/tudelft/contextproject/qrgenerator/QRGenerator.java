@@ -16,53 +16,48 @@ import nl.tudelft.contextproject.logging.Log;
 
 /**
  *	QR code generator class. 
- *	Singleton that will generate a QR code and place it in {@link #LOCATION}.
+ *	Singleton that will generate a QR code and place it in {@link #location}.
  */
 public final class QRGenerator {
-
-	//Location and name of QR image.
-	public static final String LOCATION = "qrcode.png";
-	//Width of QR image.
-	public static final int WIDTH = 250;
-	//Height of QR image.
-	public static final int HEIGTH = 250;
 
 	//Use eager initialization of the singleton.
 	private static final QRGenerator INSTANCE = new QRGenerator();
 
+	//Location and name of QR image.
+	public final String location = "qrcode.png";
+	//Width of QR image.
+	public final int width = 250;
+	//Height of QR image.
+	public final int heigth = 250;
+
 	//Holds IP of server.
-	private static String hostingAddress;
+	private String hostingAddress;
 	//Port number of server.
-	private static int portNumber = Main.PORT_NUMBER;
+	private int portNumber = Main.PORT_NUMBER;
 
 	/**
 	 * Private constructor to prevent initialization elsewhere.
 	 * Will try to find IP.
-	 * @throws SocketException 
 	 */
 	private QRGenerator() {
-		try {
-			setHostingAddress(NetworkInterface.getNetworkInterfaces());
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
+		searchForHostAddress();
 	}
-	
+
 	/**
 	 * Get the hosting address as an URL String.
 	 * @return
 	 * 			hosting address
 	 */
-	public static String getURL() {
+	public String getURL() {
 		return hostingAddress;
 	}
-	
+
 	/**
 	 * Set the hosting address as an URL String.
 	 * @param url
 	 * 				hosting addres
 	 */ 
-	public static void setURL(String url) {
+	public void setURL(String url) {
 		hostingAddress = url;
 	}
 
@@ -76,7 +71,7 @@ public final class QRGenerator {
 	}
 
 	/**
-	 * Generate a QR code in {@link #LOCATION}.
+	 * Generate a QR code in {@link #location}.
 	 * First, get the hostingAddress by using the Java InetAddress class.
 	 * Then, create the QRgen as a ByteArrayOutputStream.
 	 * And finally write the ByteArrayOutputStream to disk.
@@ -84,13 +79,13 @@ public final class QRGenerator {
 	 * @param portNumber
 	 * 				the port number which hosts the application
 	 */
-	public static void generateQRcode(String portNumber) {
+	public void generateQRcode(String portNumber) {
 		Log.getLog("WebInterface").info("Creating QRcode with address: " + hostingAddress);
-		ByteArrayOutputStream byteArrayOutputStream = QRCode.from(hostingAddress).to(ImageType.PNG).withSize(WIDTH, HEIGTH).stream();
+		ByteArrayOutputStream byteArrayOutputStream = QRCode.from(hostingAddress).to(ImageType.PNG).withSize(width, heigth).stream();
 
-		try (OutputStream outputStream = new FileOutputStream(LOCATION)) {
+		try (OutputStream outputStream = new FileOutputStream(location)) {
 			byteArrayOutputStream.writeTo(outputStream);
-			Log.getLog("WebInterface").info("Created QRcode with address: " + hostingAddress + " as " + LOCATION);
+			Log.getLog("WebInterface").info("Created QRcode with address: " + hostingAddress + " as " + location);
 		} catch (IOException e) {
 			Log.getLog("WebInterface").severe("Unable to write qr code to disk.", e);
 			e.printStackTrace();
@@ -105,24 +100,29 @@ public final class QRGenerator {
 	 * are filtered out.
 	 * Please note that you cannot have other network adapters (such from virtual machines)
 	 * running as they will interfere with the correct adapter.
-	 * @param n
-	 * 			an enumeration of all network interfaces on this device
 	 */
-	protected static void setHostingAddress(Enumeration<NetworkInterface> n) {
+	protected void searchForHostAddress() {
 		hostingAddress = "";
-		while (n.hasMoreElements()) {
-			NetworkInterface e = n.nextElement();
-			Enumeration<InetAddress> a = e.getInetAddresses();
+		Enumeration<NetworkInterface> networkInterfaces;
+		try {
+			networkInterfaces = NetworkInterface.getNetworkInterfaces();
+			while (networkInterfaces.hasMoreElements()) {
+				NetworkInterface e = networkInterfaces.nextElement();
+				Enumeration<InetAddress> a = e.getInetAddresses();
 
-			while (a.hasMoreElements()) {
-				InetAddress addr = a.nextElement();
-				String hostAddress = addr.getHostAddress();
-				if (!hostAddress.startsWith("127.") 
-						&& !hostAddress.contains(":")) {
-					hostingAddress = addr.getHostAddress();
+				while (a.hasMoreElements()) {
+					InetAddress addr = a.nextElement();
+					String hostAddress = addr.getHostAddress();
+					if (!hostAddress.startsWith("127.") 
+							&& !hostAddress.contains(":")) {
+						hostingAddress = addr.getHostAddress();
+					}
 				}
 			}
+			hostingAddress = "https://" + hostingAddress + ":" + portNumber + "/";
+		} catch (SocketException e) {
+			Log.getLog("WebInterface").severe("Unable to get network addresses.", e);
+			e.printStackTrace();
 		}
-		hostingAddress = "https://" + hostingAddress + ":" + portNumber + "/";
 	}
 }
