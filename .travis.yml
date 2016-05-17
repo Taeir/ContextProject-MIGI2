@@ -1,9 +1,6 @@
 language: java
-sudo: false
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
+sudo: required
+dist: trusty
 jdk:
   - oraclejdk8
 before_install:
