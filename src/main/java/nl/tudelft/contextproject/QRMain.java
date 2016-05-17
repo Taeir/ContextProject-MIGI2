@@ -13,6 +13,6 @@ public class QRMain {
 	 * @param args run-specific arguments.
 	 */
 	public static void main(String[] args) {
-		QRGenerator.getInstance().generateQRcode("8080");
+		QRGenerator.getInstance().generateQRcode();
 	}
 }

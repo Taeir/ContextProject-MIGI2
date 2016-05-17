@@ -17,6 +17,12 @@ import nl.tudelft.contextproject.logging.Log;
 /**
  *	QR code generator class. 
  *	Singleton that will generate a QR code and place it in {@link #location}.
+ *	It possible to automatically try and find the hosting address and generate the QR code with:
+ *	QRGenerator.getInstance().generateQRcode();
+ *	
+ *	or to manually set the URL and generate the QR code with:
+ * QRGenerator.getInstance().setURL("URL string");
+ * QRGenerator.getIntance().generateQRcode();
  */
 public final class QRGenerator {
 
@@ -75,17 +81,14 @@ public final class QRGenerator {
 	 * First, get the hostingAddress by using the Java InetAddress class.
 	 * Then, create the QRgen as a ByteArrayOutputStream.
 	 * And finally write the ByteArrayOutputStream to disk.
-	 * 
-	 * @param portNumber
-	 * 				the port number which hosts the application
 	 */
-	public void generateQRcode(String portNumber) {
-		Log.getLog("WebInterface").info("Creating QRcode with address: " + hostingAddress);
+	public void generateQRcode() {
+		Log.getLog("WebInterface").info("Creating QR code with address: " + hostingAddress);
 		ByteArrayOutputStream byteArrayOutputStream = QRCode.from(hostingAddress).to(ImageType.PNG).withSize(width, heigth).stream();
 
 		try (OutputStream outputStream = new FileOutputStream(location)) {
 			byteArrayOutputStream.writeTo(outputStream);
-			Log.getLog("WebInterface").info("Created QRcode with address: " + hostingAddress + " as " + location);
+			Log.getLog("WebInterface").info("Created QR code with address: " + hostingAddress + " as " + location);
 		} catch (IOException e) {
 			Log.getLog("WebInterface").severe("Unable to write qr code to disk.", e);
 			e.printStackTrace();
@@ -113,8 +116,9 @@ public final class QRGenerator {
 				while (a.hasMoreElements()) {
 					InetAddress addr = a.nextElement();
 					String hostAddress = addr.getHostAddress();
-					if (!hostAddress.startsWith("127.") 
-							&& !hostAddress.contains(":")) {
+					if ((!hostAddress.startsWith("127.") 
+							&& !hostAddress.contains(":"))
+							&& !hostAddress.startsWith("192.168.")) {
 						hostingAddress = addr.getHostAddress();
 					}
 				}
