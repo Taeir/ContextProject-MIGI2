@@ -17,6 +17,7 @@ import nl.tudelft.contextproject.logging.Log;
 /**
  *	QR code generator class. 
  *	Singleton that will generate a QR code and place it in {@link #location}.
+ *
  *	It possible to automatically try and find the hosting address and generate the QR code with:
  *	QRGenerator.getInstance().generateQRcode();
  *	
@@ -102,7 +103,7 @@ public final class QRGenerator {
 	 * The IP address will be among those, so all address that are personally or locally based
 	 * are filtered out.
 	 * Please note that you cannot have other network adapters (such from virtual machines)
-	 * running as they will interfere with the correct adapter.
+	 * running as they will interfere with the correct adapter. 
 	 */
 	protected void searchForHostAddress() {
 		hostingAddress = "";

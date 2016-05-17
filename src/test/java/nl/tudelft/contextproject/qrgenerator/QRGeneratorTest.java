@@ -20,9 +20,6 @@ public class QRGeneratorTest {
 	
 	/**
 	 * Setup the QRGenerator and a mocked network interface.
-	 * Since the warning is about a mock it should be suppressed as
-	 * the mock is not a real instance of the class, and is just used to verify
-	 * method calls.
 	 */
 	@Before
 	public void init() {
