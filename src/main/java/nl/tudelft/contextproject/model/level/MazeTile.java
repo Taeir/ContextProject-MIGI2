@@ -15,11 +15,12 @@ import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.PhysicsObject;
 
 /**
  * Class representing a tile in the maze.
  */
-public class MazeTile implements Drawable {
+public class MazeTile implements Drawable, PhysicsObject {
 	private Spatial spatial;
 	private Vector2f position;
 	private int height;
