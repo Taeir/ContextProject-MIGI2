@@ -1,0 +1,7 @@
+# Test level with an entity and light
+# Comments may only be present at the top and must start with a '#'
+3 2 1 1
+FLOOR WALL CORRIDOR
+CORRIDOR FLOOR FLOOR
+0 1 Key
+25 100 25 PointLight .5/.5/.5/.5 500

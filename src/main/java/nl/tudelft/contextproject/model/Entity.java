@@ -22,4 +22,6 @@ public abstract class Entity implements Drawable, TickListener {
 	public void setState(EntityState newState) {
 		this.state = newState;
 	}
+	
+	public abstract void move(float x, float y, float z);
 }

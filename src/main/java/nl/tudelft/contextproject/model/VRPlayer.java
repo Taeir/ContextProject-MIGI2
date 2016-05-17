@@ -174,4 +174,10 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 			break;
 		}
 	}
+	
+	@Override
+	public void move(float x, float y, float z) {
+		spatial.move(x, y, z);
+		playerControl.setPhysicsLocation(playerControl.getPhysicsLocation().add(x, y, z));
+	}
 }

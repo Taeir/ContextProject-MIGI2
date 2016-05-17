@@ -1,6 +1,9 @@
 package nl.tudelft.contextproject.controller;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -16,7 +19,10 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.RoomReader;
 import nl.tudelft.contextproject.model.level.TileType;
 
 /**
@@ -33,6 +39,19 @@ public class GameController extends Controller {
 	public GameController(SimpleApplication app, Level level) {
 		super(app, "GameController");
 		game = new Game(level);
+	}
+	
+	public GameController(SimpleApplication app, File file) {
+		super(app, "GameController");
+		List<Entity> entities = new ArrayList<>();
+		List<Light> lights = new ArrayList<>();
+		String[] tmp = file.getName().split("_")[0].split("x");
+		int w = Integer.valueOf(tmp[0]);
+		int h = Integer.valueOf(tmp[1]);
+		MazeTile[][] tiles = new MazeTile[w][h];
+		RoomReader.importFile(file, tiles, entities, lights, 0, 0);
+		Level level = new Level(tiles, lights);
+		game = new Game(level, new VRPlayer(), entities);
 	}
 
 	@Override
@@ -100,11 +119,6 @@ public class GameController extends Controller {
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-
-		PointLight pl = new PointLight(new Vector3f(25, 100, 25));
-		 pl.setColor(ColorRGBA.White);
-		 pl.setRadius(500);
-		addLight(pl);
 		 
 		AmbientLight al = new AmbientLight();
 		 al.setColor(ColorRGBA.White.mult(.5f));
