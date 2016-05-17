@@ -71,7 +71,6 @@ public class GameControllerTest extends ControllerTest {
 		PhysicsControl geom = mock(PhysicsControl.class);
 		phe = mock(BulletAppState.class);
 		PhysicsSpace phs = mock(PhysicsSpace.class);
-//		when(entity.getPhysicsObject()).thenReturn(geom);
 		when(phe.getPhysicsSpace()).thenReturn(phs);
 		
 		entities.add(entity);
