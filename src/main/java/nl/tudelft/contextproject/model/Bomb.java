@@ -18,7 +18,7 @@ import nl.tudelft.contextproject.Main;
 /**
  * Class representing a bomb.
  */
-public class Bomb extends Entity {
+public class Bomb extends Entity implements PhysicsObject {
 	private Geometry geometry;
 	private Spatial sp;
 

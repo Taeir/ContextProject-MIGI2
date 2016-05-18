@@ -19,7 +19,7 @@ import nl.tudelft.contextproject.Main;
 /**
  * Class representing a door.
  */
-public class Door extends Entity {
+public class Door extends Entity implements PhysicsObject {
 	private Geometry geometry;
 	private Spatial sp;
 	private ColorRGBA color;

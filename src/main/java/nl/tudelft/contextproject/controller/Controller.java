@@ -13,6 +13,7 @@ import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.PhysicsObject;
 
 /**
  * Abstract class for controllers.
@@ -77,7 +78,9 @@ public abstract class Controller extends AbstractAppState {
 	 * 				The drawable to add.
 	 */
 	public void addDrawable(Drawable d) {
-		physicsEnvironment.getPhysicsSpace().add(d.getPhysicsObject());
+		if (d instanceof PhysicsObject) {
+			physicsEnvironment.getPhysicsSpace().add(((PhysicsObject) d).getPhysicsObject());
+		}
 		rootNode.attachChild(d.getSpatial());
 	}
 	

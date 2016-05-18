@@ -18,7 +18,7 @@ import nl.tudelft.contextproject.Main;
 /**
  * Class representing a key.
  */
-public class Key extends Entity {
+public class Key extends Entity implements PhysicsObject {
 	private Geometry geometry;
 	private Spatial sp;
 	private ColorRGBA color;
