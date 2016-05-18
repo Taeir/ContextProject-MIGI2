@@ -70,6 +70,7 @@ public final class LightReader {
 	 * @return The ColorRGBA generated from the input.
 	 */
 	protected static ColorRGBA getColor(String color) {
+		if (color.equals("randomColor")) return ColorRGBA.randomColor();
 		String[] tmp = color.split("/");
 		if (tmp.length != 4) throw new IllegalArgumentException("A color must have 4 components!");
 		
