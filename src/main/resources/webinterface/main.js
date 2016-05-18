@@ -257,6 +257,10 @@ function requestExplored() {
     }, "json");
 }
 
+function createFun(x, y) {
+    return function() {console.log("Cell y" + y + "x" + x + " clicked.");};
+}
+
 /**
  * Updates the map with the data
  *
@@ -284,6 +288,8 @@ function updateMap(data) {
                 
                 //Set the cell's id to the x coordinate
                 cell.id = "y" + y + "x" + x;
+
+                cell.onclick = createFun(x, y);
                 
                 //Set the classname to the type of the tile
                 cell.className = getClassForTileType(data.tiles[x][y]);
