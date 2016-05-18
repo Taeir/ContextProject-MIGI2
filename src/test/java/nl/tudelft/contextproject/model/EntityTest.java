@@ -50,6 +50,9 @@ public abstract class EntityTest extends DrawableTest {
 		assertEquals(entity.getState(), EntityState.ALIVE);
 	}
 	
+	/**
+	 * Test if moving an entity moves the entity.
+	 */
 	@Test
 	public void testMove() {
 		setupEntity();
