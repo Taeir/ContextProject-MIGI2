@@ -29,12 +29,6 @@ import nl.tudelft.contextproject.webinterface.WebServer;
  * Main class of the game 'The Cave of Caerbannog'.
  */
 public class Main extends SimpleApplication {
-	
-	/**
-	 * Port number of server. //TODO this should be set in a setting class preferably.
-	 */
-	public static final int PORT_NUMBER = 8080;
-	
 	private static boolean debugHud;
 	
 	private static Main instance;
@@ -185,7 +179,7 @@ public class Main extends SimpleApplication {
 		webServer = new WebServer();
 		
 		try {
-			webServer.start(PORT_NUMBER);
+			webServer.start(8080);
 		} catch (Exception ex) {
 			Log.getLog("WebInterface").severe("Exception while trying to start webserver", ex);
 		}
