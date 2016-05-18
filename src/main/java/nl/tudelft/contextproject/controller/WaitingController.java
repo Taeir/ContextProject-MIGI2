@@ -28,6 +28,9 @@ public class WaitingController extends GameController {
 		super(app, getFile());
 	}
 	
+	/**
+	 * Temporary method to enable the player to start the main game by pressing the pause button.
+	 */
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
@@ -45,7 +48,7 @@ public class WaitingController extends GameController {
 	 * @return The file to load.
 	 */
 	@SneakyThrows(URISyntaxException.class)
-	private static File getFile() {
+	protected static File getFile() {
 		return new File(WaitingController.class.getResource("/maps/" + MENU_LEVEL).toURI());
 	}
 
