@@ -80,6 +80,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public void move(float x, float y, float z) {
 		sp.move(x, y, z);
+		if (rb == null) getPhysicsObject();
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
 }
