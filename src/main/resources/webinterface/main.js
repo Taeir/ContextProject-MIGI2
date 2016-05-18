@@ -257,12 +257,20 @@ function requestExplored() {
     }, "json");
 }
 
-function createFun(x, y) {
+/**
+ * Method that allows the generation of functions in a loop.
+ *
+ * @param x
+ *      the x coordinate of the cell
+ * @param y
+ *      the y coordinate of the cell
+ */
+function createClickableFunc(x, y) {
     return function() {console.log("Cell y" + y + "x" + x + " clicked.");};
 }
 
 /**
- * Updates the map with the data
+ * Updates the map with the data.
  *
  * @param team
  *      the map data sent from the server
@@ -289,7 +297,7 @@ function updateMap(data) {
                 //Set the cell's id to the x coordinate
                 cell.id = "y" + y + "x" + x;
 
-                cell.onclick = createFun(x, y);
+                cell.onclick = createClickableFunc(x, y);
                 
                 //Set the classname to the type of the tile
                 cell.className = getClassForTileType(data.tiles[x][y]);
@@ -320,7 +328,7 @@ function updateMap(data) {
 }
 
 /**
- * Updates the map with explored data
+ * Updates the map with explored data.
  *
  * @param team
  *      the explored data sent from the server
