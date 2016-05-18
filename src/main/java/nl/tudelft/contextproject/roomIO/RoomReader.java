@@ -26,8 +26,9 @@ public final class RoomReader {
 	 * @param lights The list to add all the loaded lights to.
 	 * @param xOffset The horizontal offset that is used for moving all loaded items.
 	 * @param yOffset The vertical offset that is used for moving all loaded items.
+	 * @throws IOException When something goes wrong.
 	 */
-	public static void importFile(File file, MazeTile[][] tiles, List<Entity> entities, List<Light> lights, int xOffset, int yOffset) {
+	public static void importFile(File file, MazeTile[][] tiles, List<Entity> entities, List<Light> lights, int xOffset, int yOffset) throws IOException {
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String line = br.readLine();
 			while (line != null && line.startsWith("#")) {
@@ -47,9 +48,7 @@ public final class RoomReader {
 			TileReader.readTiles(tiles, width, height, xOffset, yOffset, br);
 			EntityReader.readEntities(entities, entityCount, xOffset, yOffset, br);
 			LightReader.readLights(lights, lightCount, xOffset, yOffset, br);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
+		}
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -53,7 +54,11 @@ public class GameController extends Controller {
 		int w = Integer.valueOf(tmp[0]);
 		int h = Integer.valueOf(tmp[1]);
 		MazeTile[][] tiles = new MazeTile[w][h];
-		RoomReader.importFile(file, tiles, entities, lights, 0, 0);
+		try {
+			RoomReader.importFile(file, tiles, entities, lights, 0, 0);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Level level = new Level(tiles, lights);
 		game = new Game(level, new VRPlayer(), entities);
 	}
