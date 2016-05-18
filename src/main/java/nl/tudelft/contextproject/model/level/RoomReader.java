@@ -11,6 +11,7 @@ import com.jme3.light.Light;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 
+import nl.tudelft.contextproject.model.Door;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.Key;
 
@@ -95,6 +96,10 @@ public class RoomReader {
 				Key key = new Key();
 				key.move(x, 0, y);
 				return key;
+			case "Door":
+				Door d = new Door();
+				d.move(x, 0, y);
+				return d;
 	
 			default:
 				throw new IllegalArgumentException(type + " is not a known Entity type!");
