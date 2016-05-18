@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
+import nl.tudelft.contextproject.model.Bomb;
 import nl.tudelft.contextproject.model.Door;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.Key;
@@ -53,6 +54,9 @@ public final class EntityReader {
 				break;
 			case "Door":
 				e = new Door();
+				break;
+			case "Bomb":
+				e = new Bomb();
 				break;
 			default:
 				throw new IllegalArgumentException(type + " is not a known Entity type!");

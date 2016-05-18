@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject;
 
-import java.io.File;
 import java.util.Arrays;
 
 import java.util.LinkedList;
@@ -20,6 +19,7 @@ import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
+import nl.tudelft.contextproject.controller.WaitingController;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
@@ -136,8 +136,7 @@ public class Main extends SimpleApplication {
 		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
-//		setController(new GameController(this, (new RandomLevelFactory(5, false)).generateRandom()));
-		setController(new GameController(this, new File("10x12_test.crf")));
+		setController(new WaitingController(this));
 		setupWebServer();
 
 		//Initialize the AudioManager.

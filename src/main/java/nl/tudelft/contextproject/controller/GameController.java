@@ -11,7 +11,6 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
-import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 
@@ -41,6 +40,11 @@ public class GameController extends Controller {
 		game = new Game(level);
 	}
 	
+	/**
+	 * Create a game with a level loaded from a file.
+	 * @param app The main app that this controller is attached to.
+	 * @param file The file where to load the level from.
+	 */
 	public GameController(SimpleApplication app, File file) {
 		super(app, "GameController");
 		List<Entity> entities = new ArrayList<>();
