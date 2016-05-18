@@ -10,6 +10,7 @@ env:
   - USE_FRAMEBUFFER=false
 
 script:
+  - mvn dependency:resolve
   - mvn clean verify
 after_script:
   - echo "== CHECKSTYLE_RESULT =="; cat "target/checkstyle-result.xml"; echo "== END_CHECKSTYLE_RESULT =="
