@@ -86,6 +86,7 @@ public class Door extends Entity implements PhysicsObject {
 	
 	@Override
 	public void move(float x, float y, float z) {
+		if (rb == null) getPhysicsObject();
 		sp.move(x, y, z);
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}

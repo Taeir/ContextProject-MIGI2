@@ -23,5 +23,12 @@ public abstract class Entity implements Drawable, TickListener {
 		this.state = newState;
 	}
 	
+	/**
+	 * Move the entity by the specified amounts.
+	 * If the entity is a {@link PhysicsObject}, the physics location should also be moved.
+	 * @param x The amount of movement in the x-axis.
+	 * @param y The amount of movement in the y-axis.
+	 * @param z The amount of movement in the z-axis.
+	 */
 	public abstract void move(float x, float y, float z);
 }
