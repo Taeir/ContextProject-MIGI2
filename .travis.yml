@@ -5,12 +5,12 @@ jdk:
   - oraclejdk8
 before_install:
   - if [ $USE_FRAMEBUFFER = "true" ]; then export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi
-install: true
+install:
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dcheckstyle.skip=true -Dfindbugs.skip=true -Dpmd.skip=true -Djacoco.skip=true -V -B
 env:
   - USE_FRAMEBUFFER=false
 
 script:
-  - mvn dependency:resolve
   - mvn clean verify
 after_script:
   - echo "== CHECKSTYLE_RESULT =="; cat "target/checkstyle-result.xml"; echo "== END_CHECKSTYLE_RESULT =="
