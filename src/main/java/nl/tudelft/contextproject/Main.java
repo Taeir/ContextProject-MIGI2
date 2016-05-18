@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.AbstractAppState;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
@@ -29,6 +30,12 @@ import nl.tudelft.contextproject.webinterface.WebServer;
  * Main class of the game 'The Cave of Caerbannog'.
  */
 public class Main extends SimpleApplication {
+	
+	/**
+	 * Port number of server. //TODO this should be set in a setting class preferably.
+	 */
+	public static final int PORT_NUMBER = 8080;
+	
 	private static boolean debugHud;
 	
 	private static Main instance;
@@ -144,19 +151,16 @@ public class Main extends SimpleApplication {
 
 		//Start the background music
 		BackgroundMusic.getInstance().start();
-	}
-	
-	@Override
-	public void stop(boolean waitFor) {
-		//Stop the webServer before shutting down
-		try {
-			webServer.stop();
-		} catch (Exception ex) {
-			Log.getLog("WebInterface").warning("Exception while trying to stop webserver", ex);
-		}
-
-		BackgroundMusic.getInstance().stop();
-		super.stop(waitFor);
+		
+		//Register an AppState to properly clean up the game.
+		stateManager.attach(new AbstractAppState() {
+			@Override
+			public void cleanup() {
+				super.cleanup();
+				
+				onGameStopped();
+			}
+		});
 	}
 
 	/**
@@ -179,7 +183,7 @@ public class Main extends SimpleApplication {
 		webServer = new WebServer();
 		
 		try {
-			webServer.start(8080);
+			webServer.start(PORT_NUMBER);
 		} catch (Exception ex) {
 			Log.getLog("WebInterface").severe("Exception while trying to start webserver", ex);
 		}
@@ -243,6 +247,19 @@ public class Main extends SimpleApplication {
 		if (controller == null) return null;
 		return controller.getGameState();
 	}
+	
+	/**
+	 * Called when the game is stopped.
+	 */
+	public void onGameStopped() {
+		try {
+			webServer.stop();
+		} catch (Exception ex) {
+			Log.getLog("WebInterface").warning("Exception while trying to stop webserver", ex);
+		}
+
+		BackgroundMusic.getInstance().stop();
+	}
 
 	/**
 	 * Check if the debug Hud is shown.
@@ -251,4 +268,6 @@ public class Main extends SimpleApplication {
 	public static boolean isDebugHudShown() {
 		return debugHud;
 	}
+	
+	
 }
