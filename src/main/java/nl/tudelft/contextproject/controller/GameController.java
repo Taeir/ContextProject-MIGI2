@@ -51,9 +51,7 @@ public class GameController extends Controller {
 		List<Entity> entities = new ArrayList<>();
 		List<Light> lights = new ArrayList<>();
 		String[] tmp = file.getName().split("_")[0].split("x");
-		int w = Integer.valueOf(tmp[0]);
-		int h = Integer.valueOf(tmp[1]);
-		MazeTile[][] tiles = new MazeTile[w][h];
+		MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
 		try {
 			RoomReader.importFile(file, tiles, entities, lights, 0, 0);
 		} catch (IOException e) {

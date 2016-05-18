@@ -30,9 +30,9 @@ public final class EntityReader {
 			if (in == null) throw new IllegalArgumentException("Empty line where some data was expected when loading entity[" + i + "].");
 			String[] line = in.split(" ");
 			if (line.length < 4) throw new IllegalArgumentException("You must specify at least the location and entity type for entity[" + i + "].");
-			float posx = Float.valueOf(line[0]) + xOffset;
-			float posy = Float.valueOf(line[1]);
-			float posz = Float.valueOf(line[2]) + yOffset;
+			float posx = Float.parseFloat(line[0]) + xOffset;
+			float posy = Float.parseFloat(line[1]);
+			float posz = Float.parseFloat(line[2]) + yOffset;
 			entities.add(getEntity(line[3], posx, posy, posz, line));				
 		}
 	}

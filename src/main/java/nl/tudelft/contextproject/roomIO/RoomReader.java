@@ -37,17 +37,15 @@ public final class RoomReader {
 			if (line == null) throw new IllegalArgumentException("The file cannot be empty!");
 			String[] tmp = line.split(" ");
 			if (tmp.length != 4) throw new IllegalArgumentException("You should specify the width , height, entity- and light count.");
-			int width = Integer.valueOf(tmp[0]);
-			int height = Integer.valueOf(tmp[1]);
-			int entityCount = Integer.valueOf(tmp[2]);
-			int lightCount = Integer.valueOf(tmp[3]);
 			
+			int width = Integer.parseInt(tmp[0]);
+			int height = Integer.parseInt(tmp[1]);			
 			checkDimensions(width + xOffset, height + yOffset, tiles);
 			
 			//TODO support rotations?
 			TileReader.readTiles(tiles, width, height, xOffset, yOffset, br);
-			EntityReader.readEntities(entities, entityCount, xOffset, yOffset, br);
-			LightReader.readLights(lights, lightCount, xOffset, yOffset, br);
+			EntityReader.readEntities(entities, Integer.parseInt(tmp[2]), xOffset, yOffset, br);
+			LightReader.readLights(lights, Integer.parseInt(tmp[3]), xOffset, yOffset, br);
 		}
 	}
 	

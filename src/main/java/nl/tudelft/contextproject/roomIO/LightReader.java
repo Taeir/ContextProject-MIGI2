@@ -30,9 +30,9 @@ public final class LightReader {
 			if (in == null) throw new IllegalArgumentException("Empty line where some data was expected when loading light[" + i + "].");
 			String[] line = in.split(" ");
 			if (line.length < 5) throw new IllegalArgumentException("You should at least give a position, type and color.");
-			float posx = Float.valueOf(line[0]) + xOffset;
-			float posy = Float.valueOf(line[1]);
-			float posz = Float.valueOf(line[2]) + yOffset;
+			float posx = Float.parseFloat(line[0]) + xOffset;
+			float posy = Float.parseFloat(line[1]);
+			float posz = Float.parseFloat(line[2]) + yOffset;
 			lights.add(getLight(line[3], posx, posy, posz, line[4], line));				
 		}
 	}
@@ -56,7 +56,7 @@ public final class LightReader {
 				if (data.length != 6) throw new IllegalArgumentException("You should specify the radius for a pointLight.");
 				PointLight pl = new PointLight();
 				pl.setColor(getColor(color));
-				pl.setRadius(Float.valueOf(data[5]));
+				pl.setRadius(Float.parseFloat(data[5]));
 				return pl;
 	
 			default:
@@ -74,10 +74,10 @@ public final class LightReader {
 		String[] tmp = color.split("/");
 		if (tmp.length != 4) throw new IllegalArgumentException("A color must have 4 components!");
 		
-		float r = Float.valueOf(tmp[0]);
-		float g = Float.valueOf(tmp[1]);
-		float b = Float.valueOf(tmp[2]);
-		float a = Float.valueOf(tmp[3]);
+		float r = Float.parseFloat(tmp[0]);
+		float g = Float.parseFloat(tmp[1]);
+		float b = Float.parseFloat(tmp[2]);
+		float a = Float.parseFloat(tmp[3]);
 		
 		return new ColorRGBA(r, g, b, a);
 	}

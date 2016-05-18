@@ -28,6 +28,14 @@ public class WaitingControllerTest {
 	}
 	
 	/**
+	 * Restores the original Main instance after all tests are done.
+	 */
+	@AfterClass
+	public static void tearDownAfterClass() {
+		Main.setInstance(main);
+	}
+	
+	/**
 	 * Create a new instance of the controller for each test.
 	 */
 	@Before
@@ -51,13 +59,5 @@ public class WaitingControllerTest {
 		assertTrue(WaitingController.getFile().getName().endsWith(".crf"));
 		assertTrue(WaitingController.getFile().getParent().endsWith("\\maps")
 				   || WaitingController.getFile().getParent().endsWith("/maps"));
-	}
-	
-	/**
-	 * Restores the original Main instance after all tests are done.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		Main.setInstance(main);
 	}
 }
