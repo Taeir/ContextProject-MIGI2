@@ -1,11 +1,15 @@
 package nl.tudelft.contextproject.webinterface;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.tudelft.contextproject.model.Entity;
+import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.util.JSONUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.json.JSONObject;
@@ -76,6 +80,10 @@ public class ClientServlet extends DefaultServlet {
 			case "status":
 				//Client wants a status update
 				statusUpdate(request, response);
+				break;
+
+			case "entities":
+				getEntities(request, response);
 				break;
 
 			default:
@@ -226,6 +234,20 @@ public class ClientServlet extends DefaultServlet {
 		JSONObject json = Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON();
 
 		//Send the response
+		response.setStatus(HttpStatus.OK_200);
+		response.setContentType("text/json");
+		response.getWriter().write(json.toString());
+	}
+
+	public void getEntities(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		WebClient client = server.getUser(request);
+
+		if (!checkAuthorized(client, response, true)) return;
+
+		List<Entity> entities = Main.getInstance().getCurrentGame().getEntities();
+		Level level = Main.getInstance().getCurrentGame().getLevel();
+		JSONObject json = JSONUtil.entitiesToJson(entities, level);
+
 		response.setStatus(HttpStatus.OK_200);
 		response.setContentType("text/json");
 		response.getWriter().write(json.toString());

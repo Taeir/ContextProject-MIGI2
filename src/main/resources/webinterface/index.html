@@ -49,6 +49,9 @@
 		#map .corridor.explored {
 			background-color: #ff0000;
 		}
+		#map .entity {
+			background-color: #ff00ff;
+		}
 	</style>
 </head>
 
@@ -67,6 +70,7 @@
 		<div id="playing">
 			<button onclick="requestMap()">Refresh map</button>
 			<button onclick="requestExplored()">Update explored</button>
+			<button onclick="requestEntities()">Update entities</button>
 			Map: <br>
 			<table id="map">
 			</table>

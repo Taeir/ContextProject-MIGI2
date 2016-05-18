@@ -1,8 +1,7 @@
 package nl.tudelft.contextproject.model;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 
@@ -92,5 +91,18 @@ public abstract class EntityTest extends DrawableTest {
 		when(pSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, .201f));
 		
 		assertFalse(entity.collidesWithPlayer(.2f));
+	}
+
+	/**
+	 * Test if the getLocation method works.
+	 */
+	@Test
+	public void testGetLocation() {
+		TestUtil.mockGame();
+		setupEntity();
+		Spatial mockedSpatial = mock(Spatial.class);
+		entity.setSpatial(mockedSpatial);
+		entity.getLocation();
+		verify(mockedSpatial, times(1)).getLocalTranslation();
 	}
 }

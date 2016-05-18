@@ -11,6 +11,7 @@ var gPlayer = {
 };
 var gMap = null;
 var gExplored = null;
+var gEntities = null;
 
 /**
  * Sends an authentication request to the server.
@@ -258,6 +259,26 @@ function requestExplored() {
 }
 
 /**
+ * Request entities from the server.
+ */
+function requestEntities() {
+    console.log("[DEBUG] GETTING ENTITIES");
+    $.post("/entities", function(data, status) {
+        if (status != "success") {
+            //HTTP Error
+            showError("Something went wrong: [" + status + "] " + data);
+            return;
+        }
+
+        //Check if we are authorized
+        if (!checkAuthorized(data)) return;
+        
+        //Update the map with the entities
+        updateEntities(data);
+    }, "json");
+}
+
+/**
  * Method that allows the generation of functions in a loop.
  *
  * @param x
@@ -272,7 +293,7 @@ function createClickableFunc(x, y) {
 /**
  * Updates the map with the data.
  *
- * @param team
+ * @param data
  *      the map data sent from the server
  */
 function updateMap(data) {
@@ -330,7 +351,7 @@ function updateMap(data) {
 /**
  * Updates the map with explored data.
  *
- * @param team
+ * @param data
  *      the explored data sent from the server
  */
 function updateExplored(data) {
@@ -344,6 +365,25 @@ function updateExplored(data) {
     }
     
     gExplored = data;
+}
+
+/**
+ * Updates the map with all entities.
+ *
+ * @param data
+ *      the entity data sent from the server
+ */
+function updateEntities(data) {
+    for (x = 0; x < gMap.width; x++) {
+        for(y = 0; y < gMap.height; y++) {
+            if (data.entities[x][y] == 1) {
+                $(document.getElementById("y" + y + "x" + x)).addClass("entity");
+            } else {
+                $(document.getElementById("y" + y + "x" + x)).removeClass("entity");
+            }
+        }
+    }
+    gEntities = data;
 }
 
 /**

@@ -204,7 +204,7 @@ public class WebServer {
 				Log.getLog("WebInterface").fine("Disallowed user from joining game: cannot join in progress game");
 				response.setStatus(HttpStatus.OK_200);
 				response.getWriter().write("IN_PROGRESS");
-			
+
 				return false;
 			}
 			
