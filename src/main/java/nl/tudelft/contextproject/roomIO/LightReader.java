@@ -49,7 +49,7 @@ public final class LightReader {
 	 */
 	protected static Light getLight(String type, float x, float y, float z, String color, String[] data) {
 		switch (type) {
-			case "Ambient":
+			case "AmbientLight":
 				AmbientLight al = new AmbientLight(getColor(color));
 				return al;
 			case "PointLight":
