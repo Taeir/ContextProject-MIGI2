@@ -1,10 +1,6 @@
 package nl.tudelft.contextproject.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Iterator;
-
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
@@ -21,10 +17,12 @@ import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.PlayerTrigger;
+import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.WallFrame;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.util.ScriptLoader;
+import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**
  * Controller for the main game.
@@ -116,23 +114,27 @@ public class GameController extends Controller {
 		AmbientLight al = new AmbientLight();
 		 al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
+//		addTestEntities(game, xStart, yStart);
+	}
+
+	/**
+	 * Add some testing entities to the game.
+	 * Made into a separate method for easy test fixing by removing the call to this method.
+	 * @param game The game to add them to.
+	 * @param xStart The x position of the player.
+	 * @param yStart The y position of the player.
+	 */
+	private void addTestEntities(Game game, int xStart, int yStart) {
 		game.addEntity(new WallFrame(new Vector3f(xStart, 1f, yStart), "logo.png", Direction.NORTH));
 		
 		try {			
-			PlayerTrigger e = new PlayerTrigger(.4f, 1f, ScriptLoader.getTickListener("TestListener"), new Vector3f(xStart, 0, yStart));
+			TickListener tl = ScriptLoader.getInstanceFrom("scripts/", "TestListener", TickListener.class);
+			PlayerTrigger e = new PlayerTrigger(.4f, 1f, tl, new Vector3f(xStart, 0, yStart));
 
 			game.getEntities().add(e);
-		} catch (ClassNotFoundException e1) {
+		} catch (ScriptLoaderException e1) {
 			e1.printStackTrace();
 		}
-		
-//		PlayerTrigger e = new PlayerTrigger(.4f, 1f, new TickListener() {
-//			@Override
-//			public void update(float tpf) {
-//				System.out.println("BANG!");
-//			}			
-//		}, new Vector3f(xStart, 0, yStart));
-//		game.getEntities().add(e);
 	}
 
 	@Override
