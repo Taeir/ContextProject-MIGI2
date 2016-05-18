@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.AbstractAppState;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
@@ -150,19 +151,16 @@ public class Main extends SimpleApplication {
 
 		//Start the background music
 		BackgroundMusic.getInstance().start();
-	}
-	
-	@Override
-	public void stop(boolean waitFor) {
-		//Stop the webServer before shutting down
-		try {
-			webServer.stop();
-		} catch (Exception ex) {
-			Log.getLog("WebInterface").warning("Exception while trying to stop webserver", ex);
-		}
-
-		BackgroundMusic.getInstance().stop();
-		super.stop(waitFor);
+		
+		//Register an AppState to properly clean up the game.
+		stateManager.attach(new AbstractAppState() {
+			@Override
+			public void cleanup() {
+				super.cleanup();
+				
+				onGameStopped();
+			}
+		});
 	}
 
 	/**
@@ -249,6 +247,19 @@ public class Main extends SimpleApplication {
 		if (controller == null) return null;
 		return controller.getGameState();
 	}
+	
+	/**
+	 * Called when the game is stopped.
+	 */
+	public void onGameStopped() {
+		try {
+			webServer.stop();
+		} catch (Exception ex) {
+			Log.getLog("WebInterface").warning("Exception while trying to stop webserver", ex);
+		}
+
+		BackgroundMusic.getInstance().stop();
+	}
 
 	/**
 	 * Check if the debug Hud is shown.
@@ -257,4 +268,6 @@ public class Main extends SimpleApplication {
 	public static boolean isDebugHudShown() {
 		return debugHud;
 	}
+	
+	
 }
