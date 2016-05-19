@@ -20,10 +20,10 @@ import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
+import nl.tudelft.contextproject.controller.WaitingController;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
-import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
 /**
@@ -143,7 +143,7 @@ public class Main extends SimpleApplication {
 		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
-		setController(new GameController(this, (new RandomLevelFactory(5, false)).generateRandom()));
+		setController(new WaitingController(this));
 		setupWebServer();
 
 		//Initialize the AudioManager.

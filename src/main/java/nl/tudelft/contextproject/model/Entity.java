@@ -28,6 +28,15 @@ public abstract class Entity implements Drawable, TickListener {
 	}
 	
 	/**
+	 * Move the entity by the specified amounts.
+	 * If the entity is a {@link PhysicsObject}, the physics location should also be moved.
+	 * @param x The amount of movement in the x-axis.
+	 * @param y The amount of movement in the y-axis.
+	 * @param z The amount of movement in the z-axis.
+	 */
+	public abstract void move(float x, float y, float z);
+
+	/**
 	 * Checks if this object is closer to the player than the specified distance.
 	 * @param dist The maximum distance to the player to detect the collision.
 	 * @return True if the player is closert than dist.
