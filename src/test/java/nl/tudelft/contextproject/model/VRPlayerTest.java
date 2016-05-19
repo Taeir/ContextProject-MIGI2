@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.jme3.bullet.control.CharacterControl;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 
 import nl.tudelft.contextproject.Main;
@@ -126,6 +127,7 @@ public class VRPlayerTest extends EntityTest {
 			fail();
 		}
 	}
+	
 	/**
 	 * Tests that the dropbomb method removes a bomb from your inventory.
 	 */
@@ -135,5 +137,16 @@ public class VRPlayerTest extends EntityTest {
 		player.getInventory().add(new Bomb());
 		player.dropBomb();
 		assertTrue(player.getInventory().size() == 0);
+		}
+	
+	/**
+	 * tests that the dropbomb method doesn't remove a bomb when there is none.
+	 */
+	@Test
+	public void testDropnoBomb() {
+		setupGeometryMock();
+		player.getInventory().add(new Key(ColorRGBA.Yellow));
+		player.dropBomb();
+		assertTrue(player.getInventory().size() == 1);
 		}
 }

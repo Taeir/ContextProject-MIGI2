@@ -71,6 +71,7 @@ public class Inventory {
 		}
 		return;
 	}
+	
 	/**
 	 * Returns a bomb from the inventory.
 	 * @return

@@ -202,6 +202,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 			}
 		}
 	}
+	
 	/**
 	 * Player picks up a nearby item.
 	 * Also opens nearby doors if possible
