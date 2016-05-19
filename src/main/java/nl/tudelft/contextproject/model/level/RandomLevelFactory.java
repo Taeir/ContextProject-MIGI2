@@ -9,17 +9,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.jme3.light.Light;
-import com.jme3.light.PointLight;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
 import lombok.SneakyThrows;
 import nl.tudelft.contextproject.util.Size;
 
 
 /**
  * An implementation of a LevelFactory that creates tiles randomly.
- * NOTE: This factory becomes deprecated after a proper factory is introduced!
  */
 public class RandomLevelFactory implements LevelFactory {
 	protected static final int MAX_WIDTH = 50;
@@ -67,11 +63,6 @@ public class RandomLevelFactory implements LevelFactory {
 		}
 
 		ArrayList<Light> lights = new ArrayList<>(1);
-		PointLight p = new PointLight();
-		p.setPosition(new Vector3f(MAX_HEIGHT / 2, 100, MAX_WIDTH / 2));
-		p.setColor(ColorRGBA.randomColor());
-		p.setRadius(200);
-		lights.add(p);
 		return new Level(mazeTiles, lights);
 	}
 
