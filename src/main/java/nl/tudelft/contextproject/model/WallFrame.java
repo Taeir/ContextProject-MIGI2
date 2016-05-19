@@ -88,4 +88,9 @@ public class WallFrame extends Entity {
 		
 	}
 
+	@Override
+	public void move(float x, float y, float z) {
+		getSpatial().move(x, y, z);
+	}
+
 }

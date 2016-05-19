@@ -71,4 +71,9 @@ public class PlayerTrigger extends Entity {
 			timer -= tpf;
 		}
 	}
+
+	@Override
+	public void move(float x, float y, float z) {
+		getSpatial().move(x, y, z);
+	}
 }

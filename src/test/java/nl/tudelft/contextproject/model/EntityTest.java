@@ -57,6 +57,21 @@ public abstract class EntityTest extends DrawableTest {
 	}
 	
 	/**
+	 * Test if moving an entity moves the entity.
+	 */
+	@Test
+	public void testMove() {
+		setupEntity();
+		Vector3f before = entity.getSpatial().getLocalTranslation();
+		Vector3f expected = before.clone().add(1.23f, 2.34f, 3.45f);
+		entity.move(1.23f, 2.34f, 3.45f);
+		Vector3f after = entity.getSpatial().getLocalTranslation();
+		assertEquals(expected.x, after.x, 10e-10);
+		assertEquals(expected.y, after.y, 10e-10);
+		assertEquals(expected.z, after.z, 10e-10);			
+	}
+	
+	/**
 	 * Test if collision detection returns true when it should.
 	 */
 	@Test
