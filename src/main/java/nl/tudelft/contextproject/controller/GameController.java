@@ -16,20 +16,14 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Direction;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.PlayerTrigger;
-import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.VRPlayer;
-import nl.tudelft.contextproject.model.WallFrame;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.roomIO.RoomReader;
-import nl.tudelft.contextproject.util.ScriptLoader;
-import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**
  * Controller for the main game.
@@ -50,21 +44,22 @@ public class GameController extends Controller {
 	/**
 	 * Create a game with a level loaded from a file.
 	 * @param app The main app that this controller is attached to.
-	 * @param file The file where to load the level from.
+	 * @param folder The folder where to load the level from.
 	 */
-	public GameController(SimpleApplication app, File file) {
+	public GameController(SimpleApplication app, String folder) {
 		super(app, "GameController");
 		List<Entity> entities = new ArrayList<>();
 		List<Light> lights = new ArrayList<>();
-		String[] tmp = file.getName().split("_")[0].split("x");
-		MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
 		try {
-			RoomReader.importFile(file, tiles, entities, lights, 0, 0);
+			File file = RoomReader.getMapFile(folder);
+			String[] tmp = file.getName().split("_")[0].split("x");
+			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
+			RoomReader.importFile(folder, tiles, entities, lights, 0, 0);
+			Level level = new Level(tiles, lights);
+			game = new Game(level, new VRPlayer(), entities);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Level level = new Level(tiles, lights);
-		game = new Game(level, new VRPlayer(), entities);
 	}
 
 	@Override
@@ -136,26 +131,6 @@ public class GameController extends Controller {
 		AmbientLight al = new AmbientLight();
 		 al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
-	}
-
-	/**
-	 * Add some testing entities to the game.
-	 * Made into a separate method for easy test fixing by removing the call to this method.
-	 * @param game The game to add them to.
-	 * @param xStart The x position of the player.
-	 * @param yStart The y position of the player.
-	 */
-	private void addTestEntities(Game game, int xStart, int yStart) {
-		game.addEntity(new WallFrame(new Vector3f(xStart, 1f, yStart), "logo.png", Direction.NORTH));
-		
-		try {			
-			TickListener tl = ScriptLoader.getInstanceFrom("scripts/", "TestListener", TickListener.class);
-			PlayerTrigger e = new PlayerTrigger(.4f, 1f, tl, new Vector3f(xStart, 0, yStart));
-
-			game.getEntities().add(e);
-		} catch (ScriptLoaderException e1) {
-			e1.printStackTrace();
-		}
 	}
 
 	@Override

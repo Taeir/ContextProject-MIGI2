@@ -2,6 +2,8 @@ package nl.tudelft.contextproject.controller;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -37,9 +39,10 @@ public class WaitingControllerTest {
 	
 	/**
 	 * Create a new instance of the controller for each test.
+	 * @throws FileNotFoundException This should not happen.
 	 */
 	@Before
-	public void setUp() {
+	public void setUp() throws FileNotFoundException {
 		instance = new WaitingController(Main.getInstance());
 	}
 	
@@ -49,15 +52,5 @@ public class WaitingControllerTest {
 	@Test
 	public void testGetGameState() {
 		assertEquals(GameState.WAITING, instance.getGameState());
-	}
-	
-	/**
-	 * Test getting the map file.
-	 */
-	@Test
-	public void testGetFile() {
-		assertTrue(WaitingController.getFile().getName().endsWith(".crf"));
-		assertTrue(WaitingController.getFile().getParent().endsWith("\\maps")
-				   || WaitingController.getFile().getParent().endsWith("/maps"));
 	}
 }

@@ -48,19 +48,19 @@ public class WallFrame extends Entity {
 	 */
 	private void snapToWall(Direction orientation) {
 		switch (orientation) {
-			case EAST: 
+			case WEST: 
 				spatial.rotate(0f, (float) Math.toRadians(90), 0f);	
 				spatial.move(-.49f, 0, .5f);
 				break;
-			case SOUTH:	
+			case NORTH:	
 				spatial.rotate(0f, (float) Math.toRadians(180), 0f);	
 				spatial.move(.5f, 0, .49f);
 				break;
-			case WEST: 
+			case EAST: 
 				spatial.rotate(0f, (float) Math.toRadians(270), 0f);	
 				spatial.move(+.49f, 0, -.5f);
 				break;
-			case NORTH: 
+			case SOUTH: 
 				spatial.move(-.5f, 0, -.49f);
 				break;
 			default: 
