@@ -11,9 +11,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class EntityUtilTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     /**
      * Test getting code for Bomb.
      */
@@ -47,11 +44,18 @@ public class EntityUtilTest {
     }
 
     /**
+     * Test getting code for VRPlayer.
+     */
+    @Test
+    public void testGetJSONCodePlayerTrigger() {
+        assertEquals(EntityUtil.getJSONCoded("PlayerTrigger"), 5);
+    }
+
+    /**
      * Test getting code for non existing entity.
      */
     @Test
     public void testGetJSONCodedDefault() {
-        thrown.expect(IllegalArgumentException.class);
-        EntityUtil.getJSONCoded("NotAnActualEntity");
+        assertEquals(EntityUtil.getJSONCoded("NotAnActualEntity"), 0);
     }
 }
