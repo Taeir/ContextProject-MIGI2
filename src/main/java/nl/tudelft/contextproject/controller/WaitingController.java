@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.controller;
 
-import java.io.FileNotFoundException;
 import com.jme3.app.SimpleApplication;
 
 /**
@@ -14,9 +13,8 @@ public class WaitingController extends GameController {
 	/**
 	 * Create a waitingController.
 	 * @param app The app this Controller is created by (probably).
-	 * @throws FileNotFoundException 
 	 */
-	public WaitingController(SimpleApplication app) throws FileNotFoundException {
+	public WaitingController(SimpleApplication app) {
 		super(app, "/maps/" + MENU_LEVEL + "/");
 	}
 

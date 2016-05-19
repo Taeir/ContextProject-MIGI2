@@ -2,8 +2,6 @@ package nl.tudelft.contextproject.controller;
 
 import static org.junit.Assert.*;
 
-import java.io.FileNotFoundException;
-
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -39,11 +37,20 @@ public class WaitingControllerTest {
 	
 	/**
 	 * Create a new instance of the controller for each test.
-	 * @throws FileNotFoundException This should not happen.
 	 */
 	@Before
-	public void setUp() throws FileNotFoundException {
+	public void setUp() {
 		instance = new WaitingController(Main.getInstance());
+	}
+	
+	/**
+	 * Test if creating a WaitingController creates a full game.
+	 */
+	@Test
+	public void testFileReading() {
+		assertFalse(instance.getGame().getEntities().isEmpty());
+		assertNotNull(instance.getGame().getPlayer());
+		assertNotNull(instance.getGame().getLevel());
 	}
 	
 	/**

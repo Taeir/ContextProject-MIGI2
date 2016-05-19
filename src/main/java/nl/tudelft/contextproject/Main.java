@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject;
 
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 import java.util.LinkedList;
@@ -143,11 +142,7 @@ public class Main extends SimpleApplication {
 		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
-		try {
-			setController(new WaitingController(this));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		setController(new WaitingController(this));
 		setupWebServer();
 
 		//Initialize the AudioManager.
