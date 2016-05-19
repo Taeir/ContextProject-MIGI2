@@ -54,28 +54,19 @@ public final class JSONUtil {
         bWriter.close();
     }
 
-    public static JSONObject entitiesToJson(List<Entity> entities, Level level) {
+    public static JSONObject entitiesToJson(List<Entity> entities) {
         JSONObject json = new JSONObject();
-        json.put("width", level.getWidth());
-        json.put("height", level.getHeight());
 
-        int[][] located = new int[level.getWidth()][level.getHeight()];
-        JSONObject jsonEntities = new JSONObject();
-
+        JSONArray jArray = new JSONArray();
         for (Entity e : entities) {
-            located[(int)Math.floor(e.getLocation().getX())]
-                    [(int)Math.floor(e.getLocation().getZ())] = 1;
+            JSONObject entity = new JSONObject();
+            entity.put("x", (int) Math.floor(e.getLocation().getX()));
+            entity.put("y", (int) Math.floor(e.getLocation().getZ()));
+            entity.put("type", EntityUtil.getJSONCoded(e.getClass().getSimpleName()));
+            jArray.put(entity);
         }
 
-        for (int x = 0; x < located.length; x++) {
-            JSONArray jArray = new JSONArray();
-            for (int y = 0; y < located[0].length; y++) {
-                jArray.put(located[x][y]);
-            }
-            jsonEntities.put("" + x, jArray);
-        }
-
-        json.put("entities", jsonEntities);
+        json.put("entities", jArray);
 
         return json;
     }

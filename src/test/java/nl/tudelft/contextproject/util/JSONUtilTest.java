@@ -9,10 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
+import nl.tudelft.contextproject.model.Bomb;
 import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.level.Level;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -82,23 +80,18 @@ public class JSONUtilTest {
         JSONUtil.save(mockedJSONObject, testFile);
     }
 
+    /**
+     * Test for getting a json representing all entities.
+     */
     @Test
     public void testEntitiesToJson() {
-        Level mockedLevel = mock(Level.class);
         List<Entity> list = new ArrayList<>();
 
-        Entity mockedEntity = mock(Entity.class);
+        Bomb bomb = new Bomb();
 
-        list.add(mockedEntity);
+        list.add(bomb);
 
-        when(mockedEntity.getLocation()).thenReturn(new Vector3f(0, 0, 0));
-        when(mockedLevel.getHeight()).thenReturn(10);
-        when(mockedLevel.getWidth()).thenReturn(10);
-
-        JSONUtil.entitiesToJson(list, mockedLevel);
-
-        verify(mockedEntity, times(2)).getLocation();
-        verify(mockedLevel, times(2)).getWidth();
-        verify(mockedLevel, times(2)).getHeight();
+        JSONObject json = JSONUtil.entitiesToJson(list);
+        assertNotNull(json.getJSONArray("entities"));
     }
 }
