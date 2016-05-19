@@ -9,6 +9,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * Test class for {@link FileManager}.
+ */
 public class FileManagerTest {
 	private static boolean jar;
 	private static String path;
@@ -42,11 +45,20 @@ public class FileManagerTest {
 	 */
 	@After
 	public void tearDown() {
-		File file = new File("filemanager_jar");
+		delete(new File("filemanager_jar"));
+	}
+	
+	/**
+	 * Deletes the given file/folder recursively.
+	 * 
+	 * @param file
+	 * 		the file to delete
+	 */
+	private void delete(File file) {
 		File[] files = file.listFiles();
 		if (files != null) {
 			for (File f : files) {
-				f.delete();
+				delete(f);
 			}
 		}
 		
@@ -88,6 +100,20 @@ public class FileManagerTest {
 	}
 	
 	/**
+	 * Tests {@link FileManager#getFile(String)}, when running from a jar, when getting a folder.
+	 */
+	@Test
+	public void testGetFile_jar_folder() {
+		FileManager.setJar(true);
+		FileManager.setPath(testFile.getPath());
+		
+		File file = FileManager.getFile("filemanager_jar/folder/");
+		
+		assertNotNull(file);
+		assertEquals(2, file.listFiles().length);
+	}
+	
+	/**
 	 * Tests {@link FileManager#getFile(String)}, when running from files, and using a start slash.
 	 */
 	@Test
@@ -106,6 +132,19 @@ public class FileManagerTest {
 		
 		assertEquals("file3.txt", FileManager.getFile("filemanager_file/file3.txt").getName());
 	}
+	
+	/**
+	 * Tests {@link FileManager#getFile(String)}, when running from files, when getting a folder.
+	 */
+	@Test
+	public void testGetFile_file_folder() {
+		FileManager.setJar(false);
+		
+		File file = FileManager.getFile("filemanager_file/folder/");
+
+		assertNotNull(file);
+		assertEquals(2, file.listFiles().length);
+	}
 
 	/**
 	 * Test for {@link FileManager#getFileNames(String)}, when running from a jar.
@@ -116,7 +155,7 @@ public class FileManagerTest {
 		FileManager.setPath(testFile.getPath());
 		
 		assertEquals(0, FileManager.getFileNames("/filemanager_jar/emptyfolder").length);
-		assertEquals(2, FileManager.getFileNames("/filemanager_jar/folder/").length);
+		assertEquals(2, FileManager.getFileNames("filemanager_jar/folder/").length);
 	}
 	
 	/**
@@ -126,7 +165,7 @@ public class FileManagerTest {
 	public void testGetFileNames_file() {
 		FileManager.setJar(false);
 		
-		String[] names = FileManager.getFileNames("/filemanager_file/emptyfolder");
+		String[] names = FileManager.getFileNames("filemanager_file/emptyfolder");
 		assertTrue(names == null || names.length == 0);
 		assertEquals(2, FileManager.getFileNames("/filemanager_file/folder/").length);
 	}

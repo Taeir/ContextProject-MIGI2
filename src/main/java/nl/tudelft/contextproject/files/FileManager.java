@@ -77,17 +77,17 @@ public final class FileManager {
 		}
 		
 		if (!jar) {
-			URL url = FileManager.class.getResource(location);
+			URL url = FileManager.class.getResource(jLocation);
 			if (url == null) return new File(fLocation);
 			
 			return new File(url.toURI());
 		}
 		
 		//Check if we already have the file extracted
-		String winLoc = jLocation.replace('/', File.separatorChar);
+		String winLoc = fLocation.replace('/', File.separatorChar);
 		File file = new File(winLoc);
 		if (file.exists()) return file;
-		
+
 		//We need to extract this from the jar.
 		try (JarFile jar = new JarFile(path)) {
 			Enumeration<JarEntry> enumEntries = jar.entries();
