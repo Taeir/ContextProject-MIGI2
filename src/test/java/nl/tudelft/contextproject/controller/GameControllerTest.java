@@ -51,7 +51,8 @@ public class GameControllerTest extends ControllerTest {
 	public void setUp() {
 		Main.setInstance(new Main());
 		main = Main.getInstance();
-		controller = new GameController(main, null);
+		Level l = null;
+		controller = new GameController(main, l);
 
 		Light light = mock(Light.class);		
 		rootNode = mock(Node.class);

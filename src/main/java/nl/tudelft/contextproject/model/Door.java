@@ -23,6 +23,7 @@ public class Door extends Entity implements PhysicsObject {
 	private Geometry geometry;
 	private Spatial sp;
 	private ColorRGBA color;
+	private RigidBodyControl rb;
 	/**
 	 * Constructor for a door.
 	 * @param col
@@ -87,10 +88,18 @@ public class Door extends Entity implements PhysicsObject {
 
 	@Override
 	public PhysicsControl getPhysicsObject() {
+		if (rb != null) return rb;
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
-		RigidBodyControl rigidBody = new RigidBodyControl(sceneShape, 0);
-		rigidBody.setPhysicsLocation(sp.getLocalTranslation());
-		return rigidBody;
+		rb = new RigidBodyControl(sceneShape, 0);
+		rb.setPhysicsLocation(sp.getLocalTranslation());
+		return rb;
+	}
+	
+	@Override
+	public void move(float x, float y, float z) {
+		if (rb == null) getPhysicsObject();
+		sp.move(x, y, z);
+		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
 	
 	/**

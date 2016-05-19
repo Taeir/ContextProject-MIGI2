@@ -1,0 +1,22 @@
+codecov:
+  branch: master
+
+coverage:
+  precision: 2
+  round: down
+  range: "60...90"
+
+  status:
+    project:
+      default:
+        target: 70
+        threshold: "0.5%"
+        branches:
+        - master
+        - dev-*
+
+    patch: false
+
+    changes: false
+
+comment: false

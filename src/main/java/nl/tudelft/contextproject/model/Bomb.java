@@ -21,6 +21,7 @@ import nl.tudelft.contextproject.Main;
 public class Bomb extends Entity implements PhysicsObject {
 	private Geometry geometry;
 	private Spatial sp;
+	private RigidBodyControl rb;
 
 	/**
 	 * Constructor for a bomb.
@@ -78,10 +79,18 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	@Override
 	public PhysicsControl getPhysicsObject() {
+		if (rb != null) return rb;
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
-		RigidBodyControl rigidBody = new RigidBodyControl(sceneShape, 0);
-		rigidBody.setPhysicsLocation(sp.getLocalTranslation());
-		return rigidBody;
+		rb = new RigidBodyControl(sceneShape, 0);
+		rb.setPhysicsLocation(sp.getLocalTranslation());
+		return rb;
+	}
+
+	@Override
+	public void move(float x, float y, float z) {
+		sp.move(x, y, z);
+		if (rb == null) getPhysicsObject();
+		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
 	
 	/**
