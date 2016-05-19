@@ -59,7 +59,9 @@ public class PlayerTrigger extends Entity {
 	}
 
 	@Override
-	public void mapDraw(Graphics2D g, int resolution) { }
+	public void mapDraw(Graphics2D g, int resolution) {
+		g.setBackground(g.getBackground());
+	}
 
 	@Override
 	public void update(float tpf) {
