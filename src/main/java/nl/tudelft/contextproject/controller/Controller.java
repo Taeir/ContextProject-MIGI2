@@ -5,6 +5,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
@@ -90,6 +91,14 @@ public abstract class Controller extends AbstractAppState {
 	 * @return True when the Drawable was removed, false otherwise.
 	 */
 	public boolean removeDrawable(Drawable d) {
+		if (d instanceof PhysicsObject) {
+			System.out.println((physicsEnvironment.getPhysicsSpace().getCharacterList().size()));
+			if (d instanceof PhysicsObject) {
+				physicsEnvironment.getPhysicsSpace().add(((PhysicsObject) d).getPhysicsObject().getPhysicsSpace());
+			}
+			System.out.println((physicsEnvironment.getPhysicsSpace().getCharacterList().size()));
+			
+		}
 		return rootNode.detachChild(d.getSpatial()) != -1;
 	}
 

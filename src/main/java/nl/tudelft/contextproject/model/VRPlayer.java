@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
@@ -39,7 +41,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	public static final float PLAYER_HEIGHT = 3f;
 	//Gravity axis of the player, should not be changed!
 	public static final int PLAYER_AXIS = 1;
-	
+
 	/**
 	 * Movement control constants.
 	 */
@@ -52,12 +54,13 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	private CharacterControl playerControl;
 	private boolean left, right, up, down;
 	private Vector3f walkDirection;
-
+	private Inventory inventory;
 	/**
 	 * Constructor for a default player.
 	 * This player is (for now) a red sphere.
 	 */
 	public VRPlayer() { 
+		inventory = new Inventory();
 		//Set geometry of player
 	}
 
@@ -121,7 +124,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	public void setCharacterControl(CharacterControl characterControl) {
 		this.playerControl = characterControl;
 	}
-	
+
 	/**
 	 * Get the player hit box.
 	 * 
@@ -169,9 +172,58 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 				playerControl.jump(); 
 			}
 			break;
+		case "Bomb":
+			if (isPressed) {
+				dropBomb();
+			}
+			break;
+		case "Pickup":
+			if (isPressed) {
+				pickUp();
+			}
+			break;
 		default:
 			//Do nothing otherwise
 			break;
+		}
+	}
+
+	/**
+	 * Player drops a bomb from his inventory.
+	 */
+	public void dropBomb() {
+		System.out.println("No Bomb");
+		if (inventory.containsBomb()) {
+			System.out.println("lel");
+			Bomb bomb = inventory.getBomb();
+			inventory.remove(bomb);
+			Vector3f vec = this.getSpatial().getLocalTranslation();
+			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
+			Main.getInstance().getCurrentGame().addEntity(bomb);
+		}
+	}
+	/**
+	 * Player picks up nearby items.
+	 */
+	public void pickUp() {
+		Vector3f vec = this.getSpatial().getLocalTranslation();
+		List<Entity> list = Main.getInstance().getCurrentGame().getEntities();
+		for (int i = 0; i < list.size(); i++) {
+			Vector3f vec2 = list.get(i).getSpatial().getLocalTranslation();
+			if (Math.abs((int) vec.x - vec2.x) <= 1 && Math.abs((int) vec.y - vec2.y) <= 1 && Math.abs((int) vec.z - vec2.z) <= 1) {
+				System.out.println("item nearby");
+				if (list.get(i) instanceof Bomb) {
+					inventory.add(new Bomb(0, 0, 0));
+					Main.getInstance().getCurrentGame().getEntities().get(i).setState(EntityState.DEAD);
+					return;
+				}
+				if (list.get(i) instanceof Key) {
+					Key key = (Key) list.get(i);
+					inventory.add(new Key(key.getColor(), 0, 0, 0));
+					Main.getInstance().getCurrentGame().getEntities().get(i).setState(EntityState.DEAD);
+					return;
+				}
+			}
 		}
 	}
 }

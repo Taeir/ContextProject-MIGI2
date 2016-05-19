@@ -65,6 +65,8 @@ public class GameController extends Controller {
 		addInputListener(game.getPlayer(), "Up");
 		addInputListener(game.getPlayer(), "Down");
 		addInputListener(game.getPlayer(), "Jump");
+		addInputListener(game.getPlayer(), "Bomb");
+		addInputListener(game.getPlayer(), "Pickup");
 	}
 
 	/**
@@ -142,7 +144,6 @@ public class GameController extends Controller {
 			}
 		}
 	}
-
 	/**
 	 * Getter for the current level.
 	 * @return The current level.

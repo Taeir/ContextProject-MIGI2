@@ -169,6 +169,8 @@ public class Main extends SimpleApplication {
 		getInputManager().addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
 		getInputManager().addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
 		getInputManager().addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+		getInputManager().addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
+		getInputManager().addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 	}
 	
 	//TODO this will be removed when camera type is changed
