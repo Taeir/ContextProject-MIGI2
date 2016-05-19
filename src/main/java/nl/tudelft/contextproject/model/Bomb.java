@@ -25,12 +25,6 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	/**
 	 * Constructor for a bomb.
-	 * @param x
-	 * 		The x coordinate of the bomb
-	 * @param y
-	 * 		The y coordinate of the bomb
-	 * @param z
-	 * 		The z coordinate of the bomb
 	 */
 	public Bomb() {
 		Box cube1Mesh = new Box(1f, 1f, 1f);

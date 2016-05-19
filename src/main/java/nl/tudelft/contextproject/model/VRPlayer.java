@@ -209,11 +209,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	public void pickUp() {
 		Vector3f vec = this.getSpatial().getLocalTranslation();
 		List<Entity> list = new ArrayList<Entity>();
-		if (Main.getInstance().getCurrentGame() != null) {
-			list = Main.getInstance().getCurrentGame().getEntities();
-		} else { //Creates custom entity list for testing
-			Key key = new Key(ColorRGBA.Yellow);
-		}
+		list = Main.getInstance().getCurrentGame().getEntities();
 		for (int i = 0; i < list.size(); i++) {
 			Vector3f vec2 = list.get(i).getSpatial().getLocalTranslation();
 			if (Math.abs((int) vec.x - vec2.x) <= 2 && Math.abs((int) vec.y - vec2.y) <= 2 && Math.abs((int) vec.z - vec2.z) <= 2) {
