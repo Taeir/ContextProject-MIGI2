@@ -207,7 +207,7 @@ public class ClientServletTest extends WebTestBase {
 	@Test
 	public void testDoPost_entities() throws Exception {
 		//Create a request to get the entities
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, "POST", "/entities");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/entities");
 		HttpServletResponse response = createMockedResponse();
 
 		//Ensure that the original method does not get called
@@ -547,7 +547,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetEntities_unauthorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/entities");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/entities");
 		HttpServletResponse response = createMockedResponse();
 
 		servlet.getEntities(request, response);
@@ -566,7 +566,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetEntities_authorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/entities");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/entities");
 		HttpServletResponse response = createMockedResponse();
 
 		//Simulate that the user is authorized
