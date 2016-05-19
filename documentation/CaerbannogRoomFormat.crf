@@ -13,7 +13,7 @@
 # <xPosition> <yPosition> <zPosition> <EntityType> [optionalValues]
 #
 # Lastly all the lights are written in the same way as entities but with the addition of a color.
-# This collor is in the following format: <r/g/b/a>, which results in this sintax for lights:
+# This collor is in the following format: <r/g/b/a>, which results in this syntax for lights:
 # <xPosition> <yPosition> <zPosition> <LightType> <Color> [optionalValues]
 #
 # Note also that the filename must be of the format '<width>x<height>_<someName>.crf'
