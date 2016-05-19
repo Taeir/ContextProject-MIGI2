@@ -20,6 +20,10 @@ import nl.tudelft.contextproject.logging.Log;
 public class ClientServlet extends DefaultServlet {
 	private static final long serialVersionUID = -8897739798010474802L;
 	
+	private static final String CONTENT_TYPE_JSON = "text/json";
+	
+	private static final Log LOG = Log.getLog("WebInterface");
+	
 	private final transient WebServer server;
 	
 	/**
@@ -35,7 +39,7 @@ public class ClientServlet extends DefaultServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Log event
-		Log.getLog("WebInterface").fine("Received GET Request: URI=\"" + request.getRequestURI() + "\", Parameters=" + request.getParameterMap());
+		LOG.fine("Received GET Request: URI=\"" + request.getRequestURI() + "\", Parameters=" + request.getParameterMap());
 		
 		//Redirect the root to index.html
 		if (request.getRequestURI().equals("/")) {
@@ -49,7 +53,7 @@ public class ClientServlet extends DefaultServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Log event
-		Log.getLog("WebInterface").fine("Received POST Request: URI=\"" + request.getRequestURI() + "\", Parameters=" + request.getParameterMap());
+		LOG.fine("Received POST Request: URI=\"" + request.getRequestURI() + "\", Parameters=" + request.getParameterMap());
 		
 		//Handle the post request differently based on the requested URL.
 		String uri = request.getRequestURI().substring(1);
@@ -115,7 +119,7 @@ public class ClientServlet extends DefaultServlet {
 		//Client is not known: unauthorized request
 		response.setStatus(HttpStatus.OK_200);
 		if (json) {
-			response.setContentType("text/json");
+			response.setContentType(CONTENT_TYPE_JSON);
 			response.getWriter().write("{auth: false}");
 		} else {
 			response.getWriter().write("UNAUTHORIZED");
@@ -205,7 +209,7 @@ public class ClientServlet extends DefaultServlet {
 
 		//Send the response
 		response.setStatus(HttpStatus.OK_200);
-		response.setContentType("text/json");
+		response.setContentType(CONTENT_TYPE_JSON);
 		response.getWriter().write(json.toString());
 	}
 	
@@ -232,7 +236,7 @@ public class ClientServlet extends DefaultServlet {
 
 		//Send the response
 		response.setStatus(HttpStatus.OK_200);
-		response.setContentType("text/json");
+		response.setContentType(CONTENT_TYPE_JSON);
 		response.getWriter().write(json.toString());
 	}
 
@@ -279,7 +283,7 @@ public class ClientServlet extends DefaultServlet {
 
 		//We will send a JSON status update object.
 		response.setStatus(HttpStatus.OK_200);
-		response.setContentType("text/json");
+		response.setContentType(CONTENT_TYPE_JSON);
 		
 		JSONObject json = new JSONObject();
 		json.put("team", client.getTeam().toUpperCase());

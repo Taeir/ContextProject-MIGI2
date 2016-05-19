@@ -16,7 +16,7 @@ import nl.tudelft.contextproject.logging.Log;
 
 /**
  * QR code generator class. 
- * Singleton that will generate a QR code and place it in {@link #location}.
+ * Singleton that will generate a QR code and place it in {@link #LOCATION}.
  *
  * It possible to automatically try and find the hosting address and generate the QR code with:
  * QRGenerator.getInstance().generateQRcode();
@@ -26,17 +26,18 @@ import nl.tudelft.contextproject.logging.Log;
  * QRGenerator.getInstance().generateQRcode();
  */
 public final class QRGenerator {
-
 	//Height of QR image.
 	public static final int HEIGTH = 250;
 	//Width of QR image.
 	public static final int WIDTH = 250;
+	//Location of the QR image.
+	public static final String LOCATION = "qrcode.png";
 
 	//Use eager initialization of the singleton.
 	private static final QRGenerator INSTANCE = new QRGenerator();
-
-	public final String location = "qrcode.png";
-
+	
+	//Log for the WebInterface
+	private static final Log LOG = Log.getLog("WebInterface");
 
 	//Holds IP of server.
 	private String hostingAddress;
@@ -79,20 +80,20 @@ public final class QRGenerator {
 	}
 
 	/**
-	 * Generate a QR code in {@link #location}.
+	 * Generate a QR code in {@link #LOCATION}.
 	 * First, get the hostingAddress by using the Java InetAddress class.
 	 * Then, create the QRgen as a ByteArrayOutputStream.
 	 * And finally write the ByteArrayOutputStream to disk.
 	 */
 	public void generateQRcode() {
-		Log.getLog("WebInterface").info("Creating QR code with address: " + hostingAddress);
+		LOG.info("Creating QR code with address: " + hostingAddress);
 		ByteArrayOutputStream byteArrayOutputStream = QRCode.from(hostingAddress).to(ImageType.PNG).withSize(WIDTH, HEIGTH).stream();
 
-		try (OutputStream outputStream = new FileOutputStream(location)) {
+		try (OutputStream outputStream = new FileOutputStream(LOCATION)) {
 			byteArrayOutputStream.writeTo(outputStream);
-			Log.getLog("WebInterface").info("Created QR code with address: " + hostingAddress + " as " + location);
+			LOG.info("Created QR code with address: " + hostingAddress + " as " + LOCATION);
 		} catch (IOException e) {
-			Log.getLog("WebInterface").severe("Unable to write qr code to disk.", e);
+			LOG.severe("Unable to write qr code to disk.", e);
 			e.printStackTrace();
 		}
 	}
@@ -126,7 +127,7 @@ public final class QRGenerator {
 			}
 			hostingAddress = "http://" + hostingAddress + ":" + portNumber + "/";
 		} catch (SocketException e) {
-			Log.getLog("WebInterface").severe("Unable to get network addresses.", e);
+			LOG.severe("Unable to get network addresses.", e);
 			e.printStackTrace();
 		}
 	}
