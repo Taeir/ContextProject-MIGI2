@@ -78,7 +78,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testDoGet() throws Exception {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, "GET", "/");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, true, "/");
 		HttpServletResponse response = createMockedResponse();
 		
 		servlet.doGet(request, response);
@@ -95,7 +95,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testDoPost_login() throws Exception {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, "POST", "/login");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/login");
 		HttpServletResponse response = createMockedResponse();
 		
 		//Ensure that the original method does not get called
@@ -117,7 +117,7 @@ public class ClientServletTest extends WebTestBase {
 	@Test
 	public void testDoPost_setteam() throws Exception {
 		//Create a request to set the team to ELVES.
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, "POST", "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/setteam");
 		setParameter(request, "team", "ELVES");
 		
 		HttpServletResponse response = createMockedResponse();
@@ -141,7 +141,7 @@ public class ClientServletTest extends WebTestBase {
 	@Test
 	public void testDoPost_map() throws Exception {
 		//Create a request to get the map
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, "POST", "/map");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/map");
 		HttpServletResponse response = createMockedResponse();
 		
 		//Ensure that the original method does not get called
@@ -163,7 +163,7 @@ public class ClientServletTest extends WebTestBase {
 	@Test
 	public void testDoPost_explored() throws Exception {
 		//Create a request to get explored tiles
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, "POST", "/explored");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/explored");
 		HttpServletResponse response = createMockedResponse();
 		
 		//Ensure that the original method does not get called
@@ -185,7 +185,7 @@ public class ClientServletTest extends WebTestBase {
 	@Test
 	public void testDoPost_status() throws Exception {
 		//Create a request to get the status
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, "POST", "/status");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/status");
 		HttpServletResponse response = createMockedResponse();
 		
 		//Ensure that the original method does not get called
@@ -262,7 +262,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_unauthorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
 		HttpServletResponse response = createMockedResponse();
 		
 		servlet.setTeam(request, response);
@@ -279,7 +279,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_running() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
 		HttpServletResponse response = createMockedResponse();
 		
 		//Set the game state to in progress
@@ -306,7 +306,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_noParameter() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
 		HttpServletResponse response = createMockedResponse();
 		
 		//Simulate that the user is authorized
@@ -328,7 +328,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_dwarfs() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
 		setParameter(request, "team", "DWARFS");
 		
 		HttpServletResponse response = createMockedResponse();
@@ -356,7 +356,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_elves() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
 		setParameter(request, "team", "ELVES");
 		
 		HttpServletResponse response = createMockedResponse();
@@ -384,7 +384,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_none() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
 		setParameter(request, "team", "NONE");
 		
 		HttpServletResponse response = createMockedResponse();
@@ -413,7 +413,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_invalid() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
 		setParameter(request, "team", "THEATEAM");
 		
 		HttpServletResponse response = createMockedResponse();
@@ -440,7 +440,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetMap_unauthorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/map");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/map");
 		HttpServletResponse response = createMockedResponse();
 		
 		servlet.getMap(request, response);
@@ -459,7 +459,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetMap_authorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/map");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/map");
 		HttpServletResponse response = createMockedResponse();
 		
 		//Simulate that the user is authorized
@@ -482,7 +482,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetExplored_unauthorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/explored");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/explored");
 		HttpServletResponse response = createMockedResponse();
 		
 		servlet.getExplored(request, response);
@@ -501,7 +501,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetExplored_authorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/explored");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/explored");
 		HttpServletResponse response = createMockedResponse();
 		
 		//Simulate that the user is authorized
@@ -525,7 +525,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testStatusUpdate_unauthorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/status");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/status");
 		HttpServletResponse response = createMockedResponse();
 		
 		servlet.statusUpdate(request, response);
@@ -544,7 +544,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testStatusUpdate_authorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/status");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/status");
 		HttpServletResponse response = createMockedResponse();
 		
 		//Simulate that the user is authorized
