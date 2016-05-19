@@ -290,7 +290,11 @@ function requestEntities() {
  *      the y coordinate of the cell
  */
 function createClickableFunc(x, y) {
-    return function() {console.log("Cell y" + y + "x" + x + " clicked.");};
+    return function() 
+        {
+            console.log("Cell y" + y + "x" + x + " clicked.");
+            $(document.getElementById("buttonDiv")).show();
+        };
 }
 
 /**
