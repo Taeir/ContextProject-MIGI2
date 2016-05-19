@@ -74,7 +74,6 @@ public final class JSONUtil {
         }
 
         json.put("entities", jArray);
-
         return json;
     }
 }

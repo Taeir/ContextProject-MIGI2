@@ -8,7 +8,9 @@
 		//On load
 		$(document).ready(function() {
 			authenticate();
+			setInterval(requestStatus, 1000);
 		});
+		
 	</script>
 	<style>
 		html, body {
@@ -30,6 +32,18 @@
 			overflow-x: auto;
 			overflow-y: auto;
 		}
+		#map .key {
+			background-color: #ffff00 !important;
+		}
+		#map .bomb {
+			background-color: #000 !important;
+		}
+		#map .door {
+			background-color: #7a5230 !important;
+		}
+		#map .vrplayer {
+			background-color: #ff00ff !important;
+		}
 		#map {
 			border-spacing: 1px;
 		}
@@ -49,9 +63,6 @@
 		#map .corridor.explored {
 			background-color: #ff0000;
 		}
-		#map .entity {
-			background-color: #ff00ff !important;
-		}
 	</style>
 </head>
 
@@ -68,9 +79,6 @@
 		</div>
 		
 		<div id="playing">
-			<button onclick="requestMap()">Refresh map</button>
-			<button onclick="requestExplored()">Update explored</button>
-			<button onclick="requestEntities()">Update entities</button>
 			Map: <br>
 			<table id="map">
 			</table>

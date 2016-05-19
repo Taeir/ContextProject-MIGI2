@@ -128,12 +128,12 @@ function switchTo(view) {
     
     console.log("[DEBUG] Switching to " + view);
     gView = view;
+    requestMap();
     switch (view) {
         case "WAITING":
             //TODO
             break;
         case "RUNNING":
-            //TODO
             break;
         case "PAUSED":
             //TODO
@@ -235,6 +235,8 @@ function requestMap() {
         //Update the map
         updateMap(data);
     }, "json");
+    setInterval(requestEntities, 1000);
+	setInterval(requestExplored, 1000);
 }
 
 /**
@@ -374,16 +376,43 @@ function updateExplored(data) {
  *      the entity data sent from the server
  */
 function updateEntities(data) {
-    for (x = 0; x < gMap.width; x++) {
-        for(y = 0; y < gMap.height; y++) {
-            if (data.entities[x][y] == 1) {
-                $(document.getElementById("y" + y + "x" + x)).addClass("entity");
-            } else {
-                $(document.getElementById("y" + y + "x" + x)).removeClass("entity");
-            }
+    if (gEntities != null) {
+        for (i = 0; i < gEntities.entities.length; i++) {
+            $(document.getElementById("y" + gEntities.entities[i].y + "x" + gEntities.entities[i].x))
+                .removeClass(getClassForEntityType(gEntities.entities[i].type));
         }
     }
+    
+    for (i = 0; i < data.entities.length; i++) {
+        $(document.getElementById("y" + data.entities[i].y + "x" + data.entities[i].x))
+            .addClass(getClassForEntityType(data.entities[i].type));
+    }
+    
     gEntities = data;
+}
+
+/**
+ * Converts the entity type id to the correct css class.
+ *
+ * @param entityType
+ *      the entityType id sent from the server
+ */
+function getClassForEntityType(entityType) {
+    switch (entityType) {
+        case 0:
+            return "";
+        case 1:
+            return "bomb";
+        case 2:
+            return "door";
+        case 3:
+            return "key";
+        case 4:
+            return "vrplayer";
+        default:
+            showError("Invalid tile type: " + entityType);
+            throw "Invalid tile type: " + entityType;
+    }
 }
 
 /**
