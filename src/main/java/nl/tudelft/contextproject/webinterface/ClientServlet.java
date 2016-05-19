@@ -1,14 +1,11 @@
 package nl.tudelft.contextproject.webinterface;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.util.JSONUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -239,6 +236,17 @@ public class ClientServlet extends DefaultServlet {
 		response.getWriter().write(json.toString());
 	}
 
+	/**
+	 * Handles an entities request.
+	 *
+	 * @param request
+	 * 		the HTTP request
+	 * @param response
+	 * 		the HTTP response object
+	 *
+	 * @throws IOException
+	 * 		if sending the response to the client causes an IOException
+	 */
 	public void getEntities(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		WebClient client = server.getUser(request);
 

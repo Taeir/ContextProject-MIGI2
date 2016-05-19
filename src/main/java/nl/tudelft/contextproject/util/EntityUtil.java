@@ -10,6 +10,11 @@ public final class EntityUtil {
     private static final int VRPLAYER = 4;
 
     /**
+     * Private constructor to avoid initialization.
+     */
+    private EntityUtil() {}
+
+    /**
      * Get the ID for a certain class.
      *
      * @param entity

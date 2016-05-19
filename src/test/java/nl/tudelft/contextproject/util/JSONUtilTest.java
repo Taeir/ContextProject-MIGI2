@@ -14,7 +14,12 @@ import nl.tudelft.contextproject.model.Bomb;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.test.TestUtil;
 import org.json.JSONObject;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
@@ -52,7 +57,7 @@ public class JSONUtilTest {
         //Restore the old main
         Main.setInstance(main);
     }
-    
+
     /**
      * Set up all objects used in testing.
      */

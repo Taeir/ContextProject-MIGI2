@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.util.List;
 
 import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.level.Level;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +53,14 @@ public final class JSONUtil {
         bWriter.close();
     }
 
+    /**
+     * Convert a list of entities to a JSONObject
+     * representing this list.
+     * @param entities
+     *          the entities to convert
+     * @return
+     *          a JSONObject representing the entities
+     */
     public static JSONObject entitiesToJson(List<Entity> entities) {
         JSONObject json = new JSONObject();
 
