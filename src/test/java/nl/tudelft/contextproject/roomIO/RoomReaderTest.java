@@ -14,7 +14,7 @@ import org.junit.Test;
 import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.files.FileManager;
+import nl.tudelft.contextproject.files.FileUtil;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.test.TestUtil;
@@ -49,7 +49,7 @@ public class RoomReaderTest {
 	 */
 	@Test
 	public void testCorrectFile() throws IOException {
-		File file = FileManager.getFile("/maps/correct.crf");
+		File file = FileUtil.getFile("/maps/correct.crf");
 		MazeTile[][] tiles = new MazeTile[50][50];
 		ArrayList<Entity> entities = new ArrayList<>();
 		ArrayList<Light> lights = new ArrayList<>();
@@ -75,7 +75,7 @@ public class RoomReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testEmptyFile() throws IOException {
-		File file = FileManager.getFile("/dummy.txt");
+		File file = FileUtil.getFile("/dummy.txt");
 		RoomReader.importFile(file, null, null, null, 0, 0);
 	}
 	
@@ -85,7 +85,7 @@ public class RoomReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testSmallHeaderFile() throws IOException {
-		File file = FileManager.getFile("/maps/smallHeader.crf");
+		File file = FileUtil.getFile("/maps/smallHeader.crf");
 		RoomReader.importFile(file, null, null, null, 0, 0);
 	}
 	

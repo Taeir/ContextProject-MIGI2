@@ -8,7 +8,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.files.FileManager;
+import nl.tudelft.contextproject.files.FileUtil;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 
 /**
@@ -47,7 +47,7 @@ public class WaitingController extends GameController {
 	 * @return The file to load.
 	 */
 	protected static File getFile() {
-		return FileManager.getFile("/maps/" + MENU_LEVEL);
+		return FileUtil.getFile("/maps/" + MENU_LEVEL);
 	}
 
 	@Override

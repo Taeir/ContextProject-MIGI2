@@ -10,7 +10,7 @@ import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.files.FileManager;
+import nl.tudelft.contextproject.files.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 
 /**
@@ -45,7 +45,7 @@ public final class BackgroundMusic {
 	 * <p>This method should only be called once.
 	 */
 	private final void loadMusic() {
-		String[] names = FileManager.getFileNames("/Sound/Music/");
+		String[] names = FileUtil.getFileNames("/Sound/Music/");
 		if (names == null) {
 			Log.getLog("Audio").warning("No music could be found!");
 			return;

@@ -12,7 +12,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
-import nl.tudelft.contextproject.files.FileManager;
+import nl.tudelft.contextproject.files.FileUtil;
 import nl.tudelft.contextproject.util.Size;
 
 /**
@@ -103,7 +103,7 @@ public class RandomLevelFactory implements LevelFactory {
 	 *          An ArrayList of sizes.
 	 */
 	protected List<Size> loadRooms() {
-		String[] names = FileManager.getFileNames("/rooms/");
+		String[] names = FileUtil.getFileNames("/rooms/");
 
 		/**
 		 * If the folder does not exist, we throw an IllegalStateException.

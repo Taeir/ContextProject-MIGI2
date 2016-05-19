@@ -17,33 +17,33 @@ import nl.tudelft.contextproject.logging.Log;
 import lombok.SneakyThrows;
 
 /**
- * Class to manage file access.
+ * Class to make accessing files easier.
  * 
  * <p>This class contains methods to automatically extract files from the jar when they are needed.
  */
-public final class FileManager {
+public final class FileUtil {
 	static boolean jar;
 	static String path;
 	
 	/**
 	 * Private constructor for static utility class.
 	 */
-	private FileManager() { };
+	private FileUtil() { };
 	
 	/**
 	 * Initializes the FileManager.
 	 */
 	public static void init() {
-		String feName = FileManager.class.getName().replace('.', '/') + ".class";
-		URL feUrl = FileManager.class.getClassLoader().getResource(feName);
+		String feName = FileUtil.class.getName().replace('.', '/') + ".class";
+		URL feUrl = FileUtil.class.getClassLoader().getResource(feName);
 		jar = "jar".equals(feUrl.getProtocol());
 		
 		String path = feUrl.getPath().substring("file:/".length()).replace(feName, "");
 		
 		if (jar) {
-			FileManager.path = path.substring(0, path.length() - 2).replace("%20", " ");
+			FileUtil.path = path.substring(0, path.length() - 2).replace("%20", " ");
 		} else {
-			FileManager.path = path.replace('/', File.separatorChar).replace("%20", " ");
+			FileUtil.path = path.replace('/', File.separatorChar).replace("%20", " ");
 		}
 	}
 	
@@ -77,7 +77,7 @@ public final class FileManager {
 		}
 		
 		if (!jar) {
-			URL url = FileManager.class.getResource(jLocation);
+			URL url = FileUtil.class.getResource(jLocation);
 			if (url == null) return new File(fLocation);
 			
 			return new File(url.toURI());
@@ -146,7 +146,7 @@ public final class FileManager {
 	@SneakyThrows(URISyntaxException.class)
 	public static String[] getFileNames(String location) {
 		if (!jar) {
-			URL url = FileManager.class.getResource(location);
+			URL url = FileUtil.class.getResource(location);
 			if (url == null) return null;
 
 			return new File(url.toURI()).list();
@@ -191,7 +191,7 @@ public final class FileManager {
 	 * 		the value to set for jar
 	 */
 	static void setJar(boolean jar) {
-		FileManager.jar = jar;
+		FileUtil.jar = jar;
 	}
 	
 	/**
@@ -201,6 +201,6 @@ public final class FileManager {
 	 * 		the value to set for path
 	 */
 	static void setPath(String path) {
-		FileManager.path = path;
+		FileUtil.path = path;
 	}
 }

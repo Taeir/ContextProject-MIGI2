@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.files.FileManager;
+import nl.tudelft.contextproject.files.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.qrgenerator.QRGenerator;
 
@@ -108,7 +108,7 @@ public class WebServer {
 		contextHandler.setContextPath("/");
 		
 		//Fetch pages from the webinterface folder
-		contextHandler.setResourceBase(FileManager.getFile("/webinterface/").getAbsolutePath());
+		contextHandler.setResourceBase(FileUtil.getFile("/webinterface/").getAbsolutePath());
 
 		//Set the session handler
 		contextHandler.setSessionHandler(sessionHandler);
