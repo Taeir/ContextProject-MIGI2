@@ -17,6 +17,19 @@ import nl.tudelft.contextproject.model.level.TileType;
 public class TileReaderTest {
 
 	/**
+	 * Test reading an empty tile.
+	 * @throws IOException This should not happen.
+	 */
+	@Test
+	public void testGetTileEmpty() throws IOException {
+		MazeTile[][] tiles = new MazeTile[1][1];
+		String in = "#";
+		BufferedReader br = new BufferedReader(new StringReader(in));
+		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
+		assertNull(tiles[0][0]);
+	}
+	
+	/**
 	 * Test reading a Wall tile.
 	 * @throws IOException This should not happen.
 	 */

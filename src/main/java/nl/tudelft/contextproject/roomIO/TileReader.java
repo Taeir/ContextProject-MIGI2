@@ -33,7 +33,11 @@ public final class TileReader {
 			for (int x = 0; x < line.length; x++) {
 				int posx = x + xOffset;
 				int posy = y + yOffset;
-				tiles[posx][posy] = new MazeTile(posx, posy, TileType.valueOf(line[x]));
+				if (line[x].equals("#")) {
+					tiles[posx][posy] = null;		// always override old value
+				} else {
+					tiles[posx][posy] = new MazeTile(posx, posy, TileType.valueOf(line[x]));
+				}
 			}
 		}
 	}
