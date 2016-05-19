@@ -50,7 +50,6 @@ public final class RoomReader {
 			//TODO support rotations?
 			TileReader.readTiles(tiles, width, height, xOffset, yOffset, br);
 			try {
-				System.out.println(tmp[2]);
 				EntityReader.readEntities(entities, Integer.parseInt(tmp[2]), xOffset, yOffset, br, folder);
 			} catch (ScriptLoaderException e) {
 				e.printStackTrace();

@@ -62,7 +62,6 @@ public final class EntityReader {
 	 * @throws ScriptLoaderException When the loading of scripts goes wrong.
 	 */
 	protected static Entity getEntity(String type, float x, float y, float z, String[] data, String path) throws ScriptLoaderException {
-		System.out.println(EntityReader.class.getResource(path));
 		ScriptLoader sl = new ScriptLoader(EntityReader.class.getResource(path).getPath());
 		Entity e;
 		switch (type) {

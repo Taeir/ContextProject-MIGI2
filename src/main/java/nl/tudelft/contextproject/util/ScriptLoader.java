@@ -21,7 +21,6 @@ public class ScriptLoader {
 			URL url = (new File(path.replace("%20", " "))).toURI().toURL();
 			URL[] urls = {url};
 		    cl = new URLClassLoader(urls);
-		    System.out.println(url);
 		} catch (MalformedURLException e) {
 			throw new ScriptLoaderException("The script folder '" + path + "' is invalid.");
 		}
