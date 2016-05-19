@@ -1,0 +1,28 @@
+# Layout of the .crf file format
+#
+# At the beginning of the file an unlimited number of lines with descriptions and comments is allowed.
+# As long as they start with a '#'
+# Next a line containing the following data is needed:
+# <RoomWidth> <RoomHeight> <EntityCount> <LightCount>
+#
+# After this line the 2D tile array starts.
+# For each tile the TileType (with the same names as the enum values) or a '#' for  an empty tile must be given.
+#
+# After the tiles all entities are written.
+# Each entity needs at least the following values (but some will require more):
+# <xPosition> <yPosition> <zPosition> <EntityType> [optionalValues]
+#
+# Lastly all the lights are written in the same way as entities but with the addition of a color.
+# This collor is in the following format: <r/g/b/a>, which results in this sintax for lights:
+# <xPosition> <yPosition> <zPosition> <LightType> <Color> [optionalValues]
+#
+# Note also that the filename must be of the format '<width>x<height>_<someName>.crf'
+# Except that requirement this file is a fully functional map file.
+4 4 2 1
+WALL WALL FLOOR FLOOR
+WALL CORRIDOR FLOOR FLOOR
+FLOOR FLOOR # FLOOR
+FLOOR # WALL WALL
+0 0 0 Key
+0 1.5 4 WallFrame NORTH imageToDisplayRelativePath.png
+4 12 2 PointLight .5/.5/0/.9 20
