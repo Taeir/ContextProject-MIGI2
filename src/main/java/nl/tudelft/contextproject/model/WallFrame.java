@@ -46,7 +46,7 @@ public class WallFrame extends Entity {
 	 * @param orientation The orientation of the frame.
 	 *
 	 */
-	private void snapToWall(Direction orientation) {
+	protected void snapToWall(Direction orientation) {
 		switch (orientation) {
 			case WEST: 
 				spatial.rotate(0f, (float) Math.toRadians(90), 0f);	
@@ -80,13 +80,11 @@ public class WallFrame extends Entity {
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
-		// TODO Auto-generated method stub
+		g.setBackground(g.getBackground());
 	}
 
 	@Override
-	public void update(float tpf) {
-		
-	}
+	public void update(float tpf) { }
 
 	@Override
 	public void move(float x, float y, float z) {

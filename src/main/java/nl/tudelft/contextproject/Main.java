@@ -84,17 +84,16 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Get the instance of the current game.
-	 * @return the current instance of the game.
-	 * @throws IllegalStateException when the current controller is not a game Controller.
+	 * @return the current instance of the game or null when no game is running.
 	 */
-	public Game getCurrentGame() throws IllegalStateException {
+	public Game getCurrentGame() {
 		if (controller instanceof GameController) {
 			return ((GameController) controller).getGame();				
 		}
 		if (controller instanceof PauseController) {
 			return ((PauseController) controller).getPausedController().getGame();				
 		}
-		throw new IllegalStateException("The game is not running!");
+		return null;
 	}
 	
 	/**
