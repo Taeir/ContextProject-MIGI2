@@ -12,6 +12,8 @@ var gPlayer = {
 var gMap = null;
 var gExplored = null;
 var gEntities = null;
+var lastPressedX = 0;
+var lastPressedY = 0;
 
 /**
  * Sends an authentication request to the server.
@@ -293,8 +295,29 @@ function createClickableFunc(x, y) {
     return function() 
         {
             console.log("Cell y" + y + "x" + x + " clicked.");
-            $(document.getElementById("buttonDiv")).show();
+            lastPressedX = x;
+            lastPressedY = y;
+            $(document.getElementById('buttonDiv')).show(250);
         };
+}
+
+/**
+ * Send a message to the server telling it to place a bomb at
+ * the given location.
+ */
+function placeBomb() {
+    if (gTeam == undefined) return;
+    
+    console.log("[DEBUG] Placing bomb");
+    $.post("/placebomb", {x: lastPressedX, y: lastPressedY}, function(data, status) {
+        if (status != "success") {
+            //HTTP Error
+            showError("Something went wrong: [" + status + "] " + data);
+            return;
+        }
+    }, "json");
+    
+    $(document.getElementById('buttonDiv')).hide(250);
 }
 
 /**
