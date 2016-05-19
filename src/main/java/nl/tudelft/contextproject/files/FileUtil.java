@@ -89,6 +89,18 @@ public final class FileUtil {
 		if (file.exists()) return file;
 
 		//We need to extract this from the jar.
+		extractFromJar(fLocation);
+		
+		return file;
+	}
+
+	/**
+	 * Extracts from the jar all files whose paths start with the given (f)location.
+	 * 
+	 * @param fLocation
+	 * 		the location of the file(s) to extract
+	 */
+	private static void extractFromJar(String fLocation) {
 		try (JarFile jar = new JarFile(path)) {
 			Enumeration<JarEntry> enumEntries = jar.entries();
 			while (enumEntries.hasMoreElements()) {
@@ -125,8 +137,6 @@ public final class FileUtil {
 		} catch (IOException ex) {
 			Log.getLog("FileManager").warning("Unable to extract file " + fLocation + " from jar!", ex);
 		}
-		
-		return file;
 	}
 	
 	/**
@@ -162,14 +172,26 @@ public final class FileUtil {
 		}
 		
 		//Construct the list of names
+		return listInJar(location);
+	}
+
+	/**
+	 * Lists the names of all the files in a directory in the jar.
+	 * 
+	 * @param location
+	 * 		the location of the directory
+	 * 
+	 * @return
+	 * 		an array of Strings, representing the names of the files in the directory
+	 */
+	private static String[] listInJar(String location) {
 		List<String> names = new ArrayList<>();
 		try (JarFile jar = new JarFile(path)) {
 			Enumeration<JarEntry> enumEntries = jar.entries();
 			while (enumEntries.hasMoreElements()) {
 				JarEntry entry = enumEntries.nextElement();
 				
-				if (entry.getName().equals(location)) continue;
-				if (!entry.getName().startsWith(location)) continue;
+				if (entry.getName().equals(location) || !entry.getName().startsWith(location)) continue;
 				
 				String name = entry.getName().substring(location.length());
 				
