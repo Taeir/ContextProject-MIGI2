@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.tudelft.contextproject.util.JSONUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.json.JSONObject;
@@ -76,6 +77,10 @@ public class ClientServlet extends DefaultServlet {
 			case "status":
 				//Client wants a status update
 				statusUpdate(request, response);
+				break;
+
+			case "entities":
+				getEntities(request, response);
 				break;
 
 			default:
@@ -226,6 +231,29 @@ public class ClientServlet extends DefaultServlet {
 		JSONObject json = Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON();
 
 		//Send the response
+		response.setStatus(HttpStatus.OK_200);
+		response.setContentType("text/json");
+		response.getWriter().write(json.toString());
+	}
+
+	/**
+	 * Handles an entities request.
+	 *
+	 * @param request
+	 * 		the HTTP request
+	 * @param response
+	 * 		the HTTP response object
+	 *
+	 * @throws IOException
+	 * 		if sending the response to the client causes an IOException
+	 */
+	public void getEntities(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		WebClient client = server.getUser(request);
+
+		if (!checkAuthorized(client, response, true)) return;
+
+		JSONObject json = JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities());
+
 		response.setStatus(HttpStatus.OK_200);
 		response.setContentType("text/json");
 		response.getWriter().write(json.toString());

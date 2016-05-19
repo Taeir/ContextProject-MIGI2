@@ -178,7 +178,7 @@ public class ClientServletTest extends WebTestBase {
 	
 	/**
 	 * Test method for {@link ClientServlet#doPost}, when posting to /status.
-	 * 
+	 *
 	 * @throws Exception
 	 * 		if an exception occurs calling doPost of the servlet.
 	 */
@@ -187,15 +187,37 @@ public class ClientServletTest extends WebTestBase {
 		//Create a request to get the status
 		HttpServletRequest request = createMockedRequest(ID1, ID1, false, "POST", "/status");
 		HttpServletResponse response = createMockedResponse();
-		
+
 		//Ensure that the original method does not get called
 		doNothing().when(servlet).statusUpdate(any(), any());
-		
+
 		//Call the post
 		servlet.doPost(request, response);
-		
+
 		//Verify that the statusUpdate method has been called
 		verify(servlet).statusUpdate(request, response);
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#doPost}, when posting to /entities.
+	 *
+	 * @throws Exception
+	 * 		if an exception occurs calling doPost of the servlet.
+	 */
+	@Test
+	public void testDoPost_entities() throws Exception {
+		//Create a request to get the entities
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, "POST", "/entities");
+		HttpServletResponse response = createMockedResponse();
+
+		//Ensure that the original method does not get called
+		doNothing().when(servlet).getEntities(any(), any());
+
+		//Call the post
+		servlet.doPost(request, response);
+
+		//Verify that the getEntities method has been called
+		verify(servlet).getEntities(request, response);
 	}
 
 	/**
@@ -516,7 +538,50 @@ public class ClientServletTest extends WebTestBase {
 
 		verify(response.getWriter()).write(matches("\\{.*\\}"));
 	}
-	
+
+	/**
+	 * Test method for {@link ClientServlet#getEntities}, when the user is unauthorized.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling getEntities of the servlet.
+	 */
+	@Test
+	public void testGetEntities_unauthorized() throws IOException {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/entities");
+		HttpServletResponse response = createMockedResponse();
+
+		servlet.getEntities(request, response);
+
+		//auth: false should have been written
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response).setContentType(JSON_CONTENT_TYPE);
+		verify(response.getWriter()).write(JSON_UNAUTHORIZED);
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#getEntities}, when the user is authorized.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling getEntities of the servlet.
+	 */
+	@Test
+	public void testGetEntities_authorized() throws IOException {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, "POST", "/entities");
+		HttpServletResponse response = createMockedResponse();
+
+		//Simulate that the user is authorized
+		WebClient client = spy(new WebClient());
+		doReturn(client).when(webServer).getUser(any());
+
+		servlet.getEntities(request, response);
+
+		//Some JSON should have been written
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response).setContentType(JSON_CONTENT_TYPE);
+
+		verify(response.getWriter()).write(matches("\\{.*\\}"));
+	}
+
 	/**
 	 * Test method for {@link ClientServlet#statusUpdate}, when the user is authorized.
 	 * 
