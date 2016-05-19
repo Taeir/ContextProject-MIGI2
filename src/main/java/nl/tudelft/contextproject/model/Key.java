@@ -25,14 +25,8 @@ public class Key extends Entity implements PhysicsObject {
 	 * Constructor for a key.
 	 * @param col
 	 * 		The color of the key
-	 * @param x
-	 * 		The x coordinate of the key
-	 * @param y
-	 * 		The y coordinate of the key
-	 * @param z
-	 * 		The z coordinate of the key
 	 */
-	public Key(ColorRGBA col, int x, int y, int z) {
+	public Key(ColorRGBA col) {
 		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh); 
@@ -44,7 +38,6 @@ public class Key extends Entity implements PhysicsObject {
 			mat.setColor("Color", color);
 			sp.setMaterial(mat);
 		}
-		sp.move(x, y, z);
 	}
 
 	@Override

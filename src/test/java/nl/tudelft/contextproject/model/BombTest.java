@@ -15,7 +15,7 @@ public class BombTest extends EntityTest {
 
 	@Override
 	public Entity getEntity() {
-		return new Bomb(0, 0, 0);
+		return new Bomb();
 	}
 	
 	/**
@@ -25,7 +25,7 @@ public class BombTest extends EntityTest {
 	@Before
 	public void setUp() {
 		setupGeometryMock();
-		bomb = new Bomb(0, 0, 0);
+		bomb = new Bomb();
 		bomb.move(1, 1, 1);
 	}
 

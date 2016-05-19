@@ -192,36 +192,49 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * Player drops a bomb from his inventory.
 	 */
 	public void dropBomb() {
-		System.out.println("No Bomb");
 		if (inventory.containsBomb()) {
-			System.out.println("lel");
-			Bomb bomb = inventory.getBomb();
+			Bomb bomb = new Bomb();
 			inventory.remove(bomb);
 			Vector3f vec = this.getSpatial().getLocalTranslation();
 			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-			Main.getInstance().getCurrentGame().addEntity(bomb);
+			if (Main.getInstance().getCurrentGame() != null) {
+				Main.getInstance().getCurrentGame().addEntity(bomb);
+			}
 		}
 	}
 	/**
-	 * Player picks up nearby items.
+	 * Player picks up a nearby item.
+	 * Also opens nearby doors if possible
 	 */
 	public void pickUp() {
 		Vector3f vec = this.getSpatial().getLocalTranslation();
-		List<Entity> list = Main.getInstance().getCurrentGame().getEntities();
+		List<Entity> list = new ArrayList<Entity>();
+		if (Main.getInstance().getCurrentGame() != null) {
+			list = Main.getInstance().getCurrentGame().getEntities();
+		} else { //Creates custom entity list for testing
+			Key key = new Key(ColorRGBA.Yellow);
+		}
 		for (int i = 0; i < list.size(); i++) {
 			Vector3f vec2 = list.get(i).getSpatial().getLocalTranslation();
-			if (Math.abs((int) vec.x - vec2.x) <= 1 && Math.abs((int) vec.y - vec2.y) <= 1 && Math.abs((int) vec.z - vec2.z) <= 1) {
-				System.out.println("item nearby");
+			if (Math.abs((int) vec.x - vec2.x) <= 2 && Math.abs((int) vec.y - vec2.y) <= 2 && Math.abs((int) vec.z - vec2.z) <= 2) {
 				if (list.get(i) instanceof Bomb) {
-					inventory.add(new Bomb(0, 0, 0));
+					inventory.add(new Bomb());
 					Main.getInstance().getCurrentGame().getEntities().get(i).setState(EntityState.DEAD);
 					return;
 				}
 				if (list.get(i) instanceof Key) {
 					Key key = (Key) list.get(i);
-					inventory.add(new Key(key.getColor(), 0, 0, 0));
+					inventory.add(new Key(key.getColor()));
 					Main.getInstance().getCurrentGame().getEntities().get(i).setState(EntityState.DEAD);
 					return;
+				}
+				if (list.get(i) instanceof Door) {
+					Door door = (Door) list.get(i);
+					if (inventory.containsColorKey(door.getColor())) {
+						inventory.remove(inventory.getKey(door.getColor()));
+						Main.getInstance().getCurrentGame().getEntities().get(i).setState(EntityState.DEAD);
+						return;
+					}
 				}
 			}
 		}
@@ -231,5 +244,24 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	public void move(float x, float y, float z) {
 		spatial.move(x, y, z);
 		getPhysicsObject().setPhysicsLocation(playerControl.getPhysicsLocation().add(x, y, z));
+	}
+
+	/**
+	 * Method used for testing.
+	 * Returns the player's inventory.
+	 * @return The player's inventory
+	 */
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	/**
+	 * Method used for testing.
+	 * Sets a player's inventory
+	 * @param inv
+	 * 		Inventory to be set
+	 */
+	public void setInventory(Inventory inv) {
+		inventory = inv;
 	}
 }

@@ -13,7 +13,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Bomb;
+import nl.tudelft.contextproject.model.Door;
 import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.Key;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
 /**
@@ -91,13 +94,14 @@ public abstract class Controller extends AbstractAppState {
 	 * @return True when the Drawable was removed, false otherwise.
 	 */
 	public boolean removeDrawable(Drawable d) {
-		if (d instanceof PhysicsObject) {
-			System.out.println((physicsEnvironment.getPhysicsSpace().getCharacterList().size()));
-			if (d instanceof PhysicsObject) {
-				physicsEnvironment.getPhysicsSpace().add(((PhysicsObject) d).getPhysicsObject().getPhysicsSpace());
-			}
-			System.out.println((physicsEnvironment.getPhysicsSpace().getCharacterList().size()));
-			
+		if (d instanceof Bomb) {
+			physicsEnvironment.getPhysicsSpace().remove(((Bomb) d).getPhysicsObject());
+		}
+		if (d instanceof Key) {
+			physicsEnvironment.getPhysicsSpace().remove(((Key) d).getPhysicsObject());
+		}
+		if (d instanceof Door) {
+			physicsEnvironment.getPhysicsSpace().remove(((Door) d).getPhysicsObject());
 		}
 		return rootNode.detachChild(d.getSpatial()) != -1;
 	}

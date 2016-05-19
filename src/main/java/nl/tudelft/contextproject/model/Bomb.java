@@ -32,7 +32,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	 * @param z
 	 * 		The z coordinate of the bomb
 	 */
-	public Bomb(int x, int y, int z) {
+	public Bomb() {
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -41,13 +41,11 @@ public class Bomb extends Entity implements PhysicsObject {
 		matb.setColor("Color", ColorRGBA.White);
 		if (Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o") == null) {
 			sp = geometry;
-			sp.move(x, y, z);
 		} else {
 			Node nod = (Node) Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o");
 			nod.setMaterial(mat);
 			((Node) nod.getChild("Cylinder.001")).getChild(0).setMaterial(matb);
 			sp = nod;
-			sp.move(x, y, z);
 		}
 		
 	}

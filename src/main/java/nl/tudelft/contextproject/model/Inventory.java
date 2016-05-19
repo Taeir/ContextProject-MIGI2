@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import com.jme3.math.ColorRGBA;
 
-import nl.tudelft.contextproject.Main;
-
 /**
  * Class representing the players inventory.
  *
@@ -21,8 +19,7 @@ public class Inventory {
 	public Inventory() {
 		array = new ArrayList<Entity>();
 		keys = 0;
-		bombs = 1;
-		array.add(new Bomb(0, 0, 0));
+		bombs = 0;
 	}
 
 	/**

@@ -102,7 +102,6 @@ public class GameController extends Controller {
 	public void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
-		
 		int xStart = 0; 
 		int yStart = 0;
 		

@@ -18,7 +18,7 @@ public class DoorTest extends EntityTest {
 	public Entity getEntity() {
 		ColorRGBA color = new ColorRGBA();
 		color.set(ColorRGBA.Yellow);
-		return new Door(color, 0, 0, 0);
+		return new Door(color);
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class DoorTest extends EntityTest {
 		setupGeometryMock();
 		ColorRGBA color = new ColorRGBA();
 		color.set(ColorRGBA.Yellow);
-		door = new Door(color, 0, 0, 0);
+		door = new Door(color);
 	}
 
 	/**

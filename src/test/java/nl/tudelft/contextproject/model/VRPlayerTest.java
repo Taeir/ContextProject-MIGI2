@@ -126,4 +126,14 @@ public class VRPlayerTest extends EntityTest {
 			fail();
 		}
 	}
+	/**
+	 * Tests that the dropbomb method removes a bomb from your inventory.
+	 */
+	@Test 
+	public void testDropBomb() {
+		setupGeometryMock();
+		player.getInventory().add(new Bomb());
+		player.dropBomb();
+		assertTrue(player.getInventory().size() == 0);
+		}
 }

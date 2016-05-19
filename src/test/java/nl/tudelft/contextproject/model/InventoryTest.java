@@ -42,7 +42,7 @@ public class InventoryTest {
 	@Test
 	public void testAddKey() {
 		ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
+		Key key = new Key(color);
 		inv.add(key);
 		assertEquals(inv.getKey(ColorRGBA.Yellow).getColor(), (ColorRGBA.Yellow));
 	}
@@ -53,7 +53,7 @@ public class InventoryTest {
 	@Test 
 	public void testGetKey() {
 		ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
+		Key key = new Key(color);
 		inv.add(key);
 		Key key2 = inv.getKey(ColorRGBA.Yellow);
 		assertEquals(key, key2);
@@ -65,10 +65,10 @@ public class InventoryTest {
 	 */
 	@Test 
 	public void testBadWeatherGetKey() {
-		Bomb bomb = new Bomb(0, 0, 0);
+		Bomb bomb = new Bomb();
 		inv.add(bomb);
 		ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
+		Key key = new Key(color);
 		inv.add(key);
 		Key key2 = inv.getKey(ColorRGBA.Red);
 		assertEquals(key2, null);
@@ -80,7 +80,7 @@ public class InventoryTest {
 	 */
 	@Test 
 	public void testGetBomb() {
-		Bomb bomb = new Bomb(0, 0, 0);
+		Bomb bomb = new Bomb();
 		inv.add(bomb);
 		Bomb bomb2 = inv.getBomb();
 		assertEquals(bomb, bomb2);
@@ -93,7 +93,7 @@ public class InventoryTest {
 	@Test 
 	public void testBadWeatherGetBomb() {
 		ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
+		Key key = new Key(color);
 		inv.add(key);
 		Bomb bomb2 = inv.getBomb();
 		assertEquals(bomb2, null);
@@ -105,7 +105,7 @@ public class InventoryTest {
 	 */
 	@Test
 	public void testAddBomb() {
-		Bomb bomb = new Bomb(0, 0, 0);
+		Bomb bomb = new Bomb();
 		inv.add(bomb);
 		assertTrue(inv.array.get(0) instanceof Bomb);
 	}
@@ -115,7 +115,7 @@ public class InventoryTest {
 	 */
 	@Test
 	public void testContainsBomb() {
-		Bomb bomb = new Bomb(0, 0, 0);
+		Bomb bomb = new Bomb();
 		inv.add(bomb);
 		assertTrue(inv.containsBomb());
 	}
@@ -126,7 +126,7 @@ public class InventoryTest {
 	@Test
 	public void testContainsKey() {
 		ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
+		Key key = new Key(color);
 		inv.add(key);
 		assertTrue(inv.containsKey());
 	}
@@ -137,7 +137,7 @@ public class InventoryTest {
 	@Test
 	public void testContainsColorKey() {
 		ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
+		Key key = new Key(color);
 		inv.add(key);
 		assertTrue(inv.containsColorKey(ColorRGBA.Yellow));
 	}
@@ -147,10 +147,10 @@ public class InventoryTest {
 	 */
 	@Test
 	public void testBadWeatherContainsColorKey() {
-		Bomb bomb = new Bomb(0, 0, 0);
+		Bomb bomb = new Bomb();
 		inv.add(bomb);
 		ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
+		Key key = new Key(color);
 		inv.add(key);
 		assertFalse(inv.containsColorKey(ColorRGBA.Red));
 	}
@@ -159,7 +159,7 @@ public class InventoryTest {
 	 * Tests if the containsColorKey returns false if there are no keys in the inventory.
 	 */
 	public void testContainsNoKeys() {
-		Bomb bomb = new Bomb(0, 0, 0);
+		Bomb bomb = new Bomb();
 		inv.add(bomb);
 		assertFalse(inv.containsColorKey(ColorRGBA.Red));
 	}
@@ -169,7 +169,7 @@ public class InventoryTest {
 	 */
 	@Test
 	public void testRemoveBomb() {
-		Bomb bomb = new Bomb(0, 0, 0);
+		Bomb bomb = new Bomb();
 		inv.add(bomb);
 		inv.remove(bomb);
 		assertFalse(inv.containsBomb());
@@ -180,8 +180,8 @@ public class InventoryTest {
 	 */
 	@Test
 	public void testSize() {
-		Bomb bomb = new Bomb(0, 0, 0);
-		Key key = new Key(ColorRGBA.Blue, 0, 0, 0);
+		Bomb bomb = new Bomb();
+		Key key = new Key(ColorRGBA.Blue);
 		inv.add(bomb);
 		inv.add(bomb);
 		inv.add(key);
@@ -193,8 +193,9 @@ public class InventoryTest {
 	 */
 	@Test
 	public void testRemovesOnlyOneBomb() {
-		Bomb bomb = new Bomb(0, 0, 0);ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
+		Bomb bomb = new Bomb();
+		ColorRGBA color = ColorRGBA.Yellow;
+		Key key = new Key(color);
 		inv.add(key);
 		inv.add(bomb);
 		inv.add(bomb);
@@ -208,7 +209,7 @@ public class InventoryTest {
 	@Test
 	public void testRemoveKey() {
 		ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
+		Key key = new Key(color);
 		inv.add(key);
 		inv.remove(key);
 		assertFalse(inv.containsKey());
@@ -219,10 +220,10 @@ public class InventoryTest {
 	 */
 	@Test
 	public void testRemoveWrongKey() {
-		Bomb bomb = new Bomb(0, 0, 0);
+		Bomb bomb = new Bomb();
 		inv.add(bomb);
-		Key key = new Key(ColorRGBA.Yellow, 0, 0, 0);
-		Key key2 = new Key(ColorRGBA.Red, 0, 0, 0);
+		Key key = new Key(ColorRGBA.Yellow);
+		Key key2 = new Key(ColorRGBA.Red);
 		inv.add(key);
 		inv.remove(key2);
 		assertTrue(inv.containsKey());
@@ -233,11 +234,11 @@ public class InventoryTest {
 	 */
 	@Test
 	public void testRemoveNothing() {
-		Bomb bomb = new Bomb(0, 0, 0);
+		Bomb bomb = new Bomb();
 		inv.add(bomb);
 		ColorRGBA color = ColorRGBA.Yellow;
-		Key key = new Key(color, 0, 0, 0);
-		Door door = new Door(color, 0, 0, 0);
+		Key key = new Key(color);
+		Door door = new Door(color);
 		inv.add(key);
 		int currentsize = inv.size();
 		inv.remove(door);

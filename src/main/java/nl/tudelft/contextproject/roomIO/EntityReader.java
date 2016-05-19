@@ -1,8 +1,11 @@
 package nl.tudelft.contextproject.roomIO;
 
+import java.awt.PageAttributes.ColorType;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
+
+import com.jme3.math.ColorRGBA;
 
 import nl.tudelft.contextproject.model.Bomb;
 import nl.tudelft.contextproject.model.Door;
@@ -14,7 +17,7 @@ import nl.tudelft.contextproject.model.Key;
  */
 public final class EntityReader {
 	private EntityReader() {}
-	
+
 	/**
 	 * Read the specified amount of entities and add them to the list of entities.
 	 * @param entities The list to add all loaded entities to.
@@ -33,7 +36,7 @@ public final class EntityReader {
 			float posx = Float.parseFloat(line[0]) + xOffset;
 			float posy = Float.parseFloat(line[1]);
 			float posz = Float.parseFloat(line[2]) + yOffset;
-			entities.add(getEntity(line[3], posx, posy, posz, line));				
+			entities.add(getEntity(line[3], posx, posy, posz, line));		
 		}
 	}
 
@@ -49,17 +52,17 @@ public final class EntityReader {
 	protected static Entity getEntity(String type, float x, float y, float z, String[] data) {
 		Entity e;
 		switch (type) {
-			case "Key":
-				e = new Key();
-				break;
-			case "Door":
-				e = new Door();
-				break;
-			case "Bomb":
-				e = new Bomb();
-				break;
-			default:
-				throw new IllegalArgumentException(type + " is not a known Entity type!");
+		case "Key":
+			e = new Key(ColorRGBA.Yellow);
+			break;
+		case "Door":
+			e = new Door(ColorRGBA.Yellow);
+			break;
+		case "Bomb":
+			e = new Bomb();
+			break;
+		default:
+			throw new IllegalArgumentException(type + " is not a known Entity type!");
 		}
 		e.move(x, y, z);
 		return e;

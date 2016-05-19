@@ -18,7 +18,7 @@ public class KeyTest extends EntityTest {
 	public Entity getEntity() {
 		ColorRGBA color = new ColorRGBA();
 		color.set(ColorRGBA.Yellow);
-		return new Key(color, 0, 0, 0);
+		return new Key(color);
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class KeyTest extends EntityTest {
 		setupGeometryMock();
 		ColorRGBA color = new ColorRGBA();
 		color.set(ColorRGBA.Yellow);
-		key = new Key(color, 0, 0, 0);
+		key = new Key(color);
 		key.move(1, 1, 1);
 	}
 
