@@ -134,6 +134,7 @@ function switchTo(view) {
             //TODO
             break;
         case "RUNNING":
+            $(document.getElementById("selectTeam")).hide();
             break;
         case "PAUSED":
             //TODO
