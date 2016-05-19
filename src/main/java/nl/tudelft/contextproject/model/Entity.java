@@ -51,7 +51,7 @@ public abstract class Entity implements Drawable, TickListener {
 	 * Get the location of an entity.
 	 * @return
 	 * 			a Vector3f representing the location
-     */
+	 */
 	public Vector3f getLocation() {
 		return this.getSpatial().getLocalTranslation();
 	}
