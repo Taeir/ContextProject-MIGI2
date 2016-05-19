@@ -1,6 +1,5 @@
 # Ignore binary files
 *.class
-!scripts/*.class
 bin/
 target/
 
