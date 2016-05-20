@@ -237,7 +237,7 @@ public class Main extends SimpleApplication {
 		getListener().setRotation(getCamera().getRotation());
 
 		//Update BackgroundMusic
-		BackgroundMusic.getInstance().update(tpf);
+		BackgroundMusic.getInstance().update();
 	}
 	
 	/**

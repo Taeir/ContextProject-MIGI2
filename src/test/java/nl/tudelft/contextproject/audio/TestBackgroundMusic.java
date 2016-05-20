@@ -211,7 +211,7 @@ public class TestBackgroundMusic {
 	}
 	
 	/**
-	 * Tests if {@link BackgroundMusic#update(double)} does nothing when there is no current song.
+	 * Tests if {@link BackgroundMusic#update()} does nothing when there is no current song.
 	 */
 	@Test
 	public void testUpdate_noSong() {
@@ -223,14 +223,14 @@ public class TestBackgroundMusic {
 		reset(an);
 		
 		//Call the update
-		BackgroundMusic.getInstance().update(0D);
+		BackgroundMusic.getInstance().update();
 		
 		//The song should not have been changed any more.
 		verifyZeroInteractions(an);
 	}
 
 	/**
-	 * Tests if {@link BackgroundMusic#update(double)} does nothing when the current song is still
+	 * Tests if {@link BackgroundMusic#update()} does nothing when the current song is still
 	 * playing.
 	 */
 	@Test
@@ -245,7 +245,7 @@ public class TestBackgroundMusic {
 		when(an.getStatus()).thenReturn(Status.Playing);
 		
 		//Call the update
-		BackgroundMusic.getInstance().update(0D);
+		BackgroundMusic.getInstance().update();
 		
 		//We should not have been stoped
 		verify(an, times(0)).stop();
@@ -267,7 +267,7 @@ public class TestBackgroundMusic {
 		when(an.getStatus()).thenReturn(Status.Stopped);
 		
 		//Call the update
-		BackgroundMusic.getInstance().update(0D);
+		BackgroundMusic.getInstance().update();
 		
 		//We should have been explicitly stopped by the next method
 		verify(an, times(1)).stop();
