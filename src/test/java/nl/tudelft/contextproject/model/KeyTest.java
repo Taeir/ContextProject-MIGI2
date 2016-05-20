@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model;
 
 import static org.mockito.Mockito.*;
 
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 
 import org.junit.Before;
@@ -15,7 +16,9 @@ public class KeyTest extends EntityTest {
 
 	@Override
 	public Entity getEntity() {
-		return new Key();
+		ColorRGBA color = new ColorRGBA();
+		color.set(ColorRGBA.Yellow);
+		return new Key(color);
 	}
 	
 	/**
@@ -25,7 +28,10 @@ public class KeyTest extends EntityTest {
 	@Before
 	public void setUp() {
 		setupGeometryMock();
-		key = new Key();
+		ColorRGBA color = new ColorRGBA();
+		color.set(ColorRGBA.Yellow);
+		key = new Key(color);
+		key.move(1, 1, 1);
 	}
 
 	/**
@@ -38,4 +44,7 @@ public class KeyTest extends EntityTest {
 		key.update(0.f);
 		verifyZeroInteractions(mockedGeometry);
 	}
+	/**
+	 * Test if the move method works
+	 */
 }

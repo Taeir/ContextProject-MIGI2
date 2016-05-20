@@ -1,10 +1,11 @@
 package nl.tudelft.contextproject.webinterface;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.files.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
+import nl.tudelft.contextproject.qrgenerator.QRGenerator;
 
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Server;
@@ -33,6 +36,9 @@ public class WebServer {
 	
 	//The maximum amount of players in the game
 	public static final int MAX_PLAYERS = 4;
+	
+	//The Log of the web interface
+	private static final Log LOG = Log.getLog("WebInterface");
 	
 	private HashMap<String, WebClient> clients = new HashMap<>();
 	private boolean running;
@@ -70,6 +76,9 @@ public class WebServer {
 		//Check if the server is already running.
 		if (running) throw new IllegalStateException("Server is already running");
 		
+		//Generator QRcode on server start
+		QRGenerator.getInstance().generateQRcode();
+		
 		//Mark the server as now running and set the port
 		this.running = true;
 		this.port = port;
@@ -101,7 +110,7 @@ public class WebServer {
 		contextHandler.setContextPath("/");
 		
 		//Fetch pages from the webinterface folder
-		contextHandler.setResourceBase(new File(getClass().getResource("/webinterface").toURI()).getAbsolutePath());
+		contextHandler.setResourceBase(FileUtil.getFile("/webinterface/").getAbsolutePath());
 
 		//Set the session handler
 		contextHandler.setSessionHandler(sessionHandler);
@@ -200,14 +209,14 @@ public class WebServer {
 				Log.getLog("WebInterface").fine("Disallowed user from joining game: cannot join in progress game");
 				response.setStatus(HttpStatus.OK_200);
 				response.getWriter().write("IN_PROGRESS");
-			
+
 				return false;
 			}
 			
 			//Check if the game is full
 			if (getUniqueClientCount() >= MAX_PLAYERS) {
 				//The game is full, user cannot join.
-				Log.getLog("WebInterface").fine("Disallowing user from joining game: game is full");
+				LOG.fine("Disallowing user from joining game: game is full");
 				
 				response.setStatus(HttpStatus.OK_200);
 				response.getWriter().write("FULL");
@@ -216,7 +225,7 @@ public class WebServer {
 			}
 			
 			//User is allowed to join
-			Log.getLog("WebInterface").fine("Allowing user to join");
+			logAuthentication(request);
 
 			//Create a cookie
 			cookie = createCookie(request);
@@ -260,6 +269,30 @@ public class WebServer {
 		}
 	}
 	
+	/**
+	 * Logs the fact that the given request is being authenticated.
+	 * 
+	 * @param request
+	 * 		the request of the user to log
+	 */
+	private void logAuthentication(HttpServletRequest request) {
+		if (!LOG.getLogger().isLoggable(Level.FINE)) return;
+		
+		StringBuilder sb = new StringBuilder(64);
+		sb.append("Authenticating user:").append(System.lineSeparator())
+		  .append("  IP: ").append(request.getRemoteAddr()).append(System.lineSeparator())
+		  .append("  Headers:").append(System.lineSeparator());
+		
+		Enumeration<String> e = request.getHeaderNames();
+		while (e.hasMoreElements()) {
+			String k = e.nextElement();
+			String v = request.getHeader(k);
+			sb.append("    ").append(k).append(": ").append(v).append(System.lineSeparator());
+		}
+		
+		LOG.fine(sb.toString());
+	}
+
 	/**
 	 * Finds the cookie with the given name. Returns null if no such cookie is present in the
 	 * given array of cookies.

@@ -11,6 +11,9 @@ var gPlayer = {
 };
 var gMap = null;
 var gExplored = null;
+var gEntities = null;
+var lastPressedX = 0;
+var lastPressedY = 0;
 
 /**
  * Sends an authentication request to the server.
@@ -127,12 +130,13 @@ function switchTo(view) {
     
     console.log("[DEBUG] Switching to " + view);
     gView = view;
+    requestMap();
     switch (view) {
         case "WAITING":
             //TODO
             break;
         case "RUNNING":
-            //TODO
+            $(document.getElementById("selectTeam")).hide();
             break;
         case "PAUSED":
             //TODO
@@ -234,6 +238,8 @@ function requestMap() {
         //Update the map
         updateMap(data);
     }, "json");
+    setInterval(requestEntities, 1000);
+	setInterval(requestExplored, 1000);
 }
 
 /**
@@ -258,9 +264,66 @@ function requestExplored() {
 }
 
 /**
- * Updates the map with the data
+ * Request entities from the server.
+ */
+function requestEntities() {
+    console.log("[DEBUG] GETTING ENTITIES");
+    $.post("/entities", function(data, status) {
+        if (status != "success") {
+            //HTTP Error
+            showError("Something went wrong: [" + status + "] " + data);
+            return;
+        }
+
+        //Check if we are authorized
+        if (!checkAuthorized(data)) return;
+        
+        //Update the map with the entities
+        updateEntities(data);
+    }, "json");
+}
+
+/**
+ * Method that allows the generation of functions in a loop.
  *
- * @param team
+ * @param x
+ *      the x coordinate of the cell
+ * @param y
+ *      the y coordinate of the cell
+ */
+function createClickableFunc(x, y) {
+    return function() 
+        {
+            console.log("Cell y" + y + "x" + x + " clicked.");
+            lastPressedX = x;
+            lastPressedY = y;
+            $(document.getElementById('buttonDiv')).show(250);
+        };
+}
+
+/**
+ * Send a message to the server telling it to place a bomb at
+ * the given location.
+ */
+function placeBomb() {
+    if (gTeam == undefined) return;
+    
+    console.log("[DEBUG] Placing bomb");
+    $.post("/placebomb", {x: lastPressedX, y: lastPressedY}, function(data, status) {
+        if (status != "success") {
+            //HTTP Error
+            showError("Something went wrong: [" + status + "] " + data);
+            return;
+        }
+    }, "json");
+    
+    $(document.getElementById('buttonDiv')).hide(250);
+}
+
+/**
+ * Updates the map with the data.
+ *
+ * @param data
  *      the map data sent from the server
  */
 function updateMap(data) {
@@ -284,6 +347,8 @@ function updateMap(data) {
                 
                 //Set the cell's id to the x coordinate
                 cell.id = "y" + y + "x" + x;
+
+                cell.onclick = createClickableFunc(x, y);
                 
                 //Set the classname to the type of the tile
                 cell.className = getClassForTileType(data.tiles[x][y]);
@@ -314,9 +379,9 @@ function updateMap(data) {
 }
 
 /**
- * Updates the map with explored data
+ * Updates the map with explored data.
  *
- * @param team
+ * @param data
  *      the explored data sent from the server
  */
 function updateExplored(data) {
@@ -330,6 +395,54 @@ function updateExplored(data) {
     }
     
     gExplored = data;
+}
+
+/**
+ * Updates the map with all entities.
+ *
+ * @param data
+ *      the entity data sent from the server
+ */
+function updateEntities(data) {
+    if (gEntities != null) {
+        for (i = 0; i < gEntities.entities.length; i++) {
+            $(document.getElementById("y" + gEntities.entities[i].y + "x" + gEntities.entities[i].x))
+                .removeClass(getClassForEntityType(gEntities.entities[i].type));
+        }
+    }
+    
+    for (i = 0; i < data.entities.length; i++) {
+        $(document.getElementById("y" + data.entities[i].y + "x" + data.entities[i].x))
+            .addClass(getClassForEntityType(data.entities[i].type));
+    }
+    
+    gEntities = data;
+}
+
+/**
+ * Converts the entity type id to the correct css class.
+ *
+ * @param entityType
+ *      the entityType id sent from the server
+ */
+function getClassForEntityType(entityType) {
+    switch (entityType) {
+        case 0:
+            return "unknown";
+        case 1:
+            return "bomb";
+        case 2:
+            return "door";
+        case 3:
+            return "key";
+        case 4:
+            return "vrplayer";
+        case 5:
+            return "playertrigger"
+        default:
+            showError("Invalid tile type: " + entityType);
+            throw "Invalid tile type: " + entityType;
+    }
 }
 
 /**

@@ -1,8 +1,15 @@
 package nl.tudelft.contextproject.model;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Test;
+
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
+
+import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Abstract test class for Entity.
@@ -46,5 +53,71 @@ public abstract class EntityTest extends DrawableTest {
 		setupEntity();
 		entity.setState(EntityState.ALIVE);
 		assertEquals(entity.getState(), EntityState.ALIVE);
+	}
+	
+	/**
+	 * Test if moving an entity moves the entity.
+	 */
+	@Test
+	public void testMove() {
+		setupEntity();
+		Vector3f before = entity.getSpatial().getLocalTranslation();
+		Vector3f expected = before.clone().add(1.23f, 2.34f, 3.45f);
+		entity.move(1.23f, 2.34f, 3.45f);
+		Vector3f after = entity.getSpatial().getLocalTranslation();
+		assertEquals(expected.x, after.x, 10e-10);
+		assertEquals(expected.y, after.y, 10e-10);
+		assertEquals(expected.z, after.z, 10e-10);			
+	}
+	
+	/**
+	 * Test if collision detection returns true when it should.
+	 */
+	@Test
+	public void testPlayerCollisionTrue() {
+		TestUtil.mockGame();
+		setupEntity();
+		
+		Spatial eSpat = mock(Spatial.class);
+		Spatial pSpat = mock(Spatial.class);
+		entity.setSpatial(eSpat);		
+		Main.getInstance().getCurrentGame().getPlayer().setSpatial(pSpat);
+		
+		when(eSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+		when(pSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, .199f));
+		
+		assertTrue(entity.collidesWithPlayer(.2f));
+	}
+	
+	/**
+	 * Test if collision detection returns false when it should.
+	 */
+	@Test
+	public void testPlayerCollisionFalse() {
+		TestUtil.mockGame();
+		setupEntity();
+		
+		Spatial eSpat = mock(Spatial.class);
+		Spatial pSpat = mock(Spatial.class);
+		entity.setSpatial(eSpat);		
+		Main.getInstance().getCurrentGame().getPlayer().setSpatial(pSpat);
+		
+		when(eSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+		when(pSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, .201f));
+		
+		assertFalse(entity.collidesWithPlayer(.2f));
+	}
+
+	/**
+	 * Test if the getLocation method works.
+	 */
+	@Test
+	public void testGetLocation() {
+		TestUtil.mockGame();
+		setupEntity();
+		Spatial mockedSpatial = mock(Spatial.class);
+		entity.setSpatial(mockedSpatial);
+		entity.getLocation();
+		verify(mockedSpatial, times(1)).getLocalTranslation();
 	}
 }

@@ -99,7 +99,7 @@ public class WebTestBase {
 	 * 		a mocked HttpServletRequest
 	 */
 	public HttpServletRequest createMockedRequest(String id1, String id2, boolean auth) {
-		return createMockedRequest(id1, id2, auth, "GET", "/");
+		return createMockedRequest(id1, id2, auth, true, "/");
 	}
 	
 	/**
@@ -112,14 +112,14 @@ public class WebTestBase {
 	 * @param auth
 	 * 		if false, then getSession(false) will return null
 	 * @param method
-	 * 		the method (GET/POST) of the request
+	 * 		the method of the request. true = GET, false = POST
 	 * @param uri
 	 * 		the uri accessed (/index.html)
 	 * 
 	 * @return
 	 * 		a mocked HttpServletRequest
 	 */
-	public HttpServletRequest createMockedRequest(String id1, String id2, boolean auth, String method, String uri) {
+	public HttpServletRequest createMockedRequest(String id1, String id2, boolean auth, boolean method, String uri) {
 		//Mock the request
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		
@@ -138,7 +138,8 @@ public class WebTestBase {
 		}
 		
 		//Set the method (GET/POST)
-		when(request.getMethod()).thenReturn(method);
+		String sMethod = method ? "GET" : "POST";
+		when(request.getMethod()).thenReturn(sMethod);
 		
 		//Set the request URI (/index.html)
 		when(request.getRequestURI()).thenReturn(uri);

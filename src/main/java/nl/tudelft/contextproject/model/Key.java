@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
-
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -12,27 +11,32 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+
 import nl.tudelft.contextproject.Main;
 /**
  * Class representing a key.
  */
 public class Key extends Entity implements PhysicsObject {
-	private Geometry geometry;
 	private Spatial sp;
+	private ColorRGBA color;
+	private RigidBodyControl rb;
 	/**
 	 * Constructor for a key.
+	 * @param col
+	 * 		The color of the key
 	 */
-	public Key() {
+	public Key(ColorRGBA col) {
+		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
-		geometry = new Geometry("dink", cube1Mesh); 
+		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
 		} else {
 			sp = Main.getInstance().getAssetManager().loadModel("Models/key.j3o");
+			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+			mat.setColor("Color", color);
+			sp.setMaterial(mat);
 		}
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Yellow);
-		sp.setMaterial(mat);
 	}
 
 	@Override
@@ -50,7 +54,7 @@ public class Key extends Entity implements PhysicsObject {
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = geometry.getLocalTranslation();
+		Vector3f trans = sp.getLocalTranslation();
 		int x = (int) trans.x * resolution;
 		int y = (int) trans.y * resolution;
 		int width = resolution / 2;
@@ -61,9 +65,34 @@ public class Key extends Entity implements PhysicsObject {
 
 	@Override
 	public PhysicsControl getPhysicsObject() {
+		if (rb != null) return rb;
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
-		RigidBodyControl rigidBody = new RigidBodyControl(sceneShape, 0);
-		rigidBody.setPhysicsLocation(sp.getLocalTranslation());
-		return rigidBody;
+		rb = new RigidBodyControl(sceneShape, 0);
+		rb.setPhysicsLocation(sp.getLocalTranslation());
+		return rb;
+	}
+	
+	@Override
+	public void move(float x, float y, float z) {
+		sp.move(x, y, z);
+		if (rb == null) getPhysicsObject();
+		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
+	}
+	
+	/**
+	 * Gets the color of the key.
+	 * @return color of the key
+	 */
+	public ColorRGBA getColor() {
+		return color;
+	}
+	
+	/**
+	 * Sets the color of the key.
+	 * @param col
+	 * 		color that gets set
+	 */
+	public void setColor(ColorRGBA col) {
+		color = col;
 	}
 }

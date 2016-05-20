@@ -1,6 +1,12 @@
 package nl.tudelft.contextproject.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -8,7 +14,6 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
-import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 
@@ -16,8 +21,11 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.roomIO.RoomReader;
 
 /**
  * Controller for the main game.
@@ -33,6 +41,27 @@ public class GameController extends Controller {
 	public GameController(SimpleApplication app, Level level) {
 		super(app, "GameController");
 		game = new Game(level);
+	}
+	
+	/**
+	 * Create a game with a level loaded from a file.
+	 * @param app The main app that this controller is attached to.
+	 * @param folder The folder where to load the level from.
+	 */
+	public GameController(SimpleApplication app, String folder) {
+		super(app, "GameController");
+		Set<Entity> entities = ConcurrentHashMap.newKeySet();
+		List<Light> lights = new ArrayList<>();
+		try {
+			File file = RoomReader.getMapFile(folder);
+			String[] tmp = file.getName().split("_")[0].split("x");
+			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
+			RoomReader.importFile(folder, tiles, entities, lights, 0, 0);
+			Level level = new Level(tiles, lights);
+			game = new Game(level, new VRPlayer(), entities);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -65,6 +94,8 @@ public class GameController extends Controller {
 		addInputListener(game.getPlayer(), "Up");
 		addInputListener(game.getPlayer(), "Down");
 		addInputListener(game.getPlayer(), "Jump");
+		addInputListener(game.getPlayer(), "Bomb");
+		addInputListener(game.getPlayer(), "Pickup");
 	}
 
 	/**
@@ -74,7 +105,6 @@ public class GameController extends Controller {
 	public void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
-		
 		int xStart = 0; 
 		int yStart = 0;
 		
@@ -100,11 +130,6 @@ public class GameController extends Controller {
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-
-		PointLight pl = new PointLight(new Vector3f(25, 100, 25));
-		 pl.setColor(ColorRGBA.White);
-		 pl.setRadius(500);
-		addLight(pl);
 		 
 		AmbientLight al = new AmbientLight();
 		 al.setColor(ColorRGBA.White.mult(.5f));
@@ -142,7 +167,6 @@ public class GameController extends Controller {
 			}
 		}
 	}
-
 	/**
 	 * Getter for the current level.
 	 * @return The current level.
