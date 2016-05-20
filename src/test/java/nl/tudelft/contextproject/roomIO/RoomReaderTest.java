@@ -50,7 +50,7 @@ public class RoomReaderTest {
 		MazeTile[][] tiles = new MazeTile[50][50];
 		ArrayList<Entity> entities = new ArrayList<>();
 		ArrayList<Light> lights = new ArrayList<>();
-		RoomReader.importFile("/maps/correct", tiles, entities, lights, 0, 0);
+		RoomReader.importFile("/maps/correct/", tiles, entities, lights, 0, 0);
 		// no errors occurred.
 		assertTrue(entities.size() > 0);
 		assertTrue(lights.size() > 0);
@@ -62,7 +62,7 @@ public class RoomReaderTest {
 	 */
 	@Test (expected = FileNotFoundException.class)
 	public void testNonExistentFile() throws IOException {
-		RoomReader.importFile("/maps/fileNotFound", null, null, null, 0, 0);
+		RoomReader.importFile("/maps/fileNotFound/", null, null, null, 0, 0);
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class RoomReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testEmptyFile() throws IOException {
-		RoomReader.importFile("/maps/emptyMap", null, null, null, 0, 0);
+		RoomReader.importFile("/maps/emptyMap/", null, null, null, 0, 0);
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class RoomReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testSmallHeaderFile() throws IOException {
-		RoomReader.importFile("/maps/smallHeader", null, null, null, 0, 0);
+		RoomReader.importFile("/maps/smallHeader/", null, null, null, 0, 0);
 	}
 	
 	/**

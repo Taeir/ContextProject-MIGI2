@@ -21,6 +21,7 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
+import nl.tudelft.contextproject.files.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
@@ -48,6 +49,7 @@ public class Main extends SimpleApplication {
 	 * @param args run-specific arguments.
 	 */
 	public static void main(String[] args) {
+		FileUtil.init();
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
