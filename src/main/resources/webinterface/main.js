@@ -428,7 +428,7 @@ function updateEntities(data) {
 function getClassForEntityType(entityType) {
     switch (entityType) {
         case 0:
-            return "";
+            return "unknown";
         case 1:
             return "bomb";
         case 2:
@@ -437,6 +437,8 @@ function getClassForEntityType(entityType) {
             return "key";
         case 4:
             return "vrplayer";
+        case 5:
+            return "playertrigger"
         default:
             showError("Invalid tile type: " + entityType);
             throw "Invalid tile type: " + entityType;

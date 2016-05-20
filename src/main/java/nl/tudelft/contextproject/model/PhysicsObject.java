@@ -16,5 +16,4 @@ public interface PhysicsObject {
 	 * 		an object that implements PhysicsControl.
 	 */
 	public PhysicsControl getPhysicsObject();
-
 }
