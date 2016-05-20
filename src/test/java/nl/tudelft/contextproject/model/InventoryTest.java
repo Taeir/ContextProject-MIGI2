@@ -1,8 +1,6 @@
 package nl.tudelft.contextproject.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -158,6 +156,7 @@ public class InventoryTest {
 	/**
 	 * Tests if the containsColorKey returns false if there are no keys in the inventory.
 	 */
+	@Test
 	public void testContainsNoKeys() {
 		Bomb bomb = new Bomb();
 		inv.add(bomb);
@@ -185,7 +184,7 @@ public class InventoryTest {
 		inv.add(bomb);
 		inv.add(bomb);
 		inv.add(key);
-		assertTrue(inv.size() == 3);
+		assertSame(inv.size(), 3);
 	}
 
 	/**
@@ -200,7 +199,7 @@ public class InventoryTest {
 		inv.add(bomb);
 		inv.add(bomb);
 		inv.remove(bomb);
-		assertTrue(inv.size() == 2);
+		assertSame(inv.size(), 2);
 	}
 
 	/**
@@ -242,12 +241,12 @@ public class InventoryTest {
 		inv.add(key);
 		int currentsize = inv.size();
 		inv.remove(door);
-		assertTrue(currentsize == inv.size());
+		assertSame(currentsize, inv.size());
 	}
 
 	/**
 	 * Setup the mocks in the Main class.
-	 * This enables testing using {@link #getGeometry()}.
+	 * This method is copied from the Entity test.
 	 */
 	@SuppressWarnings("unchecked")
 	public void setupGeometryMock() {

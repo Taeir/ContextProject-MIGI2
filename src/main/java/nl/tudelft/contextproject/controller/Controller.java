@@ -13,10 +13,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Bomb;
-import nl.tudelft.contextproject.model.Door;
 import nl.tudelft.contextproject.model.Drawable;
-import nl.tudelft.contextproject.model.Key;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
 /**
