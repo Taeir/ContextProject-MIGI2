@@ -258,7 +258,53 @@ public class RandomLevelFactory implements LevelFactory {
 				map = hCorridor(map, prevCenter.getX(), currCenter.getX(), currCenter.getY());
 			}
 		}
+		
+		carveCorridorWalls(map);
 		return map;
+	}
+
+	/**
+	 * This method adds walls to corridors on the map.
+	 * Checks if a Tile is a corridor, if true add a wall to all Null TileTypes.
+	 * @param map
+	 * 				the map in which to place the corridor walls
+	 */
+	protected void carveCorridorWalls(TileType[][] map) {
+		int width = map.length;
+		int height = map[0].length;
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				if (map[i][j] == TileType.CORRIDOR) {
+					//Check North
+					if (i != 0) {
+						if (map[i - 1][j] == null) {
+							map[i - 1][j] = TileType.WALL;
+						}
+					}
+					
+					//Check East
+					if (j != width - 1) {
+						if (map[i][j + 1] == null) {
+							map[i][j + 1] = TileType.WALL;
+						}
+					}
+					
+					//Check South
+					if (i != height - 1) {
+						if (map[i + 1][j] == null) {
+							map[i + 1][j] = TileType.WALL;
+						}
+					}
+					
+					//Check West
+					if (j != 0) {
+						if (map[i][j - 1] == null) {
+							map[i][j - 1] = TileType.WALL;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
