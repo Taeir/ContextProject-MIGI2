@@ -40,7 +40,8 @@ public class Bomb extends Entity implements PhysicsObject {
 			nod.setMaterial(mat);
 			((Node) nod.getChild("Cylinder.001")).getChild(0).setMaterial(matb);
 			sp = nod;
-		}			
+		}
+		
 	}
 
 	@Override

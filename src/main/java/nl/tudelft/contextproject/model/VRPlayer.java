@@ -2,6 +2,8 @@ package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
 
+import java.util.Set;
+
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.input.controls.ActionListener;
@@ -39,7 +41,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	public static final float PLAYER_HEIGHT = 3f;
 	//Gravity axis of the player, should not be changed!
 	public static final int PLAYER_AXIS = 1;
-	
+
 	/**
 	 * Movement control constants.
 	 */
@@ -52,12 +54,13 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	private CharacterControl playerControl;
 	private boolean left, right, up, down;
 	private Vector3f walkDirection;
-
+	private Inventory inventory;
 	/**
 	 * Constructor for a default player.
 	 * This player is (for now) a red sphere.
 	 */
 	public VRPlayer() { 
+		inventory = new Inventory();
 		//Set geometry of player
 	}
 
@@ -121,7 +124,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	public void setCharacterControl(CharacterControl characterControl) {
 		this.playerControl = characterControl;
 	}
-	
+
 	/**
 	 * Get the player hit box.
 	 * 
@@ -169,15 +172,90 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 				playerControl.jump(); 
 			}
 			break;
+		case "Bomb":
+			if (isPressed) {
+				dropBomb();
+			}
+			break;
+		case "Pickup":
+			if (isPressed) {
+				pickUp();
+			}
+			break;
 		default:
 			//Do nothing otherwise
 			break;
 		}
 	}
+
+	/**
+	 * Player drops a bomb from his inventory.
+	 */
+	public void dropBomb() {
+		if (inventory.containsBomb()) {
+			Bomb bomb = new Bomb();
+			inventory.remove(bomb);
+			Vector3f vec = this.getSpatial().getLocalTranslation();
+			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
+			if (Main.getInstance().getCurrentGame() != null) {
+				Main.getInstance().getCurrentGame().addEntity(bomb);
+			}
+		}
+	}
 	
+	/**
+	 * Player picks up a nearby item.
+	 * Also opens nearby doors if possible
+	 */
+	public void pickUp() {
+		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
+		for (Entity ent : set) {
+			 if (ent.collidesWithPlayer(2f)) {
+				if (ent instanceof Bomb) {
+					inventory.add(new Bomb());
+					ent.setState(EntityState.DEAD);
+					return;
+				}
+				if (ent instanceof Key) {
+					Key key = (Key) ent;
+					inventory.add(new Key(key.getColor()));
+					ent.setState(EntityState.DEAD);
+					return;
+				}
+				if (ent instanceof Door) {
+					Door door = (Door) ent;
+					if (inventory.containsColorKey(door.getColor())) {
+						inventory.remove(inventory.getKey(door.getColor()));
+						ent.setState(EntityState.DEAD);
+						return;
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	public void move(float x, float y, float z) {
 		spatial.move(x, y, z);
 		getPhysicsObject().setPhysicsLocation(playerControl.getPhysicsLocation().add(x, y, z));
+	}
+
+	/**
+	 * Method used for testing.
+	 * Returns the player's inventory.
+	 * @return The player's inventory
+	 */
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	/**
+	 * Method used for testing.
+	 * Sets a player's inventory
+	 * @param inv
+	 * 		Inventory to be set
+	 */
+	public void setInventory(Inventory inv) {
+		inventory = inv;
 	}
 }

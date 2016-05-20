@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -12,7 +13,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Bomb;
+import nl.tudelft.contextproject.model.Door;
 import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.Key;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
 /**
@@ -90,6 +94,9 @@ public abstract class Controller extends AbstractAppState {
 	 * @return True when the Drawable was removed, false otherwise.
 	 */
 	public boolean removeDrawable(Drawable d) {
+		if (d instanceof PhysicsObject) {
+			physicsEnvironment.getPhysicsSpace().remove(((PhysicsObject) d).getPhysicsObject());
+		}
 		return rootNode.detachChild(d.getSpatial()) != -1;
 	}
 

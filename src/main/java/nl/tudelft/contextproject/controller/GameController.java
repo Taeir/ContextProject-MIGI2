@@ -94,6 +94,8 @@ public class GameController extends Controller {
 		addInputListener(game.getPlayer(), "Up");
 		addInputListener(game.getPlayer(), "Down");
 		addInputListener(game.getPlayer(), "Jump");
+		addInputListener(game.getPlayer(), "Bomb");
+		addInputListener(game.getPlayer(), "Pickup");
 	}
 
 	/**
@@ -103,7 +105,6 @@ public class GameController extends Controller {
 	public void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
-		
 		int xStart = 0; 
 		int yStart = 0;
 		
@@ -166,7 +167,6 @@ public class GameController extends Controller {
 			}
 		}
 	}
-
 	/**
 	 * Getter for the current level.
 	 * @return The current level.

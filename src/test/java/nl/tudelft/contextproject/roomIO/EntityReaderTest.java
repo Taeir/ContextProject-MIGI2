@@ -59,7 +59,8 @@ public class EntityReaderTest {
 	 */
 	@Test
 	public void testGetEntityBomb() throws ScriptLoaderException {
-		Entity res = EntityReader.getEntity("Bomb", 0, 0, 0, null, "/");
+		String[] data = new String[]{"9.5 ", ".5 ", "5.5 ", "Key ", "1/0/0/0"};
+		Entity res = EntityReader.getEntity("Bomb", 0, 0, 0, data, "/");
 		assertEquals(Bomb.class, res.getClass());
 	}
 	
@@ -69,7 +70,8 @@ public class EntityReaderTest {
 	 */
 	@Test
 	public void testGetEntityKey() throws ScriptLoaderException {
-		Entity res = EntityReader.getEntity("Key", 0, 0, 0, null, "/");
+		String[] data = new String[]{"9.5 ", ".5 ", "5.5 ", "Door ", "1/0/0/0"};
+		Entity res = EntityReader.getEntity("Key", 0, 0, 0, data, "/");
 		assertEquals(Key.class, res.getClass());
 	}
 	
@@ -79,7 +81,8 @@ public class EntityReaderTest {
 	 */
 	@Test
 	public void testGetEntityDoor() throws ScriptLoaderException {
-		Entity res = EntityReader.getEntity("Door", 0, 0, 0, null, "/");
+		String[] data = new String[]{"9.5 ", ".5", "5.5 ", "Door ", "1/0/0/0"};
+		Entity res = EntityReader.getEntity("Door", 0, 0, 0, data, "/");
 		assertEquals(Door.class, res.getClass());
 	}
 	
@@ -91,7 +94,7 @@ public class EntityReaderTest {
 	@Test
 	public void testReadEntities() throws IOException, ScriptLoaderException {
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
-		String in = "0 1 2 Door";
+		String in = "0 1 2 Door 1/0/0/0";
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		EntityReader.readEntities(entities, 1, 0, 0, br, "/");
 		assertEquals(1, entities.size());
