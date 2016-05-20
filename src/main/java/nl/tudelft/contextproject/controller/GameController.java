@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -44,21 +46,22 @@ public class GameController extends Controller {
 	/**
 	 * Create a game with a level loaded from a file.
 	 * @param app The main app that this controller is attached to.
-	 * @param file The file where to load the level from.
+	 * @param folder The folder where to load the level from.
 	 */
-	public GameController(SimpleApplication app, File file) {
+	public GameController(SimpleApplication app, String folder) {
 		super(app, "GameController");
-		List<Entity> entities = new ArrayList<>();
+		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		List<Light> lights = new ArrayList<>();
-		String[] tmp = file.getName().split("_")[0].split("x");
-		MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
 		try {
-			RoomReader.importFile(file, tiles, entities, lights, 0, 0);
+			File file = RoomReader.getMapFile(folder);
+			String[] tmp = file.getName().split("_")[0].split("x");
+			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
+			RoomReader.importFile(folder, tiles, entities, lights, 0, 0);
+			Level level = new Level(tiles, lights);
+			game = new Game(level, new VRPlayer(), entities);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Level level = new Level(tiles, lights);
-		game = new Game(level, new VRPlayer(), entities);
 	}
 
 	@Override
@@ -91,6 +94,8 @@ public class GameController extends Controller {
 		addInputListener(game.getPlayer(), "Up");
 		addInputListener(game.getPlayer(), "Down");
 		addInputListener(game.getPlayer(), "Jump");
+		addInputListener(game.getPlayer(), "Bomb");
+		addInputListener(game.getPlayer(), "Pickup");
 	}
 
 	/**
@@ -100,7 +105,6 @@ public class GameController extends Controller {
 	public void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
-		
 		int xStart = 0; 
 		int yStart = 0;
 		
@@ -163,7 +167,6 @@ public class GameController extends Controller {
 			}
 		}
 	}
-
 	/**
 	 * Getter for the current level.
 	 * @return The current level.

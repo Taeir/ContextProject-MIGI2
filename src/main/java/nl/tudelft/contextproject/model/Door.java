@@ -20,22 +20,25 @@ import nl.tudelft.contextproject.Main;
  * Class representing a door.
  */
 public class Door extends Entity implements PhysicsObject {
-	private Geometry geometry;
 	private Spatial sp;
+	private ColorRGBA color;
 	private RigidBodyControl rb;
 	/**
 	 * Constructor for a door.
+	 * @param col
+	 * 		Color of the door's lock
 	 */
-	public Door() {
+	public Door(ColorRGBA col) {
+		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
-		geometry = new Geometry("dink", cube1Mesh); 
+		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.Brown);
 		Material mat2 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat2.setColor("Color", ColorRGBA.Gray);
 		Material mat3 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat2.setColor("Color", ColorRGBA.Yellow);
+		mat3.setColor("Color", color);
 		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
 		}
@@ -61,7 +64,7 @@ public class Door extends Entity implements PhysicsObject {
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = geometry.getLocalTranslation();
+		Vector3f trans = sp.getLocalTranslation();
 		int x = (int) trans.x * resolution;
 		int y = (int) trans.y * resolution;
 		int width = resolution / 2;
@@ -89,5 +92,22 @@ public class Door extends Entity implements PhysicsObject {
 		if (rb == null) getPhysicsObject();
 		sp.move(x, y, z);
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
+	}
+	
+	/**
+	 * Sets the color of the doors lock.
+	 * @param col
+	 * 		The color of the doors lock
+	 */
+	public void setColor(ColorRGBA col) {
+		color = col;
+	}
+	
+	/**
+	 * Gets the color of the doors lock.
+	 * @return The color of the doors lock
+	 */
+	public ColorRGBA getColor() {
+		return color;
 	}
 }

@@ -44,20 +44,20 @@ public class WaitingControllerTest {
 	}
 	
 	/**
+	 * Test if creating a WaitingController creates a full game.
+	 */
+	@Test
+	public void testFileReading() {
+		assertFalse(instance.getGame().getEntities().isEmpty());
+		assertNotNull(instance.getGame().getPlayer());
+		assertNotNull(instance.getGame().getLevel());
+	}
+	
+	/**
 	 * Test if the game state is WAITING.
 	 */
 	@Test
 	public void testGetGameState() {
 		assertEquals(GameState.WAITING, instance.getGameState());
-	}
-	
-	/**
-	 * Test getting the map file.
-	 */
-	@Test
-	public void testGetFile() {
-		assertTrue(WaitingController.getFile().getName().endsWith(".crf"));
-		assertTrue(WaitingController.getFile().getParent().endsWith("\\maps")
-				   || WaitingController.getFile().getParent().endsWith("/maps"));
 	}
 }

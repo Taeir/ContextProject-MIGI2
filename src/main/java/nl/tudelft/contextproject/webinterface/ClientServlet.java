@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.tudelft.contextproject.model.Bomb;
 import nl.tudelft.contextproject.util.JSONUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -85,6 +86,10 @@ public class ClientServlet extends DefaultServlet {
 
 			case "entities":
 				getEntities(request, response);
+				break;
+
+			case "placebomb":
+				placeBomb(request, response);
 				break;
 
 			default:
@@ -256,11 +261,40 @@ public class ClientServlet extends DefaultServlet {
 
 		if (!checkAuthorized(client, response, true)) return;
 
-		JSONObject json = JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities());
+		JSONObject json = JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer());
 
 		response.setStatus(HttpStatus.OK_200);
 		response.setContentType("text/json");
 		response.getWriter().write(json.toString());
+	}
+
+	/**
+	 * Handles a placeBomb request.
+	 *
+	 * @param request
+	 * 		the HTTP request
+	 * @param response
+	 * 		the HTTP response object
+	 *
+	 * @throws IOException
+	 * 		if sending the response to the client causes an IOException
+	 */
+	public void placeBomb(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//Get the WebClient of the request
+		WebClient client = server.getUser(request);
+
+		//Check authorized
+		if (!checkAuthorized(client, response, false)) return;
+
+		int xCoordinate = Integer.parseInt(request.getParameter("x"));
+		int yCoordinate = Integer.parseInt(request.getParameter("y"));
+
+		Bomb newBomb = new Bomb();
+		newBomb.move(xCoordinate, 1, yCoordinate);
+		Main.getInstance().getCurrentGame().addEntity(newBomb);
+
+		response.setStatus(HttpStatus.OK_200);
+		response.getWriter().write("BOMB HAS BEEN PLACED.");
 	}
 	
 	/**

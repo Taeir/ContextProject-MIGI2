@@ -5,7 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
@@ -63,7 +64,7 @@ public class GameControllerTest extends ControllerTest {
 		inputManager = mock(InputManager.class);
 		controller.setInputManager(inputManager);
 
-		LinkedList<Entity> entities = new LinkedList<>();
+		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		Entity entity = mock(Entity.class);
 		when(entity.getSpatial()).thenReturn(mock(Spatial.class));
 		when(entity.getState()).thenReturn(EntityState.ALIVE);
@@ -92,7 +93,7 @@ public class GameControllerTest extends ControllerTest {
 	 * Test if initializing adds a keyListener for pausing the game.
 	 */
 	@Test
-	public void testInitialize() {
+	public void testInitialize2() {
 		AppStateManager sm = mock(AppStateManager.class);
 		controller.initialize(sm, main);
 		verify(inputManager, times(1)).addListener(any(InputListener.class), eq("pause"));
@@ -112,7 +113,7 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testUpdateEntityNEW() {
-		List<Entity> list = controller.getGame().getEntities();
+		Set<Entity> set = controller.getGame().getEntities();
 		Entity eMock = mock(Entity.class);
 		Node rn = mock(Node.class);
 		Geometry geom = mock(Geometry.class);
@@ -121,7 +122,7 @@ public class GameControllerTest extends ControllerTest {
 		when(eMock.getSpatial()).thenReturn(geom);
 		
 
-		list.add(eMock);
+		set.add(eMock);
 
 		controller.setRootNode(rn);
 		
@@ -139,7 +140,7 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testUpdateEntityDEAD() {
-		Entity entity = controller.getGame().getEntities().get(0);
+		Entity entity = controller.getGame().getEntities().iterator().next();
 
 		when(entity.getState()).thenReturn(EntityState.DEAD);	
 
@@ -155,7 +156,7 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testUpdateEntityALIVE() {
-		Entity entity = controller.getGame().getEntities().get(0);
+		Entity entity = controller.getGame().getEntities().iterator().next();
 		when(entity.getState()).thenReturn(EntityState.ALIVE);
 		controller.updateEntities(0.5f);
 		
@@ -203,7 +204,7 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testCleanUpEntities() {
-		Entity entity = game.getEntities().get(0);
+		Entity entity = game.getEntities().iterator().next();
 		controller.cleanup();
 		verify(entity, times(1)).setState(EntityState.NEW);
 	}

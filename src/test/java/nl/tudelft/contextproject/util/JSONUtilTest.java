@@ -1,17 +1,19 @@
 package nl.tudelft.contextproject.util;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Bomb;
 import nl.tudelft.contextproject.model.Entity;
+import nl.tudelft.contextproject.model.VRPlayer;
 import nl.tudelft.contextproject.test.TestUtil;
 import org.json.JSONObject;
 import org.junit.AfterClass;
@@ -114,13 +116,25 @@ public class JSONUtilTest {
      */
     @Test
     public void testEntitiesToJson() {
-        List<Entity> list = new ArrayList<>();
+        Set<Entity> list = ConcurrentHashMap.newKeySet();
 
         Bomb bomb = new Bomb();
-
         list.add(bomb);
 
-        JSONObject json = JSONUtil.entitiesToJson(list);
+        JSONObject json = JSONUtil.entitiesToJson(list, new VRPlayer());
         assertNotNull(json.getJSONArray("entities"));
+    }
+
+
+    /**
+     * Test for getting a json representing an entity.
+     */
+    @Test
+    public void testEntityToJson() {
+        Bomb bomb = new Bomb();
+        JSONObject json = JSONUtil.entityToJson(bomb);
+        assertEquals(json.getInt("x"), 0);
+        assertEquals(json.getInt("y"), 0);
+        assertEquals(json.getInt("type"), 1);
     }
 }

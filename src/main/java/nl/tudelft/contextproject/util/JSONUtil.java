@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.List;
+import java.util.Set;
 
 import nl.tudelft.contextproject.model.Entity;
 import org.json.JSONArray;
@@ -54,26 +54,44 @@ public final class JSONUtil {
     }
 
     /**
-     * Convert a list of entities to a JSONObject
-     * representing this list.
+     * Convert a set of entities to a JSONObject representing this list.
+     * 
      * @param entities
      *          the entities to convert
+     * @param player
+     *          the player
      * @return
      *          a JSONObject representing the entities
      */
-    public static JSONObject entitiesToJson(List<Entity> entities) {
+    public static JSONObject entitiesToJson(Set<Entity> entities, Entity player) {
         JSONObject json = new JSONObject();
 
         JSONArray jArray = new JSONArray();
         for (Entity e : entities) {
-            JSONObject entity = new JSONObject();
-            entity.put("x", (int) Math.floor(e.getLocation().getX()));
-            entity.put("y", (int) Math.floor(e.getLocation().getZ()));
-            entity.put("type", EntityUtil.getJSONCoded(e.getClass().getSimpleName()));
+            JSONObject entity = entityToJson(e);
             jArray.put(entity);
         }
 
+        JSONObject entity = entityToJson(player);
+        jArray.put(entity);
+
         json.put("entities", jArray);
         return json;
+    }
+
+    /**
+     * Turn one entity into a json object.
+     *
+     * @param e
+     *          the entity to turn into a json
+     * @return
+     *          the json
+     */
+    protected static JSONObject entityToJson(Entity e) {
+        JSONObject entity = new JSONObject();
+        entity.put("x", Math.round(e.getLocation().getX()));
+        entity.put("y", Math.round(e.getLocation().getZ()));
+        entity.put("type", EntityUtil.getJSONCoded(e.getClass().getSimpleName()));
+        return entity;
     }
 }

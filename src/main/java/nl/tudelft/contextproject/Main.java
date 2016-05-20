@@ -25,6 +25,7 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
+import nl.tudelft.contextproject.files.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
@@ -52,6 +53,7 @@ public class Main extends SimpleApplication {
 	 * @param args run-specific arguments.
 	 */
 	public static void main(String[] args) {
+		FileUtil.init();
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
@@ -91,17 +93,16 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Get the instance of the current game.
-	 * @return the current instance of the game.
-	 * @throws IllegalStateException when the current controller is not a game Controller.
+	 * @return the current instance of the game or null when no game is running.
 	 */
-	public Game getCurrentGame() throws IllegalStateException {
+	public Game getCurrentGame() {
 		if (controller instanceof GameController) {
 			return ((GameController) controller).getGame();				
 		}
 		if (controller instanceof PauseController) {
 			return ((PauseController) controller).getPausedController().getGame();				
 		}
-		throw new IllegalStateException("The game is not running!");
+		return null;
 	}
 	
 	/**
@@ -184,8 +185,7 @@ public class Main extends SimpleApplication {
 			im.addMapping("Up", new JoyAxisTrigger(0, 0, true));
 			im.addMapping("Down", new JoyAxisTrigger(0, 0, false));
 			im.addMapping("Left", new JoyAxisTrigger(0, 1, true));
-			im.addMapping("Right", new JoyAxisTrigger(0, 1, false));
-			
+			im.addMapping("Right", new JoyAxisTrigger(0, 1, false));			
 						
 			j.getButton("0").assignButton("Jump");				// A
 			j.getButton("3").assignButton("SIMPLEAPP_Exit");	// Y
@@ -197,6 +197,8 @@ public class Main extends SimpleApplication {
 			im.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
 			im.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
 			im.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+			getInputManager().addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
+			getInputManager().addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
 		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
