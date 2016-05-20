@@ -68,11 +68,15 @@ public final class EntityReader {
 	protected static Entity getEntity(String type, float x, float y, float z, String[] data, String path) throws ScriptLoaderException {
 		ScriptLoader sl = new ScriptLoader(EntityReader.class.getResource(path).getPath());
 		Entity e;
+		if (data == null) throw new IllegalArgumentException("Data is null");
 		switch (type) {
 		case "Key":
+			System.out.println(data.length);
+			if (data.length < 5) throw new IllegalArgumentException("Key must specify at least 5 values.");
 			e = new Key(LightReader.getColor(data[4]));
 			break;
 		case "Door":
+			if (data.length < 5) throw new IllegalArgumentException("Door must specify at least 5 values.");
 			e = new Door(LightReader.getColor(data[4]));
 			break;
 		case "Bomb":
