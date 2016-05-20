@@ -96,17 +96,4 @@ public class Key extends Entity implements PhysicsObject {
 	public void setColor(ColorRGBA col) {
 		color = col;
 	}
-	
-	/**
-	 * Method to move the key.
-	 * @param x
-	 * 		The x coordinate of the key
-	 * @param y
-	 * 		The y coordinate of the key
-	 * @param z
-	 * 		The z coordinate of the key
-	 */
-	public void move(int x, int y, int z) {
-		sp.move(x, y, z);
-	}
 }

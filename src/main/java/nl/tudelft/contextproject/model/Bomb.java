@@ -84,17 +84,4 @@ public class Bomb extends Entity implements PhysicsObject {
 		if (rb == null) getPhysicsObject();
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
-	
-	/**
-	 * Method to move the bomb.
-	 * @param x
-	 * 		The x coordinate of the bomb
-	 * @param y
-	 * 		The y coordinate of the bomb
-	 * @param z
-	 * 		The z coordinate of the bomb
-	 */
-	public void move(int x, int y, int z) {
-		sp.move(x, y, z);
-	}
 }
