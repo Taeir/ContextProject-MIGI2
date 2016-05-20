@@ -7,12 +7,16 @@ import java.util.List;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.input.CameraInput;
 import com.jme3.input.InputManager;
+import com.jme3.input.Joystick;
 import com.jme3.input.KeyInput;
+import com.jme3.input.controls.JoyAxisTrigger;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.system.AppSettings;
 
 import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.audio.BackgroundMusic;
@@ -53,6 +57,10 @@ public class Main extends SimpleApplication {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
+		
+		AppSettings settings = new AppSettings(true);
+        settings.setUseJoysticks(true);
+        main.setSettings(settings);
 		main.start();
 	}
 
@@ -139,7 +147,8 @@ public class Main extends SimpleApplication {
 		setDisplayStatView(debugHud);
 		
 		//TODO if VR support is implemented the flyby camera should be disabled
-		getFlyByCamera().setMoveSpeed(100);
+		getFlyByCamera().setZoomSpeed(0);
+		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
@@ -168,14 +177,30 @@ public class Main extends SimpleApplication {
 	 * Setup all the key mappings.
 	 */
 	protected void setupControlMappings() {
-		getInputManager().addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
-		getInputManager().addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
-		getInputManager().addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
-		getInputManager().addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
-		getInputManager().addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
-		getInputManager().addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-		getInputManager().addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
-		getInputManager().addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
+		InputManager im = getInputManager();		
+		if (isControllerConnected()) {
+			getFlyByCamera().onAction(CameraInput.FLYCAM_INVERTY, false, 0);
+			Joystick j = im.getJoysticks()[0];
+		
+			im.addMapping("Up", new JoyAxisTrigger(0, 0, true));
+			im.addMapping("Down", new JoyAxisTrigger(0, 0, false));
+			im.addMapping("Left", new JoyAxisTrigger(0, 1, true));
+			im.addMapping("Right", new JoyAxisTrigger(0, 1, false));			
+						
+			j.getButton("0").assignButton("Jump");				// A
+			j.getButton("3").assignButton("SIMPLEAPP_Exit");	// Y
+			j.getButton("2").assignButton("Bomb");				// X
+			j.getButton("1").assignButton("Pickup");			// B
+		} else {
+			im.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
+			im.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
+			im.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
+			im.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
+			im.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+			getInputManager().addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
+			getInputManager().addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
+		}
+		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
 	
 	//TODO this will be removed when camera type is changed
@@ -270,6 +295,15 @@ public class Main extends SimpleApplication {
 	 */
 	public static boolean isDebugHudShown() {
 		return debugHud;
+	}
+
+	/**
+	 * Check if a controller is connected.
+	 * @return True if a controller is connected, false otherwise.
+	 */
+	public boolean isControllerConnected() {
+		Joystick[] sticks = getInputManager().getJoysticks();
+		return sticks != null && sticks.length > 0;
 	}
 	
 	
