@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model;
+package nl.tudelft.contextproject.model.entities;
 
 import java.awt.Graphics2D;
 
@@ -14,6 +14,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.PhysicsObject;
 
 /**
  * Class representing a bomb.
@@ -33,6 +34,7 @@ public class Bomb extends Entity implements PhysicsObject {
 		mat.setColor("Color", ColorRGBA.Red);
 		Material matb = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		matb.setColor("Color", ColorRGBA.White);
+
 		if (Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o") == null) {
 			sp = geometry;
 		} else {
@@ -72,6 +74,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public PhysicsControl getPhysicsObject() {
 		if (rb != null) return rb;
+
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
 		rb = new RigidBodyControl(sceneShape, 0);
 		rb.setPhysicsLocation(sp.getLocalTranslation());
@@ -82,6 +85,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	public void move(float x, float y, float z) {
 		sp.move(x, y, z);
 		if (rb == null) getPhysicsObject();
+
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
 }

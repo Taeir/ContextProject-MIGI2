@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model;
+package nl.tudelft.contextproject.model.entities;
 
 import java.awt.Graphics2D;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -13,6 +13,8 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.PhysicsObject;
+
 /**
  * Class representing a key.
  */
@@ -20,15 +22,18 @@ public class Key extends Entity implements PhysicsObject {
 	private Spatial sp;
 	private ColorRGBA color;
 	private RigidBodyControl rb;
+
 	/**
 	 * Constructor for a key.
+	 *
 	 * @param col
 	 * 		The color of the key
 	 */
 	public Key(ColorRGBA col) {
 		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
-		Geometry geometry = new Geometry("dink", cube1Mesh); 
+		Geometry geometry = new Geometry("dink", cube1Mesh);
+
 		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
 		} else {
@@ -66,6 +71,7 @@ public class Key extends Entity implements PhysicsObject {
 	@Override
 	public PhysicsControl getPhysicsObject() {
 		if (rb != null) return rb;
+
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
 		rb = new RigidBodyControl(sceneShape, 0);
 		rb.setPhysicsLocation(sp.getLocalTranslation());
@@ -76,12 +82,15 @@ public class Key extends Entity implements PhysicsObject {
 	public void move(float x, float y, float z) {
 		sp.move(x, y, z);
 		if (rb == null) getPhysicsObject();
+
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
 	
 	/**
 	 * Gets the color of the key.
-	 * @return color of the key
+	 *
+	 * @return
+	 * 		the color of the key
 	 */
 	public ColorRGBA getColor() {
 		return color;
@@ -89,8 +98,9 @@ public class Key extends Entity implements PhysicsObject {
 	
 	/**
 	 * Sets the color of the key.
+	 *
 	 * @param col
-	 * 		color that gets set
+	 * 		the color that gets set
 	 */
 	public void setColor(ColorRGBA col) {
 		color = col;

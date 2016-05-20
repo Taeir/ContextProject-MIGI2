@@ -13,10 +13,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Bomb;
-import nl.tudelft.contextproject.model.Door;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.Key;
+import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.model.entities.Door;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.Key;
 import nl.tudelft.contextproject.test.TestUtil;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 

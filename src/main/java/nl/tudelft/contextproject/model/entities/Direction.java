@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model;
+package nl.tudelft.contextproject.model.entities;
 
 /**
  * Enum for directions.

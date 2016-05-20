@@ -19,11 +19,11 @@ public class GeneratorRoom {
      * Create a Generator Room.
      *
      * @param xCoord
-     *          the starting x coordinate
+     *      the starting x coordinate
      * @param yCoord
-     *          the starting y coordinate
+     *      the starting y coordinate
      * @param size
-     *          the size object representing the size of the room
+     *      the size object representing the size of the room
      */
     public GeneratorRoom(int xCoord, int yCoord, Size size) {
         this.xLeft = xCoord;
@@ -38,10 +38,10 @@ public class GeneratorRoom {
      * Method to determine of two rooms intersect with each other.
      *
      * @param room
-     *          the room to check the intersection on
+     *      the room to check the intersection on
      *
      * @return
-     *          true if the rooms intersect, false if not
+     *      true if the rooms intersect, false if not
      */
     public boolean intersects(GeneratorRoom room) {
         return
@@ -53,7 +53,7 @@ public class GeneratorRoom {
 
     /**
      * @return
-     *          the xLeft coordinate
+     *      the xLeft coordinate
      */
     public int getxLeft() {
         return xLeft;
@@ -61,7 +61,7 @@ public class GeneratorRoom {
 
     /**
      * @return
-     *          the xRight coordinate
+     *      the xRight coordinate
      */
     public int getxRight() {
         return xRight;
@@ -69,7 +69,7 @@ public class GeneratorRoom {
 
     /**
      * @return
-     *          the yLeft coordinate
+     *      the yLeft coordinate
      */
     public int getyLeft() {
         return yLeft;
@@ -77,7 +77,7 @@ public class GeneratorRoom {
 
     /**
      * @return
-     *          the yRight coordinate
+     *      the yRight coordinate
      */
     public int getyRight() {
         return yRight;
@@ -85,7 +85,7 @@ public class GeneratorRoom {
 
     /**
      * @return
-     *          the vector representing the center of the room
+     *      the vector representing the center of the room
      */
     public Vector2f getCenter() {
         return center;

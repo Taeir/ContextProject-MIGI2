@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model;
+package nl.tudelft.contextproject.model.entities;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

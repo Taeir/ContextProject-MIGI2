@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Set;
 
-import nl.tudelft.contextproject.model.Entity;
+import nl.tudelft.contextproject.model.entities.Entity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

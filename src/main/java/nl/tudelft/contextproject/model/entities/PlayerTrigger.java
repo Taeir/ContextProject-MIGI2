@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model;
+package nl.tudelft.contextproject.model.entities;
 
 import java.awt.Graphics2D;
 
@@ -10,6 +10,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.TickListener;
 
 /**
  * Entity that triggers an action when the player is close enough.
@@ -24,10 +25,15 @@ public class PlayerTrigger extends Entity {
 	
 	/**
 	 * Constructor for a PlayerTrigger entity.
-	 * @param triggerDist How close the player needs to be to trigger the action.
-	 * @param coolDown How long (in seconds) the delay is between two triggers.
-	 * @param action A TickListener that is updated when the action is triggered.
-	 * @param position The position of the playerTrigger in the world.
+	 *
+	 * @param triggerDist
+	 * 		how close the player needs to be to trigger the action
+	 * @param coolDown
+	 * 		how long (in seconds) the delay is between two triggers
+	 * @param action
+	 * 		a TickListener that is updated when the action is triggered
+	 * @param position
+	 * 		the position of the playerTrigger in the world
 	 */
 	public PlayerTrigger(float triggerDist, float coolDown, TickListener action, Vector3f position) {
 		this.triggerDist = triggerDist;
@@ -40,6 +46,7 @@ public class PlayerTrigger extends Entity {
 	@Override
 	public Spatial getSpatial() {
 		if (sp != null) return sp;
+
 		Box b = new Box(.4f, .01f, .4f);
 		this.sp = new Geometry("plate", b);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material

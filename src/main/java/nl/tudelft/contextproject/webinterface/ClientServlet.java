@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.tudelft.contextproject.model.Bomb;
+import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.util.JSONUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;

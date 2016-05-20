@@ -11,7 +11,7 @@ import java.util.Set;
 import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.util.FileUtil;
-import nl.tudelft.contextproject.model.Entity;
+import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 

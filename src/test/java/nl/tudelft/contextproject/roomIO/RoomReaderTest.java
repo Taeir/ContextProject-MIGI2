@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Entity;
+import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.test.TestUtil;
 

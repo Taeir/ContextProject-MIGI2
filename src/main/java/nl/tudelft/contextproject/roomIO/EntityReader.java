@@ -7,14 +7,14 @@ import java.util.Set;
 import com.jme3.math.Vector3f;
 
 
-import nl.tudelft.contextproject.model.Bomb;
-import nl.tudelft.contextproject.model.Direction;
-import nl.tudelft.contextproject.model.Door;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.Key;
-import nl.tudelft.contextproject.model.PlayerTrigger;
+import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.model.entities.Direction;
+import nl.tudelft.contextproject.model.entities.Door;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.Key;
+import nl.tudelft.contextproject.model.entities.PlayerTrigger;
 import nl.tudelft.contextproject.model.TickListener;
-import nl.tudelft.contextproject.model.WallFrame;
+import nl.tudelft.contextproject.model.entities.WallFrame;
 import nl.tudelft.contextproject.util.ScriptLoader;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 

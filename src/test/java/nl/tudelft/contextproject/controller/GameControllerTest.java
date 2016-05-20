@@ -20,10 +20,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.EntityState;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.VRPlayer;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 

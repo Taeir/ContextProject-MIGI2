@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model;
+package nl.tudelft.contextproject.model.entities;
 
 import java.awt.Graphics2D;
 
@@ -19,9 +19,13 @@ public class WallFrame extends Entity {
 
 	/**
 	 * Constructor for the wall frame.
-	 * @param position The position of the wall frame.
-	 * @param texture The name of the resource for the displayed image.
-	 * @param orientation The orientation of the panel.
+	 *
+	 * @param position
+	 * 		the position of the wall frame
+	 * @param texture
+	 * 		the name of the resource for the displayed image
+	 * @param orientation
+	 * 		the orientation of the panel
 	 */
 	public WallFrame(Vector3f position, String texture, Direction orientation) {
 		Quad b = new Quad(1, 3);
@@ -43,8 +47,9 @@ public class WallFrame extends Entity {
 	
 	/**
 	 * Rotate and move the frame to snap to the side of a wall.
-	 * @param orientation The orientation of the frame.
 	 *
+	 * @param orientation
+	 * 		the orientation of the frame
 	 */
 	protected void snapToWall(Direction orientation) {
 		switch (orientation) {
@@ -64,7 +69,7 @@ public class WallFrame extends Entity {
 				spatial.move(-.5f, 0, -.49f);
 				break;
 			default: 
-				throw new IllegalStateException("Illegal orientation " + orientation);
+				throw new IllegalStateException("Illegal orientation " + orientation + ".");
 		}
 	}
 

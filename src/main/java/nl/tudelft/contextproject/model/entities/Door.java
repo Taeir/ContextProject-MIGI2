@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model;
+package nl.tudelft.contextproject.model.entities;
 
 import java.awt.Graphics2D;
 
@@ -15,6 +15,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.PhysicsObject;
 
 /**
  * Class representing a door.
@@ -23,8 +24,10 @@ public class Door extends Entity implements PhysicsObject {
 	private Spatial sp;
 	private ColorRGBA color;
 	private RigidBodyControl rb;
+
 	/**
 	 * Constructor for a door.
+	 *
 	 * @param col
 	 * 		Color of the door's lock
 	 */
@@ -39,6 +42,7 @@ public class Door extends Entity implements PhysicsObject {
 		mat2.setColor("Color", ColorRGBA.Gray);
 		Material mat3 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat3.setColor("Color", color);
+
 		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
 		}
@@ -78,6 +82,7 @@ public class Door extends Entity implements PhysicsObject {
 	@Override
 	public PhysicsControl getPhysicsObject() {
 		if (rb != null) return rb;
+
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
 		rb = new RigidBodyControl(sceneShape, 0);
 		rb.setPhysicsLocation(sp.getLocalTranslation());
@@ -87,6 +92,7 @@ public class Door extends Entity implements PhysicsObject {
 	@Override
 	public void move(float x, float y, float z) {
 		if (rb == null) getPhysicsObject();
+
 		sp.move(x, y, z);
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}

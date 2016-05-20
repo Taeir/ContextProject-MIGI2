@@ -11,9 +11,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Bomb;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.VRPlayer;
+import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.test.TestUtil;
 import org.json.JSONObject;
 import org.junit.AfterClass;
