@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -48,7 +50,7 @@ public class GameController extends Controller {
 	 */
 	public GameController(SimpleApplication app, File file) {
 		super(app, "GameController");
-		List<Entity> entities = new ArrayList<>();
+		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		List<Light> lights = new ArrayList<>();
 		String[] tmp = file.getName().split("_")[0].split("x");
 		MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];

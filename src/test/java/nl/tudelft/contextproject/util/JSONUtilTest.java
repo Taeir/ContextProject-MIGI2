@@ -6,8 +6,8 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Bomb;
@@ -114,7 +114,7 @@ public class JSONUtilTest {
      */
     @Test
     public void testEntitiesToJson() {
-        List<Entity> list = new ArrayList<>();
+        Set<Entity> list = ConcurrentHashMap.newKeySet();
 
         Bomb bomb = new Bomb();
 

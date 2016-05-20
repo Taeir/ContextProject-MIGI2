@@ -2,7 +2,7 @@ package nl.tudelft.contextproject.roomIO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import nl.tudelft.contextproject.model.Bomb;
 import nl.tudelft.contextproject.model.Door;
@@ -17,14 +17,14 @@ public final class EntityReader {
 	
 	/**
 	 * Read the specified amount of entities and add them to the list of entities.
-	 * @param entities The list to add all loaded entities to.
+	 * @param entities The set to add all loaded entities to.
 	 * @param entityCount The number of entities to load.
 	 * @param xOffset The horizontal offset used for all entities.
 	 * @param yOffset The vertical offset used for all entities.
 	 * @param br The bufferedReader to read from.
 	 * @throws IOException when reading from the reader goes wrong.
 	 */
-	public static void readEntities(List<Entity> entities, int entityCount, int xOffset, int yOffset, BufferedReader br) throws IOException {
+	public static void readEntities(Set<Entity> entities, int entityCount, int xOffset, int yOffset, BufferedReader br) throws IOException {
 		for (int i = 0; i < entityCount; i++) {
 			String in = br.readLine();
 			if (in == null) throw new IllegalArgumentException("Empty line where some data was expected when loading entity[" + i + "].");

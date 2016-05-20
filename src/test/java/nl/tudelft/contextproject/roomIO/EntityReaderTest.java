@@ -5,7 +5,8 @@ import static org.junit.Assert.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -83,12 +84,12 @@ public class EntityReaderTest {
 	 */
 	@Test
 	public void testReadEntities() throws IOException {
-		ArrayList<Entity> entities = new ArrayList<>();
+		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		String in = "0 1 2 Door";
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		EntityReader.readEntities(entities, 1, 0, 0, br);
 		assertEquals(1, entities.size());
-		assertEquals(Door.class, entities.get(0).getClass());
+		assertEquals(Door.class, entities.iterator().next().getClass());
 	}
 	
 	/**
@@ -97,7 +98,7 @@ public class EntityReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadEntitiesNull() throws IOException {
-		ArrayList<Entity> entities = new ArrayList<>();
+		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		String in = "";
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		EntityReader.readEntities(entities, 1, 0, 0, br);
@@ -109,7 +110,7 @@ public class EntityReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadEntitiesTooFewArguments() throws IOException {
-		ArrayList<Entity> entities = new ArrayList<>();
+		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		String in = "1 1 EntityName";
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		EntityReader.readEntities(entities, 1, 0, 0, br);

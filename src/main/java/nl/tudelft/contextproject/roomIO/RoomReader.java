@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import com.jme3.light.Light;
 import nl.tudelft.contextproject.model.Entity;
@@ -28,7 +29,7 @@ public final class RoomReader {
 	 * @param yOffset The vertical offset that is used for moving all loaded items.
 	 * @throws IOException When something goes wrong.
 	 */
-	public static void importFile(File file, MazeTile[][] tiles, List<Entity> entities, List<Light> lights, int xOffset, int yOffset) throws IOException {
+	public static void importFile(File file, MazeTile[][] tiles, Set<Entity> entities, List<Light> lights, int xOffset, int yOffset) throws IOException {
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String line = br.readLine();
 			while (line != null && line.startsWith("#")) {
