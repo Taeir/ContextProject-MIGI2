@@ -66,9 +66,9 @@ public class RandomLevelFactory implements LevelFactory {
 
 		ArrayList<Light> lights = new ArrayList<>(1);
 		PointLight p = new PointLight();
-		p.setPosition(new Vector3f(MAX_HEIGHT / 2, 100, MAX_WIDTH / 2));
+		p.setPosition(new Vector3f(MAX_HEIGHT / 2, 10, MAX_WIDTH / 2));
 		p.setColor(ColorRGBA.randomColor());
-		p.setRadius(200);
+		p.setRadius(100);
 		lights.add(p);
 		return new Level(mazeTiles, lights);
 	}
