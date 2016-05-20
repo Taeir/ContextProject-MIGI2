@@ -269,13 +269,27 @@ public class RandomLevelFactory implements LevelFactory {
 	 * @param map
 	 * 				the map in which to place the corridor walls
 	 */
-	protected void carveCorridorWalls(TileType[][] map) {
+	protected static void carveCorridorWalls(TileType[][] map) {
 		int width = map.length;
-		int height = map[0].length;
+		int heigth = map[0].length;
 		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
+			for (int j = 0; j < heigth; j++) {
 				if (map[i][j] == TileType.CORRIDOR) {
 					//Check North
+					if (j != 0) {
+						if (map[i][j - 1] == null) {
+							map[i][j - 1] = TileType.WALL;
+						}
+					}
+					
+					//Check South
+					if (j != heigth - 1) {
+						if (map[i][j + 1] == null) {
+							map[i][j + 1] = TileType.WALL;
+						}
+					}
+					
+					//Check West
 					if (i != 0) {
 						if (map[i - 1][j] == null) {
 							map[i - 1][j] = TileType.WALL;
@@ -283,23 +297,9 @@ public class RandomLevelFactory implements LevelFactory {
 					}
 					
 					//Check East
-					if (j != width - 1) {
-						if (map[i][j + 1] == null) {
-							map[i][j + 1] = TileType.WALL;
-						}
-					}
-					
-					//Check South
-					if (i != height - 1) {
+					if (i != width - 1) {
 						if (map[i + 1][j] == null) {
 							map[i + 1][j] = TileType.WALL;
-						}
-					}
-					
-					//Check West
-					if (j != 0) {
-						if (map[i][j - 1] == null) {
-							map[i][j - 1] = TileType.WALL;
 						}
 					}
 				}

@@ -19,7 +19,6 @@ public class RandomLevelFactoryTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	private RandomLevelFactory factory;
-	private TileType[][] baseMap;
 
 	/**
 	 * Create the factory used for all the testing and set the seed
@@ -30,7 +29,6 @@ public class RandomLevelFactoryTest {
 	public void setUp() {
 		factory = new RandomLevelFactory(1, false);
 		factory.createRNG(0);
-		baseMap = createBaseTileTypeMap();
 	}
 
 	/**
@@ -175,11 +173,39 @@ public class RandomLevelFactoryTest {
 	}
 
 	/**
-	 * Test if a corridor north of a tile is carved correctly.
+	 * Test if a corridor North of a tile is carved correctly.
 	 */
 	@Test
 	public void testCarveCorridorNorthCorrect() {
-		fail();
+		TileType[][] testMap = new TileType[1][2];
+		testMap[0][1] = TileType.CORRIDOR;
+		RandomLevelFactory.carveCorridorWalls(testMap);
+		assertEquals(TileType.WALL, testMap[0][0]);
+	}
+	
+	/**
+	 * Test if a corridor North of a tile is not carved if not possible.
+	 */
+	@Test
+	public void testCarveCorridorNorthAlreadyFilled() {
+		TileType[][] testMap = new TileType[1][2];
+		testMap[0][0] = TileType.FLOOR;
+		testMap[0][1] = TileType.CORRIDOR;
+		RandomLevelFactory.carveCorridorWalls(testMap);
+		assertEquals(TileType.FLOOR, testMap[0][0]);
+	}
+	
+	/**
+	 * Test if a corridor North of a tile is not carved if not possible.
+	 */
+	@Test
+	public void testCarveCorridorAllDirectionsNotPossible() {
+		TileType[][] testMap1 = new TileType[1][1];
+		TileType[][] testMap2 = new TileType[1][1];
+		testMap1[0][0] = TileType.CORRIDOR;
+		testMap2[0][0] = TileType.CORRIDOR;
+		RandomLevelFactory.carveCorridorWalls(testMap1);
+		assertTrue(equalTileTypeMap(testMap2, testMap1));
 	}
 
 	/**
