@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Set;
 
-import com.jme3.math.ColorRGBA;
-
 import com.jme3.math.Vector3f;
 
 

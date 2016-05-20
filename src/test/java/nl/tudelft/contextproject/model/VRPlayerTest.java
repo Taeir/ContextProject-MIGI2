@@ -1,8 +1,6 @@
 package nl.tudelft.contextproject.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -78,9 +76,9 @@ public class VRPlayerTest extends EntityTest {
 	 * Test if the spatial is an instance of CharacterControl.
 	 */
 	@Test
-	public void testGetSpatielInstance() {
+	public void testGetSpatialInstance() {
 		setupGeometryMock();
-		assertTrue(player.getPhysicsObject() instanceof CharacterControl);
+		assertNotNull(player.getPhysicsObject());
 	}
 
 	/**
@@ -90,12 +88,8 @@ public class VRPlayerTest extends EntityTest {
 	public void testGetSpatialCheckFallspeed() {
 		setupGeometryMock();
 		Object ob = player.getPhysicsObject();
-		if (ob instanceof CharacterControl) {
-			CharacterControl playerControl = (CharacterControl) ob;
-			assertEquals(playerControl.getFallSpeed(), VRPlayer.FALL_SPEED, EPSILON);
-		} else {
-			fail();
-		}
+		CharacterControl playerControl = (CharacterControl) ob;
+		assertEquals(playerControl.getFallSpeed(), VRPlayer.FALL_SPEED, EPSILON);
 	}
 
 	/**
@@ -105,12 +99,8 @@ public class VRPlayerTest extends EntityTest {
 	public void testGetSpatialCheckJumpSpeed() {
 		setupGeometryMock();
 		Object ob = player.getPhysicsObject();
-		if (ob instanceof CharacterControl) {
-			CharacterControl playerControl = (CharacterControl) ob;
-			assertEquals(playerControl.getJumpSpeed(), VRPlayer.JUMP_SPEED, EPSILON);
-		} else {
-			fail();
-		}
+		CharacterControl playerControl = (CharacterControl) ob;
+		assertEquals(playerControl.getJumpSpeed(), VRPlayer.JUMP_SPEED, EPSILON);
 	}
 
 	/**
@@ -120,12 +110,8 @@ public class VRPlayerTest extends EntityTest {
 	public void testGetSpatialCheckGravity() {
 		setupGeometryMock();
 		Object ob = player.getPhysicsObject();
-		if (ob instanceof CharacterControl) {
-			CharacterControl playerControl = (CharacterControl) ob;
-			assertEquals(playerControl.getGravity(), VRPlayer.PLAYER_GRAVITY, EPSILON);
-		} else {
-			fail();
-		}
+		CharacterControl playerControl = (CharacterControl) ob;
+		assertEquals(playerControl.getGravity(), VRPlayer.PLAYER_GRAVITY, EPSILON);
 	}
 
 	/**
@@ -136,17 +122,17 @@ public class VRPlayerTest extends EntityTest {
 		setupGeometryMock();
 		player.getInventory().add(new Bomb());
 		player.dropBomb();
-		assertTrue(player.getInventory().size() == 0);
+		assertSame(player.getInventory().size(), 0);
 	}
 
 	/**
 	 * tests that the dropbomb method doesn't remove a bomb when there is none.
 	 */
 	@Test
-	public void testDropnoBomb() {
+	public void testDropNoBomb() {
 		setupGeometryMock();
 		player.getInventory().add(new Key(ColorRGBA.Yellow));
 		player.dropBomb();
-		assertTrue(player.getInventory().size() == 1);
+		assertSame(player.getInventory().size(), 1);
 	}
 }

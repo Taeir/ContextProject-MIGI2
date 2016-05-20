@@ -276,31 +276,23 @@ public class RandomLevelFactory implements LevelFactory {
 			for (int j = 0; j < heigth; j++) {
 				if (map[i][j] == TileType.CORRIDOR) {
 					//Check North
-					if (j != 0) {
-						if (map[i][j - 1] == null) {
-							map[i][j - 1] = TileType.WALL;
-						}
+					if (j != 0 && map[i][j - 1] == null) {
+						map[i][j - 1] = TileType.WALL;
 					}
 					
 					//Check South
-					if (j != heigth - 1) {
-						if (map[i][j + 1] == null) {
-							map[i][j + 1] = TileType.WALL;
-						}
+					if (j != heigth - 1 && map[i][j + 1] == null) {
+						map[i][j + 1] = TileType.WALL;
 					}
 					
 					//Check West
-					if (i != 0) {
-						if (map[i - 1][j] == null) {
-							map[i - 1][j] = TileType.WALL;
-						}
+					if (i != 0 && map[i - 1][j] == null) {
+						map[i - 1][j] = TileType.WALL;
 					}
 					
 					//Check East
-					if (i != width - 1) {
-						if (map[i + 1][j] == null) {
-							map[i + 1][j] = TileType.WALL;
-						}
+					if (i != width - 1 && map[i + 1][j] == null) {
+						map[i + 1][j] = TileType.WALL;
 					}
 				}
 			}

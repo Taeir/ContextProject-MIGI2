@@ -49,9 +49,6 @@ public class Door extends Entity implements PhysicsObject {
 			geometry = (Geometry) ((Node) node.getChild("Cube.001")).getChild(0);
 			geometry.setMaterial(mat3);
 		}
-		if (sp instanceof Geometry) {
-			geometry = (Geometry) sp;
-		}
 	}
 
 	@Override
