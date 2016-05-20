@@ -392,7 +392,7 @@ Here old items from previous sprints that were not included in the backlog or un
 <td>The architecture design needs to have a section about dependencies.</td>
 </tr>
 <tr>
-<td>Create Retrospect Sprint 4</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/201 #201 Create Retrospect Sprint 4]</td>
 <td>Taico</td>
 <td>-</td>
 <td>1</td>
