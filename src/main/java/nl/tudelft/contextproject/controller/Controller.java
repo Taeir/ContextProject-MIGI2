@@ -94,14 +94,8 @@ public abstract class Controller extends AbstractAppState {
 	 * @return True when the Drawable was removed, false otherwise.
 	 */
 	public boolean removeDrawable(Drawable d) {
-		if (d instanceof Bomb) {
-			physicsEnvironment.getPhysicsSpace().remove(((Bomb) d).getPhysicsObject());
-		}
-		if (d instanceof Key) {
-			physicsEnvironment.getPhysicsSpace().remove(((Key) d).getPhysicsObject());
-		}
-		if (d instanceof Door) {
-			physicsEnvironment.getPhysicsSpace().remove(((Door) d).getPhysicsObject());
+		if (d instanceof PhysicsObject) {
+			physicsEnvironment.getPhysicsSpace().remove(((PhysicsObject) d).getPhysicsObject());
 		}
 		return rootNode.detachChild(d.getSpatial()) != -1;
 	}
