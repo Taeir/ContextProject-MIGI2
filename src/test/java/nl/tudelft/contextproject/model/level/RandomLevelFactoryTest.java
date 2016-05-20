@@ -207,7 +207,7 @@ public class RandomLevelFactoryTest {
 	}
 	
 	/**
-	 * Test if a corridor North of a tile is not carved if not possible.
+	 * Test if a corridor South of a tile is not carved if not possible.
 	 */
 	@Test
 	public void testCarveCorridorSouthAlreadyFilled() {
@@ -219,7 +219,7 @@ public class RandomLevelFactoryTest {
 	}
 	
 	/**
-	 * Test if a corridor North of a tile is carved correctly.
+	 * Test if a corridor West of a tile is carved correctly.
 	 */
 	@Test
 	public void testCarveCorridorWestCorrect() {
@@ -230,7 +230,7 @@ public class RandomLevelFactoryTest {
 	}
 	
 	/**
-	 * Test if a corridor North of a tile is not carved if not possible.
+	 * Test if a corridor West of a tile is not carved if not possible.
 	 */
 	@Test
 	public void testCarveCorridorWestAlreadyFilled() {
@@ -242,7 +242,7 @@ public class RandomLevelFactoryTest {
 	}
 	
 	/**
-	 * Test if a corridor North of a tile is carved correctly.
+	 * Test if a corridor East of a tile is carved correctly.
 	 */
 	@Test
 	public void testCarveCorridorEastCorrect() {
@@ -253,7 +253,7 @@ public class RandomLevelFactoryTest {
 	}
 	
 	/**
-	 * Test if a corridor North of a tile is not carved if not possible.
+	 * Test if a corridor East of a tile is not carved if not possible.
 	 */
 	@Test
 	public void testCarveCorridorEastAlreadyFilled() {
@@ -265,7 +265,7 @@ public class RandomLevelFactoryTest {
 	}
 	
 	/**
-	 * Test if a corridor North of a tile is not carved if not possible.
+	 * Test if corridor carving does nothing if corridor is one edge of the map.
 	 */
 	@Test
 	public void testCarveCorridorAllDirectionsNotPossible() {
@@ -274,6 +274,23 @@ public class RandomLevelFactoryTest {
 		testMap1[0][0] = TileType.CORRIDOR;
 		testMap2[0][0] = TileType.CORRIDOR;
 		RandomLevelFactory.carveCorridorWalls(testMap1);
+		assertTrue(equalTileTypeMap(testMap2, testMap1));
+	}
+	
+	/**
+	 * Test if carving happens in all directions at the same time.
+	 * Note that this shouldn't happen in game as it will close in the player, however
+	 * this method should still make this possible.
+	 */
+	@Test
+	public void testCarveCorridorAllDirections() {
+		TileType[][] testMap1 = createBaseTileTypeMap();
+		TileType[][]	testMap2 = createBaseTileTypeMap();
+		RandomLevelFactory.carveCorridorWalls(testMap1);
+		testMap2[0][1] = TileType.WALL;
+		testMap2[1][0] = TileType.WALL;
+		testMap2[1][2] = TileType.WALL;
+		testMap2[2][1] = TileType.WALL;
 		assertTrue(equalTileTypeMap(testMap2, testMap1));
 	}
 
