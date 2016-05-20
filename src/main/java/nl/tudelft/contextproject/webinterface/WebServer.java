@@ -35,6 +35,9 @@ public class WebServer {
 	//The maximum amount of players in the game
 	public static final int MAX_PLAYERS = 4;
 	
+	//The Log of the web interface
+	private static final Log LOG = Log.getLog("WebInterface");
+	
 	private HashMap<String, WebClient> clients = new HashMap<>();
 	private boolean running;
 	private int port;
@@ -204,14 +207,14 @@ public class WebServer {
 				Log.getLog("WebInterface").fine("Disallowed user from joining game: cannot join in progress game");
 				response.setStatus(HttpStatus.OK_200);
 				response.getWriter().write("IN_PROGRESS");
-			
+
 				return false;
 			}
 			
 			//Check if the game is full
 			if (getUniqueClientCount() >= MAX_PLAYERS) {
 				//The game is full, user cannot join.
-				Log.getLog("WebInterface").fine("Disallowing user from joining game: game is full");
+				LOG.fine("Disallowing user from joining game: game is full");
 				
 				response.setStatus(HttpStatus.OK_200);
 				response.getWriter().write("FULL");

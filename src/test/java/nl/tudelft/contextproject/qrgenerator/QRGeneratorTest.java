@@ -13,8 +13,7 @@ import nl.tudelft.contextproject.Main;
  */
 public class QRGeneratorTest {
 
-	private final String testIP = "111.111.111.111";	
-	private final String testURL = "https://" + testIP + ":" + Main.PORT_NUMBER + "/";	
+	private static final String TEST_URL = "https://111.111.111.111:" + Main.PORT_NUMBER + "/";	
 	
 	private QRGenerator qrGenerator;
 	
@@ -48,8 +47,8 @@ public class QRGeneratorTest {
 	 */
 	@Test
 	public void testSetGetURL() {
-		qrGenerator.setURL(testURL);
-		assertEquals(testURL, qrGenerator.getURL());
+		qrGenerator.setURL(TEST_URL);
+		assertEquals(TEST_URL, qrGenerator.getURL());
 	}
 	
 }
