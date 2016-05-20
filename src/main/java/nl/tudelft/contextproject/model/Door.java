@@ -20,7 +20,6 @@ import nl.tudelft.contextproject.Main;
  * Class representing a door.
  */
 public class Door extends Entity implements PhysicsObject {
-	private Geometry geometry;
 	private Spatial sp;
 	private ColorRGBA color;
 	private RigidBodyControl rb;
@@ -32,7 +31,7 @@ public class Door extends Entity implements PhysicsObject {
 	public Door(ColorRGBA col) {
 		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
-		geometry = new Geometry("dink", cube1Mesh); 
+		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.Brown);
@@ -65,7 +64,7 @@ public class Door extends Entity implements PhysicsObject {
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = geometry.getLocalTranslation();
+		Vector3f trans = sp.getLocalTranslation();
 		int x = (int) trans.x * resolution;
 		int y = (int) trans.y * resolution;
 		int width = resolution / 2;

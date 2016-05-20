@@ -17,7 +17,6 @@ import nl.tudelft.contextproject.Main;
  * Class representing a key.
  */
 public class Key extends Entity implements PhysicsObject {
-	private Geometry geometry;
 	private Spatial sp;
 	private ColorRGBA color;
 	private RigidBodyControl rb;
@@ -29,7 +28,7 @@ public class Key extends Entity implements PhysicsObject {
 	public Key(ColorRGBA col) {
 		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
-		geometry = new Geometry("dink", cube1Mesh); 
+		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
 		} else {
@@ -55,7 +54,7 @@ public class Key extends Entity implements PhysicsObject {
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = geometry.getLocalTranslation();
+		Vector3f trans = sp.getLocalTranslation();
 		int x = (int) trans.x * resolution;
 		int y = (int) trans.y * resolution;
 		int width = resolution / 2;

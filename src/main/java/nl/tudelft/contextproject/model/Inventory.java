@@ -17,9 +17,9 @@ public class Inventory {
 	 * Constructor for the inventory, starts empty with 0 keys and doors.
 	 */
 	public Inventory() {
-		array = new ArrayList<Entity>();
-		keys = 0;
-		bombs = 0;
+		this.array = new ArrayList<Entity>();
+		this.keys = 0;
+		this.bombs = 0;
 	}
 
 	/**

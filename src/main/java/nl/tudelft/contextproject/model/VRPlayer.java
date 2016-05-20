@@ -1,10 +1,8 @@
 package nl.tudelft.contextproject.model;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
@@ -210,11 +208,9 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * Also opens nearby doors if possible
 	 */
 	public void pickUp() {
-		Vector3f vec = this.getSpatial().getLocalTranslation();
 		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
 		for (Entity ent : set) {
-			Vector3f vec2 = ent.getSpatial().getLocalTranslation();
-			if (Math.abs((int) vec.x - vec2.x) <= 2 && Math.abs((int) vec.y - vec2.y) <= 2 && Math.abs((int) vec.z - vec2.z) <= 2) {
+			 if (ent.collidesWithPlayer(2f)) {
 				if (ent instanceof Bomb) {
 					inventory.add(new Bomb());
 					ent.setState(EntityState.DEAD);
