@@ -221,6 +221,28 @@ public class ClientServletTest extends WebTestBase {
 	}
 
 	/**
+	 * Test method for {@link ClientServlet#doPost}, when posting to /entities.
+	 *
+	 * @throws Exception
+	 * 		if an exception occurs calling doPost of the servlet.
+	 */
+	@Test
+	public void testDoPost_placebomb() throws Exception {
+		//Create a request to get the entities
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/placebomb");
+		HttpServletResponse response = createMockedResponse();
+
+		//Ensure that the original method does not get called
+		doNothing().when(servlet).placeBomb(any(), any());
+
+		//Call the post
+		servlet.doPost(request, response);
+
+		//Verify that the getEntities method has been called
+		verify(servlet).placeBomb(request, response);
+	}
+
+	/**
 	 * Test method for {@link ClientServlet#checkAuthorized}, when the user is not authorized, and
 	 * the response is in plain text.
 	 * 
@@ -580,6 +602,47 @@ public class ClientServletTest extends WebTestBase {
 		verify(response).setContentType(JSON_CONTENT_TYPE);
 
 		verify(response.getWriter()).write(matches("\\{.*\\}"));
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#placeBomb}, when the user is unauthorized.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling placeBomb of the servlet.
+	 */
+	@Test
+	public void testPlaceBomb_unauthorized() throws IOException {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/placebomb");
+		HttpServletResponse response = createMockedResponse();
+
+		servlet.placeBomb(request, response);
+
+		verify(response).setStatus(HttpStatus.OK_200);
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#placeBomb}, when the user is authorized.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling placeBomb of the servlet.
+	 */
+	@Test
+	public void testPlaceBomb_authorized() throws IOException {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/placeBomb");
+		HttpServletResponse response = createMockedResponse();
+
+		//Simulate that the user is authorized
+		WebClient client = spy(new WebClient());
+		doReturn(client).when(webServer).getUser(any());
+		when(request.getParameter(anyString())).thenReturn("1");
+
+		servlet.placeBomb(request, response);
+
+		//Some JSON should have been written
+		verify(response).setStatus(HttpStatus.OK_200);
+
+
+		verify(response.getWriter()).write("BOMB HAS BEEN PLACED.");
 	}
 
 	/**
