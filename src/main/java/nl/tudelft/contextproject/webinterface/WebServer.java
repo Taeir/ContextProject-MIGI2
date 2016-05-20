@@ -31,13 +31,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
  * Class to run the web interface.
  */
 public class WebServer {
-	//The name of the SESSION2 cookie
 	public static final String SESSION2_COOKIE = "COC_SESSION2";
-	
-	//The maximum amount of players in the game
 	public static final int MAX_PLAYERS = 4;
-	
-	//The Log of the web interface
 	private static final Log LOG = Log.getLog("WebInterface");
 	
 	private HashMap<String, WebClient> clients = new HashMap<>();
@@ -73,56 +68,37 @@ public class WebServer {
 	 * 		if an exception occurs while attempting to start the server
 	 */
 	public synchronized void start(int port) throws Exception {
-		//Check if the server is already running.
 		if (running) throw new IllegalStateException("Server is already running");
-		
-		//Generator QRcode on server start
+
 		QRGenerator.getInstance().generateQRcode();
-		
-		//Mark the server as now running and set the port
+
 		this.running = true;
 		this.port = port;
-		
-		//We create the server
+
 		server = new Server(this.port);
 		
 		//We need a way to track users, so we use a session manager that uses cookies.
-		
-		//Create the session id manager
 		sessionIdManager = new HashSessionIdManager();
 		server.setSessionIdManager(sessionIdManager);
-		
-		//Create the session manager
+
 		HashSessionManager sessionManager = new HashSessionManager();
 		sessionManager.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
 
-		//Set the cookie config
 		SessionCookieConfig scc = sessionManager.getSessionCookieConfig();
 		scc.setComment("CoC Session Cookie");
 		scc.setName("COC_SESSION");
 		
 		SessionHandler sessionHandler = new SessionHandler(sessionManager);
-		
-		//Create the handler that chains everything together.
-		contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		
-		//Handle requests on /
-		contextHandler.setContextPath("/");
-		
-		//Fetch pages from the webinterface folder
-		contextHandler.setResourceBase(FileUtil.getFile("/webinterface/").getAbsolutePath());
 
-		//Set the session handler
+		contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		contextHandler.setContextPath("/");
+		contextHandler.setResourceBase(FileUtil.getFile("/webinterface/").getAbsolutePath());
 		contextHandler.setSessionHandler(sessionHandler);
-		
-		//Add the handler to the server
 		server.setHandler(contextHandler);
-		
-		//Add a servlet for handling sessions
+
 		ClientServlet cs = new ClientServlet(this);
 		contextHandler.addServlet(new ServletHolder(cs), "/");
-		
-		//Start the webserver
+
 		server.start();
 	}
 	
@@ -159,7 +135,6 @@ public class WebServer {
 	 * 		the WebClient for the given request, or null if no such WebClient exists
 	 */
 	public WebClient getUser(HttpServletRequest request) {
-		//Get the session. If it is null, we don't have the user.
 		HttpSession session = request.getSession(false);
 		if (session == null) return null;
 		
@@ -173,8 +148,7 @@ public class WebServer {
 		
 		//If the SESSION2 id is the same as the SESSION1 id, then we don't have the user.
 		if (session2.getValue().equals(session.getId())) return null;
-		
-		//Return the WebClient of the SESSION2 id.
+
 		return clients.get(session2.getValue());
 	}
 	
@@ -199,23 +173,19 @@ public class WebServer {
 	 * 		if writing the response to the client causes an IOException
 	 */
 	public boolean handleAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		//Check if the client has a SESSION2 cookie
 		Cookie cookie = findCookie(SESSION2_COOKIE, request.getCookies());
 		if (cookie == null || !clients.containsKey(cookie.getValue())) {
 			//This is a new user
 			
 			if (Main.getInstance().getGameState().isStarted()) {
-				//User attempts to connect while game has already started
 				Log.getLog("WebInterface").fine("Disallowed user from joining game: cannot join in progress game");
 				response.setStatus(HttpStatus.OK_200);
 				response.getWriter().write("IN_PROGRESS");
 
 				return false;
 			}
-			
-			//Check if the game is full
+
 			if (getUniqueClientCount() >= MAX_PLAYERS) {
-				//The game is full, user cannot join.
 				LOG.fine("Disallowing user from joining game: game is full");
 				
 				response.setStatus(HttpStatus.OK_200);
@@ -226,14 +196,9 @@ public class WebServer {
 			
 			//User is allowed to join
 			logAuthentication(request);
-
-			//Create a cookie
 			cookie = createCookie(request);
-			
-			//Create a new client
 			clients.put(cookie.getValue(), new WebClient());
-			
-			//Add the cookie to the response
+
 			response.addCookie(cookie);
 			response.setStatus(HttpStatus.OK_200);
 			response.getWriter().write("AUTHENTICATED");
@@ -254,8 +219,7 @@ public class WebServer {
 			//Add the client under their new session ID
 			//We do not remove the client from their old ID, as other requests might still be using the old ID.
 			clients.put(session.getId(), client);
-			
-			//Add the cookie to the response to update it
+
 			response.addCookie(cookie);
 			
 			response.setStatus(HttpStatus.OK_200);
@@ -306,17 +270,14 @@ public class WebServer {
 	 * 		the cookie with the given name, or null if there is no such cookie
 	 */
 	public static Cookie findCookie(String name, Cookie[] cookies) {
-		//There are no cookies, so return null
 		if (cookies == null) return null;
-		
-		//Find the cookie
+
 		for (Cookie cookie : cookies) {
 			if (name.equals(cookie.getName())) {
 				return cookie;
 			}
 		}
-		
-		//Cookie not found
+
 		return null;
 	}
 	
@@ -332,10 +293,8 @@ public class WebServer {
 	 * 		the newly created cookie
 	 */
 	public static Cookie createCookie(HttpServletRequest request) {
-		//Use the session to generate the Session ID.
 		HttpSession session = request.getSession(true);
-		
-		//Create the cookie
+
 		Cookie cookie = new Cookie(SESSION2_COOKIE, session.getId());
 		cookie.setMaxAge(24 * 60 * 60);
 		return cookie;
