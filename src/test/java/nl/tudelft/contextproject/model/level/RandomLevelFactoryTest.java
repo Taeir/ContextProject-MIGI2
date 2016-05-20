@@ -19,15 +19,18 @@ public class RandomLevelFactoryTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	private RandomLevelFactory factory;
+	private TileType[][] baseMap;
 
 	/**
 	 * Create the factory used for all the testing and set the seed
 	 * to 0.
+	 * Also creates a 3 by 3 TileType map.
 	 */
 	@Before
 	public void setUp() {
 		factory = new RandomLevelFactory(1, false);
 		factory.createRNG(0);
+		baseMap = createBaseTileTypeMap();
 	}
 
 	/**
@@ -204,6 +207,17 @@ public class RandomLevelFactoryTest {
 		}
 
 		return true;
+	}
+	
+	/**
+	 * Create a basic TileType map with a corridor.
+	 * @return
+	 * 		a 3 by 3 map which looks like NNN, NCN, NNN where N is null and C a corridor TileType
+	 */
+	public TileType[][] createBaseTileTypeMap() {
+		TileType[][] map = new TileType[3][3];
+		map[1][1] = TileType.CORRIDOR;
+		return map;
 	}
 
 }
