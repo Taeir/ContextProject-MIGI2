@@ -1,0 +1,452 @@
+= Sprint Retrospective, Iteration #4 =
+Context Project: Computer Games<br />
+Group: MIGI 2
+
+= Backlog sprint items =
+
+In here sprint items that were described in the backlog of this sprint are discussed.
+
+<table>
+<tr>
+<td>'''User Story'''</td>
+<td>'''Task'''</td>
+<td>'''Task assigned to'''</td>
+<td>'''Priority''' (A highest)</td>
+<td>'''Estimated Effort Per Task''' (in hours)</td>
+<td>'''Actual Effort Per Task''' (in hours)</td>
+<td>'''Done'''</td>
+<td>'''Notes'''</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/121 '''#121 VR support''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/122 #122 Explore VR]</td>
+<td>Robin</td>
+<td>A</td>
+<td>3</td>
+<td>1</td>
+<td>yes</td>
+<td>We were unable to get our Oculus working, so we are not able to actually implement and test the required code.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/123 #123 Implement VR]</td>
+<td>Robin</td>
+<td>A</td>
+<td>5</td>
+<td>4</td>
+<td>no</td>
+<td>We were unable to get our Oculus working, so we are not able to actually implement and test the required code.<br />Taico also spent 4 hours trying to get the oculus to work.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/124 #124 Headtracking]</td>
+<td>Robin</td>
+<td>A</td>
+<td>4</td>
+<td>0</td>
+<td>no</td>
+<td>We were unable to get our Oculus working, so we are not able to actually implement and test the required code.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/125 '''#125 Controller Support''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/126 #126 Implement Link]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>2</td>
+<td>0.5</td>
+<td>yes</td>
+<td>It just worked.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/127 #127 Key Bindings]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>1</td>
+<td>4.5</td>
+<td>yes</td>
+<td>Controller inputs worked differently that expected, diagonal movement gave problems.</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/130 '''#130 QR Code''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/131 #131 Generate QR Codes]</td>
+<td>Robin</td>
+<td>B</td>
+<td>1</td>
+<td>2</td>
+<td>yes</td>
+<td>Had to do research about what library to use, and how to properly save the images.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/132 #132 Retrieve URL]</td>
+<td>Robin</td>
+<td>C</td>
+<td>2</td>
+<td>3</td>
+<td>yes</td>
+<td>Slightly more work, as there is no proper way to do this in java.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 Show QR]</td>
+<td>Wytze</td>
+<td>C</td>
+<td>2</td>
+<td>0</td>
+<td>no</td>
+<td>See notes #140</td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/43 '''#43 Web Interface''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/134 #134 Clickable Tiles]</td>
+<td>Bram</td>
+<td>A</td>
+<td>3</td>
+<td>3</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/136 #136 Tile Actions]</td>
+<td>Bram</td>
+<td>B</td>
+<td>5</td>
+<td>3</td>
+<td>yes</td>
+<td>Code created by Taico was easier to use than expected.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/137 #137 Different Screens]</td>
+<td>Bram</td>
+<td>D</td>
+<td>4</td>
+<td>1.5</td>
+<td>yes*</td>
+<td>Ending screen is not implemented yet.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/138 #138 Entities]</td>
+<td>Bram</td>
+<td>A</td>
+<td>6</td>
+<td>7</td>
+<td>yes</td>
+<td>Took more time because, after things were done, I found a more efficient way of doing this, which required a rewrite.</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/139 '''#139 Second Screen''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/140 #140 Create]</td>
+<td>Wytze</td>
+<td>A</td>
+<td>2</td>
+<td>6</td>
+<td>no</td>
+<td>Very hard to do, jMonkey doesn't support this. I did find a different way to implement something that would suffice as well.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 Show QR Codes]</td>
+<td>Wytze</td>
+<td>B</td>
+<td>2</td>
+<td>1</td>
+<td>no</td>
+<td>See notes for #140.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/141 #141 Show Map]</td>
+<td>Wytze</td>
+<td>B</td>
+<td>4</td>
+<td>0</td>
+<td>no</td>
+<td>Unable to do without #140.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/142 '''#142 Animations''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/143 #143 Explore Animations]</td>
+<td>Wytze</td>
+<td>D</td>
+<td>1</td>
+<td>0</td>
+<td>no</td>
+<td>Didn't have enough time to do this.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/144 #144 Entity Animations]</td>
+<td>Wytze</td>
+<td>E</td>
+<td>3</td>
+<td>0</td>
+<td>no</td>
+<td>Didn't have enough time to do this.</td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/145 '''#145 Entity Interaction''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/146 #146 Inventory System]</td>
+<td>Wytze</td>
+<td>A</td>
+<td>2</td>
+<td>5</td>
+<td>yes</td>
+<td>Testing was more difficult than expected.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/147 #147 Bombs]</td>
+<td>Wytze</td>
+<td>B</td>
+<td>3</td>
+<td>5</td>
+<td>yes</td>
+<td>Problems with Physics enginge made placing bombs more difficult.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/148 #148 Keys]</td>
+<td>Wytze</td>
+<td>B</td>
+<td>3</td>
+<td>3</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/149 #149 Doors]</td>
+<td>Wytze</td>
+<td>C</td>
+<td>2</td>
+<td>2</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/150 '''#150 Room Loading''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/150 #150 Room Loading]</td>
+<td>Robin</td>
+<td>B</td>
+<td>3</td>
+<td>7</td>
+<td>yes</td>
+<td>Task taken over by Chiel. See [https://github.com/Taeir/ContextProject-MIGI2/issues/177 #177].<br />Testing took more time than expected.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/151 '''#151 Update Maze Generation''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/152 #152 Improved Corridors]</td>
+<td>Robin</td>
+<td>B</td>
+<td>6</td>
+<td>6.5</td>
+<td>no</td>
+<td>Chiel's room loading makes it difficult to integrate this with Bram's algorithm. Approach needs to be different than expected.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/153 #153 Start Location]</td>
+<td>Robin</td>
+<td>C</td>
+<td>2</td>
+<td>0</td>
+<td>no</td>
+<td>No time.</td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/154 '''#154 VR Menu Level''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/155 #155 Create Level]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>4</td>
+<td>4</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/156 #156 Wall Panels]</td>
+<td>Chiel</td>
+<td>C</td>
+<td>4</td>
+<td>4</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/157 #157 Panel Images]</td>
+<td>Chiel</td>
+<td>D</td>
+<td>3</td>
+<td>0</td>
+<td>yes</td>
+<td>Images are very simple, and were easy to make. Better graphics will be added later.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/158 #158 Start Game]</td>
+<td>Chiel</td>
+<td>C</td>
+<td>4</td>
+<td>5</td>
+<td>yes</td>
+<td>Script loading is more extensive than initially intended.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/159 '''#159 Gameplay Testing Document''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/160 #160 Literature]</td>
+<td>Taico</td>
+<td>B</td>
+<td>5</td>
+<td>5</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/161 #161 Write Testing Document]</td>
+<td>Taico</td>
+<td>C</td>
+<td>7</td>
+<td>3</td>
+<td>no</td>
+<td>Unplanned tasks took priority, I didn't have enough time left for this task.</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/162 '''#162 Create Issues''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/162 #162 Create Cards]</td>
+<td>Taico</td>
+<td>A</td>
+<td>2</td>
+<td>4</td>
+<td>yes</td>
+<td>More work than anticipated.</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/163 '''#163 Game State Refactoring''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/163 #163 Refactor Game States]</td>
+<td>Taico</td>
+<td>B</td>
+<td>2</td>
+<td>0</td>
+<td>yes</td>
+<td>The changes made by Chiel in [https://github.com/Taeir/ContextProject-MIGI2/issues/177 #177] removed the need for this task.</td>
+</tr>
+</table>
+
+= Old and unplanned sprint items =
+
+Here old items from previous sprints that were not included in the backlog or unplanned sprint items that appeared during the sprint are discussed.
+
+<table>
+<tr>
+<td>'''Item or category'''</td>
+<td>'''Task'''</td>
+<td>'''Task assigned to'''</td>
+<td>'''Priority''' (A highest)</td>
+<td>'''Effort per Task''' (in hours)</td>
+<td>'''Done'''</td>
+<td>'''Notes'''<br />(Discuss why item was added to this sprint and status of item if not completed)</td>
+</tr>
+<tr>
+<td rowspan=9>'''Unplanned Tasks'''</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/172 #172 Fix Travis]</td>
+<td>Taico</td>
+<td>-</td>
+<td>0.5</td>
+<td>yes</td>
+<td>Travis builds were failing randomly due to download issues. This fixes that.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/178 #178 Automatic Generation of Backlog/Retrospect]</td>
+<td>Taico</td>
+<td>-</td>
+<td>5</td>
+<td>yes</td>
+<td>Creating the backlog, retrospect and all issues on github usually takes quite a bit of time. With this automatic tool, those 3 things are done in one go, reducing the time needed for these tasks significantly.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/188 #188 Fix Files]</td>
+<td>Taico</td>
+<td>-</td>
+<td>4</td>
+<td>yes</td>
+<td>Running the game from it's jar file did not work, due to file locations not being correct. This ([https://github.com/Taeir/ContextProject-MIGI2/issues/189 #189]) addresses that issue.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/191 #191 Fix Entities ConcurrentModification]</td>
+<td>Taico</td>
+<td>-</td>
+<td>0.5</td>
+<td>yes</td>
+<td>Updating entities sometimes caused a ConcurrentModificationException. This pull request fixes that.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/193 #193 Corridor walls]</td>
+<td>Robin</td>
+<td>-</td>
+<td>3</td>
+<td>yes</td>
+<td>Corridor walls improve the look of the game significantly. With the changes to the algorithm, this change was easy to make.</td>
+</tr>
+<tr>
+<td>Update Architecture Design</td>
+<td>Chiel</td>
+<td>-</td>
+<td>2</td>
+<td>yes</td>
+<td>The architecture design needs to be updated with the changes of this sprint.</td>
+</tr>
+<tr>
+<td>Update Architecture Design with Dependencies</td>
+<td>Taico</td>
+<td>-</td>
+<td>1</td>
+<td>yes</td>
+<td>The architecture design needs to have a section about dependencies.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/201 #201 Create Retrospect Sprint 4]</td>
+<td>Taico</td>
+<td>-</td>
+<td>1</td>
+<td>yes</td>
+<td>The retrospect needs to be created for sprint 4</td>
+</tr>
+<tr>
+<td>Create Backlog Sprint 5</td>
+<td>Taico</td>
+<td>-</td>
+<td>1</td>
+<td>yes</td>
+<td>The backlog needs to be created for sprint 5</td>
+</tr>
+</table>
+
+= Pull requests =
+
+Every week, each group member also reviews pull requests of other members. Since we put a lot of time into this we also want to document time spent reviewing a separate table.
+
+{|
+! '''Group Member name'''
+! '''Time Spent Reviewing and creating Pull Requests (in hours)'''
+|-
+| Robin
+| 6
+|-
+| Bram
+| 4
+|-
+| Taico
+| 4
+|-
+| Wytze
+| 2
+|-
+| Chiel
+| 4
+|}
+
+= Main Problems Encountered =
+
+== Problem 1: Oculus Rift ==
+
+'''Description:''' We have been unable to get the Oculus Rift working with our game on ANY of our computers.
+
+'''Reaction:''' We will try using the tips of various other teams to get our oculus working on Robin's desktop computer this weekend (the most powerful computer in our team). If that fails, we have agreed with team Kroket that we can test our oculus on one of their laptops on monday 2016/05/23, to identify if the problem lies with our computers, or with the oculus itself.
+
+== Problem 2: Not enough time ==
+
+'''Description:''' We were quite ambitious for this sprint, and as such, we did not have enough time to complete all tasks.
+
+'''Reaction:''' Plan less tasks per person, and make better time estimations (like including time required for testing).
+
+= Adjustments for the next Sprint Plan =
+
+Add 1 hour to every time estimation, so that our estimations better reflect the truth.
