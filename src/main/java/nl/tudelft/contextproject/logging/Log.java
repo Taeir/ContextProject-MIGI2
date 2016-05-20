@@ -15,32 +15,17 @@ import lombok.SneakyThrows;
  * Class for conveniently logging messages.
  */
 public class Log {
-	//The default format for files: "HH:MM:SS [LEVEL]: Message", optionally followed by an exception and it's stacktrace.
+	//The default format for files: "HH:MM:SS [LEVEL]: Message", optionally followed by an exception and its stacktrace.
 	public static final String FORMAT_FILE = "%1$tH:%1$tM:%1$tS [%3$s]: %4$s%5$s%n";
-
-	//Log level for fatal messages
 	public static final Level FATAL = createLogLevel("FATAL", 2000);
-	
-	//Global set of loggers, used to properly close FileHandlers.
 	private static final Map<String, Log> LOGGERS = new ConcurrentHashMap<>();
-	
-	//Handler for logging messages to the console.
 	private static final ConsoleHandler CONSOLE_HANDLER;
 	
 	static {
-		//Create the console handler, set the formatter, and add it to the logger
 		CONSOLE_HANDLER = new ConsoleHandler();
-		
-		//Log messages to the console like:
-		//14:59:26 [WARNING] [ENGINE]: There is a problem!
-		//Exception - Stacktrace
 		LogFormatter formatter = new LogFormatter("%1$tH:%1$tM:%1$tS [%3$s] [%2$s]: %4$s%5$s%n");
 		CONSOLE_HANDLER.setFormatter(formatter);
-		
-		//Set the console level to INFO
 		CONSOLE_HANDLER.setLevel(Level.INFO);
-		
-		//Create the logs directory
 		new File("logs").mkdir();
 	}
 	
@@ -54,10 +39,9 @@ public class Log {
 	 * @param name
 	 * 		the name of the logger
 	 * @param console
-	 * 		if true, messages logged to this Log will be sent to the console.
-	 * 
+	 * 		if true, messages logged to this Log will be sent to the console
 	 * @throws IOException 
-	 * 		if opening a FileHandler for the Log throws an exception.
+	 * 		if opening a FileHandler for the Log throws an exception
 	 */
 	public Log(String name, boolean console) throws IOException {
 		this(name, "logs", console);
@@ -72,36 +56,29 @@ public class Log {
 	 * @param location
 	 * 		the location of the folder where the file will be saved
 	 * @param console
-	 * 		if true, messages logged to this Log will be sent to the console.
-	 * 
+	 * 		if true, messages logged to this Log will be sent to the console
 	 * @throws IOException 
-	 * 		if opening a FileHandler for the Log throws an exception.
+	 * 		if opening a FileHandler for the Log throws an exception
 	 */
 	public Log(String name, String location, boolean console) throws IOException {
-		//Get or create the logger.
 		this.logger = Logger.getLogger(name);
-		
-		//Don't use parent handlers
 		this.logger.setUseParentHandlers(false);
-		
-		//Create the file handler, set the formatter, and add it to the logger.
+
 		//The file handler will only create one file, and it will be at most 5 MB.
 		this.fileHandler = new FileHandler(location + "/" + name + ".log", 5 * 1024 * 1024, 1, false);
 		this.fileHandler.setFormatter(new LogFormatter(FORMAT_FILE));
 		this.logger.addHandler(this.fileHandler);
-		
-		//Optionally add the console handler
+
 		if (console) {
 			this.logger.addHandler(CONSOLE_HANDLER);
 		}
-		
-		//Add to the global set of loggers
+
 		LOGGERS.put(name, this);
 	}
 	
 	/**
 	 * @return
-	 * 		the java.util.logging.Logger of the Log.
+	 * 		the java.util.logging.Logger of the Log
 	 */
 	public Logger getLogger() {
 		return this.logger;
@@ -109,7 +86,7 @@ public class Log {
 	
 	/**
 	 * @return
-	 * 		the file handler of this Log.
+	 * 		the file handler of this Log
 	 */
 	public FileHandler getFileHandler() {
 		return this.fileHandler;
@@ -120,7 +97,6 @@ public class Log {
 	 * 
 	 * @param level
 	 * 		the level to set to
-	 * 
 	 * @see Logger#setLevel(Level)
 	 */
 	public void setLevel(Level level) {
@@ -324,9 +300,8 @@ public class Log {
 	 * 		the name of the level to create
 	 * @param value
 	 * 		the value of the level to create
-	 * 
 	 * @return
-	 * 		the newly created log level.
+	 * 		the newly created log level
 	 */
 	public static Level createLogLevel(String name, int value) {
 		//Level has a protected constructor, so we define an anonymous extending class to be able to create levels.

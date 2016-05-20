@@ -37,17 +37,15 @@ public class LogFormatter extends Formatter {
      * 
      * @param record
      * 		the LogRecord to format
-     * 
      * @return
-     * 		a String representation of the record, using the format of this LogFormatter.
+     * 		a String representation of the record, using the format of this LogFormatter
      */
     @Override
 	public String format(LogRecord record) {
         //Format the message
         String message = formatMessage(record);
-        
-        //Print the throwable, if necessary.
         String throwable = "";
+
         if (record.getThrown() != null) {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
@@ -56,8 +54,7 @@ public class LogFormatter extends Formatter {
             pw.close();
             throwable = sw.toString();
         }
-        
-        //Format the string with String.format.
+
         return String.format(format, record.getMillis(), record.getLoggerName(), record.getLevel().getLocalizedName(), message, throwable);
     }
 }
