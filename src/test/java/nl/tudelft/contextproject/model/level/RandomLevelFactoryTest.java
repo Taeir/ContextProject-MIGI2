@@ -219,6 +219,52 @@ public class RandomLevelFactoryTest {
 	}
 	
 	/**
+	 * Test if a corridor North of a tile is carved correctly.
+	 */
+	@Test
+	public void testCarveCorridorWestCorrect() {
+		TileType[][] testMap = new TileType[2][1];
+		testMap[1][0] = TileType.CORRIDOR;
+		RandomLevelFactory.carveCorridorWalls(testMap);
+		assertEquals(TileType.WALL, testMap[0][0]);
+	}
+	
+	/**
+	 * Test if a corridor North of a tile is not carved if not possible.
+	 */
+	@Test
+	public void testCarveCorridorWestAlreadyFilled() {
+		TileType[][] testMap = new TileType[2][1];
+		testMap[0][0] = TileType.FLOOR;
+		testMap[1][0] = TileType.CORRIDOR;
+		RandomLevelFactory.carveCorridorWalls(testMap);
+		assertEquals(TileType.FLOOR, testMap[0][0]);
+	}
+	
+	/**
+	 * Test if a corridor North of a tile is carved correctly.
+	 */
+	@Test
+	public void testCarveCorridorEastCorrect() {
+		TileType[][] testMap = new TileType[2][1];
+		testMap[0][0] = TileType.CORRIDOR;
+		RandomLevelFactory.carveCorridorWalls(testMap);
+		assertEquals(TileType.WALL, testMap[1][0]);
+	}
+	
+	/**
+	 * Test if a corridor North of a tile is not carved if not possible.
+	 */
+	@Test
+	public void testCarveCorridorEastAlreadyFilled() {
+		TileType[][] testMap = new TileType[2][1];
+		testMap[1][0] = TileType.FLOOR;
+		testMap[0][0] = TileType.CORRIDOR;
+		RandomLevelFactory.carveCorridorWalls(testMap);
+		assertEquals(TileType.FLOOR, testMap[1][0]);
+	}
+	
+	/**
 	 * Test if a corridor North of a tile is not carved if not possible.
 	 */
 	@Test
