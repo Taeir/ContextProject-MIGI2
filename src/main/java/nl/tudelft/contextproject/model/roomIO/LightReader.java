@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.roomIO;
+package nl.tudelft.contextproject.model.roomIO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,7 +7,6 @@ import java.util.List;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
-import com.jme3.math.ColorRGBA;
 import nl.tudelft.contextproject.util.ReaderUtil;
 
 /**

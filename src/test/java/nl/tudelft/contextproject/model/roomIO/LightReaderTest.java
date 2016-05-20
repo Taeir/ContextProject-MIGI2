@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.roomIO;
+package nl.tudelft.contextproject.model.roomIO;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,6 @@ import org.junit.Test;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
-import com.jme3.math.ColorRGBA;
 
 /**
  * Test class for the lightReader class.

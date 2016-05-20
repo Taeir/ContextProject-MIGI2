@@ -23,7 +23,7 @@ import org.junit.Test;
  * Test suit for the Main class.
  */
 public class MainTest {
-	
+
 	private Main main;
 
 	/**
@@ -36,7 +36,7 @@ public class MainTest {
 	    Main.main(new String[0]);
         verify(mMock, times(1)).start();
 	}
-	
+
 	/**
 	 * Setup that creates a fresch instance of main.
 	 */
@@ -168,7 +168,7 @@ public class MainTest {
 	public void testTickListeners() {
 		main.setTickListeners(new LinkedList<TickListener>());
 		TickListener tl = mock(TickListener.class);
-		
+
 		main.simpleUpdate(0.1f);
 		verify(tl, times(0)).update(0.1f);
 		

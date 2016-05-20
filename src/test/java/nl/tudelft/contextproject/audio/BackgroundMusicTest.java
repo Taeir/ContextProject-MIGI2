@@ -20,7 +20,7 @@ import org.junit.Test;
 /**
  * Test class for {@link BackgroundMusic}.
  */
-public class TestBackgroundMusic {
+public class BackgroundMusicTest {
 	public AudioNode an;
 
 	/**

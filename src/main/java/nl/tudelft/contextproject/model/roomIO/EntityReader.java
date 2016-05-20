@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.roomIO;
+package nl.tudelft.contextproject.model.roomIO;
 
 import java.io.BufferedReader;
 import java.io.IOException;

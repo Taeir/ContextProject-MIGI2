@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * Test class for {@link AudioManager}.
  */
-public class TestAudioManager {
+public class AudioManagerTest {
 	public AudioNode an;
 	
 	/**
