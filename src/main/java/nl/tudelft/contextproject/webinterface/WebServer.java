@@ -2,8 +2,10 @@ package nl.tudelft.contextproject.webinterface;
 
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
@@ -223,7 +225,7 @@ public class WebServer {
 			}
 			
 			//User is allowed to join
-			Log.getLog("WebInterface").fine("Allowing user to join");
+			logAuthentication(request);
 
 			//Create a cookie
 			cookie = createCookie(request);
@@ -267,6 +269,30 @@ public class WebServer {
 		}
 	}
 	
+	/**
+	 * Logs the fact that the given request is being authenticated.
+	 * 
+	 * @param request
+	 * 		the request of the user to log
+	 */
+	private void logAuthentication(HttpServletRequest request) {
+		if (!LOG.getLogger().isLoggable(Level.FINE)) return;
+		
+		StringBuilder sb = new StringBuilder(64);
+		sb.append("Authenticating user:").append(System.lineSeparator())
+		  .append("  IP: ").append(request.getRemoteAddr()).append(System.lineSeparator())
+		  .append("  Headers:").append(System.lineSeparator());
+		
+		Enumeration<String> e = request.getHeaderNames();
+		while (e.hasMoreElements()) {
+			String k = e.nextElement();
+			String v = request.getHeader(k);
+			sb.append("    ").append(k).append(": ").append(v).append(System.lineSeparator());
+		}
+		
+		LOG.fine(sb.toString());
+	}
+
 	/**
 	 * Finds the cookie with the given name. Returns null if no such cookie is present in the
 	 * given array of cookies.
