@@ -9,7 +9,9 @@ public class ScriptLoaderException extends Exception {
 	
 	/**
 	 * Constructor for this exception with a custom message.
-	 * @param message The message about this exception.
+	 *
+	 * @param message
+	 * 		the message about this exception
 	 */
 	public ScriptLoaderException(String message) {
 		super(message);

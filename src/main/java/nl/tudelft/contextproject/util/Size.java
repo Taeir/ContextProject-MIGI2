@@ -12,9 +12,9 @@ public class Size {
      * Constructor for creating a "Size" pair.
      *
      * @param width
-     *              the height of the Size
+     *      the height of the Size
      * @param height
-     *              the width of the Size
+     *      the width of the Size
      */
     public Size(int width, int height) {
         this.width = width;
@@ -23,7 +23,7 @@ public class Size {
 
     /**
      * @return
-     *          the width of the Size
+     *      the width of the Size
      */
     public int getWidth() {
         return this.width;
@@ -31,7 +31,7 @@ public class Size {
 
     /**
      * @return
-     *          the height of the Size
+     *      the height of the Size
      */
     public int getHeight() {
         return this.height;

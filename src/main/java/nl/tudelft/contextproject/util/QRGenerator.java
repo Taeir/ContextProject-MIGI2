@@ -26,22 +26,14 @@ import nl.tudelft.contextproject.logging.Log;
  * QRGenerator.getInstance().generateQRcode();
  */
 public final class QRGenerator {
-	//Height of QR image.
 	public static final int HEIGTH = 250;
-	//Width of QR image.
 	public static final int WIDTH = 250;
-	//Location of the QR image.
 	public static final String LOCATION = "qrcode.png";
 
 	//Use eager initialization of the singleton.
 	private static final QRGenerator INSTANCE = new QRGenerator();
-	
-	//Log for the WebInterface
 	private static final Log LOG = Log.getLog("WebInterface");
-
-	//Holds IP of server.
 	private String hostingAddress;
-	//Port number of server.
 	private int portNumber = Main.PORT_NUMBER;
 
 	/**
@@ -54,8 +46,9 @@ public final class QRGenerator {
 
 	/**
 	 * Get the hosting address as an URL String.
+	 *
 	 * @return
-	 * 			hosting address
+	 *		hosting address
 	 */
 	public String getURL() {
 		return hostingAddress;
@@ -63,17 +56,18 @@ public final class QRGenerator {
 
 	/**
 	 * Set the hosting address as an URL String.
+	 *
 	 * @param url
-	 * 				hosting addres
+	 *		hosting address
 	 */ 
 	public void setURL(String url) {
 		hostingAddress = url;
 	}
 
 	/**
-	 * Get the QRgenerator instance.
 	 * @return
-	 * 			QRgenerator
+	 *
+	 *		the QRGenerator instance
 	 */
 	public static QRGenerator getInstance() {
 		return INSTANCE;
@@ -81,7 +75,8 @@ public final class QRGenerator {
 
 	/**
 	 * Generate a QR code in {@link #LOCATION}.
-	 * First, get the hostingAddress by using the Java InetAddress class.
+	 *
+	 * <p>First, get the hostingAddress by using the Java InetAddress class.
 	 * Then, create the QRgen as a ByteArrayOutputStream.
 	 * And finally write the ByteArrayOutputStream to disk.
 	 */
@@ -100,7 +95,8 @@ public final class QRGenerator {
 
 	/**
 	 * Set the correct ipv4 address of this computer.
-	 * This method needs all network interfaces of the computer.
+	 *
+	 * <p>This method needs all network interfaces of the computer.
 	 * It will for each network interface check all the network addresses.
 	 * The IP address will be among those, so all address that are fake or are
 	 * IPv6 are filtered out.
@@ -110,8 +106,10 @@ public final class QRGenerator {
 	protected void searchForHostAddress() {
 		hostingAddress = "";
 		Enumeration<NetworkInterface> networkInterfaces;
+
 		try {
 			networkInterfaces = NetworkInterface.getNetworkInterfaces();
+
 			while (networkInterfaces.hasMoreElements()) {
 				NetworkInterface e = networkInterfaces.nextElement();
 				Enumeration<InetAddress> a = e.getInetAddresses();
@@ -125,6 +123,7 @@ public final class QRGenerator {
 					}
 				}
 			}
+
 			hostingAddress = "http://" + hostingAddress + ":" + portNumber + "/";
 		} catch (SocketException e) {
 			LOG.severe("Unable to get network addresses.", e);

@@ -20,9 +20,9 @@ public final class EntityUtil {
      * Get the ID for a certain class.
      *
      * @param entity
-     *          the classname of the entity
+     *      the classname of the entity
      * @return
-     *          an int representing the entity
+     *      an int representing the entity
      */
     public static int getJSONCoded(String entity) {
         switch (entity) {

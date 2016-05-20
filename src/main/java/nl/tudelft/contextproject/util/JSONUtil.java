@@ -20,15 +20,19 @@ import org.json.JSONObject;
 public final class JSONUtil {
 
     /**
-     * Avoid initialization.
+     * Private constructor to avoid initialisation.
      */
     private JSONUtil() {}
 
     /**
      * Parse a .json file to a {@link JSONObject} for easy manipulation of data.
-     * @param file - The file which one wants to load.
-     * @return - The JSONObject contained in the file.
-     * @throws IOException - File is not found.
+     *
+     * @param file
+     *      the file which one wants to load
+     * @return
+     *      the JSONObject contained in the file
+     * @throws IOException
+     *      file is not found.
      */
     public static JSONObject load(File file) throws IOException {
         byte[] asBytes = Files.readAllBytes(file.toPath());
@@ -38,10 +42,15 @@ public final class JSONUtil {
 
     /**
      * Write a JSON object to a desired file.
-     * @param jsObject - The object to write.
-     * @param file - The file to write to.
-     * @throws IOException - Writing the file goes wrong.
-     * @throws JSONException - The JSON object is not in the correct format.
+     *
+     * @param jsObject
+     *      the object to write
+     * @param file
+     *      the file to write to
+     * @throws IOException
+     *      writing the file goes wrong
+     * @throws JSONException
+     *      the JSON object is not in the correct format
      */
     public static void save(JSONObject jsObject, File file) throws IOException, JSONException {
         JSONObject.testValidity(jsObject);
@@ -57,16 +66,16 @@ public final class JSONUtil {
      * Convert a set of entities to a JSONObject representing this list.
      * 
      * @param entities
-     *          the entities to convert
+     *      the entities to convert
      * @param player
-     *          the player
+     *      the player
      * @return
-     *          a JSONObject representing the entities
+     *      a JSONObject representing the entities
      */
     public static JSONObject entitiesToJson(Set<Entity> entities, Entity player) {
         JSONObject json = new JSONObject();
-
         JSONArray jArray = new JSONArray();
+
         for (Entity e : entities) {
             JSONObject entity = entityToJson(e);
             jArray.put(entity);
@@ -83,9 +92,9 @@ public final class JSONUtil {
      * Turn one entity into a json object.
      *
      * @param e
-     *          the entity to turn into a json
+     *      the entity to turn into a json
      * @return
-     *          the json
+     *      the json
      */
     protected static JSONObject entityToJson(Entity e) {
         JSONObject entity = new JSONObject();

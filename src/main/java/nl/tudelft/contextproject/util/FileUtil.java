@@ -61,7 +61,7 @@ public final class FileUtil {
 	 * 		the fully qualified location (<code>/folder/filename.ext</code>)
 	 * 
 	 * @return
-	 * 		a File object pointing to the file at the given location.
+	 * 		a File object pointing to the file at the given location
 	 */
 	@SneakyThrows(URISyntaxException.class)
 	public static File getFile(String location) {
