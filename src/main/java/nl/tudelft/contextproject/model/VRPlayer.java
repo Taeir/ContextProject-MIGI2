@@ -3,6 +3,8 @@ package nl.tudelft.contextproject.model;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
@@ -209,27 +211,26 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 */
 	public void pickUp() {
 		Vector3f vec = this.getSpatial().getLocalTranslation();
-		List<Entity> list = new ArrayList<Entity>();
-		list = Main.getInstance().getCurrentGame().getEntities();
-		for (int i = 0; i < list.size(); i++) {
-			Vector3f vec2 = list.get(i).getSpatial().getLocalTranslation();
+		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
+		for (Entity ent : set) {
+			Vector3f vec2 = ent.getSpatial().getLocalTranslation();
 			if (Math.abs((int) vec.x - vec2.x) <= 2 && Math.abs((int) vec.y - vec2.y) <= 2 && Math.abs((int) vec.z - vec2.z) <= 2) {
-				if (list.get(i) instanceof Bomb) {
+				if (ent instanceof Bomb) {
 					inventory.add(new Bomb());
-					Main.getInstance().getCurrentGame().getEntities().get(i).setState(EntityState.DEAD);
+					ent.setState(EntityState.DEAD);
 					return;
 				}
-				if (list.get(i) instanceof Key) {
-					Key key = (Key) list.get(i);
+				if (ent instanceof Key) {
+					Key key = (Key) ent;
 					inventory.add(new Key(key.getColor()));
-					Main.getInstance().getCurrentGame().getEntities().get(i).setState(EntityState.DEAD);
+					ent.setState(EntityState.DEAD);
 					return;
 				}
-				if (list.get(i) instanceof Door) {
-					Door door = (Door) list.get(i);
+				if (ent instanceof Door) {
+					Door door = (Door) ent;
 					if (inventory.containsColorKey(door.getColor())) {
 						inventory.remove(inventory.getKey(door.getColor()));
-						Main.getInstance().getCurrentGame().getEntities().get(i).setState(EntityState.DEAD);
+						ent.setState(EntityState.DEAD);
 						return;
 					}
 				}

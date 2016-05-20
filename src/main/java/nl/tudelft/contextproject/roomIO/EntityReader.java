@@ -70,10 +70,10 @@ public final class EntityReader {
 		Entity e;
 		switch (type) {
 		case "Key":
-			e = new Key(ColorRGBA.Yellow);
+			e = new Key(LightReader.getColor(data[4]));
 			break;
 		case "Door":
-			e = new Door(ColorRGBA.Yellow);
+			e = new Door(LightReader.getColor(data[4]));
 			break;
 		case "Bomb":
 			e = new Bomb();
