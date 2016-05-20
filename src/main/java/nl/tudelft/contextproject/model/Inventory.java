@@ -44,25 +44,25 @@ public class Inventory {
 	
 	/**
 	 * Removes a key or bomb from your inventory.
-	 * @param entity
+	 * @param ent
 	 * 		The bomb/key to remove
 	 */
-	public void remove(Entity entity) {
-		if (entity instanceof Bomb) {
-			for (Entity ent : array) {
-				if (ent instanceof Bomb) {
-					array.remove(ent);
+	public void remove(Entity ent) {
+		if (ent instanceof Bomb) {
+			for (int i = 0; i < array.size(); i++) {
+				if (array.get(i) instanceof Bomb) {
+					array.remove(i);
 					bombs--;
 					return;
 				}
 			}
 		}
-		if (entity instanceof Key) {
-			for (Entity ent : array) {
-				if (ent instanceof Key) {
-					Key key = (Key) ent;
+		if (ent instanceof Key) {
+			for (int i = 0; i < array.size(); i++) {
+				if (array.get(i) instanceof Key) {
+					Key key = (Key) array.get(i);
 					if (key.getColor().equals(((Key) ent).getColor())) {
-						array.remove(ent);
+						array.remove(i);
 						keys--;
 						return;
 					}
@@ -79,9 +79,9 @@ public class Inventory {
 	 */
 	public Bomb getBomb() {
 		Bomb bomb = null;
-		for (Entity ent : array) {
-			if (ent instanceof Bomb) {
-				return (Bomb) ent;
+		for (int i = 0; i < array.size(); i++) {
+			if (array.get(i) instanceof Bomb) {
+				return (Bomb) array.get(i);
 			}
 		}
 		return bomb;
@@ -114,9 +114,9 @@ public class Inventory {
 		if (!containsKey()) {
 			return false;
 		}
-		for (Entity ent : array) {
-			if (ent instanceof Key) {
-				Key key = (Key) ent;
+		for (int i = 0; i < array.size(); i++) {
+			if (array.get(i) instanceof Key) {
+				Key key = (Key) array.get(i);
 				if (key.getColor().equals(color)) {
 					return true;
 				}
@@ -132,9 +132,9 @@ public class Inventory {
 	 * @return The key of that color
 	 */
 	public Key getKey(ColorRGBA color) {
-		for (Entity ent : array) {
-			if (ent instanceof Key) {
-				Key key = (Key) ent;
+		for (int i = 0; i < array.size(); i++) {
+			if (array.get(i) instanceof Key) {
+				Key key = (Key) array.get(i);
 				if (key.getColor().equals(color)) {
 					return key;
 				}
