@@ -57,7 +57,6 @@ public class WaitingControllerTest {
 	@Test
 	public void testGetFile() {
 		assertTrue(WaitingController.getFile().getName().endsWith(".crf"));
-		assertTrue(WaitingController.getFile().getParent().endsWith("\\maps")
-				   || WaitingController.getFile().getParent().endsWith("/maps"));
+		assertTrue(WaitingController.getFile().getParent().endsWith("maps"));
 	}
 }
