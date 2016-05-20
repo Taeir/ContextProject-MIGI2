@@ -110,11 +110,10 @@ public class MainTest {
 	/**
 	 * Try to get the current game from a state that does not have a current game.
 	 */
-	@Test(expected = IllegalStateException.class)
 	public void testGetCurrentGameIllegalState() {
 		Controller c = mock(Controller.class);		
 		main.setController(c);		
-		main.getCurrentGame();
+		assertNull(main.getCurrentGame());
 	}
 	
 	/**
