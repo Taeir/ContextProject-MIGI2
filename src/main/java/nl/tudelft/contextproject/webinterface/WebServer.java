@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.webinterface;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.files.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.qrgenerator.QRGenerator;
 
@@ -108,7 +108,7 @@ public class WebServer {
 		contextHandler.setContextPath("/");
 		
 		//Fetch pages from the webinterface folder
-		contextHandler.setResourceBase(new File(getClass().getResource("/webinterface").toURI()).getAbsolutePath());
+		contextHandler.setResourceBase(FileUtil.getFile("/webinterface/").getAbsolutePath());
 
 		//Set the session handler
 		contextHandler.setSessionHandler(sessionHandler);
