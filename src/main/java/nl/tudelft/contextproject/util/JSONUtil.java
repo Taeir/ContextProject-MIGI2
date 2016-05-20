@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.List;
 
+import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Entity;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,14 +67,30 @@ public final class JSONUtil {
 
         JSONArray jArray = new JSONArray();
         for (Entity e : entities) {
-            JSONObject entity = new JSONObject();
-            entity.put("x", (int) Math.floor(e.getLocation().getX()));
-            entity.put("y", (int) Math.floor(e.getLocation().getZ()));
-            entity.put("type", EntityUtil.getJSONCoded(e.getClass().getSimpleName()));
+            JSONObject entity = entityToJson(e);
             jArray.put(entity);
         }
 
+        JSONObject entity = entityToJson(Main.getInstance().getCurrentGame().getPlayer());
+        jArray.put(entity);
+
         json.put("entities", jArray);
         return json;
+    }
+
+    /**
+     * Turn one entity into a json object.
+     *
+     * @param e
+     *          the entity to turn into a json
+     * @return
+     *          the json
+     */
+    protected static JSONObject entityToJson(Entity e) {
+        JSONObject entity = new JSONObject();
+        entity.put("x", Math.round(e.getLocation().getX()));
+        entity.put("y", Math.round(e.getLocation().getZ()));
+        entity.put("type", EntityUtil.getJSONCoded(e.getClass().getSimpleName()));
+        return entity;
     }
 }
