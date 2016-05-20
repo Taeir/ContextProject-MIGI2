@@ -20,7 +20,7 @@ import org.junit.Test;
  * Test class for the VRPlayer class.
  */
 public class VRPlayerTest extends EntityTest {
-	
+
 	private static final double EPSILON = 1e-5;
 	private VRPlayer player;
 
@@ -28,14 +28,14 @@ public class VRPlayerTest extends EntityTest {
 	public Entity getEntity() {
 		return new VRPlayer();
 	}
-	
+
 	/**
 	 * Setup method.
 	 * Creates a fresh player for every test.
 	 */
 	@Before
 	public void setUp() {
-		
+
 		player = new VRPlayer();
 	}
 
@@ -44,15 +44,15 @@ public class VRPlayerTest extends EntityTest {
 	 * Test if updating the player moves it.
 	 * NOTE: moving by 0 is also moving.
 	 */
-//	@Test
-//	public void testSimpleUpdate() {
-//		Geometry mockedGeometry = mock(Geometry.class);
-//		CharacterControl mockedCharacterControl = mock(CharacterControl.class);
-//		player.setSpatial(mockedGeometry);
-//		player.setCharacterControl(mockedCharacterControl);
-//		player.update(0.f);
-//		verify(mockedGeometry, times(1)).move(anyFloat(), anyFloat(), anyFloat());
-//	}
+	//	@Test
+	//	public void testSimpleUpdate() {
+	//		Geometry mockedGeometry = mock(Geometry.class);
+	//		CharacterControl mockedCharacterControl = mock(CharacterControl.class);
+	//		player.setSpatial(mockedGeometry);
+	//		player.setCharacterControl(mockedCharacterControl);
+	//		player.update(0.f);
+	//		verify(mockedGeometry, times(1)).move(anyFloat(), anyFloat(), anyFloat());
+	//	}
 
 	/**
 	 * Test getGeometry().
@@ -82,7 +82,7 @@ public class VRPlayerTest extends EntityTest {
 		setupGeometryMock();
 		assertTrue(player.getPhysicsObject() instanceof CharacterControl);
 	}
-	
+
 	/**
 	 * Test if the spatial is an instance of fall speed is set correctly.
 	 */
@@ -112,7 +112,7 @@ public class VRPlayerTest extends EntityTest {
 			fail();
 		}
 	}
-	
+
 	/**
 	 * Test if the spatial is an instance of jump speed is set correctly.
 	 */
@@ -127,7 +127,7 @@ public class VRPlayerTest extends EntityTest {
 			fail();
 		}
 	}
-	
+
 	/**
 	 * Tests that the dropbomb method removes a bomb from your inventory.
 	 */
@@ -137,8 +137,8 @@ public class VRPlayerTest extends EntityTest {
 		player.getInventory().add(new Bomb());
 		player.dropBomb();
 		assertTrue(player.getInventory().size() == 0);
-		}
-	
+	}
+
 	/**
 	 * tests that the dropbomb method doesn't remove a bomb when there is none.
 	 */
@@ -148,5 +148,5 @@ public class VRPlayerTest extends EntityTest {
 		player.getInventory().add(new Key(ColorRGBA.Yellow));
 		player.dropBomb();
 		assertTrue(player.getInventory().size() == 1);
-		}
+	}
 }
