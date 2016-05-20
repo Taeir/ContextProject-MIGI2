@@ -1,0 +1,373 @@
+= Sprint Backlog, Iteration #5 =
+Context project: Computer games<br />
+Group: MIGI2
+
+<table>
+<tr>
+<td>'''User Story'''</td>
+<td>'''Task'''</td>
+<td>'''Member responsible for task'''</td>
+<td>'''Task Assigned To'''</td>
+<td>'''Estimated Effort per Task''' (in hours)</td>
+<td>'''Priority (A-E)<br />'''(A is highest)</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/121 '''#121 - VR support''']<br />
+As the VR player, I want to have support for the Rift in the game, so that I can use it to play the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/123 #123 - Implement VR]<br />
+Implement VR support in the game. (Task from last sprint)</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/151 '''#151 - Update Maze Generation''']<br />
+As a developer, I want an improved version of the level generation, so that I am able to set start locations and have predictable positions of doors in rooms.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/152 #152 - Improved Corridors]<br />
+Improve corridor generation to ensure door locations. (Task from last sprint).</td>
+<td>Bram</td>
+<td>Robin</td>
+<td>8</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/153 #153 - Start Location]<br />
+Add a start location to the maze. (Task from last sprint).</td>
+<td>Bram</td>
+<td>Robin</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/202 #202 - Create ten rooms]<br />
+In order to properly play our game, we need rooms to load.</td>
+<td>Bram</td>
+<td>Robin</td>
+<td>5</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/139 '''#139 - Second Screen''']<br />
+As a player I want to have a big (secondary) screen to look at with the menu and map, so that I can see more of the game than with only a mobile screen.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 - Show QR Codes]<br />
+Show the QR codes on the screen. (Task from last sprint).</td>
+<td>Taico</td>
+<td>Wytze</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/203 '''#203 - Web Interface''']<br />
+As a player, I want to be able to easily perform all actions I'm allowed to, so that I have different options that assist in winning the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/204 #204 - Actions per team]<br />
+As a player, I would like to have multiple types of interactions with the game, so I can choose my own way to play. 
+
+Players should be able to interact with the game in a number of ways, such as placing bombs and mines.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>8</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/205 #205 - Placement restrictions]<br />
+As a player, I would like the opposite team to be limited to where they can place items, so the game stays fair and fun. 
+
+Players should be limited in where they can place objects and how many they can place, as the game could become impossible to win if this isn't checked.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/206 #206 - Fullscreen]<br />
+As developers, we would like the web interface to run in fullscreen, so it is nicer to look at and easier to work with.
+
+This task involves the implementation of the correct HTML 5 code, to show the web interface in fullscreen.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>2</td>
+<td>D</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/207 '''#207 - Refactoring''']<br />
+As a developer, I would like the code to be clean, so it is easier to maintain, use and read.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/208 #208 - Refactoring Comments and Javadocs]<br />
+The code must be refactored into an uniform style which we as a team have agreed on. This improves readability, maintainability, clarity and consistency.</td>
+<td>Taico</td>
+<td>Bram</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/209 #209 - Refactoring Packages]<br />
+The packages needs to be clear and correct to improve the structure of the code.</td>
+<td>Taico</td>
+<td>Bram</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/210 '''#210 - Controller Improvements''']<br />
+As a player, I want improvements of the controller support, so that I have better control of my movement.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/211 #211 - Improve Walking]<br />
+Implement 360 degree movement control, instead of the 4 directional movement we currently have.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/212 #212 - Improve Key Mappings]<br />
+Improve the key mappings, to make controls more intuitive.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/213 '''#213 - Landmines''']<br />
+As a dwarf, I want to be able to place landmines in the game, so that I can disrupt the player's progress.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/214 #214 - Landmine Entity]<br />
+Implement the landmine entity into the game. This task includes updating the web interface to support the landmine entity.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>4</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/215 #215 - Explosions]<br />
+Landmines should be able to trigger explosions. These explosions affect the player if they are within a certain range.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>4</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/216 '''#216 - Wall Frames''']<br />
+As a map maker, I want more control over the WallFrame entity, so that I can create better maps.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/217 #217 - Remove size restrictions]<br />
+Currently, walls have a set size of 1x3. These restrictions should be removed to allow for more flexible room designs.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>4</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/218 #218 - Fix MenuLevel with changes]<br />
+After changing the size restrictions, the MenuLevel needs to be updated.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>1</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/219 '''#219 - Pitfalls''']<br />
+As a dwarf, I want there to be pitfalls in the game, so that I have more ways to hinder the player.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/220 #220 - Pitfall Entity]<br />
+Implement the PitfallCover entity. This entity is drawn like a normal tile for the player, but has a different interaction. This task includes updating the web interface to support the pitfall entity.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>4</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/221 #221 - Player Interaction]<br />
+When walking over a pitfall, the player should fall through it.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>1</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/222 '''#222 - Health''']<br />
+As a player, I want to have health, so that I am able to take some damage without instantly dying.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/223 #223 - Implement Health Mechanic]<br />
+Implement health mechanics into the game.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>4</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/224 #224 - Show Health in HUD]<br />
+As a player, I want to be able to see how much health I currently have, so that I can change my strategy accordingly.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>1</td>
+<td>D</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/225 #225 - Create graphics for health in HUD]<br />
+The health displayed in the HUD should have proper graphics.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>1</td>
+<td>D</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/226 '''#226 - HUD''']<br />
+As a player, I want to be able to see how much health, keys and bombs I currently have, so that I can manage my resources properly.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/227 #227 - Implement HUD]<br />
+Implement the HUD in the game, so that it is properly displayed on the screen.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/228 #228 - Link HUD with Inventory]<br />
+Link the HUD with the player's inventory, so that it properly tracks the player's resources.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/229 #229 - Graphics for HUD]<br />
+Create graphics for Keys and Bombs, and display that in the HUD.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>3</td>
+<td>D</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/230 '''#230 - Cave looks and feel''']<br />
+As a player, I want the maze to look like a cave, so that I feel as if I'm walking through an actual cave.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/231 #231 - Create Cave Textures]<br />
+Create cave like textures for walls and the floor.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>4</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/232 #232 - Create Models]<br />
+Create models for the walls and floor, to allow for differently shapes in</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>5</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/0 '''#0 - Maze Exploration''']<br />
+As an elf, I want to see explored parts of the maze, so that I can properly help the player to get through the maze.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/233 #233 - Track Exploration]<br />
+Keep track of exploration</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/234 '''#234 - Animations''']<br />
+As a player, I want the game to have animations, so that I'm more immersed in the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/235 #235 - Implement Animations]<br />
+Implement animations in the game.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>4</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/236 #236 - Explosion Animation]<br />
+Create an explosion animation, which will be displayed when a bomb or landmine explodes.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>6</td>
+<td>D</td>
+</tr>
+</table>
+
+== Explanation for priorities of sprint items ==
+
+<table>
+<tr>
+<td>'''Task(s)'''</td>
+<td>'''Explanation'''</td>
+</tr>
+<tr>
+<td>123</td>
+<td>The Oculus Rift is part of the core of our game so it should have the highest priority.</td>
+</tr>
+<tr>
+<td>152, 153, 202</td>
+<td>In order to properly playtest the game, these changes should be implemented.</td>
+</tr>
+<tr>
+<td>133</td>
+<td>Without QR codes, connecting to the game becomes very difficult.</td>
+</tr>
+<tr>
+<td>204</td>
+<td>Without different actions per team, we cannot properly play the game, so this task must have a high priority.</td>
+</tr>
+<tr>
+<td>205</td>
+<td>Without placement restrictions, we cannot properly play the game, so this task must have a high priority.</td>
+</tr>
+<tr>
+<td>206</td>
+<td>Not essential for proper gameplay.</td>
+</tr>
+<tr>
+<td>208, 209</td>
+<td>This task makes other tasks easier to do, and thus has a high priority.</td>
+</tr>
+<tr>
+<td>211, 212</td>
+<td>Good controls are essential for a game.</td>
+</tr>
+<tr>
+<td>214, 220, 223</td>
+<td>Basic feature of our game.</td>
+</tr>
+<tr>
+<td>215</td>
+<td>Requires [https://github.com/Taeir/ContextProject-MIGI2/issues/214 #214] to be implemented.</td>
+</tr>
+<tr>
+<td>217</td>
+<td>Not essential for the gameplay, but pretty useful to have before we start creating maps.</td>
+</tr>
+<tr>
+<td>218</td>
+<td>Only applicable when [https://github.com/Taeir/ContextProject-MIGI2/issues/217 #217] has been implemented.</td>
+</tr>
+<tr>
+<td>221</td>
+<td>Depends on the implementation of the Pitfall Entity, [https://github.com/Taeir/ContextProject-MIGI2/issues/220 #220].</td>
+</tr>
+<tr>
+<td>224, 225</td>
+<td>Requires the HUD [https://github.com/Taeir/ContextProject-MIGI2/issues/227 #227] and health [https://github.com/Taeir/ContextProject-MIGI2/issues/223 #223].</td>
+</tr>
+<tr>
+<td>227</td>
+<td>The HUD is pretty useful for proper gameplay.</td>
+</tr>
+<tr>
+<td>228</td>
+<td>Requires the HUD to be implemented.</td>
+</tr>
+<tr>
+<td>229</td>
+<td>Not essential for the HUD to work properly.</td>
+</tr>
+<tr>
+<td>231, 232</td>
+<td>Proper graphics improve the immersion of the game, which we deem pretty important.</td>
+</tr>
+<tr>
+<td>233</td>
+<td>Core gameplay mechanic.</td>
+</tr>
+<tr>
+<td>235</td>
+<td>Animations are not required for proper gameplay.</td>
+</tr>
+<tr>
+<td>236</td>
+<td>Requires Animations and Explosions to be implemented.</td>
+</tr>
+</table>
