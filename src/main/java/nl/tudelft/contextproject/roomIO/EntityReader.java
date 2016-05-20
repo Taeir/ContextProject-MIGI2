@@ -2,7 +2,7 @@ package nl.tudelft.contextproject.roomIO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import com.jme3.math.Vector3f;
 
@@ -24,8 +24,8 @@ public final class EntityReader {
 	private EntityReader() {}
 	
 	/**
-	 * Read the specified amount of entities and add them to the list of entities.
-	 * @param entities The list to add all loaded entities to.
+	 * Read the specified amount of entities and add them to the set of entities.
+	 * @param entities The set to add all loaded entities to.
 	 * @param entityCount The number of entities to load.
 	 * @param xOffset The horizontal offset used for all entities.
 	 * @param yOffset The vertical offset used for all entities.
@@ -34,7 +34,7 @@ public final class EntityReader {
 	 * @throws IOException When reading from the reader goes wrong.
 	 * @throws ScriptLoaderException When loading of a script goes wrong.
 	 */
-	public static void readEntities(List<Entity> entities, int entityCount, int xOffset, int yOffset, 
+	public static void readEntities(Set<Entity> entities, int entityCount, int xOffset, int yOffset, 
 			BufferedReader br, String path) throws IOException, ScriptLoaderException {
 		for (int i = 0; i < entityCount; i++) {
 			String in = br.readLine();
