@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.util;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -12,6 +13,7 @@ import java.util.List;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Bomb;
 import nl.tudelft.contextproject.model.Entity;
+import nl.tudelft.contextproject.model.VRPlayer;
 import nl.tudelft.contextproject.test.TestUtil;
 import org.json.JSONObject;
 import org.junit.AfterClass;
@@ -117,10 +119,22 @@ public class JSONUtilTest {
         List<Entity> list = new ArrayList<>();
 
         Bomb bomb = new Bomb();
-
         list.add(bomb);
 
-        JSONObject json = JSONUtil.entitiesToJson(list);
+        JSONObject json = JSONUtil.entitiesToJson(list, new VRPlayer());
         assertNotNull(json.getJSONArray("entities"));
+    }
+
+
+    /**
+     * Test for getting a json representing an entity.
+     */
+    @Test
+    public void testEntityToJson() {
+        Bomb bomb = new Bomb();
+        JSONObject json = JSONUtil.entityToJson(bomb);
+        assertEquals(json.getInt("x"), 0);
+        assertEquals(json.getInt("y"), 0);
+        assertEquals(json.getInt("type"), 1);
     }
 }

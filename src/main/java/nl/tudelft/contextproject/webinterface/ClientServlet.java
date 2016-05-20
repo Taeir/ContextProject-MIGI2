@@ -261,7 +261,7 @@ public class ClientServlet extends DefaultServlet {
 
 		if (!checkAuthorized(client, response, true)) return;
 
-		JSONObject json = JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities());
+		JSONObject json = JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer());
 
 		response.setStatus(HttpStatus.OK_200);
 		response.setContentType("text/json");

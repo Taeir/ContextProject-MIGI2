@@ -7,9 +7,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.List;
+import java.util.Collection;
 
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Entity;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,10 +58,12 @@ public final class JSONUtil {
      * representing this list.
      * @param entities
      *          the entities to convert
+     * @param player
+     *          the player
      * @return
      *          a JSONObject representing the entities
      */
-    public static JSONObject entitiesToJson(List<Entity> entities) {
+    public static JSONObject entitiesToJson(Collection<Entity> entities, Entity player) {
         JSONObject json = new JSONObject();
 
         JSONArray jArray = new JSONArray();
@@ -71,7 +72,7 @@ public final class JSONUtil {
             jArray.put(entity);
         }
 
-        JSONObject entity = entityToJson(Main.getInstance().getCurrentGame().getPlayer());
+        JSONObject entity = entityToJson(player);
         jArray.put(entity);
 
         json.put("entities", jArray);
