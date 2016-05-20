@@ -1,8 +1,9 @@
-package nl.tudelft.contextproject.qrgenerator;
+package nl.tudelft.contextproject.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import nl.tudelft.contextproject.util.QRGenerator;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
-import nl.tudelft.contextproject.qrgenerator.QRGenerator;
+import nl.tudelft.contextproject.util.QRGenerator;
 
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Server;
