@@ -186,8 +186,11 @@ public class Main extends SimpleApplication {
 			im.addMapping("Left", new JoyAxisTrigger(0, 1, true));
 			im.addMapping("Right", new JoyAxisTrigger(0, 1, false));
 			
+						
 			j.getButton("0").assignButton("Jump");				// A
 			j.getButton("3").assignButton("SIMPLEAPP_Exit");	// Y
+			j.getButton("4").assignButton("Bomb");	// Y
+			j.getButton("1").assignButton("Pickup");	// Y
 		} else {
 			im.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
 			im.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
