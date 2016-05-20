@@ -189,8 +189,8 @@ public class Main extends SimpleApplication {
 						
 			j.getButton("0").assignButton("Jump");				// A
 			j.getButton("3").assignButton("SIMPLEAPP_Exit");	// Y
-			j.getButton("4").assignButton("Bomb");	// Y
-			j.getButton("1").assignButton("Pickup");	// Y
+			j.getButton("2").assignButton("Bomb");				// X
+			j.getButton("1").assignButton("Pickup");			// B
 		} else {
 			im.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
 			im.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
