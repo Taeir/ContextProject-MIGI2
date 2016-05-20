@@ -49,20 +49,20 @@ public class Inventory {
 	 */
 	public void remove(Entity ent) {
 		if (ent instanceof Bomb) {
-			for (int i = 0; i < array.size(); i++) {
-				if (array.get(i) instanceof Bomb) {
-					array.remove(i);
+			for (Entity entity : array) {
+				if (entity instanceof Bomb) {
+					array.remove(entity);
 					bombs--;
 					return;
 				}
 			}
 		}
 		if (ent instanceof Key) {
-			for (int i = 0; i < array.size(); i++) {
-				if (array.get(i) instanceof Key) {
-					Key key = (Key) array.get(i);
+			for (Entity entity : array) {
+				if (entity instanceof Key) {
+					Key key = (Key) entity;
 					if (key.getColor().equals(((Key) ent).getColor())) {
-						array.remove(i);
+						array.remove(entity);
 						keys--;
 						return;
 					}
@@ -79,9 +79,9 @@ public class Inventory {
 	 */
 	public Bomb getBomb() {
 		Bomb bomb = null;
-		for (int i = 0; i < array.size(); i++) {
-			if (array.get(i) instanceof Bomb) {
-				return (Bomb) array.get(i);
+		for (Entity ent : array) {
+			if (ent instanceof Bomb) {
+				return (Bomb) ent;
 			}
 		}
 		return bomb;
@@ -114,9 +114,9 @@ public class Inventory {
 		if (!containsKey()) {
 			return false;
 		}
-		for (int i = 0; i < array.size(); i++) {
-			if (array.get(i) instanceof Key) {
-				Key key = (Key) array.get(i);
+		for (Entity ent : array) {
+			if (ent instanceof Key) {
+				Key key = (Key) ent;
 				if (key.getColor().equals(color)) {
 					return true;
 				}
@@ -132,9 +132,9 @@ public class Inventory {
 	 * @return The key of that color
 	 */
 	public Key getKey(ColorRGBA color) {
-		for (int i = 0; i < array.size(); i++) {
-			if (array.get(i) instanceof Key) {
-				Key key = (Key) array.get(i);
+		for (Entity ent : array) {
+			if (ent instanceof Key) {
+				Key key = (Key) ent;
 				if (key.getColor().equals(color)) {
 					return key;
 				}
