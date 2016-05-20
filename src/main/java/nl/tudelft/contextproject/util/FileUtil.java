@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.files;
+package nl.tudelft.contextproject.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -82,13 +82,13 @@ public final class FileUtil {
 			
 			return new File(url.toURI());
 		}
-		
+
 		//Check if we already have the file extracted
 		String winLoc = fLocation.replace('/', File.separatorChar);
 		File file = new File(winLoc);
 		if (file.exists()) return file;
 
-		//We need to extract this from the jar.
+		//If does file has not yet been extracted we extract it
 		extractFromJar(fLocation);
 		
 		return file;
@@ -103,6 +103,7 @@ public final class FileUtil {
 	private static void extractFromJar(String fLocation) {
 		try (JarFile jar = new JarFile(path)) {
 			Enumeration<JarEntry> enumEntries = jar.entries();
+
 			while (enumEntries.hasMoreElements()) {
 				JarEntry entry = enumEntries.nextElement();
 				if (!entry.getName().startsWith(fLocation)) continue;
@@ -114,23 +115,22 @@ public final class FileUtil {
 				Log.getLog("FileManager").fine("Extracting " + entry.getName() + " to " + outputFile.getAbsolutePath());
 				
 				if (outputFile.exists()) {
-					//Outputfile already exists
 					continue;
 				} else if (entry.isDirectory()) {
-					//This is a directory, so ensure that all folders are created
 					outputFile.mkdirs();
 					continue;
 				} else if (outputFile.getParentFile() != null) {
-					//Ensure that the parent folder is created
 					outputFile.getParentFile().mkdirs();
 				}
 				
 				//Write the file to the new location
 				FileOutputStream fos = new FileOutputStream(outputFile);
 				InputStream is = jar.getInputStream(entry);
-				while (is.available() > 0) {  // write contents of 'is' to 'fos'
+
+				while (is.available() > 0) {
 					fos.write(is.read());
 				}
+
 				fos.close();
 				is.close();
 			}
@@ -148,10 +148,9 @@ public final class FileUtil {
 	 * by getResource cannot be malformed.
 	 * 
 	 * @param location
-	 * 		the location of the directory to get the file names in.
-	 * 
+	 * 		the location of the directory to get the file names in
 	 * @return
-	 * 		an array of filenames in the directory at the given location.
+	 * 		an array of filenames in the directory at the given location
 	 */
 	@SneakyThrows(URISyntaxException.class)
 	public static String[] getFileNames(String location) {
@@ -170,8 +169,7 @@ public final class FileUtil {
 		if (!location.isEmpty() && !location.endsWith("/")) {
 			location = location + "/";
 		}
-		
-		//Construct the list of names
+
 		return listInJar(location);
 	}
 
@@ -180,14 +178,15 @@ public final class FileUtil {
 	 * 
 	 * @param location
 	 * 		the location of the directory
-	 * 
 	 * @return
 	 * 		an array of Strings, representing the names of the files in the directory
 	 */
 	private static String[] listInJar(String location) {
 		List<String> names = new ArrayList<>();
+
 		try (JarFile jar = new JarFile(path)) {
 			Enumeration<JarEntry> enumEntries = jar.entries();
+
 			while (enumEntries.hasMoreElements()) {
 				JarEntry entry = enumEntries.nextElement();
 				
@@ -199,6 +198,7 @@ public final class FileUtil {
 				if (!entry.isDirectory() && name.contains("/")) continue;
 				names.add(name);
 			}
+
 		} catch (IOException ex) {
 			Log.getLog("FileManager").warning("Unable to retrieve files in " + location + " from jar!", ex);
 		}

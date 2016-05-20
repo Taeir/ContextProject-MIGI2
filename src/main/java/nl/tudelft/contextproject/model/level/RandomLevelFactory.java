@@ -12,7 +12,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
-import nl.tudelft.contextproject.files.FileUtil;
+import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.util.Size;
 
 /**

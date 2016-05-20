@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.files;
+package nl.tudelft.contextproject.util;
 
 import static org.junit.Assert.*;
 

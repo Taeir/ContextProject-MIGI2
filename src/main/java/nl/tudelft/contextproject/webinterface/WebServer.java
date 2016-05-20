@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.files.FileUtil;
+import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.qrgenerator.QRGenerator;
 

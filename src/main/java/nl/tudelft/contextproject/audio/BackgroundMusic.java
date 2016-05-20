@@ -10,7 +10,7 @@ import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.files.FileUtil;
+import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 
 /**

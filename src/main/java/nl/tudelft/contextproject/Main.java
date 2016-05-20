@@ -25,7 +25,7 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
-import nl.tudelft.contextproject.files.FileUtil;
+import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
