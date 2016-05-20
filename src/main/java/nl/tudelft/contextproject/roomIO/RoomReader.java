@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import com.jme3.light.Light;
 
@@ -26,13 +27,13 @@ public final class RoomReader {
 	 * Note that you can also use this method to load entire levels by using a (0,0) offset.
 	 * @param folder The folder to load the room from.
 	 * @param tiles The MazeTile array to store the loaded tiles in.
-	 * @param entities The list to add all the loaded entities to.
+	 * @param entities The set to add all the loaded entities to.
 	 * @param lights The list to add all the loaded lights to.
 	 * @param xOffset The horizontal offset that is used for moving all loaded items.
 	 * @param yOffset The vertical offset that is used for moving all loaded items.
 	 * @throws IOException When something goes wrong.
 	 */
-	public static void importFile(String folder, MazeTile[][] tiles, List<Entity> entities, List<Light> lights, int xOffset, int yOffset) throws IOException {
+	public static void importFile(String folder, MazeTile[][] tiles, Set<Entity> entities, List<Light> lights, int xOffset, int yOffset) throws IOException {
 		try (BufferedReader br = new BufferedReader(new FileReader(getMapFile(folder)))) {
 			String line = br.readLine();
 			while (line != null && line.startsWith("#")) {

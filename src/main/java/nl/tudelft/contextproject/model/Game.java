@@ -1,7 +1,7 @@
 package nl.tudelft.contextproject.model;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import nl.tudelft.contextproject.model.level.Level;
 
@@ -11,7 +11,7 @@ import nl.tudelft.contextproject.model.level.Level;
 public class Game {
 	private Level level;
 	private VRPlayer player;
-	private List<Entity> entities;
+	private Set<Entity> entities;
 	
 	/**
 	 * Advanced constructor for the game.
@@ -19,7 +19,7 @@ public class Game {
 	 * @param player The VRPlayer in this game.
 	 * @param entities A list containing all entities in the game.
 	 */
-	public Game(Level level, VRPlayer player, List<Entity> entities) {
+	public Game(Level level, VRPlayer player, Set<Entity> entities) {
 		this.level = level;
 		this.player = player;
 		this.entities = entities;
@@ -32,7 +32,7 @@ public class Game {
 	public Game(Level level) {
 		this.level = level;
 		this.player = new VRPlayer();
-		this.entities = new LinkedList<>();
+		this.entities = ConcurrentHashMap.newKeySet();
 	}
 	
 	/**
@@ -54,9 +54,9 @@ public class Game {
 
 	/**
 	 * Get all the entities from the game.
-	 * @return A list with all the entities.
+	 * @return a set with all the entities
 	 */
-	public List<Entity> getEntities() {
+	public Set<Entity> getEntities() {
 		return entities;
 	}
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.List;
+import java.util.Set;
 
 import nl.tudelft.contextproject.model.Entity;
 import org.json.JSONArray;
@@ -54,14 +54,14 @@ public final class JSONUtil {
     }
 
     /**
-     * Convert a list of entities to a JSONObject
-     * representing this list.
+     * Convert a set of entities to a JSONObject representing this list.
+     * 
      * @param entities
      *          the entities to convert
      * @return
      *          a JSONObject representing the entities
      */
-    public static JSONObject entitiesToJson(List<Entity> entities) {
+    public static JSONObject entitiesToJson(Set<Entity> entities) {
         JSONObject json = new JSONObject();
 
         JSONArray jArray = new JSONArray();

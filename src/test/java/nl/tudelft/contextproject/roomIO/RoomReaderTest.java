@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -48,7 +50,7 @@ public class RoomReaderTest {
 	@Test
 	public void testCorrectFile() throws IOException {
 		MazeTile[][] tiles = new MazeTile[50][50];
-		ArrayList<Entity> entities = new ArrayList<>();
+		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		ArrayList<Light> lights = new ArrayList<>();
 		RoomReader.importFile("/maps/correct/", tiles, entities, lights, 0, 0);
 		// no errors occurred.
