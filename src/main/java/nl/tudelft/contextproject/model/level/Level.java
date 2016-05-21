@@ -93,6 +93,8 @@ public class Level {
 		json.put("width", getWidth());
 		json.put("height", getHeight());
 
+
+		//Store all the tiles in a JSONObject.
 		JSONObject jsonTiles = new JSONObject();
 		for (int x = 0; x < mazeTiles.length; x++) {
 			MazeTile[] row = mazeTiles[x];
@@ -130,6 +132,7 @@ public class Level {
 			JSONArray jArray = new JSONArray();
 			
 			for (int y = 0; y < row.length; y++) {
+				//We are only interested in explored tiles
 				if (row[y] == null || !row[y].isExplored()) continue;
 				
 				jArray.put(y);
