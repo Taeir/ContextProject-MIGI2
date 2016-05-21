@@ -25,6 +25,10 @@ public class Log {
 	
 	static {
 		CONSOLE_HANDLER = new ConsoleHandler();
+
+		//Log messages to the console like:
+		//14:59:26 [WARNING] [ENGINE]: There is a problem!
+		//Exception - Stacktrace
 		LogFormatter formatter = new LogFormatter("%1$tH:%1$tM:%1$tS [%3$s] [%2$s]: %4$s%5$s%n");
 		CONSOLE_HANDLER.setFormatter(formatter);
 		CONSOLE_HANDLER.setLevel(Level.INFO);

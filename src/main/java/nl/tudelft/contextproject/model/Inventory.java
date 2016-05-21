@@ -11,7 +11,7 @@ import nl.tudelft.contextproject.model.entities.Key;
  * Class representing the players inventory.
  */
 public class Inventory {
-	private ArrayList<Entity> pickedUpEntities;
+	ArrayList<Entity> pickedUpEntities;
 	private int keys;
 	private int bombs;
 
@@ -81,7 +81,7 @@ public class Inventory {
 	 * Returns a bomb from the inventory.
 	 *
 	 * @return
-	 * 		a bomb from the inventory if the inventory contains a bomb
+	 * 		if the inventory contains a bomb, returns that bomb. Otherwise returns null
 	 */
 	public Bomb getBomb() {
 		for (Entity ent : pickedUpEntities) {
@@ -161,7 +161,7 @@ public class Inventory {
 	/**
 	 * Gives the size of the current inventory.
 	 * @return
-	 * 		the current size of the inventory
+	 * 		the current amount of items in the inventory (bombs and keys)
 	 */
 	public int size() {
 		return pickedUpEntities.size();

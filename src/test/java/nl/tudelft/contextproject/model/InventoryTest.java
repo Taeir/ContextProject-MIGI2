@@ -108,7 +108,7 @@ public class InventoryTest {
 	public void testAddBomb() {
 		Bomb bomb = new Bomb();
 		inv.add(bomb);
-		assertTrue(inv.array.get(0) instanceof Bomb);
+		assertTrue(inv.pickedUpEntities.get(0) instanceof Bomb);
 	}
 
 	/**
