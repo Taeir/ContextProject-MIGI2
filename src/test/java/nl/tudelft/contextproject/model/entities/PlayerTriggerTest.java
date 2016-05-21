@@ -64,12 +64,10 @@ public class PlayerTriggerTest extends EntityTest {
 	 */
 	@Test
 	public void testUpdateCoolingDown() {
-		// Trigger
 		Spatial pSpat = Main.getInstance().getCurrentGame().getPlayer().getSpatial();
 		pSpat.setLocalTranslation(pt.getSpatial().getLocalTranslation());
 		pt.update(.001f);
-		
-		// Cooldown
+
 		pt.update(.5f);
 		verify(action, times(1)).update(anyFloat());
 		pSpat.setLocalTranslation(0, 10, 0);
@@ -92,6 +90,7 @@ public class PlayerTriggerTest extends EntityTest {
 		Spatial pSpat = Main.getInstance().getCurrentGame().getPlayer().getSpatial();
 		pSpat.setLocalTranslation(pt.getSpatial().getLocalTranslation());
 		pt.update(1.2f);
+
 		verify(action, times(1)).update(1.2f);
 		pSpat.setLocalTranslation(0, 10, 0);
 	}

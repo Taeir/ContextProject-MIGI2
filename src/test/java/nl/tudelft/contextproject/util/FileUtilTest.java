@@ -21,7 +21,7 @@ public class FileUtilTest {
 	 * Saves the values of the fields in FileUtil, so the values can be restored after the tests.
 	 * 
 	 * @throws Exception
-	 * 		if an exception occurs in finding the testjar file.
+	 * 		if an exception occurs in finding the testjar file
 	 */
 	@BeforeClass
 	public static void setUpClass() throws Exception {

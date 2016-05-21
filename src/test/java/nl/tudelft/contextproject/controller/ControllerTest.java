@@ -27,13 +27,17 @@ public abstract class ControllerTest {
 
 	/**
 	 * Get a controller to test with.
-	 * @return An instance of a Controller.
+	 *
+	 * @return
+	 * 		an instance of a Controller
 	 */
 	public abstract Controller getController();
 	
 	/**
 	 * Get an instance of Main.
-	 * @return The instance of Main.
+	 *
+	 * @return
+	 * 		the instance of Main
 	 */
 	public abstract Main getMain();
 	
@@ -82,6 +86,7 @@ public abstract class ControllerTest {
 		Node gn = mock(Node.class);
 		c.setGuiNode(gn);
 		Spatial s = mock(Spatial.class);
+
 		when(gn.detachChild(any(Spatial.class))).thenReturn(-1);
 		assertFalse(c.removeGuiElement(s));
 		verify(gn, times(1)).detachChild(s);
@@ -113,7 +118,8 @@ public abstract class ControllerTest {
 			
 			@Override
 			public void mapDraw(Graphics2D g, int resolution) { }
-		};		
+		};
+
 		c.addDrawable(d);
 		verify(rn, times(1)).attachChild(geom);
 	}
@@ -127,6 +133,7 @@ public abstract class ControllerTest {
 		Node rn = mock(Node.class);
 		c.setRootNode(rn);
 		Geometry geom = mock(Geometry.class);
+
 		Drawable d = new Drawable() {
 			@Override
 			public Geometry getSpatial() {
@@ -138,7 +145,8 @@ public abstract class ControllerTest {
 			
 			@Override
 			public void mapDraw(Graphics2D g, int resolution) { }
-		};	
+		};
+
 		when(rn.detachChild(any(Spatial.class))).thenReturn(12);
 		assertTrue(c.removeDrawable(d));
 		verify(rn, times(1)).detachChild(geom);
@@ -153,6 +161,7 @@ public abstract class ControllerTest {
 		Node rn = mock(Node.class);
 		c.setRootNode(rn);
 		Geometry geom = mock(Geometry.class);
+
 		Drawable d = new Drawable() {
 			@Override
 			public Spatial getSpatial() {
@@ -164,7 +173,8 @@ public abstract class ControllerTest {
 			
 			@Override
 			public void mapDraw(Graphics2D g, int resolution) { }
-		};		
+		};
+
 		when(rn.detachChild(any(Spatial.class))).thenReturn(-1);
 		assertFalse(c.removeDrawable(d));
 		verify(rn, times(1)).detachChild(geom);
@@ -176,6 +186,7 @@ public abstract class ControllerTest {
 	@Test
 	public void testInitialize() {
 		Main app = getMain();
+
 		Controller c = new Controller(app, null) {
 			@Override
 			public void update(float tpf) { }
@@ -246,7 +257,6 @@ public abstract class ControllerTest {
 	 */
 	@Test
 	public void testRemoveInputListener() {
-
 		Controller c = getController();
 		InputManager im = mock(InputManager.class);
 		c.setInputManager(im);

@@ -41,13 +41,8 @@ public class JSONUtilTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        //Store the old Main instance
         main = Main.getInstance();
-
-        //Clear the instance
         Main.setInstance(null);
-
-        //Ensure that the main is mocked
         TestUtil.ensureMainMocked(true);
     }
 
@@ -56,7 +51,6 @@ public class JSONUtilTest {
      */
     @AfterClass
     public static void tearDownAfterClass() {
-        //Restore the old main
         Main.setInstance(main);
     }
 
@@ -83,7 +77,9 @@ public class JSONUtilTest {
     /**
      * Test for checking if an IOException occurs if one tries
      * to load a non-existing file.
-     * @throws IOException - The expected exception.
+     *
+     * @throws IOException
+     *      the expected exception
      */
     @Test
     public void testLoadFileNotFound() throws IOException {
@@ -94,7 +90,9 @@ public class JSONUtilTest {
 
     /**
      * Test for loading an existing file.
-     * @throws IOException - File not found.
+     *
+     * @throws IOException
+     *      file not found
      */
     @Test
     public void testLoadExistingFile() throws IOException {
@@ -104,7 +102,9 @@ public class JSONUtilTest {
 
     /**
      * Test saving of a file.
-     * @throws IOException - If file writing goes wrong.
+     *
+     * @throws IOException
+     *      if file writing goes wrong
      */
     @Test
     public void testSaveFile() throws IOException {

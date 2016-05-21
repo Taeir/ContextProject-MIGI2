@@ -34,13 +34,8 @@ public class WebTestBase {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
-		//Store the old Main instance
 		main = Main.getInstance();
-		
-		//Clear the instance
 		Main.setInstance(null);
-		
-		//Ensure that the main is mocked
 		TestUtil.ensureMainMocked(true);
 	}
 
@@ -49,7 +44,6 @@ public class WebTestBase {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() {
-		//Restore the old main
 		Main.setInstance(main);
 	}
 	
@@ -58,7 +52,6 @@ public class WebTestBase {
 	 * 
 	 * @param id
 	 * 		the id of the cookie
-	 * 
 	 * @return
 	 * 		a spied session2 cookie with the given id
 	 */
@@ -73,7 +66,6 @@ public class WebTestBase {
 	 * 
 	 * @param id
 	 * 		the id of the session
-	 * 
 	 * @return
 	 * 		a mocked session with the given id
 	 */
@@ -94,7 +86,6 @@ public class WebTestBase {
 	 * 		the session2 id of the request. If null, the request will not have a session2 cookie.
 	 * @param auth
 	 * 		if false, then getSession(false) will return null
-	 * 
 	 * @return
 	 * 		a mocked HttpServletRequest
 	 */
@@ -115,36 +106,28 @@ public class WebTestBase {
 	 * 		the method of the request. true = GET, false = POST
 	 * @param uri
 	 * 		the uri accessed (/index.html)
-	 * 
 	 * @return
 	 * 		a mocked HttpServletRequest
 	 */
 	public HttpServletRequest createMockedRequest(String id1, String id2, boolean auth, boolean method, String uri) {
-		//Mock the request
 		HttpServletRequest request = mock(HttpServletRequest.class);
-		
-		//Create spied/mocked sessions
+
 		HttpSession session = createSession(id1);
-		
-		//Set the session
+
 		if (auth) when(request.getSession(false)).thenReturn(session);
 		when(request.getSession(true)).thenReturn(session);
 		when(request.getSession()).thenReturn(session);
-		
-		//Set the session2 cookie
+
 		if (id2 != null) {
 			Cookie cookie2 = createSession2Cookie(id2);
 			when(request.getCookies()).thenReturn(new Cookie[] { cookie2 });
 		}
-		
-		//Set the method (GET/POST)
+
 		String sMethod = method ? "GET" : "POST";
 		when(request.getMethod()).thenReturn(sMethod);
-		
-		//Set the request URI (/index.html)
+
 		when(request.getRequestURI()).thenReturn(uri);
-		
-		//Set a parameter map
+
 		Map<String, String[]> map = new HashMap<>();
 		when(request.getParameterMap()).thenReturn(map);
 		when(request.getParameterNames()).thenAnswer(i -> Collections.enumeration(map.keySet()));
@@ -166,24 +149,19 @@ public class WebTestBase {
 	 */
 	public void setParameter(HttpServletRequest request, String param, String... values) {
 		if (values == null) {
-			//Remove from the map
 			request.getParameterMap().remove(param);
-			
-			//"Unmock" methods
+
 			when(request.getParameterValues(param)).thenReturn(null);
 			when(request.getParameter(param)).thenReturn(null);
 			
 			return;
 		}
-		
-		//Add to the parameter map
+
 		request.getParameterMap().put(param, values);
-		
-		//Stub the getParameterValues method
+
 		when(request.getParameterValues(param)).thenReturn(values);
 		
 		if (values.length == 1) {
-			//If there is only one value, then stub the getParameter method
 			String param1 = values[0];
 			when(request.getParameter(param)).thenReturn(param1);
 		}

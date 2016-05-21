@@ -26,7 +26,9 @@ public abstract class EntityTest extends DrawableTest {
 	
 	/**
 	 * Getter for a specific instance of Entity.
-	 * @return an Entity to test with.
+	 *
+	 * @return
+	 * 		an Entity to test with
 	 */
 	public abstract Entity getEntity();
 

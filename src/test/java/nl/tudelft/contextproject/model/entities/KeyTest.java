@@ -44,7 +44,4 @@ public class KeyTest extends EntityTest {
 		key.update(0.f);
 		verifyZeroInteractions(mockedGeometry);
 	}
-	/**
-	 * Test if the move method works
-	 */
 }

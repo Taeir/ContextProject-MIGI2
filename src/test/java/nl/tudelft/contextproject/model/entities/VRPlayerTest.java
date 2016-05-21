@@ -38,19 +38,19 @@ public class VRPlayerTest extends EntityTest {
 	}
 
 	//TODO This method should be tested after VR support is added as it will change!
-	/**
-	 * Test if updating the player moves it.
-	 * NOTE: moving by 0 is also moving.
-	 */
-	//	@Test
-	//	public void testSimpleUpdate() {
-	//		Geometry mockedGeometry = mock(Geometry.class);
-	//		CharacterControl mockedCharacterControl = mock(CharacterControl.class);
-	//		player.setSpatial(mockedGeometry);
-	//		player.setCharacterControl(mockedCharacterControl);
-	//		player.update(0.f);
-	//		verify(mockedGeometry, times(1)).move(anyFloat(), anyFloat(), anyFloat());
-	//	}
+//	/**
+//	 * Test if updating the player moves it.
+//	 * NOTE: moving by 0 is also moving.
+//	 */
+//		@Test
+//		public void testSimpleUpdate() {
+//			Geometry mockedGeometry = mock(Geometry.class);
+//			CharacterControl mockedCharacterControl = mock(CharacterControl.class);
+//			player.setSpatial(mockedGeometry);
+//			player.setCharacterControl(mockedCharacterControl);
+//			player.update(0.f);
+//			verify(mockedGeometry, times(1)).move(anyFloat(), anyFloat(), anyFloat());
+//		}
 
 	/**
 	 * Test getGeometry().

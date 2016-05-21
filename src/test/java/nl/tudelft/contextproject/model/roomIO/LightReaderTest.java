@@ -57,7 +57,9 @@ public class LightReaderTest {
 	
 	/**
 	 * Read an ambient light from a string.
-	 * @throws IOException Should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testReadLights() throws IOException {
@@ -71,7 +73,9 @@ public class LightReaderTest {
 	
 	/**
 	 * Read an empty string.
-	 * @throws IOException Should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadLightsEmpty() throws IOException {
@@ -83,7 +87,9 @@ public class LightReaderTest {
 	
 	/**
 	 * Read a string with too few arguments.
-	 * @throws IOException Should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadLightsTooFewArguments() throws IOException {

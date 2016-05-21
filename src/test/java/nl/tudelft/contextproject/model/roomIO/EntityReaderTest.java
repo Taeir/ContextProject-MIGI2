@@ -46,7 +46,9 @@ public class EntityReaderTest {
 	
 	/**
 	 * Test if getting a non existent entity throws an exception.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetEntityNotSupported() throws ScriptLoaderException {
@@ -55,7 +57,9 @@ public class EntityReaderTest {
 	
 	/**
 	 * Test getting a bomb.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testGetEntityBomb() throws ScriptLoaderException {
@@ -66,7 +70,9 @@ public class EntityReaderTest {
 	
 	/**
 	 * Test getting a key.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testGetEntityKey() throws ScriptLoaderException {
@@ -77,7 +83,9 @@ public class EntityReaderTest {
 	
 	/**
 	 * Test getting a door.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testGetEntityDoor() throws ScriptLoaderException {
@@ -88,8 +96,11 @@ public class EntityReaderTest {
 	
 	/**
 	 * Test reading an entity from a string.
-	 * @throws IOException Should not happen.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		should not happen
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testReadEntities() throws IOException, ScriptLoaderException {
@@ -103,8 +114,11 @@ public class EntityReaderTest {
 	
 	/**
 	 * Test reading an empty string.
-	 * @throws IOException Should not happen.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadEntitiesNull() throws IOException, ScriptLoaderException {
@@ -116,8 +130,11 @@ public class EntityReaderTest {
 	
 	/**
 	 * Test reading a string with too few elements.
-	 * @throws IOException Should not happen.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadEntitiesTooFewArguments() throws IOException, ScriptLoaderException {

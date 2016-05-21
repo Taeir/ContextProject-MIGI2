@@ -45,7 +45,9 @@ public class RoomReaderTest {
 	
 	/**
 	 * Test loading a correct file.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testCorrectFile() throws IOException {
@@ -60,7 +62,9 @@ public class RoomReaderTest {
 	
 	/**
 	 * Test loading a non existent file.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test (expected = FileNotFoundException.class)
 	public void testNonExistentFile() throws IOException {
@@ -69,7 +73,9 @@ public class RoomReaderTest {
 	
 	/**
 	 * Test loading empty file.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testEmptyFile() throws IOException {
@@ -78,7 +84,9 @@ public class RoomReaderTest {
 	
 	/**
 	 * Test loading a file with a too small header.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testSmallHeaderFile() throws IOException {

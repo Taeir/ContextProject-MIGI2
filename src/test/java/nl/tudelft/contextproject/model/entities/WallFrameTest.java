@@ -63,6 +63,7 @@ public class WallFrameTest extends EntityTest {
 		Spatial sp = mock(Spatial.class);
 		wf.setSpatial(sp);
 		wf.snapToWall(Direction.NORTH);
+
 		verify(sp, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
 		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
@@ -75,6 +76,7 @@ public class WallFrameTest extends EntityTest {
 		Spatial sp = mock(Spatial.class);
 		wf.setSpatial(sp);
 		wf.snapToWall(Direction.WEST);
+
 		verify(sp, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
 		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
@@ -87,6 +89,7 @@ public class WallFrameTest extends EntityTest {
 		Spatial sp = mock(Spatial.class);
 		wf.setSpatial(sp);
 		wf.snapToWall(Direction.SOUTH);
+
 		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
 	
@@ -98,6 +101,7 @@ public class WallFrameTest extends EntityTest {
 		Spatial sp = mock(Spatial.class);
 		wf.setSpatial(sp);
 		wf.snapToWall(Direction.EAST);
+
 		verify(sp, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
 		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}

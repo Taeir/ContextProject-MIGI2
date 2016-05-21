@@ -29,6 +29,8 @@ import nl.tudelft.contextproject.model.level.Level;
 
 /**
  * Utility class for testing.
+ * This class has en excessive amount of comments, as things could
+ * change if we expand on our game.
  */
 public final class TestUtil {
 	private TestUtil() { }
@@ -162,7 +164,6 @@ public final class TestUtil {
 	 * @param trySpy
 	 * 		if true, will create a spy when object is null.
 	 * 		If false, will create a mock when object is null.
-	 * 
 	 * @return
 	 * 		a spy or mock of the given object
 	 */
@@ -198,7 +199,6 @@ public final class TestUtil {
 	 * 		the current object
 	 * @param constructor
 	 * 		a supplier to create a new instance of S if object is null
-	 * 
 	 * @return
 	 * 		a spy or mock of the given object
 	 */
@@ -226,7 +226,6 @@ public final class TestUtil {
 	 * 
 	 * @param object
 	 * 		the object to check
-	 * 
 	 * @return
 	 * 		if the given object is a mock (or spy)
 	 */

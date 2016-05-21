@@ -31,7 +31,9 @@ public abstract class DrawableTest {
 	
 	/**
 	 * Getter for a specific instance of Drawable.
-	 * @return a Drawable to test with.
+	 *
+	 * @return
+	 * 		a Drawable to test with
 	 */
 	public abstract Drawable getDrawable();
 	
@@ -82,7 +84,7 @@ public abstract class DrawableTest {
 	
 	/**
 	 * Setup the mocks in the Main class.
-	 * This enables testing using {@link #getGeometry()}.
+	 * This enables testing using {@link Drawable#getSpatial()}.
 	 */
 	@SuppressWarnings("unchecked")
 	public void setupGeometryMock() {

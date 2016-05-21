@@ -55,17 +55,11 @@ public class TestLog {
 	 * 		the exception logged with the message, or null for no exception
 	 */
 	public void verifyLogged(Level level, String msg, Exception ex) {
-		//We need to capture arguments
 		ArgumentCaptor<LogRecord> ac = ArgumentCaptor.forClass(LogRecord.class);
 		verify(handler, times(1)).publish(ac.capture());
-		
-		//Check if level was correct.
+
 		assertEquals(level, ac.getValue().getLevel());
-		
-		//Check if message was correct
 		assertEquals(msg, ac.getValue().getMessage());
-		
-		//Check if throwable was the same
 		assertSame(ex, ac.getValue().getThrown());
 	}
 	
@@ -78,8 +72,7 @@ public class TestLog {
 	@Test
 	public void testLog() throws IOException {
 		Log nlog = new Log("hello", true);
-		
-		//There should be a filehandler and a consolehandler.
+
 		assertEquals(2, nlog.getLogger().getHandlers().length);
 	}
 
@@ -217,7 +210,6 @@ public class TestLog {
 	 */
 	@Test
 	public void testLogLevelStringThrowable() {
-		//Test the method by logging on the CONFIG level.
 		Exception ex = new Exception();
 		log.log(Level.CONFIG, "specific level message + exception", ex);
 		verifyLogged(Level.CONFIG, "specific level message + exception", ex);
@@ -228,7 +220,6 @@ public class TestLog {
 	 */
 	@Test
 	public void testLogLevelString() {
-		//Test the method by logging on the CONFIG level.
 		log.log(Level.CONFIG, "specific level message");
 		verifyLogged(Level.CONFIG, "specific level message", null);
 	}
@@ -265,12 +256,10 @@ public class TestLog {
 	@Test
 	public void testCreateLogLevel() {
 		Level level = Log.createLogLevel("IMPORTANT", 950);
-		
-		//Verify that the level was created correctly
+
 		assertEquals("IMPORTANT", level.getName());
 		assertEquals(950, level.intValue());
-		
-		//Verify that the level works with log
+
 		log.log(level, "important message");
 		verifyLogged(level, "important message", null);
 	}
@@ -280,10 +269,8 @@ public class TestLog {
 	 */
 	@Test
 	public void testShutdown() {
-		//Shutdown the log
 		Log.shutdown();
-		
-		//A file handler is closed, when isLoggable returns false for messages that should otherwise be logged.
+
 		assertFalse(log.getFileHandler().isLoggable(new LogRecord(Level.SEVERE, "shutdown")));
 	}
 
@@ -295,24 +282,19 @@ public class TestLog {
 	 */
 	@Test
 	public void testSetConsoleLevel() throws IOException {
-		//Create a new Log that logs to the console
 		Log logToConsole = new Log("test2", temp.getRoot().getAbsolutePath(), true);
-		
-		//Get the console handler
+
 		ConsoleHandler ch = null;
 		for (Handler h : logToConsole.getLogger().getHandlers()) {
 			if (h instanceof ConsoleHandler) {
 				ch = (ConsoleHandler) h;
 			}
 		}
-		
-		//The ConsoleHandler should not be null
+
 		assertNotNull(ch);
-		
-		//Change the level
+
 		Log.setConsoleLevel(Level.CONFIG);
-		
-		//Verify that the level was changed
+
 		assertEquals(Level.CONFIG, ch.getLevel());
 	}
 

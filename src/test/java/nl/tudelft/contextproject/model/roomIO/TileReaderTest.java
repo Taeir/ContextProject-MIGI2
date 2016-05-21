@@ -18,7 +18,9 @@ public class TileReaderTest {
 
 	/**
 	 * Test reading an empty tile.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testGetTileEmpty() throws IOException {
@@ -31,7 +33,9 @@ public class TileReaderTest {
 	
 	/**
 	 * Test reading a Wall tile.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testGetTileWall() throws IOException {
@@ -44,7 +48,9 @@ public class TileReaderTest {
 	
 	/**
 	 * Test reading a Corridor tile.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testGetTileCorridor() throws IOException {
@@ -57,7 +63,9 @@ public class TileReaderTest {
 	
 	/**
 	 * Test reading a Floor tile.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test
 	public void testGetTileFloor() throws IOException {
@@ -70,7 +78,9 @@ public class TileReaderTest {
 	
 	/**
 	 * Test reading a non existent tile type.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetTileNonExistent() throws IOException {
@@ -82,7 +92,9 @@ public class TileReaderTest {
 	
 	/**
 	 * Test reading a row of two tiles, but only one is given.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetTileTooFewTilesInARow() throws IOException {
@@ -94,7 +106,9 @@ public class TileReaderTest {
 	
 	/**
 	 * Test reading two rows of tiles, but only one is given.
-	 * @throws IOException This should not happen.
+	 *
+	 * @throws IOException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetTileTooFewRows() throws IOException {
