@@ -17,7 +17,7 @@ public class DrawableFilter {
 	 * Simple constructor with an empty whitelist.
 	 *
 	 * @param hideUnexplored
-	 * 		boolean to indicate if explored tiles should be draw
+	 * 		boolean to indicate if explored tiles should be drawn
 	 */
 	public DrawableFilter(boolean hideUnexplored) {
 		this(new HashSet<String>(), hideUnexplored);
@@ -42,7 +42,7 @@ public class DrawableFilter {
 	 * @param e
 	 * 		the entity to add
 	 * @return
-	 * 		true when te entity is added, false if it was already in the list
+	 * 		true if the entity was added, false if it was already in the set
 	 */
 	public boolean addEntity(Entity e) {
 		return entitySet.add(e.getClass().getSimpleName());
