@@ -183,7 +183,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 				break;
 			default:
 				break;
-			}
+		}
 	}
 
 	/**
