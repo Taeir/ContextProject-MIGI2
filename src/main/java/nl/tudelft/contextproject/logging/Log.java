@@ -18,6 +18,8 @@ public class Log {
 	//The default format for files: "HH:MM:SS [LEVEL]: Message", optionally followed by an exception and its stacktrace.
 	public static final String FORMAT_FILE = "%1$tH:%1$tM:%1$tS [%3$s]: %4$s%5$s%n";
 	public static final Level FATAL = createLogLevel("FATAL", 2000);
+
+	//Global set of loggers, used to properly close FileHandlers.
 	private static final Map<String, Log> LOGGERS = new ConcurrentHashMap<>();
 	private static final ConsoleHandler CONSOLE_HANDLER;
 	

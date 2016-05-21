@@ -4,9 +4,24 @@ package nl.tudelft.contextproject.controller;
  * Enum representing the state of the game.
  */
 public enum GameState {
+	/**
+	 * Waiting for the game to start.
+	 */
 	WAITING,
+
+	/**
+	 * The main game is running.
+	 */
 	RUNNING,
+
+	/**
+	 * The main game is suspended.
+	 */
 	PAUSED,
+
+	/**
+	 * The main game is finished.
+	 */
 	ENDED;
 	
 	/**

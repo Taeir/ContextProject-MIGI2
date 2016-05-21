@@ -11,7 +11,7 @@ import nl.tudelft.contextproject.model.entities.Key;
  * Class representing the players inventory.
  */
 public class Inventory {
-	ArrayList<Entity> array;
+	private ArrayList<Entity> pickedUpEntities;
 	private int keys;
 	private int bombs;
 
@@ -19,7 +19,7 @@ public class Inventory {
 	 * Constructor for the inventory, starts empty with 0 keys and doors.
 	 */
 	public Inventory() {
-		this.array = new ArrayList<Entity>();
+		this.pickedUpEntities = new ArrayList<>();
 		this.keys = 0;
 		this.bombs = 0;
 	}
@@ -31,7 +31,7 @@ public class Inventory {
 	 * 		the key to be added
 	 */
 	public void add(Key key) {
-		array.add(key);
+		pickedUpEntities.add(key);
 		keys++;	
 	}
 	
@@ -42,7 +42,7 @@ public class Inventory {
 	 * 		the bomb to be added
 	 */
 	public void add(Bomb bomb) {
-		array.add(bomb);
+		pickedUpEntities.add(bomb);
 		bombs++;
 	}
 	
@@ -54,9 +54,9 @@ public class Inventory {
 	 */
 	public void remove(Entity ent) {
 		if (ent instanceof Bomb) {
-			for (Entity entity : array) {
+			for (Entity entity : pickedUpEntities) {
 				if (entity instanceof Bomb) {
-					array.remove(entity);
+					pickedUpEntities.remove(entity);
 					bombs--;
 					return;
 				}
@@ -64,11 +64,11 @@ public class Inventory {
 		}
 
 		if (ent instanceof Key) {
-			for (Entity entity : array) {
+			for (Entity entity : pickedUpEntities) {
 				if (entity instanceof Key) {
 					Key key = (Key) entity;
 					if (key.getColor().equals(((Key) ent).getColor())) {
-						array.remove(entity);
+						pickedUpEntities.remove(entity);
 						keys--;
 						return;
 					}
@@ -84,7 +84,7 @@ public class Inventory {
 	 * 		a bomb from the inventory if the inventory contains a bomb
 	 */
 	public Bomb getBomb() {
-		for (Entity ent : array) {
+		for (Entity ent : pickedUpEntities) {
 			if (ent instanceof Bomb) {
 				return (Bomb) ent;
 			}
@@ -125,7 +125,7 @@ public class Inventory {
 			return false;
 		}
 
-		for (Entity ent : array) {
+		for (Entity ent : pickedUpEntities) {
 			if (ent instanceof Key) {
 				Key key = (Key) ent;
 				if (key.getColor().equals(color)) {
@@ -146,7 +146,7 @@ public class Inventory {
 	 * 		the key of that color
 	 */
 	public Key getKey(ColorRGBA color) {
-		for (Entity ent : array) {
+		for (Entity ent : pickedUpEntities) {
 			if (ent instanceof Key) {
 				Key key = (Key) ent;
 				if (key.getColor().equals(color)) {
@@ -164,6 +164,6 @@ public class Inventory {
 	 * 		the current size of the inventory
 	 */
 	public int size() {
-		return array.size();
+		return pickedUpEntities.size();
 	}
 }
