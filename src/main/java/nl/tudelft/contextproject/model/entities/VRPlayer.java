@@ -22,18 +22,18 @@ import nl.tudelft.contextproject.model.PhysicsObject;
  * Class representing the player wearing the VR headset.
  */
 public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
-	/**
-	 * Physics interaction constants.
-	 */
+
+	//Physics interaction constants.
+
 	public static final float JUMP_SPEED = 13f;
 	//Terminal velocity of the player
 	public static final float FALL_SPEED = 15f;
 	//How fast the player accelerates while falling
 	public static final float PLAYER_GRAVITY = 13f;
 
-	/**
-	 * Physical collision model.
-	 */
+
+	//Physical collision model.
+
 	//Highest vertical step player can make, think of stairs.
 	public static final float PLAYER_STEP_HEIGHT = 0.1f;
 	public static final float PLAYER_RADIUS = .5f;
@@ -41,9 +41,8 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	//SHOULD NOT BE CHANGED
 	public static final int PLAYER_GRAVITY_AXIS = 1;
 
-	/**
-	 * Movement control constants.
-	 */
+	//Movement control constants.
+
 	public static final float SIDE_WAY_SPEED_MULTIPLIER = .08f;
 	public static final float STRAIGHT_SPEED_MULTIPLIER = .1f;
 
