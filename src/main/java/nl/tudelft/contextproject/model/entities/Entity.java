@@ -25,8 +25,8 @@ public abstract class Entity implements Drawable, TickListener {
 	}
 
 	/**
-	 * @param
-	 * 		newState The new state of this entity
+	 * @param newState
+	 * 		the new state of this entity
 	 */
 	public void setState(EntityState newState) {
 		this.state = newState;

@@ -1,10 +1,11 @@
 package nl.tudelft.contextproject.model.roomIO;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public final class RoomReader {
 	 * 		when something goes wrong
 	 */
 	public static void importFile(String folder, MazeTile[][] tiles, Set<Entity> entities, List<Light> lights, int xOffset, int yOffset) throws IOException {
-		try (BufferedReader br = new BufferedReader(new FileReader(getMapFile(folder)))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(folder)), "UTF-8"))) {
 			String line = br.readLine();
 
 			while (line != null && line.startsWith("#")) {

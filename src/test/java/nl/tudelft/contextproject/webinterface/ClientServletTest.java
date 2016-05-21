@@ -29,6 +29,8 @@ public class ClientServletTest extends WebTestBase {
 	private static final String ID1 = "TESTID1";
 	private static final String JSON_CONTENT_TYPE = "text/json";
 	private static final String JSON_UNAUTHORIZED = "{auth: false}";
+	private static final String SET_TEAM = "/setteam";
+	private static final String TEAM = "team";
 
 	public WebServer webServer;
 	public ClientServlet servlet;
@@ -107,8 +109,8 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testDoPost_setteam() throws Exception {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/setteam");
-		setParameter(request, "team", "ELVES");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, SET_TEAM);
+		setParameter(request, TEAM, "ELVES");
 		
 		HttpServletResponse response = createMockedResponse();
 
@@ -267,7 +269,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_unauthorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, SET_TEAM);
 		HttpServletResponse response = createMockedResponse();
 		
 		servlet.setTeam(request, response);
@@ -283,7 +285,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_running() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, SET_TEAM);
 		HttpServletResponse response = createMockedResponse();
 
 		TestUtil.setGameState(GameState.RUNNING);
@@ -306,7 +308,7 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_noParameter() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, SET_TEAM);
 		HttpServletResponse response = createMockedResponse();
 
 		WebClient client = spy(new WebClient());
@@ -325,8 +327,8 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_dwarfs() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
-		setParameter(request, "team", "DWARFS");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, SET_TEAM);
+		setParameter(request, TEAM, "DWARFS");
 		
 		HttpServletResponse response = createMockedResponse();
 
@@ -349,8 +351,8 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_elves() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
-		setParameter(request, "team", "ELVES");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, SET_TEAM);
+		setParameter(request, TEAM, "ELVES");
 		
 		HttpServletResponse response = createMockedResponse();
 
@@ -373,8 +375,8 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_none() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
-		setParameter(request, "team", "NONE");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, SET_TEAM);
+		setParameter(request, TEAM, "NONE");
 		
 		HttpServletResponse response = createMockedResponse();
 
@@ -398,8 +400,8 @@ public class ClientServletTest extends WebTestBase {
 	 */
 	@Test
 	public void testSetTeam_invalid() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/setteam");
-		setParameter(request, "team", "THEATEAM");
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, SET_TEAM);
+		setParameter(request, TEAM, "THEATEAM");
 		
 		HttpServletResponse response = createMockedResponse();
 
