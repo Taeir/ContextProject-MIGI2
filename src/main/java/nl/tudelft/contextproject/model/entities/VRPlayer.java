@@ -26,12 +26,15 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * Physics interaction constants.
 	 */
 	public static final float JUMP_SPEED = 13f;
+	//Terminal velocity of the player
 	public static final float FALL_SPEED = 15f;
+	//How fast the player accelerates while falling
 	public static final float PLAYER_GRAVITY = 13f;
 
 	/**
 	 * Physical collision model.
 	 */
+	//Highest vertical step player can make, think of stairs.
 	public static final float PLAYER_STEP_HEIGHT = 0.1f;
 	public static final float PLAYER_RADIUS = .5f;
 	public static final float PLAYER_HEIGHT = 3f;
