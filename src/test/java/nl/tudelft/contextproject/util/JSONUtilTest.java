@@ -28,113 +28,113 @@ import org.junit.rules.ExpectedException;
  * Test for the JSONUtil class.
  */
 public class JSONUtilTest {
-    private static Main main;
+	private static Main main;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 
-    private JSONObject mockedJSONObject;
-    private File testFile;
+	private JSONObject mockedJSONObject;
+	private File testFile;
 
-    /**
-     * Ensures that {@link Main#getInstance()} is properly set up before any tests run.
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        main = Main.getInstance();
-        Main.setInstance(null);
-        TestUtil.ensureMainMocked(true);
-    }
+	/**
+	 * Ensures that {@link Main#getInstance()} is properly set up before any tests run.
+	 */
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		main = Main.getInstance();
+		Main.setInstance(null);
+		TestUtil.ensureMainMocked(true);
+	}
 
-    /**
-     * Restores the original Main instance after all tests are done.
-     */
-    @AfterClass
-    public static void tearDownAfterClass() {
-        Main.setInstance(main);
-    }
+	/**
+	 * Restores the original Main instance after all tests are done.
+	 */
+	@AfterClass
+	public static void tearDownAfterClass() {
+		Main.setInstance(main);
+	}
 
-    /**
-     * Set up all objects used in testing.
-     */
-    @Before
-    public void setUp() {
-        mockedJSONObject = mock(JSONObject.class);
-        testFile = new File("UtilTestFile.json");
-        when(mockedJSONObject.toString(anyInt())).thenReturn("{}");
-    }
+	/**
+	 * Set up all objects used in testing.
+	 */
+	@Before
+	public void setUp() {
+		mockedJSONObject = mock(JSONObject.class);
+		testFile = new File("UtilTestFile.json");
+		when(mockedJSONObject.toString(anyInt())).thenReturn("{}");
+	}
 
-    /**
-     * Remove the test file if it has been created.
-     */
-    @After
-    public void tearDown() {
-        if (testFile.exists()) {
-            testFile.delete();
-        }
-    }
+	/**
+	 * Remove the test file if it has been created.
+	 */
+	@After
+	public void tearDown() {
+		if (testFile.exists()) {
+			testFile.delete();
+		}
+	}
 
-    /**
-     * Test for checking if an IOException occurs if one tries
-     * to load a non-existing file.
-     *
-     * @throws IOException
-     *      the expected exception
-     */
-    @Test
-    public void testLoadFileNotFound() throws IOException {
-        thrown.expect(IOException.class);
-        File notFound = new File("NotARealFile.json");
-        JSONUtil.load(notFound);
-    }
+	/**
+	 * Test for checking if an IOException occurs if one tries
+	 * to load a non-existing file.
+	 *
+	 * @throws IOException
+	 *      the expected exception
+	 */
+	@Test
+	public void testLoadFileNotFound() throws IOException {
+		thrown.expect(IOException.class);
+		File notFound = new File("NotARealFile.json");
+		JSONUtil.load(notFound);
+	}
 
-    /**
-     * Test for loading an existing file.
-     *
-     * @throws IOException
-     *      file not found
-     */
-    @Test
-    public void testLoadExistingFile() throws IOException {
-        JSONUtil.save(mockedJSONObject, testFile);
-        assertNotNull(JSONUtil.load(testFile));
-    }
+	/**
+	 * Test for loading an existing file.
+	 *
+	 * @throws IOException
+	 *      file not found
+	 */
+	@Test
+	public void testLoadExistingFile() throws IOException {
+		JSONUtil.save(mockedJSONObject, testFile);
+		assertNotNull(JSONUtil.load(testFile));
+	}
 
-    /**
-     * Test saving of a file.
-     *
-     * @throws IOException
-     *      if file writing goes wrong
-     */
-    @Test
-    public void testSaveFile() throws IOException {
-        JSONUtil.save(mockedJSONObject, testFile);
-    }
+	/**
+	 * Test saving of a file.
+	 *
+	 * @throws IOException
+	 *      if file writing goes wrong
+	 */
+	@Test
+	public void testSaveFile() throws IOException {
+		JSONUtil.save(mockedJSONObject, testFile);
+	}
 
-    /**
-     * Test for getting a json representing all entities.
-     */
-    @Test
-    public void testEntitiesToJson() {
-        Set<Entity> list = ConcurrentHashMap.newKeySet();
+	/**
+	 * Test for getting a json representing all entities.
+	 */
+	@Test
+	public void testEntitiesToJson() {
+		Set<Entity> list = ConcurrentHashMap.newKeySet();
 
-        Bomb bomb = new Bomb();
-        list.add(bomb);
+		Bomb bomb = new Bomb();
+		list.add(bomb);
 
-        JSONObject json = JSONUtil.entitiesToJson(list, new VRPlayer());
-        assertNotNull(json.getJSONArray("entities"));
-    }
+		JSONObject json = JSONUtil.entitiesToJson(list, new VRPlayer());
+		assertNotNull(json.getJSONArray("entities"));
+	}
 
 
-    /**
-     * Test for getting a json representing an entity.
-     */
-    @Test
-    public void testEntityToJson() {
-        Bomb bomb = new Bomb();
-        JSONObject json = JSONUtil.entityToJson(bomb);
-        assertEquals(json.getInt("x"), 0);
-        assertEquals(json.getInt("y"), 0);
-        assertEquals(json.getInt("type"), 1);
-    }
+	/**
+	 * Test for getting a json representing an entity.
+	 */
+	@Test
+	public void testEntityToJson() {
+		Bomb bomb = new Bomb();
+		JSONObject json = JSONUtil.entityToJson(bomb);
+		assertEquals(json.getInt("x"), 0);
+		assertEquals(json.getInt("y"), 0);
+		assertEquals(json.getInt("type"), 1);
+	}
 }

@@ -88,7 +88,7 @@ public final class FileUtil {
 		File file = new File(winLoc);
 		if (file.exists()) return file;
 
-		//If does file has not yet been extracted we extract it
+		//File has not yet been extracted, so we extract it.
 		extractFromJar(fLocation);
 		
 		return file;
@@ -117,9 +117,11 @@ public final class FileUtil {
 				if (outputFile.exists()) {
 					continue;
 				} else if (entry.isDirectory()) {
+					//Ensure that all parent folders are created
 					outputFile.mkdirs();
 					continue;
 				} else if (outputFile.getParentFile() != null) {
+					//Ensure that the parent folder is created
 					outputFile.getParentFile().mkdirs();
 				}
 				

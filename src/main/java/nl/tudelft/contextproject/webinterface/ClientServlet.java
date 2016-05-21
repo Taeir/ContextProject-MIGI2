@@ -23,6 +23,7 @@ public class ClientServlet extends DefaultServlet {
 	
 	private static final String CONTENT_TYPE_JSON = "text/json";
 	private static final Log LOG = Log.getLog("WebInterface");
+
 	private final transient WebServer server;
 	
 	/**
@@ -51,6 +52,7 @@ public class ClientServlet extends DefaultServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOG.fine("Received POST Request: URI=\"" + request.getRequestURI() + "\", Parameters=" + request.getParameterMap());
 
+		//Handle the post request differently based on the requested URL.
 		String uri = request.getRequestURI().substring(1);
 		switch (uri) {
 			case "login":
@@ -75,6 +77,7 @@ public class ClientServlet extends DefaultServlet {
 				placeBomb(request, response);
 				break;
 			default:
+				//Unknown post request, so propagate to superclass
 				super.doPost(request, response);
 				break;
 		}
