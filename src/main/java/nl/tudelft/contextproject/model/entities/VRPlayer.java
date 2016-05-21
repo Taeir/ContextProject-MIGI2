@@ -118,7 +118,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * Set character control.
 	 *
 	 * @param characterControl
-	 * 				control to set
+	 *		control to set
 	 */
 	public void setCharacterControl(CharacterControl characterControl) {
 		this.playerControl = characterControl;
