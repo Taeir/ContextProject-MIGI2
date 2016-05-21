@@ -116,12 +116,12 @@ public class JSONUtilTest {
 	 */
 	@Test
 	public void testEntitiesToJson() {
-		Set<Entity> list = ConcurrentHashMap.newKeySet();
+		Set<Entity> set = ConcurrentHashMap.newKeySet();
 
 		Bomb bomb = new Bomb();
-		list.add(bomb);
+		set.add(bomb);
 
-		JSONObject json = JSONUtil.entitiesToJson(list, new VRPlayer());
+		JSONObject json = JSONUtil.entitiesToJson(set, new VRPlayer());
 		assertNotNull(json.getJSONArray("entities"));
 	}
 
