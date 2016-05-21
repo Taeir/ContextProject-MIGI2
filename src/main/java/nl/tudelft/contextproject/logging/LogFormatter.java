@@ -32,9 +32,17 @@ public class LogFormatter extends Formatter {
 		this.format = format;
 	}
 
+	/**
+	 * Formats the given LogRecord with the format set in this LogFormat.
+	 *
+	 * @param record
+	 * 		the LogRecord to format
+	 *
+	 * @return
+	 * 		a String representation of the record, using the format of this LogFormatter.
+	 */
     @Override
 	public String format(LogRecord record) {
-        //Format the message
         String message = formatMessage(record);
         String throwable = "";
 
