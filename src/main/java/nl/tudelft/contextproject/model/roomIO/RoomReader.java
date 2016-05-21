@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
@@ -46,7 +47,7 @@ public final class RoomReader {
 	 * 		when something goes wrong
 	 */
 	public static void importFile(String folder, MazeTile[][] tiles, Set<Entity> entities, List<Light> lights, int xOffset, int yOffset) throws IOException {
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(folder)), "UTF-8"))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(folder)), StandardCharsets.UTF_8))) {
 			String line = br.readLine();
 
 			while (line != null && line.startsWith("#")) {
