@@ -39,7 +39,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	public static final float PLAYER_RADIUS = .5f;
 	public static final float PLAYER_HEIGHT = 3f;
 	//SHOULD NOT BE CHANGED
-	public static final int PLAYER_AXIS = 1;
+	public static final int PLAYER_GRAVITY_AXIS = 1;
 
 	/**
 	 * Movement control constants.
@@ -138,7 +138,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		}
 		if (playerControl != null) return playerControl;
 		//create a shape that implements PhysicsControl
-		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(PLAYER_RADIUS, PLAYER_HEIGHT, PLAYER_AXIS);
+		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(PLAYER_RADIUS, PLAYER_HEIGHT, PLAYER_GRAVITY_AXIS);
 		playerControl = new CharacterControl(capsuleShape, PLAYER_STEP_HEIGHT);
 
 		//Add physical constants of player
