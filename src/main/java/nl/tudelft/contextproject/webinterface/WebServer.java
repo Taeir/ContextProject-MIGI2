@@ -81,24 +81,31 @@ public class WebServer {
 		sessionIdManager = new HashSessionIdManager();
 		server.setSessionIdManager(sessionIdManager);
 
+		//Create the session manager
 		HashSessionManager sessionManager = new HashSessionManager();
 		sessionManager.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
 
+		//Set the cookie config
 		SessionCookieConfig scc = sessionManager.getSessionCookieConfig();
 		scc.setComment("CoC Session Cookie");
 		scc.setName("COC_SESSION");
 		
 		SessionHandler sessionHandler = new SessionHandler(sessionManager);
 
+		//Create the handler that chains everything together.
 		contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		contextHandler.setContextPath("/");
 		contextHandler.setResourceBase(FileUtil.getFile("/webinterface/").getAbsolutePath());
 		contextHandler.setSessionHandler(sessionHandler);
+
+		//Add the handler to the server
 		server.setHandler(contextHandler);
 
+		//Add a servlet for handling sessions
 		ClientServlet cs = new ClientServlet(this);
 		contextHandler.addServlet(new ServletHolder(cs), "/");
 
+		//Start the webserver
 		server.start();
 	}
 	
