@@ -134,6 +134,7 @@ public class RandomLevelFactory implements LevelFactory {
 			throw new IllegalArgumentException("You are requesting " + amount + " rooms, while there only are " + sizes.size() + " available.");
 		}
 
+		//Try to place the requested amount of rooms.
 		for (int i = 0; i < amount; i++) {
 			int attempts = 0;
 			boolean success = false;
