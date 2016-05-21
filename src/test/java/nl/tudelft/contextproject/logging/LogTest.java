@@ -18,7 +18,7 @@ import org.mockito.ArgumentCaptor;
 /**
  * Test class for {@link Log}.
  */
-public class TestLog {
+public class LogTest {
 
 	@Rule
 	public TemporaryFolder temp = new TemporaryFolder();
