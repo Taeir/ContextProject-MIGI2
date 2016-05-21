@@ -25,7 +25,7 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.model.roomIO.RoomReader;
+import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
 
 /**
  * Controller for the main game.

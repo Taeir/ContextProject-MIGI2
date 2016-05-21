@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model.roomIO;
+package nl.tudelft.contextproject.model.level.roomIO;
 
 import static org.junit.Assert.*;
 
