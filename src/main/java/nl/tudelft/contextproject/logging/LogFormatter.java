@@ -37,7 +37,6 @@ public class LogFormatter extends Formatter {
 	 *
 	 * @param record
 	 * 		the LogRecord to format
-	 *
 	 * @return
 	 * 		a String representation of the record, using the format of this LogFormatter.
 	 */
