@@ -73,6 +73,7 @@ public class TestLog {
 	public void testLog() throws IOException {
 		Log nlog = new Log("hello", true);
 
+		//There should be a filehandler and a consolehandler.
 		assertEquals(2, nlog.getLogger().getHandlers().length);
 	}
 
@@ -271,6 +272,7 @@ public class TestLog {
 	public void testShutdown() {
 		Log.shutdown();
 
+		//A file handler is closed, when isLoggable returns false for messages that should otherwise be logged.
 		assertFalse(log.getFileHandler().isLoggable(new LogRecord(Level.SEVERE, "shutdown")));
 	}
 
