@@ -141,7 +141,7 @@ public class BackgroundMusicTest {
 		//Reset the mock
 		reset(an);
 
-		//Make the audioNode act as being paused
+		//Make the audioNode act as being playing
 		when(an.getStatus()).thenReturn(Status.Playing);
 
 		//Call start
