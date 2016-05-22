@@ -28,7 +28,6 @@ public class BackgroundMusicTest {
 	 */
 	@BeforeClass
 	public static void setUpClass() {
-		//Start playback
 		BackgroundMusic.getInstance().setTesting(true);
 	}
 	
@@ -37,7 +36,6 @@ public class BackgroundMusicTest {
 	 */
 	@AfterClass
 	public static void tearDownClass() {
-		//Stop playback
 		BackgroundMusic.getInstance().setTesting(false);
 	}
 	
@@ -54,6 +52,7 @@ public class BackgroundMusicTest {
 	 */
 	@After
 	public void tearDown() {
+		//Stop playback
 		BackgroundMusic.getInstance().stop();
 	}
 	
