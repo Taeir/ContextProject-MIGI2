@@ -39,12 +39,19 @@ public class AudioManagerTest {
 	 */
 	@Test
 	public void testRegisterVolume() {
+		//Register the volume
 		AudioManager.getInstance().registerVolume(an, SoundType.AMBIENT);
+
+		//Registering should set the volume to the correct type.
 		verify(an, times(1)).setVolume(SoundType.AMBIENT.getGain());
 
+		//Reset the mock
 		reset(an);
 
+		//Change the gain
 		SoundType.AMBIENT.setGain(2.0f);
+
+		//The volume should have been updated
 		verify(an, times(1)).setVolume(2.0f);
 	}
 
@@ -54,13 +61,22 @@ public class AudioManagerTest {
 	 */
 	@Test
 	public void testUnregisterVolume() {
+		//Register the volume
 		AudioManager.getInstance().registerVolume(an, SoundType.AMBIENT);
+
+		//Registering should set the volume to the correct type.
 		verify(an, times(1)).setVolume(SoundType.AMBIENT.getGain());
 
+		//Reset the mock
 		reset(an);
 
+		//Unregister the AudioNode
 		AudioManager.getInstance().unregisterVolume(an, SoundType.AMBIENT);
+
+		//Change the gain
 		SoundType.AMBIENT.setGain(2.0f);
+
+		//The volume should not have been updated
 		verify(an, times(0)).setVolume(anyFloat());
 	}
 
@@ -69,10 +85,12 @@ public class AudioManagerTest {
 	 */
 	@Test
 	public void testAddCaveFeel() {
+		//Mock a positional AudioNode
 		when(an.isPositional()).thenReturn(true);
 
 		AudioManager.getInstance().addCaveFeel(an);
 
+		//The reverb should have been enabled
 		verify(an).setReverbEnabled(true);
 	}
 	
@@ -82,8 +100,10 @@ public class AudioManagerTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddCaveFeel_nonPositional() {
+		//Mock a non-positional AudioNode
 		when(an.isPositional()).thenReturn(false);
-		
+
+		//Adding the cave feel should be impossible
 		AudioManager.getInstance().addCaveFeel(an);
 	}
 
@@ -95,17 +115,22 @@ public class AudioManagerTest {
 		AudioNode anAmbient = mock(AudioNode.class);
 		AudioNode anBackground = mock(AudioNode.class);
 
+		//Register two AudioNodes for different SoundTypes.
 		AudioManager.getInstance().registerVolume(anAmbient, SoundType.AMBIENT);
 		AudioManager.getInstance().registerVolume(anBackground, SoundType.BACKGROUND_MUSIC);
 
+		//Reset the mocks
 		reset(anAmbient);
 		reset(anBackground);
 
+		//Update the background sounds.
 		AudioManager.getInstance().updateVolume(SoundType.BACKGROUND_MUSIC);
 
+		//The ambient sound should not have been updated, the background sound should have been.
 		verify(anAmbient, times(0)).setVolume(anyFloat());
 		verify(anBackground, times(1)).setVolume(anyFloat());
 
+		//Clean up
 		AudioManager.getInstance().unregisterVolume(anAmbient, SoundType.AMBIENT);
 		AudioManager.getInstance().unregisterVolume(anBackground, SoundType.BACKGROUND_MUSIC);
 	}

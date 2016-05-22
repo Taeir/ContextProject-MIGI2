@@ -55,11 +55,17 @@ public class LogTest {
 	 * 		the exception logged with the message, or null for no exception
 	 */
 	public void verifyLogged(Level level, String msg, Exception ex) {
+		//We need to capture arguments
 		ArgumentCaptor<LogRecord> ac = ArgumentCaptor.forClass(LogRecord.class);
 		verify(handler, times(1)).publish(ac.capture());
 
+		//Check if the level was correct
 		assertEquals(level, ac.getValue().getLevel());
+
+		//Check if the message was correct
 		assertEquals(msg, ac.getValue().getMessage());
+
+		//Check if the trowable was the same
 		assertSame(ex, ac.getValue().getThrown());
 	}
 	
@@ -211,6 +217,7 @@ public class LogTest {
 	 */
 	@Test
 	public void testLogLevelStringThrowable() {
+		//Test the method by Logging on the CONFIG level
 		Exception ex = new Exception();
 		log.log(Level.CONFIG, "specific level message + exception", ex);
 		verifyLogged(Level.CONFIG, "specific level message + exception", ex);
@@ -221,6 +228,7 @@ public class LogTest {
 	 */
 	@Test
 	public void testLogLevelString() {
+		//Test the method by logging on the CONFIG level
 		log.log(Level.CONFIG, "specific level message");
 		verifyLogged(Level.CONFIG, "specific level message", null);
 	}
@@ -258,9 +266,11 @@ public class LogTest {
 	public void testCreateLogLevel() {
 		Level level = Log.createLogLevel("IMPORTANT", 950);
 
+		//Verify that the level was created correctly
 		assertEquals("IMPORTANT", level.getName());
 		assertEquals(950, level.intValue());
 
+		//Verify that the level works with log
 		log.log(level, "important message");
 		verifyLogged(level, "important message", null);
 	}
@@ -270,6 +280,7 @@ public class LogTest {
 	 */
 	@Test
 	public void testShutdown() {
+		//Shutdown the log
 		Log.shutdown();
 
 		//A file handler is closed, when isLoggable returns false for messages that should otherwise be logged.
@@ -284,8 +295,10 @@ public class LogTest {
 	 */
 	@Test
 	public void testSetConsoleLevel() throws IOException {
+		//Create a new log that logs to the console
 		Log logToConsole = new Log("test2", temp.getRoot().getAbsolutePath(), true);
 
+		//Create the console handler
 		ConsoleHandler ch = null;
 		for (Handler h : logToConsole.getLogger().getHandlers()) {
 			if (h instanceof ConsoleHandler) {
@@ -293,10 +306,13 @@ public class LogTest {
 			}
 		}
 
+		//The console handler should not be null
 		assertNotNull(ch);
 
+		//Change the level
 		Log.setConsoleLevel(Level.CONFIG);
 
+		//Verify that the level was changed
 		assertEquals(Level.CONFIG, ch.getLevel());
 	}
 

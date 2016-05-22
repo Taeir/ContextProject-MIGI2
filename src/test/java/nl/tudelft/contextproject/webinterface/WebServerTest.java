@@ -60,6 +60,7 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testStart_notRunning() throws Exception {
+		//Start the webserver and confirm it is running
 		webServer.start(8080);
 		assertTrue(webServer.isRunning());
 	}
@@ -74,9 +75,11 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test(expected = IllegalStateException.class)
 	public void testStart_running() throws Exception {
+		//Start the webserver and confirm it is running
 		webServer.start(8080);
 		assertTrue(webServer.isRunning());
 
+		//Starting again should throw an exception
 		webServer.start(8080);
 	}
 
@@ -88,9 +91,11 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testStop_running() throws Exception {
+		//Start the webserver and confirm it is running
 		webServer.start(8080);
 		assertTrue(webServer.isRunning());
 
+		//Stop the webserver again and assert it has stopped running
 		webServer.stop();
 		assertFalse(webServer.isRunning());
 	}
@@ -103,6 +108,7 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testStop_notRunning() throws Exception {
+		//Stopping the webServer if it is not running should not have any effect
 		webServer.stop();
 		assertFalse(webServer.isRunning());
 	}
@@ -153,9 +159,11 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetUser_known_session1() {
+		//Add the client with their session1 id
 		WebClient client = new WebClient();
 		webServer.getClients().put(ID1, client);
 
+		//Create the request
 		HttpServletRequest request = createMockedRequest(ID1, null, true);
 		
 		assertSame(client, webServer.getUser(request));
@@ -167,9 +175,11 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testGetUser_known_session2() {
+		//Add the client with their session2 id
 		WebClient client = new WebClient();
 		webServer.getClients().put(ID2, client);
 
+		//Create the request with an unknown session1 id and a known session2 id
 		HttpServletRequest request = createMockedRequest(ID1, ID2, true);
 		
 		assertSame(client, webServer.getUser(request));
@@ -184,15 +194,20 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testHandleAuthentication_unknown() throws IOException {
+		//Create request and response mocks
 		HttpServletRequest request = createMockedRequest(ID1, null, false);
 		HttpServletResponse response = createMockedResponse();
 
+		//Set the waitning GameState
 		TestUtil.setGameState(GameState.WAITING);
 
+		//Game is not full, so user should get authenticated
 		assertTrue(webServer.handleAuthentication(request, response));
 
+		//The user should have been added
 		assertEquals(1, webServer.getClients().size());
 
+		//Verify that the cookie has been added, and that the response is correct
 		verify(response).addCookie(any());
 		verify(response).setStatus(HttpStatus.OK_200);
 		verify(response.getWriter()).write("AUTHENTICATED");
@@ -207,15 +222,20 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testHandleAuthentication_unknown_inProgress() throws IOException {
+		//Create request and response mocks
 		HttpServletRequest request = createMockedRequest(ID1, null, false);
 		HttpServletResponse response = createMockedResponse();
 
+		//Set the running GameState
 		TestUtil.setGameState(GameState.RUNNING);
 
+		//Game is in progress, so user should not get authenticated
 		assertFalse(webServer.handleAuthentication(request, response));
 
+		//The user should not have been added
 		assertEquals(0, webServer.getClients().size());
 
+		//Verify that the response says the game is in progress
 		verify(response).setStatus(HttpStatus.OK_200);
 		verify(response.getWriter()).write("IN_PROGRESS");
 	}
@@ -229,19 +249,25 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testHandleAuthentication_unknown_full() throws IOException {
+		//Ensure that the game is full
 		for (int i = 0; i < WebServer.MAX_PLAYERS; i++) {
 			webServer.getClients().put("" + i, new WebClient());
 		}
 
+		//Create request and response mocks
 		HttpServletRequest request = createMockedRequest(ID1, null, false);
 		HttpServletResponse response = createMockedResponse();
 
+		//Set the waiting GameState
 		TestUtil.setGameState(GameState.WAITING);
 
+		//Game is full, so user should not get authenticated
 		assertFalse(webServer.handleAuthentication(request, response));
 
+		//The user should not have been added
 		assertEquals(WebServer.MAX_PLAYERS, webServer.getClients().size());
 
+		//Verify the response says the game is full
 		verify(response).setStatus(HttpStatus.OK_200);
 		verify(response.getWriter()).write("FULL");
 	}
@@ -255,17 +281,23 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testHandleAuthentication_known_matching() throws IOException {
+		//Add the client
 		webServer.getClients().put(ID1, new WebClient());
 
+		//Create request and response mocks
 		HttpServletRequest request = createMockedRequest(ID1, ID1, true);
 		HttpServletResponse response = createMockedResponse();
 
+		//Set the waiting GameState
 		TestUtil.setGameState(GameState.WAITING);
 
+		//Game is not full, so users should get authenticated
 		assertTrue(webServer.handleAuthentication(request, response));
 
+		//The user should have been added
 		assertEquals(1, webServer.getClients().size());
 
+		//The user should get an authenticated response
 		verify(response).setStatus(HttpStatus.OK_200);
 		verify(response.getWriter()).write("AUTHENTICATED");
 	}
@@ -279,18 +311,24 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testHandleAuthentication_known_notMatching() throws IOException {
+		//Add the client
 		webServer.getClients().put(ID2, new WebClient());
 
+		//Create request and response mocks
 		HttpServletRequest request = createMockedRequest(ID1, ID2, true);
 		HttpServletResponse response = createMockedResponse();
 
+		//Set the wating GameState
 		TestUtil.setGameState(GameState.WAITING);
 
+		//Game is not full, so user should get authenticated
 		assertTrue(webServer.handleAuthentication(request, response));
-		
+
+		//The user should have been added TWICE, as both their ID's, but we should have only one unique user
 		assertEquals(2, webServer.getClients().size());
 		assertEquals(1, webServer.getUniqueClientCount());
 
+		//Verify the response sends "UPDATED"
 		verify(response).setStatus(HttpStatus.OK_200);
 		verify(response.getWriter()).write("UPDATED");
 	}
@@ -317,8 +355,10 @@ public class WebServerTest extends WebTestBase {
 				new Cookie("COOKIE-3", "cookie"),
 				new Cookie("COOKIE-4", "crumbles")};
 
+		//Try to find nr 4
 		assertSame(cookies[4], WebServer.findCookie("COOKIE-4", cookies));
 
+		//Check that non present cookies return null
 		assertNull(WebServer.findCookie("COOKIE-5", cookies));
 	}
 
@@ -327,10 +367,12 @@ public class WebServerTest extends WebTestBase {
 	 */
 	@Test
 	public void testCreateCookie() {
+		//Create a mock request
 		HttpServletRequest request = createMockedRequest("ID", null, false);
 		
 		Cookie cookie = WebServer.createCookie(request);
 
+		//Check if correct information was set on the cookie
 		assertEquals(WebServer.SESSION2_COOKIE, cookie.getName());
 		assertEquals(request.getSession().getId(), cookie.getValue());
 		assertEquals(24 * 60 * 60, cookie.getMaxAge());

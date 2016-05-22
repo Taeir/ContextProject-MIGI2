@@ -69,6 +69,7 @@ public class WebClientTest {
 	 */
 	@Test
 	public void testToString() {
+		//Create a new WebClient with team Elves
 		WebClient client = new WebClient();
 		client.setTeam(true);
 		

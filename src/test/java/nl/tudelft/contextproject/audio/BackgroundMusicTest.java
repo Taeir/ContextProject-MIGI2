@@ -28,6 +28,7 @@ public class BackgroundMusicTest {
 	 */
 	@BeforeClass
 	public static void setUpClass() {
+		//Start playback
 		BackgroundMusic.getInstance().setTesting(true);
 	}
 	
@@ -36,6 +37,7 @@ public class BackgroundMusicTest {
 	 */
 	@AfterClass
 	public static void tearDownClass() {
+		//Stop playback
 		BackgroundMusic.getInstance().setTesting(false);
 	}
 	
@@ -65,7 +67,10 @@ public class BackgroundMusicTest {
 		BackgroundMusic.getInstance().playSong(an);
 		BackgroundMusic.getInstance().playSong(an2);
 
+		//The old song should have been stopped
 		verify(an, times(1)).stop();
+
+		//The new song should have been started
 		verify(an2, times(1)).play();
 	}
 
@@ -74,11 +79,16 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testNext() {
+		//Start playback
 		BackgroundMusic.getInstance().playSong(an);
 
+		//Reset the mock
 		reset(an);
 
+		//Start the next song
 		BackgroundMusic.getInstance().next();
+
+		//Playback of the old song should be stopped
 		verify(an, times(1)).stop();
 	}
 
@@ -87,13 +97,19 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testStart_paused() {
+		//Play the mocked song
 		BackgroundMusic.getInstance().playSong(an);
 
+		//Reset the mock
 		reset(an);
 
+		//Make the audioNode act as being paused
 		when(an.getStatus()).thenReturn(Status.Paused);
 
+		//Call start
 		BackgroundMusic.getInstance().start();
+
+		//Verify that play has been called to resume playback.
 		verify(an, times(1)).play();
 	}
 	
@@ -102,11 +118,15 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testStart_notPlaying() {
+		//Call start
 		BackgroundMusic.getInstance().start();
 		
 		AudioNode an = BackgroundMusic.getInstance().getCurrent();
 
+		//Assert that a song is currently being played.
 		assertNotNull(an);
+
+		//Verify that play has been called to start playback.
 		verify(an, times(1)).play();
 	}
 	
@@ -115,14 +135,19 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testStart_playing() {
+		//Play the mocked song
 		BackgroundMusic.getInstance().playSong(an);
 
+		//Reset the mock
 		reset(an);
 
+		//Make the audioNode act as being paused
 		when(an.getStatus()).thenReturn(Status.Playing);
 
+		//Call start
 		BackgroundMusic.getInstance().start();
 
+		//Verify that play has not been called, as the song is already playing.
 		verify(an, times(0)).play();
 	}
 
@@ -131,11 +156,16 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testPause_playing() {
+		//Play the mocked song
 		BackgroundMusic.getInstance().playSong(an);
 
+		//Reset the mock
 		reset(an);
+
+		//Call pause
 		BackgroundMusic.getInstance().pause();
 
+		//Verify that the song has indeed been paused.
 		verify(an, times(1)).pause();
 	}
 	
@@ -144,12 +174,17 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testPause_notPlaying() {
+		//Play the mocked song and stop it again
 		BackgroundMusic.getInstance().playSong(an);
 		BackgroundMusic.getInstance().stop();
 
+		//Reset the mock
 		reset(an);
+
+		//Call pause
 		BackgroundMusic.getInstance().pause();
 
+		//Verify that the song has NOT been paused
 		verify(an, times(0)).pause();
 	}
 
@@ -158,16 +193,23 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testStop() {
+		//Play the mocked song
 		BackgroundMusic.getInstance().playSong(an);
 
+		//Reset the mock
 		reset(an);
+
+		//Call stop
 		BackgroundMusic.getInstance().stop();
 
+		//Verify that the song has indeed been stopped.
 		verify(an, times(1)).stop();
 
+		//Reset the mock
 		reset(an);
-		BackgroundMusic.getInstance().stop();
 
+		//Calling stop again should have no effect
+		BackgroundMusic.getInstance().stop();
 		verifyZeroInteractions(an);
 	}
 	
@@ -176,12 +218,17 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testUpdate_noSong() {
+		//Play the mocked song, and stop it again
 		BackgroundMusic.getInstance().playSong(an);
 		BackgroundMusic.getInstance().stop();
 
+		//Reset the mock
 		reset(an);
+
+		//Call the update
 		BackgroundMusic.getInstance().update();
 
+		//The song should not have been changed any more
 		verifyZeroInteractions(an);
 	}
 
@@ -191,14 +238,19 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testUpdate_playing() {
+		//Play the mocked song
 		BackgroundMusic.getInstance().playSong(an);
 
+		//Reset the mock
 		reset(an);
 
+		//Say that we are still playing
 		when(an.getStatus()).thenReturn(Status.Playing);
 
+		//Call the update
 		BackgroundMusic.getInstance().update();
 
+		//We should not have been stopped
 		verify(an, times(0)).stop();
 	}
 	
@@ -208,14 +260,19 @@ public class BackgroundMusicTest {
 	 */
 	@Test
 	public void testUpdate_stopped() {
+		//Play the mocked song
 		BackgroundMusic.getInstance().playSong(an);
 
+		//Reset the mock
 		reset(an);
 
+		//Say that we are done playing
 		when(an.getStatus()).thenReturn(Status.Stopped);
 
+		//Call the update
 		BackgroundMusic.getInstance().update();
 
+		//We should have been explicitly stopped by the method
 		verify(an, times(1)).stop();
 	}
 
