@@ -11,16 +11,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Entity;
 import nl.tudelft.contextproject.model.EntityState;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
@@ -76,7 +80,7 @@ public class GameController extends Controller {
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
 		attachLevel();
-
+		attachHud();
 		GameController t = this;
 		ActionListener al = new ActionListener() {
 			@Override
@@ -96,6 +100,55 @@ public class GameController extends Controller {
 		addInputListener(game.getPlayer(), "Jump");
 		addInputListener(game.getPlayer(), "Bomb");
 		addInputListener(game.getPlayer(), "Pickup");
+	}
+	
+	/**
+	 * Attaches the Hud to the renderer.
+	 */
+	public void attachHud() {
+		float onethird = (float) (Main.getInstance().getSettings().getWidth() / 3);
+		float twothird = onethird * 2;
+		//attach the keycounter
+		BitmapText hudText = new BitmapText(Main.getInstance().getGuiFont(), false);          
+		hudText.setSize(Main.getInstance().getGuiFont().getCharSet().getRenderedSize());
+		hudText.setColor(ColorRGBA.White);
+		hudText.setText("Keys: " + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfKeys());
+		hudText.setLocalTranslation(twothird, hudText.getLineHeight(), 0);
+		addGuiElement(hudText);
+		
+		//attach the bombcounter
+		BitmapText hudTextb = new BitmapText(Main.getInstance().getGuiFont(), false);          
+		hudTextb.setSize(Main.getInstance().getSettings().getHeight() / 30);
+		hudTextb.setColor(ColorRGBA.White);
+		hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs());
+		hudTextb.setLocalTranslation(onethird + 30, hudTextb.getLineHeight() + Main.getInstance().getSettings().getHeight() / 40, 0);
+		addGuiElement(hudTextb);
+		
+		//attach bombicon
+		Picture pic = new Picture("Bomb Picture");
+		pic.setImage(Main.getInstance().getAssetManager(), "Textures/bombicon.png", true);
+		pic.setWidth(Main.getInstance().getSettings().getWidth() / 15);
+		pic.setHeight(Main.getInstance().getSettings().getHeight() / 10);
+		pic.setPosition(200, 0);
+		addGuiElement(pic);
+		
+		//attach your healthcounter
+		BitmapText hudTexth = new BitmapText(Main.getInstance().getGuiFont(), false);          
+		hudTexth.setSize(Main.getInstance().getGuiFont().getCharSet().getRenderedSize());
+		hudTexth.setColor(ColorRGBA.White);
+		hudTexth.setText("Health: " + Main.getInstance().getCurrentGame().getPlayer().getHealth());             
+		hudTexth.setLocalTranslation((float) (Main.getInstance().getSettings().getWidth() / 3), Main.getInstance().getSettings().getHeight(), 0); 
+		addGuiElement(hudTexth);
+		//update the gui
+		Main.getInstance().attachTickListener(new TickListener() {
+			
+			@Override
+			public void update(float tpf) {
+				hudText.setText("Keys: " + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfKeys());
+				hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs()); 
+				hudTexth.setText("Health: " + Main.getInstance().getCurrentGame().getPlayer().getHealth());
+			}
+		});
 	}
 
 	/**

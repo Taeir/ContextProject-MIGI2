@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.font.BitmapFont;
 import com.jme3.input.CameraInput;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
@@ -57,7 +58,6 @@ public class Main extends SimpleApplication {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
-		
 		AppSettings settings = new AppSettings(true);
         settings.setUseJoysticks(true);
         main.setSettings(settings);
@@ -306,5 +306,20 @@ public class Main extends SimpleApplication {
 		return sticks != null && sticks.length > 0;
 	}
 	
+	/**
+	 * Returns the BitmapFont.
+	 * @return the BitmapFont
+	 */
+	public BitmapFont getGuiFont() {
+		return guiFont;
+	}
+	
+	/**
+	 * Returns the AppSettings.
+	 * @return the AppSettings.
+	 */
+	public AppSettings getSettings() {
+		return settings;
+	}
 	
 }

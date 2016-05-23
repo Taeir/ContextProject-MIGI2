@@ -21,7 +21,21 @@ public class Inventory {
 		this.keys = 0;
 		this.bombs = 0;
 	}
-
+	
+	/**
+	 * Returns the number of keys in the inventory.
+	 * @return the number of keys
+	 */
+	public int numberOfKeys() {
+		return keys;
+	}
+	/**
+	 * Returns the number of bombs in the inventory.
+	 * @return the number of bombs 
+	 */
+	public int numberOfBombs() {
+		return bombs;
+	}
 	/**
 	 * Adds a key to the inventory.
 	 * @param key

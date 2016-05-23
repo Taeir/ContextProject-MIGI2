@@ -55,12 +55,15 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	private boolean left, right, up, down;
 	private Vector3f walkDirection;
 	private Inventory inventory;
+	private int health;
+	private int maxHealth = 3;
 	/**
 	 * Constructor for a default player.
 	 * This player is (for now) a red sphere.
 	 */
 	public VRPlayer() { 
 		inventory = new Inventory();
+		health = 3;
 		//Set geometry of player
 	}
 
@@ -257,5 +260,33 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 */
 	public void setInventory(Inventory inv) {
 		inventory = inv;
+	}
+	
+	/**
+	 * Returns the player's health.
+	 * @return The player's health
+	 */
+	public int getHealth() {
+		return health;
+	}
+	
+	/**
+	 * Sets a player's health.
+	 * @param heal
+	 * 		Health to be set
+	 */
+	public void setHealth(int heal) {
+		if (heal > maxHealth) {
+			health = 3;
+		} else {
+			health = heal;
+		}
+	}
+	
+	/**
+	 * Reduces a players health by one.
+	 */
+	public void takeDamage() {
+		health--;
 	}
 }
