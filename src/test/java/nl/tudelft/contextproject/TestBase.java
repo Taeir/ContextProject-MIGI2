@@ -3,20 +3,39 @@ package nl.tudelft.contextproject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.junit.AfterClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.mockito.Mockito;
 
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Base test class.
- * Each test class should extend this class as it contains lines that every
- * test class should run in @beforeClass. 
+ * Each test class should extend this class as it ensures that the Main class is properly set up
+ * for testing, and that jMonkey does not generate extensive warnings.
  */
 public abstract class TestBase {
+	private Main main;
+	private final boolean mockGame;
 	
-	private static Main main;
-
+	/**
+	 * Creates the TestBase without mocking the game.
+	 */
+	public TestBase() {
+		this(false);
+	}
+	
+	/**
+	 * Creates a TestBase, optionally mocking the game.
+	 * 
+	 * @param mockGame
+	 * 		true if the game should be mocked, false otherwise
+	 */
+	public TestBase(boolean mockGame) {
+		this.mockGame = mockGame;
+	}
+	
 	/**
 	 * Test Class setup method.
 	 * Each test class will run this method.
@@ -34,26 +53,28 @@ public abstract class TestBase {
 	public static void setUpBeforeClass() {
 		//Set logger level
 		Logger.getLogger("com.jme3").setLevel(Level.OFF);
-
-		//Store the old Main instance
-		main = Main.getInstance();
-
-		//Clear the instance
-		Main.setInstance(null);
-
-		//Ensure the main is mocked
-		TestUtil.ensureMainMocked(true);
+	}
+	
+	/**
+	 * Ensures that the main instance is set up before every test.
+	 */
+	@Before
+	public void setUpMain() {
+		main = TestUtil.setupMainForTesting();
+		
+		if (mockGame) {
+			TestUtil.mockGame();
+		}
 	}
 
 	/**
-	 * Test Class tear down method
-	 * Restores the original Main instance after all tests are done.
+	 * Ensures that the main instance is cleaned up after every test.
 	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		//Restore the old main
-		Main.setInstance(main);
+	@After
+	public void tearDownMain() {
+		Mockito.reset(main);
+		main = null;
+		
+		TestUtil.cleanupMain();
 	}
-
-
 }

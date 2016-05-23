@@ -8,41 +8,18 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.jme3.light.Light;
 
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
-import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the roomLoader class.
  */
 public class RoomReaderTest extends TestBase {
-	private static Main main;
-
-	/**
-	 * Ensures that {@link Main#getInstance()} is properly set up before any tests run.
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		main = Main.getInstance();
-		Main.setInstance(null);
-		TestUtil.ensureMainMocked(true);
-	}
-
-	/**
-	 * Restores the original Main instance after all tests are done.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		Main.setInstance(main);
-	}
 	
 	/**
 	 * Test loading a correct file.

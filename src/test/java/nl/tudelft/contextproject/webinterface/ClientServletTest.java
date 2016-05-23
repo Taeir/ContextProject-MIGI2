@@ -32,6 +32,8 @@ public class ClientServletTest extends WebTestBase {
 	private static final String SET_TEAM = "/setteam";
 	private static final String TEAM = "team";
 
+	private static Level level;
+	
 	public WebServer webServer;
 	public ClientServlet servlet;
 	
@@ -41,20 +43,19 @@ public class ClientServletTest extends WebTestBase {
 	@BeforeClass
 	public static void initializeLevel() {
 		//Generate a new seeded level
-		Level level = new RandomLevelFactory(5, false).generateSeeded(1);
-
-		//Create a new controller with that level
-		GameController controller = new GameController(Main.getInstance(), level);
-
-		//Set the controller on main
-		Main.getInstance().setController(controller);
+		level = new RandomLevelFactory(5, false).generateSeeded(1);
 	}
-
+	
 	/**
-	 * Creates a new ClientServlet before every test, and sets the game state to WAITING.
+	 * Creates a new GameController and a new ClientServlet before every test, and sets the game
+	 * state to WAITING.
 	 */
 	@Before
 	public void setUp() {
+		//Create a new controller and set it
+		GameController controller = new GameController(Main.getInstance(), level);
+		Main.getInstance().setController(controller);
+		
 		webServer = spy(new WebServer());
 		servlet = spy(new ClientServlet(webServer));
 		
