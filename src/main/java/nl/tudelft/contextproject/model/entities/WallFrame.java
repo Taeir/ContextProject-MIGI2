@@ -40,7 +40,7 @@ public class WallFrame extends Entity {
 		ColorRGBA color = ColorRGBA.White;
 		mat.setColor("Diffuse", color);
 		mat.setColor("Specular", color);
-		mat.setFloat("Shininess", 64f);  // [0,128]
+		mat.setFloat("Shininess", 64f);
 		mat.setColor("Ambient", color);
 		mat.setTexture("LightMap", am.loadTexture(texture));
 		this.spatial.setMaterial(mat); 
