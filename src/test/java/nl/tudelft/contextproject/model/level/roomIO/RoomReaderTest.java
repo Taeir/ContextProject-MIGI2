@@ -15,6 +15,7 @@ import org.junit.Test;
 import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.test.TestUtil;
@@ -22,7 +23,7 @@ import nl.tudelft.contextproject.test.TestUtil;
 /**
  * Test class for the roomLoader class.
  */
-public class RoomReaderTest {
+public class RoomReaderTest extends TestBase {
 	private static Main main;
 
 	/**

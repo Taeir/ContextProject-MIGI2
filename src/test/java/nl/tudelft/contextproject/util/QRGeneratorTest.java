@@ -7,11 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 
 /**
  * QRGenerator test class.
  */
-public class QRGeneratorTest {
+public class QRGeneratorTest extends TestBase {
 
 	private static final String TEST_URL = "https://111.111.111.111:" + Main.PORT_NUMBER + "/";	
 	

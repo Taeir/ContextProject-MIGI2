@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Door;
 import nl.tudelft.contextproject.model.entities.Entity;
@@ -23,7 +24,7 @@ import nl.tudelft.contextproject.util.ScriptLoaderException;
 /**
  * Test class for the entityReader class.
  */
-public class EntityReaderTest {
+public class EntityReaderTest extends TestBase {
 	private static Main main;
 
 	/**

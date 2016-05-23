@@ -9,10 +9,12 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.TestBase;
+
 /**
  * Test class for {@link FileUtil}.
  */
-public class FileUtilTest {
+public class FileUtilTest extends TestBase {
 	private static boolean jar;
 	private static String path;
 	private static File testFile;

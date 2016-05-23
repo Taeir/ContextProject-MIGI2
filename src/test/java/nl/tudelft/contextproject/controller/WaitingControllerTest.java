@@ -8,12 +8,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the WaitingController.
  */
-public class WaitingControllerTest {
+public class WaitingControllerTest extends TestBase {
 	private static Main main;
 	private WaitingController instance;
 	

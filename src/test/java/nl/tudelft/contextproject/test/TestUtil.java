@@ -23,6 +23,7 @@ import com.jme3.scene.Node;
 import com.jme3.system.JmeSystem;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
@@ -32,7 +33,7 @@ import nl.tudelft.contextproject.model.level.Level;
  * This class has en excessive amount of comments, as things could
  * change if we expand on our game.
  */
-public final class TestUtil {
+public final class TestUtil extends TestBase {
 	private TestUtil() { }
 	
 	/**
