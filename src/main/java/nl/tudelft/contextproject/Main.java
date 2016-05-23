@@ -1,5 +1,8 @@
 package nl.tudelft.contextproject;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import java.util.LinkedList;
@@ -57,7 +60,15 @@ public class Main extends SimpleApplication {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
-		
+		if (java.awt.Desktop.isDesktopSupported()) {
+			   try {
+			    java.awt.Desktop.getDesktop().browse(new URI("http://localhost:8080/"));
+			   } catch (IOException ex) {
+			    ex.printStackTrace();
+			   } catch (URISyntaxException ex) {
+			    ex.printStackTrace();
+			   }
+			  }
 		AppSettings settings = new AppSettings(true);
         settings.setUseJoysticks(true);
         main.setSettings(settings);
