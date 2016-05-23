@@ -25,6 +25,7 @@ public class GeneratorRoomTest {
     @Before
     public void setUp() {
         mockedSize = mock(Size.class);
+
         when(mockedSize.getHeight()).thenReturn(10);
         when(mockedSize.getWidth()).thenReturn(10);
     }

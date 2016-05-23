@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -26,8 +27,11 @@ public abstract class Controller extends AbstractAppState {
 
 	/**
 	 * Protected constructor for the controller class.
-	 * @param app The application initializing this controller.
-	 * @param name The controller name.
+	 *
+	 * @param app
+	 * 		the application initializing this controller
+	 * @param name
+	 * 		the controller name
 	 */
 	protected Controller(SimpleApplication app, String name) {
 		this.rootNode = new Node(name + "RootNode");
@@ -49,14 +53,16 @@ public abstract class Controller extends AbstractAppState {
 	public abstract void update(float tpf);
 
 	/**
-	 * Get the gamestate of this controller.
-	 * @return The gamestate of this controller.
+	 * @return
+	 * 		the GameState of this controller
 	 */
 	public abstract GameState getGameState();
 
 	/**
 	 * Add an element to the GUI.
-	 * @param s A Spatial to add to the GUI.
+	 *
+	 * @param s
+	 * 		a Spatial to add to the GUI
 	 */
 	public void addGuiElement(Spatial s) {
 		guiNode.attachChild(s);
@@ -64,8 +70,11 @@ public abstract class Controller extends AbstractAppState {
 
 	/**
 	 * Removes an element from the GUI.
-	 * @param s The Spatial to remove.
-	 * @return True when the element was removed, false otherwise.
+	 *
+	 * @param s
+	 * 		the Spatial to remove
+	 * @return
+	 * 		true when the element was removed, false otherwise
 	 */
 	public boolean removeGuiElement(Spatial s) {
 		return guiNode.detachChild(s) != -1;
@@ -73,29 +82,40 @@ public abstract class Controller extends AbstractAppState {
 
 	/**
 	 * Add a Drawable to the renderer.
-	 * Drawables should also have a collision
+	 * Drawables should also have a collision.
+	 *
 	 * @param d 
-	 * 				The drawable to add.
+	 * 		The drawable to add
 	 */
 	public void addDrawable(Drawable d) {
 		if (d instanceof PhysicsObject) {
 			physicsEnvironment.getPhysicsSpace().add(((PhysicsObject) d).getPhysicsObject());
 		}
+
 		rootNode.attachChild(d.getSpatial());
 	}
 	
 	/**
 	 * Removes a Drawable from the renderer.
-	 * @param d The Drawable to remove.
-	 * @return True when the Drawable was removed, false otherwise.
+	 *
+	 * @param d
+	 * 		the Drawable to remove
+	 * @return
+	 * 		true when the Drawable was removed, false otherwise
 	 */
 	public boolean removeDrawable(Drawable d) {
+		if (d instanceof PhysicsObject) {
+			physicsEnvironment.getPhysicsSpace().remove(((PhysicsObject) d).getPhysicsObject());
+		}
+
 		return rootNode.detachChild(d.getSpatial()) != -1;
 	}
 
 	/**
 	 * Add a light to the scene.
-	 * @param l The light to add.
+	 *
+	 * @param l
+	 * 		the light to add
 	 */
 	public void addLight(Light l) {
 		rootNode.addLight(l);
@@ -103,7 +123,9 @@ public abstract class Controller extends AbstractAppState {
 
 	/**
 	 * Removes the specified light from the scene.
-	 * @param l The light to remove.
+	 *
+	 * @param l
+	 * 		the light to remove
 	 */
 	public void removeLight(Light l) {
 		rootNode.removeLight(l);
@@ -111,7 +133,9 @@ public abstract class Controller extends AbstractAppState {
 
 	/**
 	 * Remove the specified listener form the input manager.
-	 * @param listener The listener to remove.
+	 *
+	 * @param listener
+	 *		the listener to remove
 	 */
 	public void removeInputListener(InputListener listener) {
 		inputManager.removeListener(listener);
@@ -119,8 +143,11 @@ public abstract class Controller extends AbstractAppState {
 
 	/**
 	 * Add a listener to the specified mappings.
-	 * @param listener The listener to add.
-	 * @param mappingNames One ore more mappingNames to map the listener to.
+	 *
+	 * @param listener
+	 * 		the listener to add
+	 * @param mappingNames
+	 * 		one ore more mappingNames to map the listener to
 	 */
 	public void addInputListener(InputListener listener, String... mappingNames) {
 		inputManager.addListener(listener, mappingNames);
@@ -129,7 +156,9 @@ public abstract class Controller extends AbstractAppState {
 	/**
 	 * Method used for testing.
 	 * Sets the rootNode of Main to a new Node.
-	 * @param rn The new node to replace the rootNode.
+	 *
+	 * @param rn
+	 * 		the new node to replace the rootNode
 	 */
 	protected void setRootNode(Node rn) {
 		rootNode = rn;
@@ -138,7 +167,9 @@ public abstract class Controller extends AbstractAppState {
 	/**
 	 * Method used for testing.
 	 * Sets the guiNode of Main to a new Node.
-	 * @param gn The new node to replace the guiNode.
+	 *
+	 * @param gn
+	 * 		the new node to replace the guiNode
 	 */
 	protected void setGuiNode(Node gn) {
 		guiNode = gn;
@@ -146,8 +177,9 @@ public abstract class Controller extends AbstractAppState {
 
 	/**
 	 * Set the physic environment.
+	 *
 	 * @param phe
-	 * 				A bullet app state.
+	 * 		A bullet app state
 	 */
 	protected void setPhysicsEnvironmentNode(BulletAppState phe) {
 		physicsEnvironment = phe;
@@ -155,8 +187,10 @@ public abstract class Controller extends AbstractAppState {
 	
 	/**
 	 * Method used for testing.
-	 * Sets the inputMainager a specified InputManager.
-	 * @param inputManager The new InputManager.
+	 * Sets the inputManager a specified InputManager.
+	 *
+	 * @param inputManager
+	 * 		the new InputManager
 	 */
 	protected void setInputManager(InputManager inputManager) {
 		this.inputManager = inputManager;
@@ -165,9 +199,11 @@ public abstract class Controller extends AbstractAppState {
 	@Override
 	public void cleanup() {
 		super.cleanup();
+
 		Main main = Main.getInstance();
 		main.getRootNode().detachChild(rootNode);
 		main.getGuiNode().detachChild(guiNode);
+
 		for (Light l: rootNode.getLocalLightList()) {
 			rootNode.removeLight(l);
 		}

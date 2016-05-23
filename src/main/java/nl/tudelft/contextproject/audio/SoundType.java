@@ -4,19 +4,8 @@ package nl.tudelft.contextproject.audio;
  * Enum for the different sound types.
  */
 public enum SoundType {
-	/**
-	 * Sound effects (e.g. pickup/interaction noises)
-	 */
 	EFFECT,
-	
-	/**
-	 * Background music.
-	 */
 	BACKGROUND_MUSIC,
-	
-	/**
-	 * Ambient sounds (e.g. cave sounds).
-	 */
 	AMBIENT;
 	
 	private float gain;
@@ -44,8 +33,7 @@ public enum SoundType {
 	public void setGain(float gain) {
 		//Gain must be >= 0
 		this.gain = Math.max(0, gain);
-		
-		//Notify the AudioManager of the volume change.
+
 		AudioManager.getInstance().updateVolume(this);
 	}
 }

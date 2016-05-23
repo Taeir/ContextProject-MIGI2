@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.jme3.light.Light;
 
-import nl.tudelft.contextproject.model.Entity;
+import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.util.Size;
 
 /**

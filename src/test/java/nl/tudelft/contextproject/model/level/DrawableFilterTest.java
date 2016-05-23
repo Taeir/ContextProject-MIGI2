@@ -3,7 +3,7 @@ package nl.tudelft.contextproject.model.level;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import nl.tudelft.contextproject.model.Entity;
+import nl.tudelft.contextproject.model.entities.Entity;
 
 import org.junit.Before;
 import org.junit.Test;
