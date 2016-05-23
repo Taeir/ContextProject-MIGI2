@@ -26,16 +26,20 @@ public class WallFrame extends Entity {
 	 * 		the name of the resource for the displayed image
 	 * @param orientation
 	 * 		the orientation of the panel
+	 * @param width
+	 * 		the width of the frame
+	 * @param height
+	 * 		the height of the frame
 	 */
-	public WallFrame(Vector3f position, String texture, Direction orientation) {
-		Quad b = new Quad(1, 3);
+	public WallFrame(Vector3f position, String texture, Direction orientation, float width, float height) {
+		Quad b = new Quad(width, height);
 		spatial = new Geometry("WallFrame", b);
 		AssetManager am = Main.getInstance().getAssetManager();
 		Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
 		mat.setBoolean("UseMaterialColors", true);
 		ColorRGBA color = ColorRGBA.White;
 		mat.setColor("Diffuse", color);
-		mat.setColor("Specular", ColorRGBA.White);
+		mat.setColor("Specular", color);
 		mat.setFloat("Shininess", 64f);  // [0,128]
 		mat.setColor("Ambient", color);
 		mat.setTexture("LightMap", am.loadTexture(texture));
