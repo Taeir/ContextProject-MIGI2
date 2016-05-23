@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject;
 
 import java.lang.reflect.Field;
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -172,6 +174,8 @@ public class Main extends SimpleApplication {
 		setupControlMappings();
 		setController(new WaitingController(this));
 		setupWebServer();
+		
+		showQRCode();
 
 		AudioManager.getInstance().init();
 		BackgroundMusic.getInstance().start();
@@ -185,6 +189,19 @@ public class Main extends SimpleApplication {
 				onGameStopped();
 			}
 		});
+	}
+
+	/**
+	 * Opens the QR code to join the game in the default browser.
+	 */
+	private void showQRCode() {
+		if (Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(new URI("http://localhost:8080/qr"));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	/**
