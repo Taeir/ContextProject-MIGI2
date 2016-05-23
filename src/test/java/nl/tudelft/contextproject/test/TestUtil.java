@@ -125,7 +125,7 @@ public final class TestUtil extends TestBase {
 		
 		return mainSpy;
 	}
-	
+
 	/**
 	 * Cleans up the Main instance.
 	 */
