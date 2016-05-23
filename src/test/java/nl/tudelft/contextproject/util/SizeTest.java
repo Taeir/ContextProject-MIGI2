@@ -8,13 +8,13 @@ import org.junit.Test;
  */
 public class SizeTest {
 
-    /**
-     * Test for checking the constructor and getters for Size.
-     */
-    @Test
-    public void testConstructor() {
-        Size testSize = new Size(3, 5);
-        assertEquals(testSize.getWidth(), 3);
-        assertEquals(testSize.getHeight(), 5);
-    }
+	/**
+	 * Test for checking the constructor and getters for Size.
+	 */
+	@Test
+	public void testConstructor() {
+		Size testSize = new Size(3, 5);
+		assertEquals(testSize.getWidth(), 3);
+		assertEquals(testSize.getHeight(), 5);
+	}
 }

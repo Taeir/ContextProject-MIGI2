@@ -3,6 +3,8 @@ package nl.tudelft.contextproject.model;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 
 /**
@@ -15,9 +17,13 @@ public class Game {
 	
 	/**
 	 * Advanced constructor for the game.
-	 * @param level The level for this game.
-	 * @param player The VRPlayer in this game.
-	 * @param entities A list containing all entities in the game.
+	 *
+	 * @param level
+	 * 		the level for this game
+	 * @param player
+	 * 		the VRPlayer in this game
+	 * @param entities
+	 * 		a list containing all entities in the game
 	 */
 	public Game(Level level, VRPlayer player, Set<Entity> entities) {
 		this.level = level;
@@ -27,7 +33,9 @@ public class Game {
 	
 	/**
 	 * Simple constructor for the game.
-	 * @param level The level for this game.
+	 *
+	 * @param level
+	 * 		the level for this game
 	 */
 	public Game(Level level) {
 		this.level = level;
@@ -37,32 +45,35 @@ public class Game {
 	
 	/**
 	 * Add an entity to the game.
-	 * @param entity The entity to add.
-	 * @return true if the entity was added, false otherwise.
+	 *
+	 * @param entity
+	 * 		the entity to add
+	 * @return
+	 * 		true if the entity was added, false otherwise
 	 */
 	public boolean addEntity(Entity entity) {
 		return entities.add(entity);
 	}
 
 	/**
-	 * Getter for the player.
-	 * @return The player.
+	 * @return
+	 * 		the player
 	 */
 	public VRPlayer getPlayer() {
 		return player;
 	}
 
 	/**
-	 * Get all the entities from the game.
-	 * @return a set with all the entities
+	 * @return
+	 * 		a set with all the entities
 	 */
 	public Set<Entity> getEntities() {
 		return entities;
 	}
 
 	/**
-	 * Get the level of this game.
-	 * @return The current level.
+	 * @return
+	 * 		the current level.
 	 */
 	public Level getLevel() {
 		return level;
@@ -71,7 +82,9 @@ public class Game {
 	/**
 	 * Method used in testing.
 	 * Sets the current level.
-	 * @param level The new level.
+	 *
+	 * @param level
+	 * 		the new level
 	 */
 	public void setLevel(Level level) {
 		this.level = level;

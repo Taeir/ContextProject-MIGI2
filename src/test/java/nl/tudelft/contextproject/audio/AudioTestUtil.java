@@ -34,11 +34,9 @@ public final class AudioTestUtil {
 		boolean are = noSpy.getAudioRenderer() == null;
 		boolean lis = noSpy.getListener() == null;
 		boolean cam = noSpy.getCamera() == null;
-		
-		//Create the spy
+
 		Main main = spy(noSpy);
-		
-		//Mock the correct methods
+
 		if (are) when(main.getAudioRenderer()).thenReturn(audioRenderer);
 		if (lis) when(main.getListener()).thenReturn(listener);
 		if (cam) when(main.getCamera()).thenReturn(camera);

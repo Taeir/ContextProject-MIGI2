@@ -18,7 +18,9 @@ public class WaitingController extends GameController {
 
 	/**
 	 * Create a waitingController.
-	 * @param app The app this Controller is created by (probably).
+	 *
+	 * @param app
+	 * 		the app this Controller is created by
 	 */
 	public WaitingController(SimpleApplication app) {
 		super(app, "/maps/" + MENU_LEVEL + "/");
@@ -30,7 +32,9 @@ public class WaitingController extends GameController {
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
+
 		Main main = Main.getInstance();
+
 		main.getInputManager().addListener(new ActionListener() {			
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {

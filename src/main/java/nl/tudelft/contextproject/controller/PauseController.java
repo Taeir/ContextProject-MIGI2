@@ -14,32 +14,37 @@ import nl.tudelft.contextproject.Main;
  */
 public class PauseController extends Controller {
 
-	private GameController resumeController;
+	private GameController controller;
 
 	/**
 	 * Constructor for the PauseController.
-	 * @param old The old controller to resume to.
-	 * @param app The main app.
+	 *
+	 * @param old
+	 * 		the old controller to resume to
+	 * @param app
+	 * 		the main app
 	 */
 	public PauseController(GameController old, SimpleApplication app) {
 		super(app, "PauseController");
-		this.resumeController = old;
+
+		this.controller = old;
 	}
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
+
 		ActionListener al = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
 				if (!isPressed) {
 					removeInputListener(this);
-					Main.getInstance().setController(resumeController);
+					Main.getInstance().setController(controller);
 				}
 			}
 		};
+
 		addInputListener(al, "pause");
-		
 		BitmapFont guiFont = Main.getInstance().getAssetManager().loadFont("Interface/Fonts/Default.fnt");
 		BitmapText hudText = guiFont.createLabel("Paused"); 
 		hudText.setLocalTranslation(200, 200, 0);
@@ -55,10 +60,10 @@ public class PauseController extends Controller {
 	}
 	
 	/**
-	 * Get the controller that was paused by this controller.
-	 * @return The paused controller.
+	 * @return
+	 * 		the paused controller
 	 */
 	public GameController getPausedController() {
-		return resumeController;
+		return controller;
 	}
 }
