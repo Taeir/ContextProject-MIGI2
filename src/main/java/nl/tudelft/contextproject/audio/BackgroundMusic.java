@@ -10,7 +10,7 @@ import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.files.FileUtil;
+import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 
 /**
@@ -50,8 +50,7 @@ public final class BackgroundMusic {
 			Log.getLog("Audio").warning("No music could be found!");
 			return;
 		}
-		
-		//Generate a list of all music files available.
+
 		for (String name : names) {
 			//Skip files that are not in a supported format
 			if (!name.endsWith(".wav") && !name.endsWith(".ogg")) {
@@ -82,14 +81,11 @@ public final class BackgroundMusic {
 	 * 		the AudioNode to play
 	 */
 	public synchronized void playSong(AudioNode an) {
-		//Register for volume changes
 		AudioManager.getInstance().registerVolume(an, SoundType.BACKGROUND_MUSIC);
-		
-		//Start the given song
+
 		an.play();
 		
 		if (current != null) {
-			//Stop the old music
 			stop();
 		}
 		
@@ -101,43 +97,35 @@ public final class BackgroundMusic {
 	 * If there are no songs, this method does the same as {@link #stop()}.
 	 */
 	public synchronized void next() {
-		//If we have no music, we cannot play any.
 		if (music.isEmpty()) {
-			//If a song is currently playing, then stop it.
 			if (current != null) {
 				stop();
 			}
 			
 			return;
 		}
-		
-		//Get the next song
+
 		int index = (currentIndex + 1) % music.size();
 		String nextName = music.get(index);
-		
-		//Create the AudioNode
+
 		AudioNode nextAudioNode;
 		if (testing) {
-			//For testing, create a mocked audio node
 			nextAudioNode = Mockito.mock(AudioNode.class);
 		} else {
 			nextAudioNode = new AudioNode(Main.getInstance().getAssetManager(), "Sound/Music/" + nextName, DataType.Stream);
 		}
 		
 		nextAudioNode.setPositional(false);
-		
-		//Register for volume changes
+
 		AudioManager.getInstance().registerVolume(nextAudioNode, SoundType.BACKGROUND_MUSIC);
 		
 		//Start the new music before stopping the old one for a smoother transition.
 		nextAudioNode.play();
 		
 		if (current != null) {
-			//Stop the old music
 			stop();
 		}
-		
-		//Update the fields
+
 		current = nextAudioNode;
 		currentIndex = index;
 	}
@@ -170,8 +158,7 @@ public final class BackgroundMusic {
 	 */
 	public synchronized void stop() {
 		if (current == null) return;
-		
-		//Stop the music and unregister it.
+
 		current.stop();
 		AudioManager.getInstance().unregisterVolume(current, SoundType.BACKGROUND_MUSIC);
 		
@@ -191,15 +178,11 @@ public final class BackgroundMusic {
 	
 	/**
 	 * Called to indicate an update.
-	 * 
-	 * @param tpf
-	 * 		tick indicator
 	 */
-	public void update(double tpf) {
+	public void update() {
 		AudioNode an = current;
 		if (an == null) return;
-		
-		//Play the next song if the last one is done playing.
+
 		if (an.getStatus() == AudioSource.Status.Stopped) {
 			next();
 		}

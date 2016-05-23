@@ -20,10 +20,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.EntityState;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.VRPlayer;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 
@@ -55,7 +55,7 @@ public class GameControllerTest extends ControllerTest {
 		Level l = null;
 		controller = new GameController(main, l);
 
-		Light light = mock(Light.class);		
+		Light light = mock(Light.class);
 		rootNode = mock(Node.class);
 		LightList lightList = new LightList(rootNode);
 		lightList.add(light);
@@ -68,11 +68,11 @@ public class GameControllerTest extends ControllerTest {
 		Entity entity = mock(Entity.class);
 		when(entity.getSpatial()).thenReturn(mock(Spatial.class));
 		when(entity.getState()).thenReturn(EntityState.ALIVE);
-		
+
 		phe = mock(BulletAppState.class);
 		PhysicsSpace phs = mock(PhysicsSpace.class);
 		when(phe.getPhysicsSpace()).thenReturn(phs);
-		
+
 		entities.add(entity);
 		VRPlayer player = mock(VRPlayer.class);
 		when(player.getSpatial()).thenReturn(mock(Spatial.class));
@@ -125,7 +125,6 @@ public class GameControllerTest extends ControllerTest {
 		set.add(eMock);
 
 		controller.setRootNode(rn);
-		
 		controller.updateEntities(0.5f);
 
 		verify(eMock, times(1)).update(0.5f);

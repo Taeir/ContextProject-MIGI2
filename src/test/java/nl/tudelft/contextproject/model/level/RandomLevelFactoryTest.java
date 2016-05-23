@@ -310,6 +310,7 @@ public class RandomLevelFactoryTest {
 		if (width != map2.length || height != map2[0].length) {
 			return false;
 		}
+
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				if (map1[i][j] != map2[i][j]) {

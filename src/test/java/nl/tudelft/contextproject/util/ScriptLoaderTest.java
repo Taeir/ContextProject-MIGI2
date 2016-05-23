@@ -15,7 +15,9 @@ public class ScriptLoaderTest {
 
 	/**
 	 * Create a fresh instance for each test.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
 	 */
 	@Before
 	public void setUp() throws ScriptLoaderException {
@@ -24,7 +26,9 @@ public class ScriptLoaderTest {
 	
 	/**
 	 * Test loading a tickListener that throws a {@link IllegalMonitorStateException} when updated.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
 	 */
 	@Test (expected = IllegalMonitorStateException.class)
 	public void testGetCorrectTickLister() throws ScriptLoaderException {
@@ -35,7 +39,9 @@ public class ScriptLoaderTest {
 	
 	/**
 	 * Get a TickListener from a class that is not a tickListener.
-	 * @throws ScriptLoaderException This should happen
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should happen
 	 */
 	@Test (expected = ScriptLoaderException.class)
 	public void testGetNotATickLister() throws ScriptLoaderException {
@@ -44,7 +50,9 @@ public class ScriptLoaderTest {
 	
 	/**
 	 * Get a TickListener from a file that does not exist.
-	 * @throws ScriptLoaderException This should happen
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should happen
 	 */
 	@Test (expected = ScriptLoaderException.class)
 	public void testGetNonExistingTickLister() throws ScriptLoaderException {
@@ -53,7 +61,9 @@ public class ScriptLoaderTest {
 	
 	/**
 	 * Get a TickListener from a tickListener with private constructor.
-	 * @throws ScriptLoaderException This should happen
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should happen
 	 */
 	@Test (expected = ScriptLoaderException.class)
 	public void testGetObjectWithPrivateConstructor() throws ScriptLoaderException {
@@ -62,7 +72,9 @@ public class ScriptLoaderTest {
 	
 	/**
 	 * Test loading a tickListener that throws a {@link IllegalMonitorStateException} when updated the static way.
-	 * @throws ScriptLoaderException This should not happen.
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should not happen.
 	 */
 	@Test (expected = IllegalMonitorStateException.class)
 	public void testStaticGetInstance() throws ScriptLoaderException {

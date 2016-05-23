@@ -15,6 +15,9 @@ import com.jme3.material.MatParam;
 import com.jme3.material.MaterialDef;
 import com.jme3.math.ColorRGBA;
 
+import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.model.entities.Door;
+import nl.tudelft.contextproject.model.entities.Key;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -105,7 +108,7 @@ public class InventoryTest {
 	public void testAddBomb() {
 		Bomb bomb = new Bomb();
 		inv.add(bomb);
-		assertTrue(inv.array.get(0) instanceof Bomb);
+		assertTrue(inv.pickedUpEntities.get(0) instanceof Bomb);
 	}
 
 	/**

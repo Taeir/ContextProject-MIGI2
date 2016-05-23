@@ -19,7 +19,6 @@ public final class AudioManager {
 	private HashMap<SoundType, Set<AudioNode>> sounds = new HashMap<>();
 	
 	private AudioManager() {
-		//Initialize all SoundTypes.
 		for (SoundType soundType : SoundType.values()) {
 			//We use a HashSet with weak keys, to prevent us from keeping AudioNodes loaded unnecessarily.
 			Set<AudioNode> set = Collections.newSetFromMap(new WeakHashMap<AudioNode, Boolean>());
@@ -39,7 +38,6 @@ public final class AudioManager {
 	 * Initializes the AudioManager.
 	 */
 	public void init() {
-		//Set the environment to cavern, for effects.
 		Main.getInstance().getAudioRenderer().setEnvironment(Environment.Cavern);
 	}
 	
@@ -57,8 +55,7 @@ public final class AudioManager {
 	 */
 	public void registerVolume(AudioNode audioNode, SoundType soundType) {
 		audioNode.setVolume(soundType.getGain());
-		
-		//Get the set of AudioNodes for the given SoundType, and add the audioNode
+
 		Set<AudioNode> set = sounds.get(soundType);
 		synchronized (set) {
 			set.add(audioNode);
@@ -76,8 +73,7 @@ public final class AudioManager {
 	 */
 	public void unregisterVolume(AudioNode audioNode, SoundType soundType) {
 		Set<AudioNode> set = sounds.get(soundType);
-		
-		//Remove the AudioNode from the set
+
 		synchronized (set) {
 			set.remove(audioNode);
 		}
@@ -123,10 +119,8 @@ public final class AudioManager {
 	 * 		the soundType whose volume was updated
 	 */
 	public void updateVolume(SoundType soundType) {
-		//Get all sounds of the given SoundType
 		Set<AudioNode> set = sounds.get(soundType);
-		
-		//Update the volume of all items in the set.
+
 		synchronized (set) {
 			for (AudioNode an : set) {
 				an.setVolume(soundType.getGain());

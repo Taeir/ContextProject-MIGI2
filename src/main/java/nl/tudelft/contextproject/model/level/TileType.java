@@ -12,7 +12,7 @@ public enum TileType {
 	
 	/**
 	 * @param jsonid
-	 * 		the id of the TileType when encoded in JSON
+	 *		the id of the TileType when encoded in JSON
 	 */
 	TileType(int jsonid) {
 		this.jsonid = jsonid;

@@ -30,12 +30,13 @@ public class MazeTile implements Drawable, PhysicsObject {
 
 	/**
 	 * Constructor for a tile in the maze.
+	 *
 	 * @param x
-	 * 			the x-coordinate of this tile
+	 *		the x-coordinate of this tile
 	 * @param y
-	 * 			the y coordinate of this tile
+	 *		the y coordinate of this tile
 	 * @param type
-	 * 			the type of this tile
+	 *		the type of this tile
 	 */
 	public MazeTile(int x, int y, TileType type) {
 		this.position = new Vector2f(x, y);
@@ -62,8 +63,9 @@ public class MazeTile implements Drawable, PhysicsObject {
 	
 	/**
 	 * Getter for tileType.
+	 *
 	 * @return
-	 * 				type of maze tile
+	 * 		type of maze tile
 	 */
 	public TileType getTileType() {
 		return type;
@@ -73,15 +75,15 @@ public class MazeTile implements Drawable, PhysicsObject {
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
-		Box b = new Box(.5f, .5f + height, .5f); // create cube shape
-		this.spatial = new Geometry("Box", b);  // create cube geometry from the shape
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+		Box b = new Box(.5f, .5f + height, .5f);
+		this.spatial = new Geometry("Box", b);
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
 		mat.setBoolean("UseMaterialColors", true);    
 		mat.setColor("Diffuse", color);
 		mat.setColor("Specular", ColorRGBA.White);
-		mat.setFloat("Shininess", 64f);  // [0,128]
+		mat.setFloat("Shininess", 64f);
 		mat.setColor("Ambient", color);
-		this.spatial.setMaterial(mat);                   // set the cube's material
+		this.spatial.setMaterial(mat);
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
 	}
@@ -113,7 +115,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 
 	/**
 	 * @return
-	 * 			return if the tile has been explored
+	 *		return if the tile has been explored
 	 */
 	public boolean isExplored() {
 		return explored;
@@ -121,9 +123,9 @@ public class MazeTile implements Drawable, PhysicsObject {
 
 	/**
 	 * @param explored
-	 * 			the new value to set
+	 *		the new value to set
 	 * @return
-	 * 			the old value
+	 *		the old value
 	 */
 	public boolean setExplored(boolean explored) {
 		boolean returnValue = this.explored;

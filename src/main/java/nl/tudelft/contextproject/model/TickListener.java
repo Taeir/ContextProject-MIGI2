@@ -7,7 +7,9 @@ public interface TickListener {
 	
 	/**
 	 * Update method called once per frame.
-	 * @param tpf The time between this and the previous frame.
+	 *
+	 * @param tpf
+	 * 		the time between this and the previous frame
 	 */
-	public void update(float tpf);
+	void update(float tpf);
 }

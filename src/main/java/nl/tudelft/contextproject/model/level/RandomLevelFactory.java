@@ -12,12 +12,11 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
-import nl.tudelft.contextproject.files.FileUtil;
+import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.util.Size;
 
 /**
- * An implementation of a LevelFactory that creates tiles randomly.
- * NOTE: This factory becomes deprecated after a proper factory is introduced!
+ * An implementation of a LevelFactory that creates a level randomly.
  */
 public class RandomLevelFactory implements LevelFactory {
 	protected static final int MAX_WIDTH = 50;
@@ -33,9 +32,9 @@ public class RandomLevelFactory implements LevelFactory {
 	 * Constructor for the random level factory.
 	 *
 	 * @param amount
-	 * 			the amount of rooms to generate
+	 *		the amount of rooms to generate
 	 * @param allowDuplicates
-	 * 			if duplicates are allowed
+	 *		if duplicates are allowed
 	 */
 	public RandomLevelFactory(int amount, boolean allowDuplicates) {
 		if (amount < 1) {
@@ -77,7 +76,7 @@ public class RandomLevelFactory implements LevelFactory {
 	 * Create the random number generator.
 	 *
 	 * @param seed
-	 * 			the seed to use for the random number generator.
+	 *		the seed to use for the random number generator
      */
 	protected void createRNG(long seed) {
 		rand = new Random(seed);
@@ -85,12 +84,13 @@ public class RandomLevelFactory implements LevelFactory {
 
 	/**
 	 * Return a random number between two values.
+	 *
 	 * @param min
-	 *          The minimum value the random number can be.
+	 *		The minimum value the random number can be
 	 * @param max
-	 *          The maximum value the random number can be.
+	 *		The maximum value the random number can be
 	 * @return
-	 *          The random number.
+	 *		The random number
 	 */
 	protected int getRandom(int min, int max) {
 		return (rand.nextInt((max - min)) + min);
@@ -100,14 +100,11 @@ public class RandomLevelFactory implements LevelFactory {
 	 * Method to load all rooms from file and return the sizes.
 	 *
 	 * @return
-	 *          An ArrayList of sizes.
+	 *		An ArrayList of sizes
 	 */
 	protected List<Size> loadRooms() {
 		String[] names = FileUtil.getFileNames("/rooms/");
 
-		/**
-		 * If the folder does not exist, we throw an IllegalStateException.
-		 */
 		if (names == null) {
 			throw new IllegalStateException("The rooms folder does not exist.");
 		}
@@ -128,7 +125,7 @@ public class RandomLevelFactory implements LevelFactory {
 	 * Method to create a list of {@link GeneratorRoom}.
 	 *
 	 * @return
-	 * 			the created generatorrooms
+	 *		the created GeneratorRoom
      */
 	protected List<GeneratorRoom> create() {
 		List<GeneratorRoom> rooms = new ArrayList<>();
@@ -137,9 +134,7 @@ public class RandomLevelFactory implements LevelFactory {
 			throw new IllegalArgumentException("You are requesting " + amount + " rooms, while there only are " + sizes.size() + " available.");
 		}
 
-		/**
-		 * Try to place the requested amount of rooms.
-		 */
+		//Try to place the requested amount of rooms.
 		for (int i = 0; i < amount; i++) {
 			int attempts = 0;
 			boolean success = false;
@@ -149,10 +144,8 @@ public class RandomLevelFactory implements LevelFactory {
 				throw new IllegalArgumentException("It is impossible for this level to fit in your map size.");
 			}
 
-			/**
-			 * Try MAX_ATTEMPTS times to create the room, if all of these
-			 * fail restart the entire algorithm.
-			 */
+			//Try MAX_ATTEMPTS times to create the room, if all of these
+			//fail restart the entire algorithm.
 			while (!success && attempts < MAX_ATTEMPTS) {
 				success = true;
 				int xCoord = getRandom(0, MAX_WIDTH - rSize.getWidth());
@@ -166,10 +159,9 @@ public class RandomLevelFactory implements LevelFactory {
 				}
 			}
 
-			/**
-			 * If the room has been places, add it to the list of places rooms.
-			 * Otherwise, break out of the while loop as there is no need to continue.
-			 */
+
+			//If the room has been places, add it to the list of places rooms.
+			//Otherwise, break out of the while loop as there is no need to continue.
 			if (success) {
 				rooms.add(newRoom);
 			} else {
@@ -177,10 +169,8 @@ public class RandomLevelFactory implements LevelFactory {
 			}
 		}
 
-		/**
-		 * If all rooms have been placed, return the list of all the rooms.
-		 * Else call the algorithm again and start all over.
-		 */
+		//If all rooms have been placed, return the list of all the rooms.
+		//Else call the algorithm again and start all over.
 		if (rooms.size() == amount) {
 			return rooms;
 		} else {
@@ -193,9 +183,9 @@ public class RandomLevelFactory implements LevelFactory {
 	 * This method creates the rooms.
 	 *
 	 * @param rooms
-	 * 			the generated rooms
+	 *		the generated rooms
 	 * @return
-	 * 			the generated matrix of TileTypes
+	 *		the generated matrix of TileTypes
      */
 	protected TileType[][] carveRooms(List<GeneratorRoom> rooms) {
 		return carveRooms(rooms, MAX_WIDTH, MAX_HEIGHT);
@@ -206,16 +196,17 @@ public class RandomLevelFactory implements LevelFactory {
 	 * This method creates the rooms.
 	 *
 	 * @param rooms
-	 * 			the generated rooms
+	 *		the generated rooms
 	 * @param maxWidth
-	 * 			the maximum width for the matrix
+	 *		the maximum width for the matrix
 	 * @param maxHeight
-	 * 			the maximum height for the matrix
+	 *		the maximum height for the matrix
 	 * @return
-	 * 			the generated matrix of TileTypes
+	 *		the generated matrix of TileTypes
      */
 	protected TileType[][] carveRooms(List<GeneratorRoom> rooms, int maxWidth, int maxHeight) {
 		TileType[][] carved = new TileType[maxWidth][maxHeight];
+
 		for (GeneratorRoom r : rooms) {
 			for (int x = r.getxLeft(); x < r.getxRight(); x++) {
 				for (int y = r.getyLeft(); y < r.getyRight(); y++) {
@@ -227,6 +218,7 @@ public class RandomLevelFactory implements LevelFactory {
 				}
 			}
 		}
+
 		return carved;
 	}
 
@@ -250,6 +242,7 @@ public class RandomLevelFactory implements LevelFactory {
 			Vector2f prevCenter = rooms.get(i - 1).getCenter();
 			Vector2f currCenter = rooms.get(i).getCenter();
 			int rn = getRandom(0, 2);
+
 			if (rn == 1) {
 				map = hCorridor(map, prevCenter.getX(), currCenter.getX(), prevCenter.getY());
 				map = vCorridor(map, prevCenter.getY(), currCenter.getY(), currCenter.getX());
@@ -266,8 +259,9 @@ public class RandomLevelFactory implements LevelFactory {
 	/**
 	 * This method adds walls to corridors on the map.
 	 * Checks if a Tile is a corridor, if true add a wall to all Null TileTypes.
+	 *
 	 * @param map
-	 * 				the map in which to place the corridor walls
+	 *		the map in which to place the corridor walls
 	 */
 	protected static void carveCorridorWalls(TileType[][] map) {
 		int width = map.length;
@@ -303,17 +297,19 @@ public class RandomLevelFactory implements LevelFactory {
 	 * Get a random size from a list of sizes.
 	 *
 	 * @param sizes
-	 * 			the list of sizes from which to randomly select one
+	 *		the list of sizes from which to randomly select one
 	 * @param allowDuplicates
-	 * 			if the size should be deleted from the list after selection
+	 *		if the size should be deleted from the list after selection
      * @return
-	 * 			the selected size
+	 *		the selected size
      */
 	protected Size getRandomSize(List<Size> sizes, boolean allowDuplicates) {
 		Size selected = sizes.get(getRandom(0, sizes.size()));
+
 		if (!allowDuplicates) {
 			sizes.remove(selected);
 		}
+
 		return selected;
 	}
 
@@ -321,25 +317,27 @@ public class RandomLevelFactory implements LevelFactory {
 	 * Method for generating a horizontal corridor.
 	 *
 	 * @param map
-	 * 			the map in which to generate the corridor
+	 *		the map in which to generate the corridor
 	 * @param x1
-	 * 			the x coordinate of a room
+	 *		the x coordinate of a room
 	 * @param x2
-	 * 			the x coordinate of a room
+	 *		the x coordinate of a room
 	 * @param yF
-	 * 			the y coordinate of a room
+	 *		the y coordinate of a room
 	 * @return
-	 * 			the map with the corridor cut out
+	 *		the map with the corridor cut out
 	 */
 	protected TileType[][] hCorridor(TileType[][] map, float x1, float x2, float yF) {
 		int min = (int) Math.floor(Math.min(x1, x2));
 		int max = (int) Math.floor(Math.max(x1, x2));
 		int y = (int) Math.floor(yF);
+
 		for (int x = min; x < max + 1; x++) {
 			if (map[x][y] == null || map[x][y] == TileType.WALL) {
 				map[x][y] = TileType.CORRIDOR;
 			}
 		}
+
 		return map;
 	}
 
@@ -347,25 +345,27 @@ public class RandomLevelFactory implements LevelFactory {
 	 * Method for generating a vertical corridor.
 	 *
 	 * @param map
-	 * 			the map in which to generate the corridor
+	 *		the map in which to generate the corridor
 	 * @param y1
-	 * 			the y coordinate of a room
+	 *		the y coordinate of a room
 	 * @param y2
-	 * 			the y coordinate of a room
+	 *		the y coordinate of a room
 	 * @param xF
-	 * 			the x coordinate of a room
+	 *		the x coordinate of a room
 	 * @return
-	 * 			the map with the corridor cut out
+	 *		the map with the corridor cut out
 	 */
 	protected TileType[][] vCorridor(TileType[][] map, float y1, float y2, float xF) {
 		int min = (int) Math.floor(Math.min(y1, y2));
 		int max = (int) Math.floor(Math.max(y1, y2));
 		int x = (int) Math.floor(xF);
+
 		for (int y = min; y < max + 1; y++) {
 			if (map[x][y] == null || map[x][y] == TileType.WALL) {
 				map[x][y] = TileType.CORRIDOR;
 			}
 		}
+
 		return map;
 	}
 
