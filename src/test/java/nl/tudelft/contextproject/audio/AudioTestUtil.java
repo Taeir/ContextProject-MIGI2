@@ -9,11 +9,12 @@ import com.jme3.audio.Listener;
 import com.jme3.renderer.Camera;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 
 /**
  * Utility class for testing with audio.
  */
-public final class AudioTestUtil {
+public final class AudioTestUtil extends TestBase {
 	
 	private AudioTestUtil() { }
 	
