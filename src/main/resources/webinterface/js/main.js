@@ -1,14 +1,6 @@
 var gAuth = false;
 var gTeam;
 var gView;
-var gPlayer = {
-    x: 0,
-    y: 0,
-    z: 0,
-    hp: 0,
-    bombs: 0,
-    keys: []
-};
 var gMap = null;
 var gExplored = null;
 var gEntities = null;
@@ -154,6 +146,7 @@ function switchTo(view) {
  *      the team to set. Must be in [ELVES, DWARFS, NONE]
  */
 function requestSetTeam(team) {
+    hideAllButtons();
     //Check if the team is valid
     if (team != "ELVES" && team != "DWARFS" && team != "NONE") throw "Invalid team!";
     
@@ -284,6 +277,27 @@ function requestEntities() {
 }
 
 /**
+ * Send a message to the server telling it to place a bomb at
+ * the given location.
+ */
+function requestAction(argument) {
+    console.log("[DEBUG] Requesting action: " + argument + ".");
+    $.post("/requestaction", {x: lastPressedX, y: lastPressedY, action: argument},  function(data, status) {
+        if (status != "success") {
+            //HTTP Error
+            showError("Something went wrong: [" + status + "] " + data);
+            return;
+        }
+
+        //Check if we are authorized
+        if (!checkAuthorized(data)) return;
+        
+    }, "json");
+    
+    $(document.getElementById('buttonDiv')).hide(250);
+}
+
+/**
  * Method that allows the generation of functions in a loop.
  *
  * @param x
@@ -297,27 +311,23 @@ function createClickableFunc(x, y) {
             console.log("Cell y" + y + "x" + x + " clicked.");
             lastPressedX = x;
             lastPressedY = y;
-            $(document.getElementById('buttonDiv')).show(250);
+            showButtons();
         };
 }
 
-/**
- * Send a message to the server telling it to place a bomb at
- * the given location.
- */
-function placeBomb() {
-    if (gTeam == undefined) return;
-    
-    console.log("[DEBUG] Placing bomb");
-    $.post("/placebomb", {x: lastPressedX, y: lastPressedY}, function(data, status) {
-        if (status != "success") {
-            //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
-            return;
-        }
-    }, "json");
-    
-    $(document.getElementById('buttonDiv')).hide(250);
+function showButtons() {
+    if (gTeam === "DWARFS") {
+        $(document.getElementById('dwarvesButtons')).show(250);
+    } else if (gTeam === "ELVES") {
+        $(document.getElementById('elvesButtons')).show(250);
+    } else {
+        console.log("[DEBUG] No team selected, buttons not shown.");
+    }
+}
+
+function hideAllButtons() {
+    $(document.getElementById('dwarvesButtons')).hide();
+    $(document.getElementById('elvesButtons')).hide();
 }
 
 /**

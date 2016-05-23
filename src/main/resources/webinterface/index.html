@@ -9,7 +9,8 @@
 		<script>
 			//On load
 			$(document).ready(function() {
-				$(document.getElementById("buttonDiv")).hide();
+				$(document.getElementById("dwarvesButtons")).hide();
+				$(document.getElementById("elvesButtons")).hide();
 				authenticate();
 				setInterval(requestStatus, 1000);
 			});
@@ -20,10 +21,10 @@
 		<div id="mainDiv">
 			<div id="authorized">
 				<div id="selectTeam">
-					<button onclick="requestSetTeam('ELVES')">Elves</button>
-					<button onclick="requestSetTeam('DWARFS')">Dwarfs</button>
-					<button onclick="requestSetTeam('NONE')">No team</button>
-					<button onclick="toggleFullscreen()">Toggle Fullscreen</button>
+					<button onclick="requestSetTeam('ELVES')" id="clickable">Elves</button>
+					<button onclick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
+					<button onclick="requestSetTeam('NONE')" id="clickable">No team</button>
+					<button onclick="toggleFullscreen()" id="clickable">Toggle Fullscreen</button>
 					<br>	
 					Current team: <div class="team">No team</div><br>
 				</div>
@@ -33,14 +34,20 @@
 					</table>
 				</div>
 				<div id="ended" style="visibility:hidden">
-			
+					
 				</div>
 			</div>
 		</div>
-		<div id="buttonDiv">
+		<div id="dwarvesButtons">
 				<div id="buttons">
-					<button onClick="placeBomb()">Place bomb</button><br>
-					<button onClick="$(document.getElementById('buttonDiv')).hide(250)">Cancel</button>
+					<button onClick="requestAction('placebomb')" id="clickable">Place bomb</button><br>
+					<button onClick="$(document.getElementById('dwarvesButtons')).hide(250)" id="clickable">Cancel</button>
+				</div>
+		</div>
+		<div id="elvesButtons">
+				<div id="buttons">
+					<button onClick="console.log('Test button hit') " id="clickable">Test button</button><br>
+					<button onClick="$(document.getElementById('elvesButtons')).hide(250)" id="clickable">Cancel</button>
 				</div>
 		</div>
 		<div id="unauthorized">

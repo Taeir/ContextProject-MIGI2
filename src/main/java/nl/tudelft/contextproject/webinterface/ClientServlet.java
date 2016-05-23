@@ -73,8 +73,8 @@ public class ClientServlet extends DefaultServlet {
 			case "entities":
 				getEntities(request, response);
 				break;
-			case "placebomb":
-				placeBomb(request, response);
+			case "requestaction":
+				requestAction(request, response);
 				break;
 			default:
 				//Unknown post request, so propagate to superclass
@@ -226,7 +226,7 @@ public class ClientServlet extends DefaultServlet {
 	}
 
 	/**
-	 * Handles a placeBomb request.
+	 * Handles an action request.
 	 *
 	 * @param request
 	 * 		the HTTP request
@@ -235,7 +235,7 @@ public class ClientServlet extends DefaultServlet {
 	 * @throws IOException
 	 * 		if sending the response to the client causes an IOException
 	 */
-	public void placeBomb(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void requestAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		WebClient client = server.getUser(request);
 
 		if (!checkAuthorized(client, response, false)) return;
