@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
@@ -27,7 +28,7 @@ import org.junit.rules.ExpectedException;
 /**
  * Test for the JSONUtil class.
  */
-public class JSONUtilTest {
+public class JSONUtilTest extends TestBase {
 	private static Main main;
 
 	@Rule

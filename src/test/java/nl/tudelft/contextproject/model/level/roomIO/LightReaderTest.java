@@ -13,10 +13,12 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
 
+import nl.tudelft.contextproject.TestBase;
+
 /**
  * Test class for the lightReader class.
  */
-public class LightReaderTest {
+public class LightReaderTest extends TestBase {
 
 	/**
 	 * Test if getting non existent light type throws an exception.

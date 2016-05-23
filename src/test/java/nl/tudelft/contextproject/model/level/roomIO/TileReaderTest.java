@@ -8,13 +8,14 @@ import java.io.StringReader;
 
 import org.junit.Test;
 
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 
 /**
  * Test class for TileReader.
  */
-public class TileReaderTest {
+public class TileReaderTest extends TestBase {
 
 	/**
 	 * Test reading an empty tile.

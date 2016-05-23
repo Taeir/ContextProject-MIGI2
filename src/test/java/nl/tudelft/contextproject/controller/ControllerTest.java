@@ -14,6 +14,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.Drawable;
 
 import org.junit.Test;
@@ -21,7 +22,7 @@ import org.junit.Test;
 /**
  * Test class for the controller Class.
  */
-public abstract class ControllerTest {
+public abstract class ControllerTest extends TestBase {
 
 	/**
 	 * Get a controller to test with.

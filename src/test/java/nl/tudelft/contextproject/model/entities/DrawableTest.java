@@ -17,7 +17,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
-
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.Drawable;
 import org.junit.Test;
 import org.mockito.exceptions.verification.NoInteractionsWanted;
@@ -25,7 +25,7 @@ import org.mockito.exceptions.verification.NoInteractionsWanted;
 /**
  * Abstract test class for the drawable interface.
  */
-public abstract class DrawableTest {
+public abstract class DrawableTest extends TestBase {
 
 	private Drawable dable;
 	

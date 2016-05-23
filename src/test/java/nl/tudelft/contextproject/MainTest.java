@@ -183,7 +183,7 @@ public class MainTest extends TestBase {
 	}
 	
 	/**
-	 * Test if seting the control mappings sets the mappings.
+	 * Test if setting the control mappings sets the mappings.
 	 */
 	@Test
 	public void testSetupControlMappings() {

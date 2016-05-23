@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.level;
 
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.util.Size;
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Class for testing the RandomLevelFactory.
  */
-public class RandomLevelFactoryTest {
+public class RandomLevelFactoryTest extends TestBase {
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
