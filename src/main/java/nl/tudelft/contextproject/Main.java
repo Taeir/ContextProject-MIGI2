@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -62,7 +63,7 @@ public class Main extends SimpleApplication {
 		debugHud = a.contains("--debugHud");
 		if (java.awt.Desktop.isDesktopSupported()) {
 			   try {
-			    java.awt.Desktop.getDesktop().browse(new URI("http://localhost:8080/"));
+			    java.awt.Desktop.getDesktop().browse(new URI("file://" + new File("qrcode.png").getAbsolutePath().replace("\\", "/")));
 			   } catch (IOException ex) {
 			    ex.printStackTrace();
 			   } catch (URISyntaxException ex) {

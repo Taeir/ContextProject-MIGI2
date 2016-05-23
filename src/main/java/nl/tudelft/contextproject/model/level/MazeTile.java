@@ -12,6 +12,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
@@ -26,6 +27,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 	private int height;
 	private boolean explored;
 	private ColorRGBA color;
+	private Texture texture;
 	private TileType type;
 
 	/**
@@ -46,14 +48,18 @@ public class MazeTile implements Drawable, PhysicsObject {
 			case FLOOR:
 				this.height = 0;
 				this.color = ColorRGBA.Green;
+				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
 				break;
 			case WALL:
 				this.height = 3;
-				this.color = ColorRGBA.Blue;
+				this.color = ColorRGBA.Gray;
+				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/walltexture.png");
+				
 				break;
 			case CORRIDOR:
 				this.height = 0;
 				this.color = ColorRGBA.Red;
+				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
 				break;
 			default:
 				throw new IllegalArgumentException("Invalid TileType: " + type);
@@ -81,6 +87,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 		mat.setColor("Specular", ColorRGBA.White);
 		mat.setFloat("Shininess", 64f);  // [0,128]
 		mat.setColor("Ambient", color);
+		mat.setTexture("LightMap", texture);
 		this.spatial.setMaterial(mat);                   // set the cube's material
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
