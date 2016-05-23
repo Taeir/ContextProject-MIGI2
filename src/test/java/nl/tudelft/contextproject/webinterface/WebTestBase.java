@@ -3,17 +3,22 @@ package nl.tudelft.contextproject.webinterface;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.junit.BeforeClass;
 
 import nl.tudelft.contextproject.TestBase;
 
@@ -23,6 +28,25 @@ import lombok.SneakyThrows;
  * Base class for the WebServer tests, with some convenience methods.
  */
 public class WebTestBase extends TestBase {
+	
+	/**
+	 * Turn web server specific logging off.
+	 * Turns off the "webInterface" logger and the jetty logger.
+	 * 
+	 * The jetty logger is turned of by making use of Mockito as a mocked method by
+	 * default returns nothing if called, when no return statement is defined. This
+	 * causes the jetty logger to not show up in the logs during testing.
+	 */
+	@BeforeClass
+	public static void webBeforeClassSetUp() {
+		Logger.getLogger("WebInterface").setLevel(Level.OFF);
+		
+		//Create mocked logger that does nothing
+		org.eclipse.jetty.util.log.Logger noLoggerMock = mock(org.eclipse.jetty.util.log.Logger.class);
+		when(noLoggerMock.getName()).thenReturn("No logging.");
+		when(noLoggerMock.getLogger(any())).thenReturn(noLoggerMock);
+		org.eclipse.jetty.util.log.Log.setLog(noLoggerMock);
+	}
 	
 	/**
 	 * Creates a spied session2 cookie with the given id.
