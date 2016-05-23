@@ -33,8 +33,8 @@ public class MainTest extends TestBase {
 	public void testMainStart() {
 		Main mMock = mock(Main.class);
 		Main.setInstance(mMock);
-	   Main.main(new String[0]);
-      verify(mMock, times(1)).start();
+		Main.main(new String[0]);
+		verify(mMock, times(1)).start();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class MainTest extends TestBase {
 	public void testSetController() {
 		Controller cOld = mock(Controller.class);
 		Controller c = mock(Controller.class);
-		
+
 		main.setController(cOld);
 		assertTrue(main.setController(c));
 
@@ -102,7 +102,7 @@ public class MainTest extends TestBase {
 	@Test
 	public void testSetControllerAgain() {
 		Controller c = mock(Controller.class);
-		
+
 		main.setController(c);
 		assertFalse(main.setController(c));
 	}
@@ -172,11 +172,11 @@ public class MainTest extends TestBase {
 
 		main.simpleUpdate(0.1f);
 		verify(tl, times(0)).update(0.1f);
-		
+
 		main.attachTickListener(tl);
 		main.simpleUpdate(0.1f);
 		verify(tl, times(1)).update(0.1f);
-		
+
 		main.removeTickListener(tl);
 		main.simpleUpdate(0.1f);
 		verifyNoMoreInteractions(tl);
