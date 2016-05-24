@@ -44,29 +44,41 @@ public class MazeTile implements Drawable, PhysicsObject {
 		this.position = new Vector2f(x, y);
 		this.explored = false;
 		this.type = type;
-		
+
 		switch (type) {
-			case FLOOR:
-				this.height = 0;
-				this.color = ColorRGBA.Green;
+		case FLOOR:
+			this.height = 0;
+			this.color = ColorRGBA.Green;
+			if (!(Main.getInstance().getAssetManager() == null)) {
 				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
-				break;
-			case WALL:
-				this.height = 3;
-				this.color = ColorRGBA.Gray;
+			} else {
+				texture = null;
+			}
+			break;
+		case WALL:
+			this.height = 3;
+			this.color = ColorRGBA.Gray;
+			if (!(Main.getInstance().getAssetManager() == null)) {
 				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/walltexture.png");
-				
-				break;
-			case CORRIDOR:
-				this.height = 0;
-				this.color = ColorRGBA.Red;
+			} else {
+				texture = null;
+			}
+
+			break;
+		case CORRIDOR:
+			this.height = 0;
+			this.color = ColorRGBA.Red;
+			if (!(Main.getInstance().getAssetManager() == null)) {
 				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
-				break;
-			default:
-				throw new IllegalArgumentException("Invalid TileType: " + type);
+			} else {
+				texture = null;
+			}
+			break;
+		default:
+			throw new IllegalArgumentException("Invalid TileType: " + type);
 		}
 	}
-	
+
 	/**
 	 * Getter for tileType.
 	 *
@@ -83,14 +95,16 @@ public class MazeTile implements Drawable, PhysicsObject {
 
 		Box b = new Box(.5f, .5f + height, .5f);
 		this.spatial = new Geometry("Box", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-		mat.setBoolean("UseMaterialColors", true);    
-		mat.setColor("Diffuse", color);
-		mat.setColor("Specular", ColorRGBA.White);
-		mat.setFloat("Shininess", 64f);
-		mat.setColor("Ambient", color);
-		mat.setTexture("LightMap", texture);
-		this.spatial.setMaterial(mat);                   // set the cube's material
+		if (!(texture == null)) {
+			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+			mat.setBoolean("UseMaterialColors", true);    
+			mat.setColor("Diffuse", color);
+			mat.setColor("Specular", ColorRGBA.White);
+			mat.setFloat("Shininess", 64f);
+			mat.setColor("Ambient", color);
+			//mat.setTexture("LightMap", texture);
+			this.spatial.setMaterial(mat);                   // set the cube's material
+		}
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
 	}

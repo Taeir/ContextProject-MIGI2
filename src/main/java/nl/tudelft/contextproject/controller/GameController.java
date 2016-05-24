@@ -53,7 +53,7 @@ public class GameController extends Controller {
 
 		game = new Game(level);
 	}
-	
+
 	/**
 	 * Create a game with a level loaded from a file.
 	 *
@@ -128,63 +128,66 @@ public class GameController extends Controller {
 		int xStart = 0; 
 		int yStart = 0;
 		// add roof
-		  addDrawable(new Drawable() {
+		if (!(Main.getInstance().getAssetManager() == null)) {
+			addDrawable(new Drawable() {
 
-		   @Override
-		   public Spatial getSpatial() {
-		    Quad roof = new Quad(level.getWidth(), level.getHeight());
+				@Override
+				public Spatial getSpatial() {
+					Quad roof = new Quad(level.getWidth(), level.getHeight());
 
-		    Geometry geom = new Geometry("roof", roof);
-		    
-		    AssetManager am = Main.getInstance().getAssetManager();
-		    Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
-		    mat.setBoolean("UseMaterialColors", true);
-		    ColorRGBA color = ColorRGBA.Gray;
-		    mat.setColor("Diffuse", color);
-		    mat.setColor("Specular", color);
-		    mat.setFloat("Shininess", 64f);  // [0,128]
-		    mat.setColor("Ambient", color);
-		    mat.setTexture("LightMap", am.loadTexture("Textures/rockwall.png"));
-		    geom.setMaterial(mat); 
-		    
-		    geom.rotate((float) Math.toRadians(90), 0, 0);
-		    geom.move(0, 6, 0);
-		    return geom;
-		   }
+					Geometry geom = new Geometry("roof", roof);
 
-		   @Override
-		   public void setSpatial(Spatial spatial) { }
+					AssetManager am = Main.getInstance().getAssetManager();
+					Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
+					mat.setBoolean("UseMaterialColors", true);
+					ColorRGBA color = ColorRGBA.Gray;
+					mat.setColor("Diffuse", color);
+					mat.setColor("Specular", color);
+					mat.setFloat("Shininess", 64f);  // [0,128]
+					mat.setColor("Ambient", color);
+					mat.setTexture("LightMap", am.loadTexture("Textures/rockwall.png"));
+					geom.setMaterial(mat); 
 
-		   @Override
-		   public void mapDraw(Graphics2D g, int resolution) { }
-		  });
-		  
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					//TODO add starting room with starting location
-					if ((xStart == 0 && yStart == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-						xStart = x;
-						yStart = y;
+					geom.rotate((float) Math.toRadians(90), 0, 0);
+					geom.move(0, 6, 0);
+					return geom;
+				}
+			
+			
+			@Override
+			public void setSpatial(Spatial spatial) { }
+
+			@Override
+			public void mapDraw(Graphics2D g, int resolution) { }
+		});
+		}	
+
+			for (int x = 0; x < level.getWidth(); x++) {
+				for (int y = 0; y < level.getHeight(); y++) {
+					if (level.isTileAtPosition(x, y)) {
+						//TODO add starting room with starting location
+						if ((xStart == 0 && yStart == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
+							xStart = x;
+							yStart = y;
+						}
+						addDrawable(level.getTile(x, y));
 					}
-					addDrawable(level.getTile(x, y));
 				}
 			}
-		}
 
-		addDrawable(game.getPlayer());
-		
-		if (game.getPlayer().getPhysicsObject() != null) {
-			game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
-		}
-		
-		for (Light l : level.getLights()) {
-			addLight(l);
-		}
-		 
-		AmbientLight al = new AmbientLight();
-		al.setColor(ColorRGBA.White.mult(.5f));
-		addLight(al);
+			addDrawable(game.getPlayer());
+
+			if (game.getPlayer().getPhysicsObject() != null) {
+				game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
+			}
+
+			for (Light l : level.getLights()) {
+				addLight(l);
+			}
+
+			AmbientLight al = new AmbientLight();
+			al.setColor(ColorRGBA.White.mult(.5f));
+			addLight(al);
 	}
 
 	@Override
@@ -206,18 +209,18 @@ public class GameController extends Controller {
 			EntityState state = e.getState();
 
 			switch (state) {
-				case DEAD:
-					removeDrawable(e);
-					i.remove();
-					break;
-				case NEW:
-					addDrawable(e);
-					e.setState(EntityState.ALIVE);
-					e.update(tpf);
-					break;
-				default:
-					e.update(tpf);
-					break;
+			case DEAD:
+				removeDrawable(e);
+				i.remove();
+				break;
+			case NEW:
+				addDrawable(e);
+				e.setState(EntityState.ALIVE);
+				e.update(tpf);
+				break;
+			default:
+				e.update(tpf);
+				break;
 			}
 		}
 	}
