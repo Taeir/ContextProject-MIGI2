@@ -101,7 +101,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 		mat.setFloat("Shininess", 64f);
 		mat.setColor("Ambient", color);
 		mat.setTexture("LightMap", texture);
-		this.spatial.setMaterial(mat);                   // set the cube's material
+		this.spatial.setMaterial(mat);
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
 	}
