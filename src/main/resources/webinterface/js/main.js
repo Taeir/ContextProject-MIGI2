@@ -4,8 +4,8 @@ var gView;
 var gMap = null;
 var gExplored = null;
 var gEntities = null;
-var lastPressedX = 0;
-var lastPressedY = 0;
+var lastPressedX;
+var lastPressedY;
 
 /**
  * Sends an authentication request to the server.
@@ -315,6 +315,9 @@ function createClickableFunc(x, y) {
         };
 }
 
+/**
+ * Shows the button menu depending on what team you are in.
+ */
 function showButtons() {
     if (gTeam === "DWARFS") {
         $(document.getElementById('dwarvesButtons')).show(250);
@@ -325,6 +328,12 @@ function showButtons() {
     }
 }
 
+/**
+ * Hide both button divs.
+ *
+ * @param time
+ *      the time the hiding animation should take
+ */
 function hideAllButtons(time) {
     $(document.getElementById('dwarvesButtons')).hide(time);
     $(document.getElementById('elvesButtons')).hide(time);
