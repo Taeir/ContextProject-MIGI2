@@ -32,10 +32,10 @@ public class Key extends Entity implements PhysicsObject {
 		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
 		} else {
-			sp = Main.getInstance().getAssetManager().loadModel("Models/key.j3o");
-			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-			mat.setColor("Color", color);
-			sp.setMaterial(mat);
+			sp = Main.getInstance().getAssetManager().loadModel("Models/nicebombtest.blend");
+			//Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+			//mat.setColor("Color", color);
+			//sp.setMaterial(mat);
 		}
 	}
 
