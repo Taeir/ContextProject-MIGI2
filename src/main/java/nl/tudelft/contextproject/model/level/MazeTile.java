@@ -46,37 +46,36 @@ public class MazeTile implements Drawable, PhysicsObject {
 		this.type = type;
 
 		switch (type) {
-		case FLOOR:
-			this.height = 0;
-			this.color = ColorRGBA.Green;
-			if (!(Main.getInstance().getAssetManager() == null)) {
-				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
-			} else {
-				this.texture = null;
+			case FLOOR:
+				this.height = 0;
+				this.color = ColorRGBA.Green;
+				if (!(Main.getInstance().getAssetManager() == null)) {
+					this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
+				} else {
+					this.texture = null;
+				}
+				break;
+			case WALL:
+				this.height = 3;
+				this.color = ColorRGBA.Gray;
+				if (!(Main.getInstance().getAssetManager() == null)) {
+					this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/walltexture.png");
+				} else {
+					this.texture = null;
+				}
+				break;
+			case CORRIDOR:
+				this.height = 0;
+				this.color = ColorRGBA.Green;
+				if (!(Main.getInstance().getAssetManager() == null)) {
+					this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
+				} else {
+					this.texture = null;
+				}
+				break;
+			default:
+				throw new IllegalArgumentException("Invalid TileType: " + type);
 			}
-			break;
-		case WALL:
-			this.height = 3;
-			this.color = ColorRGBA.Gray;
-			if (!(Main.getInstance().getAssetManager() == null)) {
-				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/walltexture.png");
-			} else {
-				this.texture = null;
-			}
-
-			break;
-		case CORRIDOR:
-			this.height = 0;
-			this.color = ColorRGBA.Green;
-			if (!(Main.getInstance().getAssetManager() == null)) {
-				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
-			} else {
-				this.texture = null;
-			}
-			break;
-		default:
-			throw new IllegalArgumentException("Invalid TileType: " + type);
-		}
 	}
 
 	/**
