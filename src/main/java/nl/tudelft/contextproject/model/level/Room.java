@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,7 +54,7 @@ public class Room {
 			mazeTiles = new MazeTile[size.getWidth()][size.getHeight()];
 			RoomReader.importFile(folder, mazeTiles, entities, lights, 0, 0);	
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.getLogger("MazeGeneration").severe("Unable to correctly read name!");
 		}
 	}
 
