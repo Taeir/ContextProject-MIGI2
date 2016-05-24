@@ -28,11 +28,12 @@
 					<br>	
 					Current team: <div class="team">No team</div><br>
 				</div>
+				
 				<div id="playing">
-					Map: <br>
 					<table id="map">
 					</table>
 				</div>
+				
 				<div id="ended" style="visibility:hidden">
 					
 				</div>
@@ -41,13 +42,15 @@
 		<div id="dwarvesButtons">
 				<div id="buttons">
 					<button onClick="requestAction('placebomb')" id="clickable">Place bomb</button><br>
-					<button onClick="$(document.getElementById('dwarvesButtons')).hide(250)" id="clickable">Cancel</button>
+					<button onClick="requestAction('placepitfall')" id="clickable">Place pitfall</button><br>
+					<button onClick="requestAction('spawnenemy')" id="clickable">Spawn enemy</button><br>
+					<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
 				</div>
 		</div>
 		<div id="elvesButtons">
 				<div id="buttons">
-					<button onClick="console.log('Test button hit') " id="clickable">Test button</button><br>
-					<button onClick="$(document.getElementById('elvesButtons')).hide(250)" id="clickable">Cancel</button>
+					<button onClick="requestAction('diffusebomb')" id="clickable">Diffuse bomb</button><br>
+					<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
 				</div>
 		</div>
 		<div id="unauthorized">

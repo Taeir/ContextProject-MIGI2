@@ -13,7 +13,12 @@ html, body {
 	overflow-x: auto;
 	overflow-y: auto;
 	z-index: 1;
-	background-color: #D3D3D3
+}
+#elvesButtons {
+	background-color: #FFB6C1;
+}
+#dwarvesButtons {
+	background-color: #7F9A65;
 }
 #buttons {
 	position: absolute;
@@ -47,6 +52,9 @@ html, body {
 #map .playertrigger {
 	background-color: #9A32CD !important;
 }
+#map .pitfall {
+	background-color: #4A7023 !important;
+}
 #map {
 	border-spacing: 1px;
 }
@@ -55,14 +63,11 @@ html, body {
 	width: 35px;
 	min-height: 35px;
 	height: 35px;
-	background-color: #888888;
+	background-color: #327ed4;
 }
 #map .wall.explored {
-	background-color: #0000ff;
+	background-color: #D3D3D3;
 }
-#map .floor.explored {
-	background-color: #00ff00;
-}
-#map .corridor.explored {
-	background-color: #ff0000;
+#map .floor.explored, #map .corridor.explored {
+	background-color: #769f50;
 }

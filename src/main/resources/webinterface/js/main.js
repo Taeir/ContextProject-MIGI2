@@ -146,7 +146,7 @@ function switchTo(view) {
  *      the team to set. Must be in [ELVES, DWARFS, NONE]
  */
 function requestSetTeam(team) {
-    hideAllButtons();
+    hideAllButtons(0);
     //Check if the team is valid
     if (team != "ELVES" && team != "DWARFS" && team != "NONE") throw "Invalid team!";
     
@@ -294,7 +294,7 @@ function requestAction(argument) {
         
     }, "json");
     
-    $(document.getElementById('buttonDiv')).hide(250);
+    hideAllButtons(250);
 }
 
 /**
@@ -325,9 +325,9 @@ function showButtons() {
     }
 }
 
-function hideAllButtons() {
-    $(document.getElementById('dwarvesButtons')).hide();
-    $(document.getElementById('elvesButtons')).hide();
+function hideAllButtons(time) {
+    $(document.getElementById('dwarvesButtons')).hide(time);
+    $(document.getElementById('elvesButtons')).hide(time);
 }
 
 /**
@@ -448,7 +448,9 @@ function getClassForEntityType(entityType) {
         case 4:
             return "vrplayer";
         case 5:
-            return "playertrigger"
+            return "playertrigger";
+        case 6:
+            return "pitfall";
         default:
             showError("Invalid tile type: " + entityType);
             throw "Invalid tile type: " + entityType;
