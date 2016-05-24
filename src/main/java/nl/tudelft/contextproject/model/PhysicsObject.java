@@ -12,8 +12,9 @@ public interface PhysicsObject {
 	 * Get spatial object with physics control.
 	 * Each Collidable object has to have some kind of spatial object that 
 	 * implements the PhysicsControl interface.
+	 *
 	 * @return
-	 * 		an object that implements PhysicsControl.
+	 * 		an object that implements PhysicsControl
 	 */
-	public PhysicsControl getPhysicsObject();
+	PhysicsControl getPhysicsObject();
 }

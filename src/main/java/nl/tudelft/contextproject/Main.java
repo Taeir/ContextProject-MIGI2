@@ -26,7 +26,7 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
-import nl.tudelft.contextproject.files.FileUtil;
+import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
@@ -36,10 +36,8 @@ import nl.tudelft.contextproject.webinterface.WebServer;
  * Main class of the game 'The Cave of Caerbannog'.
  */
 public class Main extends SimpleApplication {
-	
-	/**
-	 * Port number of server. //TODO this should be set in a setting class preferably.
-	 */
+
+	//TODO this should be set in a setting class preferably.
 	public static final int PORT_NUMBER = 8080;
 	
 	private static boolean debugHud;
@@ -51,7 +49,9 @@ public class Main extends SimpleApplication {
 
 	/**
 	 * Main method that is called when the program is started.
-	 * @param args run-specific arguments.
+	 *
+	 * @param args
+	 * 		run-specific arguments
 	 */
 	public static void main(String[] args) {
 		FileUtil.init();
@@ -67,7 +67,9 @@ public class Main extends SimpleApplication {
 	/**
 	 * Method used for testing.
 	 * Sets the instance of this singleton to the provided instance.
-	 * @param main The new value of the instance.
+	 *
+	 * @param main
+	 * 		the new value of the instance
 	 */
 	public static void setInstance(Main main) {
 		instance = main;
@@ -76,8 +78,11 @@ public class Main extends SimpleApplication {
 	/**
 	 * Set the controller for the current scene.
 	 * Cleans up the old scene before initializing the new one.
-	 * @param c The new controller.
-	 * @return true is the controller was changed, false otherwise.
+	 *
+	 * @param c
+	 * 		the new controller
+	 * @return
+	 * 		true is the controller was changed, false otherwise
 	 */
 	public boolean setController(Controller c) {
 		if (c != controller) {
@@ -93,7 +98,9 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Get the instance of the current game.
-	 * @return the current instance of the game or null when no game is running.
+	 *
+	 * @return
+	 * 		the current instance of the game or null when no game is running
 	 */
 	public Game getCurrentGame() {
 		if (controller instanceof GameController) {
@@ -108,7 +115,9 @@ public class Main extends SimpleApplication {
 	/**
 	 * Method used for testing.
 	 * Sets the rootNode of Main to a new Node.
-	 * @param rn The new node to replace the rootNode.
+	 *
+	 * @param rn
+	 * 		the new node to replace the rootNode
 	 */
 	public void setRootNode(Node rn) {
 		rootNode = rn;
@@ -117,7 +126,9 @@ public class Main extends SimpleApplication {
 	/**
 	 * Method used for testing.
 	 * Sets the guiNode of Main to a new Node.
-	 * @param gn The new node to replace the guiNode.
+	 *
+	 * @param gn
+	 * 		the new node to replace the guiNode.
 	 */
 	public void setGuiNode(Node gn) {
 		guiNode = gn;
@@ -126,18 +137,22 @@ public class Main extends SimpleApplication {
 	/**
 	 * Method used for testing.
 	 * Sets the list of tickListeners to the specified list.
-	 * @param listeners The new List of ticklisteners.
+	 *
+	 * @param listeners
+	 * 		the new List of TickListeners
 	 */
-	protected void setTickListeners(List<TickListener> listeners) {
+	public void setTickListeners(List<TickListener> listeners) {
 		tickListeners = listeners;
 	}
 	
 	/**
 	 * Method used for testing.
 	 * Sets the inputManager to the specified inputManager.
-	 * @param im The new InputManager.
+	 *
+	 * @param im
+	 * 		the new InputManager.
 	 */
-	protected void setInputManager(InputManager im) {
+	public void setInputManager(InputManager im) {
 		inputManager = im;
 	}
 
@@ -156,10 +171,7 @@ public class Main extends SimpleApplication {
 		setController(new WaitingController(this));
 		setupWebServer();
 
-		//Initialize the AudioManager.
 		AudioManager.getInstance().init();
-
-		//Start the background music
 		BackgroundMusic.getInstance().start();
 		
 		//Register an AppState to properly clean up the game.
@@ -177,7 +189,8 @@ public class Main extends SimpleApplication {
 	 * Setup all the key mappings.
 	 */
 	protected void setupControlMappings() {
-		InputManager im = getInputManager();		
+		InputManager im = getInputManager();
+
 		if (isControllerConnected()) {
 			getFlyByCamera().onAction(CameraInput.FLYCAM_INVERTY, false, 0);
 			Joystick j = im.getJoysticks()[0];
@@ -200,6 +213,7 @@ public class Main extends SimpleApplication {
 			getInputManager().addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
 			getInputManager().addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
+
 		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
 	
@@ -219,8 +233,9 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Move the camera to a new location.
+	 *
 	 * @param newLoc
-	 * 					the new location of the camera
+	 *		the new location of the camera
 	 */ 
 	public void moveCameraTo(Vector3f newLoc) {
 		getCamera().setLocation(newLoc);
@@ -232,17 +247,17 @@ public class Main extends SimpleApplication {
 			tl.update(tpf);
 		}
 
-		//Update location for 3D audio
 		getListener().setLocation(getCamera().getLocation());
 		getListener().setRotation(getCamera().getRotation());
 
-		//Update BackgroundMusic
-		BackgroundMusic.getInstance().update(tpf);
+		BackgroundMusic.getInstance().update();
 	}
 	
 	/**
-	 * Add a Ticklistener.
-	 * @param tl The ticklistener to add.
+	 * Add a TickListener.
+	 *
+	 * @param tl
+	 * 		the TickListener to add
 	 */
 	public void attachTickListener(TickListener tl) {
 		tickListeners.add(tl);
@@ -250,7 +265,9 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Remove a registered TickListener.
-	 * @param tl The ticklistener to remove.
+	 *
+	 * @param tl
+	 * 		the TickListener to remove
 	 */
 	public void removeTickListener(TickListener tl) {
 		tickListeners.remove(tl);
@@ -258,7 +275,9 @@ public class Main extends SimpleApplication {
 
 	/**
 	 * Return the singleton instance of the game.
-	 * @return the running instance of the game.
+	 *
+	 * @return
+	 * 		the running instance of the game
 	 */
 	public static Main getInstance() {
 		if (instance == null) {
@@ -269,7 +288,9 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Get the current game state.
-	 * @return The current game state.
+	 *
+	 * @return
+	 * 		the current game state
 	 */
 	public GameState getGameState() {
 		if (controller == null) return null;
@@ -291,7 +312,9 @@ public class Main extends SimpleApplication {
 
 	/**
 	 * Check if the debug Hud is shown.
-	 * @return True when shown, false otherwise.
+	 *
+	 * @return
+	 * 		true when shown, false otherwise.
 	 */
 	public static boolean isDebugHudShown() {
 		return debugHud;
@@ -299,7 +322,9 @@ public class Main extends SimpleApplication {
 
 	/**
 	 * Check if a controller is connected.
-	 * @return True if a controller is connected, false otherwise.
+	 *
+	 * @return
+	 * 		true if a controller is connected, false otherwise.
 	 */
 	public boolean isControllerConnected() {
 		Joystick[] sticks = getInputManager().getJoysticks();

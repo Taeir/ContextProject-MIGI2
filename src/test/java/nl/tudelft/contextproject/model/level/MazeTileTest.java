@@ -6,7 +6,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.model.Drawable;
-import nl.tudelft.contextproject.model.DrawableTest;
+import nl.tudelft.contextproject.model.entities.DrawableTest;
 
 import org.junit.Before;
 import org.junit.Test;

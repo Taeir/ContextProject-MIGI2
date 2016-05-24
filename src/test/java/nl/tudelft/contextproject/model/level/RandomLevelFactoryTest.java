@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.level;
 
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.util.Size;
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Class for testing the RandomLevelFactory.
  */
-public class RandomLevelFactoryTest {
+public class RandomLevelFactoryTest extends TestBase {
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -310,6 +311,7 @@ public class RandomLevelFactoryTest {
 		if (width != map2.length || height != map2[0].length) {
 			return false;
 		}
+
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				if (map1[i][j] != map2[i][j]) {

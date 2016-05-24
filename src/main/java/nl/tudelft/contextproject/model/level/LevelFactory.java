@@ -8,16 +8,21 @@ package nl.tudelft.contextproject.model.level;
 public interface LevelFactory {
 	/**
 	 * Generate a level with a given seed.
-	 * @param seed A seed value for the level generation.
-	 * @return The generated level.
+	 *
+	 * @param seed
+	 * 		a seed value for the level generation
+	 * @return
+	 * 		the generated level
 	 */
-	public Level generateSeeded(long seed);
+	Level generateSeeded(long seed);
 	
 	/**
 	 * Generate a random level that is generated using the current time as a seed.
-	 * @return The generated level.
+	 *
+	 * @return
+	 * 		the generated level.
 	 */
-	public default Level generateRandom() {
+	default Level generateRandom() {
 		return generateSeeded(System.currentTimeMillis());
 	}
 }
