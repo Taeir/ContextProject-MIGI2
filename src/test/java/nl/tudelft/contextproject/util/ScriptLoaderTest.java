@@ -4,12 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.TickListener;
 
 /**
  * Test class for {@link ScriptLoader}.
  */
-public class ScriptLoaderTest {
+public class ScriptLoaderTest extends TestBase {
 
 	private ScriptLoader sl;
 

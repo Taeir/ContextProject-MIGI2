@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.jme3.math.ColorRGBA;
 import nl.tudelft.contextproject.model.entities.Bomb;
@@ -53,25 +54,27 @@ public class Inventory {
 	 * 		the bomb/key to remove
 	 */
 	public void remove(Entity ent) {
+		Iterator<Entity> it = pickedUpEntities.iterator();
 		if (ent instanceof Bomb) {
-			for (Entity entity : pickedUpEntities) {
-				if (entity instanceof Bomb) {
-					pickedUpEntities.remove(entity);
-					bombs--;
-					return;
-				}
+			while (it.hasNext()) {
+				Entity entity = it.next();
+				if (!(entity instanceof Bomb)) continue;
+				
+				it.remove();
+				bombs--;
+				return;
 			}
-		}
-
-		if (ent instanceof Key) {
-			for (Entity entity : pickedUpEntities) {
-				if (entity instanceof Key) {
-					Key key = (Key) entity;
-					if (key.getColor().equals(((Key) ent).getColor())) {
-						pickedUpEntities.remove(entity);
-						keys--;
-						return;
-					}
+		} else if (ent instanceof Key) {
+			Key toRemove = (Key) ent;
+			while (it.hasNext()) {
+				Entity entity = it.next();
+				if (!(entity instanceof Key)) continue;
+				
+				Key key = (Key) entity;
+				if (key.getColor().equals(toRemove.getColor())) {
+					it.remove();
+					keys--;
+					return;
 				}
 			}
 		}

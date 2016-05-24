@@ -8,6 +8,7 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 
 import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
@@ -24,7 +25,7 @@ import org.junit.Test;
 /**
  * Test class for the Key class.
  */
-public class InventoryTest {
+public class InventoryTest extends TestBase {
 	private Inventory inv;
 
 	/**

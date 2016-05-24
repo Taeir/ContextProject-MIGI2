@@ -5,46 +5,21 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.anyFloat;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
-import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.test.TestUtil;
-
 /**
  * Test class for {@link WallFrame}.
  */
 public class WallFrameTest extends EntityTest {
-
-	private static Main main;
 	private WallFrame wf;
-
-	/**
-	 * Mock the main class and save the old main for restoring.
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		main = Main.getInstance();
-		Main.setInstance(null);
-		TestUtil.ensureMainMocked(true);
-	}
-	
-	/**
-	 * Restores the original Main instance after all tests are done.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		Main.setInstance(main);
-	}
 	
 	@Override
 	public Entity getEntity() {
-		return new WallFrame(new Vector3f(), "logo.png", Direction.SOUTH);
+		return new WallFrame(new Vector3f(), "logo.png", Direction.SOUTH, 1, 3);
 	}
 	
 	/**
@@ -52,7 +27,7 @@ public class WallFrameTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
-		wf = new WallFrame(new Vector3f(), "logo.png", Direction.NORTH);		
+		wf = new WallFrame(new Vector3f(), "logo.png", Direction.NORTH, 1, 3);		
 	}
 	
 	/**
@@ -105,5 +80,4 @@ public class WallFrameTest extends EntityTest {
 		verify(sp, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
 		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
-
 }

@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import nl.tudelft.contextproject.TestBase;
+
 /**
  * Test class for the ClassLoaderException.
  */
-public class ScriptLoaderExceptionTest {
+public class ScriptLoaderExceptionTest extends TestBase {
 
 	/**
 	 * Test if constructing with messages stores the message correctly.

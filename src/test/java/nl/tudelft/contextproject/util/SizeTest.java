@@ -7,10 +7,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.TestBase;
+
 /**
  * Test for the Size class.
  */
-public class SizeTest {
+public class SizeTest extends TestBase {
 
 	private static final int W = 1;
 	private static final int H = 1;
