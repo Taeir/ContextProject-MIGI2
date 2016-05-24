@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.level;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -8,6 +9,7 @@ import java.util.regex.Pattern;
 import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
 import nl.tudelft.contextproject.util.Size;
 
 /**
@@ -34,31 +36,40 @@ public class Room {
 
 	/**
 	 * Constructor will load room from files using RoomIO.
-	 * @param fileName
+	 * @param folder
 	 * 		fileName of the room
 	 */
-	public Room(String fileName) {
+	public Room(String folder) {
 		entities = new ArrayList<Entity>();
 		lights = new ArrayList<Light>();
-		setSizeFromFileName(fileName);
+		try {
+			setSizeFromFileName(folder);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 
 	}
 
 	/**
-	 * Get size of room from file name.
-	 * @param fileName
-	 * 		fileName of the Room
+	 * Get size of room from folder name.
+	 * @param folder
+	 * 		folder of the Room
+	 * @throws IOException 
+	 * 		if pattern of roomFolder does not match
 	 */
-	protected void setSizeFromFileName(String fileName) {
+	protected void setSizeFromFileName(String folder) throws IOException {
 		int width = 0;
 		int height = 0;
+		String fileName = RoomReader.getMapFile(folder).getName();
 		Matcher m = PATTERN.matcher(fileName);
 		if (m.matches()) {
 			width = Integer.parseInt(m.group("width"));
 			height = Integer.parseInt(m.group("height"));
 			size = new Size(width, height);
-		} 
+		} else {
+			throw new IOException("Expected a .crf file present in the folder with the correct name");
+		}
 	}
 
 

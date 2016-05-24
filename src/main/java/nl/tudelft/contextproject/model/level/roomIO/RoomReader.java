@@ -60,7 +60,7 @@ public final class RoomReader {
 			if (tmp.length != 4) throw new IllegalArgumentException("You should specify the width , height, entity- and light count.");
 			
 			int width = Integer.parseInt(tmp[0]);
-			int height = Integer.parseInt(tmp[1]);			
+			int height = Integer.parseInt(tmp[1]);
 			checkDimensions(width + xOffset, height + yOffset, tiles);
 			
 			//TODO support rotations?
