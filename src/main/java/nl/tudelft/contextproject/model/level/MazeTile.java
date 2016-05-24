@@ -75,7 +75,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 				break;
 			default:
 				throw new IllegalArgumentException("Invalid TileType: " + type);
-			}
+		}
 	}
 
 	/**
