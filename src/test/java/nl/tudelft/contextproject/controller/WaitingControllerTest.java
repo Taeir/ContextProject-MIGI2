@@ -2,40 +2,18 @@ package nl.tudelft.contextproject.controller;
 
 import static org.junit.Assert.*;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
-import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the WaitingController.
  */
 public class WaitingControllerTest extends TestBase {
-	private static Main main;
 	private WaitingController instance;
-	
-	/**
-	 * Mock the main class and save the old main for restoring.
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		main = Main.getInstance();
-		Main.setInstance(null);
-		TestUtil.ensureMainMocked(true);
-	}
-	
-	/**
-	 * Restores the original Main instance after all tests are done.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		Main.setInstance(main);
-	}
-	
+
 	/**
 	 * Create a new instance of the controller for each test.
 	 */

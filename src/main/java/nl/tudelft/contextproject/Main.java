@@ -141,7 +141,7 @@ public class Main extends SimpleApplication {
 	 * @param listeners
 	 * 		the new List of TickListeners
 	 */
-	protected void setTickListeners(List<TickListener> listeners) {
+	public void setTickListeners(List<TickListener> listeners) {
 		tickListeners = listeners;
 	}
 	
@@ -152,7 +152,7 @@ public class Main extends SimpleApplication {
 	 * @param im
 	 * 		the new InputManager.
 	 */
-	protected void setInputManager(InputManager im) {
+	public void setInputManager(InputManager im) {
 		inputManager = im;
 	}
 

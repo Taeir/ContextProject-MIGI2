@@ -9,13 +9,13 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
-import nl.tudelft.contextproject.audio.AudioTestUtil;
 import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,6 +25,14 @@ import org.junit.Test;
 public class MainTest extends TestBase {
 
 	private Main main;
+	
+	/**
+	 * Setup that stores the main instance for convenient access.
+	 */
+	@Before
+	public void setUp() {
+		main = Main.getInstance();
+	}
 
 	/**
 	 * Check if start is called when starting the game.
@@ -36,15 +44,6 @@ public class MainTest extends TestBase {
 		Main.main(new String[0]);
 		verify(mMock, times(1)).start();
 	}
-
-	/**
-	 * Setup that creates a fresch instance of main.
-	 */
-	@Before
-	public void setUp() {
-		Main.setInstance(AudioTestUtil.fakeMain());
-		main = Main.getInstance();
-	}
 	
 	/**
 	 * Test if giving '--debugHud' shows the debug hud.
@@ -54,8 +53,8 @@ public class MainTest extends TestBase {
 		Main mMock = mock(Main.class);
 		Main.setInstance(mMock);
 		String[] args = {"a", "--debugHud", "b"};
-	   Main.main(args);
-	   assertTrue(Main.isDebugHudShown());
+		Main.main(args);
+		assertTrue(Main.isDebugHudShown());
 	}
 	
 	/**
@@ -66,8 +65,8 @@ public class MainTest extends TestBase {
 		Main mMock = mock(Main.class);
 		Main.setInstance(mMock);
 		String[] args = {"a", "--debugHudd", "b"};
-	   Main.main(args);
-	   assertFalse(Main.isDebugHudShown());
+		Main.main(args);
+		assertFalse(Main.isDebugHudShown());
 	}
 	
 	/**

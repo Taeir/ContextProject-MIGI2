@@ -51,7 +51,7 @@ public abstract class DrawableTest extends TestBase {
 	 * Ensure that a geometry is generated.
 	 */
 	@Test
-	public void testGetGeometryNotNull() {
+	public void testGetGeometryNotNull_drawable() {
 		setupDrawable();
 		assertNotNull(dable.getSpatial());
 	}
@@ -60,7 +60,7 @@ public abstract class DrawableTest extends TestBase {
 	 * Test that get geometry always returns the same geometry.
 	 */
 	@Test
-	public void testPersistentGeometry() {
+	public void testPersistentGeometry_drawable() {
 		setupDrawable();
 		Spatial s = dable.getSpatial();
 		assertEquals(s, dable.getSpatial());
@@ -70,10 +70,12 @@ public abstract class DrawableTest extends TestBase {
 	 * Verify that something is drawn on the Graphics2D when calling mapDraw().
 	 */
 	@Test
-	public void testMapDraw() {	
+	public void testMapDraw_drawable() {	
 		setupDrawable();
 		Graphics2D g = mock(Graphics2D.class);
 		dable.mapDraw(g, 16);
+		
+		//Verify that there were interactions
 		try {
 			verifyZeroInteractions(g);
 		} catch (NoInteractionsWanted e) {

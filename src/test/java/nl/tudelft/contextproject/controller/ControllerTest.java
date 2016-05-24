@@ -3,8 +3,6 @@ package nl.tudelft.contextproject.controller;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.awt.Graphics2D;
-
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
@@ -46,7 +44,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Check if the state is set.
 	 */
 	@Test
-	public void testGameStateNotNull() {
+	public void testGameStateNotNull_controller() {
 		assertNotNull(getController().getGameState());
 	}
 	
@@ -54,7 +52,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Test if attaching a Gui element adds the element.
 	 */
 	@Test
-	public void testAddGuiElement() {
+	public void testAddGuiElement_controller() {
 		Controller c = getController();
 		Node gn = mock(Node.class);
 		c.setGuiNode(gn);
@@ -68,7 +66,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Test if removing a Gui element removed it.
 	 */
 	@Test
-	public void testRemoveGuiElement() {
+	public void testRemoveGuiElement_controller() {
 		Controller c = getController();
 		Node gn = mock(Node.class);
 		c.setGuiNode(gn);
@@ -82,7 +80,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Test for removing a Gui element that was never added.
 	 */
 	@Test
-	public void testRemoveGuiElementNonExistent() {
+	public void testRemoveGuiElementNonExistent_controller() {
 		Controller c = getController();
 		Node gn = mock(Node.class);
 		c.setGuiNode(gn);
@@ -97,7 +95,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Test if using addDrawable adds the drawable.
 	 */
 	@Test
-	public void testAddDrawable() {
+	public void testAddDrawable_controller() {
 		Controller c = getController();
 		Node rn = mock(Node.class);
 		c.setRootNode(rn);
@@ -108,18 +106,8 @@ public abstract class ControllerTest extends TestBase {
 		
 		when(phe.getPhysicsSpace()).thenReturn(phs);
 		
-		Drawable d = new Drawable() {
-			@Override
-			public Spatial getSpatial() {
-				return geom;
-			}
-			
-			@Override
-			public void setSpatial(Spatial spatial) { }
-			
-			@Override
-			public void mapDraw(Graphics2D g, int resolution) { }
-		};
+		Drawable d = mock(Drawable.class);
+		when(d.getSpatial()).thenReturn(geom);
 
 		c.addDrawable(d);
 		verify(rn, times(1)).attachChild(geom);
@@ -129,24 +117,14 @@ public abstract class ControllerTest extends TestBase {
 	 * Test if removeDrawable removes the drawable.
 	 */
 	@Test
-	public void testRemoveDrawable() {
+	public void testRemoveDrawable_controller() {
 		Controller c = getController();
 		Node rn = mock(Node.class);
 		c.setRootNode(rn);
 		Geometry geom = mock(Geometry.class);
 
-		Drawable d = new Drawable() {
-			@Override
-			public Geometry getSpatial() {
-				return geom;
-			}
-
-			@Override
-			public void setSpatial(Spatial spatial) { }
-			
-			@Override
-			public void mapDraw(Graphics2D g, int resolution) { }
-		};
+		Drawable d = mock(Drawable.class);
+		when(d.getSpatial()).thenReturn(geom);
 
 		when(rn.detachChild(any(Spatial.class))).thenReturn(12);
 		assertTrue(c.removeDrawable(d));
@@ -157,24 +135,14 @@ public abstract class ControllerTest extends TestBase {
 	 * Test removing a drawable that was never added.
 	 */
 	@Test
-	public void testRemoveDrawableNonExistent() {
+	public void testRemoveDrawableNonExistent_controller() {
 		Controller c = getController();
 		Node rn = mock(Node.class);
 		c.setRootNode(rn);
 		Geometry geom = mock(Geometry.class);
 
-		Drawable d = new Drawable() {
-			@Override
-			public Spatial getSpatial() {
-				return geom;
-			}
-
-			@Override
-			public void setSpatial(Spatial spatial) { }
-			
-			@Override
-			public void mapDraw(Graphics2D g, int resolution) { }
-		};
+		Drawable d = mock(Drawable.class);
+		when(d.getSpatial()).thenReturn(geom);
 
 		when(rn.detachChild(any(Spatial.class))).thenReturn(-1);
 		assertFalse(c.removeDrawable(d));
@@ -185,7 +153,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Test if initializing creates the correct structure in the root and gui Node.
 	 */
 	@Test
-	public void testInitialize() {
+	public void testInitialize_controller() {
 		Main app = getMain();
 
 		Controller c = new Controller(app, null) {
@@ -215,7 +183,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Test if adding a light adds the light.
 	 */
 	@Test
-	public void testAddLight() {
+	public void testAddLight_controller() {
 		Controller c = getController();
 		Node rn = mock(Node.class);
 		c.setRootNode(rn);
@@ -229,7 +197,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Test if removing lights removes the light.
 	 */
 	@Test
-	public void testRemoveLight() {
+	public void testRemoveLight_controller() {
 		Controller c = getController();
 		Node rn = mock(Node.class);
 		c.setRootNode(rn);
@@ -243,7 +211,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Test if adding an input listener adds the input listener.
 	 */
 	@Test
-	public void testAddInputListener() {
+	public void testAddInputListener_controller() {
 		Controller c = getController();
 		InputManager im = mock(InputManager.class);
 		c.setInputManager(im);
@@ -257,7 +225,7 @@ public abstract class ControllerTest extends TestBase {
 	 * Test if removing an inputListener removes it.
 	 */
 	@Test
-	public void testRemoveInputListener() {
+	public void testRemoveInputListener_controller() {
 		Controller c = getController();
 		InputManager im = mock(InputManager.class);
 		c.setInputManager(im);
