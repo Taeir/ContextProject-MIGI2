@@ -2,7 +2,9 @@ package nl.tudelft.contextproject.model.level;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,13 +28,16 @@ public class Room {
 	public Size size;
 
 	//List of entities in the room
-	public List<Entity> entities;
+	public Set<Entity> entities;
 
 	//List of lights in the room
 	public List<Light> lights;
 
 	//2d representation of tiles in the room
 	public TileType[][] tiles;
+	
+	//2d representation of mazeTiles in the room
+	public MazeTile[][] mazeTiles;
 
 	/**
 	 * Constructor will load room from files using RoomIO.
@@ -40,15 +45,16 @@ public class Room {
 	 * 		fileName of the room
 	 */
 	public Room(String folder) {
-		entities = new ArrayList<Entity>();
+		entities = new HashSet<Entity>();
 		lights = new ArrayList<Light>();
 		try {
 			setSizeFromFileName(folder);
+			tiles = new TileType[size.getWidth()][size.getHeight()];
+			mazeTiles = new MazeTile[size.getWidth()][size.getHeight()];
+			RoomReader.importFile(folder, mazeTiles, entities, lights, 0, 0);	
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-
 	}
 
 	/**
