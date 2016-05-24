@@ -67,7 +67,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 			break;
 		case CORRIDOR:
 			this.height = 0;
-			this.color = ColorRGBA.Red;
+			this.color = ColorRGBA.Green;
 			if (!(Main.getInstance().getAssetManager() == null)) {
 				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
 			} else {

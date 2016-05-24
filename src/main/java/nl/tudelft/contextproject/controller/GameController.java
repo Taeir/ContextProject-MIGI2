@@ -145,7 +145,7 @@ public class GameController extends Controller {
 					mat.setColor("Specular", color);
 					mat.setFloat("Shininess", 64f);  // [0,128]
 					mat.setColor("Ambient", color);
-					mat.setTexture("LightMap", am.loadTexture("Textures/rockwall.png"));
+					mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
 					geom.setMaterial(mat); 
 
 					geom.rotate((float) Math.toRadians(90), 0, 0);
