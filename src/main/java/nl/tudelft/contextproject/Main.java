@@ -5,9 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
-import com.jme3.input.CameraInput;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
 import com.jme3.input.KeyInput;
@@ -31,10 +29,12 @@ import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
+import jmevr.app.VRApplication;
+
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
-public class Main extends SimpleApplication {
+public class Main extends VRApplication {
 
 	//TODO this should be set in a setting class preferably.
 	public static final int PORT_NUMBER = 8080;
@@ -57,10 +57,34 @@ public class Main extends SimpleApplication {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
-		
+
 		AppSettings settings = new AppSettings(true);
-        settings.setUseJoysticks(true);
-        main.setSettings(settings);
+		settings.setUseJoysticks(true);
+		main.setSettings(settings);
+
+		//Disable the SteamVR compositor (kinda needed at the moment)
+		//main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_STEAMVR_COMPOSITOR, false);
+		
+		//Use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
+		//Runs faster when set to false, but will allow mirroring
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, true);
+		//Render two eyes, regardless of SteamVR
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, true);
+		//Show gui even if it is behind things
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true);
+		//Faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
+		//Set frustum distances here before app starts
+		main.preconfigureFrustrumNearFar(0.1f, 512f);
+		
+		
+		//You can downsample for performance reasons
+		//main.preconfigureResolutionMultiplier(0.666f);
+
 		main.start();
 	}
 
@@ -87,10 +111,13 @@ public class Main extends SimpleApplication {
 	public boolean setController(Controller c) {
 		if (c != controller) {
 			if (controller != null) {
-				stateManager.detach(controller);
+				getStateManager().detach(controller);
 			}
 			controller = c;
-			stateManager.attach(controller);
+			
+			if (controller != null) {
+				getStateManager().attach(controller);
+			}
 			return true;
 		}
 		return false;
@@ -144,30 +171,25 @@ public class Main extends SimpleApplication {
 	public void setTickListeners(List<TickListener> listeners) {
 		tickListeners = listeners;
 	}
-	
-	/**
-	 * Method used for testing.
-	 * Sets the inputManager to the specified inputManager.
-	 *
-	 * @param im
-	 * 		the new InputManager.
-	 */
-	public void setInputManager(InputManager im) {
-		inputManager = im;
-	}
 
 	@Override
 	public void simpleInitApp() {
-		setDisplayFps(debugHud);
-		setDisplayStatView(debugHud);
+		if (VRApplication.getVRHardware() != null) {
+			Log.getLog("VR").info("Attached device: " + VRApplication.getVRHardware().getName());
+		} else {
+			Log.getLog("VR").info("Attached device: No");
+		}
+		//setDisplayFps(debugHud);
+		//setDisplayStatView(debugHud);
 		
 		//TODO if VR support is implemented the flyby camera should be disabled
-		getFlyByCamera().setZoomSpeed(0);
+		//getFlyByCamera().setZoomSpeed(0);
 		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
+		
 		setController(new WaitingController(this));
 		setupWebServer();
 
@@ -175,7 +197,7 @@ public class Main extends SimpleApplication {
 		BackgroundMusic.getInstance().start();
 		
 		//Register an AppState to properly clean up the game.
-		stateManager.attach(new AbstractAppState() {
+		getStateManager().attach(new AbstractAppState() {
 			@Override
 			public void cleanup() {
 				super.cleanup();
@@ -192,7 +214,7 @@ public class Main extends SimpleApplication {
 		InputManager im = getInputManager();
 
 		if (isControllerConnected()) {
-			getFlyByCamera().onAction(CameraInput.FLYCAM_INVERTY, false, 0);
+			//getFlyByCamera().onAction(CameraInput.FLYCAM_INVERTY, false, 0);
 			Joystick j = im.getJoysticks()[0];
 		
 			im.addMapping("Up", new JoyAxisTrigger(0, 0, true));
@@ -210,8 +232,11 @@ public class Main extends SimpleApplication {
 			im.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
 			im.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
 			im.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-			getInputManager().addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
-			getInputManager().addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
+			
+			im.addMapping("Toggle", new KeyTrigger(KeyInput.KEY_T));
+			
+			im.addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
+			im.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
 
 		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
@@ -243,6 +268,7 @@ public class Main extends SimpleApplication {
 	
 	@Override
 	public void simpleUpdate(float tpf) {
+		getInputManager().setCursorVisible(true);
 		for (TickListener tl : tickListeners) {
 			tl.update(tpf);
 		}

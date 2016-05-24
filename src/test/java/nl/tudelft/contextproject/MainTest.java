@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
 
-import com.jme3.input.InputManager;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
@@ -186,10 +185,8 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testSetupControlMappings() {
-		InputManager im = mock(InputManager.class);
-		main.setInputManager(im);
 		main.setupControlMappings();
-		verify(im, atLeast(1)).addMapping(anyString(), any(KeyTrigger.class));
+		verify(main.getInputManager(), atLeast(1)).addMapping(anyString(), any(KeyTrigger.class));
 	}
 	
 	/**

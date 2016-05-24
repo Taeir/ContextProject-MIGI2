@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
@@ -27,6 +26,9 @@ import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
 
+import jmevr.util.VRGuiManager;
+import jmevr.util.VRGuiManager.POSITIONING_MODE;
+
 /**
  * Controller for the main game.
  */
@@ -41,7 +43,7 @@ public class GameController extends Controller {
 	 * @param level
 	 * 		The level for this game
 	 */
-	public GameController(SimpleApplication app, Level level) {
+	public GameController(Application app, Level level) {
 		super(app, "GameController");
 
 		game = new Game(level);
@@ -55,7 +57,7 @@ public class GameController extends Controller {
 	 * @param folder
 	 * 		the folder where to load the level from
 	 */
-	public GameController(SimpleApplication app, String folder) {
+	public GameController(Application app, String folder) {
 		super(app, "GameController");
 
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
@@ -108,6 +110,19 @@ public class GameController extends Controller {
 		addInputListener(game.getPlayer(), "Jump");
 		addInputListener(game.getPlayer(), "Bomb");
 		addInputListener(game.getPlayer(), "Pickup");
+		
+		//TODO VR STUFF TEMP
+		addInputListener(new ActionListener() {
+
+			@Override
+			public void onAction(String name, boolean isPressed, float tpf) {
+				if (!isPressed) {
+					VRGuiManager.setPositioningMode(POSITIONING_MODE.MANUAL);
+					VRGuiManager.positionGui();
+				}
+			}
+			
+		}, "Toggle");
 	}
 
 	/**
