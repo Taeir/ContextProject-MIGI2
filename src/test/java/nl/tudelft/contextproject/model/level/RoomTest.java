@@ -6,14 +6,13 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import org.eclipse.jetty.util.log.Log;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.TestBase;
+import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.util.Size;
 
 /**
@@ -30,7 +29,7 @@ public class RoomTest extends TestBase {
 	 */
 	@BeforeClass
 	public static void setUpClass() {
-		Logger.getLogger("MazeGeneration").setLevel(Level.OFF);
+		Log.getLog("MazeGeneration").setLevel(Level.OFF);
 	}
 	
 	/**
