@@ -52,7 +52,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 			if (!(Main.getInstance().getAssetManager() == null)) {
 				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
 			} else {
-				texture = null;
+				this.texture = null;
 			}
 			break;
 		case WALL:
@@ -61,7 +61,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 			if (!(Main.getInstance().getAssetManager() == null)) {
 				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/walltexture.png");
 			} else {
-				texture = null;
+				this.texture = null;
 			}
 
 			break;
@@ -71,7 +71,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 			if (!(Main.getInstance().getAssetManager() == null)) {
 				this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
 			} else {
-				texture = null;
+				this.texture = null;
 			}
 			break;
 		default:
@@ -95,16 +95,14 @@ public class MazeTile implements Drawable, PhysicsObject {
 
 		Box b = new Box(.5f, .5f + height, .5f);
 		this.spatial = new Geometry("Box", b);
-		if (!(texture == null)) {
-			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-			mat.setBoolean("UseMaterialColors", true);    
-			mat.setColor("Diffuse", color);
-			mat.setColor("Specular", ColorRGBA.White);
-			mat.setFloat("Shininess", 64f);
-			mat.setColor("Ambient", color);
-			//mat.setTexture("LightMap", texture);
-			this.spatial.setMaterial(mat);                   // set the cube's material
-		}
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+		mat.setBoolean("UseMaterialColors", true);    
+		mat.setColor("Diffuse", color);
+		mat.setColor("Specular", ColorRGBA.White);
+		mat.setFloat("Shininess", 64f);
+		mat.setColor("Ambient", color);
+		mat.setTexture("LightMap", texture);
+		this.spatial.setMaterial(mat);                   // set the cube's material
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
 	}
