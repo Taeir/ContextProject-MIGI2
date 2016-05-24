@@ -152,42 +152,42 @@ public class GameController extends Controller {
 					geom.move(0, 6, 0);
 					return geom;
 				}
-			
-			
-			@Override
-			public void setSpatial(Spatial spatial) { }
 
-			@Override
-			public void mapDraw(Graphics2D g, int resolution) { }
-		});
+
+				@Override
+				public void setSpatial(Spatial spatial) { }
+
+				@Override
+				public void mapDraw(Graphics2D g, int resolution) { }
+			});
 		}	
 
-			for (int x = 0; x < level.getWidth(); x++) {
-				for (int y = 0; y < level.getHeight(); y++) {
-					if (level.isTileAtPosition(x, y)) {
-						//TODO add starting room with starting location
-						if ((xStart == 0 && yStart == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-							xStart = x;
-							yStart = y;
-						}
-						addDrawable(level.getTile(x, y));
+		for (int x = 0; x < level.getWidth(); x++) {
+			for (int y = 0; y < level.getHeight(); y++) {
+				if (level.isTileAtPosition(x, y)) {
+					//TODO add starting room with starting location
+					if ((xStart == 0 && yStart == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
+						xStart = x;
+						yStart = y;
 					}
+					addDrawable(level.getTile(x, y));
 				}
 			}
+		}
 
-			addDrawable(game.getPlayer());
+		addDrawable(game.getPlayer());
 
-			if (game.getPlayer().getPhysicsObject() != null) {
-				game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
-			}
+		if (game.getPlayer().getPhysicsObject() != null) {
+			game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
+		}
 
-			for (Light l : level.getLights()) {
-				addLight(l);
-			}
+		for (Light l : level.getLights()) {
+			addLight(l);
+		}
 
-			AmbientLight al = new AmbientLight();
-			al.setColor(ColorRGBA.White.mult(.5f));
-			addLight(al);
+		AmbientLight al = new AmbientLight();
+		al.setColor(ColorRGBA.White.mult(.5f));
+		addLight(al);
 	}
 
 	@Override
