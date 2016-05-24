@@ -26,9 +26,6 @@ import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
 
-import jmevr.util.VRGuiManager;
-import jmevr.util.VRGuiManager.POSITIONING_MODE;
-
 /**
  * Controller for the main game.
  */
@@ -110,19 +107,6 @@ public class GameController extends Controller {
 		addInputListener(game.getPlayer(), "Jump");
 		addInputListener(game.getPlayer(), "Bomb");
 		addInputListener(game.getPlayer(), "Pickup");
-		
-		//TODO VR STUFF TEMP
-		addInputListener(new ActionListener() {
-
-			@Override
-			public void onAction(String name, boolean isPressed, float tpf) {
-				if (!isPressed) {
-					VRGuiManager.setPositioningMode(POSITIONING_MODE.MANUAL);
-					VRGuiManager.positionGui();
-				}
-			}
-			
-		}, "Toggle");
 	}
 
 	/**

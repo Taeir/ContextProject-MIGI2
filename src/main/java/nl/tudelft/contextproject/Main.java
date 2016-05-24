@@ -232,9 +232,6 @@ public class Main extends VRApplication {
 			im.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
 			im.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
 			im.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-			
-			im.addMapping("Toggle", new KeyTrigger(KeyInput.KEY_T));
-			
 			im.addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
 			im.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
