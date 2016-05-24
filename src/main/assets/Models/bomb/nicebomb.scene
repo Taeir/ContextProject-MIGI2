@@ -1,0 +1,27 @@
+<scene formatVersion="1.0.1" exported_by="Wytze" previous_export_time="1464086411.540415" export_time="1464086447.9912667" >
+  <nodes >
+    <node name="Sphere_Sphere.001" >
+      <position z="-0.000000" y="1.515129" x="0.000000" />
+      <rotation qy="0.000000" qw="0.707107" qz="-0.000000" qx="0.707107" />
+      <scale z="1.000000" y="1.000000" x="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" damping_rot="0.10000000149011612" lock_trans_z="False" meshFile="Sphere_Sphere.001.mesh" name="Sphere_Sphere.001" mass_radius="1.0" damping_trans="0.03999999910593033" mass="1.0" friction_z="1.0" velocity_max="0.0" lock_rot_y="False" actor="False" friction_y="1.0" inertia_tensor="0.4000000059604645" ghost="False" lock_rot_z="False" physics_type="STATIC" velocity_min="0.0" lock_trans_x="False" lock_rot_x="False" friction_x="1.0" lock_trans_y="False" />
+    </node>
+  </nodes>
+  <externals >
+    <item type="material" >
+      <file name="C:\Users\Wytze\workspace\ContextProject-MIGI2\src\main\assets\Models\bomb\BOMB.material" />
+    </item>
+    <item type="material" >
+      <file name="C:\Users\Wytze\workspace\ContextProject-MIGI2\src\main\assets\Models\bomb\fuse.material" />
+    </item>
+  </externals>
+  <environment >
+    <colourBackground g="0.05087608844041824" r="0.05087608844041824" b="0.05087608844041824" />
+    <colourDiffuse g="0.05087608844041824" r="0.05087608844041824" b="0.05087608844041824" />
+    <colourAmbient g="0.0" r="0.0" b="0.0" />
+  </environment>
+</scene>
