@@ -14,6 +14,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
+
 import nl.tudelft.contextproject.Main;
 
 /**
@@ -32,22 +34,25 @@ public class Door extends Entity implements PhysicsObject {
 		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		Geometry geometry = new Geometry("dink", cube1Mesh); 
-		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Brown);
-		Material mat2 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat2.setColor("Color", ColorRGBA.Gray);
+		if (Main.getInstance().getAssetManager().loadModel("Models/door.blend") != null) {
+			sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
+			sp.scale(2f);
+		}
+//		sp.rotate(0, (float) Math.PI, 0);
 		Material mat3 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat3.setColor("Color", color);
+
 		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
 			sp =  geometry;
 		}
 		if (sp instanceof Node) {
 			Node node = (Node) sp;
-			node.setMaterial(mat);
-			node.getChild("Sphere").setMaterial(mat2);
+			//node.setMaterial(mat);
+			//node.getChild("Sphere").setMaterial(mat2);
 			geometry = (Geometry) ((Node) node.getChild("Cube.001")).getChild(0);
-			geometry.setMaterial(mat3);
+			Material mat = geometry.getMaterial();
+			mat.setColor("Ambient", color);
+			geometry.setMaterial(mat);
 		}
 	}
 
@@ -83,14 +88,14 @@ public class Door extends Entity implements PhysicsObject {
 		rb.setPhysicsLocation(sp.getLocalTranslation());
 		return rb;
 	}
-	
+
 	@Override
 	public void move(float x, float y, float z) {
 		if (rb == null) getPhysicsObject();
 		sp.move(x, y, z);
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
-	
+
 	/**
 	 * Sets the color of the doors lock.
 	 * @param col
@@ -99,7 +104,7 @@ public class Door extends Entity implements PhysicsObject {
 	public void setColor(ColorRGBA col) {
 		color = col;
 	}
-	
+
 	/**
 	 * Gets the color of the doors lock.
 	 * @return The color of the doors lock

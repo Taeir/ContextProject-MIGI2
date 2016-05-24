@@ -29,10 +29,10 @@ public class Bomb extends Entity implements PhysicsObject {
 	public Bomb() {
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh);
-		if (Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o") == null) {
+		if (Main.getInstance().getAssetManager().loadModel("Models/bomb.blend") == null) {
 			sp = geometry;
 		} else {
-			sp = Main.getInstance().getAssetManager().loadModel("Models/nicebombtest.blend");
+			sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
 			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 			mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
 			mat.setColor("Color", ColorRGBA.White);
