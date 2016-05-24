@@ -20,7 +20,7 @@ import nl.tudelft.contextproject.util.Size;
  * This class is a wrapper for the level reader so that it can be used with the
  * level creation class.
  */
-public class Room {
+public class Room extends TestBase {
 
 	private static final Pattern PATTERN = Pattern.compile("(?<width>\\d+)x(?<height>\\d+)_.*");
 

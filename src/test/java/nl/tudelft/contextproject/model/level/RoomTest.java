@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.util.Size;
+
 /**
  * Test class for Room.
  */
@@ -14,7 +16,9 @@ public class RoomTest {
 	
 	private Room testRoom;
 	
-	
+	/**
+	 * Create a basic room from test files.
+	 */
 	@Before
 	public void setUpSimpleRoom() {
 		testRoom = new Room(ROOM_FOLDER);
@@ -25,7 +29,7 @@ public class RoomTest {
 	 */
 	@Test
 	public void testRoomConstructorSize() {
-		
+		assertEquals(testRoom.size, new Size(2, 2));
 	}
 
 	@Test
