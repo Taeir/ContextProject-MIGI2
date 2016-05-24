@@ -13,7 +13,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
-
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
@@ -22,28 +21,34 @@ import nl.tudelft.contextproject.model.PhysicsObject;
  * Class representing the player wearing the VR headset.
  */
 public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
-
-	//Physics interaction constants.
-
+	/**
+	 * Physics interaction constants.
+	 */
+	//This is the jump speed of the player, works with gravity.
 	public static final float JUMP_SPEED = 13f;
-	//Terminal velocity of the player
+	//The maximum fall speed, AKA terminal velocity.
 	public static final float FALL_SPEED = 15f;
-	//How fast the player accelerates while falling
+	//The gravity constant, how fast the player accelerate during falling.
 	public static final float PLAYER_GRAVITY = 13f;
 
-
-	//Physical collision model.
-
+	/**
+	 * Physical collision model.
+	 */
 	//Highest vertical step player can make, think of stairs.
 	public static final float PLAYER_STEP_HEIGHT = 0.1f;
+	//Collision radius of cylinder size.
 	public static final float PLAYER_RADIUS = .5f;
+	//Height of collision box.
 	public static final float PLAYER_HEIGHT = 3f;
-	//SHOULD NOT BE CHANGED
-	public static final int PLAYER_GRAVITY_AXIS = 1;
+	//Gravity axis of the player, should not be changed!
+	public static final int PLAYER_AXIS = 1;
 
-	//Movement control constants.
-
+	/**
+	 * Movement control constants.
+	 */
+	//Left and Right movement speed multiplier.
 	public static final float SIDE_WAY_SPEED_MULTIPLIER = .08f;
+	//Up and Down movement speed multiplier.
 	public static final float STRAIGHT_SPEED_MULTIPLIER = .1f;
 
 	private Spatial spatial;
@@ -51,19 +56,21 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	private boolean left, right, up, down;
 	private Vector3f walkDirection;
 	private Inventory inventory;
-
+	private int health;
+	private int maxHealth = 3;
 	/**
 	 * Constructor for a default player.
-	 * This player is (for now) a sphere.
+	 * This player is (for now) a red sphere.
 	 */
 	public VRPlayer() { 
 		inventory = new Inventory();
+		health = 3;
+		//Set geometry of player
 	}
 
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-
 		Sphere b = new Sphere(10, 10, .2f);
 		spatial = new Geometry("blue cube", b);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -79,7 +86,6 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		Vector3f camDir = Main.getInstance().getCamera().getDirection();
 		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
 		walkDirection = new Vector3f();
-
 		if (left) {
 			walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
 		}
@@ -116,9 +122,8 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	/**
 	 * Set character control.
-	 *
 	 * @param characterControl
-	 *		control to set
+	 * 				control to set
 	 */
 	public void setCharacterControl(CharacterControl characterControl) {
 		this.playerControl = characterControl;
@@ -128,7 +133,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * Get the player hit box.
 	 * 
 	 * @return	
-	 * 		player physics object
+	 * 				player physics object
 	 */
 	@Override
 	public CharacterControl getPhysicsObject() {
@@ -137,7 +142,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		}
 		if (playerControl != null) return playerControl;
 		//create a shape that implements PhysicsControl
-		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(PLAYER_RADIUS, PLAYER_HEIGHT, PLAYER_GRAVITY_AXIS);
+		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(PLAYER_RADIUS, PLAYER_HEIGHT, PLAYER_AXIS);
 		playerControl = new CharacterControl(capsuleShape, PLAYER_STEP_HEIGHT);
 
 		//Add physical constants of player
@@ -154,35 +159,36 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	public void onAction(String name, boolean isPressed, float tpf) {
 		//TODO This should probably be at another place after controller support is implemented.
 		switch (name) {
-			case "Left":
-				left = isPressed;
-				break;
-			case "Right":
-				right = isPressed;
-				break;
-			case "Up":
-				up = isPressed;
-				break;
-			case "Down":
-				down = isPressed;
-				break;
-			case "Jump":
-				if (isPressed) {
-					playerControl.jump();
-				}
-				break;
-			case "Bomb":
-				if (isPressed) {
-					dropBomb();
-				}
-				break;
-			case "Pickup":
-				if (isPressed) {
-					pickUp();
-				}
-				break;
-			default:
-				break;
+		case "Left":
+			left = isPressed;
+			break;
+		case "Right":
+			right = isPressed;
+			break;
+		case "Up":
+			up = isPressed;
+			break;
+		case "Down":
+			down = isPressed;
+			break;
+		case "Jump":
+			if (isPressed) { 
+				playerControl.jump(); 
+			}
+			break;
+		case "Bomb":
+			if (isPressed) {
+				dropBomb();
+			}
+			break;
+		case "Pickup":
+			if (isPressed) {
+				pickUp();
+			}
+			break;
+		default:
+			//Do nothing otherwise
+			break;
 		}
 	}
 
@@ -195,7 +201,6 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 			inventory.remove(bomb);
 			Vector3f vec = this.getSpatial().getLocalTranslation();
 			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-
 			if (Main.getInstance().getCurrentGame() != null) {
 				Main.getInstance().getCurrentGame().addEntity(bomb);
 			}
@@ -204,11 +209,10 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	
 	/**
 	 * Player picks up a nearby item.
-	 * Also opens nearby doors if the player has the correct key.
+	 * Also opens nearby doors if possible
 	 */
 	public void pickUp() {
 		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
-
 		for (Entity ent : set) {
 			 if (ent.collidesWithPlayer(2f)) {
 				if (ent instanceof Bomb) {
@@ -242,19 +246,48 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	/**
 	 * Method used for testing.
-	 *
-	 * @return
-	 * 		the player's inventory
+	 * Returns the player's inventory.
+	 * @return The player's inventory
 	 */
 	public Inventory getInventory() {
 		return inventory;
 	}
 
 	/**
+	 * Method used for testing.
+	 * Sets a player's inventory
 	 * @param inv
-	 * 		inventory to be set
+	 * 		Inventory to be set
 	 */
 	public void setInventory(Inventory inv) {
 		inventory = inv;
+	}
+	
+	/**
+	 * Returns the player's health.
+	 * @return The player's health
+	 */
+	public int getHealth() {
+		return health;
+	}
+	
+	/**
+	 * Sets a player's health.
+	 * @param heal
+	 * 		Health to be set
+	 */
+	public void setHealth(int heal) {
+		if (heal > maxHealth) {
+			health = 3;
+		} else {
+			health = heal;
+		}
+	}
+	
+	/**
+	 * Reduces a players health by one.
+	 */
+	public void takeDamage() {
+		health--;
 	}
 }

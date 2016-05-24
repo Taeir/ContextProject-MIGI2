@@ -30,16 +30,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	public Bomb() {
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh);
-<<<<<<< HEAD:src/main/java/nl/tudelft/contextproject/model/Bomb.java
 		if (Main.getInstance().getAssetManager().loadModel("Models/bomb.blend") == null) {
-=======
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Red);
-		Material matb = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		matb.setColor("Color", ColorRGBA.White);
-
-		if (Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o") == null) {
->>>>>>> refs/remotes/origin/dev-sprint5:src/main/java/nl/tudelft/contextproject/model/entities/Bomb.java
 			sp = geometry;
 		} else {
 			sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
@@ -48,7 +39,7 @@ public class Bomb extends Entity implements PhysicsObject {
 			mat.setColor("Color", ColorRGBA.White);
 			sp.setMaterial(mat);
 		}
-		
+
 	}
 
 	@Override

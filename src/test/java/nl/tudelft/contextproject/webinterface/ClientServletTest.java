@@ -38,10 +38,7 @@ public class ClientServletTest extends WebTestBase {
 	public ClientServlet servlet;
 	
 	/**
-	 * Initializes a level for the tests.
-	 */
-	@BeforeClass
-	public static void initializeLevel() {
+	 Public static void initializeLevel() {
 		//Generate a new seeded level
 		level = new RandomLevelFactory(5, false).generateSeeded(1);
 	}
