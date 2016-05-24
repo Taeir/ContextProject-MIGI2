@@ -20,7 +20,7 @@ import nl.tudelft.contextproject.util.Size;
  * This class is a wrapper for the level reader so that it can be used with the
  * level creation class.
  */
-public class Room extends TestBase {
+public class Room {
 
 	private static final Pattern PATTERN = Pattern.compile("(?<width>\\d+)x(?<height>\\d+)_.*");
 
@@ -48,7 +48,7 @@ public class Room extends TestBase {
 		entities = new HashSet<Entity>();
 		lights = new ArrayList<Light>();
 		try {
-			setSizeFromFileName(folder);
+			size = getSizeFromFileName(folder);
 			tiles = new TileType[size.getWidth()][size.getHeight()];
 			mazeTiles = new MazeTile[size.getWidth()][size.getHeight()];
 			RoomReader.importFile(folder, mazeTiles, entities, lights, 0, 0);	
@@ -61,10 +61,12 @@ public class Room extends TestBase {
 	 * Get size of room from folder name.
 	 * @param folder
 	 * 		folder of the Room
+	 * @return
+	 * 		size of room
 	 * @throws IOException 
 	 * 		if pattern of roomFolder does not match
 	 */
-	protected void setSizeFromFileName(String folder) throws IOException {
+	protected Size getSizeFromFileName(String folder) throws IOException {
 		int width = 0;
 		int height = 0;
 		String fileName = RoomReader.getMapFile(folder).getName();
@@ -72,7 +74,7 @@ public class Room extends TestBase {
 		if (m.matches()) {
 			width = Integer.parseInt(m.group("width"));
 			height = Integer.parseInt(m.group("height"));
-			size = new Size(width, height);
+			return size = new Size(width, height);
 		} else {
 			throw new IOException("Expected a .crf file present in the folder with the correct name");
 		}
