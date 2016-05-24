@@ -15,10 +15,12 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.ArgumentCaptor;
 
+import nl.tudelft.contextproject.TestBase;
+
 /**
  * Test class for {@link Log}.
  */
-public class LogTest {
+public class LogTest extends TestBase {
 
 	@Rule
 	public TemporaryFolder temp = new TemporaryFolder();

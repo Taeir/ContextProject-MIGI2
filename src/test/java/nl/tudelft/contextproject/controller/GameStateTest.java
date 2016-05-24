@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import nl.tudelft.contextproject.TestBase;
+
 /**
  * Test class for the GameState enum.
  */
-public class GameStateTest {
+public class GameStateTest extends TestBase {
 
 	/**
 	 * Check that {@link GameState#ENDED} does not count as started.

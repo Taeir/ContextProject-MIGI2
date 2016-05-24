@@ -8,13 +8,15 @@ import java.util.List;
 
 import com.jme3.light.Light;
 
+import nl.tudelft.contextproject.TestBase;
+
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Test class for Level.
  */
-public class LevelTest {
+public class LevelTest extends TestBase {
 
 	private Light lMock;
 	private MazeTile tMock1;

@@ -9,22 +9,30 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
-import nl.tudelft.contextproject.audio.AudioTestUtil;
 import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
+
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Test suit for the Main class.
  */
-public class MainTest {
+public class MainTest extends TestBase {
 
 	private Main main;
+	
+	/**
+	 * Setup that stores the main instance for convenient access.
+	 */
+	@Before
+	public void setUp() {
+		main = Main.getInstance();
+	}
 
 	/**
 	 * Check if start is called when starting the game.
@@ -33,17 +41,8 @@ public class MainTest {
 	public void testMainStart() {
 		Main mMock = mock(Main.class);
 		Main.setInstance(mMock);
-	    Main.main(new String[0]);
-        verify(mMock, times(1)).start();
-	}
-
-	/**
-	 * Setup that creates a fresch instance of main.
-	 */
-	@Before
-	public void setUp() {
-		Main.setInstance(AudioTestUtil.fakeMain());
-		main = Main.getInstance();
+		Main.main(new String[0]);
+		verify(mMock, times(1)).start();
 	}
 	
 	/**
@@ -54,8 +53,8 @@ public class MainTest {
 		Main mMock = mock(Main.class);
 		Main.setInstance(mMock);
 		String[] args = {"a", "--debugHud", "b"};
-	    Main.main(args);
-	    assertTrue(Main.isDebugHudShown());
+		Main.main(args);
+		assertTrue(Main.isDebugHudShown());
 	}
 	
 	/**
@@ -66,8 +65,8 @@ public class MainTest {
 		Main mMock = mock(Main.class);
 		Main.setInstance(mMock);
 		String[] args = {"a", "--debugHudd", "b"};
-	    Main.main(args);
-	    assertFalse(Main.isDebugHudShown());
+		Main.main(args);
+		assertFalse(Main.isDebugHudShown());
 	}
 	
 	/**
@@ -88,7 +87,7 @@ public class MainTest {
 	public void testSetController() {
 		Controller cOld = mock(Controller.class);
 		Controller c = mock(Controller.class);
-		
+
 		main.setController(cOld);
 		assertTrue(main.setController(c));
 
@@ -102,7 +101,7 @@ public class MainTest {
 	@Test
 	public void testSetControllerAgain() {
 		Controller c = mock(Controller.class);
-		
+
 		main.setController(c);
 		assertFalse(main.setController(c));
 	}
@@ -172,18 +171,18 @@ public class MainTest {
 
 		main.simpleUpdate(0.1f);
 		verify(tl, times(0)).update(0.1f);
-		
+
 		main.attachTickListener(tl);
 		main.simpleUpdate(0.1f);
 		verify(tl, times(1)).update(0.1f);
-		
+
 		main.removeTickListener(tl);
 		main.simpleUpdate(0.1f);
 		verifyNoMoreInteractions(tl);
 	}
 	
 	/**
-	 * Test if seting the control mappings sets the mappings.
+	 * Test if setting the control mappings sets the mappings.
 	 */
 	@Test
 	public void testSetupControlMappings() {

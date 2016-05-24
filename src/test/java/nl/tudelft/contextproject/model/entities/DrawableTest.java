@@ -17,7 +17,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
-
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.Drawable;
 import org.junit.Test;
 import org.mockito.exceptions.verification.NoInteractionsWanted;
@@ -25,7 +25,7 @@ import org.mockito.exceptions.verification.NoInteractionsWanted;
 /**
  * Abstract test class for the drawable interface.
  */
-public abstract class DrawableTest {
+public abstract class DrawableTest extends TestBase {
 
 	private Drawable dable;
 	
@@ -51,7 +51,7 @@ public abstract class DrawableTest {
 	 * Ensure that a geometry is generated.
 	 */
 	@Test
-	public void testGetGeometryNotNull() {
+	public void testGetGeometryNotNull_drawable() {
 		setupDrawable();
 		assertNotNull(dable.getSpatial());
 	}
@@ -60,7 +60,7 @@ public abstract class DrawableTest {
 	 * Test that get geometry always returns the same geometry.
 	 */
 	@Test
-	public void testPersistentGeometry() {
+	public void testPersistentGeometry_drawable() {
 		setupDrawable();
 		Spatial s = dable.getSpatial();
 		assertEquals(s, dable.getSpatial());
@@ -70,10 +70,12 @@ public abstract class DrawableTest {
 	 * Verify that something is drawn on the Graphics2D when calling mapDraw().
 	 */
 	@Test
-	public void testMapDraw() {	
+	public void testMapDraw_drawable() {	
 		setupDrawable();
 		Graphics2D g = mock(Graphics2D.class);
 		dable.mapDraw(g, 16);
+		
+		//Verify that there were interactions
 		try {
 			verifyZeroInteractions(g);
 		} catch (NoInteractionsWanted e) {

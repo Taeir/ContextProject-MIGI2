@@ -43,7 +43,7 @@ public abstract class EntityTest extends DrawableTest {
 	 * Test if the initial state of an entity is NEW.
 	 */
 	@Test
-	public void testInitialState() {
+	public void testInitialState_entity() {
 		setupEntity();
 		assertEquals(entity.getState(), EntityState.NEW);
 	}
@@ -52,7 +52,7 @@ public abstract class EntityTest extends DrawableTest {
 	 * Test if setting a new state changes the state.
 	 */
 	@Test
-	public void testSetState() {
+	public void testSetState_entity() {
 		setupEntity();
 		entity.setState(EntityState.ALIVE);
 		assertEquals(entity.getState(), EntityState.ALIVE);
@@ -62,7 +62,7 @@ public abstract class EntityTest extends DrawableTest {
 	 * Test if moving an entity moves the entity.
 	 */
 	@Test
-	public void testMove() {
+	public void testMove_entity() {
 		setupEntity();
 		Vector3f before = entity.getSpatial().getLocalTranslation();
 		Vector3f expected = before.clone().add(1.23f, 2.34f, 3.45f);
@@ -77,7 +77,7 @@ public abstract class EntityTest extends DrawableTest {
 	 * Test if collision detection returns true when it should.
 	 */
 	@Test
-	public void testPlayerCollisionTrue() {
+	public void testPlayerCollisionTrue_entity() {
 		TestUtil.mockGame();
 		setupEntity();
 		
@@ -96,7 +96,7 @@ public abstract class EntityTest extends DrawableTest {
 	 * Test if collision detection returns false when it should.
 	 */
 	@Test
-	public void testPlayerCollisionFalse() {
+	public void testPlayerCollisionFalse_entity() {
 		TestUtil.mockGame();
 		setupEntity();
 		
@@ -115,7 +115,7 @@ public abstract class EntityTest extends DrawableTest {
 	 * Test if the getLocation method works.
 	 */
 	@Test
-	public void testGetLocation() {
+	public void testGetLocation_entity() {
 		TestUtil.mockGame();
 		setupEntity();
 		Spatial mockedSpatial = mock(Spatial.class);

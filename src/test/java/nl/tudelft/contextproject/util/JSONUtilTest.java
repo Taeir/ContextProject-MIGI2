@@ -10,14 +10,12 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
-import nl.tudelft.contextproject.test.TestUtil;
+
 import org.json.JSONObject;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Before;
 import org.junit.After;
@@ -27,32 +25,12 @@ import org.junit.rules.ExpectedException;
 /**
  * Test for the JSONUtil class.
  */
-public class JSONUtilTest {
-	private static Main main;
-
+public class JSONUtilTest extends TestBase {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
 	private JSONObject mockedJSONObject;
 	private File testFile;
-
-	/**
-	 * Ensures that {@link Main#getInstance()} is properly set up before any tests run.
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		main = Main.getInstance();
-		Main.setInstance(null);
-		TestUtil.ensureMainMocked(true);
-	}
-
-	/**
-	 * Restores the original Main instance after all tests are done.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		Main.setInstance(main);
-	}
 
 	/**
 	 * Set up all objects used in testing.

@@ -39,6 +39,15 @@ public class PlayerTrigger extends Entity {
 		getSpatial();
 	}
 	
+	/**
+	 * Construct a {@link PlayerTrigger} with an empty action.
+	 * Only use this constructor when calling super() in a constructor.
+	 * 
+	 * @param triggerDist
+	 * 		the distance to the player to check for
+	 * @param coolDown
+	 * 		the cooldown between two triggers
+	 */
 	protected PlayerTrigger(float triggerDist, float coolDown) {
 		this.triggerDist = triggerDist;
 		this.coolDown = coolDown;
@@ -87,8 +96,11 @@ public class PlayerTrigger extends Entity {
 		}
 	}
 
+	/**
+	 * Method called when the action must be triggered.
+	 * This triggers the action.
+	 */
 	public void onTrigger() {
-		System.out.println("!");
 		action.update(0);
 	}
 

@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 
@@ -134,5 +136,18 @@ public class VRPlayerTest extends EntityTest {
 		player.getInventory().add(new Key(ColorRGBA.Yellow));
 		player.dropBomb();
 		assertSame(player.getInventory().size(), 1);
+	}
+	
+	/**
+	 * Test if the fallingTimer respawns the player at the correct position.
+	 */
+	@Test
+	public void testUpdateFallingTimer() {
+		when(player.getSpatial()).thenReturn(mock(Spatial.class));
+		player.move(0, -20, 0);
+		player.updateFallingTimer(4);
+		player.updateFallingTimer(.5f);
+		
+		assertEquals(5f, player.getLocation().y, 1e-4);
 	}
 }

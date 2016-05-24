@@ -6,12 +6,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.anyFloat;
 
 import nl.tudelft.contextproject.model.TickListener;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
@@ -22,27 +19,8 @@ import nl.tudelft.contextproject.test.TestUtil;
  */
 public class PlayerTriggerTest extends EntityTest {
 
-	private static Main main;
 	private PlayerTrigger pt;
 	private TickListener action;
-
-	/**
-	 * Mock the main class and save the old main for restoring.
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		main = Main.getInstance();
-		Main.setInstance(null);
-		TestUtil.mockGame();
-	}
-	
-	/**
-	 * Restores the original Main instance after all tests are done.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		Main.setInstance(main);
-	}
 	
 	@Override
 	public Entity getEntity() {
@@ -55,6 +33,8 @@ public class PlayerTriggerTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
+		TestUtil.mockGame();
+		
 		action = mock(TickListener.class);
 		pt = new PlayerTrigger(0.2f, 1, action);	
 	}
@@ -91,7 +71,7 @@ public class PlayerTriggerTest extends EntityTest {
 		pSpat.setLocalTranslation(pt.getSpatial().getLocalTranslation());
 		pt.update(1.2f);
 
-		verify(action, times(1)).update(1.2f);
+		verify(action, times(1)).update(0f);
 		pSpat.setLocalTranslation(0, 10, 0);
 	}
 

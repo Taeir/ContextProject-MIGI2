@@ -11,6 +11,8 @@ import static org.mockito.Mockito.when;
 import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource.Status;
 
+import nl.tudelft.contextproject.TestBase;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,7 +22,7 @@ import org.junit.Test;
 /**
  * Test class for {@link BackgroundMusic}.
  */
-public class BackgroundMusicTest {
+public class BackgroundMusicTest extends TestBase {
 	public AudioNode an;
 
 	/**
