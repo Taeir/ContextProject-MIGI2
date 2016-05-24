@@ -12,6 +12,7 @@ import nl.tudelft.contextproject.model.entities.Direction;
 import nl.tudelft.contextproject.model.entities.Door;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.Key;
+import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.PlayerTrigger;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.WallFrame;
@@ -106,9 +107,12 @@ public final class EntityReader {
 				break;
 			case "PlayerTrigger":
 				if (data.length < 7) throw new IllegalArgumentException("PlayerTrigger must specify at least 7 values.");
-				e = new PlayerTrigger(Float.parseFloat(data[4]), Float.parseFloat(data[5]),
-						sl.getInstanceOf(data[6], TickListener.class), new Vector3f(x, y, z));
-				return e;
+				e = new PlayerTrigger(Float.parseFloat(data[4]), Float.parseFloat(data[5]),	sl.getInstanceOf(data[6], TickListener.class));
+				break;
+			case "Pitfall":
+				if (data.length < 5) throw new IllegalArgumentException("Pitfall must specify at least 4 values.");
+				e = new Pitfall(Float.parseFloat(data[4]));
+				break;
 			case "WallFrame":
 				e = new WallFrame(new Vector3f(x, y, z), path + data[5], Direction.valueOf(data[4]));
 				return e;

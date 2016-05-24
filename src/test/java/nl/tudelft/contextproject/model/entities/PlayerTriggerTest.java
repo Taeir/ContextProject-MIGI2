@@ -56,7 +56,7 @@ public class PlayerTriggerTest extends EntityTest {
 	@Before
 	public void setUp() {
 		action = mock(TickListener.class);
-		pt = new PlayerTrigger(0.2f, 1, action, new Vector3f());	
+		pt = new PlayerTrigger(0.2f, 1, action);	
 	}
 	
 	/**

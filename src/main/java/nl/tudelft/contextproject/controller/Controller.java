@@ -15,6 +15,7 @@ import com.jme3.scene.Spatial;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.level.MazeTile;
 
 /**
  * Abstract class for controllers.
@@ -80,6 +81,17 @@ public abstract class Controller extends AbstractAppState {
 		return guiNode.detachChild(s) != -1;
 	}
 
+	/**
+	 * Add a MazeTile to the renderer.
+	 *
+	 * @param t 
+	 * 		The MazeTile to add
+	 */
+	public void addMazeTile(MazeTile t) {
+		physicsEnvironment.getPhysicsSpace().add(t.getPhysicsObject());
+		rootNode.attachChild(t.getSpatial());
+	}
+	
 	/**
 	 * Add a Drawable to the renderer.
 	 * Drawables should also have a collision.

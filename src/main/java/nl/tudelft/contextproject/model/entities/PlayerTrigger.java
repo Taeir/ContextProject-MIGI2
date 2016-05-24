@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
@@ -32,15 +31,22 @@ public class PlayerTrigger extends Entity {
 	 * 		how long (in seconds) the delay is between two triggers
 	 * @param action
 	 * 		a TickListener that is updated when the action is triggered
-	 * @param position
-	 * 		the position of the playerTrigger in the world
 	 */
-	public PlayerTrigger(float triggerDist, float coolDown, TickListener action, Vector3f position) {
+	public PlayerTrigger(float triggerDist, float coolDown, TickListener action) {
 		this.triggerDist = triggerDist;
 		this.action = action;
 		this.coolDown = coolDown;
 		getSpatial();
-		sp.move(position);
+	}
+	
+	protected PlayerTrigger(float triggerDist, float coolDown) {
+		this.triggerDist = triggerDist;
+		this.coolDown = coolDown;
+		this.action = new TickListener() {			
+			@Override
+			public void update(float tpf) { }
+		};
+		getSpatial();
 	}
 
 	@Override
@@ -73,12 +79,17 @@ public class PlayerTrigger extends Entity {
 	@Override
 	public void update(float tpf) {
 		if (timer <= 0 && collidesWithPlayer(triggerDist)) {
-			action.update(tpf);
+			this.onTrigger();
 			timer = coolDown;
 		}
 		if (timer > 0) {
 			timer -= tpf;
 		}
+	}
+
+	public void onTrigger() {
+		System.out.println("!");
+		action.update(0);
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 # Menu Level that contains some simple tutorial material
-14 17 6 1
+14 17 7 1
 WALL WALL WALL WALL WALL WALL WALL WALL WALL WALL # # # # 
 WALL FLOOR FLOOR FLOOR FLOOR FLOOR FLOOR FLOOR FLOOR WALL # # # #
 WALL FLOOR FLOOR FLOOR FLOOR FLOOR FLOOR FLOOR FLOOR WALL # # # #
@@ -23,4 +23,5 @@ WALL WALL WALL WALL FLOOR FLOOR WALL WALL WALL WALL # # # #
 5 .5 15 WallFrame NORTH start.png
 1 .5 5 WallFrame WEST logo2.png
 1 .5 6 WallFrame WEST logo1.png
+3 .5 4 Pitfall 1
 7 100 9 PointLight .5/.5/.5/.5 200
