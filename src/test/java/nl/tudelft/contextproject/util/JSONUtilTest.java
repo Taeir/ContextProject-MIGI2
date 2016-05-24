@@ -10,14 +10,12 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Bomb;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.VRPlayer;
-import nl.tudelft.contextproject.test.TestUtil;
+import nl.tudelft.contextproject.TestBase;
+import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
+
 import org.json.JSONObject;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Before;
 import org.junit.After;
@@ -27,114 +25,94 @@ import org.junit.rules.ExpectedException;
 /**
  * Test for the JSONUtil class.
  */
-public class JSONUtilTest {
-    private static Main main;
+public class JSONUtilTest extends TestBase {
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+	private JSONObject mockedJSONObject;
+	private File testFile;
 
-    private JSONObject mockedJSONObject;
-    private File testFile;
+	/**
+	 * Set up all objects used in testing.
+	 */
+	@Before
+	public void setUp() {
+		mockedJSONObject = mock(JSONObject.class);
+		testFile = new File("UtilTestFile.json");
+		when(mockedJSONObject.toString(anyInt())).thenReturn("{}");
+	}
 
-    /**
-     * Ensures that {@link Main#getInstance()} is properly set up before any tests run.
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        //Store the old Main instance
-        main = Main.getInstance();
+	/**
+	 * Remove the test file if it has been created.
+	 */
+	@After
+	public void tearDown() {
+		if (testFile.exists()) {
+			testFile.delete();
+		}
+	}
 
-        //Clear the instance
-        Main.setInstance(null);
+	/**
+	 * Test for checking if an IOException occurs if one tries
+	 * to load a non-existing file.
+	 *
+	 * @throws IOException
+	 *      the expected exception
+	 */
+	@Test
+	public void testLoadFileNotFound() throws IOException {
+		thrown.expect(IOException.class);
+		File notFound = new File("NotARealFile.json");
+		JSONUtil.load(notFound);
+	}
 
-        //Ensure that the main is mocked
-        TestUtil.ensureMainMocked(true);
-    }
+	/**
+	 * Test for loading an existing file.
+	 *
+	 * @throws IOException
+	 *      file not found
+	 */
+	@Test
+	public void testLoadExistingFile() throws IOException {
+		JSONUtil.save(mockedJSONObject, testFile);
+		assertNotNull(JSONUtil.load(testFile));
+	}
 
-    /**
-     * Restores the original Main instance after all tests are done.
-     */
-    @AfterClass
-    public static void tearDownAfterClass() {
-        //Restore the old main
-        Main.setInstance(main);
-    }
+	/**
+	 * Test saving of a file.
+	 *
+	 * @throws IOException
+	 *      if file writing goes wrong
+	 */
+	@Test
+	public void testSaveFile() throws IOException {
+		JSONUtil.save(mockedJSONObject, testFile);
+	}
 
-    /**
-     * Set up all objects used in testing.
-     */
-    @Before
-    public void setUp() {
-        mockedJSONObject = mock(JSONObject.class);
-        testFile = new File("UtilTestFile.json");
-        when(mockedJSONObject.toString(anyInt())).thenReturn("{}");
-    }
+	/**
+	 * Test for getting a json representing all entities.
+	 */
+	@Test
+	public void testEntitiesToJson() {
+		Set<Entity> set = ConcurrentHashMap.newKeySet();
 
-    /**
-     * Remove the test file if it has been created.
-     */
-    @After
-    public void tearDown() {
-        if (testFile.exists()) {
-            testFile.delete();
-        }
-    }
+		Bomb bomb = new Bomb();
+		set.add(bomb);
 
-    /**
-     * Test for checking if an IOException occurs if one tries
-     * to load a non-existing file.
-     * @throws IOException - The expected exception.
-     */
-    @Test
-    public void testLoadFileNotFound() throws IOException {
-        thrown.expect(IOException.class);
-        File notFound = new File("NotARealFile.json");
-        JSONUtil.load(notFound);
-    }
-
-    /**
-     * Test for loading an existing file.
-     * @throws IOException - File not found.
-     */
-    @Test
-    public void testLoadExistingFile() throws IOException {
-        JSONUtil.save(mockedJSONObject, testFile);
-        assertNotNull(JSONUtil.load(testFile));
-    }
-
-    /**
-     * Test saving of a file.
-     * @throws IOException - If file writing goes wrong.
-     */
-    @Test
-    public void testSaveFile() throws IOException {
-        JSONUtil.save(mockedJSONObject, testFile);
-    }
-
-    /**
-     * Test for getting a json representing all entities.
-     */
-    @Test
-    public void testEntitiesToJson() {
-        Set<Entity> list = ConcurrentHashMap.newKeySet();
-
-        Bomb bomb = new Bomb();
-        list.add(bomb);
-
-        JSONObject json = JSONUtil.entitiesToJson(list, new VRPlayer());
-        assertNotNull(json.getJSONArray("entities"));
-    }
+		JSONObject json = JSONUtil.entitiesToJson(set, new VRPlayer());
+		assertNotNull(json.getJSONArray("entities"));
+	}
 
 
-    /**
-     * Test for getting a json representing an entity.
-     */
-    @Test
-    public void testEntityToJson() {
-        Bomb bomb = new Bomb();
-        JSONObject json = JSONUtil.entityToJson(bomb);
-        assertEquals(json.getInt("x"), 0);
-        assertEquals(json.getInt("y"), 0);
-        assertEquals(json.getInt("type"), 1);
-    }
+	/**
+	 * Test for getting a json representing an entity.
+	 */
+	@Test
+	public void testEntityToJson() {
+		Bomb bomb = new Bomb();
+		JSONObject json = JSONUtil.entityToJson(bomb);
+		assertEquals(json.getInt("x"), 0);
+		assertEquals(json.getInt("y"), 0);
+		assertEquals(json.getInt("type"), 1);
+	}
 }

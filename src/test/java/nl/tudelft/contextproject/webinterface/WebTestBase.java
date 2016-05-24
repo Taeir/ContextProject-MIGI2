@@ -3,54 +3,49 @@ package nl.tudelft.contextproject.webinterface;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.test.TestUtil;
+import nl.tudelft.contextproject.TestBase;
 
 import lombok.SneakyThrows;
 
 /**
  * Base class for the WebServer tests, with some convenience methods.
  */
-public class WebTestBase {
-	private static Main main;
+public class WebTestBase extends TestBase {
 	
 	/**
-	 * Ensures that {@link Main#getInstance()} is properly set up before any tests run.
+	 * Turn web server specific logging off.
+	 * Turns off the "webInterface" logger and the jetty logger.
+	 * 
+	 * The jetty logger is turned of by making use of Mockito as a mocked method by
+	 * default returns nothing if called, when no return statement is defined. This
+	 * causes the jetty logger to not show up in the logs during testing.
 	 */
 	@BeforeClass
-	public static void setUpBeforeClass() {
-		//Store the old Main instance
-		main = Main.getInstance();
+	public static void webBeforeClassSetUp() {
+		Logger.getLogger("WebInterface").setLevel(Level.OFF);
 		
-		//Clear the instance
-		Main.setInstance(null);
-		
-		//Ensure that the main is mocked
-		TestUtil.ensureMainMocked(true);
-	}
-
-	/**
-	 * Restores the original Main instance after all tests are done.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		//Restore the old main
-		Main.setInstance(main);
+		//Create mocked logger that does nothing
+		org.eclipse.jetty.util.log.Logger noLoggerMock = mock(org.eclipse.jetty.util.log.Logger.class);
+		when(noLoggerMock.getName()).thenReturn("No logging.");
+		when(noLoggerMock.getLogger(any())).thenReturn(noLoggerMock);
+		org.eclipse.jetty.util.log.Log.setLog(noLoggerMock);
 	}
 	
 	/**
@@ -58,7 +53,6 @@ public class WebTestBase {
 	 * 
 	 * @param id
 	 * 		the id of the cookie
-	 * 
 	 * @return
 	 * 		a spied session2 cookie with the given id
 	 */
@@ -73,7 +67,6 @@ public class WebTestBase {
 	 * 
 	 * @param id
 	 * 		the id of the session
-	 * 
 	 * @return
 	 * 		a mocked session with the given id
 	 */
@@ -94,7 +87,6 @@ public class WebTestBase {
 	 * 		the session2 id of the request. If null, the request will not have a session2 cookie.
 	 * @param auth
 	 * 		if false, then getSession(false) will return null
-	 * 
 	 * @return
 	 * 		a mocked HttpServletRequest
 	 */
@@ -115,35 +107,34 @@ public class WebTestBase {
 	 * 		the method of the request. true = GET, false = POST
 	 * @param uri
 	 * 		the uri accessed (/index.html)
-	 * 
 	 * @return
 	 * 		a mocked HttpServletRequest
 	 */
 	public HttpServletRequest createMockedRequest(String id1, String id2, boolean auth, boolean method, String uri) {
 		//Mock the request
 		HttpServletRequest request = mock(HttpServletRequest.class);
-		
+
 		//Create spied/mocked sessions
 		HttpSession session = createSession(id1);
-		
+
 		//Set the session
 		if (auth) when(request.getSession(false)).thenReturn(session);
 		when(request.getSession(true)).thenReturn(session);
 		when(request.getSession()).thenReturn(session);
-		
+
 		//Set the session2 cookie
 		if (id2 != null) {
 			Cookie cookie2 = createSession2Cookie(id2);
 			when(request.getCookies()).thenReturn(new Cookie[] { cookie2 });
 		}
-		
+
 		//Set the method (GET/POST)
 		String sMethod = method ? "GET" : "POST";
 		when(request.getMethod()).thenReturn(sMethod);
-		
+
 		//Set the request URI (/index.html)
 		when(request.getRequestURI()).thenReturn(uri);
-		
+
 		//Set a parameter map
 		Map<String, String[]> map = new HashMap<>();
 		when(request.getParameterMap()).thenReturn(map);
@@ -166,24 +157,24 @@ public class WebTestBase {
 	 */
 	public void setParameter(HttpServletRequest request, String param, String... values) {
 		if (values == null) {
-			//Remove from the map
+			//Remove from map
 			request.getParameterMap().remove(param);
-			
+
 			//"Unmock" methods
 			when(request.getParameterValues(param)).thenReturn(null);
 			when(request.getParameter(param)).thenReturn(null);
 			
 			return;
 		}
-		
+
 		//Add to the parameter map
 		request.getParameterMap().put(param, values);
-		
-		//Stub the getParameterValues method
+
+		//Stub the getParamterValues method
 		when(request.getParameterValues(param)).thenReturn(values);
 		
 		if (values.length == 1) {
-			//If there is only one value, then stub the getParameter method
+			//If there is only one value, then stub the getParamter method
 			String param1 = values[0];
 			when(request.getParameter(param)).thenReturn(param1);
 		}

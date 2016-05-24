@@ -25,14 +25,14 @@ import com.jme3.scene.shape.Quad;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.EntityState;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.VRPlayer;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.roomIO.RoomReader;
+import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
 
 /**
  * Controller for the main game.
@@ -42,23 +42,32 @@ public class GameController extends Controller {
 
 	/**
 	 * Constructor for the game controller.
-	 * @param app The Main instance of this game.
-	 * @param level The level for this game.
+	 *
+	 * @param app
+	 * 		The Main instance of this game
+	 * @param level
+	 * 		The level for this game
 	 */
 	public GameController(SimpleApplication app, Level level) {
 		super(app, "GameController");
+
 		game = new Game(level);
 	}
 	
 	/**
 	 * Create a game with a level loaded from a file.
-	 * @param app The main app that this controller is attached to.
-	 * @param folder The folder where to load the level from.
+	 *
+	 * @param app
+	 * 		the main app that this controller is attached to
+	 * @param folder
+	 * 		the folder where to load the level from
 	 */
 	public GameController(SimpleApplication app, String folder) {
 		super(app, "GameController");
+
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		List<Light> lights = new ArrayList<>();
+
 		try {
 			File file = RoomReader.getMapFile(folder);
 			String[] tmp = file.getName().split("_")[0].split("x");
@@ -74,6 +83,7 @@ public class GameController extends Controller {
 	@Override
 	public void cleanup() {
 		super.cleanup();
+
 		for (Entity e : game.getEntities()) {
 			e.setState(EntityState.NEW);
 		}
@@ -82,9 +92,10 @@ public class GameController extends Controller {
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-		attachLevel();
 
+		attachLevel();
 		GameController t = this;
+
 		ActionListener al = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
@@ -95,6 +106,7 @@ public class GameController extends Controller {
 				}
 			}
 		};
+
 		addInputListener(al, "pause");
 		addInputListener(game.getPlayer(), "Left");
 		addInputListener(game.getPlayer(), "Right");
@@ -107,11 +119,12 @@ public class GameController extends Controller {
 
 	/**
 	 * Attaches the current level to the renderer.
-	 * Note: this method does not clear the previous level, use {@link #clearLevel()} for that.
+	 * Note: this method does not clear the previous level.
 	 */
 	public void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
+
 		int xStart = 0; 
 		int yStart = 0;
 		// add roof
@@ -158,7 +171,7 @@ public class GameController extends Controller {
 				}
 			}
 		}
-		//Add player
+
 		addDrawable(game.getPlayer());
 		
 		if (game.getPlayer().getPhysicsObject() != null) {
@@ -170,7 +183,7 @@ public class GameController extends Controller {
 		}
 		 
 		AmbientLight al = new AmbientLight();
-		 al.setColor(ColorRGBA.White.mult(.5f));
+		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
 	}
 
@@ -182,32 +195,36 @@ public class GameController extends Controller {
 
 	/**
 	 * Update all the entities in the level.
-	 * Add all new entities to should be added to the rootNode and all dead ones should be removed.
-	 * @param tpf The time per frame for this update.
+	 * Adds all new entities and removes all dead ones.
+	 *
+	 * @param tpf
+	 * 		the time per frame for this update
 	 */
 	void updateEntities(float tpf) {
 		for (Iterator<Entity> i = game.getEntities().iterator(); i.hasNext();) {
 			Entity e = i.next();
 			EntityState state = e.getState();
+
 			switch (state) {
-			case DEAD:
-				removeDrawable(e);
-				i.remove();
-				continue;
-			case NEW:
-				addDrawable(e);
-				e.setState(EntityState.ALIVE);
-				e.update(tpf);
-				break;
-			default:
-				e.update(tpf);
-				break;
+				case DEAD:
+					removeDrawable(e);
+					i.remove();
+					break;
+				case NEW:
+					addDrawable(e);
+					e.setState(EntityState.ALIVE);
+					e.update(tpf);
+					break;
+				default:
+					e.update(tpf);
+					break;
 			}
 		}
 	}
+
 	/**
-	 * Getter for the current level.
-	 * @return The current level.
+	 * @return
+	 * 		the current level
 	 */
 	public Level getLevel() {
 		return game.getLevel();
@@ -219,8 +236,8 @@ public class GameController extends Controller {
 	}
 
 	/**
-	 * Getter for the current game.
-	 * @return The current game.
+	 * @return
+	 * 		the current game
 	 */
 	public Game getGame() {
 		return game;
@@ -229,7 +246,9 @@ public class GameController extends Controller {
 	/**
 	 * Method used for testing.
 	 * Set the instance of the game.
-	 * @param game The new game instance.
+	 *
+	 * @param game
+	 * 		the new game instance
 	 */
 	protected void setGame(Game game) {
 		this.game = game;

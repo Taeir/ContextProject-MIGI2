@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import nl.tudelft.contextproject.TestBase;
+
 /**
  * Test class for {@link WebClient}.
  */
-public class WebClientTest {
+public class WebClientTest extends TestBase {
 
 	/**
 	 * Tests {@link WebClient#isElf}.
@@ -69,7 +71,7 @@ public class WebClientTest {
 	 */
 	@Test
 	public void testToString() {
-		//Create a new WebClient with team Elves.
+		//Create a new WebClient with team Elves
 		WebClient client = new WebClient();
 		client.setTeam(true);
 		
