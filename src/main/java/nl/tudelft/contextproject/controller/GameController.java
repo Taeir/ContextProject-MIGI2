@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.controller;
 
+import java.awt.Graphics2D;
 import java.io.File;
 
 import java.io.IOException;
@@ -13,14 +14,19 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.font.BitmapText;
+import com.jme3.asset.AssetManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.ui.Picture;
-
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Quad;
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
@@ -50,7 +56,7 @@ public class GameController extends Controller {
 
 		game = new Game(level);
 	}
-	
+
 	/**
 	 * Create a game with a level loaded from a file.
 	 *
@@ -173,7 +179,41 @@ public class GameController extends Controller {
 
 		int xStart = 0; 
 		int yStart = 0;
-		
+		// add roof
+		if (!(Main.getInstance().getAssetManager() == null)) {
+			addDrawable(new Drawable() {
+
+				@Override
+				public Spatial getSpatial() {
+					Quad roof = new Quad(level.getWidth(), level.getHeight());
+
+					Geometry geom = new Geometry("roof", roof);
+
+					AssetManager am = Main.getInstance().getAssetManager();
+					Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
+					mat.setBoolean("UseMaterialColors", true);
+					ColorRGBA color = ColorRGBA.Gray;
+					mat.setColor("Diffuse", color);
+					mat.setColor("Specular", color);
+					mat.setFloat("Shininess", 64f);  // [0,128]
+					mat.setColor("Ambient", color);
+					mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
+					geom.setMaterial(mat); 
+
+					geom.rotate((float) Math.toRadians(90), 0, 0);
+					geom.move(0, 6, 0);
+					return geom;
+				}
+
+
+				@Override
+				public void setSpatial(Spatial spatial) { }
+
+				@Override
+				public void mapDraw(Graphics2D g, int resolution) { }
+			});
+		}	
+
 		for (int x = 0; x < level.getWidth(); x++) {
 			for (int y = 0; y < level.getHeight(); y++) {
 				if (level.isTileAtPosition(x, y)) {
@@ -188,15 +228,15 @@ public class GameController extends Controller {
 		}
 
 		addDrawable(game.getPlayer());
-		
+
 		if (game.getPlayer().getPhysicsObject() != null) {
 			game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
 		}
-		
+
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-		 
+
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
