@@ -63,7 +63,6 @@ public final class RoomReader {
 			int height = Integer.parseInt(tmp[1]);
 			checkDimensions(width + xOffset, height + yOffset, tiles);
 			
-			//TODO support rotations?
 			TileReader.readTiles(tiles, width, height, xOffset, yOffset, br);
 
 			try {

@@ -10,6 +10,17 @@ import nl.tudelft.contextproject.model.level.TileType;
  * Utility class for reading MazeTiles.
  */
 public final class TileReader {
+	
+	//Corridor character for .crf files.
+	protected static final String CORRIDOR_TRANSLATION = "C";
+	//Corridor character for .crf files.
+	protected static final String FLOOR_TRANSLATION = "O";
+	//Corridor character for .crf files.
+	protected static final String WALL_TRANSLATION = "W";
+	
+	/**
+	 * Private constructor to prevent instantiation.
+	 */
 	private TileReader() {}
 	
 	/**
@@ -62,11 +73,11 @@ public final class TileReader {
 	 */
 	public static String translate(String string) {
 		switch (string) {
-			case "W" :
+			case WALL_TRANSLATION :
 				return "WALL";
-			case "F":
+			case FLOOR_TRANSLATION:
 				return "FLOOR";
-			case "C":
+			case CORRIDOR_TRANSLATION:
 				return "CORRIDOR";
 			default:
 				return null;

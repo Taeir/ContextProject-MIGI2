@@ -11,7 +11,6 @@ import java.util.List;
 
 import nl.tudelft.contextproject.model.level.Room;
 import nl.tudelft.contextproject.util.FileUtil;
-import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**
  * Reads all the rooms in a single map.
@@ -25,8 +24,10 @@ public final class MapReader {
 	
 	/**
 	 * Read a entire map folder and load all rooms in memory.
+	 * Can have comments starting with # at the top of the .cmf map file.
+	 * 
 	 * @param mapFolder
-	 * 			place of room folders and load file
+	 * 			path of room folders and load file
 	 * @param rooms
 	 * 			list which should hold the room
 	 * @param startRoom
@@ -37,7 +38,7 @@ public final class MapReader {
 	 * 			when wrong format is delivered 
 	 */
 	public void readMap(String mapFolder, List<Room> rooms, Room startRoom, Room treasureRoom) throws IOException {
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(map)), StandardCharsets.UTF_8))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(mapFolder)), StandardCharsets.UTF_8))) {
 			String line = br.readLine();
 
 			while (line != null && line.startsWith("#")) {
@@ -46,28 +47,15 @@ public final class MapReader {
 
 			if (line == null) throw new IllegalArgumentException("The file cannot be empty!");
 
-			String[] tmp = line.split(" ");
-			if (tmp.length != 4) throw new IllegalArgumentException("You should specify the width , height, entity- and light count.");
+			//Get start Room
+			line = br.readLine();
 			
-			int width = Integer.parseInt(tmp[0]);
-			int height = Integer.parseInt(tmp[1]);
-			checkDimensions(width + xOffset, height + yOffset, tiles);
-			
-			//TODO support rotations?
-			TileReader.readTiles(tiles, width, height, xOffset, yOffset, br);
 
-			try {
-				EntityReader.readEntities(entities, Integer.parseInt(tmp[2]), xOffset, yOffset, br, folder);
-			} catch (ScriptLoaderException e) {
-				e.printStackTrace();
-			}
-
-			LightReader.readLights(lights, Integer.parseInt(tmp[3]), xOffset, yOffset, br);
 		}
 	}
 	
 	/**
-	 * Get the file with room data from a folder.
+	 * Get the map file with room data from a folder.
 	 * Uses the FileUtil class to safely retrieve the file.
 	 * 
 	 * @param path
@@ -83,7 +71,7 @@ public final class MapReader {
 		if (names == null) throw new FileNotFoundException(path + " is not a folder.");
 
 		for (int i = 0; i < names.length; i++) {
-			if (names[i].endsWith(".crf")) return FileUtil.getFile(path + names[i]);
+			if (names[i].endsWith(".cmf")) return FileUtil.getFile(path + names[i]);
 		}
 
 		throw new FileNotFoundException("Could not find a '.crf' file in " + path + ".");
