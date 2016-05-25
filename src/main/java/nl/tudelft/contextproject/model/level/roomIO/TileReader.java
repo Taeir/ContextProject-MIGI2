@@ -53,8 +53,23 @@ public final class TileReader {
 		}
 	}
 
+	/**
+	 * Translate the map file to actual type.
+	 * @param string
+	 * 			read type
+	 * @return
+	 * 			TileType value
+	 */
 	public static String translate(String string) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (string) {
+			case "W" :
+				return "WALL";
+			case "F":
+				return "FLOOR";
+			case "C":
+				return "CORRIDOR";
+			default:
+				return null;
+		}
 	}
 }
