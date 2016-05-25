@@ -39,7 +39,7 @@ public class Pitfall extends PlayerTrigger {
 		if (sp != null) return sp;
 		Box b = new Box(.4f, .01f, .4f);
 		sp = new Geometry("plate", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
 		mat.setBoolean("UseMaterialColors", true);    
 		mat.setColor("Diffuse", ColorRGBA.Green);
 		mat.setColor("Specular", ColorRGBA.White);
