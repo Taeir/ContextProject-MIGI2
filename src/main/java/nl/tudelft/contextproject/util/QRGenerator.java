@@ -92,6 +92,16 @@ public final class QRGenerator {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Generates a QRCode and returns it as a ByteArrayOutputStream.
+	 * 
+	 * @return
+	 * 		a byte stream with the qr code image
+	 */
+	public ByteArrayOutputStream streamQRcode() {
+		return QRCode.from(hostingAddress).to(ImageType.PNG).withCharset("UTF-8").withSize(WIDTH, HEIGTH).stream();
+	}
 
 	/**
 	 * Set the correct ipv4 address of this computer.
