@@ -4,11 +4,13 @@ package nl.tudelft.contextproject.model.level;
  * Enum representing the possible TileTypes in the game.
  */
 public enum TileType {
-	 EMPTY(0),
-    FLOOR(1),
-    WALL(2),
-    CORRIDOR(3);
-	
+	EMPTY(0),
+	FLOOR(1),
+	WALL(2),
+	CORRIDOR(3),
+	DOOR_ENTRANCE(4),
+	DOOR_EXIT(5);
+
 	private int jsonid;
 	
 	/**

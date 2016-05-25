@@ -17,6 +17,10 @@ public final class TileReader {
 	public static final String FLOOR_FORMAT = "O";
 	//Wall character for .crf files.
 	public static final String WALL_FORMAT = "#";
+	//Door:Entrance character for .crf files.
+	public static final String DOOR_ENTRANCE_FORMAT = "I";
+	//Door:Exit character for .crf files.
+	public static final String DOOR_EXIT_FORMAT = "X";
 	//Empty tile character for .crf files.
 	public static final String EMPTY_FORMAT = "-";
 	
@@ -79,6 +83,10 @@ public final class TileReader {
 				return TileType.WALL;
 			case FLOOR_FORMAT:
 				return TileType.FLOOR;
+			case DOOR_ENTRANCE_FORMAT:
+				return TileType.DOOR_ENTRANCE;
+			case DOOR_EXIT_FORMAT:
+				return TileType.DOOR_EXIT;
 			case CORRIDOR_FORMAT:
 				return TileType.CORRIDOR;
 			default:

@@ -142,6 +142,22 @@ public class TileReaderTest extends TestBase {
 	public void testTranslateCorridor() {
 		assertEquals(TileType.CORRIDOR, TileReader.format(TileReader.CORRIDOR_FORMAT));
 	}
+	
+	/**
+	 * Test translate method of door entrance.
+	 */
+	@Test
+	public void testTranslateDoorEntrance() {
+		assertEquals(TileType.DOOR_ENTRANCE, TileReader.format(TileReader.DOOR_ENTRANCE_FORMAT));
+	}
+	
+	/**
+	 * Test translate method of door exit.
+	 */
+	@Test
+	public void testTranslateDoorExit() {
+		assertEquals(TileType.DOOR_EXIT, TileReader.format(TileReader.DOOR_EXIT_FORMAT));
+	}
 
 	/**
 	 * Test translate method of Empty.
