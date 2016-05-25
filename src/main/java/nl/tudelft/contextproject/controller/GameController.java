@@ -25,7 +25,7 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
+import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
 
 /**
  * Controller for the main game.
@@ -62,10 +62,10 @@ public class GameController extends Controller {
 		List<Light> lights = new ArrayList<>();
 
 		try {
-			File file = RoomReader.getMapFile(folder);
+			File file = RoomParser.getMapFile(folder);
 			String[] tmp = file.getName().split("_")[0].split("x");
 			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
-			RoomReader.importFile(folder, tiles, entities, lights, 0, 0);
+			RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
 			Level level = new Level(tiles, lights);
 			game = new Game(level, new VRPlayer(), entities);
 		} catch (IOException e) {

@@ -15,19 +15,19 @@ import nl.tudelft.contextproject.model.entities.Key;
 import nl.tudelft.contextproject.model.entities.PlayerTrigger;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.WallFrame;
-import nl.tudelft.contextproject.util.ReaderUtil;
+import nl.tudelft.contextproject.util.ParserUtil;
 import nl.tudelft.contextproject.util.ScriptLoader;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**
- * Utility class to read entities from a buffetredReader.
+ * Utility class to read entities from a bufferedReader.
  */
-public final class EntityReader {
+public final class EntityParser {
 
 	/**
 	 * Private constructor to avoid instantiation.
 	 */
-	private EntityReader() {}
+	private EntityParser() {}
 
 	/**
 	 * Read the specified amount of entities and add them to the set of entities.
@@ -88,18 +88,18 @@ public final class EntityReader {
 	 * 		when the loading of scripts goes wrong
 	 */
 	protected static Entity getEntity(String type, float x, float y, float z, String[] data, String path) throws ScriptLoaderException {
-		ScriptLoader sl = new ScriptLoader(EntityReader.class.getResource(path).getPath());
+		ScriptLoader sl = new ScriptLoader(EntityParser.class.getResource(path).getPath());
 		Entity e;
 		if (data == null) throw new IllegalArgumentException("Data is null");
 
 		switch (type) {
 			case "Key":
 				if (data.length < 5) throw new IllegalArgumentException("Key must specify at least 5 values.");
-				e = new Key(ReaderUtil.getColor(data[4]));
+				e = new Key(ParserUtil.getColor(data[4]));
 				break;
 			case "Door":
 				if (data.length < 5) throw new IllegalArgumentException("Door must specify at least 5 values.");
-				e = new Door(ReaderUtil.getColor(data[4]));
+				e = new Door(ParserUtil.getColor(data[4]));
 				break;
 			case "Bomb":
 				e = new Bomb();
