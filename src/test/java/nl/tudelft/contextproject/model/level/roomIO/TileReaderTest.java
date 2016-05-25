@@ -41,7 +41,7 @@ public class TileReaderTest extends TestBase {
 	@Test
 	public void testGetTileWall() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "WALL";
+		String in = TileReader.WALL_TRANSLATION;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.WALL, tiles[0][0].getTileType());
@@ -56,7 +56,7 @@ public class TileReaderTest extends TestBase {
 	@Test
 	public void testGetTileCorridor() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "CORRIDOR";
+		String in = TileReader.CORRIDOR_TRANSLATION;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.CORRIDOR, tiles[0][0].getTileType());
@@ -71,7 +71,7 @@ public class TileReaderTest extends TestBase {
 	@Test
 	public void testGetTileFloor() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "FLOOR";
+		String in = TileReader.FLOOR_TRANSLATION;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.FLOOR, tiles[0][0].getTileType());
@@ -100,7 +100,7 @@ public class TileReaderTest extends TestBase {
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetTileTooFewTilesInARow() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "FLOOR";
+		String in = TileReader.FLOOR_TRANSLATION;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 2, 1, 0, 0, br);
 	}
@@ -118,5 +118,36 @@ public class TileReaderTest extends TestBase {
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 1, 2, 0, 0, br);
 	}
+	
+	/**
+	 * Test translate method of wall.
+	 */
+	@Test
+	public void testTranslateWall() {
+		assertEquals(TileType.WALL, TileReader.translate(TileReader.WALL_TRANSLATION));
+	}
+	
+	/**
+	 * Test translate method of floor.
+	 */
+	@Test
+	public void testTranslateFloor() {
+		assertEquals(TileType.FLOOR, TileReader.translate(TileReader.FLOOR_TRANSLATION));
+	}
+	
+	/**
+	 * Test translate method of corridor.
+	 */
+	@Test
+	public void testTranslateCorridor() {
+		assertEquals(TileType.CORRIDOR, TileReader.translate(TileReader.CORRIDOR_TRANSLATION));
+	}
 
+	/**
+	 * Test translate method of Empty.
+	 */
+	@Test
+	public void testTranslateEmpty() {
+		assertEquals(TileType.EMPTY, TileReader.translate("#"));
+	}
 }

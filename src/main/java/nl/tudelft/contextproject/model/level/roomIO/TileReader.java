@@ -58,7 +58,7 @@ public final class TileReader {
 					// always overwrite old value
 					tiles[posx][posy] = null;
 				} else {
-					tiles[posx][posy] = new MazeTile(posx, posy, TileType.valueOf(translate(line[x])));
+					tiles[posx][posy] = new MazeTile(posx, posy, translate(line[x]));
 				}
 			}
 		}
@@ -71,16 +71,16 @@ public final class TileReader {
 	 * @return
 	 * 			TileType value
 	 */
-	public static String translate(String string) {
+	public static TileType translate(String string) {
 		switch (string) {
 			case WALL_TRANSLATION :
-				return "WALL";
+				return TileType.WALL;
 			case FLOOR_TRANSLATION:
-				return "FLOOR";
+				return TileType.FLOOR;
 			case CORRIDOR_TRANSLATION:
-				return "CORRIDOR";
+				return TileType.CORRIDOR;
 			default:
-				return null;
+				return TileType.EMPTY;
 		}
 	}
 }
