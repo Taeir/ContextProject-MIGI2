@@ -1,14 +1,11 @@
 package nl.tudelft.contextproject.model.entities;
 
-import java.awt.Graphics2D;
-
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -53,17 +50,6 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	@Override
 	public void update(float tdf) {
-	}
-
-	@Override
-	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = geometry.getLocalTranslation();
-		int x = (int) trans.x * resolution;
-		int y = (int) trans.y * resolution;
-		int width = resolution / 2;
-		int offset = resolution / 4;
-
-		g.fillOval(x + offset, y + offset, width, width);
 	}
 
 	@Override

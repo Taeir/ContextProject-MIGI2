@@ -1,7 +1,5 @@
 package nl.tudelft.contextproject.model.entities;
 
-import java.awt.Graphics2D;
-
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
@@ -78,11 +76,6 @@ public class PlayerTrigger extends Entity {
 	@Override
 	public void setSpatial(Spatial spatial) {
 		this.sp = spatial;
-	}
-
-	@Override
-	public void mapDraw(Graphics2D g, int resolution) {
-		g.setBackground(g.getBackground());
 	}
 
 	@Override

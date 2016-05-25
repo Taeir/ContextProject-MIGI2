@@ -1,7 +1,5 @@
 package nl.tudelft.contextproject.model.entities;
 
-import java.awt.Graphics2D;
-
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -122,17 +120,6 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		if (fallingTimer != 0) {
 			fallingTimer -= tpf;
 		}
-	}
-
-	@Override
-	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = spatial.getLocalTranslation();
-		int x = (int) trans.x * resolution;
-		int y = (int) trans.y * resolution;
-		int width = resolution / 2;
-		int offset = resolution / 4;
-
-		g.fillOval(x + offset, y + offset, width, width);
 	}
 
 	@Override
