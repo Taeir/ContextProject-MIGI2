@@ -47,9 +47,14 @@ public final class TileReader {
 					// always overwrite old value
 					tiles[posx][posy] = null;
 				} else {
-					tiles[posx][posy] = new MazeTile(posx, posy, TileType.valueOf(line[x]));
+					tiles[posx][posy] = new MazeTile(posx, posy, TileType.valueOf(translate(line[x])));
 				}
 			}
 		}
+	}
+
+	public static String translate(String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
