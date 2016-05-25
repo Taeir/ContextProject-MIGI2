@@ -12,13 +12,13 @@ import nl.tudelft.contextproject.model.level.TileType;
 public final class TileReader {
 	
 	//Corridor character for .crf files.
-	public static final String CORRIDOR_TRANSLATION = "C";
+	public static final String CORRIDOR_FORMAT = "C";
 	//Floor character for .crf files.
-	public static final String FLOOR_TRANSLATION = "O";
+	public static final String FLOOR_FORMAT = "O";
 	//Wall character for .crf files.
-	public static final String WALL_TRANSLATION = "#";
+	public static final String WALL_FORMAT = "#";
 	//Empty tile character for .crf files.
-	public static final String EMPTY_TRANSLATION = "-";
+	public static final String EMPTY_FORMAT = "-";
 	
 	/**
 	 * Private constructor to prevent instantiation.
@@ -56,11 +56,11 @@ public final class TileReader {
 			for (int x = 0; x < line.length; x++) {
 				int posx = x + xOffset;
 				int posy = y + yOffset;
-				if (line[x].equals(EMPTY_TRANSLATION)) {
+				if (line[x].equals(EMPTY_FORMAT)) {
 					// always overwrite old value
 					tiles[posx][posy] = null;
 				} else {
-					tiles[posx][posy] = new MazeTile(posx, posy, translate(line[x]));
+					tiles[posx][posy] = new MazeTile(posx, posy, format(line[x]));
 				}
 			}
 		}
@@ -73,13 +73,13 @@ public final class TileReader {
 	 * @return
 	 * 			TileType value
 	 */
-	public static TileType translate(String string) {
+	public static TileType format(String string) {
 		switch (string) {
-			case WALL_TRANSLATION :
+			case WALL_FORMAT :
 				return TileType.WALL;
-			case FLOOR_TRANSLATION:
+			case FLOOR_FORMAT:
 				return TileType.FLOOR;
-			case CORRIDOR_TRANSLATION:
+			case CORRIDOR_FORMAT:
 				return TileType.CORRIDOR;
 			default:
 				return TileType.EMPTY;

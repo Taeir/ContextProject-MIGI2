@@ -26,7 +26,7 @@ public class TileReaderTest extends TestBase {
 	@Test
 	public void testGetTileEmpty() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = TileReader.EMPTY_TRANSLATION;
+		String in = TileReader.EMPTY_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
 		assertNull(tiles[0][0]);
@@ -41,7 +41,7 @@ public class TileReaderTest extends TestBase {
 	@Test
 	public void testGetTileWall() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = TileReader.WALL_TRANSLATION;
+		String in = TileReader.WALL_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.WALL, tiles[0][0].getTileType());
@@ -56,7 +56,7 @@ public class TileReaderTest extends TestBase {
 	@Test
 	public void testGetTileCorridor() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = TileReader.CORRIDOR_TRANSLATION;
+		String in = TileReader.CORRIDOR_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.CORRIDOR, tiles[0][0].getTileType());
@@ -71,7 +71,7 @@ public class TileReaderTest extends TestBase {
 	@Test
 	public void testGetTileFloor() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = TileReader.FLOOR_TRANSLATION;
+		String in = TileReader.FLOOR_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.FLOOR, tiles[0][0].getTileType());
@@ -100,7 +100,7 @@ public class TileReaderTest extends TestBase {
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetTileTooFewTilesInARow() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = TileReader.FLOOR_TRANSLATION;
+		String in = TileReader.FLOOR_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 2, 1, 0, 0, br);
 	}
@@ -124,7 +124,7 @@ public class TileReaderTest extends TestBase {
 	 */
 	@Test
 	public void testTranslateWall() {
-		assertEquals(TileType.WALL, TileReader.translate(TileReader.WALL_TRANSLATION));
+		assertEquals(TileType.WALL, TileReader.format(TileReader.WALL_FORMAT));
 	}
 	
 	/**
@@ -132,7 +132,7 @@ public class TileReaderTest extends TestBase {
 	 */
 	@Test
 	public void testTranslateFloor() {
-		assertEquals(TileType.FLOOR, TileReader.translate(TileReader.FLOOR_TRANSLATION));
+		assertEquals(TileType.FLOOR, TileReader.format(TileReader.FLOOR_FORMAT));
 	}
 	
 	/**
@@ -140,7 +140,7 @@ public class TileReaderTest extends TestBase {
 	 */
 	@Test
 	public void testTranslateCorridor() {
-		assertEquals(TileType.CORRIDOR, TileReader.translate(TileReader.CORRIDOR_TRANSLATION));
+		assertEquals(TileType.CORRIDOR, TileReader.format(TileReader.CORRIDOR_FORMAT));
 	}
 
 	/**
@@ -148,6 +148,6 @@ public class TileReaderTest extends TestBase {
 	 */
 	@Test
 	public void testTranslateEmpty() {
-		assertEquals(TileType.EMPTY, TileReader.translate("emptry string"));
+		assertEquals(TileType.EMPTY, TileReader.format("emptry string"));
 	}
 }
