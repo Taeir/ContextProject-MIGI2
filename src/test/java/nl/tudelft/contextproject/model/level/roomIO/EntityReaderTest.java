@@ -8,41 +8,19 @@ import java.io.StringReader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Door;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.Key;
-import nl.tudelft.contextproject.test.TestUtil;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**
  * Test class for the entityReader class.
  */
-public class EntityReaderTest {
-	private static Main main;
-
-	/**
-	 * Ensures that {@link Main#getInstance()} is properly set up before any tests run.
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		main = Main.getInstance();
-		Main.setInstance(null);
-		TestUtil.ensureMainMocked(true);
-	}
-
-	/**
-	 * Restores the original Main instance after all tests are done.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		Main.setInstance(main);
-	}
+public class EntityReaderTest extends TestBase {
 	
 	/**
 	 * Test if getting a non existent entity throws an exception.

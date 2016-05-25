@@ -2,12 +2,14 @@ package nl.tudelft.contextproject.util;
 
 import org.junit.Test;
 
+import nl.tudelft.contextproject.TestBase;
+
 import static org.junit.Assert.assertEquals;
 
 /**
  * Class for testing the EntityUtil.
  */
-public class EntityUtilTest {
+public class EntityUtilTest extends TestBase {
 
 	/**
 	 * Test getting code for Bomb.

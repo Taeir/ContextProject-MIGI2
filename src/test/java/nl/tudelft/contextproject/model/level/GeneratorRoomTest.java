@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject.model.level;
 
 import com.jme3.math.Vector2f;
+
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.util.Size;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +17,7 @@ import static org.mockito.Mockito.when;
  * Class for creating a GeneratorRoom.
  * This is a room only used by the generator.
  */
-public class GeneratorRoomTest {
+public class GeneratorRoomTest extends TestBase {
     private Size mockedSize;
 
     /**

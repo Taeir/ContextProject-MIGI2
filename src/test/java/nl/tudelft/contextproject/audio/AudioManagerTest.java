@@ -4,6 +4,8 @@ import static org.mockito.Mockito.*;
 
 import com.jme3.audio.AudioNode;
 
+import nl.tudelft.contextproject.TestBase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +13,7 @@ import org.junit.Test;
 /**
  * Test class for {@link AudioManager}.
  */
-public class AudioManagerTest {
+public class AudioManagerTest extends TestBase {
 	public AudioNode an;
 	
 	/**

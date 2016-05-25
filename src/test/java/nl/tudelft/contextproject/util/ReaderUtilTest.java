@@ -1,6 +1,9 @@
 package nl.tudelft.contextproject.util;
 
 import com.jme3.math.ColorRGBA;
+
+import nl.tudelft.contextproject.TestBase;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -9,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Test for the ReaderUtil class.
  */
-public class ReaderUtilTest {
+public class ReaderUtilTest extends TestBase {
 
 	/**
 	 * Test if getting a random color gives us a color.

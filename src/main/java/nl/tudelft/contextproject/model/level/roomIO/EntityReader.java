@@ -110,7 +110,8 @@ public final class EntityReader {
 						sl.getInstanceOf(data[6], TickListener.class), new Vector3f(x, y, z));
 				return e;
 			case "WallFrame":
-				e = new WallFrame(new Vector3f(x, y, z), path + data[5], Direction.valueOf(data[4]));
+				if (data.length < 8) throw new IllegalArgumentException("WallFrame must specify at least 8 values.");
+				e = new WallFrame(new Vector3f(x, y, z), path + data[5], Direction.valueOf(data[4]), Float.parseFloat(data[6]), Float.parseFloat(data[7]));
 				return e;
 			default:
 				throw new IllegalArgumentException(type + " is not a known Entity type!");
