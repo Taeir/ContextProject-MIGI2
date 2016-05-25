@@ -74,17 +74,8 @@ public class ClientServlet extends DefaultServlet {
 			case "map":
 				getMap(request, response);
 				break;
-			case "explored":
-				getExplored(request, response);
-				break;
 			case "status":
 				statusUpdate(request, response);
-				break;
-			case "entities":
-				getEntities(request, response);
-				break;
-			case "requestaction":
-				requestAction(request, response);
 				break;
 			default:
 				//Unknown post request, so propagate to superclass
@@ -191,49 +182,49 @@ public class ClientServlet extends DefaultServlet {
 		response.getWriter().write(json.toString());
 	}
 	
-	/**
-	 * Handles a explored request.
-	 * 
-	 * @param request
-	 * 		the HTTP request
-	 * @param response
-	 * 		the HTTP response object
-	 * @throws IOException
-	 * 		if sending the response to the client causes an IOException
-	 */
-	public void getExplored(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		WebClient client = server.getUser(request);
+//	/**
+//	 * Handles a explored request.
+//	 *
+//	 * @param request
+//	 * 		the HTTP request
+//	 * @param response
+//	 * 		the HTTP response object
+//	 * @throws IOException
+//	 * 		if sending the response to the client causes an IOException
+//	 */
+//	public void getExplored(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		WebClient client = server.getUser(request);
+//
+//		if (!checkAuthorized(client, response, true)) return;
+//
+//		JSONObject json = Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON();
+//
+//		response.setStatus(HttpStatus.OK_200);
+//		response.setContentType(CONTENT_TYPE_JSON);
+//		response.getWriter().write(json.toString());
+//	}
 
-		if (!checkAuthorized(client, response, true)) return;
-
-		JSONObject json = Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON();
-
-		response.setStatus(HttpStatus.OK_200);
-		response.setContentType(CONTENT_TYPE_JSON);
-		response.getWriter().write(json.toString());
-	}
-
-	/**
-	 * Handles an entities request.
-	 *
-	 * @param request
-	 * 		the HTTP request
-	 * @param response
-	 * 		the HTTP response object
-	 * @throws IOException
-	 * 		if sending the response to the client causes an IOException
-	 */
-	public void getEntities(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		WebClient client = server.getUser(request);
-
-		if (!checkAuthorized(client, response, true)) return;
-
-		JSONObject json = JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer());
-
-		response.setStatus(HttpStatus.OK_200);
-		response.setContentType("text/json");
-		response.getWriter().write(json.toString());
-	}
+//	/**
+//	 * Handles an entities request.
+//	 *
+//	 * @param request
+//	 * 		the HTTP request
+//	 * @param response
+//	 * 		the HTTP response object
+//	 * @throws IOException
+//	 * 		if sending the response to the client causes an IOException
+//	 */
+//	public void getEntities(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		WebClient client = server.getUser(request);
+//
+//		if (!checkAuthorized(client, response, true)) return;
+//
+//		JSONObject json = JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer());
+//
+//		response.setStatus(HttpStatus.OK_200);
+//		response.setContentType("text/json");
+//		response.getWriter().write(json.toString());
+//	}
 
 	/**
 	 * Handles an action request.
@@ -284,7 +275,13 @@ public class ClientServlet extends DefaultServlet {
 		json.put("state", Main.getInstance().getGameState().name());
 		
 		switch (Main.getInstance().getGameState()) {
+			case WAITING:
+				//For now fall through to running
 			case RUNNING:
+				json.put("entities",
+						JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer()));
+				json.put("explored", Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON());
+				break;
 			case PAUSED:
 				//TODO Actual player information
 				//json.put("player", VRPlayer().toJSON());
