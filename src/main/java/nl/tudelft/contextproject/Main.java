@@ -1,21 +1,17 @@
 package nl.tudelft.contextproject;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.lang.reflect.Field;
 import java.util.Arrays;
-
 import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.input.CameraInput;
+import com.jme3.input.DefaultJoystickAxis;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
 import com.jme3.input.KeyInput;
-import com.jme3.input.controls.JoyAxisTrigger;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -34,6 +30,8 @@ import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.webinterface.WebServer;
+
+import lombok.SneakyThrows;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
@@ -191,18 +189,16 @@ public class Main extends SimpleApplication {
 	/**
 	 * Setup all the key mappings.
 	 */
+	@SneakyThrows
 	protected void setupControlMappings() {
 		InputManager im = getInputManager();
 
 		if (isControllerConnected()) {
 			getFlyByCamera().onAction(CameraInput.FLYCAM_INVERTY, false, 0);
 			Joystick j = im.getJoysticks()[0];
-		
-			im.addMapping("Up", new JoyAxisTrigger(0, 0, true));
-			im.addMapping("Down", new JoyAxisTrigger(0, 0, false));
-			im.addMapping("Left", new JoyAxisTrigger(0, 1, true));
-			im.addMapping("Right", new JoyAxisTrigger(0, 1, false));			
-						
+
+			mapJoystickAxes(j);
+
 			j.getButton("0").assignButton("Jump");				// A
 			j.getButton("3").assignButton("SIMPLEAPP_Exit");	// Y
 			j.getButton("2").assignButton("Bomb");				// X
@@ -218,6 +214,29 @@ public class Main extends SimpleApplication {
 		}
 
 		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+	}
+
+	/**
+	 * Maps the Joystick Axes to our game controls.
+	 * 
+	 * @param joystick
+	 * 		the joystick to map the axes of.
+	 */
+	private void mapJoystickAxes(Joystick joystick) {
+		try {
+			//We use reflection, because there is no other way.
+			Field dead = DefaultJoystickAxis.class.getDeclaredField("deadZone");
+			dead.setAccessible(true);
+			
+			//We set the deadzone of the axes to 0.3
+			dead.setFloat(joystick.getXAxis(), 0.30f);
+			dead.setFloat(joystick.getYAxis(), 0.30f);
+		} catch (Exception ex) {
+			Log.getLog("Controller").warning("Unable to set deadzone, controller might work sub par.");
+		}
+		
+		joystick.getXAxis().assignAxis("Right", "Left");
+		joystick.getYAxis().assignAxis("Up", "Down");
 	}
 	
 	//TODO this will be removed when camera type is changed

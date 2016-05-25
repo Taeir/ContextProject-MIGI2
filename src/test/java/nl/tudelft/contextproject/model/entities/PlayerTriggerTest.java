@@ -9,7 +9,6 @@ import nl.tudelft.contextproject.model.TickListener;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
@@ -37,7 +36,7 @@ public class PlayerTriggerTest extends EntityTest {
 		TestUtil.mockGame();
 		
 		action = mock(TickListener.class);
-		pt = new PlayerTrigger(0.2f, 1, action, new Vector3f());	
+		pt = new PlayerTrigger(0.2f, 1, action);	
 	}
 	
 	/**
@@ -72,7 +71,7 @@ public class PlayerTriggerTest extends EntityTest {
 		pSpat.setLocalTranslation(pt.getSpatial().getLocalTranslation());
 		pt.update(1.2f);
 
-		verify(action, times(1)).update(1.2f);
+		verify(action, times(1)).update(0f);
 		pSpat.setLocalTranslation(0, 10, 0);
 	}
 
