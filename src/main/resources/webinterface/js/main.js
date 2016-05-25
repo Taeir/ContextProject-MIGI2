@@ -71,6 +71,9 @@ function requestStatus() {
         //Check if we are authorized
         if (!checkAuthorized(data)) return;
         
+        //If we are authorized, update the game with the recieved information
+        updateGame(data);
+        
         //Set the correct team
         if (data.team == undefined || data.team == "NONE") {
             //We don't have a team, so we switch to team selection
@@ -207,9 +210,8 @@ function updateTeam() {
  *      the status data sent from the server
  */
 function updateGame(data) {
-    if (data.player != undefined) {
-        //TODO
-    }
+    updateEntities(data.entities);
+    updateExplored(data.explored);
 }
 
 /**
@@ -230,49 +232,6 @@ function requestMap() {
         
         //Update the map
         updateMap(data);
-    }, "json");
-    setInterval(requestEntities, 1000);
-	setInterval(requestExplored, 1000);
-}
-
-/**
- * Requests locations of explored tiles from the server.
- */
-function requestExplored() {
-    console.log("[DEBUG] GETTING EXPLORED");
-    
-    $.post("/explored", function(data, status) {
-        if (status != "success") {
-            //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
-            return;
-        }
-
-        //Check if we are authorized
-        if (!checkAuthorized(data)) return;
-        
-        //Update the map
-        updateExplored(data);
-    }, "json");
-}
-
-/**
- * Request entities from the server.
- */
-function requestEntities() {
-    console.log("[DEBUG] GETTING ENTITIES");
-    $.post("/entities", function(data, status) {
-        if (status != "success") {
-            //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
-            return;
-        }
-
-        //Check if we are authorized
-        if (!checkAuthorized(data)) return;
-        
-        //Update the map with the entities
-        updateEntities(data);
     }, "json");
 }
 
@@ -426,15 +385,15 @@ function updateExplored(data) {
  */
 function updateEntities(data) {
     if (gEntities != null) {
-        for (i = 0; i < gEntities.entities.length; i++) {
-            $(document.getElementById("y" + gEntities.entities[i].y + "x" + gEntities.entities[i].x))
-                .removeClass(getClassForEntityType(gEntities.entities[i].type));
+        for (i = 0; i < gEntities.length; i++) {
+            $(document.getElementById("y" + gEntities[i].y + "x" + gEntities[i].x))
+                .removeClass(getClassForEntityType(gEntities[i].type));
         }
     }
     
-    for (i = 0; i < data.entities.length; i++) {
-        $(document.getElementById("y" + data.entities[i].y + "x" + data.entities[i].x))
-            .addClass(getClassForEntityType(data.entities[i].type));
+    for (i = 0; i < data.length; i++) {
+        $(document.getElementById("y" + data[i].y + "x" + data[i].x))
+            .addClass(getClassForEntityType(data[i].type));
     }
     
     gEntities = data;
@@ -510,9 +469,10 @@ function encodeAction(action) {
             return 3;
         case "diffusebomb":
             return 4;
-        case default:
+        default:
             return -1;
     }
+}
 
 /**
  * Function to toggle the webpage to fullscreen.
