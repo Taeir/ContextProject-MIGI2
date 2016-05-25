@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.webinterface;
 
 import static org.junit.Assert.*;
+
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -19,7 +19,6 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.level.Level;
-import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**

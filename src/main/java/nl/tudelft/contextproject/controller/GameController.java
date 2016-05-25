@@ -30,6 +30,7 @@ import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
@@ -127,12 +128,25 @@ public class GameController extends Controller {
 		float onethird = (float) (Main.getInstance().getSettings().getWidth() / 3);
 		float twothird = onethird * 2;
 		//attach the keycounter
-		BitmapText hudText = new BitmapText(Main.getInstance().getGuiFont(), false);          
-		hudText.setSize(Main.getInstance().getGuiFont().getCharSet().getRenderedSize());
-		hudText.setColor(ColorRGBA.White);
-		hudText.setText("Keys: " + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfKeys());
-		hudText.setLocalTranslation(twothird, hudText.getLineHeight(), 0);
-		addGuiElement(hudText);
+		Inventory inv = Main.getInstance().getCurrentGame().getPlayer().getInventory();
+			Picture keypicyellow = new Picture("key Picture");
+			keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+			keypicyellow.setWidth(Main.getInstance().getSettings().getWidth() / 30);
+			keypicyellow.setHeight(Main.getInstance().getSettings().getHeight() / 12);
+			keypicyellow.setPosition(300, 0);
+			Picture keypicred = new Picture("key2Picture");
+			keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+			keypicred.setWidth(Main.getInstance().getSettings().getWidth() / 30);
+			keypicred.setHeight(Main.getInstance().getSettings().getHeight() / 12);
+			keypicred.setPosition(350, 0);
+			Picture keypicblue = new Picture("key3Picture");
+			keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+			keypicblue.setWidth(Main.getInstance().getSettings().getWidth() / 30);
+			keypicblue.setHeight(Main.getInstance().getSettings().getHeight() / 12);
+			keypicblue.setPosition(400, 0);
+		addGuiElement(keypicyellow);
+		addGuiElement(keypicred);
+		addGuiElement(keypicblue);
 		
 		//attach the bombcounter
 		BitmapText hudTextb = new BitmapText(Main.getInstance().getGuiFont(), false);          
@@ -162,9 +176,24 @@ public class GameController extends Controller {
 			
 			@Override
 			public void update(float tpf) {
-				hudText.setText("Keys: " + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfKeys());
 				hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs()); 
-				hudTexth.setText("Health: " + Main.getInstance().getCurrentGame().getPlayer().getHealth());
+				//hudTexth.setText("Health: " + Main.getInstance().getCurrentGame().getPlayer().getHealth());
+				if (Main.getInstance().getCurrentGame().getPlayer().getInventory().containsColorKey(ColorRGBA.Yellow)) {
+					keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/yellowkeyicon.png", true);
+				} else {
+					keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+				}
+				if (Main.getInstance().getCurrentGame().getPlayer().getInventory().containsColorKey(ColorRGBA.Blue)) {
+					keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/bluekeyicon.png", true);
+				} else {
+					keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+				}
+				if (Main.getInstance().getCurrentGame().getPlayer().getInventory().containsColorKey(ColorRGBA.Red)) {
+					hudTexth.setText("Health: 2 " + Main.getInstance().getCurrentGame().getPlayer().getHealth());
+					keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/redkeyicon.png", true);
+				} else {
+					keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+				}
 			}
 		});
 	}

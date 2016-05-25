@@ -9,6 +9,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
@@ -34,13 +35,14 @@ public class Key extends Entity implements PhysicsObject {
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		Geometry geometry = new Geometry("dink", cube1Mesh);
 
-		if (Main.getInstance().getAssetManager().loadModel("Models/key.j3o") == null) {
+		if (Main.getInstance().getAssetManager().loadModel("Models/key.blend") == null) {
 			sp =  geometry;
 		} else {
-			sp = Main.getInstance().getAssetManager().loadModel("Models/key.j3o");
-			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-			mat.setColor("Color", color);
-			sp.setMaterial(mat);
+			sp = Main.getInstance().getAssetManager().loadModel("Models/key.blend");
+			Node node = (Node) sp;
+			geometry = (Geometry) ((Node) node.getChild("Cube")).getChild(0);
+			Material mat = geometry.getMaterial();
+			mat.setColor("Ambient", color);
 		}
 	}
 
