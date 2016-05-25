@@ -117,16 +117,4 @@ public final class RoomReader {
 
 		throw new FileNotFoundException("Could not find a '.crf' file in " + path + ".");
 	}
-	
-	/**
-	 * Read a room.
-	 * @param folderName
-	 * 			folder of room
-	 * @return
-	 * 			Room with settings of .crf file
-	 */
-	protected static Room readRoom(String folderName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

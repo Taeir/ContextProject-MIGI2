@@ -89,23 +89,35 @@ public class Room {
 	 * @return
 	 * 			Room with settings of .crf file
 	 */
-	protected static Room readRoom(String folderName) {
+	public static Room readRoom(String folderName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/**
+	 * Set mazeTiles array.
+	 * @param mazeTiles
+	 * 			maze tiles to set
+	 */
+	public void setMazeTiles(MazeTile[][] mazeTiles) {
+		this.mazeTiles = mazeTiles;
+	}
 
+	/**
+	 * Simple hash code of tiles used for testing.
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((entities == null) ? 0 : entities.hashCode());
-		result = prime * result + ((lights == null) ? 0 : lights.hashCode());
-		result = prime * result + Arrays.deepHashCode(mazeTiles);
-		result = prime * result + ((size == null) ? 0 : size.hashCode());
 		result = prime * result + Arrays.deepHashCode(tiles);
 		return result;
 	}
 
+	/**
+	 * Simple equals used for testing.
+	 * Only the TileType[][] array has to be equal;
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -115,27 +127,30 @@ public class Room {
 		if (getClass() != obj.getClass())
 			return false;
 		Room other = (Room) obj;
-		if (entities == null) {
-			if (other.entities != null)
-				return false;
-		} else if (!entities.equals(other.entities))
+		if (!other.size.equals(size)) 
 			return false;
-		if (lights == null) {
-			if (other.lights != null)
-				return false;
-		} else if (!lights.equals(other.lights))
-			return false;
-		if (!Arrays.deepEquals(mazeTiles, other.mazeTiles))
-			return false;
-		if (size == null) {
-			if (other.size != null)
-				return false;
-		} else if (!size.equals(other.size))
-			return false;
-		if (!Arrays.deepEquals(tiles, other.tiles))
-			return false;
+		
+		for (int i = 0; i < size.getWidth(); i++) {
+			for (int j = 0; j < size.getHeight(); j++) {
+				if (tiles[i][j] != other.tiles[i][j]) {
+					return false;
+				}
+			}
+		}
+			
 		return true;
 	}
+
+	/**
+	 * Set size for testing.
+	 * @param size
+	 * 			size to set
+	 */
+	public void setSize(Size size) {
+		this.size = size;
+	}
+
+	
 	
 	
 }

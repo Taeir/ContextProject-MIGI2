@@ -32,6 +32,8 @@ public final class MapReader {
 	 * @param rooms
 	 * 			list which should hold the room
 	 * 			final maze room
+	 * @return RoomTuple
+	 * 			return a room tuple with the starting and end rooms.
 	 * @throws IOException
 	 * 			when wrong format is delivered 
 	 */
@@ -49,7 +51,7 @@ public final class MapReader {
 			line = br.readLine();
 			String[] tmp = line.split(" ");
 			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the starting room!");
-			startRoom = RoomReader.readRoom(tmp[1]);
+			Room startRoom = Room.readRoom(tmp[1]);
 			
 			//Get treasure Room
 			line = br.readLine();

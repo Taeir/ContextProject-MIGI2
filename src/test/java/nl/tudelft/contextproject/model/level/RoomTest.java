@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.model.level;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -81,5 +82,61 @@ public class RoomTest extends TestBase {
 			fail();
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Test set of maze tiles.
+	 */
+	@Test
+	public void testSetMazeTiles() {
+		MazeTile[][] mazeTiles = new MazeTile[0][0];
+		testRoom.setMazeTiles(mazeTiles);
+		Room testRoom2 = new Room(ROOM_FOLDER);
+		testRoom2.setMazeTiles(mazeTiles);
+		assertTrue(testRoom.equals(testRoom2));
+	}
+	
+	/**
+	 * Rest Equal rooms two equal rooms.
+	 */
+	@Test
+	public void testEqualsEqualRooms() {
+		Room testRoom2 = new Room(ROOM_FOLDER);
+		assertTrue(testRoom.equals(testRoom2));
+	}
+	
+	/**
+	 * Rest Equal rooms same room.
+	 */
+	@Test
+	public void testEqualsSameRoom() {
+		assertTrue(testRoom.equals(testRoom));
+	}
+	
+	/**
+	 * Rest Equal rooms same room.
+	 */
+	@Test
+	public void testEqualsNull() {
+		assertFalse(testRoom.equals(null));
+	}
+	
+	/**
+	 * Rest Equal rooms other object.
+	 */
+	@Test
+	public void testEqualsOtherObject() {
+		assertFalse(testRoom.equals(new Float(0)));
+	}
+	
+	/**
+	 * Rest Equal rooms not equal room.
+	 */
+	@Test
+	public void testEqualsNotEqualSize() {
+		Size size = new Size(0, 0);
+		Room testRoom2 = new Room(ROOM_FOLDER);
+		testRoom2.setSize(size);
+		assertFalse(testRoom.equals(testRoom2));
 	}
 }
