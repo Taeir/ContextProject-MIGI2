@@ -281,8 +281,11 @@ function requestEntities() {
  * the given location.
  */
 function requestAction(argument) {
-    console.log("[DEBUG] Requesting action: " + argument + ".");
-    $.post("/requestaction", {x: lastPressedX, y: lastPressedY, action: argument},  function(data, status) {
+    var encoded = encodeAction(argument);
+    if (encoded === -1) return;
+    
+    console.log("[DEBUG] Requesting action: " + encoded + ".");
+    $.post("/requestaction", {x: lastPressedX, y: lastPressedY, action: encoded},  function(data, status) {
         if (status != "success") {
             //HTTP Error
             showError("Something went wrong: [" + status + "] " + data);
@@ -293,7 +296,6 @@ function requestAction(argument) {
         if (!checkAuthorized(data)) return;
         
     }, "json");
-    
     hideAllButtons(250);
 }
 
@@ -489,6 +491,28 @@ function getClassForTileType(tileType) {
             throw "Invalid tile type: " + tileType;
     }
 }
+
+/**
+ * Encode an action.
+ *
+ * @param action
+ *      the action to encode
+ */
+function encodeAction(action) {
+    switch (action) {
+        case "placebomb":
+            return 0;
+        case "placepitfall":
+            return 1;
+        case "placemine":
+            return 2;
+        case "spawnenemy":
+            return 3;
+        case "diffusebomb":
+            return 4;
+        case default:
+            return -1;
+    }
 
 /**
  * Function to toggle the webpage to fullscreen.
