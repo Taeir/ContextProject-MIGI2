@@ -6,6 +6,10 @@ import java.util.Random;
 
 import com.jme3.light.Light;
 
+/**
+ * Generates a level based on a graph and grid structure.
+ *
+ */
 public class GridBasedLevelFactory implements LevelFactory{
 
 	private String baseFolder;

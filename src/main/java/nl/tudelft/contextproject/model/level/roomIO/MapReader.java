@@ -45,7 +45,7 @@ public final class MapReader {
 				line = br.readLine();
 			}
 
-			if (line == null) throw new IllegalArgumentException("The file cannot be empty!");
+			if (line == null) throw new IllegalArgumentException("The cmf file cannot be empty!");
 
 			//Get start Room
 			line = br.readLine();
