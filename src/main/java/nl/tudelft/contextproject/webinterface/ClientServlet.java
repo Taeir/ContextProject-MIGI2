@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.webinterface;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.util.JSONUtil;
+import nl.tudelft.contextproject.util.QRGenerator;
+
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.json.JSONObject;
@@ -42,6 +45,13 @@ public class ClientServlet extends DefaultServlet {
 
 		if (request.getRequestURI().equals("/")) {
 			response.sendRedirect("/index.html");
+			return;
+		} else if (request.getRequestURI().equals("/qr")) {
+			//Write the QR code as a Base64 encoded image on a plain page.
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("<html><body><img src=\"data:image/png;base64,");
+			response.getWriter().write(Base64.getEncoder().encodeToString(QRGenerator.getInstance().streamQRcode().toByteArray()));
+			response.getWriter().write("\"/></body></html>");
 			return;
 		}
 		
