@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject;
 
-import java.lang.reflect.Field;
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.Arrays;
@@ -241,16 +240,10 @@ public class Main extends SimpleApplication {
 	 * 		the joystick to map the axes of.
 	 */
 	private void mapJoystickAxes(Joystick joystick) {
-		try {
-			//We use reflection, because there is no other way.
-			Field dead = DefaultJoystickAxis.class.getDeclaredField("deadZone");
-			dead.setAccessible(true);
-			
-			//We set the deadzone of the axes to 0.3
-			dead.setFloat(joystick.getXAxis(), 0.30f);
-			dead.setFloat(joystick.getYAxis(), 0.30f);
-		} catch (Exception ex) {
-			Log.getLog("Controller").warning("Unable to set deadzone, controller might work sub par.");
+		//Set the deadzones to 0.3
+		if (joystick.getXAxis() instanceof DefaultJoystickAxis) {
+			((DefaultJoystickAxis) joystick.getXAxis()).setDeadZone(0.30f);
+			((DefaultJoystickAxis) joystick.getYAxis()).setDeadZone(0.30f);
 		}
 		
 		joystick.getXAxis().assignAxis("Right", "Left");
