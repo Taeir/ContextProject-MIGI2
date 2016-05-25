@@ -60,7 +60,6 @@ public class Main extends SimpleApplication {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
-		
 		AppSettings settings = new AppSettings(true);
         settings.setUseJoysticks(true);
         main.setSettings(settings);

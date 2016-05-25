@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
 
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -15,7 +16,6 @@ import com.jme3.scene.Spatial;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.PhysicsObject;
-import nl.tudelft.contextproject.model.level.MazeTile;
 
 /**
  * Abstract class for controllers.
