@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.model.level.roomIO;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,9 +16,11 @@ public class MapReaderTest {
 	//Location of the test map
 	private static final String TEST_MAP_LOCATION = "/maps/testGridMap/";
 
-	@Test
+	/**
+	 * Test reading of a map.
+	 */
 	public void testReadMap() {
-		fail("Not yet implemented");
+		
 	}
 
 	/**

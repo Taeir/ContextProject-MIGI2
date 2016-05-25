@@ -1,14 +1,16 @@
 package nl.tudelft.contextproject.model.level;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.TestBase;
+
 /**
- * Test class for RoomTuple
+ * Test class for RoomTuple.
  */
-public class RoomTupleTest {
+public class RoomTupleTest extends TestBase {
 	
 	//Room folder of a correct Room;
 	private static final String ROOM_FOLDER = "/maps/correctWithName/";
@@ -27,29 +29,47 @@ public class RoomTupleTest {
 		roomTuple = new RoomTuple(starterRoomSetUp, treasureRoomSetUp);
 	}
 
+	/**
+	 * Test constructor.
+	 */
 	@Test
 	public void testRoomTuple() {
-		fail("Not yet implemented");
+		assertTrue(roomTuple.getStarterRoom().equals(starterRoomSetUp));
+		assertTrue(roomTuple.getTreasureRoom().equals(treasureRoomSetUp));
 	}
 
+	/**
+	 * Test getStarterRoom.
+	 */
 	@Test
 	public void testGetStarterRoom() {
-		fail("Not yet implemented");
+		assertTrue(roomTuple.getStarterRoom().equals(starterRoomSetUp));
 	}
 
+	/**
+	 * Test Set starterRoom.
+	 */
 	@Test
 	public void testSetStarterRoom() {
-		fail("Not yet implemented");
+		roomTuple.setStarterRoom(treasureRoomSetUp);
+		assertTrue(roomTuple.getStarterRoom().equals(treasureRoomSetUp));
 	}
 
+	/**
+	 * Test getTreasureRoom.
+	 */
 	@Test
 	public void testGetTreasureRoom() {
-		fail("Not yet implemented");
+		assertTrue(roomTuple.getTreasureRoom().equals(treasureRoomSetUp));
 	}
 
+	/**
+	 * Test setTreasureRoom.
+	 */
 	@Test
 	public void testSetTreasureRoom() {
-		fail("Not yet implemented");
+		roomTuple.setTreasureRoom(starterRoomSetUp);
+		assertTrue(roomTuple.getTreasureRoom().equals(starterRoomSetUp));
 	}
 
 }

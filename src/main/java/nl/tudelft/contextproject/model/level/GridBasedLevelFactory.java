@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.model.level;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.jme3.light.Light;
@@ -10,7 +9,7 @@ import com.jme3.light.Light;
  * Generates a level based on a graph and grid structure.
  *
  */
-public class GridBasedLevelFactory implements LevelFactory{
+public class GridBasedLevelFactory implements LevelFactory {
 
 	private String baseFolder;
 	
@@ -20,10 +19,15 @@ public class GridBasedLevelFactory implements LevelFactory{
 	
 	private ArrayList<Light> lights;
 	
-	private MazeTile[][] MazeTile;
+	private MazeTile[][] mazeTile;
 	
-	public GridBasedLevelFactory(String baseFolder) {
-		this.baseFolder = baseFolder;
+	/**
+	 * Constructor.
+	 * @param mapFolder
+	 * 		location and name of mapFolder
+	 */
+	public GridBasedLevelFactory(String mapFolder) {
+		this.baseFolder = mapFolder;
 		
 	}
 	
