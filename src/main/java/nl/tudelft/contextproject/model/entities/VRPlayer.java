@@ -36,7 +36,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	//Highest vertical step player can make, think of stairs.
 	public static final float PLAYER_STEP_HEIGHT = 0.1f;
-	public static final float PLAYER_RADIUS = .35f;
+	public static final float PLAYER_RADIUS = .5f;
 	public static final float PLAYER_HEIGHT = 3f;
 	//SHOULD NOT BE CHANGED
 	public static final int PLAYER_GRAVITY_AXIS = 1;
