@@ -38,7 +38,7 @@ public class GridBasedLevelFactory implements LevelFactory{
 	/**
 	 * Initialize all the data needed for building.
 	 */
-	private void initializeBuilder() {
+	protected void initializeBuilder() {
 		// TODO Auto-generated method stub
 		
 	}

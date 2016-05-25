@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import nl.tudelft.contextproject.model.level.Room;
+import nl.tudelft.contextproject.model.level.RoomTuple;
 import nl.tudelft.contextproject.util.FileUtil;
 
 /**
@@ -30,14 +31,11 @@ public final class MapReader {
 	 * 			path of room folders and load file
 	 * @param rooms
 	 * 			list which should hold the room
-	 * @param startRoom
-	 * 			starting room
-	 * @param treasureRoom
 	 * 			final maze room
 	 * @throws IOException
 	 * 			when wrong format is delivered 
 	 */
-	public void readMap(String mapFolder, List<Room> rooms, Room startRoom, Room treasureRoom) throws IOException {
+	public RoomTuple readMap(String mapFolder, List<Room> rooms) throws IOException {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(mapFolder)), StandardCharsets.UTF_8))) {
 			String line = br.readLine();
 
@@ -49,11 +47,27 @@ public final class MapReader {
 
 			//Get start Room
 			line = br.readLine();
+			String[] tmp = line.split(" ");
+			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the starting room!");
+			startRoom = RoomReader.readRoom(tmp[1]);
 			
-
+			//Get treasure Room
+			line = br.readLine();
+			tmp = line.split(" ");
+			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the treasure room!");
+			
+			//Get the rest of the Rooms
+			line = br.readLine();
+			tmp = line.split(" ");
+			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the number of rooms!");
+			//Re
+			
+			return null;
 		}
 	}
 	
+	
+
 	/**
 	 * Get the map file with room data from a folder.
 	 * Uses the FileUtil class to safely retrieve the file.

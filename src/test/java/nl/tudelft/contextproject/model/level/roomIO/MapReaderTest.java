@@ -9,8 +9,6 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 
-import nl.tudelft.contextproject.util.FileUtil;
-
 /**
  * Test class for MapReader.
  */
@@ -18,8 +16,6 @@ public class MapReaderTest {
 
 	//Location of the test map
 	private static final String TEST_MAP_LOCATION = "/maps/testGridMap/";
-	//Location of the test file
-	private static final String TEST_MAP_FILE_NAME = "/maps/testGridMap/mapsettings.cmf";
 
 	@Test
 	public void testReadMap() {

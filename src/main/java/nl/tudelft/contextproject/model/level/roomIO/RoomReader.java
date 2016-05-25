@@ -15,6 +15,7 @@ import com.jme3.light.Light;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.Room;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**
@@ -115,5 +116,17 @@ public final class RoomReader {
 		}
 
 		throw new FileNotFoundException("Could not find a '.crf' file in " + path + ".");
+	}
+	
+	/**
+	 * Read a room.
+	 * @param folderName
+	 * 			folder of room
+	 * @return
+	 * 			Room with settings of .crf file
+	 */
+	protected static Room readRoom(String folderName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
