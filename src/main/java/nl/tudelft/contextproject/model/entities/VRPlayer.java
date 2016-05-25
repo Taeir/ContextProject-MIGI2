@@ -112,9 +112,10 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 			fallingTimer = 0;
 			Vector3f move = getLocation().subtract(resp);
 			move(-move.x, -move.y, -move.z);
+			return;
 		}
 		if (getLocation().y < 0 && fallingTimer == 0) {
-			resp = getLocation();
+			resp = getLocation().clone();
 			resp.y = 5;
 			fallingTimer = 2;
 		}
