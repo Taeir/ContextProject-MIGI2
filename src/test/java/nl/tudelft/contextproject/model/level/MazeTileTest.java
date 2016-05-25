@@ -69,7 +69,6 @@ public class MazeTileTest extends DrawableTest {
 	 */
 	@Test
 	public void testGetGeometryPosition() {
-		setupGeometryMock();
 		assertEquals(new Vector3f(10, 0, 123), tileCorridor.getSpatial().getLocalTranslation());
 	}
 	
@@ -78,7 +77,6 @@ public class MazeTileTest extends DrawableTest {
 	 */
 	@Test
 	public void testGetSpatielInstance() {
-		setupGeometryMock();
 		assertTrue(tileCorridor.getPhysicsObject() instanceof RigidBodyControl);
 		MazeTile tileFloor = new MazeTile(10, 123, TileType.FLOOR);
 		MazeTile tileWall = new MazeTile(10, 123, TileType.WALL);

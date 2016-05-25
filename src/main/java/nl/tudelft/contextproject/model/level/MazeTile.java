@@ -12,6 +12,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
@@ -26,6 +27,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 	private int height;
 	private boolean explored;
 	private ColorRGBA color;
+	private Texture texture;
 	private TileType type;
 
 	/**
@@ -42,25 +44,40 @@ public class MazeTile implements Drawable, PhysicsObject {
 		this.position = new Vector2f(x, y);
 		this.explored = false;
 		this.type = type;
-		
+
 		switch (type) {
 			case FLOOR:
 				this.height = 0;
 				this.color = ColorRGBA.Green;
+				if (!(Main.getInstance().getAssetManager() == null)) {
+					this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
+				} else {
+					this.texture = null;
+				}
 				break;
 			case WALL:
 				this.height = 3;
-				this.color = ColorRGBA.Blue;
+				this.color = ColorRGBA.Gray;
+				if (!(Main.getInstance().getAssetManager() == null)) {
+					this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/walltexture.png");
+				} else {
+					this.texture = null;
+				}
 				break;
 			case CORRIDOR:
 				this.height = 0;
-				this.color = ColorRGBA.Red;
+				this.color = ColorRGBA.Green;
+				if (!(Main.getInstance().getAssetManager() == null)) {
+					this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
+				} else {
+					this.texture = null;
+				}
 				break;
 			default:
 				throw new IllegalArgumentException("Invalid TileType: " + type);
 		}
 	}
-	
+
 	/**
 	 * Getter for tileType.
 	 *
@@ -83,6 +100,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 		mat.setColor("Specular", ColorRGBA.White);
 		mat.setFloat("Shininess", 64f);
 		mat.setColor("Ambient", color);
+		mat.setTexture("LightMap", texture);
 		this.spatial.setMaterial(mat);
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
