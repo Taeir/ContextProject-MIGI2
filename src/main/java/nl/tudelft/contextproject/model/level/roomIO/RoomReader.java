@@ -48,7 +48,6 @@ public final class RoomReader {
 	 */
 	public static void importFile(String folder, MazeTile[][] tiles, Set<Entity> entities, List<Light> lights, int xOffset, int yOffset) throws IOException {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(folder)), StandardCharsets.UTF_8))) {
-			System.out.println("\n" + folder);
 			String line = br.readLine();
 
 			while (line != null && line.startsWith("#")) {

@@ -26,7 +26,7 @@ public class TileReaderTest extends TestBase {
 	@Test
 	public void testGetTileEmpty() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "#";
+		String in = TileReader.EMPTY_TRANSLATION;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
 		assertNull(tiles[0][0]);
@@ -148,6 +148,6 @@ public class TileReaderTest extends TestBase {
 	 */
 	@Test
 	public void testTranslateEmpty() {
-		assertEquals(TileType.EMPTY, TileReader.translate("#"));
+		assertEquals(TileType.EMPTY, TileReader.translate("emptry string"));
 	}
 }

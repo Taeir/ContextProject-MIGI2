@@ -12,11 +12,13 @@ import nl.tudelft.contextproject.model.level.TileType;
 public final class TileReader {
 	
 	//Corridor character for .crf files.
-	protected static final String CORRIDOR_TRANSLATION = "C";
-	//Corridor character for .crf files.
-	protected static final String FLOOR_TRANSLATION = "O";
-	//Corridor character for .crf files.
-	protected static final String WALL_TRANSLATION = "W";
+	public static final String CORRIDOR_TRANSLATION = "C";
+	//Floor character for .crf files.
+	public static final String FLOOR_TRANSLATION = "O";
+	//Wall character for .crf files.
+	public static final String WALL_TRANSLATION = "#";
+	//Empty tile character for .crf files.
+	public static final String EMPTY_TRANSLATION = "-";
 	
 	/**
 	 * Private constructor to prevent instantiation.
@@ -54,15 +56,13 @@ public final class TileReader {
 			for (int x = 0; x < line.length; x++) {
 				int posx = x + xOffset;
 				int posy = y + yOffset;
-				if (line[x].equals("#")) {
+				if (line[x].equals(EMPTY_TRANSLATION)) {
 					// always overwrite old value
 					tiles[posx][posy] = null;
 				} else {
-					System.out.print(line[x] + " ");
 					tiles[posx][posy] = new MazeTile(posx, posy, translate(line[x]));
 				}
 			}
-			System.out.println();
 		}
 	}
 
