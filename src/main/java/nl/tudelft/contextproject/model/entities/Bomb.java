@@ -23,11 +23,15 @@ public class Bomb extends Entity implements PhysicsObject {
 	private Geometry geometry;
 	private Spatial sp;
 	private RigidBodyControl rb;
+	private boolean active;
+	private int timer;
 
 	/**
 	 * Constructor for a bomb.
 	 */
 	public Bomb() {
+		timer = 0;
+		active = false;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		geometry = new Geometry("dink", cube1Mesh);
 		if (Main.getInstance().getAssetManager().loadModel("Models/bomb.blend") == null) {
@@ -39,7 +43,6 @@ public class Bomb extends Entity implements PhysicsObject {
 			mat.setColor("Color", ColorRGBA.White);
 			sp.setMaterial(mat);
 		}
-
 	}
 
 	@Override
@@ -49,6 +52,15 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	@Override
 	public void update(float tdf) {
+		if (active) {
+			timer++;
+			if (timer > 2500) {
+				if (this.collidesWithPlayer(3f)) {
+					Main.getInstance().getCurrentGame().getPlayer().takeDamage();
+				}
+				this.setState(EntityState.DEAD);
+			}
+		}
 	}
 
 	@Override
@@ -83,5 +95,12 @@ public class Bomb extends Entity implements PhysicsObject {
 		if (rb == null) getPhysicsObject();
 
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
+	}
+	
+	/**
+	 * activates the bomb.
+	 */
+	public void activate() {
+		this.active = true;
 	}
 }

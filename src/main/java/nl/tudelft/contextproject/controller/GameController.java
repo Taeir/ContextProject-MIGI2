@@ -25,12 +25,12 @@ import com.jme3.ui.Picture;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
@@ -125,71 +125,79 @@ public class GameController extends Controller {
 	 * Attaches the Hud to the renderer.
 	 */
 	public void attachHud() {
-		float onethird = (float) (Main.getInstance().getSettings().getWidth() / 3);
-		float twothird = onethird * 2;
+		Float height = (float) Main.getInstance().getSettings().getHeight();
+		Float width = (float) Main.getInstance().getSettings().getWidth();
 		//attach the keycounter
-		Inventory inv = Main.getInstance().getCurrentGame().getPlayer().getInventory();
 			Picture keypicyellow = new Picture("key Picture");
 			keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-			keypicyellow.setWidth(Main.getInstance().getSettings().getWidth() / 30);
-			keypicyellow.setHeight(Main.getInstance().getSettings().getHeight() / 12);
-			keypicyellow.setPosition(300, 0);
+			keypicyellow.setWidth(width / 30);
+			keypicyellow.setHeight(height / 12);
+			keypicyellow.setPosition(width * 0.5f, 0);
 			Picture keypicred = new Picture("key2Picture");
 			keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-			keypicred.setWidth(Main.getInstance().getSettings().getWidth() / 30);
-			keypicred.setHeight(Main.getInstance().getSettings().getHeight() / 12);
-			keypicred.setPosition(350, 0);
+			keypicred.setWidth(width / 30);
+			keypicred.setHeight(height / 12);
+			keypicred.setPosition(width * 0.55f, 0);
 			Picture keypicblue = new Picture("key3Picture");
 			keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-			keypicblue.setWidth(Main.getInstance().getSettings().getWidth() / 30);
-			keypicblue.setHeight(Main.getInstance().getSettings().getHeight() / 12);
-			keypicblue.setPosition(400, 0);
+			keypicblue.setWidth(width / 30);
+			keypicblue.setHeight(height / 12);
+			keypicblue.setPosition(width * 0.6f, 0);
 		addGuiElement(keypicyellow);
 		addGuiElement(keypicred);
 		addGuiElement(keypicblue);
-		
 		//attach the bombcounter
 		BitmapText hudTextb = new BitmapText(Main.getInstance().getGuiFont(), false);          
-		hudTextb.setSize(Main.getInstance().getSettings().getHeight() / 30);
+		hudTextb.setSize(height / 30);
 		hudTextb.setColor(ColorRGBA.White);
 		hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs());
-		hudTextb.setLocalTranslation(onethird + 30, hudTextb.getLineHeight() + Main.getInstance().getSettings().getHeight() / 40, 0);
+		hudTextb.setLocalTranslation(width / 3f, hudTextb.getLineHeight() + height / 40, 0);
 		addGuiElement(hudTextb);
-		
 		//attach bombicon
 		Picture pic = new Picture("Bomb Picture");
 		pic.setImage(Main.getInstance().getAssetManager(), "Textures/bombicon.png", true);
-		pic.setWidth(Main.getInstance().getSettings().getWidth() / 15);
-		pic.setHeight(Main.getInstance().getSettings().getHeight() / 10);
-		pic.setPosition(200, 0);
+		pic.setWidth(width / 15);
+		pic.setHeight(height / 10);
+		pic.setPosition(width / 4f, 0);
 		addGuiElement(pic);
 		
-		//attach your healthcounter
-		BitmapText hudTexth = new BitmapText(Main.getInstance().getGuiFont(), false);          
-		hudTexth.setSize(Main.getInstance().getGuiFont().getCharSet().getRenderedSize());
-		hudTexth.setColor(ColorRGBA.White);
-		hudTexth.setText("Health: " + Main.getInstance().getCurrentGame().getPlayer().getHealth());             
-		hudTexth.setLocalTranslation((float) (Main.getInstance().getSettings().getWidth() / 3), Main.getInstance().getSettings().getHeight(), 0); 
-		addGuiElement(hudTexth);
+		//attach your healthcounter        
+		Picture heart1 = healthContainer(1, height, width);
+		addGuiElement(heart1);
+		Picture heart2 = healthContainer(2, height, width);
+		addGuiElement(heart2);
+		Picture heart3 = healthContainer(3, height, width);
+		addGuiElement(heart3);
 		//update the gui
 		Main.getInstance().attachTickListener(new TickListener() {
 			
 			@Override
 			public void update(float tpf) {
+				//bomb update
 				hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs()); 
-				//hudTexth.setText("Health: " + Main.getInstance().getCurrentGame().getPlayer().getHealth());
-				if (Main.getInstance().getCurrentGame().getPlayer().getInventory().containsColorKey(ColorRGBA.Yellow)) {
+				
+				//health update
+				if (game.getPlayer().getHealth() == 2) {
+					heart3.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
+				}
+				if (game.getPlayer().getHealth() == 1) {
+					heart2.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
+				}
+				if (game.getPlayer().getHealth() == 0) {
+					heart1.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
+				}
+				//keys update
+				if ((game.getPlayer().getInventory().containsColorKey(ColorRGBA.Yellow.set(1.0f, 1.0f, 0.0f, 0.0f)))) {
 					keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/yellowkeyicon.png", true);
 				} else {
 					keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
 				}
-				if (Main.getInstance().getCurrentGame().getPlayer().getInventory().containsColorKey(ColorRGBA.Blue)) {
+				if ((game.getPlayer().getInventory().containsColorKey(ColorRGBA.Blue.set(0.0f, 0.0f, 1.0f, 0.0f)))) {
 					keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/bluekeyicon.png", true);
 				} else {
 					keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
 				}
-				if (Main.getInstance().getCurrentGame().getPlayer().getInventory().containsColorKey(ColorRGBA.Red)) {
-					hudTexth.setText("Health: 2 " + Main.getInstance().getCurrentGame().getPlayer().getHealth());
+				if ((game.getPlayer().getInventory().containsColorKey(ColorRGBA.Red.set(1.0f, 0.0f, 0.0f, 0.0f)))) {
 					keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/redkeyicon.png", true);
 				} else {
 					keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
@@ -197,7 +205,35 @@ public class GameController extends Controller {
 			}
 		});
 	}
-
+	/**
+	 * returns a picture of a healthContainer.
+	 * @param pos
+	 * 		Position of the healthContainer
+	 * @param height
+	 * 		Height of the screen
+	 * @param width
+	 * 		Width of the screen
+	 * @return
+	 * 		Picture of the healthcontainer
+	 */
+	public Picture healthContainer(int pos, float height, float width) {
+		Picture heart = new Picture("heartcontainer" + pos);
+		heart.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
+		heart.setWidth(width / 20);
+		heart.setHeight(height / 20);
+		switch (pos) {
+			case 1:
+				heart.setPosition((width / 3f), height / 1.1f);
+				break;
+			case 2:
+				heart.setPosition((width / 2.6f), height / 1.1f);
+				break;
+			default:
+				heart.setPosition((width / 2.3f), height / 1.1f);
+				break;
+		}
+		return heart;
+	}
 	/**
 	 * Attaches the current level to the renderer.
 	 * Note: this method does not clear the previous level.

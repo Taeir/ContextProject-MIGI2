@@ -203,6 +203,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
 			if (Main.getInstance().getCurrentGame() != null) {
 				Main.getInstance().getCurrentGame().addEntity(bomb);
+				bomb.activate();
 			}
 		}
 	}
@@ -212,24 +213,26 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * Also opens nearby doors if possible
 	 */
 	public void pickUp() {
+		takeDamage();
 		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
 		for (Entity ent : set) {
 			 if (ent.collidesWithPlayer(2f)) {
 				if (ent instanceof Bomb) {
-					inventory.add(new Bomb());
+					this.inventory.add(new Bomb());
 					ent.setState(EntityState.DEAD);
 					return;
 				}
 				if (ent instanceof Key) {
 					Key key = (Key) ent;
-					inventory.add(new Key(key.getColor()));
+					this.inventory.add(new Key(key.getColor()));
 					ent.setState(EntityState.DEAD);
+					System.out.println(inventory.containsColorKey(key.getColor()));
 					return;
 				}
 				if (ent instanceof Door) {
 					Door door = (Door) ent;
 					if (inventory.containsColorKey(door.getColor())) {
-						inventory.remove(inventory.getKey(door.getColor()));
+						this.inventory.remove(inventory.getKey(door.getColor()));
 						ent.setState(EntityState.DEAD);
 						return;
 					}
