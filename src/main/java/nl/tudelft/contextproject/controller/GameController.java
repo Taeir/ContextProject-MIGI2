@@ -129,7 +129,7 @@ public class GameController extends Controller {
 						xStart = x;
 						yStart = y;
 					}
-					addMazeTile(level.getTile(x, y));
+					addDrawable(level.getTile(x, y));
 				}
 			}
 		}

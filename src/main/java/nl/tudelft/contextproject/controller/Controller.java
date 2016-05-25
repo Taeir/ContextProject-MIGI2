@@ -80,17 +80,6 @@ public abstract class Controller extends AbstractAppState {
 	public boolean removeGuiElement(Spatial s) {
 		return guiNode.detachChild(s) != -1;
 	}
-
-	/**
-	 * Add a MazeTile to the renderer.
-	 *
-	 * @param t 
-	 * 		The MazeTile to add
-	 */
-	public void addMazeTile(MazeTile t) {
-		physicsEnvironment.getPhysicsSpace().add(t.getPhysicsObject());
-		rootNode.attachChild(t.getSpatial());
-	}
 	
 	/**
 	 * Add a Drawable to the renderer.
