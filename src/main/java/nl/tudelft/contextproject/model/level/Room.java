@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model.level;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -81,7 +82,60 @@ public class Room {
 		}
 	}
 
+	/**
+	 * Read a room.
+	 * @param folderName
+	 * 			folder of room
+	 * @return
+	 * 			Room with settings of .crf file
+	 */
+	protected static Room readRoom(String folderName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((entities == null) ? 0 : entities.hashCode());
+		result = prime * result + ((lights == null) ? 0 : lights.hashCode());
+		result = prime * result + Arrays.deepHashCode(mazeTiles);
+		result = prime * result + ((size == null) ? 0 : size.hashCode());
+		result = prime * result + Arrays.deepHashCode(tiles);
+		return result;
+	}
 
-
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Room other = (Room) obj;
+		if (entities == null) {
+			if (other.entities != null)
+				return false;
+		} else if (!entities.equals(other.entities))
+			return false;
+		if (lights == null) {
+			if (other.lights != null)
+				return false;
+		} else if (!lights.equals(other.lights))
+			return false;
+		if (!Arrays.deepEquals(mazeTiles, other.mazeTiles))
+			return false;
+		if (size == null) {
+			if (other.size != null)
+				return false;
+		} else if (!size.equals(other.size))
+			return false;
+		if (!Arrays.deepEquals(tiles, other.tiles))
+			return false;
+		return true;
+	}
+	
+	
 }
