@@ -131,7 +131,7 @@ function switchTo(view) {
             $(document.getElementById("selectTeam")).hide();
             break;
         case "PAUSED":
-            //TODO
+            console.log("PAUSED STATE HIT");
             break;
         case "ENDED":
             //TODO
