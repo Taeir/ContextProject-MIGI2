@@ -15,6 +15,7 @@ import com.jme3.scene.Spatial;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.level.MazeTile;
 
 /**
  * Abstract class for controllers.
@@ -79,7 +80,7 @@ public abstract class Controller extends AbstractAppState {
 	public boolean removeGuiElement(Spatial s) {
 		return guiNode.detachChild(s) != -1;
 	}
-
+	
 	/**
 	 * Add a Drawable to the renderer.
 	 * Drawables should also have a collision.
