@@ -8,33 +8,37 @@ import com.jme3.light.Light;
 
 public class GridBasedLevelFactory implements LevelFactory{
 
+	private String baseFolder;
+	
 	private Random rand;
 	
 	private ArrayList<Room> rooms;
+	
+	private ArrayList<Light> lights;
+	
+	private MazeTile[][] MazeTile;
+	
+	public GridBasedLevelFactory(String baseFolder) {
+		this.baseFolder = baseFolder;
+		
+	}
 	
 	@Override
 	public Level generateSeeded(long seed) {
 		createRNG(seed);
 
-		initializeBuilder
-		rooms = readRooms();
-		TileType[][] carved = carveRooms(generated);
-		carved = carveCorridors(carved, generated);
 
-		MazeTile[][] mazeTiles = new MazeTile[MAX_WIDTH][MAX_HEIGHT];
-
-		for (int x = 0; x < carved.length; x++) {
-			for (int y = 0; y < carved[0].length; y++) {
-				if (carved[x][y] != null) {
-					mazeTiles[x][y] = new MazeTile(x, y, carved[x][y]);
-				}
-			}
-		}
-
-		ArrayList<Light> lights = new ArrayList<>(1);
-		return new Level(mazeTiles, lights);
+		return new Level(null, null);
 	}
 	
+	/**
+	 * Initialize all the data needed for building.
+	 */
+	private void initializeBuilder() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/**
 	 * Create the random number generator.
 	 *
