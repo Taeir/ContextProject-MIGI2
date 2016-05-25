@@ -15,7 +15,6 @@ import com.jme3.scene.Spatial;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.PhysicsObject;
-import nl.tudelft.contextproject.model.level.MazeTile;
 
 /**
  * Abstract class for controllers.

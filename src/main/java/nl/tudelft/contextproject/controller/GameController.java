@@ -15,8 +15,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
-
+import com.jme3.math.Vector2f;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
@@ -106,33 +105,15 @@ public class GameController extends Controller {
 
 	/**
 	 * Attaches the current level to the renderer.
-	 * Note: this method does not clear the previous level.
 	 */
-	public void attachLevel() {
+	protected void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
 
-		int xStart = 0; 
-		int yStart = 0;
-		
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					//TODO add starting room with starting location
-					if ((xStart == 0 && yStart == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-						xStart = x;
-						yStart = y;
-					}
-					addDrawable(level.getTile(x, y));
-				}
-			}
-		}
+		Vector2f start = attachMazeTiles(level);		
 
-		addDrawable(game.getPlayer());
-		
-		if (game.getPlayer().getPhysicsObject() != null) {
-			game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
-		}
+		addDrawable(game.getPlayer());		
+		game.getPlayer().move(start.x, 6, start.y);
 		
 		for (Light l : level.getLights()) {
 			addLight(l);
@@ -141,6 +122,31 @@ public class GameController extends Controller {
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
+	}
+
+	/**
+	 * Attach all {@link MazeTile}s in the level to the renderer.
+	 * 
+	 * @param 
+	 * 		level the level that contains all the mazetiles
+	 * @return 
+	 * 		the starting position of the player
+	 */
+	private Vector2f attachMazeTiles(Level level) {
+		Vector2f start = new Vector2f();
+		for (int x = 0; x < level.getWidth(); x++) {
+			for (int y = 0; y < level.getHeight(); y++) {
+				if (level.isTileAtPosition(x, y)) {
+					//TODO add starting room with starting location
+					if ((start.x == 0 && start.y == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
+						start.x = x;
+						start.y = y;
+					}
+					addDrawable(level.getTile(x, y));
+				}
+			}
+		}
+		return start;
 	}
 
 	@Override
