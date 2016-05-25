@@ -6,13 +6,18 @@ html, body {
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 40%;
+	width: 50%;
 	height: 100%;
 	display: inline;
 	float: right;
 	overflow-x: auto;
 	overflow-y: auto;
 	z-index: 1;
+}
+#fullscreensetter {
+	position: absolute;
+	top: 2%;
+	right: 2%;
 }
 #elvesButtons {
 	background-color: #FFB6C1;
@@ -22,8 +27,8 @@ html, body {
 }
 #buttons {
 	position: absolute;
-	top: 50%;
-	left: 50%;
+	left: 10%;
+	top: 10%;
 }
 #clickable {
 	font-size: 2em;

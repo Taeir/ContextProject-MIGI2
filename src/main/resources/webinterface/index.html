@@ -4,6 +4,7 @@
 		<title>The Cave of Caerbanogh</title>
 		<script src="js/jquery-1.12.3.min.js"></script>
 		<script src="js/main.js"></script>
+		<script src="js/materialize.min.js"></script>
 		<link type="text/css" rel="stylesheet" href="css/style.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height" />
 		<script>
@@ -24,7 +25,6 @@
 					<button onclick="requestSetTeam('ELVES')" id="clickable">Elves</button>
 					<button onclick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
 					<button onclick="requestSetTeam('NONE')" id="clickable">No team</button>
-					<button onclick="toggleFullscreen()" id="clickable">Toggle Fullscreen</button>
 					<br>	
 					Current team: <div class="team">No team</div><br>
 				</div>
@@ -40,18 +40,25 @@
 			</div>
 		</div>
 		<div id="dwarvesButtons">
-				<div id="buttons">
-					<button onClick="requestAction('placebomb')" id="clickable">Place bomb</button><br>
-					<button onClick="requestAction('placepitfall')" id="clickable">Place pitfall</button><br>
-					<button onClick="requestAction('spawnenemy')" id="clickable">Spawn enemy</button><br>
-					<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
-				</div>
+			<div id="fullscreensetter">
+				<button onclick="toggleFullscreen()" id="clickable">Toggle Fullscreen</button>
+			</div>
+			<div id="buttons">
+				<button onClick="requestAction('placebomb')" id="clickable">Place bomb</button><br>
+				<button onClick="requestAction('placepitfall')" id="clickable">Place pitfall</button><br>
+				<button onClick="requestAction('placemine')" id="clickable">Place landmine</button><br>
+				<button onClick="requestAction('spawnenemy')" id="clickable">Spawn enemy</button><br>
+				<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
+			</div>
 		</div>
 		<div id="elvesButtons">
-				<div id="buttons">
-					<button onClick="requestAction('diffusebomb')" id="clickable">Diffuse bomb</button><br>
-					<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
-				</div>
+			<div id="fullscreensetter">
+					<button onclick="toggleFullscreen()" id="clickable">Toggle Fullscreen</button>
+			</div>
+			<div id="buttons">
+				<button onClick="requestAction('diffusebomb')" id="clickable">Diffuse bomb</button><br>
+				<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
+			</div>
 		</div>
 		<div id="unauthorized">
 		
