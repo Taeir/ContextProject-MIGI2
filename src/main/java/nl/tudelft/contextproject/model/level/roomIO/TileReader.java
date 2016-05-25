@@ -58,9 +58,11 @@ public final class TileReader {
 					// always overwrite old value
 					tiles[posx][posy] = null;
 				} else {
+					System.out.print(line[x] + " ");
 					tiles[posx][posy] = new MazeTile(posx, posy, translate(line[x]));
 				}
 			}
+			System.out.println();
 		}
 	}
 
