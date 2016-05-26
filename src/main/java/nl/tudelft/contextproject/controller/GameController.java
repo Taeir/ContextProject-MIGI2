@@ -88,6 +88,9 @@ public class GameController extends Controller {
 		attachLevel();
 		GameController t = this;
 
+		//Listener for stop
+		addInputListener((ActionListener) (n, ip, tpf) -> Main.getInstance().stop(), "Exit");
+		
 		ActionListener al = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
@@ -107,6 +110,8 @@ public class GameController extends Controller {
 		addInputListener(game.getPlayer(), "Jump");
 		addInputListener(game.getPlayer(), "Bomb");
 		addInputListener(game.getPlayer(), "Pickup");
+		
+		
 	}
 
 	/**

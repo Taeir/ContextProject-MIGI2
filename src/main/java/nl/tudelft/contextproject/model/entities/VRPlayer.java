@@ -18,6 +18,8 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
+import jmevr.app.VRApplication;
+
 /**
  * Class representing the player wearing the VR headset.
  */
@@ -73,8 +75,14 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		return spatial;
 	}
 
+	private boolean isset;
 	@Override
 	public void update(float tdf) {
+		if (!isset) {
+			//VRApplication.setObserver(getSpatial());
+			isset = true;
+			
+		}
 		//TODO this will change after VR support is implemented
 		Vector3f camDir = Main.getInstance().getCamera().getDirection();
 		Vector3f camLeft = Main.getInstance().getCamera().getLeft();

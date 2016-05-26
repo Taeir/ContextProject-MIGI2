@@ -30,18 +30,19 @@ import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
 import jmevr.app.VRApplication;
+import jmevr.util.VRGuiManager;
+import jmevr.util.VRGuiManager.POSITIONING_MODE;
 
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
 public class Main extends VRApplication {
-
-	//TODO this should be set in a setting class preferably.
 	public static final int PORT_NUMBER = 8080;
 	
 	private static boolean debugHud;
 	
 	private static Main instance;
+	
 	private Controller controller;
 	private WebServer webServer;
 	private List<TickListener> tickListeners = new LinkedList<>();
@@ -66,18 +67,20 @@ public class Main extends VRApplication {
 		//main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_STEAMVR_COMPOSITOR, false);
 		
 		//Use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
-		//Runs faster when set to false, but will allow mirroring
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, true);
-		//Render two eyes, regardless of SteamVR
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, true);
-		//Show gui even if it is behind things
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true);
-		//Faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false);
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
+//		main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
+//		//Runs faster when set to false, but will allow mirroring
+//		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, true);
+//		//Render two eyes, regardless of SteamVR
+//		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
+//		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
+//		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, true);
+//		//Show gui even if it is behind things
+//		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true);
+//		//Faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
+//		main.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false);
+//		main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
+		
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, true);
 		//Set frustum distances here before app starts
 		main.preconfigureFrustrumNearFar(0.1f, 512f);
 		
@@ -181,10 +184,17 @@ public class Main extends VRApplication {
 		}
 		//setDisplayFps(debugHud);
 		//setDisplayStatView(debugHud);
+
+		//observer = new Node("observer");
 		
-		//TODO if VR support is implemented the flyby camera should be disabled
-		//getFlyByCamera().setZoomSpeed(0);
+		VRGuiManager.setPositioningMode(POSITIONING_MODE.MANUAL);
+		VRGuiManager.setGuiScale(0.4f);
+		VRGuiManager.setPositioningElasticity(10f);
 		
+		//observer.setLocalTranslation(new Vector3f(0.0f, 0.0f, 0.0f));
+		//VRApplication.setObserver(observer);
+		//rootNode.attachChild(observer);
+
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
@@ -212,9 +222,11 @@ public class Main extends VRApplication {
 	 */
 	protected void setupControlMappings() {
 		InputManager im = getInputManager();
+		
+		//Add mouse controls when No VR is attached.
+		new NoVRMouseManager(getCamera()).registerWithInput(im);
 
 		if (isControllerConnected()) {
-			//getFlyByCamera().onAction(CameraInput.FLYCAM_INVERTY, false, 0);
 			Joystick j = im.getJoysticks()[0];
 		
 			im.addMapping("Up", new JoyAxisTrigger(0, 0, true));
@@ -223,7 +235,7 @@ public class Main extends VRApplication {
 			im.addMapping("Right", new JoyAxisTrigger(0, 1, false));			
 						
 			j.getButton("0").assignButton("Jump");				// A
-			j.getButton("3").assignButton("SIMPLEAPP_Exit");	// Y
+			//j.getButton("3").assignButton("Exit");				// Y
 			j.getButton("2").assignButton("Bomb");				// X
 			j.getButton("1").assignButton("Pickup");			// B
 		} else {
@@ -236,10 +248,10 @@ public class Main extends VRApplication {
 			im.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
 
+		im.addMapping("Exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
 		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
 	
-	//TODO this will be removed when camera type is changed
 	/**
 	 * Creates the web server and starts it.
 	 */
@@ -265,7 +277,6 @@ public class Main extends VRApplication {
 	
 	@Override
 	public void simpleUpdate(float tpf) {
-		getInputManager().setCursorVisible(true);
 		for (TickListener tl : tickListeners) {
 			tl.update(tpf);
 		}
