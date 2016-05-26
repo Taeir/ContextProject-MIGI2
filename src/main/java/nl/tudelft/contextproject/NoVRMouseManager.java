@@ -32,7 +32,8 @@ public class NoVRMouseManager implements AnalogListener {
 	 */
 	public NoVRMouseManager(Camera cam) {
 		this.cam = cam;
-		initialUpVec = cam.getUp().clone();
+		initialUpVec = new Vector3f(0, 1, 0);
+		//initialUpVec = cam.getUp().clone();
 	}
 
 	/**
@@ -61,12 +62,12 @@ public class NoVRMouseManager implements AnalogListener {
 		//		inputManager.addMapping(CameraInput.FLYCAM_ROTATEDRAG, new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
 		//
 		//		// keyboard only WASD for movement and WZ for rise/lower height
-		inputManager.addMapping(CameraInput.FLYCAM_STRAFELEFT, new KeyTrigger(KeyInput.KEY_A));
-		inputManager.addMapping(CameraInput.FLYCAM_STRAFERIGHT, new KeyTrigger(KeyInput.KEY_D));
-		inputManager.addMapping(CameraInput.FLYCAM_FORWARD, new KeyTrigger(KeyInput.KEY_W));
-		inputManager.addMapping(CameraInput.FLYCAM_BACKWARD, new KeyTrigger(KeyInput.KEY_S));
-		inputManager.addMapping(CameraInput.FLYCAM_RISE, new KeyTrigger(KeyInput.KEY_Q));
-		inputManager.addMapping(CameraInput.FLYCAM_LOWER, new KeyTrigger(KeyInput.KEY_Z));
+//		inputManager.addMapping(CameraInput.FLYCAM_STRAFELEFT, new KeyTrigger(KeyInput.KEY_A));
+//		inputManager.addMapping(CameraInput.FLYCAM_STRAFERIGHT, new KeyTrigger(KeyInput.KEY_D));
+//		inputManager.addMapping(CameraInput.FLYCAM_FORWARD, new KeyTrigger(KeyInput.KEY_W));
+//		inputManager.addMapping(CameraInput.FLYCAM_BACKWARD, new KeyTrigger(KeyInput.KEY_S));
+//		inputManager.addMapping(CameraInput.FLYCAM_RISE, new KeyTrigger(KeyInput.KEY_Q));
+//		inputManager.addMapping(CameraInput.FLYCAM_LOWER, new KeyTrigger(KeyInput.KEY_Z));
 
 		inputManager.addListener(this, CameraInput.FLYCAM_LEFT,
 				CameraInput.FLYCAM_RIGHT,
@@ -76,7 +77,7 @@ public class NoVRMouseManager implements AnalogListener {
 		inputManager.setCursorVisible(false);
 
 		Joystick[] joysticks = inputManager.getJoysticks();
-		if (joysticks != null && joysticks.length > 0){
+		if (joysticks != null && joysticks.length > 0) {
 			for (Joystick j : joysticks) {
 				mapJoystick(j);
 			}
@@ -93,7 +94,7 @@ public class NoVRMouseManager implements AnalogListener {
 			joystick.getYAxis().assignAxis(CameraInput.FLYCAM_BACKWARD, CameraInput.FLYCAM_FORWARD);
 
 			// And the right stick control the camera                       
-			joystick.getAxis(JoystickAxis.Z_ROTATION).assignAxis(CameraInput.FLYCAM_DOWN, CameraInput.FLYCAM_UP);
+			joystick.getAxis(JoystickAxis.Z_ROTATION).assignAxis(CameraInput.FLYCAM_UP, CameraInput.FLYCAM_DOWN);
 			joystick.getAxis(JoystickAxis.Z_AXIS).assignAxis(CameraInput.FLYCAM_RIGHT, CameraInput.FLYCAM_LEFT);
 
 			// And let the dpad be up and down           
@@ -108,7 +109,7 @@ public class NoVRMouseManager implements AnalogListener {
 			joystick.getPovXAxis().assignAxis(CameraInput.FLYCAM_STRAFERIGHT, CameraInput.FLYCAM_STRAFELEFT);
 			joystick.getPovYAxis().assignAxis(CameraInput.FLYCAM_FORWARD, CameraInput.FLYCAM_BACKWARD);
 			joystick.getXAxis().assignAxis(CameraInput.FLYCAM_RIGHT, CameraInput.FLYCAM_LEFT);
-			joystick.getYAxis().assignAxis(CameraInput.FLYCAM_DOWN, CameraInput.FLYCAM_UP);
+			joystick.getYAxis().assignAxis(CameraInput.FLYCAM_UP, CameraInput.FLYCAM_DOWN);
 		}
 	}
 
