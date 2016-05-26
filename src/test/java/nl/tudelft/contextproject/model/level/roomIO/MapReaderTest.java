@@ -88,8 +88,73 @@ public class MapReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionEmpty() throws IOException {
-		ArrayList<Room> rooms = new ArrayList<Room>();
 		MapReader.readMap("/maps/incorrectMapFiles/empty/", rooms);
+	}
+	
+	/**
+	 * Test reading of a incorrect map file (.cmf).
+	 * Tests exception of no starterRoom definition.
+	 * @throws IOException
+	 * 			should happen here
+	 */
+	@Test (expected = IllegalArgumentException.class)
+	public void testReadMapExceptionNoStartRoom() throws IOException {
+		MapReader.readMap("/maps/incorrectMapFiles/noStartRoom/", rooms);
+	}
+	
+	/**
+	 * Test reading of a incorrect map file (.cmf).
+	 * Tests exception of no treasureRoom.
+	 * @throws IOException
+	 * 			should happen here
+	 */
+	@Test (expected = IllegalArgumentException.class)
+	public void testReadMapExceptionNoEndRoom1() throws IOException {
+		MapReader.readMap("/maps/incorrectMapFiles/noTreasureRoom1/", rooms);
+	}
+	
+	/**
+	 * Test reading of a incorrect map file (.cmf).
+	 * Tests exception of no treasureRoom definition.
+	 * @throws IOException
+	 * 			should happen here
+	 */
+	@Test (expected = IllegalArgumentException.class)
+	public void testReadMapExceptionNoEndRoom2() throws IOException {
+		MapReader.readMap("/maps/incorrectMapFiles/noTreasureRoom2/", rooms);
+	}
+	
+	/**
+	 * Test reading of a incorrect map file (.cmf).
+	 * Tests exception of no extra rooms.
+	 * @throws IOException
+	 * 			should happen here
+	 */
+	@Test (expected = IllegalArgumentException.class)
+	public void testReadMapExceptionNoExtra1() throws IOException {
+		MapReader.readMap("/maps/incorrectMapFiles/noRoomCount1/", rooms);
+	}
+	
+	/**
+	 * Test reading of a incorrect map file (.cmf).
+	 * Tests exception of no extra rooms definition.
+	 * @throws IOException
+	 * 			should happen here
+	 */
+	@Test (expected = IllegalArgumentException.class)
+	public void testReadMapExceptionNoExtra2() throws IOException {
+		MapReader.readMap("/maps/incorrectMapFiles/noRoomCount2/", rooms);
+	}
+	
+	/**
+	 * Test reading of a incorrect map file (.cmf).
+	 * Tests exception of when there are not enough extra rooms.
+	 * @throws IOException
+	 * 			should happen here
+	 */
+	@Test (expected = IllegalArgumentException.class)
+	public void testReadMapExceptionNoExtra3() throws IOException {
+		MapReader.readMap("/maps/incorrectMapFiles/noRoom1/", rooms);
 	}
 
 	/**
