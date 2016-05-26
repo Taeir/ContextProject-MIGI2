@@ -18,14 +18,14 @@ import nl.tudelft.contextproject.TestBase;
 /**
  * Test class for the lightReader class.
  */
-public class LightReaderTest extends TestBase {
+public class LightParserTest extends TestBase {
 
 	/**
 	 * Test if getting non existent light type throws an exception.
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetLightNonExistent() {
-		LightReader.getLight("BrightLight", 0, 0, 0, "color", null);
+		LightParser.getLight("BrightLight", 0, 0, 0, "color", null);
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class LightReaderTest extends TestBase {
 	@Test
 	public void testGetPointLight() {
 		String[] data = {"", "", "", "", "", "20"};
-		Light res = LightReader.getLight("PointLight", 0, 0, 0, "randomColor", data);
+		Light res = LightParser.getLight("PointLight", 0, 0, 0, "randomColor", data);
 		assertEquals(PointLight.class, res.getClass());
 		assertEquals(20f, ((PointLight) res).getRadius(), 1e-10);
 	}
@@ -45,7 +45,7 @@ public class LightReaderTest extends TestBase {
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetPointLightTooFewArguments() {
 		String[] data = {"", "", "", "", ""};
-		LightReader.getLight("PointLight", 0, 0, 0, "randomColor", data);
+		LightParser.getLight("PointLight", 0, 0, 0, "randomColor", data);
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class LightReaderTest extends TestBase {
 	 */
 	@Test
 	public void testGetAmbientLight() {
-		Light res = LightReader.getLight("AmbientLight", 0, 0, 0, "randomColor", null);
+		Light res = LightParser.getLight("AmbientLight", 0, 0, 0, "randomColor", null);
 		assertEquals(AmbientLight.class, res.getClass());
 	}
 	
@@ -68,7 +68,7 @@ public class LightReaderTest extends TestBase {
 		ArrayList<Light> lights = new ArrayList<>();
 		String in = "0 1 2 AmbientLight randomColor";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		LightReader.readLights(lights, 1, 0, 0, br);
+		LightParser.readLights(lights, 1, 0, 0, br);
 		assertEquals(1, lights.size());
 		assertEquals(AmbientLight.class, lights.get(0).getClass());
 	}
@@ -84,7 +84,7 @@ public class LightReaderTest extends TestBase {
 		ArrayList<Light> lights = new ArrayList<>();
 		String in = "";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		LightReader.readLights(lights, 1, 0, 0, br);
+		LightParser.readLights(lights, 1, 0, 0, br);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class LightReaderTest extends TestBase {
 		ArrayList<Light> lights = new ArrayList<>();
 		String in = "0 2 AmbientLight randomColor";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		LightReader.readLights(lights, 1, 0, 0, br);
+		LightParser.readLights(lights, 1, 0, 0, br);
 	}
 
 }

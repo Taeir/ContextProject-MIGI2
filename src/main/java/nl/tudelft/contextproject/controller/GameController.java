@@ -31,7 +31,7 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
+import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
 
 /**
  * Controller for the main game.
@@ -68,10 +68,10 @@ public class GameController extends Controller {
 		List<Light> lights = new ArrayList<>();
 
 		try {
-			File file = RoomReader.getMapFile(folder);
+			File file = RoomParser.getMapFile(folder);
 			String[] tmp = file.getName().split("_")[0].split("x");
 			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
-			RoomReader.importFile(folder, tiles, entities, lights, 0, 0);
+			RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
 			Level level = new Level(tiles, lights);
 			game = new Game(level, new VRPlayer(), entities);
 		} catch (IOException e) {
@@ -133,35 +133,35 @@ public class GameController extends Controller {
 	}
 
 	private void attachRoof(Level level) {
-			if (!(Main.getInstance().getAssetManager() == null)) {
-				addDrawable(new Drawable() {
-					@Override
-					public Spatial getSpatial() {
-						Quad roof = new Quad(level.getWidth(), level.getHeight());
+		if (!(Main.getInstance().getAssetManager() == null)) {
+			addDrawable(new Drawable() {
+				@Override
+				public Spatial getSpatial() {
+					Quad roof = new Quad(level.getWidth(), level.getHeight());
 
-						Geometry geom = new Geometry("roof", roof);
+					Geometry geom = new Geometry("roof", roof);
 
-						AssetManager am = Main.getInstance().getAssetManager();
-						Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
-						mat.setBoolean("UseMaterialColors", true);
-						ColorRGBA color = ColorRGBA.Gray;
-						mat.setColor("Diffuse", color);
-						mat.setColor("Specular", color);
-						mat.setFloat("Shininess", 64f);
-						mat.setColor("Ambient", color);
-						mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
-						geom.setMaterial(mat); 
+					AssetManager am = Main.getInstance().getAssetManager();
+					Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
+					mat.setBoolean("UseMaterialColors", true);
+					ColorRGBA color = ColorRGBA.Gray;
+					mat.setColor("Diffuse", color);
+					mat.setColor("Specular", color);
+					mat.setFloat("Shininess", 64f);
+					mat.setColor("Ambient", color);
+					mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
+					geom.setMaterial(mat); 
 
-						geom.rotate((float) Math.toRadians(90), 0, 0);
-						geom.move(0, 6, 0);
-						return geom;
-					}
+					geom.rotate((float) Math.toRadians(90), 0, 0);
+					geom.move(0, 6, 0);
+					return geom;
+				}
 
-					@Override
-					public void setSpatial(Spatial spatial) { }
-				});
-			}
+				@Override
+				public void setSpatial(Spatial spatial) { }
+			});
 		}
+	}
 
 	/**
 	 * Attach all {@link MazeTile}s in the level to the renderer.
