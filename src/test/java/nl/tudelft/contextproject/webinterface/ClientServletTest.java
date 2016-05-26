@@ -219,7 +219,7 @@ public class ClientServletTest extends WebTestBase {
 		//Call the post
 		servlet.doPost(request, response);
 
-		//Verify that the statusUpdate method has been called
+		//Verify that the requestAction method has been called
 		verify(servlet).requestAction(request, response);
 	}
 
