@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.controller;
 
-import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -254,7 +253,7 @@ public class GameController extends Controller {
 	 * @param game
 	 * 		the new game instance
 	 */
-	protected void setGame(Game game) {
+	public void setGame(Game game) {
 		this.game = game;
 	}
 }

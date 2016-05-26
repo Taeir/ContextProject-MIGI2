@@ -24,6 +24,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
 
 /**
@@ -258,10 +259,16 @@ public final class TestUtil extends TestBase {
 			main = Main.getInstance();
 		}
 		
-		//Create a mocked level in a read GameController
+		//Create a mocked level in a real GameController
 		Level level = mock(Level.class);
 		GameController gc = new GameController(main, level);
 		
+		//Spy on the game
+		Game game = spy(gc.getGame());
+		gc.setGame(game);
+		
+		//Spy on the game controller
+		gc = spy(gc);
 		main.setController(gc);
 	}
 	
