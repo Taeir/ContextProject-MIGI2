@@ -1,17 +1,18 @@
 package nl.tudelft.contextproject;
 
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.Arrays;
-
 import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.input.CameraInput;
+import com.jme3.input.DefaultJoystickAxis;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
 import com.jme3.input.KeyInput;
-import com.jme3.input.controls.JoyAxisTrigger;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -25,20 +26,20 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
-import nl.tudelft.contextproject.files.FileUtil;
+import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
+import lombok.SneakyThrows;
+
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
 public class Main extends SimpleApplication {
-	
-	/**
-	 * Port number of server. //TODO this should be set in a setting class preferably.
-	 */
+
+	//TODO this should be set in a setting class preferably.
 	public static final int PORT_NUMBER = 8080;
 	
 	private static boolean debugHud;
@@ -50,14 +51,15 @@ public class Main extends SimpleApplication {
 
 	/**
 	 * Main method that is called when the program is started.
-	 * @param args run-specific arguments.
+	 *
+	 * @param args
+	 * 		run-specific arguments
 	 */
 	public static void main(String[] args) {
 		FileUtil.init();
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
-		
 		AppSettings settings = new AppSettings(true);
         settings.setUseJoysticks(true);
         main.setSettings(settings);
@@ -67,7 +69,9 @@ public class Main extends SimpleApplication {
 	/**
 	 * Method used for testing.
 	 * Sets the instance of this singleton to the provided instance.
-	 * @param main The new value of the instance.
+	 *
+	 * @param main
+	 * 		the new value of the instance
 	 */
 	public static void setInstance(Main main) {
 		instance = main;
@@ -76,8 +80,11 @@ public class Main extends SimpleApplication {
 	/**
 	 * Set the controller for the current scene.
 	 * Cleans up the old scene before initializing the new one.
-	 * @param c The new controller.
-	 * @return true is the controller was changed, false otherwise.
+	 *
+	 * @param c
+	 * 		the new controller
+	 * @return
+	 * 		true is the controller was changed, false otherwise
 	 */
 	public boolean setController(Controller c) {
 		if (c != controller) {
@@ -93,7 +100,9 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Get the instance of the current game.
-	 * @return the current instance of the game or null when no game is running.
+	 *
+	 * @return
+	 * 		the current instance of the game or null when no game is running
 	 */
 	public Game getCurrentGame() {
 		if (controller instanceof GameController) {
@@ -108,7 +117,9 @@ public class Main extends SimpleApplication {
 	/**
 	 * Method used for testing.
 	 * Sets the rootNode of Main to a new Node.
-	 * @param rn The new node to replace the rootNode.
+	 *
+	 * @param rn
+	 * 		the new node to replace the rootNode
 	 */
 	public void setRootNode(Node rn) {
 		rootNode = rn;
@@ -117,7 +128,9 @@ public class Main extends SimpleApplication {
 	/**
 	 * Method used for testing.
 	 * Sets the guiNode of Main to a new Node.
-	 * @param gn The new node to replace the guiNode.
+	 *
+	 * @param gn
+	 * 		the new node to replace the guiNode.
 	 */
 	public void setGuiNode(Node gn) {
 		guiNode = gn;
@@ -126,18 +139,22 @@ public class Main extends SimpleApplication {
 	/**
 	 * Method used for testing.
 	 * Sets the list of tickListeners to the specified list.
-	 * @param listeners The new List of ticklisteners.
+	 *
+	 * @param listeners
+	 * 		the new List of TickListeners
 	 */
-	protected void setTickListeners(List<TickListener> listeners) {
+	public void setTickListeners(List<TickListener> listeners) {
 		tickListeners = listeners;
 	}
 	
 	/**
 	 * Method used for testing.
 	 * Sets the inputManager to the specified inputManager.
-	 * @param im The new InputManager.
+	 *
+	 * @param im
+	 * 		the new InputManager.
 	 */
-	protected void setInputManager(InputManager im) {
+	public void setInputManager(InputManager im) {
 		inputManager = im;
 	}
 
@@ -150,16 +167,15 @@ public class Main extends SimpleApplication {
 		getFlyByCamera().setZoomSpeed(0);
 		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
-		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
+		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
 		setController(new WaitingController(this));
 		setupWebServer();
+		
+		showQRCode();
 
-		//Initialize the AudioManager.
 		AudioManager.getInstance().init();
-
-		//Start the background music
 		BackgroundMusic.getInstance().start();
 		
 		//Register an AppState to properly clean up the game.
@@ -174,19 +190,31 @@ public class Main extends SimpleApplication {
 	}
 
 	/**
+	 * Opens the QR code to join the game in the default browser.
+	 */
+	private void showQRCode() {
+		if (Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(new URI("http://localhost:8080/qr"));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	/**
 	 * Setup all the key mappings.
 	 */
+	@SneakyThrows
 	protected void setupControlMappings() {
-		InputManager im = getInputManager();		
+		InputManager im = getInputManager();
+
 		if (isControllerConnected()) {
 			getFlyByCamera().onAction(CameraInput.FLYCAM_INVERTY, false, 0);
 			Joystick j = im.getJoysticks()[0];
-		
-			im.addMapping("Up", new JoyAxisTrigger(0, 0, true));
-			im.addMapping("Down", new JoyAxisTrigger(0, 0, false));
-			im.addMapping("Left", new JoyAxisTrigger(0, 1, true));
-			im.addMapping("Right", new JoyAxisTrigger(0, 1, false));			
-						
+
+			mapJoystickAxes(j);
+
 			j.getButton("0").assignButton("Jump");				// A
 			j.getButton("3").assignButton("SIMPLEAPP_Exit");	// Y
 			j.getButton("2").assignButton("Bomb");				// X
@@ -200,7 +228,25 @@ public class Main extends SimpleApplication {
 			getInputManager().addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
 			getInputManager().addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
+
 		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+	}
+
+	/**
+	 * Maps the Joystick Axes to our game controls.
+	 * 
+	 * @param joystick
+	 * 		the joystick to map the axes of.
+	 */
+	private void mapJoystickAxes(Joystick joystick) {
+		//Set the deadzones to 0.3
+		if (joystick.getXAxis() instanceof DefaultJoystickAxis) {
+			((DefaultJoystickAxis) joystick.getXAxis()).setDeadZone(0.30f);
+			((DefaultJoystickAxis) joystick.getYAxis()).setDeadZone(0.30f);
+		}
+		
+		joystick.getXAxis().assignAxis("Right", "Left");
+		joystick.getYAxis().assignAxis("Up", "Down");
 	}
 	
 	//TODO this will be removed when camera type is changed
@@ -219,8 +265,9 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Move the camera to a new location.
+	 *
 	 * @param newLoc
-	 * 					the new location of the camera
+	 *		the new location of the camera
 	 */ 
 	public void moveCameraTo(Vector3f newLoc) {
 		getCamera().setLocation(newLoc);
@@ -232,17 +279,17 @@ public class Main extends SimpleApplication {
 			tl.update(tpf);
 		}
 
-		//Update location for 3D audio
 		getListener().setLocation(getCamera().getLocation());
 		getListener().setRotation(getCamera().getRotation());
 
-		//Update BackgroundMusic
-		BackgroundMusic.getInstance().update(tpf);
+		BackgroundMusic.getInstance().update();
 	}
 	
 	/**
-	 * Add a Ticklistener.
-	 * @param tl The ticklistener to add.
+	 * Add a TickListener.
+	 *
+	 * @param tl
+	 * 		the TickListener to add
 	 */
 	public void attachTickListener(TickListener tl) {
 		tickListeners.add(tl);
@@ -250,7 +297,9 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Remove a registered TickListener.
-	 * @param tl The ticklistener to remove.
+	 *
+	 * @param tl
+	 * 		the TickListener to remove
 	 */
 	public void removeTickListener(TickListener tl) {
 		tickListeners.remove(tl);
@@ -258,7 +307,9 @@ public class Main extends SimpleApplication {
 
 	/**
 	 * Return the singleton instance of the game.
-	 * @return the running instance of the game.
+	 *
+	 * @return
+	 * 		the running instance of the game
 	 */
 	public static Main getInstance() {
 		if (instance == null) {
@@ -269,7 +320,9 @@ public class Main extends SimpleApplication {
 	
 	/**
 	 * Get the current game state.
-	 * @return The current game state.
+	 *
+	 * @return
+	 * 		the current game state
 	 */
 	public GameState getGameState() {
 		if (controller == null) return null;
@@ -291,7 +344,9 @@ public class Main extends SimpleApplication {
 
 	/**
 	 * Check if the debug Hud is shown.
-	 * @return True when shown, false otherwise.
+	 *
+	 * @return
+	 * 		true when shown, false otherwise.
 	 */
 	public static boolean isDebugHudShown() {
 		return debugHud;
@@ -299,7 +354,9 @@ public class Main extends SimpleApplication {
 
 	/**
 	 * Check if a controller is connected.
-	 * @return True if a controller is connected, false otherwise.
+	 *
+	 * @return
+	 * 		true if a controller is connected, false otherwise.
 	 */
 	public boolean isControllerConnected() {
 		Joystick[] sticks = getInputManager().getJoysticks();

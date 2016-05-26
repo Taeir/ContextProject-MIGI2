@@ -36,7 +36,8 @@ public class PauseControllerTest extends ControllerTest {
 	/**
 	 * Setup all the mocks for each test.
 	 */
-	@SuppressWarnings("deprecation") @Before
+	@Before
+	@SuppressWarnings("deprecation")
 	public void setUp() {
 		controller = getController();
 		main = Main.getInstance();
@@ -48,7 +49,7 @@ public class PauseControllerTest extends ControllerTest {
 		controller.setGuiNode(guiNode);
 		controller.setInputManager(inputManager);
 	}
-	
+
 	/**
 	 * Test that updating does not change the root and Gui node.
 	 */

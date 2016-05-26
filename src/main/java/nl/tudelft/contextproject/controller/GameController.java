@@ -11,21 +11,27 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.asset.AssetManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
+import com.jme3.math.Vector2f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Quad;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Entity;
-import nl.tudelft.contextproject.model.EntityState;
+import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.VRPlayer;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.roomIO.RoomReader;
+import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
 
 /**
  * Controller for the main game.
@@ -35,28 +41,37 @@ public class GameController extends Controller {
 
 	/**
 	 * Constructor for the game controller.
-	 * @param app The Main instance of this game.
-	 * @param level The level for this game.
+	 *
+	 * @param app
+	 * 		The Main instance of this game
+	 * @param level
+	 * 		The level for this game
 	 */
 	public GameController(SimpleApplication app, Level level) {
 		super(app, "GameController");
+
 		game = new Game(level);
 	}
-	
+
 	/**
 	 * Create a game with a level loaded from a file.
-	 * @param app The main app that this controller is attached to.
-	 * @param folder The folder where to load the level from.
+	 *
+	 * @param app
+	 * 		the main app that this controller is attached to
+	 * @param folder
+	 * 		the folder where to load the level from
 	 */
 	public GameController(SimpleApplication app, String folder) {
 		super(app, "GameController");
+
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		List<Light> lights = new ArrayList<>();
+
 		try {
-			File file = RoomReader.getMapFile(folder);
+			File file = RoomParser.getMapFile(folder);
 			String[] tmp = file.getName().split("_")[0].split("x");
 			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
-			RoomReader.importFile(folder, tiles, entities, lights, 0, 0);
+			RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
 			Level level = new Level(tiles, lights);
 			game = new Game(level, new VRPlayer(), entities);
 		} catch (IOException e) {
@@ -67,6 +82,7 @@ public class GameController extends Controller {
 	@Override
 	public void cleanup() {
 		super.cleanup();
+
 		for (Entity e : game.getEntities()) {
 			e.setState(EntityState.NEW);
 		}
@@ -75,9 +91,10 @@ public class GameController extends Controller {
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-		attachLevel();
 
+		attachLevel();
 		GameController t = this;
+
 		ActionListener al = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
@@ -88,52 +105,87 @@ public class GameController extends Controller {
 				}
 			}
 		};
+
 		addInputListener(al, "pause");
-		addInputListener(game.getPlayer(), "Left");
-		addInputListener(game.getPlayer(), "Right");
-		addInputListener(game.getPlayer(), "Up");
-		addInputListener(game.getPlayer(), "Down");
-		addInputListener(game.getPlayer(), "Jump");
-		addInputListener(game.getPlayer(), "Bomb");
-		addInputListener(game.getPlayer(), "Pickup");
+		addInputListener(game.getPlayer(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
 	}
 
 	/**
 	 * Attaches the current level to the renderer.
-	 * Note: this method does not clear the previous level, use {@link #clearLevel()} for that.
 	 */
-	public void attachLevel() {
+	protected void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
-		int xStart = 0; 
-		int yStart = 0;
-		
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					//TODO add starting room with starting location
-					if ((xStart == 0 && yStart == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-						xStart = x;
-						yStart = y;
-					}
-					addDrawable(level.getTile(x, y));
-				}
-			}
-		}
-		//Add player
-		addDrawable(game.getPlayer());
-		
-		if (game.getPlayer().getPhysicsObject() != null) {
-			game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
-		}
+
+		Vector2f start = attachMazeTiles(level);
+		attachRoof(level);
+
+		addDrawable(game.getPlayer());		
+		game.getPlayer().move(start.x, 6, start.y);
 		
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
 		 
 		AmbientLight al = new AmbientLight();
-		 al.setColor(ColorRGBA.White.mult(.5f));
+		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
+	}
+
+	private void attachRoof(Level level) {
+		if (!(Main.getInstance().getAssetManager() == null)) {
+			addDrawable(new Drawable() {
+				@Override
+				public Spatial getSpatial() {
+					Quad roof = new Quad(level.getWidth(), level.getHeight());
+
+					Geometry geom = new Geometry("roof", roof);
+
+					AssetManager am = Main.getInstance().getAssetManager();
+					Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
+					mat.setBoolean("UseMaterialColors", true);
+					ColorRGBA color = ColorRGBA.Gray;
+					mat.setColor("Diffuse", color);
+					mat.setColor("Specular", color);
+					mat.setFloat("Shininess", 64f);
+					mat.setColor("Ambient", color);
+					mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
+					geom.setMaterial(mat); 
+
+					geom.rotate((float) Math.toRadians(90), 0, 0);
+					geom.move(0, 6, 0);
+					return geom;
+				}
+
+				@Override
+				public void setSpatial(Spatial spatial) { }
+			});
+		}
+	}
+
+	/**
+	 * Attach all {@link MazeTile}s in the level to the renderer.
+	 * 
+	 * @param 
+	 * 		level the level that contains all the mazetiles
+	 * @return 
+	 * 		the starting position of the player
+	 */
+	private Vector2f attachMazeTiles(Level level) {
+		Vector2f start = new Vector2f();
+		for (int x = 0; x < level.getWidth(); x++) {
+			for (int y = 0; y < level.getHeight(); y++) {
+				if (level.isTileAtPosition(x, y)) {
+					//TODO add starting room with starting location
+					if ((start.x == 0 && start.y == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
+						start.x = x;
+						start.y = y;
+					}
+					addDrawable(level.getTile(x, y));
+				}
+			}
+		}
+		return start;
 	}
 
 	@Override
@@ -144,32 +196,36 @@ public class GameController extends Controller {
 
 	/**
 	 * Update all the entities in the level.
-	 * Add all new entities to should be added to the rootNode and all dead ones should be removed.
-	 * @param tpf The time per frame for this update.
+	 * Adds all new entities and removes all dead ones.
+	 *
+	 * @param tpf
+	 * 		the time per frame for this update
 	 */
 	void updateEntities(float tpf) {
 		for (Iterator<Entity> i = game.getEntities().iterator(); i.hasNext();) {
 			Entity e = i.next();
 			EntityState state = e.getState();
+
 			switch (state) {
-			case DEAD:
-				removeDrawable(e);
-				i.remove();
-				continue;
-			case NEW:
-				addDrawable(e);
-				e.setState(EntityState.ALIVE);
-				e.update(tpf);
-				break;
-			default:
-				e.update(tpf);
-				break;
+				case DEAD:
+					removeDrawable(e);
+					i.remove();
+					break;
+				case NEW:
+					addDrawable(e);
+					e.setState(EntityState.ALIVE);
+					e.update(tpf);
+					break;
+				default:
+					e.update(tpf);
+					break;
 			}
 		}
 	}
+
 	/**
-	 * Getter for the current level.
-	 * @return The current level.
+	 * @return
+	 * 		the current level
 	 */
 	public Level getLevel() {
 		return game.getLevel();
@@ -181,8 +237,8 @@ public class GameController extends Controller {
 	}
 
 	/**
-	 * Getter for the current game.
-	 * @return The current game.
+	 * @return
+	 * 		the current game
 	 */
 	public Game getGame() {
 		return game;
@@ -191,7 +247,9 @@ public class GameController extends Controller {
 	/**
 	 * Method used for testing.
 	 * Set the instance of the game.
-	 * @param game The new game instance.
+	 *
+	 * @param game
+	 * 		the new game instance
 	 */
 	protected void setGame(Game game) {
 		this.game = game;
