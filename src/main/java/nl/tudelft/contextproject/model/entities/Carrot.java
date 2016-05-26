@@ -11,7 +11,7 @@ import nl.tudelft.contextproject.Main;
 /**
  * A carrot that can be eaten.
  */
-public class Carrot extends Entity implements FoodItem {
+public class Carrot extends Entity {
 
 	private float health;
 	private Spatial spatial;
@@ -48,21 +48,26 @@ public class Carrot extends Entity implements FoodItem {
 	public void move(float x, float y, float z) {
 		getSpatial().move(x, y, z);
 	}
-
-	@Override
-	public void eat(Entity eatenBy, float amount) {
-//		TODO?
-//		if(eatenBy instanceof VRPlayer) {
-//			((VRPlayer) eatenBy).heal(amount);
-//		}
-		
+	
+	/**
+	 * Eat a piece of the carrot.
+	 *  
+	 * @param amount
+	 * 		the amount eaten.
+	 */
+	public void eat(float amount) {		
 		health -= amount;
 		if (health < 0) {
 			setState(EntityState.DEAD);
 		}
 	}
 
-	@Override
+	/**
+	 * Get the amount of carrot.
+	 * 
+	 * @return
+	 * 		how much carrot is left
+	 */
 	public float getAmount() {
 		return health;
 	}

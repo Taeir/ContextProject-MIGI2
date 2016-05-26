@@ -1,8 +1,6 @@
 package nl.tudelft.contextproject.model.entities;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,8 +30,7 @@ public class CarrotTest extends EntityTest {
 	@Test
 	public void testEat() {
 		float total = carrot.getAmount();
-		Entity e = mock(Entity.class);
-		carrot.eat(e, .2f);
+		carrot.eat(.2f);
 		assertEquals(total - .2f, carrot.getAmount(), 1e-8);
 	}
 	
@@ -43,8 +40,7 @@ public class CarrotTest extends EntityTest {
 	@Test
 	public void testEatAll() {
 		float total = carrot.getAmount();
-		Entity e = mock(Entity.class);
-		carrot.eat(e, total + 1f);
+		carrot.eat(total + 1f);
 		assertEquals(EntityState.DEAD, carrot.getState());
 	}
 

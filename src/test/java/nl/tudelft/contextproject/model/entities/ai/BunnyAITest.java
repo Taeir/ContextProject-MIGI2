@@ -125,7 +125,7 @@ public class BunnyAITest {
 		entities.add(c);
 		
 		assertEquals(c, ai.findTarget(6f, .3f));
-		verify(c, times(1)).eat(owner, .3f);
+		verify(c, times(1)).eat(.3f);
 	}
 
 }

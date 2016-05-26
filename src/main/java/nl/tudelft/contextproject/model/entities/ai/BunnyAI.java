@@ -62,7 +62,7 @@ public class BunnyAI implements EntityAI {
 		if (c == null) return player;
 		float carrotDist = c.getLocation().distance(owner.getLocation());
 		if (carrotDist < 0.4f) {
-			c.eat(owner, tpf);
+			c.eat(tpf);
 		}
 		if (carrotDist < playerDist) {
 			return c;
