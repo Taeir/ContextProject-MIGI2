@@ -423,6 +423,10 @@ function getClassForEntityType(entityType) {
             return "pitfall";
         case 7:
             return "landmine";
+        case 8:
+            return "carrot";
+        case 9:
+            return "killerbunny";
         default:
             showError("Invalid tile type: " + entityType);
             throw "Invalid tile type: " + entityType;

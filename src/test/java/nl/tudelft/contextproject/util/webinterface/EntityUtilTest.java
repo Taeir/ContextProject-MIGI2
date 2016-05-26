@@ -68,6 +68,22 @@ public class EntityUtilTest extends TestBase {
 	}
 
 	/**
+	 * Test getting code for Carrot.
+	 */
+	@Test
+	public void testGetJSONCodeCarrot() {
+		assertEquals(EntityUtil.getJSONCoded("Carrot"), 8);
+	}
+
+	/**
+	 * Test getting code for KillerBunny.
+	 */
+	@Test
+	public void testGetJSONCodeKillerBunny() {
+		assertEquals(EntityUtil.getJSONCoded("KillerBunny"), 9);
+	}
+
+	/**
 	 * Test getting code for non existing entity.
 	 */
 	@Test

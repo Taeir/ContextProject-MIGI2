@@ -46,7 +46,7 @@ html, body {
 	background-color: #FFFF00 !important;
 }
 #map .bomb {
-	background-color: #000 !important;
+	background-color: #000000 !important;
 }
 #map .door {
 	background-color: #7A5230 !important;
@@ -62,6 +62,12 @@ html, body {
 }
 #map .landmine {
 	background-color: #FF6C6C !important;
+}
+#map .carrot {
+	background-color: #FFA500 !important;
+}
+#map .killerbunny {
+	background-color: #FFFFFF !important;
 }
 #map {
 	border-spacing: 1px;
