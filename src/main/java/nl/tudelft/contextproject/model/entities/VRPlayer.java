@@ -15,6 +15,8 @@ import com.jme3.scene.shape.Sphere;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
 
 /**
  * Class representing the player wearing the VR headset.
@@ -44,6 +46,11 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	public static final float SIDE_WAY_SPEED_MULTIPLIER = .08f;
 	public static final float STRAIGHT_SPEED_MULTIPLIER = .1f;
 
+	//Constants for exploration.
+
+	public static final float EXPLORATION_INTERVAL = 0.5f;
+	public static final int EXPLORATION_RADIUS = 5;
+
 	private Spatial spatial;
 	private CharacterControl playerControl;
 	private boolean left, right, up, down;
@@ -51,6 +58,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	private Inventory inventory;
 	private Vector3f resp;
 	private float fallingTimer;
+	private float explorationTimer;
 
 	/**
 	 * Constructor for a default player.
@@ -97,10 +105,47 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		playerControl.setWalkDirection(walkDirection);
 		spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
+		
+		updateExploration(tdf);
 	}
 
 	/**
-	 * Update the falling timer that triggers respawining the player.
+	 * Updates the exploration.
+	 * 
+	 * @param tpf
+	 * 		the ticks per frame
+	 */
+	protected void updateExploration(float tpf) {
+		//We want to update exploration at an interval (for performance reasons)
+		explorationTimer += tpf;
+		if (explorationTimer < EXPLORATION_INTERVAL) return;
+		
+		explorationTimer = 0f;
+		
+		//Please note that the Z coordinate of the player is the Y coordinate of the tile.
+		Level level = Main.getInstance().getCurrentGame().getLevel();
+		int x = Math.round(getLocation().getX());
+		int y = Math.round(getLocation().getZ());
+		
+		//Explore in a square around the player
+		for (int dx = -EXPLORATION_RADIUS; dx < EXPLORATION_RADIUS; dx++) {
+			int tileX = x + dx;
+			if (tileX < 0 || tileX >= level.getWidth()) continue;
+			
+			for (int dy = -EXPLORATION_RADIUS; dy < EXPLORATION_RADIUS; dy++) {
+				int tileY = y + dy;
+				if (tileY < 0 || tileY >= level.getHeight()) continue;
+				
+				MazeTile tile = level.getTile(tileX, tileY);
+				if (tile == null) continue;
+				
+				tile.setExplored(true);
+			}
+		}
+	}
+
+	/**
+	 * Update the falling timer that triggers respawning the player.
 	 * 
 	 * @param tpf
 	 *		the time per frame for this update
@@ -249,7 +294,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	@Override
 	public void move(float x, float y, float z) {
-		spatial.move(x, y, z);
+		getSpatial().move(x, y, z);
 		getPhysicsObject().setPhysicsLocation(playerControl.getPhysicsLocation().add(x, y, z));
 	}
 
