@@ -43,22 +43,8 @@ public class MazeTile implements Drawable, PhysicsObject {
 		this.explored = false;
 		this.type = type;
 		
-		switch (type) {
-			case FLOOR:
-				this.height = 0;
-				this.color = ColorRGBA.Green;
-				break;
-			case WALL:
-				this.height = 3;
-				this.color = ColorRGBA.Blue;
-				break;
-			case CORRIDOR:
-				this.height = 0;
-				this.color = ColorRGBA.Red;
-				break;
-			default:
-				throw new IllegalArgumentException("Invalid TileType: " + type);
-		}
+		this.height = type.getHeight();
+		this.color = type.getColor();
 	}
 	
 	/**
