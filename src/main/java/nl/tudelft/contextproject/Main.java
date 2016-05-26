@@ -47,6 +47,7 @@ public class Main extends VRApplication {
 	public static final boolean MIRROR_WINDOW = true;
 	
 	private static boolean debugHud;
+	private static boolean hideQR;
 	
 	private static Main instance;
 	
@@ -65,7 +66,8 @@ public class Main extends VRApplication {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
-
+		hideQR = a.contains("--hideQR");
+		
 		AppSettings settings = new AppSettings(true);
 		settings.setUseJoysticks(true);
 		main.setSettings(settings);
@@ -196,7 +198,9 @@ public class Main extends VRApplication {
 		setController(new WaitingController(this));
 		setupWebServer();
 		
-		showQRCode();
+		if (!hideQR) {
+			showQRCode();
+		}
 
 		AudioManager.getInstance().init();
 		BackgroundMusic.getInstance().start();
