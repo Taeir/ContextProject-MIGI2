@@ -60,7 +60,7 @@ public class EntityUtilTest extends TestBase {
 	}
 
 	/**
-	 * Test getting code for PlayerTrigger.
+	 * Test getting code for LandMine.
 	 */
 	@Test
 	public void testGetJSONCodeLandMine() {
