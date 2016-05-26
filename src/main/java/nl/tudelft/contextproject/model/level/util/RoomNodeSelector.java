@@ -18,11 +18,16 @@ public class RoomNodeSelector {
 	//Allow selector to provide duplicate rooms in maze generation
 	public static final Boolean ALLOW_DUPLICATE_ROOMS = false;
 	
-	//Number of entrances classifier
+	//Number of entrances classifier, fewer entrances first.
 	public ArrayList<ArrayList<RoomNode>> entranceClassifier;
 	//Number of exits classifier
 	public ArrayList<ArrayList<RoomNode>> exitClassifier;
 	
+	/**
+	 * Set up data structures for selecting.
+	 * @param nodes
+	 * 			node list
+	 */
 	public RoomNodeSelector(List<RoomNode> nodes) {
 		entranceClassifier = new ArrayList<ArrayList<RoomNode>>();
 		exitClassifier = new ArrayList<ArrayList<RoomNode>>();
@@ -32,11 +37,21 @@ public class RoomNodeSelector {
 		}
 	}
 
+	/**
+	 * Add a room at the correct place.
+	 * @param node
+	 * 			node to add.
+	 */
 	public void addExit(RoomNode node) {
 		int numberOfExits = node.getNumberOfOutgoingConnections();
 		
 	}
 
+	/**
+	 * Add a entrance at the correct place.
+	 * @param node
+	 * 			entrance to add
+	 */	
 	public void addEntrance(RoomNode node) {
 		// TODO Auto-generated method stub
 		
