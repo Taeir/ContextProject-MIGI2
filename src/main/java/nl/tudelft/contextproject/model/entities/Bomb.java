@@ -8,6 +8,8 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
@@ -15,16 +17,18 @@ import nl.tudelft.contextproject.model.PhysicsObject;
  * Class representing a bomb.
  */
 public class Bomb extends Entity implements PhysicsObject {
-	private Geometry geometry;
 	private Spatial sp;
 	private RigidBodyControl rb;
 	private boolean active;
 	private float timer;
+	private float radius;
+	private Spatial explosion;
 
 	/**
 	 * Constructor for a bomb.
 	 */
 	public Bomb() {
+		radius = 1f;
 		timer = 0f;
 		active = false;
 		sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
@@ -42,12 +46,21 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public void update(float tdf) {
 		if (active) {
+			System.out.println(timer);
 			timer += tdf;
-			if (timer > 5) {
-				if (this.collidesWithPlayer(3f)) {
+			if (timer > 4) {
+				radius += 4 * tdf;
+				if (this.collidesWithPlayer(radius)) {
 					Main.getInstance().getCurrentGame().getPlayer().takeDamage();
 				}
-				this.setState(EntityState.DEAD);
+				sp.setLocalScale(0f);
+				explosion.setLocalTranslation(sp.getLocalTranslation());
+				Main.getInstance().getRootNode().attachChild(explosion);
+				explosion.setLocalScale(radius);
+				if (timer > 5) {
+					Main.getInstance().getRootNode().detachChild(explosion);
+					this.setState(EntityState.DEAD);
+				}
 			}
 		}
 	}
@@ -70,6 +83,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public void move(float x, float y, float z) {
 		sp.move(x, y, z);
+		//explosion.move(x, y, z);
 		if (rb == null) getPhysicsObject();
 
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
@@ -79,6 +93,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	 * activates the bomb, it will explode in 5 seconds.
 	 */
 	public void activate() {
+		explosion = Main.getInstance().getAssetManager().loadModel("Models/explosion.blend");
 		this.active = true;
 	}
 

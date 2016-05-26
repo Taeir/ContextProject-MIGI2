@@ -9,8 +9,6 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
-
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
@@ -30,12 +28,10 @@ public class Key extends Entity implements PhysicsObject {
 	 */
 	public Key(ColorRGBA col) {
 		color = col;
-		Box cube1Mesh = new Box(1f, 1f, 1f);
-		Geometry geometry = new Geometry("dink", cube1Mesh);
 		System.out.println("hello");
 		sp = Main.getInstance().getAssetManager().loadModel("Models/key.blend");
 		Node node = (Node) sp;
-		geometry = (Geometry) ((Node) node.getChild("Cube")).getChild(0);
+		Geometry geometry = (Geometry) ((Node) node.getChild("Cube")).getChild(0);
 		Material mat = geometry.getMaterial();
 		mat.setColor("Ambient", color);
 	}
