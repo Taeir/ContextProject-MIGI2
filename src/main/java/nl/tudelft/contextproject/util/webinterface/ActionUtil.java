@@ -43,7 +43,7 @@ public final class ActionUtil {
 				dropBait(xCoord, yCoord);
 				break;
 			default:
-				throw new IllegalArgumentException("Your action \"" + action + "\" is not a valid.");
+				throw new IllegalArgumentException("Your action \"" + action + "\" is not valid.");
 		}
 	}
 
