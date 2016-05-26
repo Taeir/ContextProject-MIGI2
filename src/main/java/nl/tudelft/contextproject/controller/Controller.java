@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
-
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
@@ -78,7 +77,7 @@ public abstract class Controller extends AbstractAppState {
 	public boolean removeGuiElement(Spatial s) {
 		return guiNode.detachChild(s) != -1;
 	}
-
+	
 	/**
 	 * Add a Drawable to the renderer.
 	 * Drawables should also have a collision.

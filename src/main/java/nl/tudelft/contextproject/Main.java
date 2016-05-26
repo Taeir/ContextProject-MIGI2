@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject;
 
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -187,12 +189,14 @@ public class Main extends VRApplication {
 		}
 		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
-		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
+		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
 		
 		setController(new WaitingController(this));
 		setupWebServer();
+		
+		showQRCode();
 
 		AudioManager.getInstance().init();
 		BackgroundMusic.getInstance().start();
@@ -206,6 +210,19 @@ public class Main extends VRApplication {
 				onGameStopped();
 			}
 		});
+	}
+
+	/**
+	 * Opens the QR code to join the game in the default browser.
+	 */
+	private void showQRCode() {
+		if (Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(new URI("http://localhost:8080/qr"));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	/**

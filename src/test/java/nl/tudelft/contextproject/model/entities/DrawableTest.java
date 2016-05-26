@@ -2,15 +2,10 @@ package nl.tudelft.contextproject.model.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-import java.awt.Graphics2D;
-
 import org.junit.Test;
-import org.mockito.exceptions.verification.NoInteractionsWanted;
 
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -61,23 +56,5 @@ public abstract class DrawableTest extends TestBase {
 		setupDrawable();
 		Spatial s = dable.getSpatial();
 		assertEquals(s, dable.getSpatial());
-	}
-	
-	/**
-	 * Verify that something is drawn on the Graphics2D when calling mapDraw().
-	 */
-	@Test
-	public void testMapDraw_drawable() {	
-		setupDrawable();
-		Graphics2D g = mock(Graphics2D.class);
-		dable.mapDraw(g, 16);
-		
-		//Verify that there were interactions
-		try {
-			verifyZeroInteractions(g);
-		} catch (NoInteractionsWanted e) {
-			return;
-		}
-		fail();
 	}
 }
