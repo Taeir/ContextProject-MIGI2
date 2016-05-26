@@ -12,6 +12,7 @@ import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.entities.ai.BunnyAI;
 
 /**
  * An {@link Enemy} that has a {@link BunnyAI}.

@@ -1,4 +1,6 @@
-package nl.tudelft.contextproject.model.entities;
+package nl.tudelft.contextproject.model.entities.ai;
+
+import nl.tudelft.contextproject.model.entities.Entity;
 
 /**
  * Interface for AI creation.

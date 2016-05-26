@@ -2,6 +2,8 @@ package nl.tudelft.contextproject.model.entities;
 
 import com.jme3.scene.Spatial;
 
+import nl.tudelft.contextproject.model.entities.ai.EntityAI;
+
 /**
  * Class representing an {@link Entity} with {@link EntityAI}.
  */

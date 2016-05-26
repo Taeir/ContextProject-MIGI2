@@ -5,6 +5,8 @@ import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 
+import nl.tudelft.contextproject.model.entities.ai.EntityAI;
+
 /**
  * Abstract test class for testing {@link Enemy} classes.
  */

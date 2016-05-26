@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model.entities;
+package nl.tudelft.contextproject.model.entities.ai;
 
 import java.util.Set;
 
@@ -7,6 +7,10 @@ import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.entities.Carrot;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.KillerBunny;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 
 /**
  * A simple AI for a bunny.
