@@ -12,6 +12,7 @@ import nl.tudelft.contextproject.model.entities.Direction;
 import nl.tudelft.contextproject.model.entities.Door;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.Key;
+import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.PlayerTrigger;
 import nl.tudelft.contextproject.model.TickListener;
@@ -112,6 +113,9 @@ public final class EntityReader {
 			case "Pitfall":
 				if (data.length < 5) throw new IllegalArgumentException("Pitfall must specify at least 4 values.");
 				e = new Pitfall(Float.parseFloat(data[4]));
+				break;
+			case "LandMine":
+				e = new LandMine();
 				break;
 			case "WallFrame":
 				if (data.length < 8) throw new IllegalArgumentException("WallFrame must specify at least 8 values.");
