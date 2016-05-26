@@ -25,6 +25,8 @@ public enum TileType {
 	 * 		the height of the tile
 	 * @param color
 	 * 		the color of the tile
+	 * @param texture
+	 * 		the texture location of this tile
 	 */
 	TileType(int jsonid, int height, ColorRGBA color, String texture) {
 		this.jsonid = jsonid;
@@ -66,6 +68,12 @@ public enum TileType {
 		return height;
 	}
 
+	/**
+	 * Get the texture of this tile.
+	 * 
+	 * @return
+	 * 		the texture of this tile
+	 */
 	public Texture getTexture() {
 		return texture;
 	}

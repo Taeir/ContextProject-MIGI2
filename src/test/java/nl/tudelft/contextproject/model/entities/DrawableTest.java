@@ -5,7 +5,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import com.jme3.asset.AssetKey;
@@ -20,7 +19,6 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.Drawable;
 import org.junit.Test;
-import org.mockito.exceptions.verification.NoInteractionsWanted;
 
 /**
  * Abstract test class for the drawable interface.
