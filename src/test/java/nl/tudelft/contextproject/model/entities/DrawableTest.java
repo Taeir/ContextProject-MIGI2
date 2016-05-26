@@ -63,7 +63,7 @@ public abstract class DrawableTest extends TestBase {
 		Spatial s = dable.getSpatial();
 		assertEquals(s, dable.getSpatial());
 	}
-
+	
 	/**
 	 * Setup the mocks in the Main class.
 	 * This enables testing using {@link Drawable#getSpatial()}.

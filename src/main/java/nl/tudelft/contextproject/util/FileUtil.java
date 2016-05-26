@@ -108,37 +108,51 @@ public final class FileUtil {
 				JarEntry entry = enumEntries.nextElement();
 				if (!entry.getName().startsWith(fLocation)) continue;
 				
-				//Create the correct outputName, with fixed path separators.
-				String outputName = entry.getName().replace('/', File.separatorChar);
-				File outputFile = new File(outputName);
-				
-				Log.getLog("FileManager").fine("Extracting " + entry.getName() + " to " + outputFile.getAbsolutePath());
-				
-				if (outputFile.exists()) {
-					continue;
-				} else if (entry.isDirectory()) {
-					//Ensure that all parent folders are created
-					outputFile.mkdirs();
-					continue;
-				} else if (outputFile.getParentFile() != null) {
-					//Ensure that the parent folder is created
-					outputFile.getParentFile().mkdirs();
-				}
-				
-				//Write the file to the new location
-				FileOutputStream fos = new FileOutputStream(outputFile);
-				InputStream is = jar.getInputStream(entry);
-
-				while (is.available() > 0) {
-					fos.write(is.read());
-				}
-
-				fos.close();
-				is.close();
+				extractFile(jar, entry);
 			}
 		} catch (IOException ex) {
 			Log.getLog("FileManager").warning("Unable to extract file " + fLocation + " from jar!", ex);
 		}
+	}
+	
+	/**
+	 * Extracts a single JarEntry from a jar file.
+	 * 
+	 * @param jar
+	 * 		the jar file
+	 * @param entry
+	 * 		the entry to extract
+	 * @throws IOException
+	 * 		when writing or reading the file goes wrong
+	 */
+	private static void extractFile(JarFile jar, JarEntry entry) throws IOException {
+		//Create the correct outputName, with fixed path separators.
+		String outputName = entry.getName().replace('/', File.separatorChar);
+		File outputFile = new File(outputName);
+		
+		Log.getLog("FileManager").fine("Extracting " + entry.getName() + " to " + outputFile.getAbsolutePath());
+		
+		if (outputFile.exists()) {
+			return;
+		} else if (entry.isDirectory()) {
+			//Ensure that all parent folders are created
+			outputFile.mkdirs();
+			return;
+		} else if (outputFile.getParentFile() != null) {
+			//Ensure that the parent folder is created
+			outputFile.getParentFile().mkdirs();
+		}
+		
+		//Write the file to the new location
+		FileOutputStream fos = new FileOutputStream(outputFile);
+		InputStream is = jar.getInputStream(entry);
+
+		while (is.available() > 0) {
+			fos.write(is.read());
+		}
+
+		fos.close();
+		is.close();
 	}
 	
 	/**

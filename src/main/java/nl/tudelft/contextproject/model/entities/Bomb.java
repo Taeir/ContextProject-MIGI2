@@ -49,8 +49,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	}
 
 	@Override
-	public void update(float tdf) {
-	}
+	public void update(float tdf) { }
 
 	@Override
 	public void setSpatial(Spatial spatial) {

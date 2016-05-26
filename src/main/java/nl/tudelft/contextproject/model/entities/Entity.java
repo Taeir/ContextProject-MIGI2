@@ -4,7 +4,6 @@ import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
-import nl.tudelft.contextproject.model.PhysicsObject;
 import nl.tudelft.contextproject.model.TickListener;
 
 /**
