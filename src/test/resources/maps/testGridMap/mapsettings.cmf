@@ -1,8 +1,9 @@
 #
 # Test map layout 
 #
-STARTROOM: startRoom
+STARTROOM: startroom
 ENDROOM: endroom
+NOROOMS: 
 room1
 room2
 room3

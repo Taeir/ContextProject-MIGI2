@@ -44,29 +44,37 @@ public final class MapReader {
 			while (line != null && line.startsWith("#")) {
 				line = br.readLine();
 			}
-
-			if (line == null) throw new IllegalArgumentException("The cmf file cannot be empty!");
-
+			
 			//Get start Room
 			line = br.readLine();
+			if (line == null) throw new IllegalArgumentException("Start room must be defined!");
 			String[] tmp = line.split(" ");
 			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the starting room!");
-			Room startRoom = Room.readRoom(tmp[1]);
+			Room startRoom = Room.readRoom(mapFolder + tmp[1] + "/");
 			
 			//Get treasure Room
 			line = br.readLine();
+			if (line == null) throw new IllegalArgumentException("There should be a treasure room!");
 			tmp = line.split(" ");
 			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the treasure room!");
+			Room treasureRoom = Room.readRoom(mapFolder + tmp[1] + "/");
 			
 			//Get the rest of the Rooms
 			line = br.readLine();
+			if (line == null) throw new IllegalArgumentException("Start room must be defined!");
 			tmp = line.split(" ");
 			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the number of rooms!");
-			//Re
+			int noRooms = Integer.getInteger(tmp[1]);
+			for (int i = 0; i < noRooms; i++) {
+				line = br.readLine();
+				if (line == null) throw new IllegalArgumentException("Not enough rooms in list!");
+				rooms.add(Room.readRoom(mapFolder + line + "/"));
+			}
 			
-			return null;
+			return new RoomTuple(startRoom, treasureRoom);
 		}
 	}
+	
 	
 	
 
