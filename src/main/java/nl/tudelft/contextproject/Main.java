@@ -2,6 +2,7 @@ package nl.tudelft.contextproject;
 
 import java.util.Arrays;
 
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,7 +30,6 @@ import nl.tudelft.contextproject.controller.WaitingController;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.Models;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
@@ -42,6 +42,7 @@ public class Main extends SimpleApplication {
 	public static final int PORT_NUMBER = 8080;
 	
 	private static boolean debugHud;
+	private static boolean hideQR;
 	
 	private static Main instance;
 	private Controller controller;
@@ -59,6 +60,7 @@ public class Main extends SimpleApplication {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
+		hideQR = a.contains("--hideQR");
 		AppSettings settings = new AppSettings(true);
         settings.setUseJoysticks(true);
         main.setSettings(settings);
@@ -170,6 +172,10 @@ public class Main extends SimpleApplication {
 		setupControlMappings();
 		setController(new WaitingController(this));
 		setupWebServer();
+		
+		if (!hideQR) {
+			showQRCode();
+		}
 
 		AudioManager.getInstance().init();
 		BackgroundMusic.getInstance().start();

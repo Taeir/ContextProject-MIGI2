@@ -6,9 +6,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
@@ -22,7 +20,6 @@ public class Bomb extends Entity implements PhysicsObject {
 	private boolean active;
 	private float timer;
 	private float radius;
-	private Spatial explosion;
 
 	/**
 	 * Constructor for a bomb.
@@ -53,12 +50,7 @@ public class Bomb extends Entity implements PhysicsObject {
 				if (this.collidesWithPlayer(radius)) {
 					Main.getInstance().getCurrentGame().getPlayer().takeDamage();
 				}
-				sp.setLocalScale(0f);
-				explosion.setLocalTranslation(sp.getLocalTranslation());
-				Main.getInstance().getRootNode().attachChild(explosion);
-				explosion.setLocalScale(radius);
 				if (timer > 5) {
-					Main.getInstance().getRootNode().detachChild(explosion);
 					this.setState(EntityState.DEAD);
 				}
 			}
@@ -93,7 +85,6 @@ public class Bomb extends Entity implements PhysicsObject {
 	 * activates the bomb, it will explode in 5 seconds.
 	 */
 	public void activate() {
-		explosion = Main.getInstance().getAssetManager().loadModel("Models/explosion.blend");
 		this.active = true;
 	}
 
