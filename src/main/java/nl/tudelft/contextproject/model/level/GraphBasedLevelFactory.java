@@ -6,10 +6,10 @@ import java.util.Random;
 import com.jme3.light.Light;
 
 /**
- * Generates a level based on a graph and grid structure.
+ * Generates a level based on a graph structure.
  *
  */
-public class GridBasedLevelFactory implements LevelFactory {
+public class GraphBasedLevelFactory implements LevelFactory {
 
 	private String baseFolder;
 	
@@ -28,7 +28,7 @@ public class GridBasedLevelFactory implements LevelFactory {
 	 * @param mapFolder
 	 * 		location and name of mapFolder
 	 */
-	public GridBasedLevelFactory(String mapFolder) {
+	public GraphBasedLevelFactory(String mapFolder) {
 		this.baseFolder = mapFolder;
 		rooms = new ArrayList<Room>();
 		
