@@ -302,9 +302,10 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	}
 	
 	/**
-	 * Reduces a players health by one.
+	 * Reduces a players health.
+	 * @param amount the amount of damage taken
 	 */
-	public void takeDamage() {
-		health--;
+	public void takeDamage(Float amount) {
+		health -= amount;
 	}
 }

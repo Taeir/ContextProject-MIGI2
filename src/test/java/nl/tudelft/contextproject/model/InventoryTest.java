@@ -246,21 +246,25 @@ public class InventoryTest extends TestBase {
 		inv.remove(door);
 		assertSame(currentsize, inv.size());
 	}
-
+	
 	/**
-	 * Setup the mocks in the Main class.
-	 * This method is copied from the Entity test.
+	 * Tests the number of keys method.
 	 */
-	@SuppressWarnings("unchecked")
-	public void setupGeometryMock() {
-		Main mockedMain = mock(Main.class);
-		AssetManager mockedAssetManager = mock(AssetManager.class);
-		MaterialDef mockedMaterialDef = mock(MaterialDef.class);
-		MatParam mockedMatParam = mock(MatParam.class);
-		Main.setInstance(mockedMain);
-		when(mockedMain.getAssetManager()).thenReturn(mockedAssetManager);
-		when(mockedAssetManager.loadAsset(any(AssetKey.class))).thenReturn(mockedMaterialDef);
-		when(mockedMaterialDef.getMaterialParams()).thenReturn(new ArrayList<>());
-		when(mockedMaterialDef.getMaterialParam(anyString())).thenReturn(mockedMatParam);
+	@Test
+	public void testNumberOfKeys() {
+		inv.add(new Key(ColorRGBA.Yellow));
+		inv.add(new Key(ColorRGBA.Red));
+		assertEquals(inv.numberOfKeys(), 2);
+	}
+	
+	/**
+	 * Tests the number of bombs method.
+	 */
+	@Test
+	public void testNumberOfBombs() {
+		inv.add(new Bomb());
+		inv.add(new Bomb());
+		inv.add(new Bomb());
+		assertEquals(inv.numberOfKeys(), 3);
 	}
 }

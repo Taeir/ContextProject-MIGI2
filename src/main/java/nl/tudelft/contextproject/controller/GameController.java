@@ -28,6 +28,7 @@ import com.jme3.scene.shape.Quad;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.entities.Bunny;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
@@ -177,13 +178,13 @@ public class GameController extends Controller {
 				hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs()); 
 				
 				//health update
-				if (game.getPlayer().getHealth() == 2) {
+				if (game.getPlayer().getHealth() <= 2.5) {
 					heart3.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
 				}
-				if (game.getPlayer().getHealth() == 1) {
+				if (game.getPlayer().getHealth() <= 1.5) {
 					heart2.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
 				}
-				if (game.getPlayer().getHealth() == 0) {
+				if (game.getPlayer().getHealth() <= 0.5) {
 					heart1.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
 				}
 				//keys update
@@ -241,7 +242,10 @@ public class GameController extends Controller {
 
 		Vector2f start = attachMazeTiles(level);
 		attachRoof(level);
-
+		Bunny bun = new Bunny();
+		bun.getPhysicsObject().
+		bun.move(4, 1, 4);
+		Main.getInstance().getCurrentGame().addEntity(bun);
 		addDrawable(game.getPlayer());		
 		game.getPlayer().move(start.x, 6, start.y);
 		

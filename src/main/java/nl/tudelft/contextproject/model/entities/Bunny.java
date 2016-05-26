@@ -15,7 +15,7 @@ import nl.tudelft.contextproject.model.PhysicsObject;
 /**
  * Class representing a bomb.
  */
-public class Bomb extends Entity implements PhysicsObject {
+public class Bunny extends Entity implements PhysicsObject {
 	private Spatial sp;
 	private RigidBodyControl rb;
 	private boolean active;
@@ -24,15 +24,8 @@ public class Bomb extends Entity implements PhysicsObject {
 	/**
 	 * Constructor for a bomb.
 	 */
-	public Bomb() {
-		timer = 0f;
-		active = false;
+	public Bunny() {
 		sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
-		mat.setColor("Color", ColorRGBA.White);
-		sp.setMaterial(mat);
-		rb.activate();
 	}
 
 	@Override
@@ -42,16 +35,13 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	@Override
 	public void update(float tdf) {
-		if (active) {
-			timer += tdf;
-			if (timer > 4) {
-				Explosion exp = new Explosion(40f);
-				Vector3f vec = this.getSpatial().getLocalTranslation();
-				exp.move(vec.x, vec.y, vec.z);
-				Main.getInstance().getCurrentGame().getEntities().add(exp);
-				this.setState(EntityState.DEAD);
-			}
-	}
+		System.out.println("test");
+		if (this.collidesWithPlayer(20)) {
+			Vector3f playerpos = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation();
+			Vector3f pos = sp.getLocalTranslation();
+			Vector3f move = playerpos.add(pos.mult(-1f));
+			this.move(move.x * 0.5f * tdf, 0, 0.5f * move.z * tdf);
+		}
 }
 
 @Override
@@ -76,28 +66,5 @@ public void move(float x, float y, float z) {
 	if (rb == null) getPhysicsObject();
 
 	rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
-}
-
-/**
- * activates the bomb, it will explode in 5 seconds.
- */
-public void activate() {
-	this.active = true;
-}
-
-/**
- * Returns true if the bomb is active.
- * @return true if bomb is active.
- */
-public boolean getActive() {
-	return this.active;
-}
-
-/**
- * Returns the timer.
- * @return the timer
- */
-public float getTimer() {
-	return timer;
 }
 }
