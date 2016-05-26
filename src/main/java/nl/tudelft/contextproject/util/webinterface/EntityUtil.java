@@ -11,6 +11,7 @@ public final class EntityUtil {
 	private static final int VRPLAYER = 4;
 	private static final int PLAYERTRIGGER = 5;
 	private static final int PITFALL = 6;
+	private static final int LANDMINE = 7;
 
 	/**
 	 * Private constructor to avoid initialization.
@@ -39,6 +40,8 @@ public final class EntityUtil {
 				return PLAYERTRIGGER;
 			case "Pitfall":
 				return PITFALL;
+			case "LandMine":
+				return LANDMINE;
 			default:
 				return DEFAULT;
 		}

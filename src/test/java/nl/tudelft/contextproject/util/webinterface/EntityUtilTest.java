@@ -44,11 +44,27 @@ public class EntityUtilTest extends TestBase {
 	}
 
 	/**
-	 * Test getting code for VRPlayer.
+	 * Test getting code for PlayerTrigger.
 	 */
 	@Test
 	public void testGetJSONCodePlayerTrigger() {
 		assertEquals(EntityUtil.getJSONCoded("PlayerTrigger"), 5);
+	}
+
+	/**
+	 * Test getting code for Pitfall.
+	 */
+	@Test
+	public void testGetJSONCodePitfall() {
+		assertEquals(EntityUtil.getJSONCoded("Pitfall"), 6);
+	}
+
+	/**
+	 * Test getting code for PlayerTrigger.
+	 */
+	@Test
+	public void testGetJSONCodeLandMine() {
+		assertEquals(EntityUtil.getJSONCoded("LandMine"), 7);
 	}
 
 	/**

@@ -421,6 +421,8 @@ function getClassForEntityType(entityType) {
             return "playertrigger";
         case 6:
             return "pitfall";
+        case 7:
+            return "landmine";
         default:
             showError("Invalid tile type: " + entityType);
             throw "Invalid tile type: " + entityType;
