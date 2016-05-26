@@ -590,4 +590,39 @@ public class ClientServletTest extends WebTestBase {
 		verify(response.getWriter()).write("ACTION PERFORMED");
 	}
 
+	/**
+	 * Test method for {@link ClientServlet#attemptAction}, when the action is invalid.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testAttemptAction_incorrect() throws IOException {
+		HttpServletResponse response = createMockedResponse();
+
+		//Try to place a bomb as an elf, which is impossible
+		servlet.attemptAction(0, 0, "placebomb", "Elves", response);
+
+		//Verify the action has been denied
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("ACTION INVALID, NOT PERFORMED");
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#attemptAction}, when the action is valid.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testAttemptAction_correct() throws IOException {
+		HttpServletResponse response = createMockedResponse();
+
+		//Try to place a bomb as a dwarf
+		servlet.attemptAction(0, 0, "placebomb", "Dwarfs", response);
+
+		//Verify the action has been accepted
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("ACTION PERFORMED");
+	}
 }
