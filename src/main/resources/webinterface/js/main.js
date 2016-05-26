@@ -243,7 +243,7 @@ function requestAction(argument) {
     var encoded = encodeAction(argument);
     if (encoded === -1) return;
     
-    console.log("[DEBUG] Requesting action: " + encoded + ".");
+    console.log("[DEBUG] Requesting action: " + argument + ".");
     $.post("/requestaction", {x: lastPressedX, y: lastPressedY, action: encoded},  function(data, status) {
         if (status != "success") {
             //HTTP Error
