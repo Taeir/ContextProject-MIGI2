@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 
 import org.junit.Before;
@@ -89,7 +90,7 @@ public class RoomTest extends TestBase {
 	 */
 	@Test
 	public void testHashCode() {
-		assertEquals(2054495892, testRoom.hashCode());
+		assertEquals(31 + Arrays.deepHashCode(testRoom.mazeTiles), testRoom.hashCode());
 	}
 	
 	/**

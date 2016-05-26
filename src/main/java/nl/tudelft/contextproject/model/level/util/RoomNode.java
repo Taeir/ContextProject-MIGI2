@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.model.level.util;
 
+import java.util.ArrayList;
+
 import nl.tudelft.contextproject.model.level.Room;
 
 /**
@@ -8,15 +10,27 @@ import nl.tudelft.contextproject.model.level.Room;
  */
 public class RoomNode {
 	
-	public Room room;
 	
+	public Boolean used;
+	public Room room;
+	public ArrayList<DoorConnectionPoint> entrances;
+	public ArrayList<DoorConnectionPoint> exits;
 	/**
 	 * Constructor.
 	 * @param room
-	 * 		room to set.
+	 * 			room to set.
 	 */
 	public RoomNode(Room room) {
 		this.room = room;
+		this.used = false;
+		entrances = new ArrayList<DoorConnectionPoint>();
+		exits = new ArrayList<DoorConnectionPoint>();
+		for (Vec2I door : room.entranceDoorsLocations) {
+			entrances.add(new DoorConnectionPoint(door));
+		}
+		for (Vec2I door : room.exitDoorLocations) {
+			exits.add(new DoorConnectionPoint(door));
+		}
 	}
 	
 	/**
@@ -25,7 +39,7 @@ public class RoomNode {
 	 * 			number of outgoing connection points
 	 */
 	public int getNumberOfOutgoingConnections() {
-		return room.exitDoorLocations.size();
+		return exits.size();
 	}
 	
 	/**
@@ -34,7 +48,7 @@ public class RoomNode {
 	 * 			number of incoming connection points
 	 */
 	public int getNumberOfIncommingConnections() {
-		return room.entranceDoorsLocations.size();
+		return entrances.size();
 	}
 
 }
