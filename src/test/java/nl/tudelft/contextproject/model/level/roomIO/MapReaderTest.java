@@ -23,14 +23,50 @@ public class MapReaderTest {
 
 	/**
 	 * Test reading of a correct map.
+	 * Tests if starter room is correct.
 	 */
 	@Test
-	public void testReadMap() {
+	public void testReadMapStartRoomCorrect() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		//treasureRoom
 		try {
 			RoomTuple startAndTreasureRoom = MapReader.readMap(TEST_MAP_LOCATION, rooms);
-			
+			Room startRoom = new Room(TEST_MAP_LOCATION + "startroom/");
+			assertTrue(startAndTreasureRoom.getStarterRoom().equals(startRoom));
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	/**
+	 * Test reading of a correct map.
+	 * Tests if treasureRoom is correct.
+	 */
+	@Test
+	public void testReadMapTreasureRoomCorrect() {
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		try {
+			RoomTuple startAndTreasureRoom = MapReader.readMap(TEST_MAP_LOCATION, rooms);
+			Room treasureRoom = new Room(TEST_MAP_LOCATION + "endroom/");
+			assertTrue(startAndTreasureRoom.getTreasureRoom().equals(treasureRoom));
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	/**
+	 * Test reading of a correct map.
+	 * Tests if a room is correct.
+	 */
+	@Test
+	public void testReadMapARoomCorrect() {
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		try {
+			MapReader.readMap(TEST_MAP_LOCATION, rooms);
+			Room room = new Room(TEST_MAP_LOCATION + "room1/");
+			assertTrue(rooms.get(0).equals(room));
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail();

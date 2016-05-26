@@ -78,17 +78,17 @@ public class Room {
 		}
 	}
 
-	/**
-	 * Read a room.
-	 * @param folderName
-	 * 			folder of room
-	 * @return
-	 * 			Room with settings of .crf file
-	 */
-	public static Room readRoom(String folderName) {
-		//l/ol
-		return null;
-	}
+//	/**
+//	 * Read a room.
+//	 * @param folderName
+//	 * 			folder of room
+//	 * @return
+//	 * 			Room with settings of .crf file
+//	 */
+//	public static Room readRoom(String folderName) {
+//		//l/ol
+//		return null;
+//	}
 	
 	/**
 	 * Set mazeTiles array.

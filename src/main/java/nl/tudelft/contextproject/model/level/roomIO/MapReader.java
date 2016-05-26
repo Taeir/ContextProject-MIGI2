@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.level.Room;
 import nl.tudelft.contextproject.model.level.RoomTuple;
 import nl.tudelft.contextproject.util.FileUtil;
@@ -16,7 +17,7 @@ import nl.tudelft.contextproject.util.FileUtil;
 /**
  * Reads all the rooms in a single map.
  */
-public final class MapReader {
+public final class MapReader extends TestBase {
 	
 	/**
 	 * Private constructor to avoid instantiation.
@@ -46,29 +47,28 @@ public final class MapReader {
 			}
 			
 			//Get start Room
-			line = br.readLine();
 			if (line == null) throw new IllegalArgumentException("Start room must be defined!");
 			String[] tmp = line.split(" ");
 			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the starting room!");
-			Room startRoom = Room.readRoom(mapFolder + tmp[1] + "/");
+			Room startRoom = new Room(mapFolder + tmp[1] + "/");
 			
 			//Get treasure Room
 			line = br.readLine();
 			if (line == null) throw new IllegalArgumentException("There should be a treasure room!");
 			tmp = line.split(" ");
 			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the treasure room!");
-			Room treasureRoom = Room.readRoom(mapFolder + tmp[1] + "/");
+			Room treasureRoom = new Room(mapFolder + tmp[1] + "/");
 			
 			//Get the rest of the Rooms
 			line = br.readLine();
-			if (line == null) throw new IllegalArgumentException("Start room must be defined!");
+			if (line == null) throw new IllegalArgumentException("Number of rooms should be specified!");
 			tmp = line.split(" ");
 			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the number of rooms!");
-			int noRooms = Integer.getInteger(tmp[1]);
+			int noRooms = Integer.parseInt(tmp[1]);
 			for (int i = 0; i < noRooms; i++) {
 				line = br.readLine();
 				if (line == null) throw new IllegalArgumentException("Not enough rooms in list!");
-				rooms.add(Room.readRoom(mapFolder + line + "/"));
+				rooms.add(new Room(mapFolder + line + "/"));
 			}
 			
 			return new RoomTuple(startRoom, treasureRoom);
