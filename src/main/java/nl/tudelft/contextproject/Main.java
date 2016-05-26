@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject;
 
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.Arrays;
 
 
@@ -290,6 +292,18 @@ public class Main extends SimpleApplication {
 			instance = new Main();
 		}
 		return instance;
+	}
+	/**
+	 * Opens the QR code to join the game in the default browser.
+	 */
+	private void showQRCode() {
+		if (Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(new URI("http://localhost:8080/qr"));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 	
 	/**
