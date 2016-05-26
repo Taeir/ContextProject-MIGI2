@@ -14,6 +14,7 @@ import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
+import nl.tudelft.contextproject.model.level.util.Vec2I;
 import nl.tudelft.contextproject.util.Size;
 
 /**
@@ -37,7 +38,13 @@ public class Room {
 
 	//2d representation of mazeTiles in the room
 	public MazeTile[][] mazeTiles;
-
+	
+	//Entrance door locations
+	public ArrayList<Vec2I> entranceDoorsLocations;
+	
+	//Exit door Locations
+	public ArrayList<Vec2I> exitDoorLocations;
+	
 	/**
 	 * Constructor will load room from files using RoomIO.
 	 * @param folder
@@ -50,6 +57,7 @@ public class Room {
 			size = getSizeFromFileName(folder);
 			mazeTiles = new MazeTile[size.getWidth()][size.getHeight()];
 			RoomReader.importFile(folder, mazeTiles, entities, lights, 0, 0);	
+			setDoors();
 		} catch (IOException e) {
 			Logger.getLogger("MazeGeneration").severe("Unable to correctly read name!");
 		}
@@ -78,17 +86,25 @@ public class Room {
 		}
 	}
 
-//	/**
-//	 * Read a room.
-//	 * @param folderName
-//	 * 			folder of room
-//	 * @return
-//	 * 			Room with settings of .crf file
-//	 */
-//	public static Room readRoom(String folderName) {
-//		//l/ol
-//		return null;
-//	}
+	/**
+	 * Set the entrance and exit doors of the room.
+	 * Needed during graph creation.
+	 */
+	public void setDoors() {
+		entranceDoorsLocations = new ArrayList<Vec2I>();
+		exitDoorLocations = new ArrayList<Vec2I>();
+		
+		for (int i = 0; i < size.getWidth(); i++) {
+			for (int j = 0; j < size.getHeight(); j++) {
+				TileType mazeTile = mazeTiles[i][j].getTileType();
+				if (mazeTile == TileType.DOOR_ENTRANCE) {
+					entranceDoorsLocations.add(new Vec2I(i, j));
+				} else if (mazeTile == TileType.DOOR_EXIT) {
+					exitDoorLocations.add(new Vec2I(i, j));
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Set mazeTiles array.

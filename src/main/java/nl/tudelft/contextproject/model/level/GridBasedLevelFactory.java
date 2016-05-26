@@ -22,6 +22,7 @@ public class GridBasedLevelFactory implements LevelFactory {
 	
 	private MazeTile[][] mazeTile;
 	
+	
 	/**
 	 * Constructor.
 	 * @param mapFolder
