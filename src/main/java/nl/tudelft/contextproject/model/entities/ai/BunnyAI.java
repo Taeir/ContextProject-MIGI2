@@ -57,7 +57,7 @@ public class BunnyAI implements EntityAI {
 	 * @return
 	 * 		the target entity
 	 */
-	private Entity findTarget(float playerDist, float tpf) {
+	protected Entity findTarget(float playerDist, float tpf) {
 		Carrot c = findClosestCarrot();
 		if (c == null) return player;
 		float carrotDist = c.getLocation().distance(owner.getLocation());
@@ -77,7 +77,7 @@ public class BunnyAI implements EntityAI {
 	 * @return
 	 * 		the closest carrot or null when no carrot is found
 	 */
-	private Carrot findClosestCarrot() {
+	protected Carrot findClosestCarrot() {
 		Carrot c = null;
 		float dist = Float.MAX_VALUE;
 		for (Entity e : entities) {
@@ -97,7 +97,7 @@ public class BunnyAI implements EntityAI {
 	 * @param tpf
 	 * 		the time per frame of this tick
 	 */
-	private void randomJump(float tpf) {
+	protected void randomJump(float tpf) {
 		if (Math.random() < tpf / JUMP_FREQUENCY) {
 			((CharacterControl) owner.getPhysicsObject()).jump();
 		}
