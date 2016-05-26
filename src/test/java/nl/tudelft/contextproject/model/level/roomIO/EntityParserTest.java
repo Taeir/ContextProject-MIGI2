@@ -20,7 +20,7 @@ import nl.tudelft.contextproject.util.ScriptLoaderException;
 /**
  * Test class for the entityReader class.
  */
-public class EntityReaderTest extends TestBase {
+public class EntityParserTest extends TestBase {
 	
 	/**
 	 * Test if getting a non existent entity throws an exception.
@@ -30,7 +30,7 @@ public class EntityReaderTest extends TestBase {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetEntityNotSupported() throws ScriptLoaderException {
-		EntityReader.getEntity("NonExistingType", 0, 0, 0, null, "/");
+		EntityParser.getEntity("NonExistingType", 0, 0, 0, null, "/");
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class EntityReaderTest extends TestBase {
 	@Test
 	public void testGetEntityBomb() throws ScriptLoaderException {
 		String[] data = new String[]{"9.5 ", ".5 ", "5.5 ", "Key ", "1/0/0/0"};
-		Entity res = EntityReader.getEntity("Bomb", 0, 0, 0, data, "/");
+		Entity res = EntityParser.getEntity("Bomb", 0, 0, 0, data, "/");
 		assertEquals(Bomb.class, res.getClass());
 	}
 	
@@ -55,7 +55,7 @@ public class EntityReaderTest extends TestBase {
 	@Test
 	public void testGetEntityKey() throws ScriptLoaderException {
 		String[] data = new String[]{"9.5 ", ".5 ", "5.5 ", "Door ", "1/0/0/0"};
-		Entity res = EntityReader.getEntity("Key", 0, 0, 0, data, "/");
+		Entity res = EntityParser.getEntity("Key", 0, 0, 0, data, "/");
 		assertEquals(Key.class, res.getClass());
 	}
 	
@@ -68,7 +68,7 @@ public class EntityReaderTest extends TestBase {
 	@Test
 	public void testGetEntityDoor() throws ScriptLoaderException {
 		String[] data = new String[]{"9.5 ", ".5", "5.5 ", "Door ", "1/0/0/0"};
-		Entity res = EntityReader.getEntity("Door", 0, 0, 0, data, "/");
+		Entity res = EntityParser.getEntity("Door", 0, 0, 0, data, "/");
 		assertEquals(Door.class, res.getClass());
 	}
 	
@@ -85,7 +85,7 @@ public class EntityReaderTest extends TestBase {
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		String in = "0 1 2 Door 1/0/0/0";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		EntityReader.readEntities(entities, 1, 0, 0, br, "/");
+		EntityParser.readEntities(entities, 1, 0, 0, br, "/");
 		assertEquals(1, entities.size());
 		assertEquals(Door.class, entities.iterator().next().getClass());
 	}
@@ -103,7 +103,7 @@ public class EntityReaderTest extends TestBase {
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		String in = "";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		EntityReader.readEntities(entities, 1, 0, 0, br, "/");
+		EntityParser.readEntities(entities, 1, 0, 0, br, "/");
 	}
 	
 	/**
@@ -119,6 +119,6 @@ public class EntityReaderTest extends TestBase {
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		String in = "1 1 EntityName";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		EntityReader.readEntities(entities, 1, 0, 0, br, "/");
+		EntityParser.readEntities(entities, 1, 0, 0, br, "/");
 	}
 }
