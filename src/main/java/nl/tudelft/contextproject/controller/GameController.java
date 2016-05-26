@@ -156,9 +156,6 @@ public class GameController extends Controller {
 
 				@Override
 				public void setSpatial(Spatial spatial) { }
-
-				@Override
-				public void mapDraw(Graphics2D g, int resolution) { }
 			});
 		}	
 
