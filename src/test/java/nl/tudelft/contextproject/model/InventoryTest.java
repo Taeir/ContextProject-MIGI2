@@ -34,7 +34,6 @@ public class InventoryTest extends TestBase {
 	 */
 	@Before
 	public void setUp() {
-		setupGeometryMock();
 		inv = new Inventory();
 	}
 

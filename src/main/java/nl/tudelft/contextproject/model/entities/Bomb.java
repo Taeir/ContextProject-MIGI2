@@ -10,9 +10,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
@@ -24,25 +22,19 @@ public class Bomb extends Entity implements PhysicsObject {
 	private Spatial sp;
 	private RigidBodyControl rb;
 	private boolean active;
-	private int timer;
+	private float timer;
 
 	/**
 	 * Constructor for a bomb.
 	 */
 	public Bomb() {
-		timer = 0;
+		timer = 0f;
 		active = false;
-		Box cube1Mesh = new Box(1f, 1f, 1f);
-		geometry = new Geometry("dink", cube1Mesh);
-		if (Main.getInstance().getAssetManager().loadModel("Models/bomb.blend") == null) {
-			sp = geometry;
-		} else {
-			sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
-			Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-			mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Models/Textures/bombtexture.png"));
-			mat.setColor("Color", ColorRGBA.White);
-			sp.setMaterial(mat);
-		}
+		sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
+		mat.setColor("Color", ColorRGBA.White);
+		sp.setMaterial(mat);
 	}
 
 	@Override
@@ -53,8 +45,8 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public void update(float tdf) {
 		if (active) {
-			timer++;
-			if (timer > 2500) {
+			timer += tdf;
+			if (timer > 5) {
 				if (this.collidesWithPlayer(3f)) {
 					Main.getInstance().getCurrentGame().getPlayer().takeDamage();
 				}
@@ -65,7 +57,7 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	@Override
 	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = geometry.getLocalTranslation();
+		Vector3f trans = sp.getLocalTranslation();
 		int x = (int) trans.x * resolution;
 		int y = (int) trans.y * resolution;
 		int width = resolution / 2;
@@ -96,11 +88,19 @@ public class Bomb extends Entity implements PhysicsObject {
 
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
-	
+
 	/**
-	 * activates the bomb.
+	 * activates the bomb, it will explode in 5 seconds.
 	 */
 	public void activate() {
 		this.active = true;
+	}
+
+	/**
+	 * Returns true if the bomb is active.
+	 * @return true if bomb is active.
+	 */
+	public boolean getActive() {
+		return this.active;
 	}
 }

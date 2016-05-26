@@ -27,7 +27,6 @@ public class DoorTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
-		setupGeometryMock();
 		ColorRGBA color = new ColorRGBA();
 		color.set(ColorRGBA.Yellow);
 		door = new Door(color);

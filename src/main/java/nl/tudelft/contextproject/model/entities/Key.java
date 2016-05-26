@@ -34,16 +34,12 @@ public class Key extends Entity implements PhysicsObject {
 		color = col;
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		Geometry geometry = new Geometry("dink", cube1Mesh);
-
-		if (Main.getInstance().getAssetManager().loadModel("Models/key.blend") == null) {
-			sp =  geometry;
-		} else {
-			sp = Main.getInstance().getAssetManager().loadModel("Models/key.blend");
-			Node node = (Node) sp;
-			geometry = (Geometry) ((Node) node.getChild("Cube")).getChild(0);
-			Material mat = geometry.getMaterial();
-			mat.setColor("Ambient", color);
-		}
+		System.out.println("hello");
+		sp = Main.getInstance().getAssetManager().loadModel("Models/key.blend");
+		Node node = (Node) sp;
+		geometry = (Geometry) ((Node) node.getChild("Cube")).getChild(0);
+		Material mat = geometry.getMaterial();
+		mat.setColor("Ambient", color);
 	}
 
 	@Override
@@ -79,7 +75,7 @@ public class Key extends Entity implements PhysicsObject {
 		rb.setPhysicsLocation(sp.getLocalTranslation());
 		return rb;
 	}
-	
+
 	@Override
 	public void move(float x, float y, float z) {
 		sp.move(x, y, z);
@@ -87,7 +83,7 @@ public class Key extends Entity implements PhysicsObject {
 
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
-	
+
 	/**
 	 * Gets the color of the key.
 	 *
@@ -97,7 +93,7 @@ public class Key extends Entity implements PhysicsObject {
 	public ColorRGBA getColor() {
 		return color;
 	}
-	
+
 	/**
 	 * Sets the color of the key.
 	 *

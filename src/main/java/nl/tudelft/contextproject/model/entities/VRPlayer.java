@@ -56,7 +56,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	private boolean left, right, up, down;
 	private Vector3f walkDirection;
 	private Inventory inventory;
-	private int health;
+	private float health;
 	private int maxHealth = 3;
 	/**
 	 * Constructor for a default player.
@@ -64,7 +64,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 */
 	public VRPlayer() { 
 		inventory = new Inventory();
-		health = 3;
+		health = 3f;
 		//Set geometry of player
 	}
 
@@ -83,6 +83,9 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	@Override
 	public void update(float tdf) {
 		//TODO this will change after VR support is implemented
+		if (health <= 0) {
+			this.setState(EntityState.DEAD);
+		}
 		Vector3f camDir = Main.getInstance().getCamera().getDirection();
 		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
 		walkDirection = new Vector3f();
@@ -213,7 +216,6 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * Also opens nearby doors if possible
 	 */
 	public void pickUp() {
-		takeDamage();
 		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
 		for (Entity ent : set) {
 			 if (ent.collidesWithPlayer(2f)) {
@@ -226,7 +228,6 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 					Key key = (Key) ent;
 					this.inventory.add(new Key(key.getColor()));
 					ent.setState(EntityState.DEAD);
-					System.out.println(inventory.containsColorKey(key.getColor()));
 					return;
 				}
 				if (ent instanceof Door) {
@@ -270,7 +271,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * Returns the player's health.
 	 * @return The player's health
 	 */
-	public int getHealth() {
+	public float getHealth() {
 		return health;
 	}
 	
@@ -279,7 +280,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * @param heal
 	 * 		Health to be set
 	 */
-	public void setHealth(int heal) {
+	public void setHealth(float heal) {
 		if (heal > maxHealth) {
 			health = 3;
 		} else {

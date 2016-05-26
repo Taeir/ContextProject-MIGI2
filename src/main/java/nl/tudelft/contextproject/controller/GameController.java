@@ -97,7 +97,9 @@ public class GameController extends Controller {
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
 		attachLevel();
-		attachHud();
+		if (Main.getInstance().getAssetManager() != null) {
+			attachHud();
+		}
 		GameController t = this;
 
 		ActionListener al = new ActionListener() {
@@ -125,29 +127,33 @@ public class GameController extends Controller {
 	 * Attaches the Hud to the renderer.
 	 */
 	public void attachHud() {
-		Float height = (float) Main.getInstance().getSettings().getHeight();
-		Float width = (float) Main.getInstance().getSettings().getWidth();
+		Float height = 0f;
+		Float width = 0f;
+		if (Main.getInstance().getSettings() != null) {
+		height = (float) Main.getInstance().getSettings().getHeight();
+		width = (float) Main.getInstance().getSettings().getWidth();
+		}
 		//attach the keycounter
-			Picture keypicyellow = new Picture("key Picture");
-			keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-			keypicyellow.setWidth(width / 30);
-			keypicyellow.setHeight(height / 12);
-			keypicyellow.setPosition(width * 0.5f, 0);
-			Picture keypicred = new Picture("key2Picture");
-			keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-			keypicred.setWidth(width / 30);
-			keypicred.setHeight(height / 12);
-			keypicred.setPosition(width * 0.55f, 0);
-			Picture keypicblue = new Picture("key3Picture");
-			keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-			keypicblue.setWidth(width / 30);
-			keypicblue.setHeight(height / 12);
-			keypicblue.setPosition(width * 0.6f, 0);
+		Picture keypicyellow = new Picture("key Picture");
+		keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+		keypicyellow.setWidth(width / 30);
+		keypicyellow.setHeight(height / 12);
+		keypicyellow.setPosition(width * 0.5f, 0);
+		Picture keypicred = new Picture("key2Picture");
+		keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+		keypicred.setWidth(width / 30);
+		keypicred.setHeight(height / 12);
+		keypicred.setPosition(width * 0.55f, 0);
+		Picture keypicblue = new Picture("key3Picture");
+		keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+		keypicblue.setWidth(width / 30);
+		keypicblue.setHeight(height / 12);
+		keypicblue.setPosition(width * 0.6f, 0);
 		addGuiElement(keypicyellow);
 		addGuiElement(keypicred);
 		addGuiElement(keypicblue);
 		//attach the bombcounter
-		BitmapText hudTextb = new BitmapText(Main.getInstance().getGuiFont(), false);          
+		BitmapText hudTextb = new BitmapText(Main.getInstance().getGuiFont(), false);
 		hudTextb.setSize(height / 30);
 		hudTextb.setColor(ColorRGBA.White);
 		hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs());
@@ -221,16 +227,14 @@ public class GameController extends Controller {
 		heart.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
 		heart.setWidth(width / 20);
 		heart.setHeight(height / 20);
-		switch (pos) {
-			case 1:
+		if (pos > 0) {
 				heart.setPosition((width / 3f), height / 1.1f);
-				break;
-			case 2:
+		}
+		if (pos > 1) {
 				heart.setPosition((width / 2.6f), height / 1.1f);
-				break;
-			default:
+		}
+		if (pos > 2) {
 				heart.setPosition((width / 2.3f), height / 1.1f);
-				break;
 		}
 		return heart;
 	}

@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.entities;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import com.jme3.scene.Geometry;
@@ -24,7 +25,6 @@ public class BombTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
-		setupGeometryMock();
 		bomb = new Bomb();
 		bomb.move(1, 1, 1);
 	}
@@ -38,5 +38,15 @@ public class BombTest extends EntityTest {
 		bomb.setSpatial(mockedGeometry);
 		bomb.update(0.f);
 		verifyZeroInteractions(mockedGeometry);
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	public void testactive() {
+		bomb.activate();
+		assertTrue(bomb.getActive());
+		
 	}
 }
