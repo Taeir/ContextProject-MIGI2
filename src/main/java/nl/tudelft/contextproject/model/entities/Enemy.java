@@ -20,6 +20,21 @@ public abstract class Enemy extends Entity {
 		this.ai.setOwner(this);
 	}
 	
+	/**
+	 * Set the ai of this {@link Enemy}.
+	 * 
+	 * @param ai
+	 * 		the new ai of this instance.
+	 * @return
+	 * 		the old ai of this instance.
+	 */
+	public EntityAI setAI(EntityAI ai) {
+		EntityAI old = ai;
+		this.ai = ai;
+		this.ai.setOwner(this);
+		return old;
+	}
+	
 	@Override
 	public abstract Spatial getSpatial();
 

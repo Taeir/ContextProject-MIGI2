@@ -62,4 +62,9 @@ public class Carrot extends Entity implements FoodItem {
 		}
 	}
 
+	@Override
+	public float getAmount() {
+		return health;
+	}
+
 }

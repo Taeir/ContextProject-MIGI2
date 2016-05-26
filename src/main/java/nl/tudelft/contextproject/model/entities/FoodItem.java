@@ -13,4 +13,12 @@ public interface FoodItem {
 	 * 		the amount that was eaten
 	 */
 	public void eat(Entity eatenBy, float amount);
+
+	/**
+	 * Get the remaining amount.
+	 * 
+	 * @return
+	 * 		the remaining amount.
+	 */
+	public float getAmount();
 }
