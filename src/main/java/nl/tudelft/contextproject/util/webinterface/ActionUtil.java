@@ -83,7 +83,9 @@ public final class ActionUtil {
 	 * 		the y coordinate to use
 	 */
 	protected static void placeMine(int xCoord, int yCoord) {
-		//TODO Implement action once mines are present
+//		LandMine landmine = new LandMine();
+//		landmine.move(xCoord, 0, yCoord);
+//		Main.getInstance().getCurrentGame().addEntity(landmine);
 	}
 
 	/**
