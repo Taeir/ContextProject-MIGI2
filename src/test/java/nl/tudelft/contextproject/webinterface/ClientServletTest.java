@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.tudelft.contextproject.util.QRGenerator;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -75,19 +77,39 @@ public class ClientServletTest extends WebTestBase {
 
 	/**
 	 * Test method for {@link ClientServlet#doGet}.
-	 * 
+	 *
 	 * @throws Exception
 	 * 		if an exception occurs calling doGet of the servlet
 	 */
 	@Test
-	public void testDoGet() throws Exception {
+	public void testDoGet_index() throws Exception {
 		HttpServletRequest request = createMockedRequest(ID1, ID1, false, true, "/");
 		HttpServletResponse response = createMockedResponse();
-		
+
 		servlet.doGet(request, response);
 
 		//Verify that we have been redirected to the index.html page
 		verify(response).sendRedirect("/index.html");
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#doGet}.
+	 *
+	 * @throws Exception
+	 * 		if an exception occurs calling doGet of the servlet
+	 */
+	@Test
+	public void testDoGet_qr() throws Exception {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, true, "/qr");
+		HttpServletResponse response = createMockedResponse();
+
+		servlet.doGet(request, response);
+
+		//Verify that we have been redirected to the QRCode page
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("<html><body><img src=\"data:image/png;base64,");
+		verify(response.getWriter()).write(Base64.getEncoder().encodeToString(QRGenerator.getInstance().streamQRcode().toByteArray()));
+		verify(response.getWriter()).write("\"/></body></html>");
 	}
 
 	/**
