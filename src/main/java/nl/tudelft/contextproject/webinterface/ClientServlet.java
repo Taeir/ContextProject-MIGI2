@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.util.ActionUtil;
 import nl.tudelft.contextproject.util.JSONUtil;
 import nl.tudelft.contextproject.util.QRGenerator;
 
+import nl.tudelft.contextproject.util.WebUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.json.JSONObject;
@@ -200,15 +202,11 @@ public class ClientServlet extends DefaultServlet {
 
 		if (!checkAuthorized(client, response, false)) return;
 
-		int xCoordinate = Integer.parseInt(request.getParameter("x"));
-		int yCoordinate = Integer.parseInt(request.getParameter("y"));
+		int xCoord = Integer.parseInt(request.getParameter("x"));
+		int yCoord = Integer.parseInt(request.getParameter("y"));
+		String action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
 
-		Bomb newBomb = new Bomb();
-		newBomb.move(xCoordinate, 1, yCoordinate);
-		Main.getInstance().getCurrentGame().addEntity(newBomb);
-
-		response.setStatus(HttpStatus.OK_200);
-		response.getWriter().write("BOMB HAS BEEN PLACED.");
+		attemptAction(xCoord, yCoord, action, client.getTeam(), response);
 	}
 	
 	/**
@@ -255,5 +253,34 @@ public class ClientServlet extends DefaultServlet {
 		}
 
 		response.getWriter().write(json.toString());
+	}
+
+	/**
+	 * Attempt to perform an action.
+	 *
+	 * @param xCoord
+	 * 		the x coordinate to perform the action on
+	 * @param yCoord
+	 * 		the y coordinate to perform the action on
+	 * @param action
+	 * 		the action to perform
+	 * @param team
+	 * 		the team of the player who wants to perform the action
+	 * @param response
+	 * 		the HTTP response object
+	 * @throws IOException
+	 * 		if sending the response to the client causes an IOException
+	 */
+	public void attemptAction(int xCoord, int yCoord, String action, String team, HttpServletResponse response) throws IOException {
+		if (!WebUtil.checkValidAction(action, team)) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("ACTION INVALID, NOT PERFORMED");
+			return;
+		}
+
+		ActionUtil.perform(action, xCoord, yCoord);
+
+		response.setStatus(HttpStatus.OK_200);
+		response.getWriter().write("ACTION PERFORMED.");
 	}
 }

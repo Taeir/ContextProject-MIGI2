@@ -467,7 +467,7 @@ function encodeAction(action) {
             return 2;
         case "spawnenemy":
             return 3;
-        case "diffusebomb":
+        case "dropbait":
             return 4;
         default:
             return -1;
