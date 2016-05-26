@@ -9,9 +9,9 @@ import nl.tudelft.contextproject.Main;
  * Enum representing the possible TileTypes in the game.
  */
 public enum TileType {
-    FLOOR(1, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
-    WALL(2, 3, ColorRGBA.Gray, "Textures/walltexture.png"),
-    CORRIDOR(3, 0, ColorRGBA.Green, "Textures/grasstexture.png");
+	FLOOR(1, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
+	WALL(2, 3, ColorRGBA.Gray, "Textures/walltexture.png"),
+	CORRIDOR(3, 0, ColorRGBA.Green, "Textures/grasstexture.png");
 	
 	private int jsonid;
 	private int height;
