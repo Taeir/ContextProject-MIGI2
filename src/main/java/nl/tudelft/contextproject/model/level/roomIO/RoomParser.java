@@ -20,12 +20,12 @@ import nl.tudelft.contextproject.util.ScriptLoaderException;
 /**
  * Utility class for loading rooms/levels from file.
  */
-public final class RoomReader {
+public final class RoomParser {
 
 	/**
 	 * Private constructor to avoid instantiation.
 	 */
-	private RoomReader() {}
+	private RoomParser() {}
 	
 	/**
 	 * Import a room from the specified file.
@@ -64,15 +64,15 @@ public final class RoomReader {
 			checkDimensions(width + xOffset, height + yOffset, tiles);
 			
 			//TODO support rotations?
-			TileReader.readTiles(tiles, width, height, xOffset, yOffset, br);
+			TileParser.readTiles(tiles, width, height, xOffset, yOffset, br);
 
 			try {
-				EntityReader.readEntities(entities, Integer.parseInt(tmp[2]), xOffset, yOffset, br, folder);
+				EntityParser.readEntities(entities, Integer.parseInt(tmp[2]), xOffset, yOffset, br, folder);
 			} catch (ScriptLoaderException e) {
 				e.printStackTrace();
 			}
 
-			LightReader.readLights(lights, Integer.parseInt(tmp[3]), xOffset, yOffset, br);
+			LightParser.readLights(lights, Integer.parseInt(tmp[3]), xOffset, yOffset, br);
 		}
 	}
 	

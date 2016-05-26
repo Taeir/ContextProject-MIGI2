@@ -5,12 +5,12 @@ import com.jme3.math.ColorRGBA;
 /**
  * Utility used by the roomIO.
  */
-public final class ReaderUtil {
+public final class ParserUtil {
 
 	/**
 	 * Private constructor to avoid instantiation.
 	 */
-	private ReaderUtil() {}
+	private ParserUtil() {}
 
 	/**
 	 * Parse a ColorRGBA from a string describing the color.
