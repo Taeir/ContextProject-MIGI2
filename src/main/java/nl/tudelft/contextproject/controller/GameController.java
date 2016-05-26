@@ -88,7 +88,7 @@ public class GameController extends Controller {
 		attachLevel();
 		GameController t = this;
 
-		//Listener for stop
+		//Listener for stop the game
 		addInputListener((ActionListener) (n, ip, tpf) -> Main.getInstance().stop(), "Exit");
 		
 		ActionListener al = new ActionListener() {

@@ -96,11 +96,6 @@ public final class TestUtil extends TestBase {
 		camera = toMockito(camera, () -> new Camera(640, 480));
 		doReturn(camera).when(mainSpy).getCamera();
 		
-		//Ensure that there is a spy FlyByCamera
-		//final Camera cam = camera;
-		//flyByCamera = toMockito(flyByCamera, () -> new FlyByCamera(cam));
-		//doReturn(flyByCamera).when(mainSpy).getFlyByCamera();
-		
 		//Ensure that there is a spy Listener
 		listener = toMockito(listener, Listener.class, true);
 		doReturn(listener).when(mainSpy).getListener();
@@ -113,6 +108,10 @@ public final class TestUtil extends TestBase {
 			
 			//Create the InputManager
 			InputManager tbr = spy(new InputManager(dmi, dki, null, null));
+			
+			//Initialize the inputs
+			dmi.initialize();
+			dki.initialize();
 			
 			//Reset the mouse and key input spies
 			reset(dmi, dki);

@@ -43,7 +43,7 @@ public class NoVRMouseManager implements AnalogListener {
 	 * 		the inputManager to register
 	 */
 	public void registerWithInput(InputManager inputManager) {
-		// both mouse and button - rotation of cam
+		//Add rotation mappings
 		inputManager.addMapping(CameraInput.FLYCAM_LEFT, new MouseAxisTrigger(MouseInput.AXIS_X, true),
 				new KeyTrigger(KeyInput.KEY_LEFT));
 
@@ -55,19 +55,6 @@ public class NoVRMouseManager implements AnalogListener {
 
 		inputManager.addMapping(CameraInput.FLYCAM_DOWN, new MouseAxisTrigger(MouseInput.AXIS_Y, true),
 				new KeyTrigger(KeyInput.KEY_DOWN));
-
-		//		// mouse only - zoom in/out with wheel, and rotate drag
-		//		inputManager.addMapping(CameraInput.FLYCAM_ZOOMIN, new MouseAxisTrigger(MouseInput.AXIS_WHEEL, false));
-		//		inputManager.addMapping(CameraInput.FLYCAM_ZOOMOUT, new MouseAxisTrigger(MouseInput.AXIS_WHEEL, true));
-		//		inputManager.addMapping(CameraInput.FLYCAM_ROTATEDRAG, new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		//
-		//		// keyboard only WASD for movement and WZ for rise/lower height
-//		inputManager.addMapping(CameraInput.FLYCAM_STRAFELEFT, new KeyTrigger(KeyInput.KEY_A));
-//		inputManager.addMapping(CameraInput.FLYCAM_STRAFERIGHT, new KeyTrigger(KeyInput.KEY_D));
-//		inputManager.addMapping(CameraInput.FLYCAM_FORWARD, new KeyTrigger(KeyInput.KEY_W));
-//		inputManager.addMapping(CameraInput.FLYCAM_BACKWARD, new KeyTrigger(KeyInput.KEY_S));
-//		inputManager.addMapping(CameraInput.FLYCAM_RISE, new KeyTrigger(KeyInput.KEY_Q));
-//		inputManager.addMapping(CameraInput.FLYCAM_LOWER, new KeyTrigger(KeyInput.KEY_Z));
 
 		inputManager.addListener(this, CameraInput.FLYCAM_LEFT,
 				CameraInput.FLYCAM_RIGHT,
@@ -84,6 +71,12 @@ public class NoVRMouseManager implements AnalogListener {
 		}
 	}
 
+	/**
+	 * Map the joystick controls to events.
+	 * 
+	 * @param joystick
+	 * 		the joystick to map.
+	 */
 	protected void mapJoystick(Joystick joystick) {
 
 		// Map it differently if there are Z axis
@@ -140,6 +133,14 @@ public class NoVRMouseManager implements AnalogListener {
 		cam.setAxes(q);
 	}
 	
+	/**
+	 * Moves the camera a certain value in a certain direction.
+	 * 
+	 * @param value
+	 * 		the amount to move
+	 * @param sideways
+	 * 		if true, moves the camera sideways
+	 */
 	protected void moveCamera(float value, boolean sideways) {
 		Vector3f vel = new Vector3f();
 		Vector3f pos = cam.getLocation().clone();

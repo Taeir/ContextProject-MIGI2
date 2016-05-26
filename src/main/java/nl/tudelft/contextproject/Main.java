@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.state.AbstractAppState;
-import com.jme3.input.CameraInput;
 import com.jme3.input.DefaultJoystickAxis;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
@@ -30,8 +29,6 @@ import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
 import jmevr.app.VRApplication;
-import jmevr.util.VRGuiManager;
-import jmevr.util.VRGuiManager.POSITIONING_MODE;
 
 import lombok.SneakyThrows;
 
@@ -40,6 +37,12 @@ import lombok.SneakyThrows;
  */
 public class Main extends VRApplication {
 	public static final int PORT_NUMBER = 8080;
+	//Set to false to disable VR
+	public static final boolean VR = false;
+	//Decrease for better performance and worse graphics
+	public static final float RESOLUTION = 1.0f;
+	//If the mirror window is shown
+	public static final boolean MIRROR_WINDOW = true;
 	
 	private static boolean debugHud;
 	
@@ -65,30 +68,28 @@ public class Main extends VRApplication {
 		settings.setUseJoysticks(true);
 		main.setSettings(settings);
 
-		//Disable the SteamVR compositor (kinda needed at the moment)
-		//main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_STEAMVR_COMPOSITOR, false);
+		//Set if we want to run in VR mode or not.
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, !VR);
 		
 		//Use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
 		//Runs faster when set to false, but will allow mirroring
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, true);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, MIRROR_WINDOW);
 		//Render two eyes, regardless of SteamVR
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, true);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
 		//Show gui even if it is behind things
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true);
 		//Faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
 		
-//		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, true);
 		//Set frustum distances here before app starts
 		main.preconfigureFrustrumNearFar(0.1f, 512f);
 		
-		
 		//You can downsample for performance reasons
-		//main.preconfigureResolutionMultiplier(0.666f);
+		main.preconfigureResolutionMultiplier(RESOLUTION);
 
 		main.start();
 	}
@@ -179,24 +180,12 @@ public class Main extends VRApplication {
 
 	@Override
 	public void simpleInitApp() {
-		if (VRApplication.getVRHardware() != null) {
+		if (VRApplication.isInVR() && VRApplication.getVRHardware() != null) {
 			Log.getLog("VR").info("Attached device: " + VRApplication.getVRHardware().getName());
 		} else {
 			Log.getLog("VR").info("Attached device: No");
 		}
-		//setDisplayFps(debugHud);
-		//setDisplayStatView(debugHud);
-
-		//observer = new Node("observer");
 		
-		VRGuiManager.setPositioningMode(POSITIONING_MODE.MANUAL);
-		VRGuiManager.setGuiScale(0.4f);
-		VRGuiManager.setPositioningElasticity(10f);
-		
-		//observer.setLocalTranslation(new Vector3f(0.0f, 0.0f, 0.0f));
-		//VRApplication.setObserver(observer);
-		//rootNode.attachChild(observer);
-
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
 		
@@ -227,7 +216,9 @@ public class Main extends VRApplication {
 		InputManager im = getInputManager();
 		
 		//Add mouse controls when No VR is attached.
-		new NoVRMouseManager(getCamera()).registerWithInput(im);
+		if (!VRApplication.isInVR()) {
+			new NoVRMouseManager(getCamera()).registerWithInput(im);
+		}
 
 		if (isControllerConnected()) {
 			Joystick j = im.getJoysticks()[0];
@@ -235,7 +226,7 @@ public class Main extends VRApplication {
 			mapJoystickAxes(j);
 
 			j.getButton("0").assignButton("Jump");				// A
-			//j.getButton("3").assignButton("Exit");				// Y
+			j.getButton("3").assignButton("Unmapped");			// Y
 			j.getButton("2").assignButton("Bomb");				// X
 			j.getButton("1").assignButton("Pickup");			// B
 		} else {

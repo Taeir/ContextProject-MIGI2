@@ -18,8 +18,6 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
-import jmevr.app.VRApplication;
-
 /**
  * Class representing the player wearing the VR headset.
  */
@@ -45,8 +43,8 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	//Movement control constants.
 
-	public static final float SIDE_WAY_SPEED_MULTIPLIER = .08f;
-	public static final float STRAIGHT_SPEED_MULTIPLIER = .1f;
+	public static final float SIDE_WAY_SPEED_MULTIPLIER = .05f;
+	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
@@ -75,14 +73,8 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		return spatial;
 	}
 
-	private boolean isset;
 	@Override
 	public void update(float tdf) {
-		if (!isset) {
-			//VRApplication.setObserver(getSpatial());
-			isset = true;
-			
-		}
 		//TODO this will change after VR support is implemented
 		Vector3f camDir = Main.getInstance().getCamera().getDirection();
 		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
