@@ -37,7 +37,7 @@ public final class MapReader {
 	 * @throws IOException
 	 * 			when wrong format is delivered 
 	 */
-	public RoomTuple readMap(String mapFolder, List<Room> rooms) throws IOException {
+	public static RoomTuple readMap(String mapFolder, List<Room> rooms) throws IOException {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(mapFolder)), StandardCharsets.UTF_8))) {
 			String line = br.readLine();
 

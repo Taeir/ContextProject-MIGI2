@@ -90,9 +90,12 @@ public class RoomTest extends TestBase {
 	@Test
 	public void testSetMazeTiles() {
 		MazeTile[][] mazeTiles = new MazeTile[0][0];
+		Size zeroSize = new Size(0, 0);
 		testRoom.setMazeTiles(mazeTiles);
+		testRoom.setSize(zeroSize);
 		Room testRoom2 = new Room(ROOM_FOLDER);
 		testRoom2.setMazeTiles(mazeTiles);
+		testRoom2.setSize(zeroSize);
 		assertTrue(testRoom.equals(testRoom2));
 	}
 	

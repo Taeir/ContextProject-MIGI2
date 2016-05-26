@@ -35,9 +35,6 @@ public class Room {
 	//List of lights in the room
 	public List<Light> lights;
 
-	//2d representation of tiles in the room
-	public TileType[][] tiles;
-	
 	//2d representation of mazeTiles in the room
 	public MazeTile[][] mazeTiles;
 
@@ -51,7 +48,6 @@ public class Room {
 		lights = new ArrayList<Light>();
 		try {
 			size = getSizeFromFileName(folder);
-			tiles = new TileType[size.getWidth()][size.getHeight()];
 			mazeTiles = new MazeTile[size.getWidth()][size.getHeight()];
 			RoomReader.importFile(folder, mazeTiles, entities, lights, 0, 0);	
 		} catch (IOException e) {
@@ -90,7 +86,7 @@ public class Room {
 	 * 			Room with settings of .crf file
 	 */
 	public static Room readRoom(String folderName) {
-		// TODO Auto-generated method stub
+		//l/ol
 		return null;
 	}
 	
@@ -110,7 +106,7 @@ public class Room {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.deepHashCode(tiles);
+		result = prime * result + Arrays.deepHashCode(mazeTiles);
 		return result;
 	}
 
@@ -132,7 +128,7 @@ public class Room {
 		
 		for (int i = 0; i < size.getWidth(); i++) {
 			for (int j = 0; j < size.getHeight(); j++) {
-				if (tiles[i][j] != other.tiles[i][j]) {
+				if (mazeTiles[i][j].getTileType() != other.mazeTiles[i][j].getTileType()) {
 					return false;
 				}
 			}
