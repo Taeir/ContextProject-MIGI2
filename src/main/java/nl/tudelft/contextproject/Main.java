@@ -43,7 +43,7 @@ public class Main extends SimpleApplication {
 	public static final int PORT_NUMBER = 8080;
 	
 	private static boolean debugHud;
-	private static boolean showQR;
+	private static boolean hideQR;
 	
 	private static Main instance;
 	private Controller controller;
@@ -61,7 +61,7 @@ public class Main extends SimpleApplication {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		debugHud = a.contains("--debugHud");
-		showQR = !a.contains("--hideQR");
+		hideQR = a.contains("--hideQR");
 		AppSettings settings = new AppSettings(true);
         settings.setUseJoysticks(true);
         main.setSettings(settings);
@@ -175,7 +175,7 @@ public class Main extends SimpleApplication {
 		setController(new WaitingController(this));
 		setupWebServer();
 		
-		if (showQR) {
+		if (!hideQR) {
 			showQRCode();
 		}
 

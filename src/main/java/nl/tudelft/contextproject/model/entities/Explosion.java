@@ -20,6 +20,7 @@ public class Explosion extends Entity {
 
 	/**
 	 * Create an explosion with a certain maximal radius.
+	 * 
 	 * @param radius
 	 * 		the maximal radius of the explosion.	
 	 */

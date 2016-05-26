@@ -29,7 +29,7 @@ public class LandMine extends PlayerTrigger {
 
 		Box b = new Box(.1f, .01f, .1f);
 		this.spatial = new Geometry("plate", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
 		mat.setBoolean("UseMaterialColors", true);    
 		mat.setColor("Diffuse", ColorRGBA.Green.mult(.4f));
 		mat.setColor("Specular", ColorRGBA.White);
