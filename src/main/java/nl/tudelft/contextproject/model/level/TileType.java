@@ -1,18 +1,22 @@
 package nl.tudelft.contextproject.model.level;
 
 import com.jme3.math.ColorRGBA;
+import com.jme3.texture.Texture;
+
+import nl.tudelft.contextproject.Main;
 
 /**
  * Enum representing the possible TileTypes in the game.
  */
 public enum TileType {
-    FLOOR(1, 0, ColorRGBA.Green),
-    WALL(2, 3, ColorRGBA.Blue),
-    CORRIDOR(3, 0, ColorRGBA.Red);
+    FLOOR(1, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
+    WALL(2, 3, ColorRGBA.Gray, "Textures/walltexture.png"),
+    CORRIDOR(3, 0, ColorRGBA.Green, "Textures/grasstexture.png");
 	
 	private int jsonid;
 	private int height;
 	private ColorRGBA color;
+	private Texture texture;
 	
 	/**
 	 * @param jsonid
@@ -22,10 +26,16 @@ public enum TileType {
 	 * @param color
 	 * 		the color of the tile
 	 */
-	TileType(int jsonid, int height, ColorRGBA color) {
+	TileType(int jsonid, int height, ColorRGBA color, String texture) {
 		this.jsonid = jsonid;
 		this.height = height;
 		this.color = color;
+		
+		if (!(Main.getInstance().getAssetManager() == null)) {
+			this.texture = Main.getInstance().getAssetManager().loadTexture(texture);
+		} else {
+			this.texture = null;
+		}
 	}
 	
 	/**
@@ -54,5 +64,9 @@ public enum TileType {
 	 */
 	public int getHeight() {
 		return height;
+	}
+
+	public Texture getTexture() {
+		return texture;
 	}
 }

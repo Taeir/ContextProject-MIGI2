@@ -67,24 +67,6 @@ public abstract class DrawableTest extends TestBase {
 	}
 	
 	/**
-	 * Verify that something is drawn on the Graphics2D when calling mapDraw().
-	 */
-	@Test
-	public void testMapDraw_drawable() {	
-		setupDrawable();
-		Graphics2D g = mock(Graphics2D.class);
-		dable.mapDraw(g, 16);
-		
-		//Verify that there were interactions
-		try {
-			verifyZeroInteractions(g);
-		} catch (NoInteractionsWanted e) {
-			return;
-		}
-		fail();
-	}
-	
-	/**
 	 * Setup the mocks in the Main class.
 	 * This enables testing using {@link Drawable#getSpatial()}.
 	 */
