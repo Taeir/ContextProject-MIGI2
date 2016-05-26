@@ -42,38 +42,10 @@ public class MazeTile implements Drawable, PhysicsObject {
 		this.position = new Vector2f(x, y);
 		this.explored = false;
 		this.type = type;
-
-		switch (type) {
-			case FLOOR:
-				this.height = 0;
-				this.color = ColorRGBA.Green;
-				if (!(Main.getInstance().getAssetManager() == null)) {
-					this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
-				} else {
-					this.texture = null;
-				}
-				break;
-			case WALL:
-				this.height = 3;
-				this.color = ColorRGBA.Gray;
-				if (!(Main.getInstance().getAssetManager() == null)) {
-					this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/walltexture.png");
-				} else {
-					this.texture = null;
-				}
-				break;
-			case CORRIDOR:
-				this.height = 0;
-				this.color = ColorRGBA.Green;
-				if (!(Main.getInstance().getAssetManager() == null)) {
-					this.texture = Main.getInstance().getAssetManager().loadTexture("Textures/grasstexture.png");
-				} else {
-					this.texture = null;
-				}
-				break;
-			default:
-				throw new IllegalArgumentException("Invalid TileType: " + type);
-		}
+		
+		this.height = type.getHeight();
+		this.color = type.getColor();
+		this.texture = type.getTexture();
 	}
 
 	/**

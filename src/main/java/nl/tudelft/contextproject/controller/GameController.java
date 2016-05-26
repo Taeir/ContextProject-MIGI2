@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.controller;
 
-import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
+import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
@@ -108,29 +107,34 @@ public class GameController extends Controller {
 		};
 
 		addInputListener(al, "pause");
-		addInputListener(game.getPlayer(), "Left");
-		addInputListener(game.getPlayer(), "Right");
-		addInputListener(game.getPlayer(), "Up");
-		addInputListener(game.getPlayer(), "Down");
-		addInputListener(game.getPlayer(), "Jump");
-		addInputListener(game.getPlayer(), "Bomb");
-		addInputListener(game.getPlayer(), "Pickup");
+		addInputListener(game.getPlayer(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
 	}
 
 	/**
 	 * Attaches the current level to the renderer.
-	 * Note: this method does not clear the previous level.
 	 */
-	public void attachLevel() {
+	protected void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
 
-		int xStart = 0; 
-		int yStart = 0;
-		// add roof
+		Vector2f start = attachMazeTiles(level);
+		attachRoof(level);
+
+		addDrawable(game.getPlayer());		
+		game.getPlayer().move(start.x, 6, start.y);
+		
+		for (Light l : level.getLights()) {
+			addLight(l);
+		}
+		 
+		AmbientLight al = new AmbientLight();
+		al.setColor(ColorRGBA.White.mult(.5f));
+		addLight(al);
+	}
+
+	private void attachRoof(Level level) {
 		if (!(Main.getInstance().getAssetManager() == null)) {
 			addDrawable(new Drawable() {
-
 				@Override
 				public Spatial getSpatial() {
 					Quad roof = new Quad(level.getWidth(), level.getHeight());
@@ -143,7 +147,7 @@ public class GameController extends Controller {
 					ColorRGBA color = ColorRGBA.Gray;
 					mat.setColor("Diffuse", color);
 					mat.setColor("Specular", color);
-					mat.setFloat("Shininess", 64f);  // [0,128]
+					mat.setFloat("Shininess", 64f);
 					mat.setColor("Ambient", color);
 					mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
 					geom.setMaterial(mat); 
@@ -153,38 +157,35 @@ public class GameController extends Controller {
 					return geom;
 				}
 
-
 				@Override
 				public void setSpatial(Spatial spatial) { }
 			});
-		}	
+		}
+	}
 
+	/**
+	 * Attach all {@link MazeTile}s in the level to the renderer.
+	 * 
+	 * @param 
+	 * 		level the level that contains all the mazetiles
+	 * @return 
+	 * 		the starting position of the player
+	 */
+	private Vector2f attachMazeTiles(Level level) {
+		Vector2f start = new Vector2f();
 		for (int x = 0; x < level.getWidth(); x++) {
 			for (int y = 0; y < level.getHeight(); y++) {
 				if (level.isTileAtPosition(x, y)) {
 					//TODO add starting room with starting location
-					if ((xStart == 0 && yStart == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-						xStart = x;
-						yStart = y;
+					if ((start.x == 0 && start.y == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
+						start.x = x;
+						start.y = y;
 					}
 					addDrawable(level.getTile(x, y));
 				}
 			}
 		}
-
-		addDrawable(game.getPlayer());
-
-		if (game.getPlayer().getPhysicsObject() != null) {
-			game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
-		}
-
-		for (Light l : level.getLights()) {
-			addLight(l);
-		}
-
-		AmbientLight al = new AmbientLight();
-		al.setColor(ColorRGBA.White.mult(.5f));
-		addLight(al);
+		return start;
 	}
 
 	@Override
