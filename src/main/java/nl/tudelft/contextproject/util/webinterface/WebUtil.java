@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.util;
+package nl.tudelft.contextproject.util.webinterface;
 
 /**
  * Utility class for the webinterface.

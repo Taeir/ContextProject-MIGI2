@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.util;
+package nl.tudelft.contextproject.util.webinterface;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.Bomb;

@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.util.Set;
 
 import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.util.webinterface.EntityUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

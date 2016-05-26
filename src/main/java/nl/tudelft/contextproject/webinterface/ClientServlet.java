@@ -7,12 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.tudelft.contextproject.model.entities.Bomb;
-import nl.tudelft.contextproject.util.ActionUtil;
+import nl.tudelft.contextproject.util.webinterface.ActionUtil;
 import nl.tudelft.contextproject.util.JSONUtil;
 import nl.tudelft.contextproject.util.QRGenerator;
 
-import nl.tudelft.contextproject.util.WebUtil;
+import nl.tudelft.contextproject.util.webinterface.WebUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.json.JSONObject;

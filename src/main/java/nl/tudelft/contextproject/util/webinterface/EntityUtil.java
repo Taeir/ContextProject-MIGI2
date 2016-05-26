@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.util;
+package nl.tudelft.contextproject.util.webinterface;
 
 /**
  * Class used to make entities usable for the web interface.
