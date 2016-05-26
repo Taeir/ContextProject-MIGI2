@@ -12,22 +12,23 @@ import nl.tudelft.contextproject.model.entities.Direction;
 import nl.tudelft.contextproject.model.entities.Door;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.Key;
+import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.PlayerTrigger;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.WallFrame;
-import nl.tudelft.contextproject.util.ReaderUtil;
+import nl.tudelft.contextproject.util.ParserUtil;
 import nl.tudelft.contextproject.util.ScriptLoader;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**
- * Utility class to read entities from a buffetredReader.
+ * Utility class to read entities from a bufferedReader.
  */
-public final class EntityReader {
+public final class EntityParser {
 
 	/**
 	 * Private constructor to avoid instantiation.
 	 */
-	private EntityReader() {}
+	private EntityParser() {}
 
 	/**
 	 * Read the specified amount of entities and add them to the set of entities.
@@ -88,27 +89,30 @@ public final class EntityReader {
 	 * 		when the loading of scripts goes wrong
 	 */
 	protected static Entity getEntity(String type, float x, float y, float z, String[] data, String path) throws ScriptLoaderException {
-		ScriptLoader sl = new ScriptLoader(EntityReader.class.getResource(path).getPath());
+		ScriptLoader sl = new ScriptLoader(EntityParser.class.getResource(path).getPath());
 		Entity e;
 		if (data == null) throw new IllegalArgumentException("Data is null");
 
 		switch (type) {
 			case "Key":
 				if (data.length < 5) throw new IllegalArgumentException("Key must specify at least 5 values.");
-				e = new Key(ReaderUtil.getColor(data[4]));
+				e = new Key(ParserUtil.getColor(data[4]));
 				break;
 			case "Door":
 				if (data.length < 5) throw new IllegalArgumentException("Door must specify at least 5 values.");
-				e = new Door(ReaderUtil.getColor(data[4]));
+				e = new Door(ParserUtil.getColor(data[4]));
 				break;
 			case "Bomb":
 				e = new Bomb();
 				break;
 			case "PlayerTrigger":
 				if (data.length < 7) throw new IllegalArgumentException("PlayerTrigger must specify at least 7 values.");
-				e = new PlayerTrigger(Float.parseFloat(data[4]), Float.parseFloat(data[5]),
-						sl.getInstanceOf(data[6], TickListener.class), new Vector3f(x, y, z));
-				return e;
+				e = new PlayerTrigger(Float.parseFloat(data[4]), Float.parseFloat(data[5]),	sl.getInstanceOf(data[6], TickListener.class));
+				break;
+			case "Pitfall":
+				if (data.length < 5) throw new IllegalArgumentException("Pitfall must specify at least 4 values.");
+				e = new Pitfall(Float.parseFloat(data[4]));
+				break;
 			case "WallFrame":
 				if (data.length < 8) throw new IllegalArgumentException("WallFrame must specify at least 8 values.");
 				e = new WallFrame(new Vector3f(x, y, z), path + data[5], Direction.valueOf(data[4]), Float.parseFloat(data[6]), Float.parseFloat(data[7]));

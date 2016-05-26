@@ -12,14 +12,14 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Test for the ReaderUtil class.
  */
-public class ReaderUtilTest extends TestBase {
+public class ParserUtilTest extends TestBase {
 
 	/**
 	 * Test if getting a random color gives us a color.
 	 */
 	@Test
 	public void testGetColorRandom() {
-		ColorRGBA res = ReaderUtil.getColor("randomColor");
+		ColorRGBA res = ParserUtil.getColor("randomColor");
 		assertNotNull(res);
 	}
 
@@ -28,7 +28,7 @@ public class ReaderUtilTest extends TestBase {
 	 */
 	@Test
 	public void testGetColor() {
-		ColorRGBA res = ReaderUtil.getColor(".5/.3/.2/.1");
+		ColorRGBA res = ParserUtil.getColor(".5/.3/.2/.1");
 		assertEquals(.5, res.getRed(), 1e-6);
 		assertEquals(.3, res.getGreen(), 1e-6);
 		assertEquals(.2, res.getBlue(), 1e-6);
@@ -40,6 +40,6 @@ public class ReaderUtilTest extends TestBase {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetColorToFewArguments() {
-		ReaderUtil.getColor(".5/.3/.2");
+		ParserUtil.getColor(".5/.3/.2");
 	}
 }
