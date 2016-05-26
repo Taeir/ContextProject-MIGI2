@@ -271,7 +271,7 @@ public class ClientServlet extends DefaultServlet {
 	 * @throws IOException
 	 * 		if sending the response to the client causes an IOException
 	 */
-	public void attemptAction(int xCoord, int yCoord, String action, String team, HttpServletResponse response) throws IOException {
+	protected void attemptAction(int xCoord, int yCoord, String action, String team, HttpServletResponse response) throws IOException {
 		if (!WebUtil.checkValidAction(action, team)) {
 			response.setStatus(HttpStatus.OK_200);
 			response.getWriter().write("ACTION INVALID, NOT PERFORMED");

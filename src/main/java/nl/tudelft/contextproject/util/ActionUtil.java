@@ -54,7 +54,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	public static void placeBomb(int xCoord, int yCoord) {
+	protected static void placeBomb(int xCoord, int yCoord) {
 		Bomb bomb = new Bomb();
 		bomb.move(xCoord, 1, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(bomb);
@@ -68,7 +68,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	public static void placePitfall(int xCoord, int yCoord) {
+	protected static void placePitfall(int xCoord, int yCoord) {
 		Pitfall pitfall = new Pitfall(1);
 		pitfall.move(xCoord, 0, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(pitfall);
@@ -82,7 +82,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	public static void placeMine(int xCoord, int yCoord) {
+	protected static void placeMine(int xCoord, int yCoord) {
 		//TODO Implement action once mines are present
 	}
 
@@ -94,7 +94,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	public static void spawnEnemy(int xCoord, int yCoord) {
+	protected static void spawnEnemy(int xCoord, int yCoord) {
 		//TODO Implement action once enemies are present
 	}
 
@@ -106,7 +106,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	public static void dropBait(int xCoord, int yCoord) {
+	protected static void dropBait(int xCoord, int yCoord) {
 		//TODO Implement action once enemies are present
 	}
 }
