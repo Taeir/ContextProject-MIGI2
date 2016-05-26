@@ -9,8 +9,8 @@ import nl.tudelft.contextproject.model.level.TileType;
 /**
  * Utility class for reading MazeTiles.
  */
-public final class TileReader {
-	private TileReader() {}
+public final class TileParser {
+	private TileParser() {}
 	
 	/**
 	 * Read a given array of MazeTiles with a specified offset.

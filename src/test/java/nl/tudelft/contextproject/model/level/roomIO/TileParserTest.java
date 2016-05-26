@@ -15,7 +15,7 @@ import nl.tudelft.contextproject.model.level.TileType;
 /**
  * Test class for TileReader.
  */
-public class TileReaderTest extends TestBase {
+public class TileParserTest extends TestBase {
 
 	/**
 	 * Test reading an empty tile.
@@ -28,7 +28,7 @@ public class TileReaderTest extends TestBase {
 		MazeTile[][] tiles = new MazeTile[1][1];
 		String in = "#";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
+		TileParser.readTiles(tiles, 1, 1, 0, 0, br);
 		assertNull(tiles[0][0]);
 	}
 	
@@ -43,7 +43,7 @@ public class TileReaderTest extends TestBase {
 		MazeTile[][] tiles = new MazeTile[1][1];
 		String in = "WALL";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
+		TileParser.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.WALL, tiles[0][0].getTileType());
 	}
 	
@@ -58,7 +58,7 @@ public class TileReaderTest extends TestBase {
 		MazeTile[][] tiles = new MazeTile[1][1];
 		String in = "CORRIDOR";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
+		TileParser.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.CORRIDOR, tiles[0][0].getTileType());
 	}
 	
@@ -73,7 +73,7 @@ public class TileReaderTest extends TestBase {
 		MazeTile[][] tiles = new MazeTile[1][1];
 		String in = "FLOOR";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
+		TileParser.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.FLOOR, tiles[0][0].getTileType());
 	}
 	
@@ -88,7 +88,7 @@ public class TileReaderTest extends TestBase {
 		MazeTile[][] tiles = new MazeTile[1][1];
 		String in = "THIS_TILETYPE_DOES_NOT_EXIST";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		TileReader.readTiles(tiles, 1, 1, 0, 0, br);
+		TileParser.readTiles(tiles, 1, 1, 0, 0, br);
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class TileReaderTest extends TestBase {
 		MazeTile[][] tiles = new MazeTile[1][1];
 		String in = "FLOOR";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		TileReader.readTiles(tiles, 2, 1, 0, 0, br);
+		TileParser.readTiles(tiles, 2, 1, 0, 0, br);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class TileReaderTest extends TestBase {
 		MazeTile[][] tiles = new MazeTile[1][1];
 		String in = "FLOOR";
 		BufferedReader br = new BufferedReader(new StringReader(in));
-		TileReader.readTiles(tiles, 1, 2, 0, 0, br);
+		TileParser.readTiles(tiles, 1, 2, 0, 0, br);
 	}
 
 }

@@ -7,13 +7,13 @@ import java.util.List;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
-import nl.tudelft.contextproject.util.ReaderUtil;
+import nl.tudelft.contextproject.util.ParserUtil;
 
 /**
  * Utility class for reading lights from a file.
  */
-public final class LightReader {
-	private LightReader() {}
+public final class LightParser {
+	private LightParser() {}
 	
 	/**
 	 * Read the specified amount of lights from the bufferedReader.
@@ -67,13 +67,13 @@ public final class LightReader {
 	protected static Light getLight(String type, float x, float y, float z, String color, String[] data) {
 		switch (type) {
 			case "AmbientLight":
-				AmbientLight al = new AmbientLight(ReaderUtil.getColor(color));
+				AmbientLight al = new AmbientLight(ParserUtil.getColor(color));
 				return al;
 			case "PointLight":
 				if (data.length != 6) throw new IllegalArgumentException("You should specify the radius for a pointLight.");
 
 				PointLight pl = new PointLight();
-				pl.setColor(ReaderUtil.getColor(color));
+				pl.setColor(ParserUtil.getColor(color));
 				pl.setRadius(Float.parseFloat(data[5]));
 				return pl;
 			default:

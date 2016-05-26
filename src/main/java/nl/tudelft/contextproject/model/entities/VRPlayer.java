@@ -1,7 +1,5 @@
 package nl.tudelft.contextproject.model.entities;
 
-import java.awt.Graphics2D;
-
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -51,6 +49,8 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	private boolean left, right, up, down;
 	private Vector3f walkDirection;
 	private Inventory inventory;
+	private Vector3f resp;
+	private float fallingTimer;
 
 	/**
 	 * Constructor for a default player.
@@ -75,6 +75,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	@Override
 	public void update(float tdf) {
+		updateFallingTimer(tdf);
 		//TODO this will change after VR support is implemented
 		Vector3f camDir = Main.getInstance().getCamera().getDirection();
 		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
@@ -98,15 +99,27 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
 	}
 
-	@Override
-	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = spatial.getLocalTranslation();
-		int x = (int) trans.x * resolution;
-		int y = (int) trans.y * resolution;
-		int width = resolution / 2;
-		int offset = resolution / 4;
-
-		g.fillOval(x + offset, y + offset, width, width);
+	/**
+	 * Update the falling timer that triggers respawining the player.
+	 * 
+	 * @param tpf
+	 *		the time per frame for this update
+	 */
+	protected void updateFallingTimer(float tpf) {
+		if (fallingTimer < 0) {
+			fallingTimer = 0;
+			Vector3f move = getLocation().subtract(resp);
+			move(-move.x, -move.y, -move.z);
+			return;
+		}
+		if (getLocation().y < 0 && fallingTimer == 0) {
+			resp = getLocation().clone();
+			resp.y = 5;
+			fallingTimer = 2;
+		}
+		if (fallingTimer != 0) {
+			fallingTimer -= tpf;
+		}
 	}
 
 	@Override
