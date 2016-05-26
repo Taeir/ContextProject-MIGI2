@@ -85,12 +85,21 @@ public class RoomTest extends TestBase {
 	}
 	
 	/**
+	 * Test hash code.
+	 */
+	@Test
+	public void testHashCode() {
+		assertEquals(1360407523, testRoom.hashCode());
+	}
+	
+	/**
 	 * Test set of maze tiles.
 	 */
 	@Test
 	public void testSetMazeTiles() {
-		MazeTile[][] mazeTiles = new MazeTile[0][0];
-		Size zeroSize = new Size(0, 0);
+		MazeTile[][] mazeTiles = new MazeTile[1][1];
+		mazeTiles[0][0] = new MazeTile(0, 0, TileType.FLOOR);
+		Size zeroSize = new Size(1, 1);
 		testRoom.setMazeTiles(mazeTiles);
 		testRoom.setSize(zeroSize);
 		Room testRoom2 = new Room(ROOM_FOLDER);

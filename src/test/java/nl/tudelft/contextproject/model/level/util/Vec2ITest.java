@@ -123,6 +123,14 @@ public class Vec2ITest {
 	}
 	
 	/**
+	 * Test equals, null vector, y.
+	 */
+	@Test
+	public void testEqualsNull() {
+		assertFalse(testVector.equals(null));
+	}
+	
+	/**
 	 * Test toString.
 	 */
 	@Test
