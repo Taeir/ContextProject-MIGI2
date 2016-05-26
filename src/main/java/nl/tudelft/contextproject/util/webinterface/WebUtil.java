@@ -1,5 +1,13 @@
 package nl.tudelft.contextproject.util.webinterface;
 
+import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.TileType;
+
+import java.util.Set;
+
 /**
  * Utility class for the webinterface.
  */
@@ -94,5 +102,37 @@ public final class WebUtil {
 			default:
 				return false;
 		}
+	}
+
+	/**
+	 * Check if a location is a valid location to perform an action on.
+	 *
+	 * @param xCoord
+	 * 		the x coordinate of the location
+	 * @param yCoord
+	 * 		the y coordinate of the location
+	 * @return
+	 * 		true if the location is valid, false otherwise
+	 */
+	public static boolean checkValidLocation(int xCoord, int yCoord) {
+		MazeTile tile = Main.getInstance().getCurrentGame().getLevel().getTile(xCoord, yCoord);
+		if (tile == null || tile.getTileType() == TileType.WALL) {
+			return false;
+		}
+
+		Set<Entity> entities = Main.getInstance().getCurrentGame().getEntities();
+		for (Entity e : entities) {
+			if (Math.round(e.getLocation().getX()) == xCoord &&
+					Math.round(e.getLocation().getZ()) == yCoord) {
+				return false;
+			}
+		}
+
+		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
+		if (Math.round(player.getLocation().getX()) == xCoord && Math.round(player.getLocation().getZ()) == yCoord) {
+			return false;
+		}
+
+		return true;
 	}
 }
