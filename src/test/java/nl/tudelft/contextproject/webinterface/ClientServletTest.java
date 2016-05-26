@@ -180,6 +180,28 @@ public class ClientServletTest extends WebTestBase {
 	}
 
 	/**
+	 * Test method for {@link ClientServlet#doPost}, when posting to /requestaction.
+	 *
+	 * @throws Exception
+	 * 		if an exception occurs calling doPost of the servlet
+	 */
+	@Test
+	public void testDoPost_requestaction() throws Exception {
+		//Create a request to get the status
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/requestaction");
+		HttpServletResponse response = createMockedResponse();
+
+		//Ensure that the original method does not get called
+		doNothing().when(servlet).statusUpdate(any(), any());
+
+		//Call the post
+		servlet.doPost(request, response);
+
+		//Verify that the statusUpdate method has been called
+		verify(servlet).requestAction(request, response);
+	}
+
+	/**
 	 * Test method for {@link ClientServlet#checkAuthorized}, when the user is not authorized, and
 	 * the response is in plain text.
 	 * 
@@ -456,7 +478,7 @@ public class ClientServletTest extends WebTestBase {
 	}
 
 	/**
-	 * Test method for {@link ClientServlet#statusUpdate}, when the user is authorized.
+	 * Test method for {@link ClientServlet#statusUpdate}, when the user is unauthorized.
 	 * 
 	 * @throws IOException
 	 * 		if an IOException occurs calling statusUpdate of the servlet
@@ -501,6 +523,49 @@ public class ClientServletTest extends WebTestBase {
 		
 		assertTrue(ac.getValue().contains("\"state\":\"WAITING\""));
 		assertTrue(ac.getValue().contains("\"team\":\"ELVES\""));
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#requestAction}, when the user is unauthorized.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testRequestAction_unauthorized() throws IOException {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/requestaction");
+		HttpServletResponse response = createMockedResponse();
+
+		servlet.requestAction(request, response);
+
+		//{auth: false} JSON should have been written
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("UNAUTHORIZED");
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#requestAction}, when the user is authorized.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testRequestAction_authorized() throws IOException {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/requestaction");
+		HttpServletResponse response = createMockedResponse();
+
+		//Simulate that the user is authorized
+		WebClient client = spy(new WebClient());
+		client.setTeam(false);
+		doReturn(client).when(webServer).getUser(any());
+
+		when(request.getParameter(anyString())).thenReturn("0");
+
+		servlet.requestAction(request, response);
+
+		//Some JSON should have been written
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("ACTION PERFORMED");
 	}
 
 }

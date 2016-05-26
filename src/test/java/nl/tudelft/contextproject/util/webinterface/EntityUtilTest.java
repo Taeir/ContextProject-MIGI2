@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.util.webinterface;
 
-import nl.tudelft.contextproject.util.webinterface.EntityUtil;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.TestBase;

@@ -280,6 +280,6 @@ public class ClientServlet extends DefaultServlet {
 		ActionUtil.perform(action, xCoord, yCoord);
 
 		response.setStatus(HttpStatus.OK_200);
-		response.getWriter().write("ACTION PERFORMED.");
+		response.getWriter().write("ACTION PERFORMED");
 	}
 }
