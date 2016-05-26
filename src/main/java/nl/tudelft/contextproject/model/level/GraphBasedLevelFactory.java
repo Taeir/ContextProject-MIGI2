@@ -45,7 +45,7 @@ public class GraphBasedLevelFactory implements LevelFactory {
 	}
 	
 	/**
-	 * Ask the GraphLevel class to create a GraphLevel
+	 * Ask the GraphLevel class to create a GraphLevel.
 	 */
 	protected void createLevelGraph() {
 		
