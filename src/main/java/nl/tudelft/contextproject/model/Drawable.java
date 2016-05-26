@@ -1,7 +1,5 @@
 package nl.tudelft.contextproject.model;
 
-import java.awt.Graphics2D;
-
 import com.jme3.scene.Spatial;
 
 /**
@@ -27,14 +25,4 @@ public interface Drawable {
 	 * 		the new spatial
 	 */
 	void setSpatial(Spatial spatial);
-	
-	/**
-	 * Draw the Drawable on a map.
-	 *
-	 * @param g
-	 * 		the Graphics2D to draw on
-	 * @param resolution
-	 * 		the resolution of a single tile on the map
-	 */
-	void mapDraw(Graphics2D g, int resolution);
 }
