@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.util.webinterface;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
 
 /**
@@ -83,9 +84,9 @@ public final class ActionUtil {
 	 * 		the y coordinate to use
 	 */
 	protected static void placeMine(int xCoord, int yCoord) {
-//		LandMine landmine = new LandMine();
-//		landmine.move(xCoord, 0, yCoord);
-//		Main.getInstance().getCurrentGame().addEntity(landmine);
+		LandMine landmine = new LandMine();
+		landmine.move(xCoord, 0, yCoord);
+		Main.getInstance().getCurrentGame().addEntity(landmine);
 	}
 
 	/**
