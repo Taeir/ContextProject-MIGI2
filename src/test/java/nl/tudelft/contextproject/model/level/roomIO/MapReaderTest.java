@@ -81,8 +81,8 @@ public class MapReaderTest {
 	}
 	
 	/**
-	 * Test reading of a correct map.
-	 * Tests if a room is correct.
+	 * Test reading of a incorrect map file (.cmf).
+	 * Tests exception of no starterRoom.
 	 * @throws IOException
 	 * 			should happen here
 	 */

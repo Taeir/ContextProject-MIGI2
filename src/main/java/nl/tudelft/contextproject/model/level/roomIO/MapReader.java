@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.level.Room;
 import nl.tudelft.contextproject.model.level.RoomTuple;
 import nl.tudelft.contextproject.util.FileUtil;
