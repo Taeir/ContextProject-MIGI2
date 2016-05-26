@@ -134,12 +134,12 @@ public class GameController extends Controller {
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
 		
-		Entity e = new KillerBunny(new Vector3f(4, 2, 4));
-		game.getEntities().add(e);
-		
-		Entity c = new Carrot();
-		c.move(4, 1, 4);
-		game.getEntities().add(c);
+//		Entity e = new KillerBunny(new Vector3f(4, 2, 4));
+//		game.getEntities().add(e);
+//		
+//		Entity c = new Carrot();
+//		c.move(4, 1, 4);
+//		game.getEntities().add(c);
 	}
 
 	private void attachRoof(Level level) {
