@@ -16,6 +16,7 @@ public class GridBasedLevelFactory implements LevelFactory {
 	private Random rand;
 	
 	private ArrayList<Room> rooms;
+	private RoomTuple startAndEndRooms;
 	
 	private ArrayList<Light> lights;
 	
@@ -28,6 +29,7 @@ public class GridBasedLevelFactory implements LevelFactory {
 	 */
 	public GridBasedLevelFactory(String mapFolder) {
 		this.baseFolder = mapFolder;
+		rooms = new ArrayList<Room>();
 		
 	}
 	
