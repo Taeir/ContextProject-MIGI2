@@ -167,7 +167,7 @@ public class Main extends SimpleApplication {
 		getFlyByCamera().setZoomSpeed(0);
 		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
-		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
+		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
 		
 		setupControlMappings();
 		setController(new WaitingController(this));

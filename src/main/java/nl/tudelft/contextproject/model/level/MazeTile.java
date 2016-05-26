@@ -1,7 +1,5 @@
 package nl.tudelft.contextproject.model.level;
 
-import java.awt.Graphics2D;
-
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -104,14 +102,6 @@ public class MazeTile implements Drawable, PhysicsObject {
 		this.spatial.setMaterial(mat);
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
-	}
-
-	@Override
-	public void mapDraw(Graphics2D g, int resolution) {
-		int x = (int) spatial.getLocalTranslation().x * resolution;
-		int y = (int) spatial.getLocalTranslation().y * resolution;
-		g.fillRect(x, y, resolution, resolution);
-
 	}
 
 	@Override
