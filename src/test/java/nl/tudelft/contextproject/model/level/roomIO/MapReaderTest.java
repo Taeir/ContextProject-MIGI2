@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.model.level.Room;
@@ -21,14 +22,22 @@ public class MapReaderTest {
 	//Location of the test map
 	private static final String TEST_MAP_LOCATION = "/maps/testGridMap/";
 
+	private ArrayList<Room> rooms;
+	
+	/**
+	 * Set up a room array for mapreader tests.
+	 */
+	@Before
+	public void setUp() {
+		rooms = new ArrayList<Room>();
+	}
+	
 	/**
 	 * Test reading of a correct map.
 	 * Tests if starter room is correct.
 	 */
 	@Test
 	public void testReadMapStartRoomCorrect() {
-		ArrayList<Room> rooms = new ArrayList<Room>();
-		//treasureRoom
 		try {
 			RoomTuple startAndTreasureRoom = MapReader.readMap(TEST_MAP_LOCATION, rooms);
 			Room startRoom = new Room(TEST_MAP_LOCATION + "startroom/");
@@ -45,7 +54,6 @@ public class MapReaderTest {
 	 */
 	@Test
 	public void testReadMapTreasureRoomCorrect() {
-		ArrayList<Room> rooms = new ArrayList<Room>();
 		try {
 			RoomTuple startAndTreasureRoom = MapReader.readMap(TEST_MAP_LOCATION, rooms);
 			Room treasureRoom = new Room(TEST_MAP_LOCATION + "endroom/");
@@ -62,7 +70,6 @@ public class MapReaderTest {
 	 */
 	@Test
 	public void testReadMapARoomCorrect() {
-		ArrayList<Room> rooms = new ArrayList<Room>();
 		try {
 			MapReader.readMap(TEST_MAP_LOCATION, rooms);
 			Room room = new Room(TEST_MAP_LOCATION + "room1/");
@@ -71,6 +78,18 @@ public class MapReaderTest {
 			e.printStackTrace();
 			fail();
 		}
+	}
+	
+	/**
+	 * Test reading of a correct map.
+	 * Tests if a room is correct.
+	 * @throws IOException
+	 * 			should happen here
+	 */
+	@Test (expected = IllegalArgumentException.class)
+	public void testReadMapExceptionEmpty() throws IOException {
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		MapReader.readMap("/maps/incorrectMapFiles/empty/", rooms);
 	}
 
 	/**

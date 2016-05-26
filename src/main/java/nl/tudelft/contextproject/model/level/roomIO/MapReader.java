@@ -17,7 +17,7 @@ import nl.tudelft.contextproject.util.FileUtil;
 /**
  * Reads all the rooms in a single map.
  */
-public final class MapReader extends TestBase {
+public final class MapReader {
 	
 	/**
 	 * Private constructor to avoid instantiation.
