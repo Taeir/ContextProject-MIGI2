@@ -1,21 +1,23 @@
 package nl.tudelft.contextproject.model.level;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
 import com.jme3.light.Light;
+
+import nl.tudelft.contextproject.model.level.roomIO.MapReader;
 
 /**
  * Generates a level based on a graph structure.
  *
  */
 public class GraphBasedLevelFactory implements LevelFactory {
-
-	private String baseFolder;
 	
 	private Random rand;
 	
 	private ArrayList<Room> rooms;
+	
 	private RoomTuple startAndEndRooms;
 	
 	private ArrayList<Light> lights;
@@ -29,25 +31,38 @@ public class GraphBasedLevelFactory implements LevelFactory {
 	 * 		location and name of mapFolder
 	 */
 	public GraphBasedLevelFactory(String mapFolder) {
-		this.baseFolder = mapFolder;
 		rooms = new ArrayList<Room>();
-		
+		lights = new ArrayList<Light>();
+		initializeBuilder(mapFolder);
 	}
 	
 	@Override
 	public Level generateSeeded(long seed) {
 		createRNG(seed);
-
+		createLevelGraph();
 
 		return new Level(null, null);
 	}
 	
 	/**
-	 * Initialize all the data needed for building.
+	 * Ask the GraphLevel class to create a GraphLevel
 	 */
-	protected void initializeBuilder() {
-		// TODO Auto-generated method stub
+	protected void createLevelGraph() {
 		
+		
+	}
+
+	/**
+	 * Initialize all the data needed for building.
+	 * @param mapFolder
+	 * 			location of map folder
+	 */
+	protected void initializeBuilder(String mapFolder) {
+		try {
+			startAndEndRooms = MapReader.readMap(null, rooms);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

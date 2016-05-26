@@ -89,7 +89,7 @@ public class RoomTest extends TestBase {
 	 */
 	@Test
 	public void testHashCode() {
-		assertEquals(1360407523, testRoom.hashCode());
+		assertEquals(2054495892, testRoom.hashCode());
 	}
 	
 	/**
