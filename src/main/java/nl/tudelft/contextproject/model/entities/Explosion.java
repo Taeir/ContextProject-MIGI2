@@ -57,7 +57,7 @@ public class Explosion extends Entity {
 			System.out.println("BAM!");
 		}
 		float m = 4 * tpf;
-		spatial.setLocalScale(scale.add(m, m, m));
+		spatial.setLocalScale(scale.x + m);
 	}
 
 	@Override
