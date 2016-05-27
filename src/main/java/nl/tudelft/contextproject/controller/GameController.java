@@ -121,7 +121,7 @@ public class GameController extends Controller {
 
 		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
 	}
-	
+
 	/**
 	 * Attaches the current level to the renderer.
 	 */

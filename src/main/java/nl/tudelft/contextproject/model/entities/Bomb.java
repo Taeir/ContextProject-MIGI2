@@ -86,7 +86,7 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	/**
 	 * @return 
-	 * 		true if bomb is active.
+	 * 		true if bomb is active
 	 */
 	public boolean getActive() {
 		return this.active;

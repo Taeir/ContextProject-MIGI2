@@ -266,7 +266,7 @@ public class Main extends VRApplication {
 	 * Maps the Joystick Axes to our game controls.
 	 * 
 	 * @param joystick
-	 * 		the joystick to map the axes of.
+	 * 		the joystick to map the axes of
 	 */
 	private void mapJoystickAxes(Joystick joystick) {
 		//Set the deadzones to 0.3
@@ -387,7 +387,7 @@ public class Main extends VRApplication {
 	 * Check if the qr code is shown on startup.
 	 *
 	 * @return
-	 * 		true when shown, false otherwise.
+	 * 		true when shown, false otherwise
 	 */
 	public static boolean isQRShown() {
 		return !hideQR;
@@ -397,7 +397,7 @@ public class Main extends VRApplication {
 	 * Check if a controller is connected.
 	 *
 	 * @return
-	 * 		true if a controller is connected, false otherwise.
+	 * 		true if a controller is connected, false otherwise
 	 */
 	public boolean isControllerConnected() {
 		Joystick[] sticks = getInputManager().getJoysticks();
