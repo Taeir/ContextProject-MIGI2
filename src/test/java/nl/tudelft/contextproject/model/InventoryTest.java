@@ -265,6 +265,6 @@ public class InventoryTest extends TestBase {
 		inv.add(new Bomb());
 		inv.add(new Bomb());
 		inv.add(new Bomb());
-		assertEquals(inv.numberOfKeys(), 3);
+		assertEquals(inv.numberOfBombs(), 3);
 	}
 }

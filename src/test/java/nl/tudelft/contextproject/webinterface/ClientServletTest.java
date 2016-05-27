@@ -14,6 +14,7 @@ import nl.tudelft.contextproject.util.QRGenerator;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -21,6 +22,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
@@ -37,13 +39,16 @@ public class ClientServletTest extends WebTestBase {
 	
 	public WebServer webServer;
 	public ClientServlet servlet;
-	
+
 	/**
-	 Public static void initializeLevel() {
+	 * Initializes a level for the tests.
+	 */
+	@BeforeClass
+	public static void initializeLevel() {
 		//Generate a new seeded level
 		level = new RandomLevelFactory(5, false).generateSeeded(1);
 	}
-	
+
 	/**
 	 * Creates a new GameController and a new ClientServlet before every test, and sets the game
 	 * state to WAITING.
