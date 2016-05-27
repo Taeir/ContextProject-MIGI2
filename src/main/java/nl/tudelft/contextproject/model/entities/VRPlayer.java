@@ -140,6 +140,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 			fallingTimer = 0;
 			Vector3f move = getLocation().subtract(resp);
 			move(-move.x, -move.y, -move.z);
+			takeDamage(1f);
 			return;
 		}
 		if (getLocation().y < 0 && fallingTimer == 0) {
@@ -294,7 +295,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	 * @param amount 
 	 * 		the amount of damage taken
 	 */
-	public void takeDamage(Float amount) {
+	public void takeDamage(float amount) {
 		health -= amount;
 	}
 }
