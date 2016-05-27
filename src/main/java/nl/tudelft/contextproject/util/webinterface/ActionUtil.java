@@ -1,7 +1,10 @@
 package nl.tudelft.contextproject.util.webinterface;
 
+import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.model.entities.Carrot;
+import nl.tudelft.contextproject.model.entities.KillerBunny;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
 
@@ -98,7 +101,8 @@ public final class ActionUtil {
 	 * 		the y coordinate to use
 	 */
 	protected static void spawnEnemy(int xCoord, int yCoord) {
-		//TODO Implement action once enemies are present
+		KillerBunny bunny = new KillerBunny(new Vector3f(xCoord, 1, yCoord));
+		Main.getInstance().getCurrentGame().addEntity(bunny);
 	}
 
 	/**
@@ -110,6 +114,8 @@ public final class ActionUtil {
 	 * 		the y coordinate to use
 	 */
 	protected static void dropBait(int xCoord, int yCoord) {
-		//TODO Implement action once enemies are present
+		Carrot carrot = new Carrot();
+		carrot.move(xCoord, 1, yCoord);
+		Main.getInstance().getCurrentGame().addEntity(carrot);
 	}
 }
