@@ -1,5 +1,4 @@
 package nl.tudelft.contextproject.model.entities;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -7,8 +6,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -19,7 +16,6 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
-
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
@@ -29,7 +25,7 @@ import nl.tudelft.contextproject.model.level.TileType;
 /**
  * Test class for the VRPlayer class.
  */
-public class VRPlayerTest extends EntityTest {
+public class VRPlayerTest extends MovingEnemyTest {
 
 	private static final double EPSILON = 1e-5;
 	private VRPlayer player;
@@ -38,7 +34,12 @@ public class VRPlayerTest extends EntityTest {
 	public Entity getEntity() {
 		return new VRPlayer();
 	}
-
+	
+	@Override
+	public MovingEntity getEnemy() {
+		return new VRPlayer();
+	}
+	
 	/**
 	 * Setup method.
 	 * Creates a fresh player for every test.

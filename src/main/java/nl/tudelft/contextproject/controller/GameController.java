@@ -22,16 +22,19 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
-import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
+
+import jmevr.app.VRApplication;
 
 /**
  * Controller for the main game.
@@ -91,13 +94,18 @@ public class GameController extends Controller {
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-
 		attachLevel();
+		
+		//Check if we are running in tests or not
+		if (VRApplication.getMainVRApp().getContext() != null) {
+			new HUD(this).attachHud();
+		}
+		
 		GameController t = this;
 
 		//Listener for stop the game
 		addInputListener((ActionListener) (n, ip, tpf) -> Main.getInstance().stop(), "Exit");
-		
+
 		ActionListener al = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
@@ -123,48 +131,45 @@ public class GameController extends Controller {
 
 		Vector2f start = attachMazeTiles(level);
 		attachRoof(level);
-
 		addDrawable(game.getPlayer());		
 		game.getPlayer().move(start.x, 6, start.y);
-		
+
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-		 
+
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
 	}
 
 	private void attachRoof(Level level) {
-		if (!(Main.getInstance().getAssetManager() == null)) {
-			addDrawable(new Drawable() {
-				@Override
-				public Spatial getSpatial() {
-					Quad roof = new Quad(level.getWidth(), level.getHeight());
+		addDrawable(new Drawable() {
+			@Override
+			public Spatial getSpatial() {
+				Quad roof = new Quad(level.getWidth(), level.getHeight());
 
-					Geometry geom = new Geometry("roof", roof);
+				Geometry geom = new Geometry("roof", roof);
 
-					AssetManager am = Main.getInstance().getAssetManager();
-					Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
-					mat.setBoolean("UseMaterialColors", true);
-					ColorRGBA color = ColorRGBA.Gray;
-					mat.setColor("Diffuse", color);
-					mat.setColor("Specular", color);
-					mat.setFloat("Shininess", 64f);
-					mat.setColor("Ambient", color);
-					mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
-					geom.setMaterial(mat); 
+				AssetManager am = Main.getInstance().getAssetManager();
+				Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
+				mat.setBoolean("UseMaterialColors", true);
+				ColorRGBA color = ColorRGBA.Gray;
+				mat.setColor("Diffuse", color);
+				mat.setColor("Specular", color);
+				mat.setFloat("Shininess", 64f);
+				mat.setColor("Ambient", color);
+				mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
+				geom.setMaterial(mat); 
 
-					geom.rotate((float) Math.toRadians(90), 0, 0);
-					geom.move(0, 6, 0);
-					return geom;
-				}
+				geom.rotate((float) Math.toRadians(90), 0, 0);
+				geom.move(0, 6, 0);
+				return geom;
+			}
 
-				@Override
-				public void setSpatial(Spatial spatial) { }
-			});
-		}
+			@Override
+			public void setSpatial(Spatial spatial) { }
+		});
 	}
 
 	/**

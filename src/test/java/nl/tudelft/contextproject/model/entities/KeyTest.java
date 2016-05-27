@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.entities;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.jme3.math.ColorRGBA;
@@ -42,5 +43,14 @@ public class KeyTest extends EntityTest {
 		key.setSpatial(mockedGeometry);
 		key.update(0.f);
 		verifyZeroInteractions(mockedGeometry);
+	}
+	
+	/**
+	 * Tests the setcolor method.
+	 */
+	@Test
+	public void testSetColor() {
+		key.setColor(ColorRGBA.Red);
+		assertEquals(key.getColor(), ColorRGBA.Red);
 	}
 }

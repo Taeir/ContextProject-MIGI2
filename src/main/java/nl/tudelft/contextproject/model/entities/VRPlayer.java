@@ -57,6 +57,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	private Vector3f resp;
 	private float fallingTimer;
 	private float explorationTimer;
+	private float health;
+	private float maxHealth;
 
 	/**
 	 * Constructor for a default player.
@@ -64,6 +66,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	 */
 	public VRPlayer() { 
 		super(new PlayerControl());
+		health = 3;
+		maxHealth = 3;
 		inventory = new Inventory();
 	}
 
@@ -136,6 +140,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 			fallingTimer = 0;
 			Vector3f move = getLocation().subtract(resp);
 			move(-move.x, -move.y, -move.z);
+			takeDamage(1f);
 			return;
 		}
 		if (getLocation().y < 0 && fallingTimer == 0) {
@@ -198,7 +203,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 			inventory.remove(bomb);
 			Vector3f vec = this.getSpatial().getLocalTranslation();
 			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-
+			bomb.activate();
 			if (Main.getInstance().getCurrentGame() != null) {
 				Main.getInstance().getCurrentGame().addEntity(bomb);
 			}
@@ -259,5 +264,39 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	 */
 	public void setInventory(Inventory inv) {
 		inventory = inv;
+	}
+
+	/**
+	 * Returns the player's health.
+	 * 
+	 * @return 
+	 * 		the player's health
+	 */
+	public float getHealth() {
+		return health;
+	}
+
+	/**
+	 * Sets a player's health.
+	 * 
+	 * @param heal
+	 * 		health to be set
+	 */
+	public void setHealth(float heal) {
+		if (heal > maxHealth) {
+			health = 3;
+		} else {
+			health = heal;
+		}
+	}
+
+	/**
+	 * Reduces a players health.
+	 * 
+	 * @param amount 
+	 * 		the amount of damage taken
+	 */
+	public void takeDamage(float amount) {
+		health -= amount;
 	}
 }
