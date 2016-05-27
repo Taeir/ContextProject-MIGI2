@@ -1,26 +1,16 @@
 package nl.tudelft.contextproject.model;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
+import org.junit.Before;
+import org.junit.Test;
 
-import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.TestBase;
-
-import com.jme3.asset.AssetKey;
-import com.jme3.asset.AssetManager;
-import com.jme3.material.MatParam;
-import com.jme3.material.MaterialDef;
 import com.jme3.math.ColorRGBA;
 
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Door;
 import nl.tudelft.contextproject.model.entities.Key;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Test class for the Key class.

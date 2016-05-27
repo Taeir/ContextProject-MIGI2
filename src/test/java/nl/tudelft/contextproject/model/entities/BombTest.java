@@ -4,16 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.test.TestUtil;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.AdditionalMatchers;
 
 /**
  * Test class for the Bomb class.
