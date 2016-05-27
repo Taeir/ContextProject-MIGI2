@@ -231,9 +231,9 @@ public class Main extends VRApplication {
 		InputManager im = getInputManager();
 		
 		//Add mouse controls when No VR is attached.
-		//if (!VRApplication.isInVR()) {
+		if (!VRApplication.isInVR()) {
 			new NoVRMouseManager(getCamera()).registerWithInput(im);
-		//}
+		}
 
 		if (isControllerConnected()) {
 			Joystick j = im.getJoysticks()[0];
