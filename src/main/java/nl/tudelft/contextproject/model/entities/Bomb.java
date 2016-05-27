@@ -50,53 +50,53 @@ public class Bomb extends Entity implements PhysicsObject {
 				Main.getInstance().getCurrentGame().getEntities().add(exp);
 				this.setState(EntityState.DEAD);
 			}
+		}
 	}
-}
 
-@Override
-public void setSpatial(Spatial spatial) {
-	sp = spatial;
-}
+	@Override
+	public void setSpatial(Spatial spatial) {
+		sp = spatial;
+	}
 
-@Override
-public PhysicsControl getPhysicsObject() {
-	if (rb != null) return rb;
+	@Override
+	public PhysicsControl getPhysicsObject() {
+		if (rb != null) return rb;
 
-	CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
-	rb = new RigidBodyControl(sceneShape, 0);
-	rb.setPhysicsLocation(sp.getLocalTranslation());
-	return rb;
-}
+		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
+		rb = new RigidBodyControl(sceneShape, 0);
+		rb.setPhysicsLocation(sp.getLocalTranslation());
+		return rb;
+	}
 
-@Override
-public void move(float x, float y, float z) {
-	sp.move(x, y, z);
-	//explosion.move(x, y, z);
-	if (rb == null) getPhysicsObject();
+	@Override
+	public void move(float x, float y, float z) {
+		sp.move(x, y, z);
+		//explosion.move(x, y, z);
+		if (rb == null) getPhysicsObject();
 
-	rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
-}
+		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
+	}
 
-/**
- * activates the bomb, it will explode in 5 seconds.
- */
-public void activate() {
-	this.active = true;
-}
+	/**
+	 * activates the bomb, it will explode in 5 seconds.
+	 */
+	public void activate() {
+		this.active = true;
+	}
 
-/**
- * Returns true if the bomb is active.
- * @return true if bomb is active.
- */
-public boolean getActive() {
-	return this.active;
-}
+	/**
+	 * Returns true if the bomb is active.
+	 * @return true if bomb is active.
+	 */
+	public boolean getActive() {
+		return this.active;
+	}
 
-/**
- * Returns the timer.
- * @return the timer
- */
-public float getTimer() {
-	return timer;
-}
+	/**
+	 * Returns the timer.
+	 * @return the timer
+	 */
+	public float getTimer() {
+		return timer;
+	}
 }
