@@ -195,7 +195,7 @@ public class Main extends VRApplication {
 			Log.getLog("VR").info("Attached device: No");
 		}
 		
-		//getAssetManager().loadFont("Interface/Font/Default.fnt");
+		getAssetManager().loadFont("Interface/Fonts/Default.fnt");
 		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
