@@ -65,15 +65,6 @@ public class VRPlayerTest extends EntityTest {
 	}
 
 	/**
-	 * Test if calling getGeometry on an unset geometry creates one.
-	 */
-	@Test
-	public void testGetGeometryNull() {
-		player.getSpatial();
-		verify(Main.getInstance(), times(1)).getAssetManager();
-	}
-
-	/**
 	 * Test if the spatial is an instance of CharacterControl.
 	 */
 	@Test

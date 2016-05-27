@@ -27,6 +27,7 @@ import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
@@ -110,7 +111,7 @@ public class GameController extends Controller {
 
 		addInputListener(al, "pause");
 
-		addInputListener(game.getPlayer(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
+		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
 	}
 
 	/**
