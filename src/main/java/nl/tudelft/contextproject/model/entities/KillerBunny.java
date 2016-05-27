@@ -12,12 +12,12 @@ import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
-import nl.tudelft.contextproject.model.entities.ai.BunnyAI;
+import nl.tudelft.contextproject.model.entities.control.BunnyAI;
 
 /**
- * An {@link Enemy} that has a {@link BunnyAI}.
+ * An {@link MovingEntity} that has a {@link BunnyAI}.
  */
-public class KillerBunny extends Enemy implements PhysicsObject {
+public class KillerBunny extends MovingEntity implements PhysicsObject {
 
 	private Spatial spatial;
 	private CharacterControl control;

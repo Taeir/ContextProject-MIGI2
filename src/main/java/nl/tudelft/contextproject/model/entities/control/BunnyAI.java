@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model.entities.ai;
+package nl.tudelft.contextproject.model.entities.control;
 
 import java.util.Set;
 
@@ -16,7 +16,7 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
  * A simple AI for a bunny.
  * Jumps randomly and goes to the closest player or carrot.
  */
-public class BunnyAI implements EntityAI {
+public class BunnyAI implements EntityControl {
 
 	private static final float JUMP_FREQUENCY = 2;
 	private KillerBunny owner;

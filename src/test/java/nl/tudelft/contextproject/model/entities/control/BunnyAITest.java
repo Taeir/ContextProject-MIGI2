@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model.entities.ai;
+package nl.tudelft.contextproject.model.entities.control;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;

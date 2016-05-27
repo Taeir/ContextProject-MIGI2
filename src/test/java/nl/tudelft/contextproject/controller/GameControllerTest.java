@@ -26,6 +26,7 @@ import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.test.TestUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Before
 	public void setUp() {
-		Main.setInstance(new Main());
+		TestUtil.setupMainForTesting();
 		main = Main.getInstance();
 		Level l = null;
 		controller = new GameController(main, l);

@@ -8,7 +8,7 @@ import nl.tudelft.contextproject.test.TestUtil;
 /**
  * Test class fot the {@link KillerBunny}.
  */
-public class KillerBunnyTest extends EnemyTest {
+public class KillerBunnyTest extends MovingEnemyTest {
 
 	private KillerBunny bunny;
 
@@ -22,7 +22,7 @@ public class KillerBunnyTest extends EnemyTest {
 	}
 	
 	@Override
-	public Enemy getEnemy() {
+	public MovingEntity getEnemy() {
 		return bunny;
 	}
 

@@ -1,11 +1,11 @@
-package nl.tudelft.contextproject.model.entities.ai;
+package nl.tudelft.contextproject.model.entities.control;
 
 import nl.tudelft.contextproject.model.entities.Entity;
 
 /**
  * Interface for AI creation.
  */
-public interface EntityAI {
+public interface EntityControl {
 
 	/**
 	 * Update call for the AI that moves the attached owner.
