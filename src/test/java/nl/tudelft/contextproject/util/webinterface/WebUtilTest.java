@@ -159,6 +159,5 @@ public class WebUtilTest extends TestBase {
 		when(mockedPlayer.getLocation()).thenReturn(oneVector);
 
 		assertTrue(WebUtil.checkValidLocation(0, 0));
-
 	}
 }
