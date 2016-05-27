@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import com.jme3.app.state.AppStateManager;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
@@ -20,6 +23,10 @@ public class WaitingControllerTest extends TestBase {
 	@Before
 	public void setUp() {
 		instance = new WaitingController(Main.getInstance());
+		
+		//Initialize the WaitingController
+		AppStateManager asm = Mockito.mock(AppStateManager.class);
+		instance.initialize(asm, Main.getInstance());
 	}
 	
 	/**
