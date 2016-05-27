@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
  * Test for the ActionUtil class.
  */
 public class ActionUtilTest extends TestBase {
-	Game mockedGame;
+	private Game mockedGame;
 
 	/**
 	 * Set up all need mocks for testing.
