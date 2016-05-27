@@ -77,16 +77,17 @@ public class Door extends Entity implements PhysicsObject {
 
 	/**
 	 * Sets the color of the doors lock.
+	 * 
 	 * @param col
-	 * 		The color of the doors lock
+	 * 		the color of the doors lock
 	 */
 	public void setColor(ColorRGBA col) {
 		color = col;
 	}
 
 	/**
-	 * Gets the color of the doors lock.
-	 * @return The color of the doors lock
+	 * @return
+	 * 		the color of the doors lock
 	 */
 	public ColorRGBA getColor() {
 		return color;

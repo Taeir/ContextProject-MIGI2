@@ -26,15 +26,19 @@ public class Inventory {
 	}
 	
 	/**
-	 * Returns the number of keys in the inventory.
-	 * @return the number of keys
+	 * Gets the number of keys in the inventory.
+	 * 
+	 * @return 
+	 * 		the number of keys
 	 */
 	public int numberOfKeys() {
 		return keys;
 	}
 	/**
 	 * Returns the number of bombs in the inventory.
-	 * @return the number of bombs 
+	 * 
+	 * @return 
+	 * 		the number of bombs 
 	 */
 	public int numberOfBombs() {
 		return bombs;

@@ -406,7 +406,8 @@ public class Main extends VRApplication {
 	
 	/**
 	 * Returns the BitmapFont.
-	 * @return the BitmapFont
+	 * @return 
+	 * 		the BitmapFont
 	 */
 	public BitmapFont getGuiFont() {
 		return guifont;
@@ -415,8 +416,9 @@ public class Main extends VRApplication {
 
 	
 	/**
-	 * Returns the Controller().
-	 * @return the Controller()
+	 * Returns the Controller.
+	 * @return 
+	 * 		the Controller
 	 */
 	public Controller getController() {
 		return controller;

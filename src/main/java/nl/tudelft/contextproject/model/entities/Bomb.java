@@ -85,16 +85,16 @@ public class Bomb extends Entity implements PhysicsObject {
 	}
 
 	/**
-	 * Returns true if the bomb is active.
-	 * @return true if bomb is active.
+	 * @return 
+	 * 		true if bomb is active.
 	 */
 	public boolean getActive() {
 		return this.active;
 	}
 
 	/**
-	 * Returns the timer.
-	 * @return the timer
+	 * @return 
+	 * 		the timer
 	 */
 	public float getTimer() {
 		return timer;

@@ -266,7 +266,9 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	}
 	/**
 	 * Returns the player's health.
-	 * @return The player's health
+	 * 
+	 * @return 
+	 * 		the player's health
 	 */
 	public float getHealth() {
 		return health;
@@ -274,8 +276,9 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 
 	/**
 	 * Sets a player's health.
+	 * 
 	 * @param heal
-	 * 		Health to be set
+	 * 		health to be set
 	 */
 	public void setHealth(float heal) {
 		if (heal > maxHealth) {
@@ -287,6 +290,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 
 	/**
 	 * Reduces a players health.
+	 * 
 	 * @param amount 
 	 * 		the amount of damage taken
 	 */
