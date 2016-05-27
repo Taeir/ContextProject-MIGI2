@@ -242,10 +242,6 @@ public class GameController extends Controller {
 
 		Vector2f start = attachMazeTiles(level);
 		attachRoof(level);
-		Bunny bun = new Bunny();
-		bun.getPhysicsObject().
-		bun.move(4, 1, 4);
-		Main.getInstance().getCurrentGame().addEntity(bun);
 		addDrawable(game.getPlayer());		
 		game.getPlayer().move(start.x, 6, start.y);
 		
