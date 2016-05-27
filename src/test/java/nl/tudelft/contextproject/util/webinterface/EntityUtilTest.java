@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.util;
+package nl.tudelft.contextproject.util.webinterface;
 
 import org.junit.Test;
 
@@ -44,11 +44,43 @@ public class EntityUtilTest extends TestBase {
 	}
 
 	/**
-	 * Test getting code for VRPlayer.
+	 * Test getting code for PlayerTrigger.
 	 */
 	@Test
 	public void testGetJSONCodePlayerTrigger() {
 		assertEquals(EntityUtil.getJSONCoded("PlayerTrigger"), 5);
+	}
+
+	/**
+	 * Test getting code for Pitfall.
+	 */
+	@Test
+	public void testGetJSONCodePitfall() {
+		assertEquals(EntityUtil.getJSONCoded("Pitfall"), 6);
+	}
+
+	/**
+	 * Test getting code for LandMine.
+	 */
+	@Test
+	public void testGetJSONCodeLandMine() {
+		assertEquals(EntityUtil.getJSONCoded("LandMine"), 7);
+	}
+
+	/**
+	 * Test getting code for Carrot.
+	 */
+	@Test
+	public void testGetJSONCodeCarrot() {
+		assertEquals(EntityUtil.getJSONCoded("Carrot"), 8);
+	}
+
+	/**
+	 * Test getting code for KillerBunny.
+	 */
+	@Test
+	public void testGetJSONCodeKillerBunny() {
+		assertEquals(EntityUtil.getJSONCoded("KillerBunny"), 9);
 	}
 
 	/**

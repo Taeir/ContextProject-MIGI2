@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.tudelft.contextproject.util.QRGenerator;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -75,19 +77,39 @@ public class ClientServletTest extends WebTestBase {
 
 	/**
 	 * Test method for {@link ClientServlet#doGet}.
-	 * 
+	 *
 	 * @throws Exception
 	 * 		if an exception occurs calling doGet of the servlet
 	 */
 	@Test
-	public void testDoGet() throws Exception {
+	public void testDoGet_index() throws Exception {
 		HttpServletRequest request = createMockedRequest(ID1, ID1, false, true, "/");
 		HttpServletResponse response = createMockedResponse();
-		
+
 		servlet.doGet(request, response);
 
 		//Verify that we have been redirected to the index.html page
 		verify(response).sendRedirect("/index.html");
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#doGet}.
+	 *
+	 * @throws Exception
+	 * 		if an exception occurs calling doGet of the servlet
+	 */
+	@Test
+	public void testDoGet_qr() throws Exception {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, true, "/qr");
+		HttpServletResponse response = createMockedResponse();
+
+		servlet.doGet(request, response);
+
+		//Verify that we have been redirected to the QRCode page
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("<html><body><img src=\"data:image/png;base64,");
+		verify(response.getWriter()).write(Base64.getEncoder().encodeToString(QRGenerator.getInstance().streamQRcode().toByteArray()));
+		verify(response.getWriter()).write("\"/></body></html>");
 	}
 
 	/**
@@ -158,28 +180,6 @@ public class ClientServletTest extends WebTestBase {
 	}
 	
 	/**
-	 * Test method for {@link ClientServlet#doPost}, when posting to /explored.
-	 * 
-	 * @throws Exception
-	 * 		if an exception occurs calling doPost of the servlet
-	 */
-	@Test
-	public void testDoPost_explored() throws Exception {
-		//Create a request to get the explored tiles
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/explored");
-		HttpServletResponse response = createMockedResponse();
-
-		//Ensure that the original method does not get called
-		doNothing().when(servlet).getExplored(any(), any());
-
-		//Call the post
-		servlet.doPost(request, response);
-
-		//Verify that the getExplored method has been called
-		verify(servlet).getExplored(request, response);
-	}
-	
-	/**
 	 * Test method for {@link ClientServlet#doPost}, when posting to /status.
 	 *
 	 * @throws Exception
@@ -202,47 +202,25 @@ public class ClientServletTest extends WebTestBase {
 	}
 
 	/**
-	 * Test method for {@link ClientServlet#doPost}, when posting to /entities.
+	 * Test method for {@link ClientServlet#doPost}, when posting to /requestaction.
 	 *
 	 * @throws Exception
 	 * 		if an exception occurs calling doPost of the servlet
 	 */
 	@Test
-	public void testDoPost_entities() throws Exception {
-		//Create a request to get the entities
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/entities");
+	public void testDoPost_requestaction() throws Exception {
+		//Create a request to get the status
+		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/requestaction");
 		HttpServletResponse response = createMockedResponse();
 
 		//Ensure that the original method does not get called
-		doNothing().when(servlet).getEntities(any(), any());
+		doNothing().when(servlet).statusUpdate(any(), any());
 
 		//Call the post
 		servlet.doPost(request, response);
 
-		//Verify that the getEntities method has been called
-		verify(servlet).getEntities(request, response);
-	}
-
-	/**
-	 * Test method for {@link ClientServlet#doPost}, when posting to /entities.
-	 *
-	 * @throws Exception
-	 * 		if an exception occurs calling doPost of the servlet
-	 */
-	@Test
-	public void testDoPost_placebomb() throws Exception {
-		//Create a request to place a bomb
-		HttpServletRequest request = createMockedRequest(ID1, ID1, false, false, "/placebomb");
-		HttpServletResponse response = createMockedResponse();
-
-		//Ensure the original method does not get called
-		doNothing().when(servlet).placeBomb(any(), any());
-
-		//Call the post
-		servlet.doPost(request, response);
-
-		//Verify that the placeBomb method has been called
-		verify(servlet).placeBomb(request, response);
+		//Verify that the requestAction method has been called
+		verify(servlet).requestAction(request, response);
 	}
 
 	/**
@@ -520,136 +498,9 @@ public class ClientServletTest extends WebTestBase {
 		verify(response).setContentType(JSON_CONTENT_TYPE);
 		verify(response.getWriter()).write(matches("\\{.*\\}"));
 	}
-	
-	/**
-	 * Test method for {@link ClientServlet#getExplored}, when the user is unauthorized.
-	 * 
-	 * @throws IOException
-	 * 		if an IOException occurs calling getExplored of the servlet
-	 */
-	@Test
-	public void testGetExplored_unauthorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/explored");
-		HttpServletResponse response = createMockedResponse();
-		
-		servlet.getExplored(request, response);
-
-		//auth: false should have been written
-		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType(JSON_CONTENT_TYPE);
-		verify(response.getWriter()).write(JSON_UNAUTHORIZED);
-	}
 
 	/**
-	 * Test method for {@link ClientServlet#getExplored}, when the user is authorized.
-	 * 
-	 * @throws IOException
-	 * 		if an IOException occurs calling getExplored of the servlet
-	 */
-	@Test
-	public void testGetExplored_authorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/explored");
-		HttpServletResponse response = createMockedResponse();
-
-		//Simulate that the user is authorized
-		WebClient client = spy(new WebClient());
-		doReturn(client).when(webServer).getUser(any());
-		
-		servlet.getExplored(request, response);
-
-		//Some JSON should have been written
-		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType(JSON_CONTENT_TYPE);
-
-		verify(response.getWriter()).write(matches("\\{.*\\}"));
-	}
-
-	/**
-	 * Test method for {@link ClientServlet#getEntities}, when the user is unauthorized.
-	 *
-	 * @throws IOException
-	 * 		if an IOException occurs calling getEntities of the servlet
-	 */
-	@Test
-	public void testGetEntities_unauthorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/entities");
-		HttpServletResponse response = createMockedResponse();
-
-		servlet.getEntities(request, response);
-
-		//auth: false should have been written
-		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType(JSON_CONTENT_TYPE);
-		verify(response.getWriter()).write(JSON_UNAUTHORIZED);
-	}
-
-	/**
-	 * Test method for {@link ClientServlet#getEntities}, when the user is authorized.
-	 *
-	 * @throws IOException
-	 * 		if an IOException occurs calling getEntities of the servlet
-	 */
-	@Test
-	public void testGetEntities_authorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/entities");
-		HttpServletResponse response = createMockedResponse();
-
-		//Simulate that the user is authorized
-		WebClient client = spy(new WebClient());
-		doReturn(client).when(webServer).getUser(any());
-
-		servlet.getEntities(request, response);
-
-		//Some JSON should have been written
-		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response).setContentType(JSON_CONTENT_TYPE);
-
-		verify(response.getWriter()).write(matches("\\{.*\\}"));
-	}
-
-	/**
-	 * Test method for {@link ClientServlet#placeBomb}, when the user is unauthorized.
-	 *
-	 * @throws IOException
-	 * 		if an IOException occurs calling placeBomb of the servlet
-	 */
-	@Test
-	public void testPlaceBomb_unauthorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/placebomb");
-		HttpServletResponse response = createMockedResponse();
-
-		servlet.placeBomb(request, response);
-
-		verify(response).setStatus(HttpStatus.OK_200);
-	}
-
-	/**
-	 * Test method for {@link ClientServlet#placeBomb}, when the user is authorized.
-	 *
-	 * @throws IOException
-	 * 		if an IOException occurs calling placeBomb of the servlet
-	 */
-	@Test
-	public void testPlaceBomb_authorized() throws IOException {
-		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/placeBomb");
-		HttpServletResponse response = createMockedResponse();
-
-		//Simulate that the user is authorized
-		WebClient client = spy(new WebClient());
-		doReturn(client).when(webServer).getUser(any());
-
-		when(request.getParameter(anyString())).thenReturn("1");
-
-		servlet.placeBomb(request, response);
-
-		//Some plaintext should have been written
-		verify(response).setStatus(HttpStatus.OK_200);
-
-		verify(response.getWriter()).write("BOMB HAS BEEN PLACED.");
-	}
-
-	/**
-	 * Test method for {@link ClientServlet#statusUpdate}, when the user is authorized.
+	 * Test method for {@link ClientServlet#statusUpdate}, when the user is unauthorized.
 	 * 
 	 * @throws IOException
 	 * 		if an IOException occurs calling statusUpdate of the servlet
@@ -696,4 +547,82 @@ public class ClientServletTest extends WebTestBase {
 		assertTrue(ac.getValue().contains("\"team\":\"ELVES\""));
 	}
 
+	/**
+	 * Test method for {@link ClientServlet#requestAction}, when the user is unauthorized.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testRequestAction_unauthorized() throws IOException {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/requestaction");
+		HttpServletResponse response = createMockedResponse();
+
+		servlet.requestAction(request, response);
+
+		//{auth: false} JSON should have been written
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("UNAUTHORIZED");
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#requestAction}, when the user is authorized.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testRequestAction_authorized() throws IOException {
+		HttpServletRequest request = createMockedRequest(ID1, ID1, true, false, "/requestaction");
+		HttpServletResponse response = createMockedResponse();
+
+		//Simulate that the user is authorized
+		WebClient client = spy(new WebClient());
+		client.setTeam(false);
+		doReturn(client).when(webServer).getUser(any());
+
+		when(request.getParameter(anyString())).thenReturn("0");
+
+		servlet.requestAction(request, response);
+
+		//Some JSON should have been written
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("ACTION PERFORMED");
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#attemptAction}, when the action is invalid.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testAttemptAction_incorrect() throws IOException {
+		HttpServletResponse response = createMockedResponse();
+
+		//Try to place a bomb as an elf, which is impossible
+		servlet.attemptAction(0, 0, "placebomb", "Elves", response);
+
+		//Verify the action has been denied
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("ACTION INVALID, NOT PERFORMED");
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#attemptAction}, when the action is valid.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testAttemptAction_correct() throws IOException {
+		HttpServletResponse response = createMockedResponse();
+
+		//Try to place a bomb as a dwarf
+		servlet.attemptAction(0, 0, "placebomb", "Dwarfs", response);
+
+		//Verify the action has been accepted
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("ACTION PERFORMED");
+	}
 }
