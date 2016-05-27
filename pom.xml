@@ -370,6 +370,11 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<excludes>
+						<exclude>**/StartGame.class</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 		
