@@ -197,7 +197,7 @@ In order to play tests, there should be play testers. They will be recruited fro
 <td>[https://github.com/Taeir/ContextProject-MIGI2/issues/303 #303 - Play test]<br />
 The play testing should take place at some location. Needs 2 developers to ensure everything goes smoothly and is recorded properly.</td>
 <td>Robin</td>
-<td>Robin</td>
+<td>Robin, Taico</td>
 <td>2</td>
 <td>A</td>
 </tr>
@@ -227,11 +227,89 @@ Prepare the demo for the Stakeholders meeting</td>
 <td>1</td>
 <td>A</td>
 </tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/309 '''#309 - Key colors''']<br />
+As a player, I want to have more colors for keys, so that I can open more doors.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/309 #309 - Key colors]<br />
+Improve the HUD to support more key colors.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/310 '''#310 - Bomb improvements''']<br />
+As a player, I want more interesting bomb mechanics, so that the game becomes more fun.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/311 #311 - Bomb inventory slot]<br />
+Create a separate inventory slot that only holds one bomb.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/312 #312 - Improve timer]<br />
+Make the timers start when the bomb is picked up instead of when it is placed down.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/313 #313 - Add bomb holding to HUD]<br />
+Add a visual indicator to the HUD that the player is holding a bomb.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/314 '''#314 - Void platforms''']<br />
+As an elf, I want to be able to place platforms above the void, so that I can help the VR player.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/314 #314 - Void platforms]<br />
+Add void platform entities to the game.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>5</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/315 '''#315 - Win Conditions''']<br />
+As a player, I want a way to win the game, so that I can win the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/316 #316 - Add ending mechanic]<br />
+Improve the code to support ending the game.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/317 #317 - Treasure.]<br />
+Add a treasure entity to the game.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/318 #318 - Countdown timer]<br />
+Add a countdown to the game that allows the dwarfs to win.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/0 '''#0 - Roof''']<br />
+As a developer, I want a way to add a roof to the maze, so that the game has a proper roof.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/319 #319 - Roof]<br />
+Improve the code to support adding a roof to the game</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>D</td>
+</tr>
 </table>
-
-== Additional recurring items ==
-
-Every week, there are things that are not tasks, that will take time.
 
 == Explanation for priorities of sprint items ==
 
@@ -303,5 +381,33 @@ Every week, there are things that are not tasks, that will take time.
 <tr>
 <td>307</td>
 <td>Task has to be done before Friday.</td>
+</tr>
+<tr>
+<td>309</td>
+<td>Not vital for the game, but pretty useful.</td>
+</tr>
+<tr>
+<td>311</td>
+<td>We believe this feature would improve gameplay, and as such deem it pretty important.</td>
+</tr>
+<tr>
+<td>312, 313</td>
+<td>Depends on the bomb inventory slot task.</td>
+</tr>
+<tr>
+<td>314</td>
+<td>Elves don't have a lot of features yet, so this feature is pretty important.</td>
+</tr>
+<tr>
+<td>316, 318</td>
+<td>Essential for the game. Without winning conditions, we have no real game.</td>
+</tr>
+<tr>
+<td>317</td>
+<td>Depends on the ending mechanic.</td>
+</tr>
+<tr>
+<td>319</td>
+<td>Not required for the game, but improves immersiveness.</td>
 </tr>
 </table>
