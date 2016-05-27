@@ -19,3 +19,4 @@ after_script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - mvn clean test jacoco:report coveralls:report -Dmaven.javadoc.skip=true -Dcheckstyle.skip=true -Dfindbugs.skip=true -Dpmd.skip=true
