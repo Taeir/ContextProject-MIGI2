@@ -27,7 +27,6 @@ public class KeyTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
-		setupGeometryMock();
 		ColorRGBA color = new ColorRGBA();
 		color.set(ColorRGBA.Yellow);
 		key = new Key(color);

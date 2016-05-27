@@ -39,6 +39,11 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	//SHOULD NOT BE CHANGED
 	public static final int PLAYER_GRAVITY_AXIS = 1;
 
+	//Movement control constants.
+
+	public static final float SIDE_WAY_SPEED_MULTIPLIER = .05f;
+	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
+
 	private Spatial spatial;
 	private CharacterControl playerControl;
 	private Inventory inventory;

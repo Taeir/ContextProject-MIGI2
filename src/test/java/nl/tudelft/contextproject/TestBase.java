@@ -53,6 +53,9 @@ public abstract class TestBase {
 	public static void setUpBeforeClass() {
 		//Set logger level
 		Logger.getLogger("com.jme3").setLevel(Level.OFF);
+		
+		//Create a global main for this class
+		TestUtil.recreateGlobalMain();
 	}
 	
 	/**

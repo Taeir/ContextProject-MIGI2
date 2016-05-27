@@ -78,12 +78,12 @@ public abstract class EntityTest extends DrawableTest {
 	 */
 	@Test
 	public void testPlayerCollisionTrue_entity() {
-		TestUtil.mockGame();
 		setupEntity();
+		TestUtil.mockGame();
 		
 		Spatial eSpat = mock(Spatial.class);
 		Spatial pSpat = mock(Spatial.class);
-		entity.setSpatial(eSpat);		
+		entity.setSpatial(eSpat);
 		Main.getInstance().getCurrentGame().getPlayer().setSpatial(pSpat);
 		
 		when(eSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));

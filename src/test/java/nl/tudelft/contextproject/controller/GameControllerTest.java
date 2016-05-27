@@ -26,7 +26,6 @@ import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
-import nl.tudelft.contextproject.test.TestUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,8 +33,6 @@ import org.junit.Test;
 /**
  * Tests for the GameController class.
  */
-//TODO This class should be refactored to use the TestUtil instead of mocking the main like this, as it 
-// can change
 public class GameControllerTest extends ControllerTest {
 	private GameController controller;
 	private Main main;
@@ -51,7 +48,6 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Before
 	public void setUp() {
-		TestUtil.setupMainForTesting();
 		main = Main.getInstance();
 		Level l = null;
 		controller = new GameController(main, l);

@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
@@ -24,7 +23,7 @@ public class PauseController extends Controller {
 	 * @param app
 	 * 		the main app
 	 */
-	public PauseController(GameController old, SimpleApplication app) {
+	public PauseController(GameController old, Application app) {
 		super(app, "PauseController");
 
 		this.controller = old;
