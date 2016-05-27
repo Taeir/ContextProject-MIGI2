@@ -1,9 +1,6 @@
 package nl.tudelft.contextproject.controller;
 
 import java.io.File;
-
-
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,35 +10,31 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.font.BitmapText;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.ui.Picture;
-
-import jmevr.app.VRApplication;
-import jmevr.util.VRGuiManager;
-
 import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
-import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
+
+import jmevr.app.VRApplication;
 
 /**
  * Controller for the main game.
@@ -102,9 +95,12 @@ public class GameController extends Controller {
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
 		attachLevel();
+		
+		//Check if we are running in tests or not
 		if (VRApplication.getMainVRApp().getContext() != null) {
-			attachHud();
+			new HUD(this).attachHud();
 		}
+		
 		GameController t = this;
 
 		//Listener for stop the game
@@ -125,143 +121,7 @@ public class GameController extends Controller {
 
 		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
 	}
-
-	/**
-	 * Attaches the Hud to the renderer.
-	 */
-	protected void attachHud() {
-		Float height = 0f;
-		Float width = 0f;
-		height = (float) VRGuiManager.getCanvasSize().getX();
-		width = (float) VRGuiManager.getCanvasSize().getX();
-		//attach the keycounter
-		Picture keypicyellow = keyGUI(1, height, width);
-		Picture keypicred = keyGUI(2, height, width);
-		Picture keypicblue = keyGUI(3, height, width);
-		addGuiElement(keypicyellow);
-		addGuiElement(keypicred);
-		addGuiElement(keypicblue);
-		//attach the bombcounter
-		//BitmapText hudTextb = new BitmapText(Main.getInstance().getGuiFont(), false);
-		//hudTextb.setSize(height / 30);
-		//hudTextb.setColor(ColorRGBA.White);
-		//hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs());
-		//hudTextb.setLocalTranslation(width / 3f, hudTextb.getLineHeight() + height / 40, 0);
-		//addGuiElement(hudTextb);
-		//attach bombicon
-		Picture pic = new Picture("Bomb Picture");
-		pic.setImage(Main.getInstance().getAssetManager(), "Textures/bombicon.png", true);
-		pic.setWidth(width / 12);
-		pic.setHeight(height / 10);
-		pic.setPosition(width / 4f, 60);
-		addGuiElement(pic);
-
-		//attach your healthcounter        
-		Picture heart1 = healthContainer(1, height, width);
-		addGuiElement(heart1);
-		Picture heart2 = healthContainer(2, height, width);
-		addGuiElement(heart2);
-		Picture heart3 = healthContainer(3, height, width);
-		addGuiElement(heart3);
-		//update the gui
-		Main.getInstance().attachTickListener(new TickListener() {
-
-			@Override
-			public void update(float tpf) {
-				//bomb update
-				//hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs()); 
-
-				//health update
-				if (game.getPlayer().getHealth() <= 2.5) {
-					heart3.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
-				}
-				if (game.getPlayer().getHealth() <= 1.5) {
-					heart2.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
-				}
-				if (game.getPlayer().getHealth() <= 0.5) {
-					heart1.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
-				}
-				//keys update
-				if ((game.getPlayer().getInventory().containsColorKey(ColorRGBA.Yellow.set(1.0f, 1.0f, 0.0f, 0.0f)))) {
-					keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/yellowkeyicon.png", true);
-				} else {
-					keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-				}
-				if ((game.getPlayer().getInventory().containsColorKey(ColorRGBA.Blue.set(0.0f, 0.0f, 1.0f, 0.0f)))) {
-					keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/bluekeyicon.png", true);
-				} else {
-					keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-				}
-				if ((game.getPlayer().getInventory().containsColorKey(ColorRGBA.Red.set(1.0f, 0.0f, 0.0f, 0.0f)))) {
-					keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/redkeyicon.png", true);
-				} else {
-					keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-				}
-			}
-		});
-	}
-	/**
-	 * returns a picture of a healthContainer.
-	 * @param pos
-	 * 		Position of the healthContainer
-	 * @param height
-	 * 		Height of the screen
-	 * @param width
-	 * 		Width of the screen
-	 * @return
-	 * 		Picture of the healthcontainer
-	 */
-	public Picture healthContainer(int pos, float height, float width) {
-		Picture heart = new Picture("heartcontainer" + pos);
-		heart.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
-		heart.setWidth(width / 20);
-		heart.setHeight(height / 20);
-		if (pos > 0) {
-			heart.setPosition((width / 3f), height + 50);
-		}
-		if (pos > 1) {
-			heart.setPosition((width / 2.6f), height + 50);
-		}
-		if (pos > 2) {
-			heart.setPosition((width / 2.3f), height + 50);
-		}
-		return heart;
-	}
-	/**
-	 * Return a picture of a key at the right position on the HUD.
-	 * @param pos 
-	 * 		Position of the key
-	 * @param height
-	 * 		Height of the screen 
-	 * @param width
-	 * 		Width of the screen
-	 * @return Picture of the key
-	 */
-	public Picture keyGUI(int pos, float height, float width) {
-		Picture keypic = new Picture("key Picture");
-		if (pos == 1) {
-			keypic = new Picture("key Picture");
-			keypic.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-			keypic.setWidth(width / 30);
-			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.5f, 60);
-		}
-		if (pos == 2) {
-			keypic = new Picture("key2Picture");
-			keypic.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-			keypic.setWidth(width / 30);
-			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.55f, 60);
-		}
-		if (pos == 3) {
-			keypic = new Picture("key3Picture");
-			keypic.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-			keypic.setWidth(width / 30);
-			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.6f, 60);
-		}
-		return keypic;
-	}
+	
 	/**
 	 * Attaches the current level to the renderer.
 	 */
@@ -284,34 +144,32 @@ public class GameController extends Controller {
 	}
 
 	private void attachRoof(Level level) {
-		if (!(Main.getInstance().getAssetManager() == null)) {
-			addDrawable(new Drawable() {
-				@Override
-				public Spatial getSpatial() {
-					Quad roof = new Quad(level.getWidth(), level.getHeight());
+		addDrawable(new Drawable() {
+			@Override
+			public Spatial getSpatial() {
+				Quad roof = new Quad(level.getWidth(), level.getHeight());
 
-					Geometry geom = new Geometry("roof", roof);
+				Geometry geom = new Geometry("roof", roof);
 
-					AssetManager am = Main.getInstance().getAssetManager();
-					Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
-					mat.setBoolean("UseMaterialColors", true);
-					ColorRGBA color = ColorRGBA.Gray;
-					mat.setColor("Diffuse", color);
-					mat.setColor("Specular", color);
-					mat.setFloat("Shininess", 64f);
-					mat.setColor("Ambient", color);
-					mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
-					geom.setMaterial(mat); 
+				AssetManager am = Main.getInstance().getAssetManager();
+				Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
+				mat.setBoolean("UseMaterialColors", true);
+				ColorRGBA color = ColorRGBA.Gray;
+				mat.setColor("Diffuse", color);
+				mat.setColor("Specular", color);
+				mat.setFloat("Shininess", 64f);
+				mat.setColor("Ambient", color);
+				mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
+				geom.setMaterial(mat); 
 
-					geom.rotate((float) Math.toRadians(90), 0, 0);
-					geom.move(0, 6, 0);
-					return geom;
-				}
+				geom.rotate((float) Math.toRadians(90), 0, 0);
+				geom.move(0, 6, 0);
+				return geom;
+			}
 
-				@Override
-				public void setSpatial(Spatial spatial) { }
-			});
-		}
+			@Override
+			public void setSpatial(Spatial spatial) { }
+		});
 	}
 
 	/**

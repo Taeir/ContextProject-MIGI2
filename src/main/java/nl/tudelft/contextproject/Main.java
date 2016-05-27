@@ -14,7 +14,6 @@ import com.jme3.input.DefaultJoystickAxis;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
 import com.jme3.input.KeyInput;
-import com.jme3.input.controls.JoyAxisTrigger;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -195,7 +194,7 @@ public class Main extends VRApplication {
 			Log.getLog("VR").info("Attached device: No");
 		}
 		
-		//getAssetManager().loadFont("Interface/Font/Default.fnt");
+		guifont = getAssetManager().loadFont("Interface/Fonts/Default.fnt");
 		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
