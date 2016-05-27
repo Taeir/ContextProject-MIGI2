@@ -12,6 +12,8 @@ import nl.tudelft.contextproject.model.entities.Direction;
 import nl.tudelft.contextproject.model.entities.Door;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.Key;
+import nl.tudelft.contextproject.model.entities.KillerBunny;
+import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.PlayerTrigger;
 import nl.tudelft.contextproject.model.TickListener;
@@ -113,9 +115,15 @@ public final class EntityParser {
 				if (data.length < 5) throw new IllegalArgumentException("Pitfall must specify at least 4 values.");
 				e = new Pitfall(Float.parseFloat(data[4]));
 				break;
+			case "LandMine":
+				e = new LandMine();
+				break;
 			case "WallFrame":
 				if (data.length < 8) throw new IllegalArgumentException("WallFrame must specify at least 8 values.");
 				e = new WallFrame(new Vector3f(x, y, z), path + data[5], Direction.valueOf(data[4]), Float.parseFloat(data[6]), Float.parseFloat(data[7]));
+				return e;
+			case "KillerBunny":
+				e = new KillerBunny(new Vector3f(x, y, z));
 				return e;
 			default:
 				throw new IllegalArgumentException(type + " is not a known Entity type!");

@@ -1,9 +1,6 @@
 package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
-
-
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
@@ -34,7 +31,7 @@ public abstract class Controller extends AbstractAppState {
 	 * @param name
 	 * 		the controller name
 	 */
-	protected Controller(SimpleApplication app, String name) {
+	protected Controller(Application app, String name) {
 		this.rootNode = new Node(name + "RootNode");
 		this.guiNode = new Node(name + "GuiNode"); 
 		this.inputManager = app.getInputManager();

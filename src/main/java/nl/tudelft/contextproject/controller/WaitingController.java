@@ -1,13 +1,12 @@
 package nl.tudelft.contextproject.controller;
 
-
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
+
 /**
  * A controller for the waiting state of the game.
  * In this state players can connect to the web interface and the player is placed in a tutorial level.
@@ -22,7 +21,7 @@ public class WaitingController extends GameController {
 	 * @param app
 	 * 		the app this Controller is created by
 	 */
-	public WaitingController(SimpleApplication app) {
+	public WaitingController(Application app) {
 		super(app, "/maps/" + MENU_LEVEL + "/");
 	}
 	

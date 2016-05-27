@@ -33,8 +33,6 @@ import org.junit.Test;
 /**
  * Tests for the GameController class.
  */
-//TODO This class should be refactored to use the TestUtil instead of mocking the main like this, as it 
-// can change
 public class GameControllerTest extends ControllerTest {
 	private GameController controller;
 	private Main main;
@@ -50,7 +48,6 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Before
 	public void setUp() {
-		Main.setInstance(new Main());
 		main = Main.getInstance();
 		Level l = null;
 		controller = new GameController(main, l);

@@ -7,10 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.util.webinterface.ActionUtil;
 import nl.tudelft.contextproject.util.JSONUtil;
 import nl.tudelft.contextproject.util.QRGenerator;
 
+import nl.tudelft.contextproject.util.webinterface.WebUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.json.JSONObject;
@@ -74,17 +75,11 @@ public class ClientServlet extends DefaultServlet {
 			case "map":
 				getMap(request, response);
 				break;
-			case "explored":
-				getExplored(request, response);
-				break;
 			case "status":
 				statusUpdate(request, response);
 				break;
-			case "entities":
-				getEntities(request, response);
-				break;
-			case "placebomb":
-				placeBomb(request, response);
+			case "requestaction":
+				requestAction(request, response);
 				break;
 			default:
 				//Unknown post request, so propagate to superclass
@@ -190,31 +185,9 @@ public class ClientServlet extends DefaultServlet {
 		response.setContentType(CONTENT_TYPE_JSON);
 		response.getWriter().write(json.toString());
 	}
-	
-	/**
-	 * Handles a explored request.
-	 * 
-	 * @param request
-	 * 		the HTTP request
-	 * @param response
-	 * 		the HTTP response object
-	 * @throws IOException
-	 * 		if sending the response to the client causes an IOException
-	 */
-	public void getExplored(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		WebClient client = server.getUser(request);
-
-		if (!checkAuthorized(client, response, true)) return;
-
-		JSONObject json = Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON();
-
-		response.setStatus(HttpStatus.OK_200);
-		response.setContentType(CONTENT_TYPE_JSON);
-		response.getWriter().write(json.toString());
-	}
 
 	/**
-	 * Handles an entities request.
+	 * Handles an action request.
 	 *
 	 * @param request
 	 * 		the HTTP request
@@ -223,42 +196,16 @@ public class ClientServlet extends DefaultServlet {
 	 * @throws IOException
 	 * 		if sending the response to the client causes an IOException
 	 */
-	public void getEntities(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		WebClient client = server.getUser(request);
-
-		if (!checkAuthorized(client, response, true)) return;
-
-		JSONObject json = JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer());
-
-		response.setStatus(HttpStatus.OK_200);
-		response.setContentType("text/json");
-		response.getWriter().write(json.toString());
-	}
-
-	/**
-	 * Handles a placeBomb request.
-	 *
-	 * @param request
-	 * 		the HTTP request
-	 * @param response
-	 * 		the HTTP response object
-	 * @throws IOException
-	 * 		if sending the response to the client causes an IOException
-	 */
-	public void placeBomb(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void requestAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		WebClient client = server.getUser(request);
 
 		if (!checkAuthorized(client, response, false)) return;
 
-		int xCoordinate = Integer.parseInt(request.getParameter("x"));
-		int yCoordinate = Integer.parseInt(request.getParameter("y"));
+		int xCoord = Integer.parseInt(request.getParameter("x"));
+		int yCoord = Integer.parseInt(request.getParameter("y"));
+		String action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
 
-		Bomb newBomb = new Bomb();
-		newBomb.move(xCoordinate, 1, yCoordinate);
-		Main.getInstance().getCurrentGame().addEntity(newBomb);
-
-		response.setStatus(HttpStatus.OK_200);
-		response.getWriter().write("BOMB HAS BEEN PLACED.");
+		attemptAction(xCoord, yCoord, action, client.getTeam(), response);
 	}
 	
 	/**
@@ -284,7 +231,13 @@ public class ClientServlet extends DefaultServlet {
 		json.put("state", Main.getInstance().getGameState().name());
 		
 		switch (Main.getInstance().getGameState()) {
+			case WAITING:
+				//For now fall through to running
 			case RUNNING:
+				json.put("entities",
+						JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer()));
+				json.put("explored", Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON());
+				break;
 			case PAUSED:
 				//TODO Actual player information
 				//json.put("player", VRPlayer().toJSON());
@@ -299,5 +252,40 @@ public class ClientServlet extends DefaultServlet {
 		}
 
 		response.getWriter().write(json.toString());
+	}
+
+	/**
+	 * Attempt to perform an action.
+	 *
+	 * @param xCoord
+	 * 		the x coordinate to perform the action on
+	 * @param yCoord
+	 * 		the y coordinate to perform the action on
+	 * @param action
+	 * 		the action to perform
+	 * @param team
+	 * 		the team of the player who wants to perform the action
+	 * @param response
+	 * 		the HTTP response object
+	 * @throws IOException
+	 * 		if sending the response to the client causes an IOException
+	 */
+	protected void attemptAction(int xCoord, int yCoord, String action, String team, HttpServletResponse response) throws IOException {
+		if (!WebUtil.checkValidAction(action, team)) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("ACTION INVALID, NOT PERFORMED");
+			return;
+		}
+
+		if (!WebUtil.checkValidLocation(xCoord, yCoord)) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("ACTION ON INVALID LOCATION, NOT PERFORMED");
+			return;
+		}
+
+		ActionUtil.perform(action, xCoord, yCoord);
+
+		response.setStatus(HttpStatus.OK_200);
+		response.getWriter().write("ACTION PERFORMED");
 	}
 }

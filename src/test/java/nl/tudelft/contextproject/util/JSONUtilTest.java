@@ -15,6 +15,7 @@ import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Rule;
 import org.junit.Before;
@@ -99,8 +100,8 @@ public class JSONUtilTest extends TestBase {
 		Bomb bomb = new Bomb();
 		set.add(bomb);
 
-		JSONObject json = JSONUtil.entitiesToJson(set, new VRPlayer());
-		assertNotNull(json.getJSONArray("entities"));
+		JSONArray jArray = JSONUtil.entitiesToJson(set, new VRPlayer());
+		assertNotNull(jArray.get(0));
 	}
 
 

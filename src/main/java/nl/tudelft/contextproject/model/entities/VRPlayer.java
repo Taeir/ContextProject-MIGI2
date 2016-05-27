@@ -4,7 +4,6 @@ import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
-import com.jme3.input.controls.ActionListener;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -15,11 +14,14 @@ import com.jme3.scene.shape.Sphere;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
+public class VRPlayer extends MovingEntity implements PhysicsObject {
 
 	//Physics interaction constants.
 
@@ -41,22 +43,31 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	//Movement control constants.
 
-	public static final float SIDE_WAY_SPEED_MULTIPLIER = .08f;
-	public static final float STRAIGHT_SPEED_MULTIPLIER = .1f;
+	public static final float SIDE_WAY_SPEED_MULTIPLIER = .05f;
+	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
+
+	//Constants for exploration.
+
+	public static final float EXPLORATION_INTERVAL = 0.5f;
+	public static final int EXPLORATION_RADIUS = 5;
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
-	private boolean left, right, up, down;
-	private Vector3f walkDirection;
 	private Inventory inventory;
 	private Vector3f resp;
 	private float fallingTimer;
+	private float explorationTimer;
+	private float health;
+	private float maxHealth;
 
 	/**
 	 * Constructor for a default player.
 	 * This player is (for now) a sphere.
 	 */
 	public VRPlayer() { 
+		super(new PlayerControl());
+		health = 3;
+		maxHealth = 3;
 		inventory = new Inventory();
 	}
 
@@ -74,33 +85,52 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	}
 
 	@Override
-	public void update(float tdf) {
-		updateFallingTimer(tdf);
-		//TODO this will change after VR support is implemented
-		Vector3f camDir = Main.getInstance().getCamera().getDirection();
-		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
-		walkDirection = new Vector3f();
+	public void update(float tpf) {
+		super.update(tpf);
+		updateFallingTimer(tpf);
 
-		if (left) {
-			walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
-		}
-		if (right) {
-			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
-		}
-		if (up) {
-			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
-		if (down) {
-			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
-
-		playerControl.setWalkDirection(walkDirection);
-		spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
+		
+		updateExploration(tpf);
 	}
 
 	/**
-	 * Update the falling timer that triggers respawining the player.
+	 * Updates the exploration.
+	 * 
+	 * @param tpf
+	 * 		the ticks per frame
+	 */
+	protected void updateExploration(float tpf) {
+		//We want to update exploration at an interval (for performance reasons)
+		explorationTimer += tpf;
+		if (explorationTimer < EXPLORATION_INTERVAL) return;
+		
+		explorationTimer = 0f;
+		
+		//Please note that the Z coordinate of the player is the Y coordinate of the tile.
+		Level level = Main.getInstance().getCurrentGame().getLevel();
+		int x = Math.round(getLocation().getX());
+		int y = Math.round(getLocation().getZ());
+		
+		//Explore in a square around the player
+		for (int dx = -EXPLORATION_RADIUS; dx < EXPLORATION_RADIUS; dx++) {
+			int tileX = x + dx;
+			if (tileX < 0 || tileX >= level.getWidth()) continue;
+			
+			for (int dy = -EXPLORATION_RADIUS; dy < EXPLORATION_RADIUS; dy++) {
+				int tileY = y + dy;
+				if (tileY < 0 || tileY >= level.getHeight()) continue;
+				
+				MazeTile tile = level.getTile(tileX, tileY);
+				if (tile == null) continue;
+				
+				tile.setExplored(true);
+			}
+		}
+	}
+
+	/**
+	 * Update the falling timer that triggers respawning the player.
 	 * 
 	 * @param tpf
 	 *		the time per frame for this update
@@ -110,6 +140,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 			fallingTimer = 0;
 			Vector3f move = getLocation().subtract(resp);
 			move(-move.x, -move.y, -move.z);
+			takeDamage(1f);
 			return;
 		}
 		if (getLocation().y < 0 && fallingTimer == 0) {
@@ -163,42 +194,6 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		return playerControl;
 	}
 
-	@Override
-	public void onAction(String name, boolean isPressed, float tpf) {
-		//TODO This should probably be at another place after controller support is implemented.
-		switch (name) {
-			case "Left":
-				left = isPressed;
-				break;
-			case "Right":
-				right = isPressed;
-				break;
-			case "Up":
-				up = isPressed;
-				break;
-			case "Down":
-				down = isPressed;
-				break;
-			case "Jump":
-				if (isPressed) {
-					playerControl.jump();
-				}
-				break;
-			case "Bomb":
-				if (isPressed) {
-					dropBomb();
-				}
-				break;
-			case "Pickup":
-				if (isPressed) {
-					pickUp();
-				}
-				break;
-			default:
-				break;
-		}
-	}
-
 	/**
 	 * Player drops a bomb from his inventory.
 	 */
@@ -208,7 +203,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 			inventory.remove(bomb);
 			Vector3f vec = this.getSpatial().getLocalTranslation();
 			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-
+			bomb.activate();
 			if (Main.getInstance().getCurrentGame() != null) {
 				Main.getInstance().getCurrentGame().addEntity(bomb);
 			}
@@ -249,7 +244,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	@Override
 	public void move(float x, float y, float z) {
-		spatial.move(x, y, z);
+		getSpatial().move(x, y, z);
 		getPhysicsObject().setPhysicsLocation(playerControl.getPhysicsLocation().add(x, y, z));
 	}
 
@@ -269,5 +264,39 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 */
 	public void setInventory(Inventory inv) {
 		inventory = inv;
+	}
+
+	/**
+	 * Returns the player's health.
+	 * 
+	 * @return 
+	 * 		the player's health
+	 */
+	public float getHealth() {
+		return health;
+	}
+
+	/**
+	 * Sets a player's health.
+	 * 
+	 * @param heal
+	 * 		health to be set
+	 */
+	public void setHealth(float heal) {
+		if (heal > maxHealth) {
+			health = 3;
+		} else {
+			health = heal;
+		}
+	}
+
+	/**
+	 * Reduces a players health.
+	 * 
+	 * @param amount 
+	 * 		the amount of damage taken
+	 */
+	public void takeDamage(float amount) {
+		health -= amount;
 	}
 }
