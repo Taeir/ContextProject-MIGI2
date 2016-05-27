@@ -60,6 +60,7 @@ public class Main extends VRApplication {
 	private WebServer webServer;
 	private List<TickListener> tickListeners = new LinkedList<>();
 	private BitmapFont guifont;
+	
 	/**
 	 * Main method that is called when the program is started.
 	 *
