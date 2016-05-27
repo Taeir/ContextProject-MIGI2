@@ -83,7 +83,7 @@ public class BunnyAITest {
 	 */
 	@Test
 	public void testMove() {
-		ai.move(.2f);
+		ai.move(0f);
 		verify(owner, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
 	
