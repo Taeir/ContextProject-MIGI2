@@ -75,7 +75,7 @@ public class NoVRMouseManager implements AnalogListener {
 	 * Map the joystick controls to events.
 	 * 
 	 * @param joystick
-	 * 		the joystick to map.
+	 * 		the joystick to map
 	 */
 	protected void mapJoystick(Joystick joystick) {
 
