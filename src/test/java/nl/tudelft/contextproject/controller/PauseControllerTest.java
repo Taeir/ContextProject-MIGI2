@@ -37,11 +37,11 @@ public class PauseControllerTest extends ControllerTest {
 	 * Setup all the mocks for each test.
 	 */
 	@Before
-	@SuppressWarnings("deprecation")
 	public void setUp() {
 		controller = getController();
 		main = Main.getInstance();
-		main.setAssetManager(mock(AssetManager.class));
+		AssetManager am = mock(AssetManager.class);
+		doReturn(am).when(main).getAssetManager();
 		rootNode = mock(Node.class);
 		guiNode = mock(Node.class);
 		inputManager = mock(InputManager.class);
@@ -116,7 +116,6 @@ public class PauseControllerTest extends ControllerTest {
 
 	@Override
 	public Main getMain() {
-		Main.setInstance(new Main());
 		return Main.getInstance();
 	}
 

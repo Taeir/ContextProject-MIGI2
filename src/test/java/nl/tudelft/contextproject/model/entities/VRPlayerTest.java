@@ -1,9 +1,8 @@
 package nl.tudelft.contextproject.model.entities;
 
 import static org.junit.Assert.*;
+
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.jme3.bullet.control.CharacterControl;
@@ -11,15 +10,13 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 
-import nl.tudelft.contextproject.Main;
-
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Test class for the VRPlayer class.
  */
-public class VRPlayerTest extends EntityTest {
+public class VRPlayerTest extends MovingEnemyTest {
 
 	private static final double EPSILON = 1e-5;
 	private VRPlayer player;
@@ -28,7 +25,12 @@ public class VRPlayerTest extends EntityTest {
 	public Entity getEntity() {
 		return new VRPlayer();
 	}
-
+	
+	@Override
+	public MovingEntity getEnemy() {
+		return new VRPlayer();
+	}
+	
 	/**
 	 * Setup method.
 	 * Creates a fresh player for every test.
@@ -65,20 +67,10 @@ public class VRPlayerTest extends EntityTest {
 	}
 
 	/**
-	 * Test if calling getGeometry on an unset geometry creates one.
-	 */
-	@Test
-	public void testGetGeometryNull() {
-		player.getSpatial();
-		verify(Main.getInstance(), times(1)).getAssetManager();
-	}
-
-	/**
 	 * Test if the spatial is an instance of CharacterControl.
 	 */
 	@Test
 	public void testGetSpatialInstance() {
-		setupGeometryMock();
 		assertNotNull(player.getPhysicsObject());
 	}
 

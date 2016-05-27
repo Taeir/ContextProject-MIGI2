@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.util;
+package nl.tudelft.contextproject.util.webinterface;
 
 /**
  * Class used to make entities usable for the web interface.
@@ -10,6 +10,10 @@ public final class EntityUtil {
 	private static final int KEY = 3;
 	private static final int VRPLAYER = 4;
 	private static final int PLAYERTRIGGER = 5;
+	private static final int PITFALL = 6;
+	private static final int LANDMINE = 7;
+	private static final int CARROT = 8;
+	private static final int KILLERBUNNY = 9;
 
 	/**
 	 * Private constructor to avoid initialization.
@@ -36,6 +40,14 @@ public final class EntityUtil {
 				return VRPLAYER;
 			case "PlayerTrigger":
 				return PLAYERTRIGGER;
+			case "Pitfall":
+				return PITFALL;
+			case "LandMine":
+				return LANDMINE;
+			case "Carrot":
+				return CARROT;
+			case "KillerBunny":
+				return KILLERBUNNY;
 			default:
 				return DEFAULT;
 		}

@@ -56,7 +56,6 @@ public class Explosion extends Entity {
 		}
 		if (collidesWithPlayer(scale.x / 5f)) {
 			player.takeDamage(tpf);
-			System.out.println(Main.getInstance().getCurrentGame().getPlayer().getHealth());
 		}
 
 		float m = maxRadius * tpf;

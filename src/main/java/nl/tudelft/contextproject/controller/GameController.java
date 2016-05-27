@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.font.BitmapText;
 import com.jme3.asset.AssetManager;
@@ -22,6 +21,10 @@ import com.jme3.light.Light;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.ui.Picture;
+
+import jmevr.app.VRApplication;
+import jmevr.util.VRGuiManager;
+
 import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
@@ -34,6 +37,7 @@ import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
@@ -53,7 +57,7 @@ public class GameController extends Controller {
 	 * @param level
 	 * 		The level for this game
 	 */
-	public GameController(SimpleApplication app, Level level) {
+	public GameController(Application app, Level level) {
 		super(app, "GameController");
 
 		game = new Game(level);
@@ -67,7 +71,7 @@ public class GameController extends Controller {
 	 * @param folder
 	 * 		the folder where to load the level from
 	 */
-	public GameController(SimpleApplication app, String folder) {
+	public GameController(Application app, String folder) {
 		super(app, "GameController");
 
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
@@ -98,10 +102,13 @@ public class GameController extends Controller {
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
 		attachLevel();
-		if (Main.getInstance().getAssetManager() != null) {
+		if (VRApplication.getMainVRApp().getContext() != null) {
 			attachHud();
 		}
 		GameController t = this;
+
+		//Listener for stop the game
+		addInputListener((ActionListener) (n, ip, tpf) -> Main.getInstance().stop(), "Exit");
 
 		ActionListener al = new ActionListener() {
 			@Override
@@ -115,19 +122,18 @@ public class GameController extends Controller {
 		};
 
 		addInputListener(al, "pause");
-		addInputListener(game.getPlayer(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
+
+		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
 	}
-	
+
 	/**
 	 * Attaches the Hud to the renderer.
 	 */
 	protected void attachHud() {
 		Float height = 0f;
 		Float width = 0f;
-		if (Main.getInstance().getSettings() != null) {
-		height = (float) Main.getInstance().getSettings().getHeight();
-		width = (float) Main.getInstance().getSettings().getWidth();
-		}
+		height = (float) VRGuiManager.getCanvasSize().getX();
+		width = (float) VRGuiManager.getCanvasSize().getX();
 		//attach the keycounter
 		Picture keypicyellow = keyGUI(1, height, width);
 		Picture keypicred = keyGUI(2, height, width);
@@ -136,20 +142,20 @@ public class GameController extends Controller {
 		addGuiElement(keypicred);
 		addGuiElement(keypicblue);
 		//attach the bombcounter
-		BitmapText hudTextb = new BitmapText(Main.getInstance().getGuiFont(), false);
-		hudTextb.setSize(height / 30);
-		hudTextb.setColor(ColorRGBA.White);
-		hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs());
-		hudTextb.setLocalTranslation(width / 3f, hudTextb.getLineHeight() + height / 40, 0);
-		addGuiElement(hudTextb);
+		//BitmapText hudTextb = new BitmapText(Main.getInstance().getGuiFont(), false);
+		//hudTextb.setSize(height / 30);
+		//hudTextb.setColor(ColorRGBA.White);
+		//hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs());
+		//hudTextb.setLocalTranslation(width / 3f, hudTextb.getLineHeight() + height / 40, 0);
+		//addGuiElement(hudTextb);
 		//attach bombicon
 		Picture pic = new Picture("Bomb Picture");
 		pic.setImage(Main.getInstance().getAssetManager(), "Textures/bombicon.png", true);
-		pic.setWidth(width / 15);
+		pic.setWidth(width / 12);
 		pic.setHeight(height / 10);
-		pic.setPosition(width / 4f, 0);
+		pic.setPosition(width / 4f, 60);
 		addGuiElement(pic);
-		
+
 		//attach your healthcounter        
 		Picture heart1 = healthContainer(1, height, width);
 		addGuiElement(heart1);
@@ -159,12 +165,12 @@ public class GameController extends Controller {
 		addGuiElement(heart3);
 		//update the gui
 		Main.getInstance().attachTickListener(new TickListener() {
-			
+
 			@Override
 			public void update(float tpf) {
 				//bomb update
-				hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs()); 
-				
+				//hudTextb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs()); 
+
 				//health update
 				if (game.getPlayer().getHealth() <= 2.5) {
 					heart3.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
@@ -211,13 +217,13 @@ public class GameController extends Controller {
 		heart.setWidth(width / 20);
 		heart.setHeight(height / 20);
 		if (pos > 0) {
-				heart.setPosition((width / 3f), height / 1.1f);
+			heart.setPosition((width / 3f), height + 50);
 		}
 		if (pos > 1) {
-				heart.setPosition((width / 2.6f), height / 1.1f);
+			heart.setPosition((width / 2.6f), height + 50);
 		}
 		if (pos > 2) {
-				heart.setPosition((width / 2.3f), height / 1.1f);
+			heart.setPosition((width / 2.3f), height + 50);
 		}
 		return heart;
 	}
@@ -238,21 +244,21 @@ public class GameController extends Controller {
 			keypic.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
 			keypic.setWidth(width / 30);
 			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.5f, 0);
+			keypic.setPosition(width * 0.5f, 60);
 		}
 		if (pos == 2) {
 			keypic = new Picture("key2Picture");
 			keypic.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
 			keypic.setWidth(width / 30);
 			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.55f, 0);
+			keypic.setPosition(width * 0.55f, 60);
 		}
 		if (pos == 3) {
 			keypic = new Picture("key3Picture");
 			keypic.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
 			keypic.setWidth(width / 30);
 			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.6f, 0);
+			keypic.setPosition(width * 0.6f, 60);
 		}
 		return keypic;
 	}
@@ -267,11 +273,11 @@ public class GameController extends Controller {
 		attachRoof(level);
 		addDrawable(game.getPlayer());		
 		game.getPlayer().move(start.x, 6, start.y);
-		
+
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-		 
+
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
@@ -352,18 +358,18 @@ public class GameController extends Controller {
 			EntityState state = e.getState();
 
 			switch (state) {
-				case DEAD:
-					removeDrawable(e);
-					i.remove();
-					break;
-				case NEW:
-					addDrawable(e);
-					e.setState(EntityState.ALIVE);
-					e.update(tpf);
-					break;
-				default:
-					e.update(tpf);
-					break;
+			case DEAD:
+				removeDrawable(e);
+				i.remove();
+				break;
+			case NEW:
+				addDrawable(e);
+				e.setState(EntityState.ALIVE);
+				e.update(tpf);
+				break;
+			default:
+				e.update(tpf);
+				break;
 			}
 		}
 	}
@@ -396,7 +402,7 @@ public class GameController extends Controller {
 	 * @param game
 	 * 		the new game instance
 	 */
-	protected void setGame(Game game) {
+	public void setGame(Game game) {
 		this.game = game;
 	}
 }

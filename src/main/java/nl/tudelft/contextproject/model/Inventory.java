@@ -23,7 +23,6 @@ public class Inventory {
 		this.pickedUpEntities = new ArrayList<>();
 		this.keys = 0;
 		this.bombs = 0;
-		this.add(new Bomb());
 	}
 	
 	/**

@@ -1,19 +1,11 @@
 var gAuth = false;
 var gTeam;
 var gView;
-var gPlayer = {
-    x: 0,
-    y: 0,
-    z: 0,
-    hp: 0,
-    bombs: 0,
-    keys: []
-};
 var gMap = null;
 var gExplored = null;
 var gEntities = null;
-var lastPressedX = 0;
-var lastPressedY = 0;
+var lastPressedX;
+var lastPressedY;
 
 /**
  * Sends an authentication request to the server.
@@ -79,6 +71,9 @@ function requestStatus() {
         //Check if we are authorized
         if (!checkAuthorized(data)) return;
         
+        //If we are authorized, update the game with the recieved information
+        updateGame(data);
+        
         //Set the correct team
         if (data.team == undefined || data.team == "NONE") {
             //We don't have a team, so we switch to team selection
@@ -139,7 +134,7 @@ function switchTo(view) {
             $(document.getElementById("selectTeam")).hide();
             break;
         case "PAUSED":
-            //TODO
+            console.log("PAUSED STATE HIT");
             break;
         case "ENDED":
             //TODO
@@ -154,6 +149,7 @@ function switchTo(view) {
  *      the team to set. Must be in [ELVES, DWARFS, NONE]
  */
 function requestSetTeam(team) {
+    hideAllButtons(0);
     //Check if the team is valid
     if (team != "ELVES" && team != "DWARFS" && team != "NONE") throw "Invalid team!";
     
@@ -214,9 +210,8 @@ function updateTeam() {
  *      the status data sent from the server
  */
 function updateGame(data) {
-    if (data.player != undefined) {
-        //TODO
-    }
+    updateEntities(data.entities);
+    updateExplored(data.explored);
 }
 
 /**
@@ -238,17 +233,18 @@ function requestMap() {
         //Update the map
         updateMap(data);
     }, "json");
-    setInterval(requestEntities, 1000);
-	setInterval(requestExplored, 1000);
 }
 
 /**
- * Requests locations of explored tiles from the server.
+ * Send a message to the server telling it to place a bomb at
+ * the given location.
  */
-function requestExplored() {
-    console.log("[DEBUG] GETTING EXPLORED");
+function requestAction(argument) {
+    var encoded = encodeAction(argument);
+    if (encoded === -1) return;
     
-    $.post("/explored", function(data, status) {
+    console.log("[DEBUG] Requesting action: " + argument + ".");
+    $.post("/requestaction", {x: lastPressedX, y: lastPressedY, action: encoded},  function(data, status) {
         if (status != "success") {
             //HTTP Error
             showError("Something went wrong: [" + status + "] " + data);
@@ -258,29 +254,8 @@ function requestExplored() {
         //Check if we are authorized
         if (!checkAuthorized(data)) return;
         
-        //Update the map
-        updateExplored(data);
     }, "json");
-}
-
-/**
- * Request entities from the server.
- */
-function requestEntities() {
-    console.log("[DEBUG] GETTING ENTITIES");
-    $.post("/entities", function(data, status) {
-        if (status != "success") {
-            //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
-            return;
-        }
-
-        //Check if we are authorized
-        if (!checkAuthorized(data)) return;
-        
-        //Update the map with the entities
-        updateEntities(data);
-    }, "json");
+    hideAllButtons(250);
 }
 
 /**
@@ -297,27 +272,32 @@ function createClickableFunc(x, y) {
             console.log("Cell y" + y + "x" + x + " clicked.");
             lastPressedX = x;
             lastPressedY = y;
-            $(document.getElementById('buttonDiv')).show(250);
+            showButtons();
         };
 }
 
 /**
- * Send a message to the server telling it to place a bomb at
- * the given location.
+ * Shows the button menu depending on what team you are in.
  */
-function placeBomb() {
-    if (gTeam == undefined) return;
-    
-    console.log("[DEBUG] Placing bomb");
-    $.post("/placebomb", {x: lastPressedX, y: lastPressedY}, function(data, status) {
-        if (status != "success") {
-            //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
-            return;
-        }
-    }, "json");
-    
-    $(document.getElementById('buttonDiv')).hide(250);
+function showButtons() {
+    if (gTeam === "DWARFS") {
+        $(document.getElementById('dwarvesButtons')).show(250);
+    } else if (gTeam === "ELVES") {
+        $(document.getElementById('elvesButtons')).show(250);
+    } else {
+        console.log("[DEBUG] No team selected, buttons not shown.");
+    }
+}
+
+/**
+ * Hide both button divs.
+ *
+ * @param time
+ *      the time the hiding animation should take
+ */
+function hideAllButtons(time) {
+    $(document.getElementById('dwarvesButtons')).hide(time);
+    $(document.getElementById('elvesButtons')).hide(time);
 }
 
 /**
@@ -405,15 +385,15 @@ function updateExplored(data) {
  */
 function updateEntities(data) {
     if (gEntities != null) {
-        for (i = 0; i < gEntities.entities.length; i++) {
-            $(document.getElementById("y" + gEntities.entities[i].y + "x" + gEntities.entities[i].x))
-                .removeClass(getClassForEntityType(gEntities.entities[i].type));
+        for (i = 0; i < gEntities.length; i++) {
+            $(document.getElementById("y" + gEntities[i].y + "x" + gEntities[i].x))
+                .removeClass(getClassForEntityType(gEntities[i].type));
         }
     }
     
-    for (i = 0; i < data.entities.length; i++) {
-        $(document.getElementById("y" + data.entities[i].y + "x" + data.entities[i].x))
-            .addClass(getClassForEntityType(data.entities[i].type));
+    for (i = 0; i < data.length; i++) {
+        $(document.getElementById("y" + data[i].y + "x" + data[i].x))
+            .addClass(getClassForEntityType(data[i].type));
     }
     
     gEntities = data;
@@ -438,7 +418,15 @@ function getClassForEntityType(entityType) {
         case 4:
             return "vrplayer";
         case 5:
-            return "playertrigger"
+            return "playertrigger";
+        case 6:
+            return "pitfall";
+        case 7:
+            return "landmine";
+        case 8:
+            return "carrot";
+        case 9:
+            return "killerbunny";
         default:
             showError("Invalid tile type: " + entityType);
             throw "Invalid tile type: " + entityType;
@@ -466,5 +454,56 @@ function getClassForTileType(tileType) {
         default:
             showError("Invalid tile type: " + tileType);
             throw "Invalid tile type: " + tileType;
+    }
+}
+
+/**
+ * Encode an action.
+ *
+ * @param action
+ *      the action to encode
+ */
+function encodeAction(action) {
+    switch (action) {
+        case "placebomb":
+            return 0;
+        case "placepitfall":
+            return 1;
+        case "placemine":
+            return 2;
+        case "spawnenemy":
+            return 3;
+        case "dropbait":
+            return 4;
+        default:
+            return -1;
+    }
+}
+
+/**
+ * Function to toggle the webpage to fullscreen.
+ * This method was copied from https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
+ */
+function toggleFullscreen() {
+    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
     }
 }

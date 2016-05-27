@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
 
-import com.jme3.input.InputManager;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
@@ -46,27 +45,27 @@ public class MainTest extends TestBase {
 	}
 	
 	/**
-	 * Test if giving '--debugHud' shows the debug hud.
+	 * Test if giving '--hideQR' correctly hides the qr code.
 	 */
 	@Test
-	public void testMainDebugHud() {
+	public void testMainHideQR() {
 		Main mMock = mock(Main.class);
 		Main.setInstance(mMock);
-		String[] args = {"a", "--debugHud", "b"};
+		String[] args = {"a", "--hideQR", "b"};
 		Main.main(args);
-		assertTrue(Main.isDebugHudShown());
+		assertFalse(Main.isQRShown());
 	}
 	
 	/**
-	 * Test if debug hud is not shown when passing other arguments.
+	 * Test if qr code is not shown when passing other arguments.
 	 */
 	@Test
-	public void testMainHideDebugHud() {
+	public void testMainShowQR() {
 		Main mMock = mock(Main.class);
 		Main.setInstance(mMock);
-		String[] args = {"a", "--debugHudd", "b"};
+		String[] args = {"a", "--hideQRr", "b"};
 		Main.main(args);
-		assertFalse(Main.isDebugHudShown());
+		assertTrue(Main.isQRShown());
 	}
 	
 	/**
@@ -186,10 +185,8 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testSetupControlMappings() {
-		InputManager im = mock(InputManager.class);
-		main.setInputManager(im);
 		main.setupControlMappings();
-		verify(im, atLeast(1)).addMapping(anyString(), any(KeyTrigger.class));
+		verify(main.getInputManager(), atLeast(1)).addMapping(anyString(), any(KeyTrigger.class));
 	}
 	
 	/**
