@@ -406,6 +406,7 @@ public class Main extends VRApplication {
 	
 	/**
 	 * Returns the BitmapFont.
+	 * 
 	 * @return 
 	 * 		the BitmapFont
 	 */
@@ -417,6 +418,7 @@ public class Main extends VRApplication {
 	
 	/**
 	 * Returns the Controller.
+	 * 
 	 * @return 
 	 * 		the Controller
 	 */
