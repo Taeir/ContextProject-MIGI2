@@ -194,7 +194,7 @@ public class Main extends VRApplication {
 		//getAssetManager().loadFont("Interface/Font/Default.fnt");
 		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
-		getCamera().lookAtDirection(new Vector3f(0, 1, 0), new Vector3f(0, 1, 0));
+		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
 		
 		VRGuiManager.setPositioningMode(POSITIONING_MODE.AUTO_CAM_ALL);
 		VRGuiManager.setGuiScale(0.50f);
