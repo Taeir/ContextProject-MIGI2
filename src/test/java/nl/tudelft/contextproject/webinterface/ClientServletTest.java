@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.webinterface;
 
 import static org.junit.Assert.*;
-
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
@@ -11,13 +10,6 @@ import java.util.HashSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jme3.math.Vector3f;
-import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
-import nl.tudelft.contextproject.model.level.MazeTile;
-import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.util.QRGenerator;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -25,12 +17,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import com.jme3.math.Vector3f;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.RandomLevelFactory;
+import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.test.TestUtil;
+import nl.tudelft.contextproject.util.QRGenerator;
 
 /**
  * Test class for {@link ClientServlet}.
