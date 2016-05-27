@@ -24,7 +24,6 @@ public class BombTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
-		setupGeometryMock();
 		bomb = new Bomb();
 		bomb.move(1, 1, 1);
 	}

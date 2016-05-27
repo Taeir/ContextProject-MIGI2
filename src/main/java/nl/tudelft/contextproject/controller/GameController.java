@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.controls.ActionListener;
@@ -28,6 +27,7 @@ import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
@@ -47,7 +47,7 @@ public class GameController extends Controller {
 	 * @param level
 	 * 		The level for this game
 	 */
-	public GameController(SimpleApplication app, Level level) {
+	public GameController(Application app, Level level) {
 		super(app, "GameController");
 
 		game = new Game(level);
@@ -61,7 +61,7 @@ public class GameController extends Controller {
 	 * @param folder
 	 * 		the folder where to load the level from
 	 */
-	public GameController(SimpleApplication app, String folder) {
+	public GameController(Application app, String folder) {
 		super(app, "GameController");
 
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
@@ -95,6 +95,9 @@ public class GameController extends Controller {
 		attachLevel();
 		GameController t = this;
 
+		//Listener for stop the game
+		addInputListener((ActionListener) (n, ip, tpf) -> Main.getInstance().stop(), "Exit");
+		
 		ActionListener al = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
@@ -107,7 +110,8 @@ public class GameController extends Controller {
 		};
 
 		addInputListener(al, "pause");
-		addInputListener(game.getPlayer(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
+
+		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
 	}
 
 	/**
@@ -251,7 +255,7 @@ public class GameController extends Controller {
 	 * @param game
 	 * 		the new game instance
 	 */
-	protected void setGame(Game game) {
+	public void setGame(Game game) {
 		this.game = game;
 	}
 }

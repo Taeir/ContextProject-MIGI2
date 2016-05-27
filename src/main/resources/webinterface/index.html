@@ -1,123 +1,74 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>The Cave of Caerbanogh</title>
-	<script src="jquery-1.12.3.min.js"></script>
-	<script src="main.js"></script>
-	<script>
-		//On load
-		$(document).ready(function() {
-			$(document.getElementById("buttonDiv")).hide();
-			authenticate();
-			setInterval(requestStatus, 1000);
-		});
-	</script>
-	<style>
-		html, body {
-			height: 100%;
-		}
-		#buttonDiv {
-			position: absolute;
-			top: 0;
-			right: 0;
-			width: 40%;
-			height: 100%;
-			display: inline;
-			float: right;
-			overflow-x: auto;
-			overflow-y: auto;
-			z-index: 1;
-			background-color: #D3D3D3
-		}
-		#buttons {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-		}
-		#mainDiv {
-			width: 100%;
-			height: 100%;
-			display: inline;
-			float: left;
-			overflow-x: auto;
-			overflow-y: auto;
-			z-index: 0;
-		}
-		#map .key {
-			background-color: #ffff00 !important;
-		}
-		#map .bomb {
-			background-color: #000 !important;
-		}
-		#map .door {
-			background-color: #7a5230 !important;
-		}
-		#map .vrplayer {
-			background-color: #ff00ff !important;
-		}
-		#map .playertrigger {
-			background-color: #9A32CD !important;
-		}
-		#map {
-			border-spacing: 1px;
-		}
-		#map td {
-			min-width: 20px;
-			width: 20px;
-			min-height: 20px;
-			height: 20px;
-			background-color: #888888;
-		}
-		#map .wall.explored {
-			background-color: #0000ff;
-		}
-		#map .floor.explored {
-			background-color: #00ff00;
-		}
-		#map .corridor.explored {
-			background-color: #ff0000;
-		}
-		
-	</style>
-</head>
+	<head>
+		<title>The Cave of Caerbanogh</title>
+		<script src="js/jquery-1.12.3.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/materialize.min.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/style.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height" />
+		<script>
+			//On load
+			$(document).ready(function() {
+				$(document.getElementById("dwarvesButtons")).hide();
+				$(document.getElementById("elvesButtons")).hide();
+				authenticate();
+				setInterval(requestStatus, 1000);
+			});
+		</script>
+	</head>
 
-<body>
-	<div id="mainDiv">
-		<div id="authorized">
-			<div id="selectTeam">
-				<button onclick="requestSetTeam('ELVES')">Elves</button>
-				<button onclick="requestSetTeam('DWARFS')">Dwarfs</button>
-				<button onclick="requestSetTeam('NONE')">No team</button>
-				<br>
+	<body>
+		<div id="mainDiv">
+			<div id="authorized">
+				<div id="selectTeam">
+					<button onclick="requestSetTeam('ELVES')" id="clickable">Elves</button>
+					<button onclick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
+					<button onclick="requestSetTeam('NONE')" id="clickable">No team</button>
+					<br>	
+					Current team: <div class="team">No team</div><br>
+				</div>
 				
-				Current team: <div class="team">No team</div><br>
-			</div>
-			
-			<div id="playing">
-				Map: <br>
-				<table id="map">
-				</table>
-			</div>
-			
-			<div id="ended" style="visibility:hidden">
-		
+				<div id="playing">
+					<table id="map">
+					</table>
+				</div>
+				
+				<div id="ended" style="visibility:hidden">
+					
+				</div>
 			</div>
 		</div>
-	</div>
-	
-	<div id="buttonDiv">
-			<div id="buttons">
-				<button onClick="placeBomb()">Place bomb</button><br>
-				<button onClick="$(document.getElementById('buttonDiv')).hide(250)">Cancel</button>
+		
+		<div id="dwarvesButtons">
+			<div id="fullscreensetter">
+				<button onclick="toggleFullscreen()" id="clickable">FS</button>
 			</div>
-	</div>
-	
-	<div id="unauthorized">
-	
-	</div>
-	<div id="error">
-	
-	</div>
-</body>
-
+			<div id="buttons">
+				<button onClick="requestAction('placebomb')" id="clickable">Place bomb</button><br>
+				<button onClick="requestAction('placepitfall')" id="clickable">Place pitfall</button><br>
+				<button onClick="requestAction('placemine')" id="clickable">Place landmine</button><br>
+				<button onClick="requestAction('spawnenemy')" id="clickable">Spawn enemy</button><br>
+				<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
+			</div>
+		</div>
+		
+		<div id="elvesButtons">
+			<div id="fullscreensetter">
+					<button onclick="toggleFullscreen()" id="clickable">FS</button>
+			</div>
+			<div id="buttons">
+				<button onClick="requestAction('dropbait')" id="clickable">Drop bait</button><br>
+				<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
+			</div>
+		</div>
+		
+		<div id="unauthorized">
+		
+		</div>
+		
+		<div id="error">
+		
+		</div>
+	</body>
 </html>

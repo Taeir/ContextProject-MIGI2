@@ -4,7 +4,6 @@ import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
-import com.jme3.input.controls.ActionListener;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -17,11 +16,12 @@ import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
+public class VRPlayer extends MovingEntity implements PhysicsObject {
 
 	//Physics interaction constants.
 
@@ -43,8 +43,8 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	//Movement control constants.
 
-	public static final float SIDE_WAY_SPEED_MULTIPLIER = .08f;
-	public static final float STRAIGHT_SPEED_MULTIPLIER = .1f;
+	public static final float SIDE_WAY_SPEED_MULTIPLIER = .05f;
+	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
 
 	//Constants for exploration.
 
@@ -53,8 +53,6 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
-	private boolean left, right, up, down;
-	private Vector3f walkDirection;
 	private Inventory inventory;
 	private Vector3f resp;
 	private float fallingTimer;
@@ -65,6 +63,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 * This player is (for now) a sphere.
 	 */
 	public VRPlayer() { 
+		super(new PlayerControl());
 		inventory = new Inventory();
 	}
 
@@ -82,31 +81,13 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	}
 
 	@Override
-	public void update(float tdf) {
-		updateFallingTimer(tdf);
-		//TODO this will change after VR support is implemented
-		Vector3f camDir = Main.getInstance().getCamera().getDirection();
-		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
-		walkDirection = new Vector3f();
+	public void update(float tpf) {
+		super.update(tpf);
+		updateFallingTimer(tpf);
 
-		if (left) {
-			walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
-		}
-		if (right) {
-			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
-		}
-		if (up) {
-			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
-		if (down) {
-			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
-
-		playerControl.setWalkDirection(walkDirection);
-		spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
 		
-		updateExploration(tdf);
+		updateExploration(tpf);
 	}
 
 	/**
@@ -206,42 +187,6 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		//set physics location of player
 		playerControl.setPhysicsLocation(spatial.getLocalTranslation());
 		return playerControl;
-	}
-
-	@Override
-	public void onAction(String name, boolean isPressed, float tpf) {
-		//TODO This should probably be at another place after controller support is implemented.
-		switch (name) {
-			case "Left":
-				left = isPressed;
-				break;
-			case "Right":
-				right = isPressed;
-				break;
-			case "Up":
-				up = isPressed;
-				break;
-			case "Down":
-				down = isPressed;
-				break;
-			case "Jump":
-				if (isPressed) {
-					playerControl.jump();
-				}
-				break;
-			case "Bomb":
-				if (isPressed) {
-					dropBomb();
-				}
-				break;
-			case "Pickup":
-				if (isPressed) {
-					pickUp();
-				}
-				break;
-			default:
-				break;
-		}
 	}
 
 	/**

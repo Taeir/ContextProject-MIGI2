@@ -75,21 +75,10 @@ public class VRPlayerTest extends EntityTest {
 	}
 
 	/**
-	 * Test if calling getGeometry on an unset geometry creates one.
-	 */
-	@Test
-	public void testGetGeometryNull() {
-		setupGeometryMock();
-		player.getSpatial();
-		verify(Main.getInstance(), times(1)).getAssetManager();
-	}
-
-	/**
 	 * Test if the spatial is an instance of CharacterControl.
 	 */
 	@Test
 	public void testGetSpatialInstance() {
-		setupGeometryMock();
 		assertNotNull(player.getPhysicsObject());
 	}
 
@@ -98,7 +87,6 @@ public class VRPlayerTest extends EntityTest {
 	 */
 	@Test
 	public void testGetSpatialCheckFallspeed() {
-		setupGeometryMock();
 		Object ob = player.getPhysicsObject();
 		CharacterControl playerControl = (CharacterControl) ob;
 		assertEquals(playerControl.getFallSpeed(), VRPlayer.FALL_SPEED, EPSILON);
@@ -109,7 +97,6 @@ public class VRPlayerTest extends EntityTest {
 	 */
 	@Test
 	public void testGetSpatialCheckJumpSpeed() {
-		setupGeometryMock();
 		Object ob = player.getPhysicsObject();
 		CharacterControl playerControl = (CharacterControl) ob;
 		assertEquals(playerControl.getJumpSpeed(), VRPlayer.JUMP_SPEED, EPSILON);
@@ -120,7 +107,6 @@ public class VRPlayerTest extends EntityTest {
 	 */
 	@Test
 	public void testGetSpatialCheckGravity() {
-		setupGeometryMock();
 		Object ob = player.getPhysicsObject();
 		CharacterControl playerControl = (CharacterControl) ob;
 		assertEquals(playerControl.getGravity(), VRPlayer.PLAYER_GRAVITY, EPSILON);
@@ -131,7 +117,6 @@ public class VRPlayerTest extends EntityTest {
 	 */
 	@Test 
 	public void testDropBomb() {
-		setupGeometryMock();
 		player.getInventory().add(new Bomb());
 		player.dropBomb();
 		assertSame(player.getInventory().size(), 0);
@@ -142,7 +127,6 @@ public class VRPlayerTest extends EntityTest {
 	 */
 	@Test
 	public void testDropNoBomb() {
-		setupGeometryMock();
 		player.getInventory().add(new Key(ColorRGBA.Yellow));
 		player.dropBomb();
 		assertSame(player.getInventory().size(), 1);

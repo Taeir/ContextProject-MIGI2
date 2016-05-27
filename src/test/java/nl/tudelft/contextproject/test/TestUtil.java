@@ -7,12 +7,12 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioRenderer;
 import com.jme3.audio.Listener;
-import com.jme3.input.FlyByCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.dummy.DummyKeyInput;
 import com.jme3.input.dummy.DummyMouseInput;
@@ -22,6 +22,7 @@ import com.jme3.system.JmeSystem;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
+import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
@@ -32,7 +33,16 @@ import nl.tudelft.contextproject.model.level.Level;
  * <p>This class has an excessive amount of comments, as it does quite complicated things.
  */
 public final class TestUtil extends TestBase {
+	private static Main globalMain;
+	
 	private TestUtil() { }
+	
+	/**
+	 * This method should be called in an {@code @BeforeClass} method.
+	 */
+	public static void recreateGlobalMain() {
+		globalMain = new Main();
+	}
 	
 	/**
 	 * Ensures that Main.getInstance is a spy.
@@ -52,24 +62,21 @@ public final class TestUtil extends TestBase {
 	 * 		the spied Main instance that was set
 	 */
 	public static Main setupMainForTesting() {
-		Main mainNoSpy = Main.getInstance();
+		if (globalMain == null) {
+			globalMain = new Main();
+		}
 		
-		//Check if the current instance is already mocked by us
-		if ("TestUtilSpyMain".equals(mainNoSpy.toString())) return mainNoSpy;
-		
-		//Throw the old Main instance away and create a new one.
-		Main.setInstance(null);
-		mainNoSpy = Main.getInstance();
+		Main mainNoSpy = globalMain;
 		
 		//Spy on the main and set the instance
-		Main mainSpy = spy(mainNoSpy);
+		Main mainSpy = spy(globalMain);
 		Main.setInstance(mainSpy);
 		
 		//Get all necessary fields before resetting.
 		AssetManager assetManager 	= mainNoSpy.getAssetManager();
 		AudioRenderer audioRenderer = mainNoSpy.getAudioRenderer();
 		Camera camera 				= mainNoSpy.getCamera();
-		FlyByCamera flyByCamera 	= mainNoSpy.getFlyByCamera();
+		//FlyByCamera flyByCamera 	= mainNoSpy.getFlyByCamera();
 		Listener listener 			= mainNoSpy.getListener();
 		InputManager inputManager 	= mainNoSpy.getInputManager();
 		Node rootNode 				= mainNoSpy.getRootNode();
@@ -90,11 +97,6 @@ public final class TestUtil extends TestBase {
 		camera = toMockito(camera, () -> new Camera(640, 480));
 		doReturn(camera).when(mainSpy).getCamera();
 		
-		//Ensure that there is a spy FlyByCamera
-		final Camera cam = camera;
-		flyByCamera = toMockito(flyByCamera, () -> new FlyByCamera(cam));
-		doReturn(flyByCamera).when(mainSpy).getFlyByCamera();
-		
 		//Ensure that there is a spy Listener
 		listener = toMockito(listener, Listener.class, true);
 		doReturn(listener).when(mainSpy).getListener();
@@ -108,12 +110,16 @@ public final class TestUtil extends TestBase {
 			//Create the InputManager
 			InputManager tbr = spy(new InputManager(dmi, dki, null, null));
 			
+			//Initialize the inputs
+			dmi.initialize();
+			dki.initialize();
+			
 			//Reset the mouse and key input spies
 			reset(dmi, dki);
 			
 			return tbr;
 		});
-		mainNoSpy.setInputManager(inputManager);
+		when(mainSpy.getInputManager()).thenReturn(inputManager);
 		
 		//Ensure that there is a spy root Node
 		rootNode = toMockito(rootNode, () -> new Node("Root Node"));
@@ -123,6 +129,9 @@ public final class TestUtil extends TestBase {
 		guiNode = toMockito(guiNode, () -> new Node("Gui Node"));
 		mainNoSpy.setGuiNode(guiNode);
 		
+		//Reset the controller and tick listeners
+		mainNoSpy.setTickListeners(new ArrayList<>());
+		mainNoSpy.setController(null);
 		return mainSpy;
 	}
 
@@ -229,33 +238,38 @@ public final class TestUtil extends TestBase {
 	}
 	
 	/**
+	 * @return
+	 * 		if the main class is mocked by us or not
+	 */
+	public static boolean isMainMocked() {
+		Main main = Main.getInstance();
+		
+		return main.toString().equals("TestUtilSpyMain");
+	}
+	
+	/**
 	 * Ensures that {@link Main#getCurrentGame()} returns a mocked game.
 	 * The game returned will be a Mockito spy.
 	 */
 	public static void mockGame() {
-		Main main = setupMainForTesting();
-		Game game = main.getCurrentGame();
-		
-		if (game == null) {
-			//There is no game yet, so we need to create one.
-			
-			//Mock a level
-			Level level = mock(Level.class);
-			
-			//Create a new game and spy on it
-			game = spy(new Game(level));
-			
-			//Return the spied game
-			doReturn(game).when(main).getCurrentGame();
-		} else if (!mockingDetails(game).isMock()) {
-			//There is already a game, but it is not a mock.
-			
-			//Spy on the current game
-			game = spy(game);
-			
-			//Return the spied game
-			doReturn(game).when(main).getCurrentGame();
+		Main main;
+		if (!isMainMocked()) {
+			main = setupMainForTesting();
+		} else {
+			main = Main.getInstance();
 		}
+		
+		//Create a mocked level in a real GameController
+		Level level = mock(Level.class);
+		GameController gc = new GameController(main, level);
+		
+		//Spy on the game
+		Game game = spy(gc.getGame());
+		gc.setGame(game);
+		
+		//Spy on the game controller
+		gc = spy(gc);
+		main.setController(gc);
 	}
 	
 	/**
@@ -267,7 +281,13 @@ public final class TestUtil extends TestBase {
 	 * 		the GameState to set
 	 */
 	public static void setGameState(GameState state) {
-		Main main = setupMainForTesting();
+		Main main;
+		if (!isMainMocked()) {
+			main = setupMainForTesting();
+		} else {
+			main = Main.getInstance();
+		}
+		
 		doReturn(state).when(main).getGameState();
 	}
 }

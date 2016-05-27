@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.util.Set;
 
 import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.util.webinterface.EntityUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,17 +64,16 @@ public final class JSONUtil {
 	}
 
 	/**
-	 * Convert a set of entities to a JSONObject representing this list.
+	 * Convert a set of entities to a JSONArray representing this list.
 	 *
 	 * @param entities
 	 * 		the entities to convert
 	 * @param player
 	 * 		the player
 	 * @return
-	 * 		a JSONObject representing the entities
+	 * 		a JSONArray representing the entities
 	 */
-	public static JSONObject entitiesToJson(Set<Entity> entities, Entity player) {
-		JSONObject json = new JSONObject();
+	public static JSONArray entitiesToJson(Set<Entity> entities, Entity player) {
 		JSONArray jArray = new JSONArray();
 
 		for (Entity e : entities) {
@@ -84,8 +84,7 @@ public final class JSONUtil {
 		JSONObject entity = entityToJson(player);
 		jArray.put(entity);
 
-		json.put("entities", jArray);
-		return json;
+		return jArray;
 	}
 
 	/**
