@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.font.BitmapFont;
+import com.jme3.input.DefaultJoystickAxis;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
 import com.jme3.input.KeyInput;
@@ -229,6 +230,7 @@ public class Main extends VRApplication {
 	/**
 	 * Setup all the key mappings.
 	 */
+	@SneakyThrows
 	protected void setupControlMappings() {
 		InputManager im = getInputManager();
 		
@@ -239,9 +241,9 @@ public class Main extends VRApplication {
 
 		if (isControllerConnected()) {
 			Joystick j = im.getJoysticks()[0];
-		
-						
-						
+
+			mapJoystickAxes(j);
+
 			j.getButton("0").assignButton("Jump");				// A
 			j.getButton("3").assignButton("Unmapped");			// Y
 			j.getButton("2").assignButton("Bomb");				// X
@@ -258,6 +260,23 @@ public class Main extends VRApplication {
 
 		im.addMapping("Exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
 		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+	}
+
+	/**
+	 * Maps the Joystick Axes to our game controls.
+	 * 
+	 * @param joystick
+	 * 		the joystick to map the axes of.
+	 */
+	private void mapJoystickAxes(Joystick joystick) {
+		//Set the deadzones to 0.3
+		if (joystick.getXAxis() instanceof DefaultJoystickAxis) {
+			((DefaultJoystickAxis) joystick.getXAxis()).setDeadZone(0.30f);
+			((DefaultJoystickAxis) joystick.getYAxis()).setDeadZone(0.30f);
+		}
+		
+		joystick.getXAxis().assignAxis("Right", "Left");
+		joystick.getYAxis().assignAxis("Up", "Down");
 	}
 	
 	/**
