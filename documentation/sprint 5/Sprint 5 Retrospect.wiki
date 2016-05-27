@@ -462,6 +462,28 @@ Every week, we also spend additional time that is not task related. Think about 
 <td>1.5</td>
 <td>We prepared the demo for the TA meeting.</td>
 </tr>
+<tr>
+<td rowspan=2>Create Backlog</td>
+<td>Everyone</td>
+<td>1</td>
+<td>The backlog for sprint 6 and the creation of issues.</td>
+</tr>
+<tr>
+<td>Taico</td>
+<td>1</td>
+<td>Taico spent an additional hour on this to create the backlog document itself and the issues on github.</td>
+</tr>
+<tr>
+<td rowspan=2>Create Retrospect</td>
+<td>Everyone</td>
+<td>1</td>
+<td>The retrospect for sprint 5.</td>
+</tr>
+<tr>
+<td>Taico</td>
+<td>1</td>
+<td>Taico spent an additional hour on this to create the retrospect document itself.</td>
+</tr>
 </table>
 
 = Main Problems Encountered =
