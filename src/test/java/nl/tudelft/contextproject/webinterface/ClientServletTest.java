@@ -5,10 +5,17 @@ import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jme3.math.Vector3f;
+import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.util.QRGenerator;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
@@ -583,6 +590,19 @@ public class ClientServletTest extends WebTestBase {
 
 		when(request.getParameter(anyString())).thenReturn("0");
 
+		Game mockedGame = mock(Game.class);
+		Level mockedLevel = mock(Level.class);
+		MazeTile mockedTile = mock(MazeTile.class);
+		VRPlayer mockedPlayer = mock(VRPlayer.class);
+
+		when(Main.getInstance().getCurrentGame()).thenReturn(mockedGame);
+		when(mockedGame.getLevel()).thenReturn(mockedLevel);
+		when(mockedLevel.getTile(anyInt(), anyInt())).thenReturn(mockedTile);
+		when(mockedTile.getTileType()).thenReturn(TileType.FLOOR);
+		when(mockedGame.getEntities()).thenReturn(new HashSet<>());
+		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
+		when(mockedPlayer.getLocation()).thenReturn(new Vector3f(1000, 1000, 1000));
+
 		servlet.requestAction(request, response);
 
 		//Some JSON should have been written
@@ -617,6 +637,19 @@ public class ClientServletTest extends WebTestBase {
 	@Test
 	public void testAttemptAction_correct() throws IOException {
 		HttpServletResponse response = createMockedResponse();
+
+		Game mockedGame = mock(Game.class);
+		Level mockedLevel = mock(Level.class);
+		MazeTile mockedTile = mock(MazeTile.class);
+		VRPlayer mockedPlayer = mock(VRPlayer.class);
+
+		when(Main.getInstance().getCurrentGame()).thenReturn(mockedGame);
+		when(mockedGame.getLevel()).thenReturn(mockedLevel);
+		when(mockedLevel.getTile(anyInt(), anyInt())).thenReturn(mockedTile);
+		when(mockedTile.getTileType()).thenReturn(TileType.FLOOR);
+		when(mockedGame.getEntities()).thenReturn(new HashSet<>());
+		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
+		when(mockedPlayer.getLocation()).thenReturn(new Vector3f(1000, 1000, 1000));
 
 		//Try to place a bomb as a dwarf
 		servlet.attemptAction(0, 0, "placebomb", "Dwarfs", response);
