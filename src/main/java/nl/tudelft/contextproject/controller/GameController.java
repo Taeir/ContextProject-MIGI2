@@ -358,18 +358,18 @@ public class GameController extends Controller {
 			EntityState state = e.getState();
 
 			switch (state) {
-			case DEAD:
-				removeDrawable(e);
-				i.remove();
-				break;
-			case NEW:
-				addDrawable(e);
-				e.setState(EntityState.ALIVE);
-				e.update(tpf);
-				break;
-			default:
-				e.update(tpf);
-				break;
+				case DEAD:
+					removeDrawable(e);
+					i.remove();
+					break;
+				case NEW:
+					addDrawable(e);
+					e.setState(EntityState.ALIVE);
+					e.update(tpf);
+					break;
+				default:
+					e.update(tpf);
+					break;
 			}
 		}
 	}

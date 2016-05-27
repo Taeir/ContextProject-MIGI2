@@ -37,6 +37,8 @@ import jmevr.app.VRApplication;
 import jmevr.util.VRGuiManager;
 import jmevr.util.VRGuiManager.POSITIONING_MODE;
 
+import lombok.SneakyThrows;
+
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
@@ -238,10 +240,7 @@ public class Main extends VRApplication {
 		if (isControllerConnected()) {
 			Joystick j = im.getJoysticks()[0];
 		
-			im.addMapping("Up", new JoyAxisTrigger(0, 0, true));
-			im.addMapping("Down", new JoyAxisTrigger(0, 0, false));
-			im.addMapping("Left", new JoyAxisTrigger(0, 1, true));
-			im.addMapping("Right", new JoyAxisTrigger(0, 1, false));			
+						
 						
 			j.getButton("0").assignButton("Jump");				// A
 			j.getButton("3").assignButton("Unmapped");			// Y
