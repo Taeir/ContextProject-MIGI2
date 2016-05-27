@@ -70,6 +70,7 @@ public class VRPlayerTest extends EntityTest {
 	@Test
 	public void testGetGeometryNull() {
 		setupGeometryMock();
+		player.setSpatial(null);
 		player.getSpatial();
 		verify(Main.getInstance(), times(1)).getAssetManager();
 	}
