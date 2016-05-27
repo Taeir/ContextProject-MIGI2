@@ -32,7 +32,6 @@ public class Bomb extends Entity implements PhysicsObject {
 		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
 		mat.setColor("Color", ColorRGBA.White);
 		sp.setMaterial(mat);
-		rb.activate();
 	}
 
 	@Override

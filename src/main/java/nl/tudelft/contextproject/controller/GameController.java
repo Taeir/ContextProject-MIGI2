@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.controller;
 import java.io.File;
 
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,7 +29,6 @@ import com.jme3.scene.shape.Quad;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
-import nl.tudelft.contextproject.model.entities.Bunny;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
@@ -129,21 +129,9 @@ public class GameController extends Controller {
 		width = (float) Main.getInstance().getSettings().getWidth();
 		}
 		//attach the keycounter
-		Picture keypicyellow = new Picture("key Picture");
-		keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-		keypicyellow.setWidth(width / 30);
-		keypicyellow.setHeight(height / 12);
-		keypicyellow.setPosition(width * 0.5f, 0);
-		Picture keypicred = new Picture("key2Picture");
-		keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-		keypicred.setWidth(width / 30);
-		keypicred.setHeight(height / 12);
-		keypicred.setPosition(width * 0.55f, 0);
-		Picture keypicblue = new Picture("key3Picture");
-		keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
-		keypicblue.setWidth(width / 30);
-		keypicblue.setHeight(height / 12);
-		keypicblue.setPosition(width * 0.6f, 0);
+		Picture keypicyellow = keyGUI(1, height, width);
+		Picture keypicred = keyGUI(2, height, width);
+		Picture keypicblue = keyGUI(3, height, width);
 		addGuiElement(keypicyellow);
 		addGuiElement(keypicred);
 		addGuiElement(keypicblue);
@@ -232,6 +220,41 @@ public class GameController extends Controller {
 				heart.setPosition((width / 2.3f), height / 1.1f);
 		}
 		return heart;
+	}
+	/**
+	 * Return a picture of a key at the right position on the HUD.
+	 * @param pos 
+	 * 		Position of the key
+	 * @param height
+	 * 		Height of the screen 
+	 * @param width
+	 * 		Width of the screen
+	 * @return Picture of the key
+	 */
+	public Picture keyGUI(int pos, float height, float width) {
+		Picture keypic = new Picture("key Picture");
+		if (pos == 1) {
+			keypic = new Picture("key Picture");
+			keypic.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+			keypic.setWidth(width / 30);
+			keypic.setHeight(height / 12);
+			keypic.setPosition(width * 0.5f, 0);
+		}
+		if (pos == 2) {
+			keypic = new Picture("key2Picture");
+			keypic.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+			keypic.setWidth(width / 30);
+			keypic.setHeight(height / 12);
+			keypic.setPosition(width * 0.55f, 0);
+		}
+		if (pos == 3) {
+			keypic = new Picture("key3Picture");
+			keypic.setImage(Main.getInstance().getAssetManager(), "Textures/emptykeyicon.png", true);
+			keypic.setWidth(width / 30);
+			keypic.setHeight(height / 12);
+			keypic.setPosition(width * 0.6f, 0);
+		}
+		return keypic;
 	}
 	/**
 	 * Attaches the current level to the renderer.
