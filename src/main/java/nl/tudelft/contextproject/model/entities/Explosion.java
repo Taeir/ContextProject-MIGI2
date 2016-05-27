@@ -17,6 +17,7 @@ public class Explosion extends Entity {
 	private float maxRadius;
 	private Spatial spatial;
 	private VRPlayer player;
+	private float timer;
 
 	/**
 	 * Create an explosion with a certain maximal radius.
@@ -28,15 +29,15 @@ public class Explosion extends Entity {
 		this.maxRadius = radius;
 		this.player = Main.getInstance().getCurrentGame().getPlayer();
 	}
-	
+
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-
+		timer = 0f;
 		Sphere b = new Sphere(10, 10, .1f);
 		spatial = new Geometry("BOOM!", b);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Orange);
+		mat.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/explosion.png"));
 		spatial.setMaterial(mat);
 		return spatial;
 	}
@@ -53,11 +54,11 @@ public class Explosion extends Entity {
 			setState(EntityState.DEAD);
 			return;
 		}
-		if (collidesWithPlayer(scale.x / 2f)) {
-			//TODO Main.getInstance().getCurrentGame().getPlayer().damage(tpf);
-			System.out.println("BAM!");
+		if (collidesWithPlayer(scale.x / 5f)) {
+			player.takeDamage(tpf);
 		}
-		float m = 4 * tpf;
+
+		float m = maxRadius * tpf;
 		spatial.setLocalScale(scale.x + m);
 	}
 

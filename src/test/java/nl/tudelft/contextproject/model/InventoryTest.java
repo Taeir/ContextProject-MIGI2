@@ -1,26 +1,16 @@
 package nl.tudelft.contextproject.model;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
+import org.junit.Before;
+import org.junit.Test;
 
-import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.TestBase;
-
-import com.jme3.asset.AssetKey;
-import com.jme3.asset.AssetManager;
-import com.jme3.material.MatParam;
-import com.jme3.material.MaterialDef;
 import com.jme3.math.ColorRGBA;
 
+import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Door;
 import nl.tudelft.contextproject.model.entities.Key;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Test class for the Key class.
@@ -34,7 +24,6 @@ public class InventoryTest extends TestBase {
 	 */
 	@Before
 	public void setUp() {
-		setupGeometryMock();
 		inv = new Inventory();
 	}
 
@@ -247,21 +236,25 @@ public class InventoryTest extends TestBase {
 		inv.remove(door);
 		assertSame(currentsize, inv.size());
 	}
-
+	
 	/**
-	 * Setup the mocks in the Main class.
-	 * This method is copied from the Entity test.
+	 * Tests the number of keys method.
 	 */
-	@SuppressWarnings("unchecked")
-	public void setupGeometryMock() {
-		Main mockedMain = mock(Main.class);
-		AssetManager mockedAssetManager = mock(AssetManager.class);
-		MaterialDef mockedMaterialDef = mock(MaterialDef.class);
-		MatParam mockedMatParam = mock(MatParam.class);
-		Main.setInstance(mockedMain);
-		when(mockedMain.getAssetManager()).thenReturn(mockedAssetManager);
-		when(mockedAssetManager.loadAsset(any(AssetKey.class))).thenReturn(mockedMaterialDef);
-		when(mockedMaterialDef.getMaterialParams()).thenReturn(new ArrayList<>());
-		when(mockedMaterialDef.getMaterialParam(anyString())).thenReturn(mockedMatParam);
+	@Test
+	public void testNumberOfKeys() {
+		inv.add(new Key(ColorRGBA.Yellow));
+		inv.add(new Key(ColorRGBA.Red));
+		assertEquals(inv.numberOfKeys(), 2);
+	}
+	
+	/**
+	 * Tests the number of bombs method.
+	 */
+	@Test
+	public void testNumberOfBombs() {
+		inv.add(new Bomb());
+		inv.add(new Bomb());
+		inv.add(new Bomb());
+		assertEquals(inv.numberOfBombs(), 3);
 	}
 }

@@ -36,7 +36,7 @@ public class BunnyAI implements EntityControl {
 	public void move(float tpf) {
 		float playerdist = player.getLocation().distance(owner.getLocation());
 		if (playerdist < .4) {
-//TODO			player.damage(tpf * DAMAGE);
+			player.takeDamage(tpf * 2);
 			return;
 		}
 		

@@ -3,10 +3,13 @@ package nl.tudelft.contextproject;
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.Arrays;
+
+
 import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.font.BitmapFont;
 import com.jme3.input.DefaultJoystickAxis;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
@@ -31,6 +34,8 @@ import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
 import jmevr.app.VRApplication;
+import jmevr.util.VRGuiManager;
+import jmevr.util.VRGuiManager.POSITIONING_MODE;
 
 import lombok.SneakyThrows;
 
@@ -40,7 +45,7 @@ import lombok.SneakyThrows;
 public class Main extends VRApplication {
 	public static final int PORT_NUMBER = 8080;
 	//Set to false to disable VR
-	public static final boolean VR = false;
+	public static final boolean VR = true;
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
@@ -53,7 +58,8 @@ public class Main extends VRApplication {
 	private Controller controller;
 	private WebServer webServer;
 	private List<TickListener> tickListeners = new LinkedList<>();
-
+	private BitmapFont guifont;
+	
 	/**
 	 * Main method that is called when the program is started.
 	 *
@@ -78,7 +84,7 @@ public class Main extends VRApplication {
 		//Runs faster when set to false, but will allow mirroring
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, MIRROR_WINDOW);
 		//Render two eyes, regardless of SteamVR
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
 		//Show gui even if it is behind things
@@ -188,10 +194,17 @@ public class Main extends VRApplication {
 			Log.getLog("VR").info("Attached device: No");
 		}
 		
+		guifont = getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
 		
+		VRGuiManager.setPositioningMode(POSITIONING_MODE.AUTO_CAM_ALL);
+		VRGuiManager.setGuiScale(0.50f);
+		VRGuiManager.setPositioningElasticity(0f);
+		
 		setupControlMappings();
+		
 		
 		setController(new WaitingController(this));
 		setupWebServer();
@@ -212,19 +225,6 @@ public class Main extends VRApplication {
 				onGameStopped();
 			}
 		});
-	}
-
-	/**
-	 * Opens the QR code to join the game in the default browser.
-	 */
-	private void showQRCode() {
-		if (Desktop.isDesktopSupported()) {
-			try {
-				Desktop.getDesktop().browse(new URI("http://localhost:8080/qr"));
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class Main extends VRApplication {
 	 * Maps the Joystick Axes to our game controls.
 	 * 
 	 * @param joystick
-	 * 		the joystick to map the axes of.
+	 * 		the joystick to map the axes of
 	 */
 	private void mapJoystickAxes(Joystick joystick) {
 		//Set the deadzones to 0.3
@@ -346,6 +346,18 @@ public class Main extends VRApplication {
 		}
 		return instance;
 	}
+	/**
+	 * Opens the QR code to join the game in the default browser.
+	 */
+	private void showQRCode() {
+		if (Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(new URI("http://localhost:8080/qr"));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 	
 	/**
 	 * Get the current game state.
@@ -375,7 +387,7 @@ public class Main extends VRApplication {
 	 * Check if the qr code is shown on startup.
 	 *
 	 * @return
-	 * 		true when shown, false otherwise.
+	 * 		true when shown, false otherwise
 	 */
 	public static boolean isQRShown() {
 		return !hideQR;
@@ -385,12 +397,32 @@ public class Main extends VRApplication {
 	 * Check if a controller is connected.
 	 *
 	 * @return
-	 * 		true if a controller is connected, false otherwise.
+	 * 		true if a controller is connected, false otherwise
 	 */
 	public boolean isControllerConnected() {
 		Joystick[] sticks = getInputManager().getJoysticks();
 		return sticks != null && sticks.length > 0;
 	}
 	
+	/**
+	 * Returns the BitmapFont.
+	 * 
+	 * @return 
+	 * 		the BitmapFont
+	 */
+	public BitmapFont getGuiFont() {
+		return guifont;
+	}
 	
+
+	
+	/**
+	 * Returns the Controller.
+	 * 
+	 * @return 
+	 * 		the Controller
+	 */
+	public Controller getController() {
+		return controller;
+	}
 }
