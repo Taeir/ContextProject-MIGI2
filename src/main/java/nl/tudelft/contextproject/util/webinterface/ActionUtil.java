@@ -58,7 +58,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	protected static void placeBomb(int xCoord, int yCoord) {
+	private static void placeBomb(int xCoord, int yCoord) {
 		Bomb bomb = new Bomb();
 		bomb.move(xCoord, 1, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(bomb);
@@ -72,7 +72,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	protected static void placePitfall(int xCoord, int yCoord) {
+	private static void placePitfall(int xCoord, int yCoord) {
 		Pitfall pitfall = new Pitfall(1);
 		pitfall.move(xCoord, 0, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(pitfall);
@@ -86,7 +86,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	protected static void placeMine(int xCoord, int yCoord) {
+	private static void placeMine(int xCoord, int yCoord) {
 		LandMine landmine = new LandMine();
 		landmine.move(xCoord, 0, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(landmine);
@@ -100,7 +100,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	protected static void spawnEnemy(int xCoord, int yCoord) {
+	private static void spawnEnemy(int xCoord, int yCoord) {
 		KillerBunny bunny = new KillerBunny(new Vector3f(xCoord, 1, yCoord));
 		Main.getInstance().getCurrentGame().addEntity(bunny);
 	}
@@ -113,7 +113,7 @@ public final class ActionUtil {
 	 * @param yCoord
 	 * 		the y coordinate to use
 	 */
-	protected static void dropBait(int xCoord, int yCoord) {
+	private static void dropBait(int xCoord, int yCoord) {
 		Carrot carrot = new Carrot();
 		carrot.move(xCoord, 1, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(carrot);
