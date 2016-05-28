@@ -47,9 +47,9 @@ public class LandMine extends PlayerTrigger {
 	
 	@Override
 	public void onTrigger() {
-		Explosion e = new Explosion(10);
+		Explosion e = new Explosion(20f);
 		Vector3f m = getLocation();
-		e.move(m.x, m.y + 1, m.z);
+		e.move(m.x, m.y, m.z);
 		Main.getInstance().getCurrentGame().addEntity(e);
 		this.setState(EntityState.DEAD);
 	}

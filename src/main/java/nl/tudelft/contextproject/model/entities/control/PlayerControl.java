@@ -56,7 +56,7 @@ public class PlayerControl implements EntityControl, ActionListener {
 		if (!(owner instanceof VRPlayer)) throw new IllegalArgumentException("The owner must be a player.");
 		this.owner = (VRPlayer) owner;
 		spatial = owner.getSpatial();
-		playerControl = (CharacterControl) this.owner.getPhysicsObject();
+		playerControl = this.owner.getPhysicsObject();
 	}
 	
 	@Override

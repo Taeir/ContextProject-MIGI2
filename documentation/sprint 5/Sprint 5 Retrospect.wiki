@@ -1,0 +1,498 @@
+= Sprint Retrospective, Iteration #5 =
+Context Project: Computer Games<br />
+Group: MIGI 2
+
+= Backlog sprint items =
+
+In here sprint items that were described in the backlog of this sprint are discussed.
+
+<table>
+<tr>
+<td>'''User Story'''</td>
+<td>'''Task'''</td>
+<td>'''Task assigned to'''</td>
+<td>'''Priority''' (A highest)</td>
+<td>'''Estimated Effort Per Task''' (in hours)</td>
+<td>'''Actual Effort Per Task''' (in hours)</td>
+<td>'''Done'''</td>
+<td>'''Notes'''</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/121 '''#121 VR support''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/123 #123 Implement VR]</td>
+<td>Taico</td>
+<td>A</td>
+<td>4</td>
+<td>6.5*</td>
+<td>yes</td>
+<td>4.5 hours Taico, 2 hours Robin. 
+Took more time because there were some issues with tests and VR.</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/151 '''#151 Update Maze Generation''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/152 #152 Improved Corridors]</td>
+<td>Robin</td>
+<td>A</td>
+<td>8</td>
+<td>10</td>
+<td>no</td>
+<td>While this is done, it was not able to be merged since this task had unforeseen dependencies in refactoring room and map loading. See explanation below for [https://github.com/Taeir/ContextProject-MIGI2/issues/293 #293].</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/153 #153 Start Location]</td>
+<td>Robin</td>
+<td>A</td>
+<td>4</td>
+<td>0</td>
+<td>no</td>
+<td>Room loading had to be refactored in order to update maze generation.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/202 #202 Create ten rooms]</td>
+<td>Robin</td>
+<td>B</td>
+<td>5</td>
+<td>5</td>
+<td>no</td>
+<td>While rooms were created, they are used for the test classes and not for playtesting.</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/139 '''#139 Second Screen''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/133 #133 Show QR Codes]</td>
+<td>Wytze</td>
+<td>A</td>
+<td>1</td>
+<td>1*</td>
+<td>yes</td>
+<td>Task taken over by Taico</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/203 '''#203 Web Interface''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/204 #204 Actions per team]</td>
+<td>Bram</td>
+<td>A</td>
+<td>8</td>
+<td>8</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/205 #205 Placement restrictions]</td>
+<td>Bram</td>
+<td>A</td>
+<td>3</td>
+<td>2</td>
+<td>yes*</td>
+<td>The limitation for where items can be placed has been implemented, the limit for how many/how often will be a task in the next sprint.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/206 #206 Fullscreen]</td>
+<td>Bram</td>
+<td>D</td>
+<td>2</td>
+<td>1</td>
+<td>yes</td>
+<td>Easier than expected.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/207 '''#207 Refactoring''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/208 #208 Refactoring Comments and Javadocs]</td>
+<td>Bram</td>
+<td>A</td>
+<td>3</td>
+<td>8</td>
+<td>yes</td>
+<td>The refactoring highlighted other problems in the code, and in the PR review, a lot of additional issues were discussed and addressed.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/209 #209 Refactoring Packages]</td>
+<td>Bram</td>
+<td>A</td>
+<td>1</td>
+<td>1</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/210 '''#210 Controller Improvements''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/211 #211 Improve Walking]</td>
+<td>Chiel</td>
+<td>A</td>
+<td>4</td>
+<td>1*</td>
+<td>yes*</td>
+<td>Task done by Taico.
+
+We have implemented 8 way movement, which turned out to work pretty well.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/212 #212 Improve Key Mappings]</td>
+<td>Chiel</td>
+<td>A</td>
+<td>1</td>
+<td>0</td>
+<td>no</td>
+<td>Controller mappings turned out to be pretty okay in VR, so this task was not necessary.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/213 '''#213 Landmines''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/214 #214 Landmine Entity]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>4</td>
+<td>4</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/215 #215 Explosions]</td>
+<td>Taico</td>
+<td>C</td>
+<td>4</td>
+<td>*</td>
+<td>yes</td>
+<td>Task done by Wytze and Chiel, 1 hour each.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/216 '''#216 Wall Frames''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/217 #217 Remove size restrictions]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>4</td>
+<td>3</td>
+<td>yes</td>
+<td>Slightly less work than expected</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/218 #218 Fix MenuLevel with changes]</td>
+<td>Chiel</td>
+<td>C</td>
+<td>1</td>
+<td>0</td>
+<td>yes</td>
+<td>Update to the menu level turned out to be very minor.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/219 '''#219 Pitfalls''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/220 #220 Pitfall Entity]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>4</td>
+<td>2</td>
+<td>yes</td>
+<td>Less work than expected.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/221 #221 Player Interaction]</td>
+<td>Chiel</td>
+<td>C</td>
+<td>1</td>
+<td>1</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/222 '''#222 Health''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/223 #223 Implement Health Mechanic]</td>
+<td>Wytze</td>
+<td>B</td>
+<td>4</td>
+<td>2</td>
+<td>yes</td>
+<td>Implementation of health was quite easy, implementation in the HUD turned out to be the more difficult part.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/224 #224 Show Health in HUD]</td>
+<td>Wytze</td>
+<td>D</td>
+<td>1</td>
+<td>1</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/225 #225 Create graphics for health in HUD]</td>
+<td>Wytze</td>
+<td>D</td>
+<td>1</td>
+<td>1</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/226 '''#226 HUD''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/227 #227 Implement HUD]</td>
+<td>Wytze</td>
+<td>B</td>
+<td>2</td>
+<td>4</td>
+<td>yes</td>
+<td>Code had to be modified with the help of Taico in order to make it compatible with VR.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/228 #228 Link HUD with Inventory]</td>
+<td>Wytze</td>
+<td>C</td>
+<td>2</td>
+<td>2</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/229 #229 Graphics for HUD]</td>
+<td>Wytze</td>
+<td>D</td>
+<td>3</td>
+<td>1</td>
+<td>yes</td>
+<td>Graphics could easily be reused.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/230 '''#230 Cave looks and feel''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/231 #231 Create Cave Textures]</td>
+<td>Wytze</td>
+<td>B</td>
+<td>4</td>
+<td>5</td>
+<td>yes</td>
+<td>Textures simply take a lot of time to create.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/232 #232 Create Models]</td>
+<td>Wytze</td>
+<td>B</td>
+<td>5</td>
+<td>11</td>
+<td>no</td>
+<td>Models turned out to be a lot harder to create than expected. The implementation in the game will also require more work.</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/233 '''#233 Maze Exploration''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/233 #233 Track Exploration]</td>
+<td>Taico</td>
+<td>A</td>
+<td>3</td>
+<td>1.5</td>
+<td>yes</td>
+<td>Our framework allowed for easy implementation of exploration.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/234 '''#234 Animations''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/235 #235 Implement Animations]</td>
+<td>Taico</td>
+<td>C</td>
+<td>4</td>
+<td>1.5</td>
+<td>no</td>
+<td>Not enough time left. The implementation is done, apart from the tests.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/236 #236 Explosion Animation]</td>
+<td>Taico</td>
+<td>D</td>
+<td>6</td>
+<td>0.5</td>
+<td>no</td>
+<td>When I discovered that creating animations would require a ton more work, I moved my focus to other tasks.</td>
+</tr>
+</table>
+
+= Old and unplanned sprint items =
+
+Here old items from previous sprints that were not included in the backlog or unplanned sprint items that appeared during the sprint are discussed.
+
+<table>
+<tr>
+<td>'''Item or category'''</td>
+<td>'''Task'''</td>
+<td>'''Task assigned to'''</td>
+<td>'''Priority''' (A highest)</td>
+<td>'''Effort per Task''' (in hours)</td>
+<td>'''Done'''</td>
+<td>'''Notes'''<br />(Discuss why item was added to this sprint and status of item if not completed)</td>
+</tr>
+<tr>
+<td rowspan=9>'''Unplanned Tasks'''</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/293 #293 Refactor Room and map loading]</td>
+<td>Robin</td>
+<td>A</td>
+<td>8</td>
+<td>no</td>
+<td>The current structure did not contain the correct information to update maze generation, thus had to be rewritten and expanded upon. This took a lot of extra time, and since it is not fully tested yet, we were not able to merge this part this sprint.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/246 #246 Fix Travis and Maven log]</td>
+<td>Robin</td>
+<td>C</td>
+<td>2</td>
+<td>yes</td>
+<td>The testing log of Travis and Maven contained a lot of logging that was not related to the tests. Thus this was removed to make the logs of Maven and Travis readable.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/259 #259 Refactor code quality]</td>
+<td>Chiel</td>
+<td>-</td>
+<td>3</td>
+<td>yes</td>
+<td>Made code improvements based on feedback by Jurgen.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/265 #265 Add Killer Bunnies (Enemies)]</td>
+<td>Chiel</td>
+<td>-</td>
+<td>2</td>
+<td>yes</td>
+<td>Chiel had time left, and we decided that this feature would be best to implement, as it would also give the elves their first action ([https://github.com/Taeir/ContextProject-MIGI2/issues/267 #267 - Bait]).</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/267 #267 Add Bait to distract Killer Bunnies]</td>
+<td>Chiel</td>
+<td>-</td>
+<td>2.5</td>
+<td>yes</td>
+<td>Implemented bait (carrots) and implement that enemies are distracted temporarily by bait (carrots). See also [https://github.com/Taeir/ContextProject-MIGI2/issues/265 #265].</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/276 #276 Reduce WebInterface delay]</td>
+<td>Bram</td>
+<td>-</td>
+<td>2</td>
+<td>yes</td>
+<td>The clients now only send one request to the server, and get everything they need in one response.</td>
+</tr>
+<tr>
+<td>Refactoring webinterface client code</td>
+<td>Bram</td>
+<td>-</td>
+<td>2</td>
+<td>yes</td>
+<td>Refactored some of the HTML and CSS. Done in [https://github.com/Taeir/ContextProject-MIGI2/issues/263 #263].</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/245 #245 Fixed ConcurrentModificationException bug]</td>
+<td>Taico</td>
+<td>-</td>
+<td>0.5</td>
+<td>yes</td>
+<td>Fixed a bug in the code</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/248 #248 Refactored tests]</td>
+<td>Taico</td>
+<td>-</td>
+<td>4.5</td>
+<td>yes</td>
+<td>Changed the TestUtil to better mock the game and refactored tests to make use of this.</td>
+</tr>
+<tr>
+<td rowspan='2'>Other</td>
+<td>Update EAD</td>
+<td>Robin</td>
+<td>-</td>
+<td>2</td>
+<td>yes</td>
+<td>Updated the Emergent Architecture Design with the changes made in the refactoring.</td>
+</tr>
+<tr>
+<td>Presentation</td>
+<td>Taico</td>
+<td>-</td>
+<td>3</td>
+<td>yes</td>
+<td>Preparation for the game presentation on Tuesday.</td>
+</tr>
+</table>
+
+= Pull requests =
+
+Every week, each group member also reviews pull requests of other members. Since we put a lot of time into this we also want to document time spent reviewing a separate table.
+
+{|
+! '''Group Member name'''
+! '''Time Spent Reviewing and creating Pull Requests (in hours)'''
+|-
+| Robin
+| 5.5
+|-
+| Bram
+| 4
+|-
+| Taico
+| 7
+|-
+| Wytze
+| 2.5
+|-
+| Chiel
+| 4
+|}
+
+= Additional time spent =
+
+Every week, we also spend additional time that is not task related. Think about lectures, meetings, presentations, etcetera.
+
+<table>
+<tr>
+<td>'''Item'''</td>
+<td>'''People Involved'''</td>
+<td>'''Effort''' (in hours)</td>
+<td>'''Description'''</td>
+</tr>
+<tr>
+<td>Meetings</td>
+<td>Everyone</td>
+<td>6</td>
+<td>Sprint meetings, backlog and retrospect meetings and TA meeting</td>
+</tr>
+<tr>
+<td>Presentation</td>
+<td>Everyone</td>
+<td>3</td>
+<td>The MidTerm status update presentations and it's preparation.</td>
+</tr>
+<tr>
+<td>VR Testing</td>
+<td>Everyone</td>
+<td>2</td>
+<td>We playtested our game to see if VR was working.</td>
+</tr>
+<tr>
+<td>Prepare Demo</td>
+<td>Everyone</td>
+<td>1.5</td>
+<td>We prepared the demo for the TA meeting.</td>
+</tr>
+<tr>
+<td rowspan=2>Create Backlog</td>
+<td>Everyone</td>
+<td>1</td>
+<td>The backlog for sprint 6 and the creation of issues.</td>
+</tr>
+<tr>
+<td>Taico</td>
+<td>1</td>
+<td>Taico spent an additional hour on this to create the backlog document itself and the issues on github.</td>
+</tr>
+<tr>
+<td rowspan=2>Create Retrospect</td>
+<td>Everyone</td>
+<td>1</td>
+<td>The retrospect for sprint 5.</td>
+</tr>
+<tr>
+<td>Taico</td>
+<td>1</td>
+<td>Taico spent an additional hour on this to create the retrospect document itself.</td>
+</tr>
+</table>
+
+= Main Problems Encountered =
+
+== Problem 1: Maze Generation ==
+
+'''Description:''' The maze generation cost a lot more time than actually planned. The root of the problem was that no-one actually knew the amount of information that was needed to generate the maze. Thus when an algorithm was created, the framework was not able to handle the required information. This meant that a lot of the room loading had to be refactored.
+
+'''Reaction:''' The one who was responsible for the maze generation (Robin) refactored large parts of the code base and added a lot of extra classes to handle the extra data. The Maze generation should be done at the end of the next sprint.
+
+= Adjustments for the next Sprint Plan =
+We think we did pretty well this sprint, and don't have any adjustments planned.

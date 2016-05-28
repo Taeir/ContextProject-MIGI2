@@ -1,0 +1,413 @@
+= Sprint Backlog, Iteration #6 =
+Context project: Computer games<br />
+Group: MIGI2
+
+<table>
+<tr>
+<td>'''User Story'''</td>
+<td>'''Task'''</td>
+<td>'''Member responsible for task'''</td>
+<td>'''Task Assigned To'''</td>
+<td>'''Estimated Effort per Task''' (in hours)</td>
+<td>'''Priority (A-E)<br />'''(A is highest)</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/277 '''#277 - Models for bunnies and carrots''']<br />
+As a player, I want to be able to see bunnies and carrot instead of basic shapes, so that I'm more immersed in the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/278 #278 - Model for bunnies]<br />
+Implement models for bunnies</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>5</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/279 #279 - Model for carrots]<br />
+Implement models for carrots</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>5</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/280 '''#280 - Webinterface''']<br />
+As a player, I want a nice looking interface which limits my actions, so the game is fun and challenging to play.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/281 #281 - Redesign]<br />
+Make the webpage look nicer by using materialize.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>10</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/282 #282 - Add legend]<br />
+The player should have a legend explaining what all colours on the map represent.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/283 #283 - Implement cooldown]<br />
+The players should be limited in the amount of actions they can perform over a certain amount of time.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/284 '''#284 - Websockets''']<br />
+As a player, I want the web interface to be responsive, so that my actions happen immediately.
+
+As a player, I want the web interface to update quickly, so that I can see what's happening in the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/285 #285 - Explore possibilities]<br />
+Look into different frameworks available for websockets, to decide which one is most suitable for us.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/286 #286 - Implement websockets - Clientside]<br />
+Implement web sockets into the client</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/287 #287 - Implement websockets - Serverside]<br />
+Implement web sockets into the server side</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>7</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/288 #288 - Test client server interaction]<br />
+Both manual and automatic testing needs to be done of the websockets.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/289 '''#289 - Dynamic lighting model''']<br />
+As a player, I want lights to look different if they are connected to a wall or the ceiling, so the game is more immersive.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/290 #290 - Lamp and torch model]<br />
+Implement models for Lamps and torches.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>5</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/291 #291 - Dynamically place lights.]<br />
+Make lights snap to walls/ceilings depending on where they are placed.</td>
+<td>Wytze</td>
+<td>Bram</td>
+<td>4</td>
+<td>D</td>
+</tr>
+<tr>
+<td rowspan=8>[https://github.com/Taeir/ContextProject-MIGI2/issues/292 '''#292 - Cave generation''']<br />
+As a player, I want the game to have realistic cave generation, so that I'm more immersed in the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/293 #293 - Creation of extra datastructres]<br />
+In order to be able to do the algorithms for maze generation, the data of the rooms must be stored differently.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/294 #294 - Place start and treasure room randomly]<br />
+The start and treasure room of the maze should be placed randomly and away from each other.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/295 #295 - Place other rooms]<br />
+Other rooms should be randomly placed untill desired density has been reached.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/296 #296 - Creation of edges between entrance and exit doors]<br />
+In order to create a Minimum Spanning tree, the correct edges have to be created.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/297 #297 - Minimum spanning tree algorithm]<br />
+Modify an existing minimum spanning tree algorithm to fit to our conditions.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>5</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/298 #298 - Corridor carving by breadth first search]<br />
+Implement breadth first search on the mazeTile[][] map from one entrance door to an exit door.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/299 #299 - Corridor carving by breadth first search]<br />
+Implement breadth first search on the TileType[][] map from one entrance door to an exit door.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/300 #300 - Corridor beatification]<br />
+Add some noise to corridors so that they look more natural and less like straight lines.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>2</td>
+<td>D</td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/301 '''#301 - Player testing''']<br />
+As a developer, I want to have game play testing feedback, so that the gameplay of the game is improved.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/161 #161 - Write Testing Document]<br />
+Write the gameplay testing document. (Task of sprint 4)</td>
+<td>Robin</td>
+<td>Taico</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/302 #302 - Recruitment of player testers]<br />
+In order to play tests, there should be play testers. They will be recruited from the student association "De Bolk".</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>1.5</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/303 #303 - Play test]<br />
+The play testing should take place at some location. Needs 2 developers to ensure everything goes smoothly and is recorded properly.</td>
+<td>Robin</td>
+<td>Robin, Taico</td>
+<td>2</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/304 #304 - Process play testing results]<br />
+Play testing results should be reported on so they can be taken into account into meetings and the next sprint backlog.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/305 '''#305 - Presentation''']<br />
+As a developer, I want to present my game well, so that I get a good grade on the project.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/306 #306 - Interaction Design Meeting]<br />
+Prepare the demo for the Interaction Design Meeting</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/307 #307 - Prepare for the Stakeholders meeting]<br />
+Prepare the demo for the Stakeholders meeting</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/309 '''#309 - Key colors''']<br />
+As a player, I want to have more colors for keys, so that I can open more doors.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/309 #309 - Key colors]<br />
+Improve the HUD to support more key colors.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/310 '''#310 - Bomb improvements''']<br />
+As a player, I want more interesting bomb mechanics, so that the game becomes more fun.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/311 #311 - Bomb inventory slot]<br />
+Create a separate inventory slot that only holds one bomb.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/312 #312 - Improve timer]<br />
+Make the timers start when the bomb is picked up instead of when it is placed down.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/313 #313 - Add bomb holding to HUD]<br />
+Add a visual indicator to the HUD that the player is holding a bomb.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/314 '''#314 - Void platforms''']<br />
+As an elf, I want to be able to place platforms above the void, so that I can help the VR player.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/314 #314 - Void platforms]<br />
+Add void platform entities to the game.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>5</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/315 '''#315 - Win Conditions''']<br />
+As a player, I want a way to win the game, so that I can win the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/316 #316 - Add ending mechanic]<br />
+Improve the code to support ending the game.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/317 #317 - Treasure.]<br />
+Add a treasure entity to the game.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/318 #318 - Countdown timer]<br />
+Add a countdown to the game that allows the dwarfs to win.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/319 '''#319 - Roof''']<br />
+As a developer, I want a way to add a roof to the maze, so that the game has a proper roof.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/319 #319 - Roof]<br />
+Improve the code to support adding a roof to the game</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>D</td>
+</tr>
+</table>
+
+== Explanation for priorities of sprint items ==
+
+<table>
+<tr>
+<td>'''Task(s)'''</td>
+<td>'''Explanation'''</td>
+</tr>
+<tr>
+<td>278, 279</td>
+<td>Models are not required for the game to run, but are required for overall immersion.</td>
+</tr>
+<tr>
+<td>281</td>
+<td>A nice interface is not required for the gameplay, but it would make the game a lot nicer to play.</td>
+</tr>
+<tr>
+<td>282</td>
+<td>The game will still work as intended without a legend, but having a legend would drastically decrease the learning curve.</td>
+</tr>
+<tr>
+<td>283</td>
+<td>Without cooldowns, players would become overpowered, which would ruin the gameplay.</td>
+</tr>
+<tr>
+<td>285, 286, 287</td>
+<td>It looks like our current method of server-client communication isn't going to cut it with the new Maze Generation and larger maps, so this feature is of high importance, but not critical.</td>
+</tr>
+<tr>
+<td>288</td>
+<td>Depends on all other subtasks of websockets.</td>
+</tr>
+<tr>
+<td>290</td>
+<td>Models are not required for the game to run, we do need sources for our lights.</td>
+</tr>
+<tr>
+<td>291</td>
+<td>Depends on [https://github.com/Taeir/ContextProject-MIGI2/issues/290 #290], and without the snapping the game would still work as intended, but would be less pleasing to look at.</td>
+</tr>
+<tr>
+<td>293</td>
+<td>Maze/cave generation should be done as soon as possible so that the developers can focus on other important features of the game, this is needed first so it should be done first.</td>
+</tr>
+<tr>
+<td>294, 295, 296, 297, 298, 299</td>
+<td>Requires Creation of extra datastructres to be complete, but functionality is just as important.</td>
+</tr>
+<tr>
+<td>300</td>
+<td>All above functionality is more important, but this should be implemented if times allows for it.</td>
+</tr>
+<tr>
+<td>161, 303</td>
+<td>We want to have a playtest session on Thursday, so this task must be completed before then.</td>
+</tr>
+<tr>
+<td>302</td>
+<td>You cannot do playtesting without actual play testers.</td>
+</tr>
+<tr>
+<td>304</td>
+<td>Requires the other two subtask to be complete.</td>
+</tr>
+<tr>
+<td>306</td>
+<td>Has to be done before Monday.</td>
+</tr>
+<tr>
+<td>307</td>
+<td>Task has to be done before Friday.</td>
+</tr>
+<tr>
+<td>309</td>
+<td>Not vital for the game, but pretty useful.</td>
+</tr>
+<tr>
+<td>311</td>
+<td>We believe this feature would improve gameplay, and as such deem it pretty important.</td>
+</tr>
+<tr>
+<td>312, 313</td>
+<td>Depends on the bomb inventory slot task.</td>
+</tr>
+<tr>
+<td>314</td>
+<td>Elves don't have a lot of features yet, so this feature is pretty important.</td>
+</tr>
+<tr>
+<td>316, 318</td>
+<td>Essential for the game. Without winning conditions, we have no real game.</td>
+</tr>
+<tr>
+<td>317</td>
+<td>Depends on the ending mechanic.</td>
+</tr>
+<tr>
+<td>319</td>
+<td>Not required for the game, but improves immersiveness.</td>
+</tr>
+</table>
