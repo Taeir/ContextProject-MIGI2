@@ -15,9 +15,7 @@ public class RoomNode {
 	public static final int MINIMUM_DISTANCE_BETWEEN_ROOMNODES = 2;
 	
 	public Boolean used;
-	public int xCoordinate;
-	public int yCoordinate;
-	public RoomRotation roomRotation;
+	public Vec2I coordinates;
 	public Room room;
 	public ArrayList<RoomEntrancePoint> entrances;
 	public ArrayList<RoomExitPoint> exits;
@@ -61,93 +59,91 @@ public class RoomNode {
 	/**
 	 * Scan Tile type and room to see if it possible to place the room.
 	 * @param tiles
+	 * 				possible tiles
 	 * @param rotation
-	 * @param xCoordinate
-	 * @param yCoordinate
+	 * 				possible rotation
+	 * @param coordinates
+	 * 				location
 	 * @return
+	 * 				true if placement of RoomNode at xCoordinate, yCoordinate with Rotation of rotation is possible 
 	 */
-	public boolean scanPossiblePlacement(TileType[][] tiles, RoomRotation rotation, int xCoordinate,
-			int yCoordinate) {
+	public boolean scanPossiblePlacement(TileType[][] tiles, Vec2I coordinates) {
 	
-		if (checkBoundaryCollision(tiles, rotation, xCoordinate, yCoordinate)) {
+		if (checkBoundaryCollision(tiles, coordinates)) {
 			return false;
+		}
+		
+		if (checkRoomOverlap(tiles, coordinates)) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check if RoomNode at location would overlap with existing rooms.
+	 * Boundaries should have been checked before this is called.
+	 * @param tiles
+	 * 				tiles map
+	 * @param coordinates
+	 * 				location
+	 * @return
+	 * 				true if room overlaps with existing room
+	 */
+	public boolean checkRoomOverlap(TileType[][] tiles, Vec2I coordinates) {
+		int xSize = room.size.getWidth();
+		int ySize = room.size.getHeight();
+		for (int x = coordinates.x; x < coordinates.x + xSize; x++) {
+			for (int y = coordinates.y; y < coordinates.y + ySize; y++) {
+				if (checkTileOverlap(tiles, coordinates)) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
+
+	/**
+	 * Checks if tile intersects with existing tile.
+	 * @param tiles
+	 * 				map of tiles
+	 * @param coordinates
+	 * 				location
+	 * @return
+	 * 				true if room overlaps with existing tile. 
+	 */
+	public boolean checkTileOverlap(TileType[][] tiles, Vec2I coordinates) {
+		return false;
+	}
+	
+		
 
 	/**
 	 * Check boundaries of the tiles map.
 	 * @param tiles
 	 * 				map to be checked
-	 * @param rotation
-	 * 				possible rotation
-	 * @param xCoordinate
-	 * 				possible x coordinate
-	 * @param yCoordinate
-	 * 				possible y coordinate
+	 * @param coordinates
+	 * 				location
 	 * @return
-	 * 				true if there is a collision
+	 * 				true if there is a collision, false if there is none
 	 */
-	public boolean checkBoundaryCollision(TileType[][] tiles, RoomRotation rotation, int xCoordinate,
-			int yCoordinate) {
+	public boolean checkBoundaryCollision(TileType[][] tiles, Vec2I coordinates) {
 		//Check collisions with top boundary
-		if (xCoordinate <= (MINIMUM_DISTANCE_BETWEEN_ROOMNODES)) {
+		if (coordinates.y <= (MINIMUM_DISTANCE_BETWEEN_ROOMNODES)) {
 			return true;
 		}
 		//Check collisions with left boundary
-		if (yCoordinate <= (MINIMUM_DISTANCE_BETWEEN_ROOMNODES)) {
+		if (coordinates.x  <= (MINIMUM_DISTANCE_BETWEEN_ROOMNODES)) {
 			return true;
 		}
 		//Check collisions with right boundary
-		if ((xCoordinate + xSize(rotation) +  MINIMUM_DISTANCE_BETWEEN_ROOMNODES) >= tiles[0].length) {
+		if ((coordinates.x +  MINIMUM_DISTANCE_BETWEEN_ROOMNODES) >= tiles[0].length) {
 			return true;
 		}
-		//Check bottom boundary
-		if ((yCoordinate + ySize(rotation) +  MINIMUM_DISTANCE_BETWEEN_ROOMNODES) >= tiles.length) {
+		//Check collisions bottom boundary
+		if ((coordinates.y + MINIMUM_DISTANCE_BETWEEN_ROOMNODES) >= tiles.length) {
 			return true;
 		}
-
+		//No collisions
 		return false;
 	}
-	
-	/**
-	 * Calculates the size from the start xCoordinate with rotation taken into account.
-	 * @param rotation
-	 * 				rotation of RoomNode
-	 * @return
-	 * 				difference in coordinates
-	 * @throws IllegalArgumentException
-	 *				if rotation is not defined
-	 */
-	public int xSize(RoomRotation rotation) throws IllegalArgumentException {
-		switch (rotation) {
-			case ROTATION_0: case ROTATION_180:
-				return room.size.getWidth();
-			case ROTATION_90: case ROTATION_270:
-				return room.size.getHeight();
-			default:
-				throw new IllegalArgumentException("Need a rotation!");
-		}
-	}
-	
-	/**
-	 * Calculates the size from the start yCoordinate with rotation taken into account.
-	 * @param rotation
-	 * 				rotation of RoomNode
-	 * @return
-	 * 				difference in coordinates
-	 * @throws IllegalArgumentException
-	 *				if rotation is not defined
-	 */
-	public int ySize(RoomRotation rotation) throws IllegalArgumentException {
-		switch (rotation) {
-			case ROTATION_0: case ROTATION_180:
-				return room.size.getHeight();
-			case ROTATION_90: case ROTATION_270:
-				return room.size.getWidth();
-			default:
-				throw new IllegalArgumentException("Need a rotation!");
-		}
-	}
-
 }
