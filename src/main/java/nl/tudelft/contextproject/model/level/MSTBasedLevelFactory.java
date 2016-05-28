@@ -103,10 +103,12 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		Vec2I treasureLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				beginningRightMostQuarter, MAX_WIDTH - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)), 
 				RandomUtil.getRandomIntegerFromInterval(rand, 
-						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
+						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
 		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom());
 		addRoomNode(treasureNode, treasureLocation);
 	}
+	
+	
 
 	/**
 	 * Add RoomNode to graph and map.
