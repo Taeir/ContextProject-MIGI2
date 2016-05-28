@@ -13,8 +13,8 @@ public class RoomNode {
 	
 	public Boolean used;
 	public Room room;
-	public ArrayList<DoorConnectionPoint> entrances;
-	public ArrayList<DoorConnectionPoint> exits;
+	public ArrayList<RoomEntrancePoint> entrances;
+	public ArrayList<RoomEntrancePoint> exits;
 	/**
 	 * Constructor.
 	 * @param room
@@ -23,13 +23,13 @@ public class RoomNode {
 	public RoomNode(Room room) {
 		this.room = room;
 		this.used = false;
-		entrances = new ArrayList<DoorConnectionPoint>();
-		exits = new ArrayList<DoorConnectionPoint>();
+		entrances = new ArrayList<RoomEntrancePoint>();
+		exits = new ArrayList<RoomEntrancePoint>();
 		for (Vec2I door : room.entranceDoorsLocations) {
-			entrances.add(new DoorConnectionPoint(door));
+			entrances.add(new RoomEntrancePoint(door));
 		}
 		for (Vec2I door : room.exitDoorLocations) {
-			exits.add(new DoorConnectionPoint(door));
+			exits.add(new RoomEntrancePoint(door));
 		}
 	}
 	

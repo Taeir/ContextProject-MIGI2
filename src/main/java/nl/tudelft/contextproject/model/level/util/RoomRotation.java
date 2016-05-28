@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model.level.roomIO;
+package nl.tudelft.contextproject.model.level.util;
 
 /**
  * Enum for possible Rotations of rooms.
