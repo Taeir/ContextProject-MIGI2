@@ -22,7 +22,12 @@ public enum RoomRotation {
 	ROTATION_180,
 	
 	/**
-	 * Rotate 240 degrees.
+	 * Rotate 270 degrees.
 	 */
-	ROTATION_240;
+	ROTATION_270,
+	
+	/**
+	 * Rotate Exception test.
+	 */
+	ROTATION_EXCEPTION;
 }
