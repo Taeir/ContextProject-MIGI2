@@ -1,9 +1,12 @@
 package nl.tudelft.contextproject.model.level.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
+import com.jme3.light.Light;
+
+import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.Room;
-import nl.tudelft.contextproject.model.level.TileType;
 
 /**
  * Room Node for Graph creation.
@@ -11,10 +14,11 @@ import nl.tudelft.contextproject.model.level.TileType;
  */
 public class RoomNode {
 	
-	//Minimum distance between RoomNodes
-	public static final int MINIMUM_DISTANCE_BETWEEN_ROOMNODES = 2;
+	/**
+	 * Minimum distance between rooms and boundaries.
+	 */
+	public static final int MIN_DIST = 2;
 	
-	public Boolean used;
 	public Vec2I coordinates;
 	public Room room;
 	public ArrayList<RoomEntrancePoint> entrances;
@@ -27,14 +31,13 @@ public class RoomNode {
 	 */
 	public RoomNode(Room room) {
 		this.room = room;
-		this.used = false;
 		entrances = new ArrayList<RoomEntrancePoint>();
 		exits = new ArrayList<RoomExitPoint>();
 		for (Vec2I door : room.entranceDoorsLocations) {
-			entrances.add(new RoomEntrancePoint(door));
+			entrances.add(new RoomEntrancePoint(room, door));
 		}
 		for (Vec2I door : room.exitDoorLocations) {
-			exits.add(new RoomExitPoint(door));
+			exits.add(new RoomExitPoint(room, door));
 		}
 	}
 	
@@ -60,19 +63,18 @@ public class RoomNode {
 	 * Scan Tile type and room to see if it possible to place the room.
 	 * @param tiles
 	 * 				possible tiles
-	 * @param rotation
-	 * 				possible rotation
 	 * @param coordinates
 	 * 				location
 	 * @return
 	 * 				true if placement of RoomNode at xCoordinate, yCoordinate with Rotation of rotation is possible 
 	 */
-	public boolean scanPossiblePlacement(TileType[][] tiles, Vec2I coordinates) {
-	
+	public boolean scanPossiblePlacement(MazeTile[][] tiles, Vec2I coordinates) {
+		//First check boundaries 
 		if (checkBoundaryCollision(tiles, coordinates)) {
 			return false;
 		}
 		
+		//Check room overlap
 		if (checkRoomOverlap(tiles, coordinates)) {
 			return false;
 		}
@@ -89,11 +91,11 @@ public class RoomNode {
 	 * @return
 	 * 				true if room overlaps with existing room
 	 */
-	public boolean checkRoomOverlap(TileType[][] tiles, Vec2I coordinates) {
+	public boolean checkRoomOverlap(MazeTile[][] tiles, Vec2I coordinates) {
 		int xSize = room.size.getWidth();
 		int ySize = room.size.getHeight();
-		for (int x = coordinates.x; x < coordinates.x + xSize; x++) {
-			for (int y = coordinates.y; y < coordinates.y + ySize; y++) {
+		for (int x = 0; x < xSize; x++) {
+			for (int y = 0; y < ySize; y++) {
 				if (checkTileOverlap(tiles, coordinates)) {
 					return true;
 				}
@@ -107,15 +109,20 @@ public class RoomNode {
 	 * @param tiles
 	 * 				map of tiles
 	 * @param coordinates
-	 * 				location
+	 * 				location on the map
 	 * @return
 	 * 				true if room overlaps with existing tile. 
 	 */
-	public boolean checkTileOverlap(TileType[][] tiles, Vec2I coordinates) {
+	public boolean checkTileOverlap(MazeTile[][] tiles, Vec2I coordinates) {
+		for (int i = coordinates.x - MIN_DIST; i < coordinates.x + MIN_DIST; i++) {
+			for (int j = coordinates.y - MIN_DIST; j < coordinates.y + MIN_DIST; j++) {
+				if (tiles[i][j] != null) {
+					return true;
+				}
+			}
+		}
 		return false;
-	}
-	
-		
+	}	
 
 	/**
 	 * Check boundaries of the tiles map.
@@ -126,24 +133,68 @@ public class RoomNode {
 	 * @return
 	 * 				true if there is a collision, false if there is none
 	 */
-	public boolean checkBoundaryCollision(TileType[][] tiles, Vec2I coordinates) {
+	public boolean checkBoundaryCollision(MazeTile[][] tiles, Vec2I coordinates) {
 		//Check collisions with top boundary
-		if (coordinates.y <= (MINIMUM_DISTANCE_BETWEEN_ROOMNODES)) {
+		if (coordinates.y <= (MIN_DIST)) {
 			return true;
 		}
 		//Check collisions with left boundary
-		if (coordinates.x  <= (MINIMUM_DISTANCE_BETWEEN_ROOMNODES)) {
+		if (coordinates.x  <= (MIN_DIST)) {
 			return true;
 		}
 		//Check collisions with right boundary
-		if ((coordinates.x +  MINIMUM_DISTANCE_BETWEEN_ROOMNODES) >= tiles[0].length) {
+		if ((coordinates.x +  MIN_DIST) >= tiles[0].length) {
 			return true;
 		}
 		//Check collisions bottom boundary
-		if ((coordinates.y + MINIMUM_DISTANCE_BETWEEN_ROOMNODES) >= tiles.length) {
+		if ((coordinates.y + MIN_DIST) >= tiles.length) {
 			return true;
 		}
 		//No collisions
 		return false;
+	}
+	
+	/**
+	 * Carve room into tiles.
+	 * @param tiles
+	 * 				map to carve room on
+	 * @param coordinates
+	 * 				location of room
+	 */
+	public void carveRoomNode(MazeTile[][] tiles, Vec2I coordinates) {
+		int xSize = room.size.getWidth();
+		int ySize = room.size.getHeight();
+		for (int x = 0; x < xSize; x++) {
+			for (int y = 0; y < ySize; y++) {
+				tiles[coordinates.x + x][coordinates.y + y] = room.mazeTiles[x][y];
+			}
+		}
+	}
+
+	/**
+	 * Get all outgoing connection points.
+	 * @return
+	 * 				all outgoing connection points
+	 */
+	public Collection<? extends RoomExitPoint> geOutGoingConnections() {
+		return exits;
+	}
+
+	/**
+	 * get all incoming connection points.
+	 * @return
+	 * 				all incoming connection points
+	 */
+	public Collection<? extends RoomEntrancePoint> getIncomingConnections() {
+		return entrances;
+	}
+
+	/**
+	 * Get lights.
+	 * @return
+	 * 				lights of the room
+	 */
+	public Collection<? extends Light> getLights() {
+		return room.lights;
 	}
 }

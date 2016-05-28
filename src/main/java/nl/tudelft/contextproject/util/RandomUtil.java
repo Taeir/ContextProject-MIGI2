@@ -26,7 +26,7 @@ public final class RandomUtil {
 	 * @return
 	 *		The random number
 	 */
-	protected static int getRandomIntegerFromInterval(Random rand, int min, int max) {
+	public static int getRandomIntegerFromInterval(Random rand, int min, int max) {
 		return (rand.nextInt((max - min)) + min);
 	}
 }
