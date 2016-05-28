@@ -78,15 +78,34 @@ public class RoomNode {
 	/**
 	 * Check boundaries of the tiles map.
 	 * @param tiles
+	 * 				map to be checked
 	 * @param rotation
-	 * @param xCoordinate2
-	 * @param yCoordinate2
+	 * 				possible rotation
+	 * @param xCoordinate
+	 * 				possible x coordinate
+	 * @param yCoordinate
+	 * 				possible y coordinate
 	 * @return
+	 * 				true if there is a collision
 	 */
 	public boolean checkBoundaryCollision(TileType[][] tiles, RoomRotation rotation, int xCoordinate,
 			int yCoordinate) {
-		//Check up collisions with top boundary
-		//if ()
+		//Check collisions with top boundary
+		if (xCoordinate <= (MINIMUM_DISTANCE_BETWEEN_ROOMNODES)) {
+			return true;
+		}
+		//Check collisions with left boundary
+		if (yCoordinate <= (MINIMUM_DISTANCE_BETWEEN_ROOMNODES)) {
+			return true;
+		}
+		//Check collisions with right boundary
+		if ((xCoordinate + xSize(rotation) +  MINIMUM_DISTANCE_BETWEEN_ROOMNODES) >= tiles[0].length) {
+			return true;
+		}
+		//Check bottom boundary
+		if ((yCoordinate + ySize(rotation) +  MINIMUM_DISTANCE_BETWEEN_ROOMNODES) >= tiles.length) {
+			return true;
+		}
 
 		return false;
 	}

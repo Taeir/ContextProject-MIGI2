@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.model.level.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -8,12 +9,14 @@ import org.junit.Test;
 
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.level.Room;
+import nl.tudelft.contextproject.model.level.TileType;
 
 /**
  * Test class for RoomNode.
  */
 public class RoomNodeTest extends TestBase {
 
+	private static final int SAFE_TEST_SIZE = RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES + 3;
 	private Room room;
 	private RoomNode roomNode;
 	
@@ -133,5 +136,74 @@ public class RoomNodeTest extends TestBase {
 	public void testySizeWrong() throws IllegalArgumentException {
 		assertEquals(room.size.getWidth(), roomNode.ySize(RoomRotation.ROTATION_EXCEPTION));
 	}
+	
+	/**
+	 * Test checkBoundaryCollision with improper placement.
+	 * Room is placed too close to top boundary
+	 */
+	@Test
+	public void testCheckBoundaryCollisionTop() {
+		TileType[][] testTiles = new TileType[RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth() + SAFE_TEST_SIZE][RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth() + SAFE_TEST_SIZE];
+		assertTrue(roomNode.checkBoundaryCollision(testTiles, 
+				RoomRotation.ROTATION_0, 0, RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES + 1));
+	}
+	
+	/**
+	 * Test checkBoundaryCollision with improper placement.
+	 * Room is placed too close to left boundary
+	 */
+	@Test
+	public void testCheckBoundaryCollisionLeft() {
+		TileType[][] testTiles = new TileType[RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth() + SAFE_TEST_SIZE][RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth() + SAFE_TEST_SIZE];
+		assertTrue(roomNode.checkBoundaryCollision(testTiles, 
+				RoomRotation.ROTATION_0, RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES + 1, 0));
+	}
+	
+	/**
+	 * Test checkBoundaryCollision with improper placement.
+	 * Room is placed too close to right boundary
+	 */
+	@Test
+	public void testCheckBoundaryCollisionRight() {
+		TileType[][] testTiles = new TileType[RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth()][RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth() + SAFE_TEST_SIZE];
+		assertTrue(roomNode.checkBoundaryCollision(testTiles, 
+				RoomRotation.ROTATION_0, 
+				RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES + 1,
+				RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES + 1));
+	}
 
+	/**
+	 * Test checkBoundaryCollision with improper placement.
+	 * Room is placed too close to bottom boundary
+	 */
+	@Test
+	public void testCheckBoundaryCollisionBottom() {
+		TileType[][] testTiles = new TileType[RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth() + SAFE_TEST_SIZE][RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth()];
+		assertTrue(roomNode.checkBoundaryCollision(testTiles, 
+				RoomRotation.ROTATION_0, 
+				RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES + 1,
+				RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES + 1));
+	}
+	
+	/**
+	 * Test checkBoundaryCollision with proper placement.
+	 */
+	@Test
+	public void testCheckBoundaryCollisionProper() {
+		TileType[][] testTiles = new TileType[RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth() + SAFE_TEST_SIZE][RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES 
+		                                      + room.size.getWidth() + SAFE_TEST_SIZE];
+		assertFalse(roomNode.checkBoundaryCollision(testTiles, 
+				RoomRotation.ROTATION_0, 
+				RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES + 1,
+				RoomNode.MINIMUM_DISTANCE_BETWEEN_ROOMNODES + 1));
+	}
 }
