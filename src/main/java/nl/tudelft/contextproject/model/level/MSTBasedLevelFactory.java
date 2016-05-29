@@ -79,7 +79,9 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	public Level generateSeeded(long seed) {
 		createRNG(seed);
 		placeStartAndTreasureRoom();
-
+		placeOtherRooms();
+		createEdges();
+		
 		return new Level(null, null);
 	}
 
@@ -94,22 +96,57 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		//Place start room
 		Vec2I startLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				RoomNode.MIN_DIST, endLeftMostQuarter), 
-				RandomUtil.getRandomIntegerFromInterval(rand, 
-						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
+					RandomUtil.getRandomIntegerFromInterval(rand, 
+				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
 		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom());
 		addRoomNode(startNode, startLocation);
 
 		//Place start room
 		Vec2I treasureLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				beginningRightMostQuarter, MAX_WIDTH - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)), 
-				RandomUtil.getRandomIntegerFromInterval(rand, 
-						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
+					RandomUtil.getRandomIntegerFromInterval(rand, 
+				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
 		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom());
 		addRoomNode(treasureNode, treasureLocation);
 	}
 	
-	
+	/**
+	 * Place the other rooms.
+	 * Will try to place random rooms until max attempts has been reached or there are no rooms left to place.
+	 */
+	protected void placeOtherRooms() {
+		int attempts = 0;
+		int randomIndex;
+		RoomNode currentNode;
+		while (attempts <= MAX_ATTEMPTS && !baseNodes.isEmpty()) {
+			
+			//Get random room
+			randomIndex = rand.nextInt(baseNodes.size());
+			currentNode = baseNodes.get(randomIndex);
+			
+			//Get random coordinates
+			Vec2I coordinates = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
+					RoomNode.MIN_DIST, MAX_WIDTH - (currentNode.room.size.getWidth() + RoomNode.MIN_DIST + 1)), 
+						RandomUtil.getRandomIntegerFromInterval(rand, 
+					RoomNode.MIN_DIST, MAX_HEIGHT - (currentNode.room.size.getHeight() + RoomNode.MIN_DIST + 1)));
+			
+			//Check placement and place if possible
+			if (currentNode.scanPossiblePlacement(mazeTiles, coordinates)) {
+				addRoomNode(currentNode, coordinates);
+			}
+			attempts++;
+		}
+	}
 
+	/**
+	 * Create edges between all RoomNodes.
+	 * Creates edges from exits from one room to entrances to another room.
+	 * It creates an edge from every exit to every entrance.
+	 */
+	private void createEdges() {
+				
+	}
+	
 	/**
 	 * Add RoomNode to graph and map.
 	 * Will remove node from the base list of nodes if duplicates are turned off.
