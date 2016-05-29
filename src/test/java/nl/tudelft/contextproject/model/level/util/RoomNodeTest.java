@@ -26,7 +26,7 @@ public class RoomNodeTest extends TestBase {
 	@Before
 	public void roomNodeSetUp() {
 		room = new Room("/maps/correctWithName/");
-		roomNode = new RoomNode(room);
+		roomNode = new RoomNode(room, 0);
 	}
 	
 	/**

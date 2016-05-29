@@ -26,8 +26,8 @@ public class CorridorEdgeTest {
 	public void setUp() {
 		startVector = new Vec2I(1, 0);
 		endVector = new Vec2I(0, 1);
-		roomNodeStart = new RoomNode(new Room("/maps/correctWithName/"));
-		roomNodeEnd = new RoomNode(new Room("/maps/correctWithNameOther/"));
+		roomNodeStart = new RoomNode(new Room("/maps/correctWithName/"), 1);
+		roomNodeEnd = new RoomNode(new Room("/maps/correctWithNameOther/"), 2);
 		corridorEdge = new CorridorEdge(startVector, endVector, roomNodeStart, roomNodeEnd);
 	}
 	

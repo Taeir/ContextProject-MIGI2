@@ -38,6 +38,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	private ArrayList<RoomNode> baseNodes;
 
 	private ArrayList<RoomNode> usedNodes;
+	
+	private int idCounter;
 
 	private ArrayList<CorridorEdge> edges;
 
@@ -58,7 +60,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * 		location and name of mapFolder
 	 */
 	public MSTBasedLevelFactory(String mapFolder) {
-
+		idCounter = 0;
 		lights = new ArrayList<Light>();
 		mazeTiles = new MazeTile[MAX_WIDTH][MAX_HEIGHT];
 		initializeBuilder(mapFolder);
@@ -98,7 +100,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 				RoomNode.MIN_DIST, endLeftMostQuarter), 
 					RandomUtil.getRandomIntegerFromInterval(rand, 
 				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
-		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom());
+		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), -1);
 		addRoomNode(startNode, startLocation);
 
 		//Place start room
@@ -106,7 +108,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 				beginningRightMostQuarter, MAX_WIDTH - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)), 
 					RandomUtil.getRandomIntegerFromInterval(rand, 
 				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
-		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom());
+		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom(), -2);
 		addRoomNode(treasureNode, treasureLocation);
 	}
 	
@@ -154,6 +156,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Adds entrances to usedEntrancePoints list.
 	 * Adds exits to usedExitsPoints list.
 	 * Adds lights to the lights list.
+	 * 
+	 * Copies the RoomNode if duplicates are allowed.
 	 * @param	node
 	 * 				Node to add
 	 * @param position
@@ -162,6 +166,9 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	protected void addRoomNode(RoomNode node, Vec2I position) {
 		if (!duplicates) {
 			baseNodes.remove(node);
+		} else {
+			node = node.copy(idCounter);
+			idCounter++;
 		}
 
 		node.carveRoomNode(mazeTiles, position);
@@ -190,7 +197,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 			e.printStackTrace();
 		}
 		for (Room room : rooms) {
-			baseNodes.add(new RoomNode(room));
+			baseNodes.add(new RoomNode(room, idCounter));
+			idCounter++;
 		}
 	}
 

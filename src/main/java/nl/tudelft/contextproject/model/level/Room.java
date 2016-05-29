@@ -45,12 +45,16 @@ public class Room {
 	//Exit door Locations
 	public ArrayList<Vec2I> exitDoorLocations;
 	
+	//Original folder
+	
+	public String folder;
 	/**
 	 * Constructor will load room from files using RoomIO.
 	 * @param folder
 	 * 		fileName of the room
 	 */
 	public Room(String folder) {
+		this.folder = folder;
 		entities = new HashSet<Entity>();
 		lights = new ArrayList<Light>();
 		try {
@@ -162,7 +166,12 @@ public class Room {
 		this.size = size;
 	}
 
-	
-	
-	
+	/**
+	 * Create a copy of the room.
+	 * @return
+	 * 			copy of the room.
+	 */
+	public Room copy() {
+		return new Room(folder);
+	}
 }

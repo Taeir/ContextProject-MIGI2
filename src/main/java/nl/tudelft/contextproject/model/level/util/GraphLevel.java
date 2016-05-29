@@ -29,12 +29,12 @@ public class GraphLevel {
 	 */
 	public GraphLevel(RoomTuple starterAndEndRooms, List<Room> rooms, Random rand) {
 		this.rand = rand;
-		this.startRoom = new RoomNode(starterAndEndRooms.getStarterRoom());
-		this.endRoom = new RoomNode(starterAndEndRooms.getTreasureRoom());
+		this.startRoom = new RoomNode(starterAndEndRooms.getStarterRoom(), 0);
+		this.endRoom = new RoomNode(starterAndEndRooms.getTreasureRoom(), 0);
 		nodes = new ArrayList<RoomNode>(rooms.size());
 		edges = new ArrayList<CorridorEdge>();
 		for (Room room : rooms) {
-			nodes.add(new RoomNode(room));
+			nodes.add(new RoomNode(room, 0));
 		}
 	}
 	

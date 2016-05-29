@@ -19,6 +19,7 @@ public class RoomNode {
 	 */
 	public static final int MIN_DIST = 2;
 	
+	public int id;
 	public Vec2I coordinates;
 	public Room room;
 	public ArrayList<RoomEntrancePoint> entrances;
@@ -28,9 +29,12 @@ public class RoomNode {
 	 * Constructor.
 	 * @param room
 	 * 			room to set.
+	 * @param id
+	 * 			id of roomNode
 	 */
-	public RoomNode(Room room) {
+	public RoomNode(Room room, int id) {
 		this.room = room;
+		this.id = id;
 		entrances = new ArrayList<RoomEntrancePoint>();
 		exits = new ArrayList<RoomExitPoint>();
 		for (Vec2I door : room.entranceDoorsLocations) {
@@ -197,4 +201,41 @@ public class RoomNode {
 	public Collection<? extends Light> getLights() {
 		return room.lights;
 	}
+
+	/**
+	 * Create a copy of the room.
+	 * @param idCounter
+	 * 				id of new room
+	 * @return
+	 * 				copy of new room
+	 */
+	public RoomNode copy(int idCounter) {
+		return new RoomNode(this.room.copy(), idCounter);
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	/**
+	 * Shallow equals that only checks id, for simple checking.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RoomNode other = (RoomNode) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+		
 }
