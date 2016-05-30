@@ -32,7 +32,9 @@ public class Door extends Entity implements PhysicsObject {
 		Box cube1Mesh = new Box(1f, 1f, 1f);
 		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
-		sp.scale(2f);
+		sp.scale(1.2f, 2.2f, 1.2f);
+		sp.move(0, 0, -0.5f);
+		sp.rotate(0, (float) (Math.PI), 0);
 		Material mat3 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat3.setColor("Color", color);
 		if (sp instanceof Node) {
