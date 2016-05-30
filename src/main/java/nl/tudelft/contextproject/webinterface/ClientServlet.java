@@ -203,7 +203,7 @@ public class ClientServlet extends DefaultServlet {
 
 		int xCoord = Integer.parseInt(request.getParameter("x"));
 		int yCoord = Integer.parseInt(request.getParameter("y"));
-		String action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
+		Action action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
 
 		attemptAction(xCoord, yCoord, action, client.getTeam(), response);
 	}
@@ -270,7 +270,7 @@ public class ClientServlet extends DefaultServlet {
 	 * @throws IOException
 	 * 		if sending the response to the client causes an IOException
 	 */
-	protected void attemptAction(int xCoord, int yCoord, String action, String team, HttpServletResponse response) throws IOException {
+	protected void attemptAction(int xCoord, int yCoord, Action action, String team, HttpServletResponse response) throws IOException {
 		if (!WebUtil.checkValidAction(action, team)) {
 			response.setStatus(HttpStatus.OK_200);
 			response.getWriter().write("ACTION INVALID, NOT PERFORMED");

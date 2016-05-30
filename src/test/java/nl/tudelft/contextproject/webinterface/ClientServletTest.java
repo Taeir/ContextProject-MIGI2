@@ -621,7 +621,7 @@ public class ClientServletTest extends WebTestBase {
 		HttpServletResponse response = createMockedResponse();
 
 		//Try to place a bomb as an elf, which is impossible
-		servlet.attemptAction(0, 0, "placebomb", "Elves", response);
+		servlet.attemptAction(0, 0, Action.PLACEBOMB, "Elves", response);
 
 		//Verify the action has been denied
 		verify(response).setStatus(HttpStatus.OK_200);
@@ -652,7 +652,7 @@ public class ClientServletTest extends WebTestBase {
 		when(mockedPlayer.getLocation()).thenReturn(new Vector3f(1000, 1000, 1000));
 
 		//Try to place a bomb as a dwarf
-		servlet.attemptAction(0, 0, "placebomb", "Dwarfs", response);
+		servlet.attemptAction(0, 0, Action.PLACEBOMB, "Dwarfs", response);
 
 		//Verify the action has been accepted
 		verify(response).setStatus(HttpStatus.OK_200);

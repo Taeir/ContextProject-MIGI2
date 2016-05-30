@@ -5,6 +5,7 @@ import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.webinterface.Action;
 
 import java.util.Set;
 
@@ -26,21 +27,8 @@ public final class WebUtil {
 	 * @return
 	 * 		the decoded action
 	 */
-	public static String decodeAction(int action) {
-		switch (action) {
-			case 0:
-				return "placebomb";
-			case 1:
-				return "placepitfall";
-			case 2:
-				return "placemine";
-			case 3:
-				return "spawnenemy";
-			case 4:
-				return "dropbait";
-			default:
-				return "notanaction";
-		}
+	public static Action decodeAction(int action) {
+		return Action.values()[action];
 	}
 
 	/**
@@ -53,7 +41,7 @@ public final class WebUtil {
 	 * @return
 	 * 		true if the action is valid, false otherwise
 	 */
-	public static boolean checkValidAction(String action, String team) {
+	public static boolean checkValidAction(Action action, String team) {
 		switch (team) {
 			case "Elves":
 				return checkValidElves(action);
@@ -72,9 +60,9 @@ public final class WebUtil {
 	 * @return
 	 * 		true if the action is valid, false otherwise
 	 */
-	protected static boolean checkValidElves(String action) {
+	protected static boolean checkValidElves(Action action) {
 		switch (action) {
-			case "dropbait":
+			case DROPBAIT:
 				return true;
 			default:
 				return false;
@@ -89,15 +77,15 @@ public final class WebUtil {
 	 * @return
 	 * 		true if the action is valid, false otherwise
 	 */
-	protected static boolean checkValidDwarfs(String action) {
+	protected static boolean checkValidDwarfs(Action action) {
 		switch (action) {
-			case "placebomb":
+			case PLACEBOMB:
 				return true;
-			case "placepitfall":
+			case PLACEPITFALL:
 				return true;
-			case "placemine":
+			case PLACEMINE:
 				return true;
-			case "spawnenemy":
+			case SPAWNENEMY:
 				return true;
 			default:
 				return false;
