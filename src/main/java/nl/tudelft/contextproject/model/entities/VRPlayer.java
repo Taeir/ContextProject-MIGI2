@@ -201,8 +201,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		if (inventory.containsBomb()) {
 			Bomb bomb = new Bomb();
 			inventory.remove(bomb);
-			Vector3f vec = this.getSpatial().getLocalTranslation();
-			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
+			Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2);		
+			bomb.getSpatial().move(this.getSpatial().getLocalTranslation().add(vec.x, 1, vec.z));
 			bomb.activate();
 			if (Main.getInstance().getCurrentGame() != null) {
 				Main.getInstance().getCurrentGame().addEntity(bomb);
