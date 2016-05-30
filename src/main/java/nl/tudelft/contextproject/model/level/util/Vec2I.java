@@ -99,4 +99,16 @@ public class Vec2I {
 		x += coordinates.x;
 		y += coordinates.y;
 	}
+
+	/**
+	 * Calculate euclidean distance between this vector and the other vector.
+	 * @param otherVector
+	 * 			the other vector
+	 * @return
+	 * 			euclidean distance
+	 */
+	public double distance(Vec2I otherVector) {
+		double res = (x - otherVector.x) * (x - otherVector.x) + (y - otherVector.y) * (y - otherVector.y);
+		return Math.sqrt(res);
+	}
 }

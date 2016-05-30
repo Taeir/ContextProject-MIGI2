@@ -38,10 +38,10 @@ public class RoomNode {
 		entrances = new ArrayList<RoomEntrancePoint>();
 		exits = new ArrayList<RoomExitPoint>();
 		for (Vec2I door : room.entranceDoorsLocations) {
-			entrances.add(new RoomEntrancePoint(room, door));
+			entrances.add(new RoomEntrancePoint(this, door));
 		}
 		for (Vec2I door : room.exitDoorLocations) {
-			exits.add(new RoomExitPoint(room, door));
+			exits.add(new RoomExitPoint(this, door));
 		}
 	}
 	

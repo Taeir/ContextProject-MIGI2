@@ -11,6 +11,8 @@ public class CorridorEdge {
 	public RoomEntrancePoint end;
 	
 	public int id;
+	
+	public double weight;
 
 	/**
 	 * Constructor Corridor edge class.
@@ -26,5 +28,15 @@ public class CorridorEdge {
 		this.start = startLocation;
 		this.end = endLocation;
 		this.id = id;
+		this.weight = calculateWeight();
+	}
+
+	/**
+	 * Calculate the weight of the edge. 
+	 * @return
+	 * 			distance between start and end location of edge
+	 */
+	protected double calculateWeight() {
+		return start.location.distance(end.location);
 	}
 }
