@@ -39,11 +39,7 @@ public class KillerBunny extends MovingEntity implements PhysicsObject {
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-		Sphere b = new Sphere(10, 10, .15f);
-		spatial = new Geometry("KillerBunny", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.White);
-		spatial.setMaterial(mat);
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/bunny.blend");
 		return spatial;
 	}
 
