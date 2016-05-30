@@ -16,6 +16,9 @@ import com.jme3.renderer.Camera;
 
 /**
  * Manager which adds mouse controls to look around when no VR device is attached.
+ * 
+ * <p><b>THIS CLASS IS FOR TESTING PURPOSES ONLY! IT GIVES THE USER THE ABILITY TO USE THE
+ * MOUSE/CONTROLLER TO LOOK AROUND, TO BE ABLE TO TEST WITHOUT OCULUS.</b>
  */
 public class NoVRMouseManager implements AnalogListener {
 	private Camera cam;
