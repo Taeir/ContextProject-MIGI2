@@ -45,7 +45,7 @@ import lombok.SneakyThrows;
 public class Main extends VRApplication {
 	public static final int PORT_NUMBER = 8080;
 	//Set to false to disable VR
-	public static final boolean VR = true;
+	public static final boolean VR = false;
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
@@ -84,7 +84,7 @@ public class Main extends VRApplication {
 		//Runs faster when set to false, but will allow mirroring
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, MIRROR_WINDOW);
 		//Render two eyes, regardless of SteamVR
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
 		//Show gui even if it is behind things

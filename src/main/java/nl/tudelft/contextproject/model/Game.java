@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.model;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
@@ -14,6 +15,7 @@ public class Game {
 	private Level level;
 	private VRPlayer player;
 	private Set<Entity> entities;
+	private GameController controller;
 	
 	/**
 	 * Advanced constructor for the game.
@@ -24,11 +26,14 @@ public class Game {
 	 * 		the VRPlayer in this game
 	 * @param entities
 	 * 		a list containing all entities in the game
+	 * @param controller
+	 * 		the controller instantiating this game
 	 */
-	public Game(Level level, VRPlayer player, Set<Entity> entities) {
+	public Game(Level level, VRPlayer player, Set<Entity> entities, GameController controller) {
 		this.level = level;
 		this.player = player;
 		this.entities = entities;
+		this.controller = controller;
 	}
 	
 	/**
@@ -88,5 +93,15 @@ public class Game {
 	 */
 	public void setLevel(Level level) {
 		this.level = level;
+	}
+	
+	/**
+	 * End this game.
+	 * 
+	 * @param didElvesWin
+	 * 		true when the elves won, false when the dwarfs did
+	 */
+	public void endGame(boolean didElvesWin) {
+		controller.gameEnded(didElvesWin);
 	}
 }

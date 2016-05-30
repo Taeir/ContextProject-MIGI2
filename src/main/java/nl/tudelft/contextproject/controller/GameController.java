@@ -76,7 +76,7 @@ public class GameController extends Controller {
 			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
 			RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
 			Level level = new Level(tiles, lights);
-			game = new Game(level, new VRPlayer(), entities);
+			game = new Game(level, new VRPlayer(), entities, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -262,5 +262,16 @@ public class GameController extends Controller {
 	 */
 	public void setGame(Game game) {
 		this.game = game;
+	}
+	
+	/**
+	 * Callback called when the game ends.
+	 * 
+	 * @param didElvesWin
+	 * 		true when the elves won, false when the dwarfs did
+	 */
+	public void gameEnded(boolean didElvesWin) {
+		Main main = Main.getInstance();
+		main.setController(new EndingController(main, didElvesWin));
 	}
 }

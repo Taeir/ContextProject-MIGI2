@@ -80,7 +80,7 @@ public class GameControllerTest extends ControllerTest {
 		LinkedList<Light> lights = new LinkedList<>();
 		lights.add(light);
 		level = new Level(tiles, lights);
-		game = new Game(level, player, entities);
+		game = new Game(level, player, entities, controller);
 
 		controller.setGame(game);
 		controller.setPhysicsEnvironmentNode(phe);

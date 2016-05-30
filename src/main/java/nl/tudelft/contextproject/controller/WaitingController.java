@@ -41,6 +41,11 @@ public class WaitingController extends GameController {
 			}
 		}, "pause");
 	}
+	
+	@Override
+	public void update(float tpf) {
+		super.update(tpf);
+	}
 
 	@Override
 	public GameState getGameState() {
