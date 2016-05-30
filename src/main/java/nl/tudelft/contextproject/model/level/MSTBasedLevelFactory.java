@@ -8,6 +8,7 @@ import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.model.level.roomIO.MapReader;
 import nl.tudelft.contextproject.model.level.util.CorridorEdge;
+import nl.tudelft.contextproject.model.level.util.MinimumSpanningTree;
 import nl.tudelft.contextproject.model.level.util.RoomEntrancePoint;
 import nl.tudelft.contextproject.model.level.util.RoomExitPoint;
 import nl.tudelft.contextproject.model.level.util.RoomNode;
@@ -83,6 +84,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		placeStartAndTreasureRoom();
 		placeOtherRooms();
 		createEdges();
+		createMST();
 		
 		return new Level(null, null);
 	}
@@ -156,6 +158,13 @@ public class MSTBasedLevelFactory implements LevelFactory {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Create a MST, connecting all the rooms with the least amount of path.
+	 */
+	protected void createMST() {
+		MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes);
 	}
 	
 	/**

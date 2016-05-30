@@ -10,6 +10,8 @@ public class CorridorEdge {
 	
 	public RoomEntrancePoint end;
 	
+	public RoomNode roomNode;
+	
 	public int id;
 	
 	public double weight;
@@ -30,6 +32,7 @@ public class CorridorEdge {
 		this.id = id;
 		this.weight = calculateWeight();
 	}
+	
 
 	/**
 	 * Calculate the weight of the edge. 

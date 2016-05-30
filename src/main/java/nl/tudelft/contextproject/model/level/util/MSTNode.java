@@ -7,18 +7,23 @@ import java.util.List;
  */
 public class MSTNode {
 
-	public List<CorridorEdge> edges;
+	public List<MSTEdge> edges;
 	
 	public int id;
 	
+	public RoomNode roomNode;
+	
 	/**
 	 * Constructor.
+	 * @param roomNode
+	 * 			RoomNode the MSTNode belongs to
 	 * @param edges
 	 * 			edges of MSTNode
 	 * @param id
 	 * 			id of MSTNode
 	 */
-	public MSTNode(List<CorridorEdge> edges, int id) {
+	public MSTNode(RoomNode roomNode, List<MSTEdge> edges, int id) {
+		this.roomNode = roomNode;
 		this.edges = edges;
 		this.id = id;
 	}
