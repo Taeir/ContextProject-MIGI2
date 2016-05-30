@@ -127,4 +127,12 @@ public class Game {
 			endGame(false);
 		}
 	}
+	
+	/**
+	 * @return
+	 * 		the remaining time for the player to find the treasure
+	 */
+	public float getTimeRemaining() {
+		return timeLimit;
+	}
 }

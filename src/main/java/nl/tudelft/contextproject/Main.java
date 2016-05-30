@@ -50,7 +50,7 @@ public class Main extends VRApplication {
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
 	public static final boolean MIRROR_WINDOW = true;
-	private static final float TIME_LIMIT = 300;
+	public static final Float TIME_LIMIT = new Float(300);
 	
 	private static boolean hideQR;
 	
@@ -415,8 +415,6 @@ public class Main extends VRApplication {
 		return guifont;
 	}
 	
-
-	
 	/**
 	 * Returns the Controller.
 	 * 
@@ -425,13 +423,5 @@ public class Main extends VRApplication {
 	 */
 	public Controller getController() {
 		return controller;
-	}
-
-	/**
-	 * @return
-	 * 		the time limit of each game
-	 */
-	public static float getTimeLimit() {
-		return TIME_LIMIT;
 	}
 }
