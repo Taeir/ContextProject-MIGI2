@@ -15,6 +15,7 @@ import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Door;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.Key;
+import nl.tudelft.contextproject.model.entities.VoidPlatform;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**
@@ -70,6 +71,19 @@ public class EntityParserTest extends TestBase {
 		String[] data = new String[]{"9.5 ", ".5", "5.5 ", "Door ", "1/0/0/0"};
 		Entity res = EntityParser.getEntity("Door", 0, 0, 0, data, "/");
 		assertEquals(Door.class, res.getClass());
+	}
+	
+	/**
+	 * Test getting a VoidPlatform.
+	 *
+	 * @throws ScriptLoaderException
+	 * 		this should not happen
+	 */
+	@Test
+	public void testGetEntityVoidPlatform() throws ScriptLoaderException {
+		String[] data = new String[]{"9.5 ", ".5", "5.5", "VoidPlatform "};
+		Entity res = EntityParser.getEntity("VoidPlatform", 0, 0, 0, data, "/");
+		assertEquals(VoidPlatform.class, res.getClass());
 	}
 	
 	/**
