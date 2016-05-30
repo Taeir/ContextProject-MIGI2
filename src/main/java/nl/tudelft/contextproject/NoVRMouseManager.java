@@ -36,7 +36,6 @@ public class NoVRMouseManager implements AnalogListener {
 	public NoVRMouseManager(Camera cam) {
 		this.cam = cam;
 		initialUpVec = new Vector3f(0, 1, 0);
-		//initialUpVec = cam.getUp().clone();
 	}
 
 	/**
@@ -81,7 +80,9 @@ public class NoVRMouseManager implements AnalogListener {
 	 * 		the joystick to map
 	 */
 	protected void mapJoystick(Joystick joystick) {
-
+		//Invert the Y axis, so that up is up and down is down.
+		invertY = true;
+		
 		// Map it differently if there are Z axis
 		if (joystick.getAxis(JoystickAxis.Z_ROTATION) != null && joystick.getAxis(JoystickAxis.Z_AXIS) != null) {
 
@@ -155,9 +156,6 @@ public class NoVRMouseManager implements AnalogListener {
 		}
 		vel.multLocal(value * moveSpeed);
 
-		//if (motionAllowed != null)
-		//    motionAllowed.checkMotionAllowed(pos, vel);
-		//else
 		pos.addLocal(vel);
 
 		cam.setLocation(pos);
