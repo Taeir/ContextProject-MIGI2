@@ -28,7 +28,13 @@ public final class WebUtil {
 	 * 		the decoded action
 	 */
 	public static Action decodeAction(int action) {
-		return Action.values()[action];
+		Action[] actions = Action.values();
+
+		if (action >= 0 && action < actions.length) {
+			return Action.values()[action];
+		} else {
+			throw new IllegalArgumentException("Your action is not supported.");
+		}
 	}
 
 	/**
