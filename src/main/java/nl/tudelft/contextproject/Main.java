@@ -50,7 +50,7 @@ public class Main extends VRApplication {
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
 	public static final boolean MIRROR_WINDOW = true;
-	private static final float TIME_LIMIT = 10;
+	private static final float TIME_LIMIT = 300;
 	
 	private static boolean hideQR;
 	
