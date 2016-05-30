@@ -1,10 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
-import com.jme3.scene.Geometry;
+
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Main;
 
@@ -26,13 +23,7 @@ public class Carrot extends Entity {
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-		Sphere b = new Sphere(10, 10, .02f);
-		spatial = new Geometry("Carrot", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Orange);
-		spatial.setMaterial(mat);
-		spatial.scale(1, 10, 1);
-		spatial.rotate((float) Math.toRadians(30), 0, (float) Math.toRadians(15));
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot.blend");
 		return spatial;
 	}
 
@@ -42,7 +33,17 @@ public class Carrot extends Entity {
 	}
 
 	@Override
-	public void update(float tpf) { }
+	public void update(float tpf) { 
+		if (health <= 5) {
+			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
+		}
+		if (health <= 3) {
+			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
+		}
+		if (health <= 1) {
+			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot4.blend");
+		}
+	}
 
 	@Override
 	public void move(float x, float y, float z) {
@@ -57,6 +58,7 @@ public class Carrot extends Entity {
 	 */
 	public void eat(float amount) {		
 		health -= amount;
+		System.out.println(health);
 		if (health < 0) {
 			setState(EntityState.DEAD);
 		}
