@@ -19,7 +19,7 @@ public class EndingController extends GameController {
 	 * 		true when the elves won, false when the dwarfs won
 	 */
 	public EndingController(Application app, boolean elvesWin) {
-		super(app, "/maps/" + (elvesWin ? WIN_LEVEL : LOSE_LEVEL) + "/");
+		super(app, "/maps/" + (elvesWin ? WIN_LEVEL : LOSE_LEVEL) + "/", Float.MAX_VALUE);
 	}
 	
 	@Override

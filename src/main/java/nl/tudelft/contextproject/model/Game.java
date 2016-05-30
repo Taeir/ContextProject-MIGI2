@@ -16,6 +16,7 @@ public class Game {
 	private VRPlayer player;
 	private Set<Entity> entities;
 	private GameController controller;
+	private float timeLimit;
 	
 	/**
 	 * Advanced constructor for the game.
@@ -28,12 +29,15 @@ public class Game {
 	 * 		a list containing all entities in the game
 	 * @param controller
 	 * 		the controller instantiating this game
+	 * @param timeLimit
+	 * 		the time limit for this game
 	 */
-	public Game(Level level, VRPlayer player, Set<Entity> entities, GameController controller) {
+	public Game(Level level, VRPlayer player, Set<Entity> entities, GameController controller, float timeLimit) {
 		this.level = level;
 		this.player = player;
 		this.entities = entities;
 		this.controller = controller;
+		this.timeLimit = timeLimit;
 	}
 	
 	/**
@@ -41,11 +45,17 @@ public class Game {
 	 *
 	 * @param level
 	 * 		the level for this game
+	 * @param controller
+	 * 		the controller instantiating this game
+	 * @param timeLimit
+	 * 		the time limit for this game
 	 */
-	public Game(Level level) {
+	public Game(Level level, GameController controller, float timeLimit) {
 		this.level = level;
 		this.player = new VRPlayer();
 		this.entities = ConcurrentHashMap.newKeySet();
+		this.controller = controller;
+		this.timeLimit = timeLimit;
 	}
 	
 	/**
@@ -103,5 +113,18 @@ public class Game {
 	 */
 	public void endGame(boolean didElvesWin) {
 		controller.gameEnded(didElvesWin);
+	}
+
+	/**
+	 * Update the game timer.
+	 * 
+	 * @param tpf
+	 * 		the time per frame of this update
+	 */
+	public void update(float tpf) {
+		timeLimit -= tpf;
+		if (timeLimit < 0) {
+			endGame(false);
+		}
 	}
 }

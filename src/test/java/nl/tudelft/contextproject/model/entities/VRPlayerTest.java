@@ -227,7 +227,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
 		when(level.getTile(anyInt(), anyInt())).thenReturn(tile);
 		
-		Game game = new Game(level);
+		Game game = new Game(level, null, 10f);
 		when(Main.getInstance().getCurrentGame()).thenReturn(game);
 		return tile;
 	}
