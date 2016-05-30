@@ -127,8 +127,12 @@ public class Main extends VRApplication {
 			if (controller != null) {
 				getStateManager().detach(controller);
 			}
+
 			controller = c;
 			getStateManager().attach(controller);
+			if (webServer != null) {
+				webServer.clearCooldowns();
+			}
 			
 			return true;
 		}
