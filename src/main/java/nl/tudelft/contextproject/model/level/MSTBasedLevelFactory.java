@@ -150,7 +150,9 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		for (RoomEntrancePoint entrance : usedEntrancePoints) {
 			for (RoomExitPoint exit : usedExitPoints) {
 				if (!entrance.node.equals(exit.node)) {
-					edges.add(new CorridorEdge(exit, entrance, corridorIdcounter++));
+					CorridorEdge edge = new CorridorEdge(exit, entrance, corridorIdcounter++);
+					edges.add(edge);
+					exit.node.addOutgoingEdge(edge);
 				}
 			}
 		}

@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model.level.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.jme3.light.Light;
 
@@ -24,6 +25,7 @@ public class RoomNode {
 	public Room room;
 	public ArrayList<RoomEntrancePoint> entrances;
 	public ArrayList<RoomExitPoint> exits;
+	public ArrayList<CorridorEdge> outgoingEdges;
 	
 	/**
 	 * Constructor.
@@ -37,6 +39,7 @@ public class RoomNode {
 		this.id = id;
 		entrances = new ArrayList<RoomEntrancePoint>();
 		exits = new ArrayList<RoomExitPoint>();
+		outgoingEdges = new ArrayList<CorridorEdge>();
 		for (Vec2I door : room.entranceDoorsLocations) {
 			entrances.add(new RoomEntrancePoint(this, door));
 		}
@@ -45,6 +48,31 @@ public class RoomNode {
 		}
 	}
 	
+	/**
+	 * Add an outgoing edge.
+	 * @param edge
+	 * 				edge to add
+	 */
+	public void addOutgoingEdge(CorridorEdge edge) {
+		outgoingEdges.add(edge);
+	}
+	
+	/**
+	 * Return all outgoingEdges on the same door.
+	 * @param exit
+	 * 				door
+	 * @return
+	 * 				List of outgoing edges with same door
+	 */
+	public List<CorridorEdge> getOutgoingEdgesOfExit(RoomExitPoint exit) {
+		ArrayList<CorridorEdge> resultEdges = new ArrayList<CorridorEdge>();
+		for (CorridorEdge corridor : outgoingEdges) {
+			if (corridor.start.location.equals(exit.location)) {
+				resultEdges.add(corridor);
+			}
+		}
+		return resultEdges;
+	}
 	/**
 	 * Get number of outgoing connection points.
 	 * @return
