@@ -56,6 +56,7 @@ public class WebUtilTest extends TestBase {
 		assertEquals(WebUtil.decodeAction(2), Action.PLACEMINE);
 		assertEquals(WebUtil.decodeAction(3), Action.SPAWNENEMY);
 		assertEquals(WebUtil.decodeAction(4), Action.DROPBAIT);
+		assertEquals(WebUtil.decodeAction(-1), Action.INVALID);
 	}
 
 	/**

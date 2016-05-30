@@ -33,7 +33,7 @@ public final class WebUtil {
 		if (action >= 0 && action < actions.length) {
 			return Action.values()[action];
 		} else {
-			throw new IllegalArgumentException("Your action is not supported.");
+			return Action.INVALID;
 		}
 	}
 

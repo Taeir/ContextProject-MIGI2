@@ -8,7 +8,8 @@ public enum Action {
 	PLACEPITFALL(10, 2),
 	PLACEMINE(10, 4),
 	SPAWNENEMY(10, 1),
-	DROPBAIT(10, 5);
+	DROPBAIT(10, 5),
+	INVALID(0, 0);
 
 	private int cooldown;
 	private int maxAmount;
