@@ -35,6 +35,17 @@ public abstract class Entity implements Drawable, TickListener {
 	 * Move the entity by the specified amounts.
 	 * If the entity is a {@link PhysicsObject}, the physics location should also be moved.
 	 *
+	 * @param vector
+	 * 		the amount of movement
+	 */
+	public final void move(Vector3f vector) {
+		move(vector.getX(), vector.getY(), vector.getZ());
+	}
+	
+	/**
+	 * Move the entity by the specified amounts.
+	 * If the entity is a {@link PhysicsObject}, the physics location should also be moved.
+	 *
 	 * @param x
 	 * 		the amount of movement in the x-axis
 	 * @param y

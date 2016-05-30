@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.tudelft.contextproject.util.webinterface.ActionUtil;
-import nl.tudelft.contextproject.util.JSONUtil;
+import nl.tudelft.contextproject.util.webinterface.EntityUtil;
 import nl.tudelft.contextproject.util.QRGenerator;
 
 import nl.tudelft.contextproject.util.webinterface.WebUtil;
@@ -235,7 +235,7 @@ public class ClientServlet extends DefaultServlet {
 				//For now fall through to running
 			case RUNNING:
 				json.put("entities",
-						JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer()));
+						EntityUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer()));
 				json.put("explored", Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON());
 				break;
 			case PAUSED:
