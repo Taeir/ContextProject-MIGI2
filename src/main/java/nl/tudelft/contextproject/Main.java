@@ -123,15 +123,13 @@ public class Main extends VRApplication {
 	 * 		true is the controller was changed, false otherwise
 	 */
 	public boolean setController(Controller c) {
-		if (c != controller) {
+		if (c != controller && c != null) {
 			if (controller != null) {
 				getStateManager().detach(controller);
 			}
 			controller = c;
+			getStateManager().attach(controller);
 			
-			if (controller != null) {
-				getStateManager().attach(controller);
-			}
 			return true;
 		}
 		return false;
