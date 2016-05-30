@@ -46,7 +46,6 @@ public class Room {
 	public ArrayList<Vec2I> exitDoorLocations;
 	
 	//Original folder
-	
 	public String folder;
 	/**
 	 * Constructor will load room from files using RoomIO.

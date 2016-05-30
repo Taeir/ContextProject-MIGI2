@@ -160,18 +160,35 @@ public class RoomNode {
 	
 	/**
 	 * Carve room into tiles.
+	 * Also replaces the mazetiles to the correct location in the maze.
+	 * Alos updates the doors location.
 	 * @param tiles
 	 * 				map to carve room on
 	 * @param coordinates
 	 * 				location of room
 	 */
 	public void carveRoomNode(MazeTile[][] tiles, Vec2I coordinates) {
+		this.coordinates = coordinates;
 		int xSize = room.size.getWidth();
 		int ySize = room.size.getHeight();
 		for (int x = 0; x < xSize; x++) {
 			for (int y = 0; y < ySize; y++) {
 				tiles[coordinates.x + x][coordinates.y + y] = room.mazeTiles[x][y];
+				tiles[coordinates.x + x][coordinates.y + y].replace(coordinates.x + x, coordinates.y + y);
 			}
+		}
+		updateDoorLocations();
+	}
+
+	/**
+	 * Update doors on new location.
+	 */
+	protected void updateDoorLocations() {
+		for (RoomEntrancePoint entrance : entrances) {
+			entrance.updateDoorLocation(coordinates);
+		}
+		for (RoomExitPoint exit : exits) {
+			exit.updateDoorLocation(coordinates);
 		}
 	}
 

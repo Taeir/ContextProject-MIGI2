@@ -89,4 +89,14 @@ public class Vec2I {
 	public String toString() {
 		return "Vec2I [x=" + x + ", y=" + y + "]";
 	}
+
+	/**
+	 * Add another vector to this vector.
+	 * @param coordinates
+	 * 				vector to add
+	 */
+	public void add(Vec2I coordinates) {
+		x += coordinates.x;
+		y += coordinates.y;
+	}
 }

@@ -12,4 +12,13 @@ public abstract class DoorLocation {
 	public Vec2I location;
 	public Boolean used;
 	public Room room;
+	
+	/**
+	 * Update the door location if door has been moved.
+	 * @param coordinates
+	 * 					move coordinates.
+	 */
+	public void updateDoorLocation(Vec2I coordinates) {
+		location.add(coordinates);
+	}
 }
