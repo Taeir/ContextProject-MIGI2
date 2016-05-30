@@ -7,7 +7,8 @@ public class MSTEdge {
 	
 	public int startID;
 	public int endID;
-	public double weigth;
+	public double weight;
+	public int corridorID;
 	
 	/**
 	 * Constructor.
@@ -15,11 +16,16 @@ public class MSTEdge {
 	 * 					start node ID
 	 * @param endID
 	 * 					end node ID
-	 * @param weigth
+	 * @param weight
 	 * 					weight of edge
+	 * @param corridorID
+	 * 					id of old corridorID
 	 */
-	public MSTEdge(int startID, int endID, double weigth) {
-		
+	public MSTEdge(int startID, int endID, double weight, int corridorID) {
+		this.startID = startID;
+		this.endID = endID;
+		this.weight = weight;
+		this.corridorID = corridorID;		
 	}
 
 }
