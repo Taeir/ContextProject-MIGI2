@@ -145,8 +145,15 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Creates edges from exits from one room to entrances to another room.
 	 * It creates an edge from every exit to every entrance.
 	 */
-	private void createEdges() {
-				
+	protected void createEdges() {
+		int corridorIdcounter = 0;
+		for (RoomEntrancePoint entrance : usedEntrancePoints) {
+			for (RoomExitPoint exit : usedExitPoints) {
+				if (!entrance.room.equals(exit.room)) {
+					edges.add(new CorridorEdge(exit, entrance, corridorIdcounter++));
+				}
+			}
+		}
 	}
 	
 	/**
@@ -197,8 +204,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 			e.printStackTrace();
 		}
 		for (Room room : rooms) {
-			baseNodes.add(new RoomNode(room, idCounter));
-			idCounter++;
+			baseNodes.add(new RoomNode(room, idCounter++));
 		}
 	}
 

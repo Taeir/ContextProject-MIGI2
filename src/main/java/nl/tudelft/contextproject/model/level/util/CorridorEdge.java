@@ -6,30 +6,25 @@ package nl.tudelft.contextproject.model.level.util;
  */
 public class CorridorEdge {
 
-	public Vec2I startLocation;
+	public RoomExitPoint start;
 	
-	public Vec2I endLocation;
+	public RoomEntrancePoint end;
 	
-	public RoomNode startRoom;
-	
-	public RoomNode endRoom;
+	public int id;
 
 	/**
 	 * Constructor Corridor edge class.
 	 * Creates a graph connection between two room nodes.
 	 * @param startLocation
-	 * 				start location in room, used as identifier for finding actual location in the maze
+	 * 				start location of corridor, used as identifier for finding actual location in the maze
 	 * @param endLocation
-	 * 				end location in room, used as identifier for finding actual location in the maze
-	 * @param startRoom
-	 * 				room from which the corridor comes
-	 * @param endRoom
-	 * 				room to which the corridor goes
+	 * 				end location of corridor, used as identifier for finding actual location in the maze
+	 * @param id
+	 * 				id of CorridorEdge
 	 */
-	public CorridorEdge(Vec2I startLocation, Vec2I endLocation, RoomNode startRoom, RoomNode endRoom) {
-		this.startLocation = startLocation;
-		this.endLocation = endLocation;
-		this.startRoom = startRoom;
-		this.endRoom = endRoom;
+	public CorridorEdge(RoomExitPoint startLocation, RoomEntrancePoint endLocation, int id) {
+		this.start = startLocation;
+		this.end = endLocation;
+		this.id = id;
 	}
 }
