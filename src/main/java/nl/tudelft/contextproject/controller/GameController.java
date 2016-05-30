@@ -27,6 +27,7 @@ import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
+import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
@@ -141,6 +142,10 @@ public class GameController extends Controller {
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
+		
+		Treasure t = new Treasure();
+		t.move(-1, 0, -1);
+		game.getEntities().add(t);
 	}
 
 	private void attachRoof(Level level) {
