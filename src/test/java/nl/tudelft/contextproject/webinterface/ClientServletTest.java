@@ -66,7 +66,7 @@ public class ClientServletTest extends WebTestBase {
 	@Before
 	public void setUp() {
 		//Create a new controller and set it
-		GameController controller = new GameController(Main.getInstance(), level);
+		GameController controller = new GameController(Main.getInstance(), level, 10f);
 		Main.getInstance().setController(controller);
 		
 		webServer = spy(new WebServer());
