@@ -427,6 +427,8 @@ function getClassForEntityType(entityType) {
             return "carrot";
         case 9:
             return "killerbunny";
+        case 10:
+            return "voidplatform";
         default:
             showError("Invalid tile type: " + entityType);
             throw "Invalid tile type: " + entityType;
