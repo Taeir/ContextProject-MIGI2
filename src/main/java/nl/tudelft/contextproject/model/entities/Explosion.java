@@ -16,7 +16,6 @@ public class Explosion extends Entity {
 	private float maxRadius;
 	private Spatial spatial;
 	private VRPlayer player;
-	private float timer;
 
 	/**
 	 * Create an explosion with a certain maximal radius.
@@ -32,7 +31,6 @@ public class Explosion extends Entity {
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-		timer = 0f;
 		Sphere b = new Sphere(10, 10, .1f);
 		spatial = new Geometry("BOOM!", b);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");

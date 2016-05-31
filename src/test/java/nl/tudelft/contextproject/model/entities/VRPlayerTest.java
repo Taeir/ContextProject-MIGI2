@@ -192,6 +192,9 @@ public class VRPlayerTest extends MovingEnemyTest {
 		assertTrue(tile.isExplored());
 	}
 	
+	/**
+	 * Tests if a bomb gets picked up if pickup is pressed.
+	 */
 	@Test
 	public void testPickUpBomb() {
 		TestUtil.mockGame();
