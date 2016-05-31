@@ -50,6 +50,7 @@ public class Main extends VRApplication {
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
 	public static final boolean MIRROR_WINDOW = true;
+	public static final Float TIME_LIMIT = 300f;
 	
 	private static boolean hideQR;
 	
@@ -123,15 +124,13 @@ public class Main extends VRApplication {
 	 * 		true is the controller was changed, false otherwise
 	 */
 	public boolean setController(Controller c) {
-		if (c != controller) {
+		if (c != controller && c != null) {
 			if (controller != null) {
 				getStateManager().detach(controller);
 			}
 			controller = c;
+			getStateManager().attach(controller);
 			
-			if (controller != null) {
-				getStateManager().attach(controller);
-			}
 			return true;
 		}
 		return false;
@@ -413,8 +412,6 @@ public class Main extends VRApplication {
 	public BitmapFont getGuiFont() {
 		return guifont;
 	}
-	
-
 	
 	/**
 	 * Returns the Controller.
