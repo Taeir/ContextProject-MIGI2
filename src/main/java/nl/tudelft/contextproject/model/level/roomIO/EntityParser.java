@@ -17,6 +17,7 @@ import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.PlayerTrigger;
 import nl.tudelft.contextproject.model.entities.Treasure;
+import nl.tudelft.contextproject.model.entities.VoidPlatform;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.WallFrame;
 import nl.tudelft.contextproject.util.ParserUtil;
@@ -123,6 +124,9 @@ public final class EntityParser {
 				if (data.length < 8) throw new IllegalArgumentException("WallFrame must specify at least 8 values.");
 				e = new WallFrame(new Vector3f(x, y, z), path + data[5], Direction.valueOf(data[4]), Float.parseFloat(data[6]), Float.parseFloat(data[7]));
 				return e;
+			case "VoidPlatform":
+				e = new VoidPlatform();
+				break;
 			case "KillerBunny":
 				e = new KillerBunny(new Vector3f(x, y, z));
 				return e;
