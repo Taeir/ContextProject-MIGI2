@@ -16,6 +16,7 @@ import nl.tudelft.contextproject.model.entities.KillerBunny;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.PlayerTrigger;
+import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VoidPlatform;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.WallFrame;
@@ -129,6 +130,9 @@ public final class EntityParser {
 			case "KillerBunny":
 				e = new KillerBunny(new Vector3f(x, y, z));
 				return e;
+			case "Treasure":
+				e = new Treasure();
+				break;
 			default:
 				throw new IllegalArgumentException(type + " is not a known Entity type!");
 		}
