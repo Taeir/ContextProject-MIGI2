@@ -49,11 +49,13 @@ public class GameController extends Controller {
 	 * 		The Main instance of this game
 	 * @param level
 	 * 		The level for this game
+	 * @param timeLimit
+	 * 		the time limit for this game
 	 */
-	public GameController(Application app, Level level) {
+	public GameController(Application app, Level level, float timeLimit) {
 		super(app, "GameController");
 
-		game = new Game(level);
+		game = new Game(level, this, timeLimit);
 	}
 
 	/**
@@ -63,8 +65,10 @@ public class GameController extends Controller {
 	 * 		the main app that this controller is attached to
 	 * @param folder
 	 * 		the folder where to load the level from
+	 * @param timeLimit
+	 * 		the time limit for this game
 	 */
-	public GameController(Application app, String folder) {
+	public GameController(Application app, String folder, float timeLimit) {
 		super(app, "GameController");
 
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
@@ -76,7 +80,7 @@ public class GameController extends Controller {
 			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
 			RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
 			Level level = new Level(tiles, lights);
-			game = new Game(level, new VRPlayer(), entities);
+			game = new Game(level, new VRPlayer(), entities, this, timeLimit);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -199,6 +203,7 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
+		game.update(tpf);
 		game.getPlayer().update(tpf);
 		updateEntities(tpf);
 	}
@@ -262,5 +267,16 @@ public class GameController extends Controller {
 	 */
 	public void setGame(Game game) {
 		this.game = game;
+	}
+	
+	/**
+	 * Callback called when the game ends.
+	 * 
+	 * @param didElvesWin
+	 * 		true when the elves won, false when the dwarfs did
+	 */
+	public void gameEnded(boolean didElvesWin) {
+		Main main = Main.getInstance();
+		main.setController(new EndingController(main, didElvesWin));
 	}
 }

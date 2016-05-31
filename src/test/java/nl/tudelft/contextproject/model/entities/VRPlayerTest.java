@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,10 +16,12 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the VRPlayer class.
@@ -46,7 +47,6 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Before
 	public void setUp() {
-
 		player = new VRPlayer();
 	}
 
@@ -214,6 +214,27 @@ public class VRPlayerTest extends MovingEnemyTest {
 	}
 	
 	/**
+	 * Test if damaging the player makes the player take damage.
+	 */
+	@Test
+	public void testTakeDamage() {
+		float exp = player.getHealth() - .2f;
+		player.takeDamage(.2f);
+		assertEquals(exp, player.getHealth(), 1e-8);
+	}
+	
+	/**
+	 * Test if killing the player ends the game.
+	 */
+	@Test
+	public void testKill() {
+		TestUtil.mockGame();
+		float dmg = player.getHealth() + .2f;
+		player.takeDamage(dmg);
+		assertEquals(GameState.ENDED, Main.getInstance().getGameState());
+	}
+	
+	/**
 	 * Creates a 1x1 mocked level with a single floor tile.
 	 * 
 	 * @return
@@ -227,7 +248,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
 		when(level.getTile(anyInt(), anyInt())).thenReturn(tile);
 		
-		Game game = new Game(level);
+		Game game = new Game(level, null, 10f);
 		when(Main.getInstance().getCurrentGame()).thenReturn(game);
 		return tile;
 	}
