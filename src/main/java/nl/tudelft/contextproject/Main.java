@@ -44,8 +44,6 @@ import lombok.SneakyThrows;
  */
 public class Main extends VRApplication {
 	public static final int PORT_NUMBER = 8080;
-	//Set to false to disable VR
-	public static final boolean VR = true;
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
