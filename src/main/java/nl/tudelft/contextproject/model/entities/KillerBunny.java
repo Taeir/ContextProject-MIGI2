@@ -29,13 +29,13 @@ public class KillerBunny extends MovingEntity implements PhysicsObject {
 		spatial = getSpatial();
 		spatial.move(position);
 		getPhysicsObject();
-		
+
 	}
 
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/bunny.blend");
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/bunnylowpoly.blend");
 		return spatial;
 	}
 
@@ -53,7 +53,7 @@ public class KillerBunny extends MovingEntity implements PhysicsObject {
 	@Override
 	public PhysicsControl getPhysicsObject() {
 		if (control != null) return control;
-		
+
 		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(.15f, .15f, 1);
 		control = new CharacterControl(capsuleShape, .1f);
 
