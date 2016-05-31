@@ -218,25 +218,6 @@ public class VRPlayerTest extends MovingEnemyTest {
 	}
 	
 	/**
-	 * Tests if a door gets removed when pickup is pressed with the correct key.
-	 */
-	@Test
-	public void testPickUpDoor() {
-		TestUtil.mockGame();
-		Key key = new Key(ColorRGBA.Yellow);
-		Door door = new Door(ColorRGBA.Yellow);
-		door.setState(EntityState.ALIVE);
-		Vector3f vec = player.getSpatial().getLocalTranslation();
-		key.move(vec.x + 1, vec.y, vec.z);
-		door.move(vec.x, vec.y, vec.z + 1);
-		Main.getInstance().getCurrentGame().getEntities().add(key);
-		Main.getInstance().getCurrentGame().getEntities().add(door);
-		player.pickUp();
-		player.pickUp();
-		assertTrue(!player.getInventory().containsKey());
-	}
-	
-	/**
 	 * Tests if setting your health does not go over your maxhealth.
 	 */
 	@Test

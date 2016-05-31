@@ -58,7 +58,6 @@ public class Carrot extends Entity {
 	 */
 	public void eat(float amount) {		
 		health -= amount;
-		System.out.println(health);
 		if (health < 0) {
 			setState(EntityState.DEAD);
 		}
