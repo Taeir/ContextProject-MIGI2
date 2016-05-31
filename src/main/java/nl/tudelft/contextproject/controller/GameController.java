@@ -159,7 +159,7 @@ public class GameController extends Controller {
 				AssetManager am = Main.getInstance().getAssetManager();
 				Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
 				mat.setBoolean("UseMaterialColors", true);
-			    TangentBinormalGenerator.generate(roof);
+				TangentBinormalGenerator.generate(roof);
 				ColorRGBA color = ColorRGBA.Gray;
 				mat.setColor("Diffuse", color);
 				mat.setColor("Specular", color);
