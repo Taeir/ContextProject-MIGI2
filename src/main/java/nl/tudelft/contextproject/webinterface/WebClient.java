@@ -1,15 +1,16 @@
 package nl.tudelft.contextproject.webinterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
+import java.util.List;
 
 /**
  * Class to represent connected web clients.
  */
 public class WebClient {
 	private Boolean team;
-	private HashMap<Action, Set<Long>> performedActions;
+	private Map<Action, List<Long>> performedActions;
 
 	/**
 	 * Constructor for a WebClient.
@@ -94,16 +95,24 @@ public class WebClient {
 	 * Create sets in the HashMap for all elves actions.
 	 */
 	private void setUpPerformedElves() {
-		performedActions.put(Action.DROPBAIT, new HashSet<>());
+		performedActions.put(Action.DROPBAIT, new ArrayList<>());
 	}
 
 	/**
 	 * Create sets in the HashMap for all dwarfs actions.
 	 */
 	private void setUpPerformedDwarfs() {
-		performedActions.put(Action.PLACEBOMB, new HashSet<>());
-		performedActions.put(Action.PLACEPITFALL, new HashSet<>());
-		performedActions.put(Action.SPAWNENEMY, new HashSet<>());
+		performedActions.put(Action.PLACEBOMB, new ArrayList<>());
+		performedActions.put(Action.PLACEPITFALL, new ArrayList<>());
+		performedActions.put(Action.SPAWNENEMY, new ArrayList<>());
+	}
+
+	/**
+	 * @return
+	 * 		the map containing the actions performed by this client
+	 */
+	public Map<Action, List<Long>> getPerformedActions() {
+		return performedActions;
 	}
 
 	@Override

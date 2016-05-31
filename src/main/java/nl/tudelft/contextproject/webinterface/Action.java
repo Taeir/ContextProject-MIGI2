@@ -4,6 +4,7 @@ package nl.tudelft.contextproject.webinterface;
  * Enum representing the possible actions a player can perform.
  */
 public enum Action {
+	//Cooldowns are set in seconds
 	PLACEBOMB(10, 3),
 	PLACEPITFALL(10, 2),
 	PLACEMINE(10, 4),
@@ -21,7 +22,7 @@ public enum Action {
 	 * 		the max amount of times you can perform the action within a cooldown
 	 */
 	Action(int cooldown, int maxAmount) {
-		this.cooldown = cooldown;
+		this.cooldown = cooldown * 1000;
 		this.maxAmount = maxAmount;
 	}
 

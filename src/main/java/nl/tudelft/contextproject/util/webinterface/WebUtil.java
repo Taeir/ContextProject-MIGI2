@@ -6,7 +6,10 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.webinterface.Action;
+import nl.tudelft.contextproject.webinterface.WebClient;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -128,5 +131,48 @@ public final class WebUtil {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Check if an action can or cannot be performed because of a cooldown.
+	 *
+	 * @param action
+	 * 		the action the client wants to perform
+	 * @param client
+	 * 		the client who wants to perform the action
+	 * @return
+	 * 		true if the action is valid and can be performed, false if it is not
+	 */
+	public static boolean checkWithinCooldown(Action action, WebClient client) {
+		Long currTime = System.currentTimeMillis();
+		List<Long> timestamps = client.getPerformedActions().get(action);
+
+		shrinkTimestampsList(timestamps, action.getCooldown(), currTime);
+		if (timestamps.size() < action.getMaxAmount()) {
+			timestamps.add(currTime);
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Remove all actions which are outside of the cooldown from a list of actions.
+	 *
+	 * @param timestamps
+	 * 		the list of timestamps to shrink
+	 * @param cooldown
+	 * 		the cooldown for the current action
+	 * @param currTime
+	 * 		the current time
+	 */
+	private static void shrinkTimestampsList(List<Long> timestamps, int cooldown, long currTime) {
+		Iterator<Long> itr = timestamps.iterator();
+		while (itr.hasNext()) {
+			Long selectedLong = itr.next();
+			if (currTime - selectedLong >= cooldown) {
+				itr.remove();
+			}
+		}
 	}
 }

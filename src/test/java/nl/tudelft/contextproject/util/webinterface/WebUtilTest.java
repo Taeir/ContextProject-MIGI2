@@ -10,10 +10,15 @@ import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.webinterface.Action;
+import nl.tudelft.contextproject.webinterface.WebClient;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -30,6 +35,7 @@ public class WebUtilTest extends TestBase {
 	private Level mockedLevel;
 	private Vector3f zeroVector;
 	private VRPlayer mockedPlayer;
+	private static final String DWARFS = "Dwarfs";
 
 	/**
 	 * Set up all needed fields for testing.
@@ -65,7 +71,7 @@ public class WebUtilTest extends TestBase {
 	@Test
 	public void testCheckValidAction() {
 		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, "Elves"));
-		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, "Dwarfs"));
+		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, DWARFS));
 		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, "hax0r"));
 	}
 
@@ -160,5 +166,68 @@ public class WebUtilTest extends TestBase {
 		when(mockedPlayer.getLocation()).thenReturn(oneVector);
 
 		assertTrue(WebUtil.checkValidLocation(0, 0));
+	}
+
+	/**
+	 * Check if we are allowed to place according to the cooldown.
+	 */
+	@Test
+	public void testCheckWithinCooldownTrue() {
+		WebClient mockedClient = mock(WebClient.class);
+
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		List<Long> timestamps = new ArrayList<>();
+		performedActions.put(Action.PLACEBOMB, timestamps);
+
+		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
+
+		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
+		assertEquals(1, timestamps.size());
+	}
+
+	/**
+	 * Check if we are not allowed to place according to the cooldown.
+	 */
+	@Test
+	public void testCheckWithinCooldownFalse() {
+		WebClient mockedClient = mock(WebClient.class);
+
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		List<Long> timestamps = new ArrayList<>();
+
+		for (int i = 0; i < Action.PLACEBOMB.getMaxAmount(); i++) {
+			timestamps.add(Long.MAX_VALUE);
+		}
+
+		performedActions.put(Action.PLACEBOMB, timestamps);
+
+		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
+
+		assertFalse(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
+		assertEquals(Action.PLACEBOMB.getMaxAmount(), timestamps.size());
+	}
+
+	/**
+	 * Check if we are allowed to place according to the cooldown, while there is already an
+	 * item in our list.
+	 */
+	@Test
+	public void testCheckWithinCooldownTrueRemoved() {
+		WebClient mockedClient = mock(WebClient.class);
+
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		List<Long> timestamps = new ArrayList<>();
+
+		timestamps.add(0L);
+
+		performedActions.put(Action.PLACEBOMB, timestamps);
+
+		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
+
+		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
+		assertEquals(1, timestamps.size());
 	}
 }
