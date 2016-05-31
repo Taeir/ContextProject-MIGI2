@@ -61,7 +61,6 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * 		location and name of mapFolder
 	 */
 	public MSTBasedLevelFactory(String mapFolder) {
-		idCounter = 0;
 		lights = new ArrayList<Light>();
 		mazeTiles = new MazeTile[MAX_WIDTH][MAX_HEIGHT];
 		initializeBuilder(mapFolder);
@@ -105,7 +104,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), -1);
 		addRoomNode(startNode, startLocation);
 
-		//Place start room
+		//Place treasure room
 		Vec2I treasureLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				beginningRightMostQuarter, MAX_WIDTH - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)), 
 					RandomUtil.getRandomIntegerFromInterval(rand, 
@@ -164,7 +163,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Create a MST, connecting all the rooms with the least amount of path.
 	 */
 	protected void createMST() {
-		MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes);
+		//MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes);
 	}
 	
 	/**
@@ -185,8 +184,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		if (!duplicates) {
 			baseNodes.remove(node);
 		} else {
-			node = node.copy(idCounter);
-			idCounter++;
+			node = node.copy(idCounter++);
 		}
 
 		node.carveRoomNode(mazeTiles, position);

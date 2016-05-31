@@ -5,25 +5,25 @@ package nl.tudelft.contextproject.model.level.util;
  */
 public class MSTEdge {
 	
-	public int startID;
-	public int endID;
+	public MSTNode startNode;
+	public MSTNode endNode;
 	public double weight;
 	public int corridorID;
 	
 	/**
 	 * Constructor.
-	 * @param startID
+	 * @param startNode
 	 * 					start node ID
-	 * @param endID
+	 * @param endNode
 	 * 					end node ID
 	 * @param weight
 	 * 					weight of edge
 	 * @param corridorID
-	 * 					id of old corridorID
+	 * 					ID of corridorEdge
 	 */
-	public MSTEdge(int startID, int endID, double weight, int corridorID) {
-		this.startID = startID;
-		this.endID = endID;
+	public MSTEdge(MSTNode startNode, MSTNode endNode, double weight, int corridorID) {
+		this.startNode = startNode;
+		this.endNode = endNode;
 		this.weight = weight;
 		this.corridorID = corridorID;		
 	}

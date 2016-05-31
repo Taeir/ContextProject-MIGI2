@@ -10,8 +10,6 @@ public class CorridorEdge {
 	
 	public RoomEntrancePoint end;
 	
-	public RoomNode roomNode;
-	
 	public int id;
 	
 	public double weight;

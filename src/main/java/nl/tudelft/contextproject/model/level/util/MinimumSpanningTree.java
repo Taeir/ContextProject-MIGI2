@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject.model.level.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -11,17 +13,20 @@ import java.util.List;
 public class MinimumSpanningTree {
 	
 	public List<RoomNode> roomNodes;
-	
-	public List<MSTNode> treeNodes;
+	public List<CorridorEdge> corridorEdges;
+	public HashMap<MSTNode, ArrayList<MSTEdge>> treeNodes;
 	
 	/**
 	 * Constructor.
 	 * @param roomNodes
 	 * 					RoomNodes of graph
+	 * @param corridorEdges
+	 * 					CorridorEdges of graph
 	 */
-	public MinimumSpanningTree(List<RoomNode> roomNodes) {
+	public MinimumSpanningTree(List<RoomNode> roomNodes, List<CorridorEdge> corridorEdges) {
 		this.roomNodes = roomNodes;
-		this.treeNodes = new ArrayList<MSTNode>();
+		this.corridorEdges = corridorEdges;
+		this.treeNodes = new HashMap<MSTNode, ArrayList<MSTEdge>>();
 	}
 	
 	/**
@@ -36,38 +41,42 @@ public class MinimumSpanningTree {
 
 	/**
 	 * Generate a new graph that deals better with rooms.
-	 * Split each room into several nodes.
-	 * Each 
+	 * 
 	 */
 	protected void createTransformedGraph() {
-		int idCounter = 0;
-		ArrayList<RoomExitPoint> exits;
-		ArrayList<RoomEntrancePoint> entrances;
-		ArrayList<MSTNode> exitNodes;
-		ArrayList<MSTNode> entranceNodes;
-		MSTNode middelNode;
-		for (RoomNode roomNode : roomNodes) {
-			exits = roomNode.exits;
-			entrances = roomNode.entrances;
-			exitNodes = new ArrayList<MSTNode>();
-			entranceNodes = new ArrayList<MSTNode>();
-			//Create a node for each exit
-			for (RoomExitPoint exit : exits) {
-				exitNodes.add(new MSTNode(roomNode, roomNode.getOutgoingEdgesOfExit(exit), idCounter++));
+		MSTNode startNode, endNode;
+		MSTEdge currentEdge;
+		ArrayList<MSTEdge> currentEdgeList;
+		for (CorridorEdge corridorEdge : corridorEdges) {
+			//Create RoomNode exit node equivalent, in other words, the start node of the corridor
+			startNode = new MSTNode(new ArrayList<MSTEdge>(), 
+					MSTNodeType.EXIT_NODE, 
+					corridorEdge.start, 
+					corridorEdge.start.node.id);
+
+			//Create RoomNode entrance node equivalent, in other words, the end node the corridor
+			endNode = new MSTNode(new ArrayList<MSTEdge>(),
+					MSTNodeType.ENTRANCE_NODE,
+					corridorEdge.end,
+					corridorEdge.end.node.id);
+			//Create edge MSTEdge
+			currentEdge = new MSTEdge(startNode, endNode, corridorEdge.weight, corridorEdge.id);
+			
+			if (treeNodes.containsKey(startNode)) {
+				currentEdgeList = treeNodes.get(startNode);
+				//currentEdgeList.add(e)
+			} else {
+				//start
+			//	treeNodes.add(startNode);
 			}
 			
-			//Create a center node for the room
-			middelNode = new MSTNode(roomNode, new ArrayList<CorridorEdge>(), idCounter++);
-			for (MSTNode exitNode : exitNodes) {
-				middelNode.edges.add(new CorridorEdge());
-			}
+			//Add existing edges to that exit node
 			
+			//Create RoomNode entrance node equivalent, in other words, the end node the corridor
 		}
-		
 	}
 	
-	protected List<MSTEdge> createMSTEdges(List<CorridorEdge> edges) {
-		for (Corridor edge)
-	}
+	
+	
 	
 }
