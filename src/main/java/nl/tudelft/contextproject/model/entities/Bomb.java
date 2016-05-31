@@ -105,7 +105,6 @@ public class Bomb extends Entity implements PhysicsObject {
 	}
 
 	/**
-	 * 
 	 * @param bool
 	 * 		decides wether the bomb is picked up 
 	 */
@@ -114,7 +113,6 @@ public class Bomb extends Entity implements PhysicsObject {
 	}
 
 	/**
-	 * 
 	 * @return 
 	 * 		returns wether the bomb is picked up or not
 	 */
