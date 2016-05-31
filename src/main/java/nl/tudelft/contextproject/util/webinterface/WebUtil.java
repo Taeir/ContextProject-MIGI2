@@ -34,7 +34,7 @@ public final class WebUtil {
 		Action[] actions = Action.values();
 
 		if (action >= 0 && action < actions.length) {
-			return Action.values()[action];
+			return actions[action];
 		} else {
 			return Action.INVALID;
 		}
