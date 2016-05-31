@@ -9,10 +9,16 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.webinterface.Action;
+import nl.tudelft.contextproject.webinterface.WebClient;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -29,6 +35,7 @@ public class WebUtilTest extends TestBase {
 	private Level mockedLevel;
 	private Vector3f zeroVector;
 	private VRPlayer mockedPlayer;
+	private static final String DWARFS = "Dwarfs";
 
 	/**
 	 * Set up all needed fields for testing.
@@ -50,12 +57,12 @@ public class WebUtilTest extends TestBase {
 	 */
 	@Test
 	public void testDecode() {
-		assertEquals(WebUtil.decodeAction(0), "placebomb");
-		assertEquals(WebUtil.decodeAction(1), "placepitfall");
-		assertEquals(WebUtil.decodeAction(2), "placemine");
-		assertEquals(WebUtil.decodeAction(3), "spawnenemy");
-		assertEquals(WebUtil.decodeAction(4), "dropbait");
-		assertEquals(WebUtil.decodeAction(-1), "notanaction");
+		assertEquals(WebUtil.decodeAction(0), Action.PLACEBOMB);
+		assertEquals(WebUtil.decodeAction(1), Action.PLACEPITFALL);
+		assertEquals(WebUtil.decodeAction(2), Action.PLACEMINE);
+		assertEquals(WebUtil.decodeAction(3), Action.SPAWNENEMY);
+		assertEquals(WebUtil.decodeAction(4), Action.DROPBAIT);
+		assertEquals(WebUtil.decodeAction(-1), Action.INVALID);
 	}
 
 	/**
@@ -63,9 +70,9 @@ public class WebUtilTest extends TestBase {
 	 */
 	@Test
 	public void testCheckValidAction() {
-		assertTrue(WebUtil.checkValidAction("dropbait", "Elves"));
-		assertTrue(WebUtil.checkValidAction("placebomb", "Dwarfs"));
-		assertFalse(WebUtil.checkValidAction("wingame", "hax0r"));
+		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, "Elves"));
+		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, DWARFS));
+		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, "hax0r"));
 	}
 
 	/**
@@ -73,8 +80,8 @@ public class WebUtilTest extends TestBase {
 	 */
 	@Test
 	public void testCheckValidElves() {
-		assertTrue(WebUtil.checkValidElves("dropbait"));
-		assertFalse(WebUtil.checkValidElves("wingame"));
+		assertTrue(WebUtil.checkValidElves(Action.DROPBAIT));
+		assertFalse(WebUtil.checkValidElves(Action.PLACEBOMB));
 	}
 
 	/**
@@ -82,11 +89,11 @@ public class WebUtilTest extends TestBase {
 	 */
 	@Test
 	public void testCheckValidDwarfs() {
-		assertTrue(WebUtil.checkValidDwarfs("placebomb"));
-		assertTrue(WebUtil.checkValidDwarfs("placepitfall"));
-		assertTrue(WebUtil.checkValidDwarfs("placemine"));
-		assertTrue(WebUtil.checkValidDwarfs("spawnenemy"));
-		assertFalse(WebUtil.checkValidDwarfs("wingame"));
+		assertTrue(WebUtil.checkValidDwarfs(Action.PLACEBOMB));
+		assertTrue(WebUtil.checkValidDwarfs(Action.PLACEPITFALL));
+		assertTrue(WebUtil.checkValidDwarfs(Action.PLACEMINE));
+		assertTrue(WebUtil.checkValidDwarfs(Action.SPAWNENEMY));
+		assertFalse(WebUtil.checkValidDwarfs(Action.DROPBAIT));
 	}
 
 	/**
@@ -159,5 +166,68 @@ public class WebUtilTest extends TestBase {
 		when(mockedPlayer.getLocation()).thenReturn(oneVector);
 
 		assertTrue(WebUtil.checkValidLocation(0, 0));
+	}
+
+	/**
+	 * Check if we are allowed to place according to the cooldown.
+	 */
+	@Test
+	public void testCheckWithinCooldownTrue() {
+		WebClient mockedClient = mock(WebClient.class);
+
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		List<Long> timestamps = new ArrayList<>();
+		performedActions.put(Action.PLACEBOMB, timestamps);
+
+		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
+
+		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
+		assertEquals(1, timestamps.size());
+	}
+
+	/**
+	 * Check if we are not allowed to place according to the cooldown.
+	 */
+	@Test
+	public void testCheckWithinCooldownFalse() {
+		WebClient mockedClient = mock(WebClient.class);
+
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		List<Long> timestamps = new ArrayList<>();
+
+		for (int i = 0; i < Action.PLACEBOMB.getMaxAmount(); i++) {
+			timestamps.add(Long.MAX_VALUE);
+		}
+
+		performedActions.put(Action.PLACEBOMB, timestamps);
+
+		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
+
+		assertFalse(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
+		assertEquals(Action.PLACEBOMB.getMaxAmount(), timestamps.size());
+	}
+
+	/**
+	 * Check if we are allowed to place according to the cooldown, while there is already an
+	 * item in our list.
+	 */
+	@Test
+	public void testCheckWithinCooldownTrueRemoved() {
+		WebClient mockedClient = mock(WebClient.class);
+
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		List<Long> timestamps = new ArrayList<>();
+
+		timestamps.add(0L);
+
+		performedActions.put(Action.PLACEBOMB, timestamps);
+
+		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
+
+		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
+		assertEquals(1, timestamps.size());
 	}
 }

@@ -44,16 +44,16 @@ import lombok.SneakyThrows;
  */
 public class Main extends VRApplication {
 	public static final int PORT_NUMBER = 8080;
-	//Set to false to disable VR
-	public static final boolean VR = true;
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
 	public static final boolean MIRROR_WINDOW = true;
+	public static final Float TIME_LIMIT = 300f;
 	
 	private static boolean hideQR;
 	
 	private static Main instance;
+	private static boolean mouseEnabled;
 	
 	private Controller controller;
 	private WebServer webServer;
@@ -72,19 +72,21 @@ public class Main extends VRApplication {
 		List<String> a = Arrays.asList(args);
 		hideQR = a.contains("--hideQR");
 		
+		boolean dvr = a.contains("--disableVR");
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, dvr);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, !dvr);
+
+		mouseEnabled = a.contains("--enableMouse");
+		
 		AppSettings settings = new AppSettings(true);
 		settings.setUseJoysticks(true);
 		main.setSettings(settings);
-
-		//Set if we want to run in VR mode or not.
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, !VR);
 		
 		//Use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
 		//Runs faster when set to false, but will allow mirroring
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, MIRROR_WINDOW);
 		//Render two eyes, regardless of SteamVR
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
 		//Show gui even if it is behind things
@@ -123,15 +125,17 @@ public class Main extends VRApplication {
 	 * 		true is the controller was changed, false otherwise
 	 */
 	public boolean setController(Controller c) {
-		if (c != controller) {
+		if (c != controller && c != null) {
 			if (controller != null) {
 				getStateManager().detach(controller);
 			}
+
 			controller = c;
-			
-			if (controller != null) {
-				getStateManager().attach(controller);
+			getStateManager().attach(controller);
+			if (webServer != null) {
+				webServer.clearCooldowns();
 			}
+			
 			return true;
 		}
 		return false;
@@ -233,12 +237,12 @@ public class Main extends VRApplication {
 	@SneakyThrows
 	protected void setupControlMappings() {
 		InputManager im = getInputManager();
-		
-		//Add mouse controls when No VR is attached.
-		if (!VRApplication.isInVR()) {
+		im.setCursorVisible(false);
+
+		if (mouseEnabled) {
 			new NoVRMouseManager(getCamera()).registerWithInput(im);
 		}
-
+		
 		if (isControllerConnected()) {
 			Joystick j = im.getJoysticks()[0];
 
@@ -413,8 +417,6 @@ public class Main extends VRApplication {
 	public BitmapFont getGuiFont() {
 		return guifont;
 	}
-	
-
 	
 	/**
 	 * Returns the Controller.

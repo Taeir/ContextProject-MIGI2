@@ -203,9 +203,9 @@ public class ClientServlet extends DefaultServlet {
 
 		int xCoord = Integer.parseInt(request.getParameter("x"));
 		int yCoord = Integer.parseInt(request.getParameter("y"));
-		String action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
+		Action action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
 
-		attemptAction(xCoord, yCoord, action, client.getTeam(), response);
+		attemptAction(xCoord, yCoord, action, client, response);
 	}
 	
 	/**
@@ -263,15 +263,15 @@ public class ClientServlet extends DefaultServlet {
 	 * 		the y coordinate to perform the action on
 	 * @param action
 	 * 		the action to perform
-	 * @param team
-	 * 		the team of the player who wants to perform the action
+	 * @param client
+	 * 		the client who wants to perform the action
 	 * @param response
 	 * 		the HTTP response object
 	 * @throws IOException
 	 * 		if sending the response to the client causes an IOException
 	 */
-	protected void attemptAction(int xCoord, int yCoord, String action, String team, HttpServletResponse response) throws IOException {
-		if (!WebUtil.checkValidAction(action, team)) {
+	protected void attemptAction(int xCoord, int yCoord, Action action, WebClient client, HttpServletResponse response) throws IOException {
+		if (!WebUtil.checkValidAction(action, client.getTeam())) {
 			response.setStatus(HttpStatus.OK_200);
 			response.getWriter().write("ACTION INVALID, NOT PERFORMED");
 			return;
@@ -280,6 +280,12 @@ public class ClientServlet extends DefaultServlet {
 		if (!WebUtil.checkValidLocation(xCoord, yCoord)) {
 			response.setStatus(HttpStatus.OK_200);
 			response.getWriter().write("ACTION ON INVALID LOCATION, NOT PERFORMED");
+			return;
+		}
+
+		if (!WebUtil.checkWithinCooldown(action, client)) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("ACTION IN COOLDOWN, NOT PERFORMED");
 			return;
 		}
 

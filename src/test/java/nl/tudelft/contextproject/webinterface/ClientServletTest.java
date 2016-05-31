@@ -4,8 +4,12 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,7 +66,7 @@ public class ClientServletTest extends WebTestBase {
 	@Before
 	public void setUp() {
 		//Create a new controller and set it
-		GameController controller = new GameController(Main.getInstance(), level);
+		GameController controller = new GameController(Main.getInstance(), level, 10f);
 		Main.getInstance().setController(controller);
 		
 		webServer = spy(new WebServer());
@@ -617,15 +621,99 @@ public class ClientServletTest extends WebTestBase {
 	 * 		if an IOException occurs calling requestAction of the servlet
 	 */
 	@Test
-	public void testAttemptAction_incorrect() throws IOException {
+	public void testAttemptAction_incorrectAction() throws IOException {
 		HttpServletResponse response = createMockedResponse();
+		WebClient mockedClient = mock(WebClient.class);
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		performedActions.put(Action.DROPBAIT, new ArrayList<>());
+
+		when(mockedClient.getTeam()).thenReturn("Elves");
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		//Try to place a bomb as an elf, which is impossible
-		servlet.attemptAction(0, 0, "placebomb", "Elves", response);
+		servlet.attemptAction(0, 0, Action.PLACEBOMB, mockedClient, response);
 
 		//Verify the action has been denied
 		verify(response).setStatus(HttpStatus.OK_200);
 		verify(response.getWriter()).write("ACTION INVALID, NOT PERFORMED");
+	}
+
+	/**
+	 * Test method for {@link ClientServlet#attemptAction}, when the action is on an invalid location.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testAttemptAction_incorrectLocation() throws IOException {
+		HttpServletResponse response = createMockedResponse();
+
+		Game mockedGame = mock(Game.class);
+		Level mockedLevel = mock(Level.class);
+		MazeTile mockedTile = mock(MazeTile.class);
+		WebClient mockedClient = mock(WebClient.class);
+
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		performedActions.put(Action.PLACEBOMB, new ArrayList<>());
+
+		when(mockedClient.getTeam()).thenReturn("Dwarfs");
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
+		when(Main.getInstance().getCurrentGame()).thenReturn(mockedGame);
+		when(mockedGame.getLevel()).thenReturn(mockedLevel);
+		when(mockedLevel.getTile(anyInt(), anyInt())).thenReturn(mockedTile);
+		when(mockedTile.getTileType()).thenReturn(TileType.WALL);
+
+		//Try to place a bomb as a dwarf
+		servlet.attemptAction(0, 0, Action.PLACEBOMB, mockedClient, response);
+
+		//Verify the action has been accepted
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("ACTION ON INVALID LOCATION, NOT PERFORMED");
+	}
+
+
+	/**
+	 * Test method for {@link ClientServlet#attemptAction}, when the action is on an invalid location.
+	 *
+	 * @throws IOException
+	 * 		if an IOException occurs calling requestAction of the servlet
+	 */
+	@Test
+	public void testAttemptAction_incorrectCooldown() throws IOException {
+		HttpServletResponse response = createMockedResponse();
+
+		Game mockedGame = mock(Game.class);
+		Level mockedLevel = mock(Level.class);
+		MazeTile mockedTile = mock(MazeTile.class);
+		VRPlayer mockedPlayer = mock(VRPlayer.class);
+		WebClient mockedClient = mock(WebClient.class);
+
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		ArrayList<Long> set = new ArrayList<>();
+
+		for (int i = 0; i < Action.PLACEBOMB.getMaxAmount(); i++) {
+			set.add(Long.MAX_VALUE);
+		}
+
+		performedActions.put(Action.PLACEBOMB, set);
+
+		when(mockedClient.getTeam()).thenReturn("Dwarfs");
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
+
+		when(Main.getInstance().getCurrentGame()).thenReturn(mockedGame);
+		when(mockedGame.getLevel()).thenReturn(mockedLevel);
+		when(mockedLevel.getTile(anyInt(), anyInt())).thenReturn(mockedTile);
+		when(mockedTile.getTileType()).thenReturn(TileType.FLOOR);
+		when(mockedGame.getEntities()).thenReturn(new HashSet<>());
+		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
+		when(mockedPlayer.getLocation()).thenReturn(new Vector3f(1000, 1000, 1000));
+
+		//Try to place a bomb as a dwarf
+		servlet.attemptAction(0, 0, Action.PLACEBOMB, mockedClient, response);
+
+		//Verify the action has been accepted
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("ACTION IN COOLDOWN, NOT PERFORMED");
 	}
 
 	/**
@@ -642,7 +730,13 @@ public class ClientServletTest extends WebTestBase {
 		Level mockedLevel = mock(Level.class);
 		MazeTile mockedTile = mock(MazeTile.class);
 		VRPlayer mockedPlayer = mock(VRPlayer.class);
+		WebClient mockedClient = mock(WebClient.class);
 
+		Map<Action, List<Long>> performedActions = new HashMap<>();
+		performedActions.put(Action.PLACEBOMB, new ArrayList<>());
+
+		when(mockedClient.getTeam()).thenReturn("Dwarfs");
+		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 		when(Main.getInstance().getCurrentGame()).thenReturn(mockedGame);
 		when(mockedGame.getLevel()).thenReturn(mockedLevel);
 		when(mockedLevel.getTile(anyInt(), anyInt())).thenReturn(mockedTile);
@@ -652,7 +746,7 @@ public class ClientServletTest extends WebTestBase {
 		when(mockedPlayer.getLocation()).thenReturn(new Vector3f(1000, 1000, 1000));
 
 		//Try to place a bomb as a dwarf
-		servlet.attemptAction(0, 0, "placebomb", "Dwarfs", response);
+		servlet.attemptAction(0, 0, Action.PLACEBOMB, mockedClient, response);
 
 		//Verify the action has been accepted
 		verify(response).setStatus(HttpStatus.OK_200);

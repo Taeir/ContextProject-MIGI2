@@ -261,7 +261,7 @@ public final class TestUtil extends TestBase {
 		
 		//Create a mocked level in a real GameController
 		Level level = mock(Level.class);
-		GameController gc = new GameController(main, level);
+		GameController gc = new GameController(main, level, 10f);
 		
 		//Spy on the game
 		Game game = spy(gc.getGame());

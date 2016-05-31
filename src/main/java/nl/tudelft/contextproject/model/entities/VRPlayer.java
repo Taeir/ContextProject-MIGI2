@@ -298,5 +298,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	 */
 	public void takeDamage(float amount) {
 		health -= amount;
+		if (health < 0) {
+			Main.getInstance().getCurrentGame().endGame(false);
+		}
 	}
 }

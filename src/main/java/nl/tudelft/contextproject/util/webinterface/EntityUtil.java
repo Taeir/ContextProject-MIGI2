@@ -21,6 +21,7 @@ public final class EntityUtil {
 	private static final int LANDMINE = 7;
 	private static final int CARROT = 8;
 	private static final int KILLERBUNNY = 9;
+	private static final int VOIDPLATFORM = 10;
 
 	/**
 	 * Private constructor to avoid initialization.
@@ -55,6 +56,8 @@ public final class EntityUtil {
 				return CARROT;
 			case "KillerBunny":
 				return KILLERBUNNY;
+			case "VoidPlatform":
+				return VOIDPLATFORM;
 			default:
 				return DEFAULT;
 		}
