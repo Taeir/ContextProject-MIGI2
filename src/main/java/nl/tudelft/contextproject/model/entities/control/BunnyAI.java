@@ -31,16 +31,18 @@ public class BunnyAI implements EntityControl {
 		this.player = game.getPlayer();
 		this.entities = game.getEntities();
 	}
-	
+
 	@Override
 	public void move(float tpf) {
-		owner.getSpatial().lookAt(player.getSpatial().getWorldTranslation(), Vector3f.UNIT_Y);
+		if (owner.getSpatial() != null) {
+			owner.getSpatial().lookAt(player.getSpatial().getWorldTranslation(), Vector3f.UNIT_Y);
+		}
 		float playerdist = player.getLocation().distance(owner.getLocation());
 		if (playerdist < .4) {
 			player.takeDamage(tpf * 2);
 			return;
 		}
-		
+
 		randomJump(tpf);
 		Entity target = findTarget(playerdist, tpf);
 		Vector3f move = target.getLocation().subtract(owner.getLocation()).normalize().mult(tpf);

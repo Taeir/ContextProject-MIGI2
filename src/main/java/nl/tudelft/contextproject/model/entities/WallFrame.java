@@ -46,7 +46,7 @@ public class WallFrame extends Entity {
 		spatial.setLocalTranslation(position);
 		snapToWall(orientation);
 	}
-	
+
 	/**
 	 * Rotate and move the frame to snap to the side of a wall.
 	 *

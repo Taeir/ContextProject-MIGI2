@@ -18,9 +18,11 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the VRPlayer class.
@@ -191,6 +193,70 @@ public class VRPlayerTest extends MovingEnemyTest {
 		assertTrue(tile.isExplored());
 	}
 	
+	@Test
+	public void testPickUpBomb() {
+		TestUtil.mockGame();
+		Bomb bomb = new Bomb();
+		Vector3f vec = player.getSpatial().getLocalTranslation();
+		bomb.move(vec.x + 1, vec.y, vec.z);
+		Main.getInstance().getCurrentGame().getEntities().add(bomb);
+		player.pickUp();
+		assertTrue(bomb.getPickedup());
+	}
+	
+	/**
+	 * Tests wether you pick up a nearby key when pickup is pressed.
+	 */
+	@Test
+	public void testPickUpKey() {
+		TestUtil.mockGame();
+		Key key = new Key(ColorRGBA.Yellow);
+		Vector3f vec = player.getSpatial().getLocalTranslation();
+		key.move(vec.x + 1, vec.y, vec.z);
+		Main.getInstance().getCurrentGame().getEntities().add(key);
+		player.pickUp();
+		player.getInventory().containsKey();
+	}
+	
+	/**
+	 * Tests if a door gets removed when pickup is pressed with the correct key.
+	 */
+	@Test
+	public void testPickUpDoor() {
+		TestUtil.mockGame();
+		Key key = new Key(ColorRGBA.Yellow);
+		Door door = new Door(ColorRGBA.Yellow);
+		door.setState(EntityState.ALIVE);
+		Vector3f vec = player.getSpatial().getLocalTranslation();
+		key.move(vec.x + 1, vec.y, vec.z);
+		door.move(vec.x, vec.y, vec.z + 1);
+		Main.getInstance().getCurrentGame().getEntities().add(key);
+		Main.getInstance().getCurrentGame().getEntities().add(door);
+		player.pickUp();
+		player.pickUp();
+		assertTrue(!player.getInventory().containsKey());
+	}
+	
+	/**
+	 * Tests if setting your health does not go over your maxhealth.
+	 */
+	@Test
+	public void testsetHealth() {
+		player.setHealth(2);
+		player.setHealth(4);
+		assertTrue(player.getHealth() == 3);
+	}
+	
+	/**
+	 * Tests if changing the inventory changes the inventory.
+	 */
+	@Test
+	public void testsetInventory() {
+		Inventory inv = new Inventory();
+		player.setInventory(inv);
+		assertEquals(player.getInventory(), inv);
+	}
+	
 	/**
 	 * Tests if the exploration works correctly.
 	 * 
@@ -230,5 +296,5 @@ public class VRPlayerTest extends MovingEnemyTest {
 		Game game = new Game(level);
 		when(Main.getInstance().getCurrentGame()).thenReturn(game);
 		return tile;
-	}
+	}	
 }

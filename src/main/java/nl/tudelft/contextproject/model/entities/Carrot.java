@@ -12,7 +12,7 @@ public class Carrot extends Entity {
 
 	private float health;
 	private Spatial spatial;
-	
+
 	/**
 	 * Creates a carrot.
 	 */
@@ -49,7 +49,7 @@ public class Carrot extends Entity {
 	public void move(float x, float y, float z) {
 		getSpatial().move(x, y, z);
 	}
-	
+
 	/**
 	 * Eat a piece of the carrot.
 	 *  

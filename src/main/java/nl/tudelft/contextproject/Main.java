@@ -45,7 +45,7 @@ import lombok.SneakyThrows;
 public class Main extends VRApplication {
 	public static final int PORT_NUMBER = 8080;
 	//Set to false to disable VR
-	public static final boolean VR = true;
+	public static final boolean VR = false;
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
@@ -94,7 +94,7 @@ public class Main extends VRApplication {
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
 		
 		//Set frustum distances here before app starts
-		main.preconfigureFrustrumNearFar(0.1f, 512f);
+		//main.preconfigureFrustrumNearFar(0.1f, 512f);
 		
 		//You can downsample for performance reasons
 		main.preconfigureResolutionMultiplier(RESOLUTION);
