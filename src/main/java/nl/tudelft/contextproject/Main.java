@@ -55,6 +55,7 @@ public class Main extends VRApplication {
 	private static boolean hideQR;
 	
 	private static Main instance;
+	private static boolean mouseEnabled;
 	
 	private Controller controller;
 	private WebServer webServer;
@@ -73,19 +74,21 @@ public class Main extends VRApplication {
 		List<String> a = Arrays.asList(args);
 		hideQR = a.contains("--hideQR");
 		
+		boolean dvr = a.contains("--disableVR");
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, dvr);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, !dvr);
+
+		mouseEnabled = a.contains("--enableMouse");
+		
 		AppSettings settings = new AppSettings(true);
 		settings.setUseJoysticks(true);
 		main.setSettings(settings);
-
-		//Set if we want to run in VR mode or not.
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, !VR);
 		
 		//Use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
 		//Runs faster when set to false, but will allow mirroring
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, MIRROR_WINDOW);
 		//Render two eyes, regardless of SteamVR
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
 		//Show gui even if it is behind things
@@ -232,12 +235,12 @@ public class Main extends VRApplication {
 	@SneakyThrows
 	protected void setupControlMappings() {
 		InputManager im = getInputManager();
-		
-		//Add mouse controls when No VR is attached.
-		if (!VRApplication.isInVR()) {
+		im.setCursorVisible(false);
+
+		if (mouseEnabled) {
 			new NoVRMouseManager(getCamera()).registerWithInput(im);
 		}
-
+		
 		if (isControllerConnected()) {
 			Joystick j = im.getJoysticks()[0];
 
