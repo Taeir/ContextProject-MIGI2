@@ -1,4 +1,5 @@
 package nl.tudelft.contextproject.model.entities;
+
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -8,7 +9,6 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
@@ -29,15 +29,13 @@ public class Door extends Entity implements PhysicsObject {
 	 */
 	public Door(ColorRGBA col) {
 		color = col;
-		Box cube1Mesh = new Box(1f, 1f, 1f);
-		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
 		sp.scale(2f);
 		Material mat3 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat3.setColor("Color", color);
 		if (sp instanceof Node) {
 			Node node = (Node) sp;
-			geometry = (Geometry) ((Node) node.getChild("Cube.001")).getChild(0);
+			Geometry geometry = (Geometry) ((Node) node.getChild("Cube.001")).getChild(0);
 			Material mat = geometry.getMaterial();
 			mat.setColor("Ambient", color);
 			geometry.setMaterial(mat);
