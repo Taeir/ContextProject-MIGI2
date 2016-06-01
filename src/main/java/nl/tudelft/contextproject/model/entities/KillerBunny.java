@@ -17,8 +17,9 @@ import nl.tudelft.contextproject.model.entities.control.BunnyAI;
 /**
  * An {@link MovingEntity} that has a {@link BunnyAI}.
  */
-public class KillerBunny extends MovingEntity implements PhysicsObject {
+public class KillerBunny extends MovingEntity implements PhysicsObject, Health {
 
+	private float health = 1;
 	private Spatial spatial;
 	private CharacterControl control;
 
@@ -71,6 +72,24 @@ public class KillerBunny extends MovingEntity implements PhysicsObject {
 
 		control.setPhysicsLocation(spatial.getLocalTranslation());
 		return control;
+	}
+
+	@Override
+	public void setHealth(float newHealth) {
+		health = newHealth;
+	}
+
+	@Override
+	public void takeDamage(float damage) {
+		health -= damage;
+		if (health < 0) {
+			setState(EntityState.DEAD);
+		}
+	}
+
+	@Override
+	public float getHealth() {
+		return health;
 	}
 
 }
