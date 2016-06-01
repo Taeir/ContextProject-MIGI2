@@ -6,7 +6,7 @@ import java.util.Comparator;
  * MSTEdge weight Comparator. 
  * Smallest weight first.
  */
-public class MSTEdgeWeightComperator implements Comparator<MSTEdge> {
+public class MSTEdgeWeightComparator implements Comparator<MSTEdge> {
 
 	@Override
 	public int compare(MSTEdge e1, MSTEdge e2) {
