@@ -29,14 +29,14 @@ public class InvisibleWall extends Entity implements PhysicsObject, Health {
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
-		Box b = new Box(.5f, 2f, .5f);
+		Box b = new Box(.5f, 3f, .5f);
 		spatial = new Geometry("Invisible", b);
 		material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		material.setColor("Color", new ColorRGBA(0, 0, 0, 0));
 		material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
 		spatial.setMaterial(material);
 		spatial.setQueueBucket(Bucket.Transparent);
-		spatial.move(0, 2.5f, 0);
+		spatial.move(0, 3.5f, 0);
 		return spatial;	
 	}
 

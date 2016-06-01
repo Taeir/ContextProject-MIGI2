@@ -19,7 +19,7 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
 public class BunnyAI implements EntityControl {
 
 	//The damage per second that a bunny will do
-	private static final float ATTACK_DAMAGE = 2;
+	private static final float ATTACK_DAMAGE = .5f;
 	//The range in which the bunny attacks
 	private static final double ATTACK_RANGE = .4;
 	//The frequency of jumps of the bunny
@@ -39,7 +39,7 @@ public class BunnyAI implements EntityControl {
 	}
 	
 	@Override
-	public void move(float tpf) {		
+	public void move(float tpf) {
 		float playerdist = player.getLocation().distance(owner.getLocation());
 		if (playerdist < ATTACK_RANGE) {
 			player.takeDamage(tpf * ATTACK_DAMAGE);

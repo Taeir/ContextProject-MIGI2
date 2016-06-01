@@ -63,7 +63,7 @@ public class KillerBunny extends MovingEntity implements PhysicsObject, Health {
 	public PhysicsControl getPhysicsObject() {
 		if (control != null) return control;
 		
-		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(.15f, .15f, 1);
+		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(.3f, .15f, 1);
 		control = new CharacterControl(capsuleShape, .1f);
 
 		control.setJumpSpeed(5f);
