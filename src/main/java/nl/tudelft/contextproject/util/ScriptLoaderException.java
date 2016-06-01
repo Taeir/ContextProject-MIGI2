@@ -3,7 +3,7 @@ package nl.tudelft.contextproject.util;
 /**
  * Exception used by the {@link ScriptLoader} class.
  */
-public class ScriptLoaderException extends Exception {
+public class ScriptLoaderException extends RuntimeException {
 
 	private static final long serialVersionUID = 6789000661726857474L;
 	

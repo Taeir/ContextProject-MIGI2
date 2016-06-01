@@ -18,7 +18,13 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
  */
 public class BunnyAI implements EntityControl {
 
+	//The damage per second that a bunny will do
+	private static final float ATTACK_DAMAGE = 2;
+	//The range in which the bunny attacks
+	private static final double ATTACK_RANGE = .4;
+	//The frequency of jumps of the bunny
 	private static final float JUMP_FREQUENCY = 2;
+	
 	private KillerBunny owner;
 	private VRPlayer player;
 	private Set<Entity> entities;
@@ -35,8 +41,8 @@ public class BunnyAI implements EntityControl {
 	@Override
 	public void move(float tpf) {
 		float playerdist = player.getLocation().distance(owner.getLocation());
-		if (playerdist < .4) {
-			player.takeDamage(tpf * 2);
+		if (playerdist < ATTACK_RANGE) {
+			player.takeDamage(tpf * ATTACK_DAMAGE);
 			return;
 		}
 		
@@ -60,10 +66,12 @@ public class BunnyAI implements EntityControl {
 	protected Entity findTarget(float playerDist, float tpf) {
 		Carrot c = findClosestCarrot();
 		if (c == null) return player;
+		
 		float carrotDist = c.getLocation().distance(owner.getLocation());
-		if (carrotDist < 0.4f) {
+		if (carrotDist < ATTACK_RANGE) {
 			c.eat(tpf);
 		}
+		
 		if (carrotDist < playerDist) {
 			return c;
 		} else {
@@ -82,6 +90,7 @@ public class BunnyAI implements EntityControl {
 		float dist = Float.MAX_VALUE;
 		for (Entity e : entities) {
 			if (!(e instanceof Carrot)) continue;
+			
 			float d = e.getLocation().distance(owner.getLocation());
 			if (c == null || d < dist) {
 				c = (Carrot) e;
