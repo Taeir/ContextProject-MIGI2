@@ -2,10 +2,10 @@ package nl.tudelft.contextproject;
 
 import java.awt.Desktop;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.state.AbstractAppState;
@@ -31,6 +31,7 @@ import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
 import jmevr.app.VRApplication;
@@ -42,7 +43,7 @@ import lombok.SneakyThrows;
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
-public class Main extends VRApplication {
+public class Main extends VRApplication implements TickProducer {
 	public static final int PORT_NUMBER = 8080;
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
@@ -57,8 +58,8 @@ public class Main extends VRApplication {
 	
 	private Controller controller;
 	private WebServer webServer;
-	private List<TickListener> tickListeners = new LinkedList<>();
 	private BitmapFont guifont;
+	private List<TickListener> tickListeners = new ArrayList<>();
 	
 	/**
 	 * Main method that is called when the program is started.
@@ -189,6 +190,11 @@ public class Main extends VRApplication {
 	public void setTickListeners(List<TickListener> listeners) {
 		tickListeners = listeners;
 	}
+	
+	@Override
+	public List<TickListener> getTickListeners() {
+		return tickListeners;
+	}
 
 	@Override
 	public void simpleInitApp() {
@@ -308,34 +314,12 @@ public class Main extends VRApplication {
 	
 	@Override
 	public void simpleUpdate(float tpf) {
-		for (TickListener tl : tickListeners) {
-			tl.update(tpf);
-		}
+		updateTickListeners(tpf);
 
 		getListener().setLocation(getCamera().getLocation());
 		getListener().setRotation(getCamera().getRotation());
 
 		BackgroundMusic.getInstance().update();
-	}
-	
-	/**
-	 * Add a TickListener.
-	 *
-	 * @param tl
-	 * 		the TickListener to add
-	 */
-	public void attachTickListener(TickListener tl) {
-		tickListeners.add(tl);
-	}
-	
-	/**
-	 * Remove a registered TickListener.
-	 *
-	 * @param tl
-	 * 		the TickListener to remove
-	 */
-	public void removeTickListener(TickListener tl) {
-		tickListeners.remove(tl);
 	}
 
 	/**

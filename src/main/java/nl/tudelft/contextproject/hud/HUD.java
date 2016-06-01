@@ -75,8 +75,8 @@ public class HUD implements TickListener {
 		}
 		
 		// Attach listeners
-		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachListener(this);
-		Main.getInstance().getCurrentGame().getPlayer().attachListener(this);
+		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
+		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
 	}
 	
 	/**
@@ -92,7 +92,8 @@ public class HUD implements TickListener {
 		heart.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
 		heart.setWidth(screenWidth / 20);
 		heart.setHeight(screenHeight / 20);
-		heart.setPosition(screenWidth * (0.44f + 0.06f * pos), screenHeight + 50);
+		float start = .5f - .06f * (VRPlayer.PLAYER_MAX_HEALTH / 2);
+		heart.setPosition(screenWidth * (start + 0.06f * pos), screenHeight + 50);
 		
 		return heart;
 	}

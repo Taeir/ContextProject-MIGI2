@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.jme3.math.ColorRGBA;
@@ -12,18 +11,19 @@ import nl.tudelft.contextproject.model.entities.Key;
 /**
  * Class representing the players inventory.
  */
-public class Inventory {
-	ArrayList<TickListener> listeners;	
+public class Inventory implements TickProducer {
 	ArrayList<ColorRGBA> keys;
 	ArrayList<Bomb> bombs;
+	
+	ArrayList<TickListener> listeners;
 
 	/**
 	 * Constructor for the inventory, starts empty with 0 keys and doors.
 	 */
 	public Inventory() {
-		this.listeners = new ArrayList<>();
 		this.keys = new ArrayList<>();
 		this.bombs = new ArrayList<>();
+		this.listeners = new ArrayList<>();
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public class Inventory {
 	 */
 	public void add(Key key) {
 		keys.add(key.getColor());
-		updateListeners();
+		updateTickListeners();
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class Inventory {
 	 */
 	public void add(Bomb bomb) {
 		bombs.add(bomb);
-		updateListeners();
+		updateTickListeners();
 	}
 	
 	/**
@@ -77,13 +77,13 @@ public class Inventory {
 	public void remove(Entity ent) {
 		if (ent instanceof Bomb && bombs.size() > 0) {
 			bombs.remove(0);
-			updateListeners();
+			updateTickListeners();
 			return;
 		}
 		if (ent instanceof Key) {
 			ColorRGBA c = ((Key) ent).getColor();
 			keys.remove(c);
-			updateListeners();
+			updateTickListeners();
 		}
 	}
 	
@@ -156,17 +156,16 @@ public class Inventory {
 		return keys.size() + bombs.size();
 	}
 
+	/**
+	 * @return
+	 * 		a list of all colors of keys in the inventory
+	 */
 	public List<ColorRGBA> getKeyColors() {
 		return keys;
 	}
-	
-	public void updateListeners() {
-		for (TickListener tl : listeners) {
-			tl.update(0);
-		}
-	}
 
-	public void attachListener(TickListener tl) {
-		listeners.add(tl);		
+	@Override
+	public List<TickListener> getTickListeners() {
+		return listeners;
 	}
 }

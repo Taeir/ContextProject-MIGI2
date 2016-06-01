@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -16,6 +17,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
 import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
@@ -23,7 +25,7 @@ import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends MovingEntity implements PhysicsObject {
+public class VRPlayer extends MovingEntity implements PhysicsObject, TickProducer {
 
 	//Physics interaction constants.
 
@@ -70,7 +72,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	private float fallingTimer;
 	private float explorationTimer;
 	private float health;
-	ArrayList<TickListener> listeners;
+	private List<TickListener> listeners;
 
 	/**
 	 * Constructor for a default player.
@@ -293,7 +295,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	 */
 	public void setHealth(float health) {
 		this.health = Math.min(PLAYER_MAX_HEALTH, health);
-		updateListeners();
+		updateTickListeners();
 	}
 
 	/**
@@ -307,7 +309,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		if (health < 0) {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
-		updateListeners();
+		updateTickListeners();
 	}
 	
 	/**
@@ -335,14 +337,9 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	public EntityType getType() {
 		return EntityType.PLAYER;
 	}
-	
-	public void updateListeners() {
-		for (TickListener tl : listeners) {
-			tl.update(0);
-		}
-	}
 
-	public void attachListener(TickListener tl) {
-		listeners.add(tl);		
+	@Override
+	public List<TickListener> getTickListeners() {
+		return listeners;
 	}
 }
