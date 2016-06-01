@@ -165,7 +165,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Create a MST, connecting all the rooms with the least amount of path.
 	 */
 	protected void createMST() {
-		//MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes);
+		MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes, edges);
 	}
 	
 	/**
