@@ -477,6 +477,8 @@ function encodeAction(action) {
             return 3;
         case "dropbait":
             return 4;
+        case "placetile":
+            return 5;
         default:
             return -1;
     }

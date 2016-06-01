@@ -96,6 +96,7 @@ public class WebClient {
 	 */
 	private void setUpPerformedElves() {
 		performedActions.put(Action.DROPBAIT, new ArrayList<>());
+		performedActions.put(Action.PLACETILE, new ArrayList<>());
 	}
 
 	/**

@@ -7,6 +7,7 @@ import nl.tudelft.contextproject.model.entities.Carrot;
 import nl.tudelft.contextproject.model.entities.KillerBunny;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
+import nl.tudelft.contextproject.model.entities.VoidPlatform;
 import nl.tudelft.contextproject.webinterface.Action;
 
 /**
@@ -45,6 +46,9 @@ public final class ActionUtil {
 				break;
 			case DROPBAIT:
 				dropBait(xCoord, yCoord);
+				break;
+			case PLACETILE:
+				placeTile(xCoord, yCoord);
 				break;
 			default:
 				throw new IllegalArgumentException("Your action is not valid.");
@@ -118,5 +122,19 @@ public final class ActionUtil {
 		Carrot carrot = new Carrot();
 		carrot.move(xCoord, 1, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(carrot);
+	}
+
+	/**
+	 * Place a voidPlatform.
+	 *
+	 * @param xCoord
+	 * 		the x coordinate to use
+	 * @param yCoord
+	 * 		the y coordinate to use
+	 */
+	private static void placeTile(int xCoord, int yCoord) {
+		VoidPlatform voidPlatform = new VoidPlatform();
+		voidPlatform.move(xCoord, 0, yCoord);
+		Main.getInstance().getCurrentGame().addEntity(voidPlatform);
 	}
 }
