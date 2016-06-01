@@ -1,12 +1,10 @@
 package nl.tudelft.contextproject.model.entities;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -223,6 +221,25 @@ public class VRPlayerTest extends MovingEnemyTest {
 		float dmg = player.getHealth() + .2f;
 		player.takeDamage(dmg);
 		assertEquals(GameState.ENDED, Main.getInstance().getGameState());
+	}
+	
+	/**
+	 * Tests if loading players works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		VRPlayer player = VRPlayer.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.PLAYER.getName()});
+		
+		//Players are spawned a certain amount higher than where they are spawned in.
+		assertEquals(loadPosition.add(0f, VRPlayer.SPAWN_HEIGHT, 0f), player.getLocation());
+	}
+
+	/**
+	 * Tests if loading players with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		VRPlayer.loadEntity(loadPosition, new String[3]);
 	}
 	
 	/**

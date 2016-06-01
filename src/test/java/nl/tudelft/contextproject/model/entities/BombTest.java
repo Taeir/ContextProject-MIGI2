@@ -78,4 +78,22 @@ public class BombTest extends EntityTest {
 		bomb.update(5.1f);
 		assertEquals(EntityState.DEAD, bomb.getState());
 	}
+	
+	/**
+	 * Tests if loading bombs works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		Bomb bomb = Bomb.loadEntity(loadPosition, new String[]{"1", "1", "1", EntityType.BOMB.getName()});
+		
+		assertEquals(loadPosition, bomb.getLocation());
+	}
+	
+	/**
+	 * Tests if loading bombs with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		Bomb.loadEntity(loadPosition, new String[3]);
+	}
 }

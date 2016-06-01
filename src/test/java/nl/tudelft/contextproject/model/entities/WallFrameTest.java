@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.model.entities;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.anyFloat;
 
 import org.junit.Before;
@@ -79,5 +80,25 @@ public class WallFrameTest extends EntityTest {
 
 		verify(sp, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
 		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
+	}
+	
+	/**
+	 * Tests if loading wall frames works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		//WallFrames expect the path to be the fourth entry (in contrast to most other entities)
+		WallFrame frame = WallFrame.loadEntity(loadPosition, new String[] {"1", "1", "1", "/", "NORTH", "logo.png", "2", "2"});
+		
+		//The position of the frame is changed, because it has "snapped" to the wall
+		assertEquals(loadPosition.add(0.5f, 0f, 0.49f), frame.getLocation());
+	}
+
+	/**
+	 * Tests if loading wall frames with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		WallFrame.loadEntity(loadPosition, new String[7]);
 	}
 }
