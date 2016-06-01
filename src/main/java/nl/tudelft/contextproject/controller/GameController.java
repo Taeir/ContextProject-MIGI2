@@ -27,6 +27,7 @@ import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
+import nl.tudelft.contextproject.model.entities.Torch;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
@@ -141,7 +142,12 @@ public class GameController extends Controller {
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-
+		Torch torch = new Torch();
+		torch.move(1, 1, 11);
+		torch.rotateNorth();
+		//torch.move(-1f, 0, 0);
+		game.addEntity(torch);
+		Main.getInstance().getRootNode().attachChild(torch.getFire());
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
