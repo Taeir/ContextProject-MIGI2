@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model.level;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import com.jme3.light.Light;
@@ -43,7 +44,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	
 	private int idCounter;
 
-	private ArrayList<CorridorEdge> edges;
+	private HashMap<Integer, CorridorEdge> edges;
 
 	private ArrayList<RoomEntrancePoint> usedEntrancePoints;
 
@@ -153,7 +154,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 			for (RoomExitPoint exit : usedExitPoints) {
 				if (!entrance.node.equals(exit.node)) {
 					CorridorEdge edge = new CorridorEdge(exit, entrance, corridorIdcounter++);
-					edges.add(edge);
+					edges.put(edge.id, edge);
 					exit.node.addOutgoingEdge(edge);
 				}
 			}
@@ -205,7 +206,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		baseNodes = new ArrayList<RoomNode>();
 		usedNodes = new ArrayList<RoomNode>();
-		edges = new ArrayList<CorridorEdge>();
+		edges = new HashMap<Integer, CorridorEdge>();
 		usedEntrancePoints = new ArrayList<RoomEntrancePoint>();
 		usedExitPoints = new ArrayList<RoomExitPoint>();
 		try {

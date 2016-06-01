@@ -19,7 +19,7 @@ import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
 public class MinimumSpanningTree {
 
 	public List<RoomNode> roomNodes;
-	public List<CorridorEdge> corridorEdges;
+	public HashMap<Integer, CorridorEdge> corridorEdges;
 	public HashSet<MSTNode> graphNodes;
 	public HashSet<MSTEdge> resultMST;
 
@@ -27,12 +27,12 @@ public class MinimumSpanningTree {
 	 * Constructor.
 	 * @param roomNodes
 	 * 					RoomNodes of graph
-	 * @param corridorEdges
-	 * 					CorridorEdges of graph
+	 * @param edges
+	 * 					CorridorEdges of graph in a HashMap with corridor IDs as key
 	 */
-	public MinimumSpanningTree(List<RoomNode> roomNodes, List<CorridorEdge> corridorEdges) {
+	public MinimumSpanningTree(List<RoomNode> roomNodes, HashMap<Integer, CorridorEdge> edges) {
 		this.roomNodes = roomNodes;
-		this.corridorEdges = corridorEdges;
+		this.corridorEdges = edges;
 		this.graphNodes = new HashSet<MSTNode>();
 		this.resultMST = new HashSet<MSTEdge>();
 	}
@@ -56,7 +56,7 @@ public class MinimumSpanningTree {
 		HashMap<DoorLocation, MSTNode> treeNodes = new HashMap<DoorLocation, MSTNode>();
 		MSTNode startNode, endNode;
 		MSTEdge currentEdge;
-		for (CorridorEdge corridorEdge : corridorEdges) {
+		for (CorridorEdge corridorEdge : corridorEdges.values()) {
 			//Create RoomNode exit node equivalent, in other words, the start node of the corridor
 			startNode = new MSTNode(MSTNodeType.EXIT_NODE, 
 					corridorEdge.start, 
@@ -75,6 +75,18 @@ public class MinimumSpanningTree {
 			currentEdge = new MSTEdge(startNode, endNode, corridorEdge.weight, corridorEdge.id);
 			startNode.addEdge(currentEdge);
 		}
+		reconnectRoomNodes(treeNodes);
+	}
+
+	/**
+	 * Reconnect individual MST exit and entrance nodes with a connector node.
+	 * This is done by creating an extra node per RoomNode id. The entrance nodes
+	 * are then connected to the connector node and the connector node is connected to the
+	 * exit nodes. This step makes sure the graphNodes is a connected graph.
+	 * @param treeNodes
+	 * 		HashMap with DoorLocations as key and values as MSTNodes
+	 */
+	private void reconnectRoomNodes(HashMap<DoorLocation, MSTNode> treeNodes) {
 		int roomID;
 		MSTNode currentNode, connectorNode;
 		MSTEdge newEdge;
