@@ -281,9 +281,11 @@ function createClickableFunc(x, y) {
  */
 function showButtons() {
     if (gTeam === "DWARFS") {
-        $(document.getElementById('dwarvesButtons')).show(250);
+        $("#sidebar-wrapper-dwarfs").show();
+        $("#wrapper").toggleClass("toggled", true);
     } else if (gTeam === "ELVES") {
-        $(document.getElementById('elvesButtons')).show(250);
+        $("#sidebar-wrapper-elves").show();
+        $("#wrapper").toggleClass("toggled", true);
     } else {
         console.log("[DEBUG] No team selected, buttons not shown.");
     }
@@ -291,13 +293,11 @@ function showButtons() {
 
 /**
  * Hide both button divs.
- *
- * @param time
- *      the time the hiding animation should take
  */
-function hideAllButtons(time) {
-    $(document.getElementById('dwarvesButtons')).hide(time);
-    $(document.getElementById('elvesButtons')).hide(time);
+function hideAllButtons() {
+    $("#wrapper").toggleClass("toggled", false);
+    $("#sidebar-wrapper-dwarfs").css("visibility", "hidden");
+    $("#sidebar-wrapper-elves").css("visibility", "hidden");
 }
 
 /**

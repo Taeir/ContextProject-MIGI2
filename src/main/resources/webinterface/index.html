@@ -32,7 +32,7 @@
                         <a href="#">Spawn enemy</a>
                     </li>
                     <li>
-                        <a href="#" onclick="$('#wrapper').toggleClass('toggled');">Cancel</a>
+                        <a href="#" onclick="hideAllButtons()">Cancel</a>
                     </li>
                     <li>
                         <a href="#">Toggle fullscreen</a>
@@ -53,7 +53,7 @@
                         <a href="#">Place tile</a>
                     </li>
                     <li>
-                        <a href="#" onclick="$('#wrapper').toggleClass('toggled');">Cancel</a>
+                        <a href="#" onclick="hideAllButtons()">Cancel</a>
                     </li>
                     <li>
                         <a href="#">Toggle fullscreen</a>
@@ -70,8 +70,8 @@
         					<button onclick="requestSetTeam('ELVES')" id="clickable">Elves</button>
         					<button onclick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
         					<button onclick="requestSetTeam('NONE')" id="clickable">No team</button>
-                            <button onclick="$('#wrapper').toggleClass('toggled');" id="clickable">Toggle Dwarfs</button>
-                            <button onclick="$('#wrapper').toggleClass('toggled');" id="clickable">Toggle Elves</button>
+                            <button onclick="testDwarfs()" id="clickable">Show Dwarfs</button>
+                            <button onclick="testElves()" id="clickable">Show Elves</button>
         					<br>	
         					Current team: <div class="team">No team</div><br>
         				</div>
@@ -100,27 +100,18 @@
         </div>
         <!-- /#wrapper -->
 
-        <!-- jQuery -->
+        <!-- Load all javascript -->
         <script src="js/jquery-1.12.3.min.js"></script>
-
-        <!-- Bootstrap Core JavaScript -->
         <script src="js/bootstrap.min.js"></script>
-        
+        <script src="js/main.js"></script>
         <script>
-            function testDwarfs(variable) {
-                if(variable) {
-                    $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
-                } else {
-                    $("#sidebar-wrapper-dwarfs").css("visibility", "hidden");
-                }
+            function testDwarfs() {
+                gTeam = "DWARFS";
+                showButtons();
             }
-            
-            function testElves(variable) {
-                if(variable) {
-                    $("#sidebar-wrapper-elves").css("visibility", "visible");
-                } else {
-                    $("#sidebar-wrapper-elves").css("visibility", "hidden");
-                }
+            function testElves() {
+                gTeam = "ELVES";
+                showButtons();
             }
         </script>
     </body>
