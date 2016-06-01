@@ -1,75 +1,88 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>The Cave of Caerbanogh</title>
-		<script src="js/jquery-1.12.3.min.js"></script>
-		<script src="js/main.js"></script>
-		<script src="js/materialize.min.js"></script>
-		<link type="text/css" rel="stylesheet" href="css/style.css" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height" />
-		<script>
-			//On load
-			$(document).ready(function() {
-				$(document.getElementById("dwarvesButtons")).hide();
-				$(document.getElementById("elvesButtons")).hide();
-				authenticate();
-				setInterval(requestStatus, 1000);
-			});
-		</script>
-	</head>
+    <head>
+        <title>The Cave of Caerbanogh</title>
 
-	<body>
-		<div id="mainDiv">
-			<div id="authorized">
-				<div id="selectTeam">
-					<button onclick="requestSetTeam('ELVES')" id="clickable">Elves</button>
-					<button onclick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
-					<button onclick="requestSetTeam('NONE')" id="clickable">No team</button>
-					<br>	
-					Current team: <div class="team">No team</div><br>
-				</div>
+        <!-- <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css"  media="screen,projection"/> -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+         <link href="css/simple-sidebar.css" rel="stylesheet">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height" />
+    </head>
+    <body>
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a>Dwarfs</a>
+                    </li>
+                    <li>
+                        <a href="#">Lol</a>
+                    </li>
+                    <li>
+                        <a href="#">Get</a>
+                    </li>
+                    <li>
+                        <a href="#">Rekt</a>
+                    </li>
+                    <li>
+                        <a href="#">Biches</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /#sidebar-wrapper -->
+
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+        		<div id="mainDiv">
+        			<div id="authorized">
+        				<div id="selectTeam">
+        					<button onclick="requestSetTeam('ELVES')" id="clickable">Elves</button>
+        					<button onclick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
+        					<button onclick="requestSetTeam('NONE')" id="clickable">No team</button>
+                            <button onclick="$('#wrapper').toggleClass('toggled');" id="clickable">Toggle Nav</button>
+        					<br>	
+        					Current team: <div class="team">No team</div><br>
+        				</div>
 				
-				<div id="playing">
-					<table id="map">
-					</table>
-				</div>
+        				<div id="playing">
+        					<table id="map">
+        					</table>
+        				</div>
 				
-				<div id="ended" style="visibility:hidden">
+        				<div id="ended" style="visibility:hidden">
 					
-				</div>
-			</div>
-		</div>
+        				</div>
+        			</div>
+        		</div>
 		
-		<div id="dwarvesButtons">
-			<div id="fullscreensetter">
-				<button onclick="toggleFullscreen()" id="clickable">FS</button>
-			</div>
-			<div id="buttons">
-				<button onClick="requestAction('placebomb')" id="clickable">Place bomb</button><br>
-				<button onClick="requestAction('placepitfall')" id="clickable">Place pitfall</button><br>
-				<button onClick="requestAction('placemine')" id="clickable">Place landmine</button><br>
-				<button onClick="requestAction('spawnenemy')" id="clickable">Spawn enemy</button><br>
-				<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
-			</div>
-		</div>
+        		<div id="unauthorized">
 		
-		<div id="elvesButtons">
-			<div id="fullscreensetter">
-					<button onclick="toggleFullscreen()" id="clickable">FS</button>
-			</div>
-			<div id="buttons">
-				<button onClick="requestAction('dropbait')" id="clickable">Drop bait</button><br>
-				<button onClick="requestAction('placetile')" id="clickable">Place tile</button><br>
-				<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
-			</div>
-		</div>
+        		</div>
 		
-		<div id="unauthorized">
+        		<div id="error">
 		
-		</div>
-		
-		<div id="error">
-		
-		</div>
-	</body>
+        		</div>
+            </div>
+            <!-- /#page-content-wrapper -->
+
+        </div>
+        <!-- /#wrapper -->
+
+        <!-- jQuery -->
+        <script src="js/jquery-1.12.3.min.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+
+        <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+        </script>
+    </body>
 </html>

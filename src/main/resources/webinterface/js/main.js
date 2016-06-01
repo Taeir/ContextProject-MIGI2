@@ -427,8 +427,6 @@ function getClassForEntityType(entityType) {
             return "carrot";
         case 9:
             return "killerbunny";
-        case 10:
-            return "voidplatform";
         default:
             showError("Invalid tile type: " + entityType);
             throw "Invalid tile type: " + entityType;
@@ -477,8 +475,6 @@ function encodeAction(action) {
             return 3;
         case "dropbait":
             return 4;
-        case "placetile":
-            return 5;
         default:
             return -1;
     }
