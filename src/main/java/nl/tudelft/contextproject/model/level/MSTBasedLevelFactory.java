@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Stack;
 
 import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.model.level.roomIO.MapReader;
+import nl.tudelft.contextproject.model.level.util.CorridorBreadthFirstSearch;
 import nl.tudelft.contextproject.model.level.util.CorridorEdge;
 import nl.tudelft.contextproject.model.level.util.MinimumSpanningTree;
 import nl.tudelft.contextproject.model.level.util.RoomEntrancePoint;
@@ -41,11 +43,11 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	private ArrayList<RoomNode> baseNodes;
 
 	private ArrayList<RoomNode> usedNodes;
-	
+
 	private int idCounter;
 
 	private HashMap<Integer, CorridorEdge> edges;
-	
+
 	private ArrayList<Integer> chosenEdges;
 
 	private ArrayList<RoomEntrancePoint> usedEntrancePoints;
@@ -89,11 +91,11 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		createEdges();
 		createMST();
 		placeCorridors();
-		
+
 		return new Level(null, null);
 	}
 
-	
+
 
 	/**
 	 * Place start and treasure room on semi-random locations.
@@ -106,20 +108,20 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		//Place start room
 		Vec2I startLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				RoomNode.MIN_DIST, endLeftMostQuarter), 
-					RandomUtil.getRandomIntegerFromInterval(rand, 
-				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
+				RandomUtil.getRandomIntegerFromInterval(rand, 
+						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
 		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), START_ROOM_ID);
 		addRoomNode(startNode, startLocation);
 
 		//Place treasure room
 		Vec2I treasureLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				beginningRightMostQuarter, MAX_WIDTH - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)), 
-					RandomUtil.getRandomIntegerFromInterval(rand, 
-				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
+				RandomUtil.getRandomIntegerFromInterval(rand, 
+						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
 		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom(), -2);
 		addRoomNode(treasureNode, treasureLocation);
 	}
-	
+
 	/**
 	 * Place the other rooms.
 	 * Will try to place random rooms until max attempts has been reached or there are no rooms left to place.
@@ -129,17 +131,17 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		int randomIndex;
 		RoomNode currentNode;
 		while (attempts <= MAX_ATTEMPTS && !baseNodes.isEmpty()) {
-			
+
 			//Get random room
 			randomIndex = rand.nextInt(baseNodes.size());
 			currentNode = baseNodes.get(randomIndex);
-			
+
 			//Get random coordinates
 			Vec2I coordinates = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
-						RoomNode.MIN_DIST, MAX_WIDTH - (currentNode.room.size.getWidth() + RoomNode.MIN_DIST + 1)), 
+					RoomNode.MIN_DIST, MAX_WIDTH - (currentNode.room.size.getWidth() + RoomNode.MIN_DIST + 1)), 
 					RandomUtil.getRandomIntegerFromInterval(rand, 
 							RoomNode.MIN_DIST, MAX_HEIGHT - (currentNode.room.size.getHeight() + RoomNode.MIN_DIST + 1)));
-			
+
 			//Check placement and place if possible
 			if (currentNode.scanPossiblePlacement(mazeTiles, coordinates)) {
 				addRoomNode(currentNode, coordinates);
@@ -165,7 +167,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 			}
 		}
 	}
-	
+
 	/**
 	 * Create a MST, connecting all the rooms with the least amount of path.
 	 * Create the MST object.
@@ -177,18 +179,35 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		mst.runKruskalAlgorithm();
 		chosenEdges = mst.getCorridorIDs();
 	}
-	
-	
+
+
 	/**
 	 * Place the corridors from the chosenEdges list.
 	 * For each corridor a breadth first search is done from
 	 * the corridor starting point to the corridor end point.
+	 * This progress creates a list of stacks on that contain locations that should
+	 * be turned into a corridor tile.
 	 */
 	protected void placeCorridors() {
-		for (Integer corridorID: chosenEdges) {
-			
-		}
+		ArrayList<Stack<Vec2I>> corridorList = getCorridorLocations();
+		
 	}	
+	
+	/**
+	 * Get all corridor locations on the map.
+	 * @return
+	 * 		list of stacks of corridor locations
+	 */
+	protected ArrayList<Stack<Vec2I>> getCorridorLocations() {
+		ArrayList<Stack<Vec2I>> corridorList = new ArrayList<Stack<Vec2I>>();
+		CorridorEdge currentCorridor;
+		for (Integer corridorID: chosenEdges) {
+			currentCorridor = edges.get(corridorID);
+			corridorList.add(CorridorBreadthFirstSearch.creatCorridor(mazeTiles, currentCorridor.start.location, currentCorridor.end.location));
+		}
+		return corridorList;
+	}
+
 	/**
 	 * Add RoomNode to graph and map.
 	 * Will remove node from the base list of nodes if duplicates are turned off.
