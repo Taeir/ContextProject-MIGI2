@@ -277,7 +277,7 @@ public class ClientServlet extends DefaultServlet {
 			return;
 		}
 
-		if (!WebUtil.checkValidLocation(xCoord, yCoord)) {
+		if (!WebUtil.checkValidLocation(xCoord, yCoord, action)) {
 			response.setStatus(HttpStatus.OK_200);
 			response.getWriter().write("ACTION ON INVALID LOCATION, NOT PERFORMED");
 			return;
