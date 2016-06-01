@@ -1,7 +1,9 @@
 package nl.tudelft.contextproject.hud;
 
 import com.jme3.font.BitmapText;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.scene.Node;
 import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
@@ -9,22 +11,24 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
-
 import jmevr.util.VRGuiManager;
 
 /**
  * Class to represent a Head Up Display.
  */
 public class HUD implements TickListener {
-	private static final String ICON_EMPTY_HEART = "Textures/emptyheart.png";
-	private static final String ICON_EMPTY_KEY = "Textures/emptykeyicon.png";
 
 	private GameController controller;
 	
-	private Picture keypicyellow, keypicred, keypicblue;
 	private Picture bombPicture;
 	private BitmapText textBomb;
-	private Picture heart1, heart2, heart3;
+
+	private Node keyContainer;
+	private Node heartContainer;
+
+	private float screenHeight;
+
+	private float screenWidth;
 	
 	
 	/**
@@ -41,43 +45,38 @@ public class HUD implements TickListener {
 	 * Attaches the Hud to the renderer.
 	 */
 	public void attachHud() {
-		float height = VRGuiManager.getCanvasSize().getX();
-		float width = VRGuiManager.getCanvasSize().getX();
+		screenHeight = VRGuiManager.getCanvasSize().getX();
+		screenWidth = VRGuiManager.getCanvasSize().getX();
 		
-		//Attach the keycounter
-		keypicyellow = keyGUI(1, height, width);
-		keypicred = keyGUI(2, height, width);
-		keypicblue = keyGUI(3, height, width);
-		controller.addGuiElement(keypicyellow);
-		controller.addGuiElement(keypicred);
-		controller.addGuiElement(keypicblue);
+		keyContainer = new Node("Keys");
+		controller.addGuiElement(keyContainer);
+		heartContainer = new Node("hearts");
+		controller.addGuiElement(heartContainer);
 		
-		//Attach the bomb counter
+		// Attach the bomb counter
 		textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
-		textBomb.setSize(height / 30);
+		textBomb.setSize(screenHeight / 30);
 		textBomb.setColor(ColorRGBA.White);
 		textBomb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs());
-		textBomb.setLocalTranslation(width / 3f, textBomb.getLineHeight() + height / 40, 0);
+		textBomb.setLocalTranslation(screenWidth / 3f, textBomb.getLineHeight() + screenHeight / 40, 0);
 		controller.addGuiElement(textBomb);
 		
-		//Attach bomb icon
+		// Attach bomb icon
 		bombPicture = new Picture("Bomb Picture");
 		bombPicture.setImage(Main.getInstance().getAssetManager(), "Textures/bombicon.png", true);
-		bombPicture.setWidth(width / 12);
-		bombPicture.setHeight(height / 10);
-		bombPicture.setPosition(width / 4f, 60);
+		bombPicture.setWidth(screenWidth / 12);
+		bombPicture.setHeight(screenHeight / 10);
+		bombPicture.setPosition(screenWidth / 4f, 60);
 		controller.addGuiElement(bombPicture);
-
-		//Attach the health counter
-		heart1 = healthContainer(1, height, width);
-		controller.addGuiElement(heart1);
-		heart2 = healthContainer(2, height, width);
-		controller.addGuiElement(heart2);
-		heart3 = healthContainer(3, height, width);
-		controller.addGuiElement(heart3);
 		
-		//Update the hud
-		Main.getInstance().attachTickListener(this);
+		// Attach heart containers
+		for (int i = 0; i < VRPlayer.PLAYER_MAX_HEALTH; i++) {
+			heartContainer.attachChild(getHealthContainer(i));
+		}
+		
+		// Attach listeners
+		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachListener(this);
+		Main.getInstance().getCurrentGame().getPlayer().attachListener(this);
 	}
 	
 	/**
@@ -85,27 +84,16 @@ public class HUD implements TickListener {
 	 * 
 	 * @param pos
 	 * 		position of the healthContainer
-	 * @param height
-	 * 		height of the screen
-	 * @param width
-	 * 		width of the screen
 	 * @return
 	 * 		picture of the health container
 	 */
-	public Picture healthContainer(int pos, float height, float width) {
+	public Picture getHealthContainer(int pos) {
 		Picture heart = new Picture("heartcontainer" + pos);
 		heart.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
-		heart.setWidth(width / 20);
-		heart.setHeight(height / 20);
-		if (pos > 0) {
-			heart.setPosition((width / 3f), height + 50);
-		}
-		if (pos > 1) {
-			heart.setPosition((width / 2.6f), height + 50);
-		}
-		if (pos > 2) {
-			heart.setPosition((width / 2.3f), height + 50);
-		}
+		heart.setWidth(screenWidth / 20);
+		heart.setHeight(screenHeight / 20);
+		heart.setPosition(screenWidth * (0.44f + 0.06f * pos), screenHeight + 50);
+		
 		return heart;
 	}
 	
@@ -114,75 +102,49 @@ public class HUD implements TickListener {
 	 * 
 	 * @param pos 
 	 * 		position of the key
-	 * @param height
-	 * 		height of the screen 
-	 * @param width
-	 * 		width of the screen
+	 * @param color
+	 * 		the color of the key
 	 * @return
 	 * 		picture of the key
 	 */
-	public Picture keyGUI(int pos, float height, float width) {
+	public Picture getKeyImage(int pos, ColorRGBA color) {
 		Picture keypic = new Picture("key Picture");
-		if (pos == 1) {
-			keypic = new Picture("key Picture");
-			keypic.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
-			keypic.setWidth(width / 30);
-			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.5f, 60);
-		} else if (pos == 2) {
-			keypic = new Picture("key2Picture");
-			keypic.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
-			keypic.setWidth(width / 30);
-			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.55f, 60);
-		} else if (pos == 3) {
-			keypic = new Picture("key3Picture");
-			keypic.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
-			keypic.setWidth(width / 30);
-			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.6f, 60);
-		}
+		keypic.setWidth(screenWidth / 30);
+		keypic.setHeight(screenHeight / 12);
+		keypic.setPosition(screenWidth * (0.5f + 0.05f * pos), 60);
+		
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		mat.setColor("Color", color);
+		mat.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/keyicon.png"));
+		keypic.setMaterial(mat);
 		
 		return keypic;
 	}
 
 	@Override
 	public void update(float tpf) {
-		//Update the bomb count in the HUD
-		textBomb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs()); 
-
 		VRPlayer player = controller.getGame().getPlayer();
-		
-		//Update the health icons in the HUD
-		if (player.getHealth() <= 2.5) {
-			heart3.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_HEART, true);
+		Inventory inv = player.getInventory();
+		// Update the bomb count in the HUD
+		textBomb.setText("" + inv.numberOfBombs()); 
+
+		// update keys
+		keyContainer.detachAllChildren();
+		int i = 0;
+		for (ColorRGBA c : inv.getKeyColors()) {
+			keyContainer.attachChild(getKeyImage(i, c));
+			i++;
 		}
-		if (player.getHealth() <= 1.5) {
-			heart2.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_HEART, true);
-		}
-		if (player.getHealth() <= 0.5) {
-			heart1.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_HEART, true);
-		}
-		
-		Inventory inventory = player.getInventory();
-		
-		//Update the keys in the HUD
-		if ((inventory.containsColorKey(ColorRGBA.Yellow.set(1.0f, 1.0f, 0.0f, 0.0f)))) {
-			keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/yellowkeyicon.png", true);
-		} else {
-			keypicyellow.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
-		}
-		
-		if ((inventory.containsColorKey(ColorRGBA.Blue.set(0.0f, 0.0f, 1.0f, 0.0f)))) {
-			keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/bluekeyicon.png", true);
-		} else {
-			keypicblue.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
-		}
-		
-		if ((inventory.containsColorKey(ColorRGBA.Red.set(1.0f, 0.0f, 0.0f, 0.0f)))) {
-			keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/redkeyicon.png", true);
-		} else {
-			keypicred.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
+
+		// update hearts
+		int health = Math.round(player.getHealth());
+		for (int j = 0; j < VRPlayer.PLAYER_MAX_HEALTH; j++) {
+			Picture p = (Picture) heartContainer.getChild(j);
+			if (j < health) {
+				p.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
+			} else {
+				p.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);					
+			}
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.entities;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -14,6 +15,7 @@ import com.jme3.scene.shape.Sphere;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
@@ -68,6 +70,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	private float fallingTimer;
 	private float explorationTimer;
 	private float health;
+	ArrayList<TickListener> listeners;
 
 	/**
 	 * Constructor for a default player.
@@ -77,6 +80,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		super(new PlayerControl());
 		health = PLAYER_HEALTH;
 		inventory = new Inventory();
+		listeners = new ArrayList<>();
 	}
 
 	@Override
@@ -239,7 +243,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 			} else if (ent instanceof Door) {
 				Door door = (Door) ent;
 				if (inventory.containsColorKey(door.getColor())) {
-					inventory.remove(inventory.getKey(door.getColor()));
+					inventory.remove(new Key(door.getColor()));
 					ent.setState(EntityState.DEAD);
 					return;
 				}
@@ -289,6 +293,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	 */
 	public void setHealth(float health) {
 		this.health = Math.min(PLAYER_MAX_HEALTH, health);
+		updateListeners();
 	}
 
 	/**
@@ -302,6 +307,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		if (health < 0) {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
+		updateListeners();
 	}
 	
 	/**
@@ -328,5 +334,15 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	@Override
 	public EntityType getType() {
 		return EntityType.PLAYER;
+	}
+	
+	public void updateListeners() {
+		for (TickListener tl : listeners) {
+			tl.update(0);
+		}
+	}
+
+	public void attachListener(TickListener tl) {
+		listeners.add(tl);		
 	}
 }

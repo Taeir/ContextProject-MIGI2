@@ -47,7 +47,7 @@ public class InventoryTest extends TestBase {
 		Key key = new Key(color);
 		inv.add(key);
 		Key key2 = inv.getKey(ColorRGBA.Yellow);
-		assertEquals(key, key2);
+		assertEquals(key.getColor(), key2.getColor());
 
 	}
 
@@ -98,7 +98,7 @@ public class InventoryTest extends TestBase {
 	public void testAddBomb() {
 		Bomb bomb = new Bomb();
 		inv.add(bomb);
-		assertTrue(inv.pickedUpEntities.get(0) instanceof Bomb);
+		assertTrue(inv.containsBomb());
 	}
 
 	/**
