@@ -58,9 +58,18 @@ public class Explosion extends Entity {
 		spatial.setLocalScale(scale.x + m);
 	}
 
-	private void damageEntities(float range, float damage) {
-		if (game.getPlayer().getLocation().distance(this.getLocation()) < range) {
-			game.getPlayer().takeDamage(damage);
+	/**
+	 * Damage all entities in range with a given damage.
+	 * 
+	 * @param range
+	 * 		the range for entities to be in
+	 * @param damage
+	 * 		the damage each entity will take
+	 */
+	protected void damageEntities(float range, float damage) {
+		VRPlayer p = game.getPlayer();
+		if (p.getLocation().distance(this.getLocation()) < range) {
+			p.takeDamage(damage);
 		}
 		for (Entity e : game.getEntities()) {
 			if (!(e instanceof Health)) continue;
