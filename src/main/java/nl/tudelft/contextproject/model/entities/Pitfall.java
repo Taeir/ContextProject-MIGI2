@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model.entities;
 
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
@@ -14,6 +15,7 @@ import nl.tudelft.contextproject.Main;
 public class Pitfall extends PlayerTrigger {
 
 	private Spatial sp;
+	private final float width;
 	
 	/**
 	 * Constructor for Pitfall.
@@ -23,6 +25,16 @@ public class Pitfall extends PlayerTrigger {
 	 */
 	public Pitfall(float width) {
 		super(width, 2f);
+		
+		this.width = width;
+	}
+	
+	/**
+	 * @return
+	 * 		the width of this Pitfall
+	 */
+	public float getWidth() {
+		return width;
 	}
 	
 	@Override
@@ -58,4 +70,28 @@ public class Pitfall extends PlayerTrigger {
 		getSpatial().move(x, y, z);
 	}
 
+	/**
+	 * Loads a pitfall entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the pitfall
+	 * @param data
+	 * 		the data of the pitfall
+	 * @return
+	 * 		the pitfall represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static Pitfall loadEntity(Vector3f position, String[] data) {
+		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading pitfall! Expected \"<X> <Y> <Z> Pitfall <Width>\".");
+
+		Pitfall pitfall = new Pitfall(Float.parseFloat(data[4]));
+		pitfall.move(position);
+		return pitfall;
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PITFALL;
+	}
 }

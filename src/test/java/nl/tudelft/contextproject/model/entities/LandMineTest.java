@@ -26,6 +26,11 @@ public class LandMineTest extends EntityTest {
 	public Entity getEntity() {
 		return mine;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.LANDMINE;
+	}
 	
 	/**
 	 * Test if triggering removes the entity.
@@ -37,4 +42,22 @@ public class LandMineTest extends EntityTest {
 		assertEquals(EntityState.DEAD, mine.getState());
 	}
 
+	/**
+	 * Tests if loading landmines works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		LandMine mine = LandMine.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.LANDMINE.getName()});
+		
+		//Landmines are placed a bit higher than indicated when loaded
+		assertEquals(loadPosition.add(0f, 0.505f, 0f), mine.getLocation());
+	}
+	
+	/**
+	 * Tests if loading landmines with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		LandMine.loadEntity(loadPosition, new String[3]);
+	}
 }

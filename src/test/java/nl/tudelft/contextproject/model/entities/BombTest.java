@@ -24,6 +24,11 @@ public class BombTest extends EntityTest {
 		return new Bomb();
 	}
 
+	@Override
+	public EntityType getType() {
+		return EntityType.BOMB;
+	}
+
 	/**
 	 * Setup method.
 	 * Creates a fresh bomb for every test.
@@ -66,7 +71,7 @@ public class BombTest extends EntityTest {
 		when(mock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
 		when(mock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
 		bomb.update(1);
-		assertTrue(bomb.getTimer() == 1);
+		assertEquals(1, bomb.getTimer(), 1E-5);
 	}
 	/**
 	 * Tests if an active bomb disappears after 5 seconds.
@@ -77,5 +82,23 @@ public class BombTest extends EntityTest {
 		bomb.activate();
 		bomb.update(5.1f);
 		assertEquals(EntityState.DEAD, bomb.getState());
+	}
+	
+	/**
+	 * Tests if loading bombs works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		Bomb bomb = Bomb.loadEntity(loadPosition, new String[]{"1", "1", "1", EntityType.BOMB.getName()});
+		
+		assertEquals(loadPosition, bomb.getLocation());
+	}
+	
+	/**
+	 * Tests if loading bombs with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		Bomb.loadEntity(loadPosition, new String[3]);
 	}
 }

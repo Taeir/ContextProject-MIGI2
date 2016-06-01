@@ -144,15 +144,12 @@ public final class FileUtil {
 		}
 		
 		//Write the file to the new location
-		FileOutputStream fos = new FileOutputStream(outputFile);
-		InputStream is = jar.getInputStream(entry);
-
-		while (is.available() > 0) {
-			fos.write(is.read());
+		try (FileOutputStream fos = new FileOutputStream(outputFile);
+			InputStream is = jar.getInputStream(entry)) {
+			while (is.available() > 0) {
+				fos.write(is.read());
+			}
 		}
-
-		fos.close();
-		is.close();
 	}
 	
 	/**

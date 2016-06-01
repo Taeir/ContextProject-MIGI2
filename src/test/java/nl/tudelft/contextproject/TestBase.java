@@ -17,7 +17,7 @@ import nl.tudelft.contextproject.test.TestUtil;
  */
 public abstract class TestBase {
 	private Main main;
-	private final boolean mockGame;
+	private boolean mockGame;
 	
 	/**
 	 * Creates the TestBase without mocking the game.
@@ -34,6 +34,40 @@ public abstract class TestBase {
 	 */
 	public TestBase(boolean mockGame) {
 		this.mockGame = mockGame;
+	}
+	
+	/**
+	 * Sets if the game should be mocked before each test.
+	 * 
+	 * @param mockGame
+	 * 		if the game should be mocked
+	 */
+	protected void setMockGame(boolean mockGame) {
+		this.mockGame = mockGame;
+	}
+	
+
+	/**
+	 * Ensures that the main instance is set up before every test.
+	 */
+	@Before
+	public void setUpMain() {
+		main = TestUtil.setupMainForTesting();
+		
+		if (mockGame) {
+			TestUtil.mockGame();
+		}
+	}
+
+	/**
+	 * Ensures that the main instance is cleaned up after every test.
+	 */
+	@After
+	public void tearDownMain() {
+		Mockito.reset(main);
+		main = null;
+		
+		TestUtil.cleanupMain();
 	}
 	
 	/**
@@ -56,28 +90,5 @@ public abstract class TestBase {
 		
 		//Create a global main for this class
 		TestUtil.recreateGlobalMain();
-	}
-	
-	/**
-	 * Ensures that the main instance is set up before every test.
-	 */
-	@Before
-	public void setUpMain() {
-		main = TestUtil.setupMainForTesting();
-		
-		if (mockGame) {
-			TestUtil.mockGame();
-		}
-	}
-
-	/**
-	 * Ensures that the main instance is cleaned up after every test.
-	 */
-	@After
-	public void tearDownMain() {
-		Mockito.reset(main);
-		main = null;
-		
-		TestUtil.cleanupMain();
 	}
 }
