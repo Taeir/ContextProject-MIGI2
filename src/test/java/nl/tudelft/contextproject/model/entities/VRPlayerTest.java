@@ -15,13 +15,13 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the VRPlayer class.
@@ -30,6 +30,13 @@ public class VRPlayerTest extends MovingEnemyTest {
 
 	private static final double EPSILON = 1e-5;
 	private VRPlayer player;
+	
+	/**
+	 * Constructor that ensures that the game is mocked before the tests.
+	 */
+	public VRPlayerTest() {
+		setMockGame(true);
+	}
 
 	@Override
 	public Entity getEntity() {
@@ -49,21 +56,6 @@ public class VRPlayerTest extends MovingEnemyTest {
 	public void setUp() {
 		player = new VRPlayer();
 	}
-
-	//TODO This method should be tested after VR support is added as it will change!
-//	/**
-//	 * Test if updating the player moves it.
-//	 * NOTE: moving by 0 is also moving.
-//	 */
-//		@Test
-//		public void testSimpleUpdate() {
-//			Geometry mockedGeometry = mock(Geometry.class);
-//			CharacterControl mockedCharacterControl = mock(CharacterControl.class);
-//			player.setSpatial(mockedGeometry);
-//			player.setCharacterControl(mockedCharacterControl);
-//			player.update(0.f);
-//			verify(mockedGeometry, times(1)).move(anyFloat(), anyFloat(), anyFloat());
-//		}
 
 	/**
 	 * Test getGeometry().
@@ -228,7 +220,6 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testKill() {
-		TestUtil.mockGame();
 		float dmg = player.getHealth() + .2f;
 		player.takeDamage(dmg);
 		assertEquals(GameState.ENDED, Main.getInstance().getGameState());
