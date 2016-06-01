@@ -2,6 +2,8 @@ package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
 
+import nl.tudelft.contextproject.model.Game;
+
 /**
  * GameController for the ending state.
  */
@@ -26,4 +28,7 @@ public class EndingController extends GameController {
 	public GameState getGameState() {
 		return GameState.ENDED;
 	}
+
+	@Override
+	protected void placeTreasure(Game game) { };
 }
