@@ -45,6 +45,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	private int idCounter;
 
 	private HashMap<Integer, CorridorEdge> edges;
+	
+	private ArrayList<Integer> chosenEdges;
 
 	private ArrayList<RoomEntrancePoint> usedEntrancePoints;
 
@@ -86,9 +88,12 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		placeOtherRooms();
 		createEdges();
 		createMST();
+		placeCorridors();
 		
 		return new Level(null, null);
 	}
+
+	
 
 	/**
 	 * Place start and treasure room on semi-random locations.
@@ -131,9 +136,9 @@ public class MSTBasedLevelFactory implements LevelFactory {
 			
 			//Get random coordinates
 			Vec2I coordinates = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
-					RoomNode.MIN_DIST, MAX_WIDTH - (currentNode.room.size.getWidth() + RoomNode.MIN_DIST + 1)), 
-						RandomUtil.getRandomIntegerFromInterval(rand, 
-					RoomNode.MIN_DIST, MAX_HEIGHT - (currentNode.room.size.getHeight() + RoomNode.MIN_DIST + 1)));
+						RoomNode.MIN_DIST, MAX_WIDTH - (currentNode.room.size.getWidth() + RoomNode.MIN_DIST + 1)), 
+					RandomUtil.getRandomIntegerFromInterval(rand, 
+							RoomNode.MIN_DIST, MAX_HEIGHT - (currentNode.room.size.getHeight() + RoomNode.MIN_DIST + 1)));
 			
 			//Check placement and place if possible
 			if (currentNode.scanPossiblePlacement(mazeTiles, coordinates)) {
@@ -163,11 +168,27 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	
 	/**
 	 * Create a MST, connecting all the rooms with the least amount of path.
+	 * Create the MST object.
+	 * Run the MST algorithm, selecting which edges are chosen in map generation.
+	 * 
 	 */
 	protected void createMST() {
 		MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes, edges);
+		mst.runKruskalAlgorithm();
+		chosenEdges = mst.getCorridorIDs();
 	}
 	
+	
+	/**
+	 * Place the corridors from the chosenEdges list.
+	 * For each corridor a breadth first search is done from
+	 * the corridor starting point to the corridor end point.
+	 */
+	protected void placeCorridors() {
+		for (Integer corridorID: chosenEdges) {
+			
+		}
+	}	
 	/**
 	 * Add RoomNode to graph and map.
 	 * Will remove node from the base list of nodes if duplicates are turned off.

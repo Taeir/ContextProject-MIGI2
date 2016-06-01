@@ -43,7 +43,7 @@ public class MinimumSpanningTree {
 	 * 
 	 * First generates a new graph that deals with multiple exits and entrances per room.
 	 */
-	public void runPimAlgorithm() {
+	public void runKruskalAlgorithm() {
 		createTransformedGraph();
 		createMST();
 	}
@@ -154,31 +154,13 @@ public class MinimumSpanningTree {
 			numberOfEdgesInCluster++;
 		}
 	}
-
-	/**
-	 * Find the start node in the new graph.
-	 * @return
-	 * 		the start node
-	 */
-	protected MSTNode findStartNode() {
-		Iterator<MSTNode> nodes = graphNodes.iterator();
-		MSTNode currentNode;
-		while (nodes.hasNext()) {
-			currentNode = nodes.next();
-			if (currentNode.roomNodeID == MSTBasedLevelFactory.START_ROOM_ID 
-					&& currentNode.nodeType == MSTNodeType.CONNECTOR_NODE) {
-				return currentNode;
-			}
-		}
-		return null; 
-	}
 	
 	/**
 	 * Translate the MST tree back to a list of corridor IDs.
 	 * @return
 	 * 		list of corridor IDs
 	 */
-	protected ArrayList<Integer> getCorridorIDs() {
+	public ArrayList<Integer> getCorridorIDs() {
 		ArrayList<Integer> corridorIDs = new ArrayList<Integer>();
 		int corridorID;
 		for (MSTEdge edge : resultMST) {
