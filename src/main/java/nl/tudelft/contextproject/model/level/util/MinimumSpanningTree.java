@@ -7,10 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
-import java.util.Set;
 
 import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
-
 
 
 /**
@@ -161,6 +159,23 @@ public class MinimumSpanningTree {
 			}
 		}
 		return null; 
+	}
+	
+	/**
+	 * Translate the MST tree back to a list of corridor IDs.
+	 * @return
+	 * 		list of corridor IDs
+	 */
+	protected ArrayList<Integer> getCorridorIDs() {
+		ArrayList<Integer> corridorIDs = new ArrayList<Integer>();
+		int corridorID;
+		for (MSTEdge edge : resultMST) {
+			corridorID = edge.corridorID;
+			if (corridorID != -1) {
+				corridorIDs.add(corridorID);
+			}
+		}
+		return corridorIDs;
 	}
 
 	/**
