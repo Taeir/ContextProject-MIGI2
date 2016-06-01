@@ -8,6 +8,7 @@ import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
@@ -33,7 +34,8 @@ public class InvisibleWall extends Entity implements PhysicsObject, Health {
 		material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		material.setColor("Color", new ColorRGBA(0, 0, 0, 0));
 		material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-		spatial.setMaterial(material); 
+		spatial.setMaterial(material);
+		spatial.setQueueBucket(Bucket.Transparent);
 		spatial.move(0, 2.5f, 0);
 		return spatial;	
 	}
