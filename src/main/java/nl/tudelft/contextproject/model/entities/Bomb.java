@@ -25,8 +25,6 @@ public class Bomb extends Entity implements PhysicsObject {
 	 * Constructor for a bomb.
 	 */
 	public Bomb() {
-		timer = 0f;
-		active = false;
 		sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
