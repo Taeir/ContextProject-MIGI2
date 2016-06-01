@@ -21,6 +21,11 @@ public class DoorTest extends EntityTest {
 		color.set(ColorRGBA.Yellow);
 		return new Door(color);
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.DOOR;
+	}
 	
 	/**
 	 * Setup method.

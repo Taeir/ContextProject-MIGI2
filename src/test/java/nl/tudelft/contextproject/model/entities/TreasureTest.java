@@ -21,6 +21,11 @@ public class TreasureTest extends EntityTest {
 	public Entity getEntity() {
 		return instance;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.TREASURE;
+	}
 	
 	/**
 	 * Create a fresh instance for each test.

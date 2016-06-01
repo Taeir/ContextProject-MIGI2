@@ -22,6 +22,11 @@ public class WallFrameTest extends EntityTest {
 	public Entity getEntity() {
 		return new WallFrame(new Vector3f(), "logo.png", Direction.SOUTH, 1, 3);
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.WALLFRAME;
+	}
 	
 	/**
 	 * Create a fresh wallFrame for each test.

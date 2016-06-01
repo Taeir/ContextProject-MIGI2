@@ -25,6 +25,11 @@ public class PitfallTest extends EntityTest {
 	public Entity getEntity() {
 		return new Pitfall(1);
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PITFALL;
+	}
 	
 	/**
 	 * Tests if pitfalls properly remember their width.

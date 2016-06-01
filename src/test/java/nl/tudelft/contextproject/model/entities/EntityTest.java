@@ -32,6 +32,12 @@ public abstract class EntityTest extends DrawableTest {
 	 * 		an Entity to test with
 	 */
 	public abstract Entity getEntity();
+	
+	/**
+	 * @return
+	 * 		the type of the Entity under test
+	 */
+	public abstract EntityType getType();
 
 	/**
 	 * create a new (clean) entity to test with.
@@ -123,5 +129,13 @@ public abstract class EntityTest extends DrawableTest {
 		entity.setSpatial(mockedSpatial);
 		entity.getLocation();
 		verify(mockedSpatial, times(1)).getLocalTranslation();
+	}
+	
+	/**
+	 * Tests if the type of the entity matches with what we expect.
+	 */
+	@Test
+	public void testGetType() {
+		assertEquals(getType(), getEntity().getType());
 	}
 }

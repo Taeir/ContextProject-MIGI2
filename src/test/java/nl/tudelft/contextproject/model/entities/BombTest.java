@@ -24,6 +24,11 @@ public class BombTest extends EntityTest {
 		return new Bomb();
 	}
 
+	@Override
+	public EntityType getType() {
+		return EntityType.BOMB;
+	}
+
 	/**
 	 * Setup method.
 	 * Creates a fresh bomb for every test.

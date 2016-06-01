@@ -26,6 +26,11 @@ public class LandMineTest extends EntityTest {
 	public Entity getEntity() {
 		return mine;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.LANDMINE;
+	}
 	
 	/**
 	 * Test if triggering removes the entity.

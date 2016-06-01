@@ -25,6 +25,11 @@ public class VoidPlatformTest extends EntityTest {
 		return instance;
 	}
 
+	@Override
+	public EntityType getType() {
+		return EntityType.VOID_PLATFORM;
+	}
+
 	/**
 	 * Tests if loading void platforms works properly.
 	 */

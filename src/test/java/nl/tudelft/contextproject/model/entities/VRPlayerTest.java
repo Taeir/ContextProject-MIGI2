@@ -37,13 +37,13 @@ public class VRPlayerTest extends MovingEnemyTest {
 	}
 
 	@Override
-	public Entity getEntity() {
-		return new VRPlayer();
-	}
-	
-	@Override
 	public MovingEntity getEnemy() {
 		return new VRPlayer();
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PLAYER;
 	}
 	
 	/**

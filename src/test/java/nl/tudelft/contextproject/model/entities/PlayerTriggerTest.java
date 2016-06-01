@@ -28,6 +28,11 @@ public class PlayerTriggerTest extends EntityTest {
 		setUp();
 		return pt;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PLAYER_TRIGGER;
+	}
 	
 	/**
 	 * Create a fresh playerTrigger for each test.

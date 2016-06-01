@@ -21,6 +21,11 @@ public class KeyTest extends EntityTest {
 		color.set(ColorRGBA.Yellow);
 		return new Key(color);
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.KEY;
+	}
 	
 	/**
 	 * Setup method.

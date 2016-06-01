@@ -30,6 +30,11 @@ public class KillerBunnyTest extends MovingEnemyTest {
 		return bunny;
 	}
 
+	@Override
+	public EntityType getType() {
+		return EntityType.KILLER_BUNNY;
+	}
+
 	/**
 	 * Tests if loading killer bunnies works properly.
 	 */

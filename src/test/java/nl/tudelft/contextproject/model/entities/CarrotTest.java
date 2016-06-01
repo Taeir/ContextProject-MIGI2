@@ -23,6 +23,11 @@ public class CarrotTest extends EntityTest {
 	public Entity getEntity() {
 		return carrot;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.CARROT;
+	}
 	
 	/**
 	 * Test eating from the carrot.
