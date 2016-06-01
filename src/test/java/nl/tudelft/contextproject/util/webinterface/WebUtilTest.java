@@ -31,11 +31,13 @@ import static org.mockito.Mockito.when;
  * Test for the WebUtil class.
  */
 public class WebUtilTest extends TestBase {
+	private static final String DWARFS = "Dwarfs";
+	private static final String ELVES = "Elves";
+
 	private Game mockedGame;
 	private Level mockedLevel;
 	private Vector3f zeroVector;
 	private VRPlayer mockedPlayer;
-	private static final String DWARFS = "Dwarfs";
 
 	/**
 	 * Set up all needed fields for testing.
@@ -70,7 +72,7 @@ public class WebUtilTest extends TestBase {
 	 */
 	@Test
 	public void testCheckValidAction() {
-		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, "Elves"));
+		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, ELVES));
 		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, DWARFS));
 		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, "hax0r"));
 	}
@@ -81,6 +83,7 @@ public class WebUtilTest extends TestBase {
 	@Test
 	public void testCheckValidElves() {
 		assertTrue(WebUtil.checkValidElves(Action.DROPBAIT));
+		assertTrue(WebUtil.checkValidElves(Action.PLACETILE));
 		assertFalse(WebUtil.checkValidElves(Action.PLACEBOMB));
 	}
 
@@ -102,7 +105,7 @@ public class WebUtilTest extends TestBase {
 	@Test
 	public void testCheckValidLocationNull() {
 		when(mockedLevel.getTile(0, 0)).thenReturn(null);
-		assertFalse(WebUtil.checkValidLocation(0, 0));
+		assertFalse(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
 	}
 
 	/**
@@ -112,7 +115,7 @@ public class WebUtilTest extends TestBase {
 	public void testCheckValidLocationWall() {
 		MazeTile tile = new MazeTile(0, 0, TileType.WALL);
 		when(mockedLevel.getTile(0, 0)).thenReturn(tile);
-		assertFalse(WebUtil.checkValidLocation(0, 0));
+		assertFalse(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
 	}
 
 	/**
@@ -131,7 +134,7 @@ public class WebUtilTest extends TestBase {
 
 		when(mockedGame.getEntities()).thenReturn(entities);
 
-		assertFalse(WebUtil.checkValidLocation(0, 0));
+		assertFalse(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
 	}
 
 	/**
@@ -147,7 +150,7 @@ public class WebUtilTest extends TestBase {
 		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
 		when(mockedPlayer.getLocation()).thenReturn(zeroVector);
 
-		assertFalse(WebUtil.checkValidLocation(0, 0));
+		assertFalse(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
 	}
 
 	/**
@@ -165,7 +168,23 @@ public class WebUtilTest extends TestBase {
 		Vector3f oneVector = new Vector3f(1, 1, 1);
 		when(mockedPlayer.getLocation()).thenReturn(oneVector);
 
-		assertTrue(WebUtil.checkValidLocation(0, 0));
+		assertTrue(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
+	}
+
+	/**
+	 * Check if placing on a valid location is indeed a valid location.
+	 */
+	@Test
+	public void testCheckValidLocationValidVoid() {
+		when(mockedLevel.getTile(0, 0)).thenReturn(null);
+		Set<Entity> entities = new HashSet<>();
+		when(mockedGame.getEntities()).thenReturn(entities);
+
+		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
+		Vector3f oneVector = new Vector3f(1, 1, 1);
+		when(mockedPlayer.getLocation()).thenReturn(oneVector);
+
+		assertTrue(WebUtil.checkValidLocation(0, 0, Action.PLACETILE));
 	}
 
 	/**
