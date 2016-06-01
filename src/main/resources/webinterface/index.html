@@ -13,23 +13,50 @@
     <body>
         <div id="wrapper">
 
-            <!-- Sidebar -->
+            <!-- Sidebar Dwarfs -->
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">
                     <li class="sidebar-brand">
                         <a>Dwarfs</a>
                     </li>
                     <li>
-                        <a href="#">Lol</a>
+                        <a href="#">Place bomb</a>
                     </li>
                     <li>
-                        <a href="#">Get</a>
+                        <a href="#">Place pitfall</a>
                     </li>
                     <li>
-                        <a href="#">Rekt</a>
+                        <a href="#">Place landmine</a>
                     </li>
                     <li>
-                        <a href="#">Biches</a>
+                        <a href="#">Spawn enemy</a>
+                    </li>
+                    <li>
+                        <a href="#">Cancel</a>
+                    </li>
+                    <li>
+                        <a href="#">Toggle fullscreen</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Sidebar Elves -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a>Elves</a>
+                    </li>
+                    <li>
+                        <a href="#">Drop bait</a>
+                    </li>
+                    <li>
+                        <a href="#">Place tile</a>
+                    </li>
+                    <li>
+                        <a href="#">Cancel</a>
+                    </li>
+                    <li>
+                        <a href="#">Toggle fullscreen</a>
                     </li>
                 </ul>
             </div>
@@ -43,7 +70,8 @@
         					<button onclick="requestSetTeam('ELVES')" id="clickable">Elves</button>
         					<button onclick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
         					<button onclick="requestSetTeam('NONE')" id="clickable">No team</button>
-                            <button onclick="$('#wrapper').toggleClass('toggled');" id="clickable">Toggle Nav</button>
+                            <button onclick="$('#wrapper').toggleClass('toggled');" id="clickable">Toggle Dwarfs</button>
+                            <button onclick="$('#wrapper').toggleClass('toggled');" id="clickable">Toggle Elves</button>
         					<br>	
         					Current team: <div class="team">No team</div><br>
         				</div>
