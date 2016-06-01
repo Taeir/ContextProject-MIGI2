@@ -23,6 +23,11 @@ public class CarrotTest extends EntityTest {
 	public Entity getEntity() {
 		return carrot;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.CARROT;
+	}
 	
 	/**
 	 * Test eating from the carrot.
@@ -44,4 +49,21 @@ public class CarrotTest extends EntityTest {
 		assertEquals(EntityState.DEAD, carrot.getState());
 	}
 
+	/**
+	 * Tests if loading carrots works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		Carrot carrot = Carrot.loadEntity(loadPosition, new String[]{"1", "1", "1", EntityType.CARROT.getName()});
+		
+		assertEquals(loadPosition, carrot.getLocation());
+	}
+	
+	/**
+	 * Tests if loading carrots with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		Carrot.loadEntity(loadPosition, new String[3]);
+	}
 }

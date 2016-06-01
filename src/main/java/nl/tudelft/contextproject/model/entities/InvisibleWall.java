@@ -7,6 +7,7 @@ import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
@@ -83,5 +84,31 @@ public class InvisibleWall extends Entity implements PhysicsObject, Health {
 	@Override
 	public float getHealth() {
 		return health;
+	}
+
+	/**
+	 * Loads an {@link InvisibleWall} entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the wall
+	 * @param data
+	 * 		the data of the wall
+	 * @return
+	 * 		the wall represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static InvisibleWall loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> InvisibleWall\".");
+		
+		InvisibleWall wall = new InvisibleWall();
+		wall.move(position);
+		
+		return wall;
+	}
+	
+	@Override
+	public EntityType getType() {
+		return EntityType.INVISIBLE_WALL;
 	}
 }

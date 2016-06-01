@@ -92,4 +92,8 @@ public class KillerBunny extends MovingEntity implements PhysicsObject, Health {
 		return health;
 	}
 
+	@Override
+	public EntityType getType() {
+		return EntityType.KILLER_BUNNY;
+	}
 }

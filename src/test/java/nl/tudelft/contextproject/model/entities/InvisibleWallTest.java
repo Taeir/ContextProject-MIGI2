@@ -45,4 +45,9 @@ public class InvisibleWallTest extends EntityTest {
 		instance.takeDamage(2f);
 		assertEquals(EntityState.DEAD, instance.getState());
 	}
+
+	@Override
+	public EntityType getType() {
+		return instance.getType();
+	}
 }

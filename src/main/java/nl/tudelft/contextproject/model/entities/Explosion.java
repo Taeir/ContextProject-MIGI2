@@ -84,4 +84,8 @@ public class Explosion extends Entity {
 		getSpatial().move(x, y, z);
 	}
 
+	@Override
+	public EntityType getType() {
+		return EntityType.EXPLOSION;
+	}
 }

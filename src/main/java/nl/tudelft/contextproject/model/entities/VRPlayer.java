@@ -50,6 +50,16 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 
 	public static final float EXPLORATION_INTERVAL = 0.5f;
 	public static final int EXPLORATION_RADIUS = 5;
+	
+	//Health constants
+	public static final float PLAYER_MAX_HEALTH = 3f;
+	public static final float PLAYER_HEALTH = 3f;
+	
+	//The range in which the player can interact with entities (e.g. picking up bombs/keys and opening doors)
+	public static final float INTERACT_RANGE = 2f;
+	
+	//The height at which the player is spawned in the map
+	public static final float SPAWN_HEIGHT = 10f;
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
@@ -58,7 +68,6 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	private float fallingTimer;
 	private float explorationTimer;
 	private float health;
-	private float maxHealth;
 
 	/**
 	 * Constructor for a default player.
@@ -66,8 +75,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	 */
 	public VRPlayer() { 
 		super(new PlayerControl());
-		health = 3;
-		maxHealth = 3;
+		health = PLAYER_HEALTH;
 		inventory = new Inventory();
 	}
 
@@ -80,7 +88,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.randomColor());
 		spatial.setMaterial(mat);
-		spatial.move(0, 10, 0);
+		spatial.move(0, SPAWN_HEIGHT, 0);
 		return spatial;
 	}
 
@@ -176,9 +184,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	 */
 	@Override
 	public CharacterControl getPhysicsObject() {
-		if (spatial == null) {
-			this.getSpatial();
-		}
+		if (spatial == null) getSpatial();
+
 		if (playerControl != null) return playerControl;
 		//create a shape that implements PhysicsControl
 		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(PLAYER_RADIUS, PLAYER_HEIGHT, PLAYER_GRAVITY_AXIS);
@@ -198,16 +205,16 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	 * Player drops a bomb from his inventory.
 	 */
 	public void dropBomb() {
-		if (inventory.containsBomb()) {
-			Bomb bomb = new Bomb();
-			inventory.remove(bomb);
-			Vector3f vec = this.getSpatial().getLocalTranslation();
-			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-			bomb.activate();
-			if (Main.getInstance().getCurrentGame() != null) {
-				Main.getInstance().getCurrentGame().addEntity(bomb);
-			}
-		}
+		if (!inventory.containsBomb()) return;
+		
+		Bomb bomb = new Bomb();
+		inventory.remove(bomb);
+		
+		Vector3f vec = this.getSpatial().getLocalTranslation();
+		bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
+		bomb.activate();
+		
+		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
 	
 	/**
@@ -218,25 +225,23 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
 
 		for (Entity ent : set) {
-			 if (ent.collidesWithPlayer(2f)) {
-				if (ent instanceof Bomb) {
-					inventory.add(new Bomb());
+			if (!ent.collidesWithPlayer(INTERACT_RANGE)) continue;
+
+			if (ent instanceof Bomb) {
+				inventory.add(new Bomb());
+				ent.setState(EntityState.DEAD);
+				return;
+			} else if (ent instanceof Key) {
+				Key key = (Key) ent;
+				inventory.add(new Key(key.getColor()));
+				ent.setState(EntityState.DEAD);
+				return;
+			} else if (ent instanceof Door) {
+				Door door = (Door) ent;
+				if (inventory.containsColorKey(door.getColor())) {
+					inventory.remove(inventory.getKey(door.getColor()));
 					ent.setState(EntityState.DEAD);
 					return;
-				}
-				if (ent instanceof Key) {
-					Key key = (Key) ent;
-					inventory.add(new Key(key.getColor()));
-					ent.setState(EntityState.DEAD);
-					return;
-				}
-				if (ent instanceof Door) {
-					Door door = (Door) ent;
-					if (inventory.containsColorKey(door.getColor())) {
-						inventory.remove(inventory.getKey(door.getColor()));
-						ent.setState(EntityState.DEAD);
-						return;
-					}
 				}
 			}
 		}
@@ -273,7 +278,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 
 	@Override
 	public void setHealth(float heal) {
-		health = Math.min(heal, maxHealth);
+	this.health = Math.min(PLAYER_MAX_HEALTH, health);
 	}
 	
 	@Override
@@ -282,5 +287,31 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		if (health < 0) {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
+	}
+	
+	/**
+	 * Loads a player entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the player
+	 * @param data
+	 * 		the data of the player
+	 * @return
+	 * 		the player represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static VRPlayer loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> Player\".");
+		
+		VRPlayer player = new VRPlayer();
+		player.move(position);
+		
+		return player;
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PLAYER;
 	}
 }

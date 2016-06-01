@@ -51,4 +51,8 @@ public class KillerBunnyTest extends MovingEnemyTest {
 		assertEquals(EntityState.DEAD, bunny.getState());
 	}
 
+	@Override
+	public EntityType getType() {
+		return EntityType.KILLER_BUNNY;
+	}
 }
