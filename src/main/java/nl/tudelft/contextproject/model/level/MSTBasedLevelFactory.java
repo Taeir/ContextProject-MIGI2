@@ -92,7 +92,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		createMST();
 		placeCorridors();
 
-		return new Level(null, null);
+		return new Level(mazeTiles, lights);
 	}
 
 
@@ -190,7 +190,18 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 */
 	protected void placeCorridors() {
 		ArrayList<Stack<Vec2I>> corridorList = getCorridorLocations();
-		
+		Vec2I carveLocation;
+		int x, y;
+		for (Stack<Vec2I> stack : corridorList) {
+			while (!stack.empty()) {
+				carveLocation = stack.pop();
+				x = carveLocation.x;
+				y = carveLocation.y;
+				if (mazeTiles[x][y] == null) {
+					mazeTiles[x][y] = new MazeTile(x, y, TileType.CORRIDOR);
+				}
+			}
+		}
 	}	
 	
 	/**
