@@ -31,11 +31,13 @@ import static org.mockito.Mockito.when;
  * Test for the WebUtil class.
  */
 public class WebUtilTest extends TestBase {
+	private static final String DWARFS = "Dwarfs";
+	private static final String ELVES = "Elves";
+
 	private Game mockedGame;
 	private Level mockedLevel;
 	private Vector3f zeroVector;
 	private VRPlayer mockedPlayer;
-	private static final String DWARFS = "Dwarfs";
 
 	/**
 	 * Set up all needed fields for testing.
@@ -70,7 +72,7 @@ public class WebUtilTest extends TestBase {
 	 */
 	@Test
 	public void testCheckValidAction() {
-		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, "Elves"));
+		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, ELVES));
 		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, DWARFS));
 		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, "hax0r"));
 	}
