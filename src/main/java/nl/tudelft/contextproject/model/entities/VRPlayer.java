@@ -324,4 +324,9 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		
 		return player;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PLAYER;
+	}
 }

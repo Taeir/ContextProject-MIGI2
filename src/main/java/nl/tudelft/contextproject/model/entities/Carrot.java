@@ -93,4 +93,9 @@ public class Carrot extends Entity {
 		
 		return carrot;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.CARROT;
+	}
 }

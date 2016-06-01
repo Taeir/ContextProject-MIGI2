@@ -108,4 +108,9 @@ public class Key extends Entity implements PhysicsObject {
 		
 		return key;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.KEY;
+	}
 }

@@ -135,4 +135,9 @@ public class PlayerTrigger extends Entity {
 		trigger.move(position);
 		return trigger;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PLAYER_TRIGGER;
+	}
 }

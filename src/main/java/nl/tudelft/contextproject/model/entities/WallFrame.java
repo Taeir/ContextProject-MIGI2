@@ -119,4 +119,9 @@ public class WallFrame extends Entity {
 		WallFrame frame = new WallFrame(position, texture, direction, width, height);
 		return frame;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.WALLFRAME;
+	}
 }

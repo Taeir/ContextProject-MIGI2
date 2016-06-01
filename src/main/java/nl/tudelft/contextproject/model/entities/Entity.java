@@ -79,4 +79,9 @@ public abstract class Entity implements Drawable, TickListener {
 		return this.getSpatial().getLocalTranslation();
 	}
 
+	/**
+	 * @return
+	 * 		the EntityType of this entity
+	 */
+	public abstract EntityType getType();
 }

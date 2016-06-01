@@ -113,4 +113,9 @@ public class Door extends Entity implements PhysicsObject {
 		
 		return door;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.DOOR;
+	}
 }

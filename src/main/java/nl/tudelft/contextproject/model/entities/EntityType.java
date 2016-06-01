@@ -9,6 +9,7 @@ import com.jme3.math.Vector3f;
  */
 public enum EntityType {
 	BOMB("Bomb", 					1,  Bomb::loadEntity),
+	EXPLOSION("Explosion",			0,  null),
 	
 	DOOR("Door", 					2,  Door::loadEntity),
 	KEY("Key", 						3,  Key::loadEntity),

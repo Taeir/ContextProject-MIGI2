@@ -73,4 +73,9 @@ public class LandMine extends PlayerTrigger {
 		mine.move(position);
 		return mine;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.LANDMINE;
+	}
 }

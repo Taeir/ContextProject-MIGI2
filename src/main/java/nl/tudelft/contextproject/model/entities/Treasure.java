@@ -69,4 +69,9 @@ public class Treasure extends PlayerTrigger {
 		treasure.move(position);
 		return treasure;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.TREASURE;
+	}
 }

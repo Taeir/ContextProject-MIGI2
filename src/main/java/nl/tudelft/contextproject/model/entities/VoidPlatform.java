@@ -87,4 +87,9 @@ public class VoidPlatform extends Entity implements PhysicsObject {
 		platform.move(position);
 		return platform;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.VOID_PLATFORM;
+	}
 }

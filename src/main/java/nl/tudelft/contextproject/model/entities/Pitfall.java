@@ -89,4 +89,9 @@ public class Pitfall extends PlayerTrigger {
 		pitfall.move(position);
 		return pitfall;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PITFALL;
+	}
 }

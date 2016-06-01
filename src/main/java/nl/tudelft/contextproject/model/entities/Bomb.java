@@ -118,4 +118,9 @@ public class Bomb extends Entity implements PhysicsObject {
 		
 		return bomb;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.BOMB;
+	}
 }

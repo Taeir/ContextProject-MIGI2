@@ -91,4 +91,9 @@ public class KillerBunny extends MovingEntity implements PhysicsObject {
 		KillerBunny bunny = new KillerBunny(position);
 		return bunny;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.KILLER_BUNNY;
+	}
 }
