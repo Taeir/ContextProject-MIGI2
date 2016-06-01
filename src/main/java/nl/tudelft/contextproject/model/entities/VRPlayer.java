@@ -278,7 +278,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 
 	@Override
 	public void setHealth(float heal) {
-	this.health = Math.min(PLAYER_MAX_HEALTH, health);
+		this.health = Math.min(PLAYER_MAX_HEALTH, health);
 	}
 	
 	@Override
