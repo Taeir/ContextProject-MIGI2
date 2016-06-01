@@ -78,7 +78,6 @@ public class InvisibleWall extends Entity implements PhysicsObject, Health {
 		} else if (health < .5) {
 			material.setColor("Color", new ColorRGBA(0, 0, 0, .6f));
 		}
-		System.out.println(health);
 	}
 
 	@Override
