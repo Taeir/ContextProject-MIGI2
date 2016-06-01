@@ -101,12 +101,19 @@ public class MinimumSpanningTree {
 		}
 	}
 	
-	
+	/**
+	 * Run the actual algorithm.
+	 */
 	protected void createMST() {
 		MSTNode startNode = findStartNode();
 		
 	}
 	
+	/**
+	 * Find the start node in the new graph.
+	 * @return
+	 * 		the start node
+	 */
 	protected MSTNode findStartNode() {
 		Iterator<MSTNode> nodes = graphNodes.iterator();
 		MSTNode currentNode;
