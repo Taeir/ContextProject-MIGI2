@@ -97,4 +97,25 @@ public class Bomb extends Entity implements PhysicsObject {
 	public float getTimer() {
 		return timer;
 	}
+	
+	/**
+	 * Loads a bomb entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the bomb
+	 * @param data
+	 * 		the data of the bomb
+	 * @return
+	 * 		the bomb represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static Bomb loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading bomb! Expected \"<X> <Y> <Z> Bomb\".");
+		
+		Bomb bomb = new Bomb();
+		bomb.move(position);
+		
+		return bomb;
+	}
 }

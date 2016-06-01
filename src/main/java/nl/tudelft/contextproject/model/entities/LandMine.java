@@ -54,4 +54,23 @@ public class LandMine extends PlayerTrigger {
 		this.setState(EntityState.DEAD);
 	}
 
+	/**
+	 * Loads a landmine entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the landmine
+	 * @param data
+	 * 		the data of the landmine
+	 * @return
+	 * 		the landmine represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static LandMine loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading landmine! Expected \"<X> <Y> <Z> LandMine\".");
+
+		LandMine mine = new LandMine();
+		mine.move(position);
+		return mine;
+	}
 }

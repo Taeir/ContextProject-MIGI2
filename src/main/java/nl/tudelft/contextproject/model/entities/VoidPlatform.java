@@ -6,6 +6,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
@@ -67,4 +68,23 @@ public class VoidPlatform extends Entity implements PhysicsObject {
 		spatial.setLocalTranslation(phControl.getPhysicsLocation());
 	}
 
+	/**
+	 * Loads a void platform entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the void platform
+	 * @param data
+	 * 		the data of the void platform
+	 * @return
+	 * 		the void platform represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static VoidPlatform loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading Void Platform! Expected \"<X> <Y> <Z> VoidPlatform\".");
+
+		VoidPlatform platform = new VoidPlatform();
+		platform.move(position);
+		return platform;
+	}
 }

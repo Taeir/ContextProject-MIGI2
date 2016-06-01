@@ -6,12 +6,14 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.util.ParserUtil;
 
 /**
  * Class representing a door.
@@ -89,5 +91,26 @@ public class Door extends Entity implements PhysicsObject {
 	 */
 	public ColorRGBA getColor() {
 		return color;
+	}
+	
+	/**
+	 * Loads a door entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the door
+	 * @param data
+	 * 		the data of the door
+	 * @return
+	 * 		the door represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static Door loadEntity(Vector3f position, String[] data) {
+		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading door! Expected \"<X> <Y> <Z> Door <Color>\".");
+		
+		Door door = new Door(ParserUtil.getColor(data[4]));
+		door.move(position);
+		
+		return door;
 	}
 }

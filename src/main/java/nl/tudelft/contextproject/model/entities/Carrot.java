@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model.entities;
 
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
@@ -72,4 +73,24 @@ public class Carrot extends Entity {
 		return health;
 	}
 
+	/**
+	 * Loads a carrot entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the carrot
+	 * @param data
+	 * 		the data of the carrot
+	 * @return
+	 * 		the carrot represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static Carrot loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading carrot! Expected \"<X> <Y> <Z> Carrot\".");
+		
+		Carrot carrot = new Carrot();
+		carrot.move(position);
+		
+		return carrot;
+	}
 }

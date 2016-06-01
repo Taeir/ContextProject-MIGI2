@@ -303,4 +303,25 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
 	}
+	
+	/**
+	 * Loads a player entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the player
+	 * @param data
+	 * 		the data of the player
+	 * @return
+	 * 		the player represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static VRPlayer loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> Player\".");
+		
+		VRPlayer player = new VRPlayer();
+		player.move(position);
+		
+		return player;
+	}
 }
