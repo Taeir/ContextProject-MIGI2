@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
 
@@ -17,11 +19,12 @@ import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
  * thus this class will remove edges.
  */
 public class MinimumSpanningTree {
-	
+
 	public List<RoomNode> roomNodes;
 	public List<CorridorEdge> corridorEdges;
 	public HashSet<MSTNode> graphNodes;
-	
+	public HashSet<MSTEdge> resultMST;
+
 	/**
 	 * Constructor.
 	 * @param roomNodes
@@ -33,8 +36,9 @@ public class MinimumSpanningTree {
 		this.roomNodes = roomNodes;
 		this.corridorEdges = corridorEdges;
 		this.graphNodes = new HashSet<MSTNode>();
+		this.resultMST = new HashSet<MSTEdge>();
 	}
-	
+
 	/**
 	 * Run Prim's algorithm.
 	 * A greedy algorithm to find the minimum spanning tree.
@@ -64,11 +68,11 @@ public class MinimumSpanningTree {
 			endNode = new MSTNode(MSTNodeType.ENTRANCE_NODE,
 					corridorEdge.end,
 					corridorEdge.end.node.id);
-			
+
 			//Check if there nodes already existed.
 			startNode = treeNodes.getOrDefault(startNode.originalDoor, startNode);
 			endNode = treeNodes.getOrDefault(endNode.originalDoor, endNode);
-			
+
 			//Create edge MSTEdge
 			currentEdge = new MSTEdge(startNode, endNode, corridorEdge.weight, corridorEdge.id);
 			startNode.addEdge(currentEdge);
@@ -100,15 +104,47 @@ public class MinimumSpanningTree {
 			graphNodes.add(connectorNode);
 		}
 	}
-	
+
 	/**
 	 * Run the actual algorithm.
+	 * This method uses Kruskal's algorithm.
+	 * First, a priority queue of MSTEdges is constructed with smallest weight first. Since the MSTNode graph is connected,
+	 * this means that n - 1 edges from the original MSTNode graph will create a minimum spanning tree.
+	 * Then a cluster structure is created. This structure is a HashMap&lt;MSTNode, Set&lt;MSTEdge&gt;&gt;. This means that clusters is
+	 * represented by a set of Edges. After that the algorithms start. Kruskal's algorithm checks for the first edge in the 
+	 * priority queue: if the clusters of that edges are not equal, or either cluster is still empty, then it means that 
+	 * the clusters aren't equal and must be combined. Since they are sets, simply an addall and the adding of the current edge
+	 * is enough to define the new clusters. This is done until the MSTNode graph number of nodes minus one edges have been created.
 	 */
 	protected void createMST() {
-		MSTNode startNode = findStartNode();
+		PriorityQueue<MSTEdge> edgesPriorityQueue = new PriorityQueue<>(new MSTEdgeWeightComparator());
+		HashMap<MSTNode, HashSet<MSTEdge>> clusterStructure = new HashMap<MSTNode, HashSet<MSTEdge>>(4 * graphNodes.size());
 		
+		//Add all edges to priority queue and create a cluster for each node
+		for (MSTNode node : graphNodes) {
+			edgesPriorityQueue.addAll(node.edges);
+			clusterStructure.put(node, new HashSet<MSTEdge>());
+		}
+		
+		//Run Kruskal's algorithm
+		int numberOfEdgesInCluster = 0;
+		MSTEdge currentEdge;
+		HashSet<MSTEdge> startCluster, endCluster;
+		while (numberOfEdgesInCluster < (graphNodes.size() - 1)) {
+			currentEdge = edgesPriorityQueue.poll();
+			startCluster = clusterStructure.get(currentEdge.startNode);
+			endCluster = clusterStructure.get(currentEdge.endNode);
+			
+			if (!startCluster.equals(endCluster) || startCluster.isEmpty() || endCluster.isEmpty()) {
+				resultMST.add(currentEdge);
+				startCluster.addAll(endCluster);
+				startCluster.add(currentEdge);
+				clusterStructure.put(currentEdge.endNode, startCluster);
+			}
+			numberOfEdgesInCluster++;
+		}
 	}
-	
+
 	/**
 	 * Find the start node in the new graph.
 	 * @return
@@ -142,7 +178,7 @@ public class MinimumSpanningTree {
 		MSTNode currentNode;
 		while (hashIterator.hasNext()) {
 			Entry<DoorLocation, MSTNode> entry = hashIterator.next();
-			
+
 			currentNode = entry.getValue();
 			if (currentNode.roomNodeID == roomID) {
 				list.add(currentNode);
@@ -150,8 +186,8 @@ public class MinimumSpanningTree {
 		}
 		return list.iterator();
 	}
-	
-	
-	
-	
+
+
+
+
 }
