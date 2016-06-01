@@ -1,13 +1,13 @@
 package nl.tudelft.contextproject.model.level.util;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Simple node used in MST creation.
  */
 public class MSTNode {
 
-	public List<MSTEdge> edges;
+	public ArrayList<MSTEdge> edges;
 	
 	public int roomNodeID;
 	
@@ -24,8 +24,8 @@ public class MSTNode {
 	 * @param roomNodeID
 	 * 			id of MSTNode
 	 */
-	public MSTNode(List<MSTEdge> edges, MSTNodeType nodeType, DoorLocation originalDoor, int roomNodeID) {
-		this.edges = edges;
+	public MSTNode(MSTNodeType nodeType, DoorLocation originalDoor, int roomNodeID) {
+		this.edges = new ArrayList<MSTEdge>();
 		this.nodeType = nodeType;
 		this.originalDoor = originalDoor;
 		this.roomNodeID = roomNodeID;
@@ -60,6 +60,15 @@ public class MSTNode {
 		if (roomNodeID != other.roomNodeID)
 			return false;
 		return true;
+	}
+
+	/**
+	 * Add an edge to the MST node outgoing edges list.
+	 * @param edge
+	 *		edge to add
+	 */
+	public void addEdge(MSTEdge edge) {
+		edges.add(edge);
 	}
 	
 	

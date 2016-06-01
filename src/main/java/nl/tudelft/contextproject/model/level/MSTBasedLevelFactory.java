@@ -21,6 +21,7 @@ import nl.tudelft.contextproject.util.RandomUtil;
  */
 public class MSTBasedLevelFactory implements LevelFactory {
 
+	public static final int START_ROOM_ID = -1;
 	//Max width of level 
 	protected static final int MAX_WIDTH = 200;
 	//Max height of level 
@@ -101,7 +102,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 				RoomNode.MIN_DIST, endLeftMostQuarter), 
 					RandomUtil.getRandomIntegerFromInterval(rand, 
 				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
-		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), -1);
+		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), START_ROOM_ID);
 		addRoomNode(startNode, startLocation);
 
 		//Place treasure room
