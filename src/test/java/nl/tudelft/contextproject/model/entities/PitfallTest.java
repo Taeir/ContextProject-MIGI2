@@ -25,5 +25,14 @@ public class PitfallTest extends EntityTest {
 	public Entity getEntity() {
 		return new Pitfall(1);
 	}
+	
+	/**
+	 * Tests if pitfalls properly remember their width.
+	 */
+	@Test
+	public void testGetWidth() {
+		Pitfall pit = new Pitfall(2);
+		assertEquals(2f, pit.getWidth(), 1E-5);
+	}
 
 }
