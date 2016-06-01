@@ -14,6 +14,7 @@ import nl.tudelft.contextproject.Main;
 public class Pitfall extends PlayerTrigger {
 
 	private Spatial sp;
+	private final float width;
 	
 	/**
 	 * Constructor for Pitfall.
@@ -23,6 +24,16 @@ public class Pitfall extends PlayerTrigger {
 	 */
 	public Pitfall(float width) {
 		super(width, 2f);
+		
+		this.width = width;
+	}
+	
+	/**
+	 * @return
+	 * 		the width of this Pitfall
+	 */
+	public float getWidth() {
+		return width;
 	}
 	
 	@Override
