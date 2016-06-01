@@ -18,7 +18,8 @@
     padding-right: 250px;
 }
 
-#sidebar-wrapper {
+#sidebar-wrapper-elves,
+#sidebar-wrapper-dwarfs {
     z-index: 1000;
     position: fixed;
     right: 250px;
@@ -26,14 +27,22 @@
     height: 100%;
     margin-right: -250px;
     overflow-y: auto;
-    background: #7F9A65;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
 
-#wrapper.toggled #sidebar-wrapper {
+#sidebar-wrapper-dwarfs {
+    background: #7F9A65;
+}
+
+#sidebar-wrapper-elves {
+    background: #FF8093;
+}
+
+#wrapper.toggled #sidebar-wrapper-elves,
+#wrapper.toggled #sidebar-wrapper-dwarfs {
     width: 250px;
 }
 
@@ -104,11 +113,12 @@
         padding-right: 250px;
     }
 
-    #sidebar-wrapper {
+    #sidebar-wrapper-elves {
         width: 0;
     }
 
-    #wrapper.toggled #sidebar-wrapper {
+    #wrapper.toggled #sidebar-wrapper-elves,
+    #wrapper.toggled #sidebar-wrapper-dwarfs {
         width: 250px;
     }
 
