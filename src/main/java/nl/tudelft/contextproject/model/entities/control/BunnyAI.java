@@ -22,18 +22,15 @@ public class BunnyAI implements EntityControl {
 	private KillerBunny owner;
 	private VRPlayer player;
 	private Set<Entity> entities;
-
-	/**
-	 * Constructs an instance of a {@link BunnyAI}.
-	 */
-	public BunnyAI() {
-		Game game  = Main.getInstance().getCurrentGame();
-		this.player = game.getPlayer();
-		this.entities = game.getEntities();
-	}
 	
 	@Override
 	public void move(float tpf) {
+		if (player == null) {
+			Game game  = Main.getInstance().getCurrentGame();
+			this.player = game.getPlayer();
+			this.entities = game.getEntities();
+		}
+		
 		float playerdist = player.getLocation().distance(owner.getLocation());
 		if (playerdist < .4) {
 			player.takeDamage(tpf * 2);

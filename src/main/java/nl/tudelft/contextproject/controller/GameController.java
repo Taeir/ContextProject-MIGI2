@@ -137,7 +137,7 @@ public class GameController extends Controller {
 		attachRoof(level);
 		addDrawable(game.getPlayer());		
 		game.getPlayer().move(start.x, 6, start.y);
-
+		
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
