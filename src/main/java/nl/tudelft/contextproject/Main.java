@@ -204,7 +204,7 @@ public class Main extends VRApplication implements TickProducer {
 			Log.getLog("VR").info("Attached device: No");
 		}
 		
-		guifont = getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+		setGuiFont();
 		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
@@ -410,5 +410,12 @@ public class Main extends VRApplication implements TickProducer {
 	 */
 	public Controller getController() {
 		return controller;
+	}
+	
+	/**
+	 * Loads the gui font.
+	 */
+	public void setGuiFont() {
+		guifont = getAssetManager().loadFont("Interface/Fonts/Default.fnt");
 	}
 }

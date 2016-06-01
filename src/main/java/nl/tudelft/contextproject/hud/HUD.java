@@ -39,20 +39,58 @@ public class HUD implements TickListener {
 	 */
 	public HUD(GameController controller) {
 		this.controller = controller;
+		this.screenHeight = VRGuiManager.getCanvasSize().getX();
+		this.screenWidth = VRGuiManager.getCanvasSize().getX();
+	}
+	
+	/**
+	 * Constructor used for testing only!
+	 * This constructor allows to bypass VR/GUI settings.
+	 * 
+	 * @param controller
+	 * 		the controller for this HUD
+	 * @param width
+	 * 		the screen width
+	 * @param height
+	 * 		the screen height
+	 */
+	protected HUD(GameController controller, float width, float height) {
+		this.controller = controller;
+		this.screenHeight = height;
+		this.screenWidth = width;
 	}
 	
 	/**
 	 * Attaches the Hud to the renderer.
 	 */
-	public void attachHud() {
-		screenHeight = VRGuiManager.getCanvasSize().getX();
-		screenWidth = VRGuiManager.getCanvasSize().getX();
-		
+	public void attachHud() {		
 		keyContainer = new Node("Keys");
 		controller.addGuiElement(keyContainer);
+		
+		attachBomb();		
+		attachHeartContainers();
+		
+		// Attach listeners
+		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
+		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
+	}
+
+	/**
+	 * Attaches the heart containers to the HUD.
+	 */
+	protected void attachHeartContainers() {
 		heartContainer = new Node("hearts");
 		controller.addGuiElement(heartContainer);
-		
+		for (int i = 0; i < VRPlayer.PLAYER_MAX_HEALTH; i++) {
+			heartContainer.attachChild(getHealthContainer(i));
+		}
+		updateHearts(Main.getInstance().getCurrentGame().getPlayer());
+	}
+
+	/**
+	 * Attaches the bomb icon and counter to the HUD.
+	 */
+	protected void attachBomb() {
 		// Attach the bomb counter
 		textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
 		textBomb.setSize(screenHeight / 30);
@@ -68,15 +106,6 @@ public class HUD implements TickListener {
 		bombPicture.setHeight(screenHeight / 10);
 		bombPicture.setPosition(screenWidth / 4f, 60);
 		controller.addGuiElement(bombPicture);
-		
-		// Attach heart containers
-		for (int i = 0; i < VRPlayer.PLAYER_MAX_HEALTH; i++) {
-			heartContainer.attachChild(getHealthContainer(i));
-		}
-		
-		// Attach listeners
-		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
-		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
 	}
 	
 	/**
@@ -129,15 +158,17 @@ public class HUD implements TickListener {
 		// Update the bomb count in the HUD
 		textBomb.setText("" + inv.numberOfBombs()); 
 
-		// update keys
-		keyContainer.detachAllChildren();
-		int i = 0;
-		for (ColorRGBA c : inv.getKeyColors()) {
-			keyContainer.attachChild(getKeyImage(i, c));
-			i++;
-		}
+		updateKeys(inv);
+		updateHearts(player);
+	}
 
-		// update hearts
+	/**
+	 * Update the heart containers to show the player's health.
+	 * 
+	 * @param player
+	 * 		the player to get the health from
+	 */
+	protected void updateHearts(VRPlayer player) {
 		int health = Math.round(player.getHealth());
 		for (int j = 0; j < VRPlayer.PLAYER_MAX_HEALTH; j++) {
 			Picture p = (Picture) heartContainer.getChild(j);
@@ -147,5 +178,31 @@ public class HUD implements TickListener {
 				p.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);					
 			}
 		}
+	}
+
+	/**
+	 * Update the key display to show all keys in the player's inventory.
+	 * 
+	 * @param inventory
+	 * 		the inventory that contains the keys
+	 */
+	protected void updateKeys(Inventory inventory) {
+		keyContainer.detachAllChildren();
+		int i = 0;
+		for (ColorRGBA c : inventory.getKeyColors()) {
+			keyContainer.attachChild(getKeyImage(i, c));
+			i++;
+		}
+	}
+	
+	/**
+	 * Method used for testing.
+	 * Sets the key container to a custom container.
+	 * 
+	 * @param container
+	 * 		the new container where keys will be stored
+	 */
+	protected void setKeyContainer(Node container) {
+		keyContainer = container;
 	}
 }
