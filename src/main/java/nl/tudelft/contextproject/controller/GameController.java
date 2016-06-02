@@ -137,7 +137,7 @@ public class GameController extends Controller {
 		Vector2f start = attachMazeTiles(level);
 		attachRoof(level);
 		addDrawable(game.getPlayer());		
-		game.getPlayer().move(start.x, 4, start.y);
+		game.getPlayer().move(start.x, 0, start.y);
 
 		for (Light l : level.getLights()) {
 			addLight(l);
