@@ -16,6 +16,9 @@ import com.jme3.renderer.Camera;
 
 /**
  * Manager which adds mouse controls to look around when no VR device is attached.
+ * 
+ * <p><b>THIS CLASS IS FOR TESTING PURPOSES ONLY! IT GIVES THE USER THE ABILITY TO USE THE
+ * MOUSE/CONTROLLER TO LOOK AROUND, TO BE ABLE TO TEST WITHOUT OCULUS.</b>
  */
 public class NoVRMouseManager implements AnalogListener {
 	private Camera cam;
@@ -33,7 +36,6 @@ public class NoVRMouseManager implements AnalogListener {
 	public NoVRMouseManager(Camera cam) {
 		this.cam = cam;
 		initialUpVec = new Vector3f(0, 1, 0);
-		//initialUpVec = cam.getUp().clone();
 	}
 
 	/**
@@ -78,7 +80,9 @@ public class NoVRMouseManager implements AnalogListener {
 	 * 		the joystick to map
 	 */
 	protected void mapJoystick(Joystick joystick) {
-
+		//Invert the Y axis, so that up is up and down is down.
+		invertY = true;
+		
 		// Map it differently if there are Z axis
 		if (joystick.getAxis(JoystickAxis.Z_ROTATION) != null && joystick.getAxis(JoystickAxis.Z_AXIS) != null) {
 
@@ -152,9 +156,6 @@ public class NoVRMouseManager implements AnalogListener {
 		}
 		vel.multLocal(value * moveSpeed);
 
-		//if (motionAllowed != null)
-		//    motionAllowed.checkMotionAllowed(pos, vel);
-		//else
 		pos.addLocal(vel);
 
 		cam.setLocation(pos);
