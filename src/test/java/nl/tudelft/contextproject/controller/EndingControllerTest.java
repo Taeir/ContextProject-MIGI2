@@ -35,4 +35,12 @@ public class EndingControllerTest extends TestBase {
 	public void testGetGameState() {
 		assertEquals(GameState.ENDED, instance.getGameState());
 	}
+
+	/**
+	 * Test if the didElvesWin method works.
+	 */
+	@Test
+	public void testDidElvesWin() {
+		assertTrue(instance.didElvesWin());
+	}
 }
