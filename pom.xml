@@ -3,7 +3,7 @@
 
 	<groupId>nl.tudelft</groupId>
 	<artifactId>contextproject-migi2</artifactId>
-	<version>0.4.0</version>
+	<version>0.5.0</version>
 	<packaging>jar</packaging>
 	<name>The Cave of Caerbannog</name>
 
@@ -278,6 +278,12 @@
 			</plugin>
 			
 			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>4.1.0</version>
+			</plugin>
+			
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${checkstyle.version}</version>
@@ -364,6 +370,11 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<excludes>
+						<exclude>**/StartGame.class</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 		

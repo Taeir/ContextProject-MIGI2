@@ -1,12 +1,9 @@
 package nl.tudelft.contextproject.model.entities;
 
-import java.awt.Graphics2D;
-
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
-import com.jme3.input.controls.ActionListener;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -17,11 +14,14 @@ import com.jme3.scene.shape.Sphere;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
+public class VRPlayer extends MovingEntity implements PhysicsObject {
 
 	//Physics interaction constants.
 
@@ -43,20 +43,39 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	//Movement control constants.
 
-	public static final float SIDE_WAY_SPEED_MULTIPLIER = .08f;
-	public static final float STRAIGHT_SPEED_MULTIPLIER = .1f;
+	public static final float SIDE_WAY_SPEED_MULTIPLIER = .05f;
+	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
+
+	//Constants for exploration.
+
+	public static final float EXPLORATION_INTERVAL = 0.5f;
+	public static final int EXPLORATION_RADIUS = 5;
+	
+	//Health constants
+	public static final float PLAYER_MAX_HEALTH = 3f;
+	public static final float PLAYER_HEALTH = 3f;
+	
+	//The range in which the player can interact with entities (e.g. picking up bombs/keys and opening doors)
+	public static final float INTERACT_RANGE = 2f;
+	
+	//The height at which the player is spawned in the map
+	public static final float SPAWN_HEIGHT = 10f;
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
-	private boolean left, right, up, down;
-	private Vector3f walkDirection;
 	private Inventory inventory;
+	private Vector3f resp;
+	private float fallingTimer;
+	private float explorationTimer;
+	private float health;
 
 	/**
 	 * Constructor for a default player.
 	 * This player is (for now) a sphere.
 	 */
 	public VRPlayer() { 
+		super(new PlayerControl());
+		health = PLAYER_HEALTH;
 		inventory = new Inventory();
 	}
 
@@ -69,44 +88,77 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", ColorRGBA.randomColor());
 		spatial.setMaterial(mat);
-		spatial.move(0, 10, 0);
+		spatial.move(0, SPAWN_HEIGHT, 0);
 		return spatial;
 	}
 
 	@Override
-	public void update(float tdf) {
-		//TODO this will change after VR support is implemented
-		Vector3f camDir = Main.getInstance().getCamera().getDirection();
-		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
-		walkDirection = new Vector3f();
+	public void update(float tpf) {
+		super.update(tpf);
+		updateFallingTimer(tpf);
 
-		if (left) {
-			walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
-		}
-		if (right) {
-			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
-		}
-		if (up) {
-			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
-		if (down) {
-			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
-
-		playerControl.setWalkDirection(walkDirection);
-		spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
+		
+		updateExploration(tpf);
 	}
 
-	@Override
-	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = spatial.getLocalTranslation();
-		int x = (int) trans.x * resolution;
-		int y = (int) trans.y * resolution;
-		int width = resolution / 2;
-		int offset = resolution / 4;
+	/**
+	 * Updates the exploration.
+	 * 
+	 * @param tpf
+	 * 		the ticks per frame
+	 */
+	protected void updateExploration(float tpf) {
+		//We want to update exploration at an interval (for performance reasons)
+		explorationTimer += tpf;
+		if (explorationTimer < EXPLORATION_INTERVAL) return;
+		
+		explorationTimer = 0f;
+		
+		//Please note that the Z coordinate of the player is the Y coordinate of the tile.
+		Level level = Main.getInstance().getCurrentGame().getLevel();
+		int x = Math.round(getLocation().getX());
+		int y = Math.round(getLocation().getZ());
+		
+		//Explore in a square around the player
+		for (int dx = -EXPLORATION_RADIUS; dx < EXPLORATION_RADIUS; dx++) {
+			int tileX = x + dx;
+			if (tileX < 0 || tileX >= level.getWidth()) continue;
+			
+			for (int dy = -EXPLORATION_RADIUS; dy < EXPLORATION_RADIUS; dy++) {
+				int tileY = y + dy;
+				if (tileY < 0 || tileY >= level.getHeight()) continue;
+				
+				MazeTile tile = level.getTile(tileX, tileY);
+				if (tile == null) continue;
+				
+				tile.setExplored(true);
+			}
+		}
+	}
 
-		g.fillOval(x + offset, y + offset, width, width);
+	/**
+	 * Update the falling timer that triggers respawning the player.
+	 * 
+	 * @param tpf
+	 *		the time per frame for this update
+	 */
+	protected void updateFallingTimer(float tpf) {
+		if (fallingTimer < 0) {
+			fallingTimer = 0;
+			Vector3f move = getLocation().subtract(resp);
+			move(-move.x, -move.y, -move.z);
+			takeDamage(1f);
+			return;
+		}
+		if (getLocation().y < 0 && fallingTimer == 0) {
+			resp = getLocation().clone();
+			resp.y = 5;
+			fallingTimer = 2;
+		}
+		if (fallingTimer != 0) {
+			fallingTimer -= tpf;
+		}
 	}
 
 	@Override
@@ -132,9 +184,8 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 */
 	@Override
 	public CharacterControl getPhysicsObject() {
-		if (spatial == null) {
-			this.getSpatial();
-		}
+		if (spatial == null) getSpatial();
+
 		if (playerControl != null) return playerControl;
 		//create a shape that implements PhysicsControl
 		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(PLAYER_RADIUS, PLAYER_HEIGHT, PLAYER_GRAVITY_AXIS);
@@ -150,56 +201,20 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		return playerControl;
 	}
 
-	@Override
-	public void onAction(String name, boolean isPressed, float tpf) {
-		//TODO This should probably be at another place after controller support is implemented.
-		switch (name) {
-			case "Left":
-				left = isPressed;
-				break;
-			case "Right":
-				right = isPressed;
-				break;
-			case "Up":
-				up = isPressed;
-				break;
-			case "Down":
-				down = isPressed;
-				break;
-			case "Jump":
-				if (isPressed) {
-					playerControl.jump();
-				}
-				break;
-			case "Bomb":
-				if (isPressed) {
-					dropBomb();
-				}
-				break;
-			case "Pickup":
-				if (isPressed) {
-					pickUp();
-				}
-				break;
-			default:
-				break;
-		}
-	}
-
 	/**
 	 * Player drops a bomb from his inventory.
 	 */
 	public void dropBomb() {
-		if (inventory.containsBomb()) {
-			Bomb bomb = new Bomb();
-			inventory.remove(bomb);
-			Vector3f vec = this.getSpatial().getLocalTranslation();
-			bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-
-			if (Main.getInstance().getCurrentGame() != null) {
-				Main.getInstance().getCurrentGame().addEntity(bomb);
-			}
-		}
+		if (!inventory.containsBomb()) return;
+		
+		Bomb bomb = new Bomb();
+		inventory.remove(bomb);
+		
+		Vector3f vec = this.getSpatial().getLocalTranslation();
+		bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
+		bomb.activate();
+		
+		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
 	
 	/**
@@ -210,25 +225,23 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
 
 		for (Entity ent : set) {
-			 if (ent.collidesWithPlayer(2f)) {
-				if (ent instanceof Bomb) {
-					inventory.add(new Bomb());
+			if (!ent.collidesWithPlayer(INTERACT_RANGE)) continue;
+
+			if (ent instanceof Bomb) {
+				inventory.add(new Bomb());
+				ent.setState(EntityState.DEAD);
+				return;
+			} else if (ent instanceof Key) {
+				Key key = (Key) ent;
+				inventory.add(new Key(key.getColor()));
+				ent.setState(EntityState.DEAD);
+				return;
+			} else if (ent instanceof Door) {
+				Door door = (Door) ent;
+				if (inventory.containsColorKey(door.getColor())) {
+					inventory.remove(inventory.getKey(door.getColor()));
 					ent.setState(EntityState.DEAD);
 					return;
-				}
-				if (ent instanceof Key) {
-					Key key = (Key) ent;
-					inventory.add(new Key(key.getColor()));
-					ent.setState(EntityState.DEAD);
-					return;
-				}
-				if (ent instanceof Door) {
-					Door door = (Door) ent;
-					if (inventory.containsColorKey(door.getColor())) {
-						inventory.remove(inventory.getKey(door.getColor()));
-						ent.setState(EntityState.DEAD);
-						return;
-					}
 				}
 			}
 		}
@@ -236,7 +249,7 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 
 	@Override
 	public void move(float x, float y, float z) {
-		spatial.move(x, y, z);
+		getSpatial().move(x, y, z);
 		getPhysicsObject().setPhysicsLocation(playerControl.getPhysicsLocation().add(x, y, z));
 	}
 
@@ -256,5 +269,64 @@ public class VRPlayer extends Entity implements ActionListener, PhysicsObject {
 	 */
 	public void setInventory(Inventory inv) {
 		inventory = inv;
+	}
+
+	/**
+	 * Returns the player's health.
+	 * 
+	 * @return 
+	 * 		the player's health
+	 */
+	public float getHealth() {
+		return health;
+	}
+
+	/**
+	 * Sets a player's health.
+	 * 
+	 * @param health
+	 * 		health to be set
+	 */
+	public void setHealth(float health) {
+		this.health = Math.min(PLAYER_MAX_HEALTH, health);
+	}
+
+	/**
+	 * Reduces a players health.
+	 * 
+	 * @param amount 
+	 * 		the amount of damage taken
+	 */
+	public void takeDamage(float amount) {
+		health -= amount;
+		if (health < 0) {
+			Main.getInstance().getCurrentGame().endGame(false);
+		}
+	}
+	
+	/**
+	 * Loads a player entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the player
+	 * @param data
+	 * 		the data of the player
+	 * @return
+	 * 		the player represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static VRPlayer loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> Player\".");
+		
+		VRPlayer player = new VRPlayer();
+		player.move(position);
+		
+		return player;
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PLAYER;
 	}
 }

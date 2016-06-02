@@ -33,8 +33,6 @@ import org.junit.Test;
 /**
  * Tests for the GameController class.
  */
-//TODO This class should be refactored to use the TestUtil instead of mocking the main like this, as it 
-// can change
 public class GameControllerTest extends ControllerTest {
 	private GameController controller;
 	private Main main;
@@ -50,10 +48,9 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Before
 	public void setUp() {
-		Main.setInstance(new Main());
 		main = Main.getInstance();
 		Level l = null;
-		controller = new GameController(main, l);
+		controller = new GameController(main, l, 10f);
 
 		Light light = mock(Light.class);
 		rootNode = mock(Node.class);
@@ -83,7 +80,7 @@ public class GameControllerTest extends ControllerTest {
 		LinkedList<Light> lights = new LinkedList<>();
 		lights.add(light);
 		level = new Level(tiles, lights);
-		game = new Game(level, player, entities);
+		game = new Game(level, player, entities, controller, 10f);
 
 		controller.setGame(game);
 		controller.setPhysicsEnvironmentNode(phe);

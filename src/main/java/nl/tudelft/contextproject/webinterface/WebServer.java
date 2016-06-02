@@ -265,6 +265,15 @@ public class WebServer {
 	}
 
 	/**
+	 * Clears the cooldowns set for all clients currently connected to the server.
+	 */
+	public void clearCooldowns() {
+		for (WebClient client : this.clients.values()) {
+			client.resetPerformed();
+		}
+	}
+
+	/**
 	 * Finds the cookie with the given name. Returns null if no such cookie is present in the
 	 * given array of cookies.
 	 * 

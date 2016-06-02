@@ -1,13 +1,18 @@
 package nl.tudelft.contextproject.webinterface;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.tudelft.contextproject.model.entities.Bomb;
-import nl.tudelft.contextproject.util.JSONUtil;
+import nl.tudelft.contextproject.controller.EndingController;
+import nl.tudelft.contextproject.util.webinterface.ActionUtil;
+import nl.tudelft.contextproject.util.webinterface.EntityUtil;
+import nl.tudelft.contextproject.util.QRGenerator;
+
+import nl.tudelft.contextproject.util.webinterface.WebUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.json.JSONObject;
@@ -43,6 +48,13 @@ public class ClientServlet extends DefaultServlet {
 		if (request.getRequestURI().equals("/")) {
 			response.sendRedirect("/index.html");
 			return;
+		} else if (request.getRequestURI().equals("/qr")) {
+			//Write the QR code as a Base64 encoded image on a plain page.
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("<html><body><img src=\"data:image/png;base64,");
+			response.getWriter().write(Base64.getEncoder().encodeToString(QRGenerator.getInstance().streamQRcode().toByteArray()));
+			response.getWriter().write("\"/></body></html>");
+			return;
 		}
 		
 		super.doGet(request, response);
@@ -64,17 +76,11 @@ public class ClientServlet extends DefaultServlet {
 			case "map":
 				getMap(request, response);
 				break;
-			case "explored":
-				getExplored(request, response);
-				break;
 			case "status":
 				statusUpdate(request, response);
 				break;
-			case "entities":
-				getEntities(request, response);
-				break;
-			case "placebomb":
-				placeBomb(request, response);
+			case "requestaction":
+				requestAction(request, response);
 				break;
 			default:
 				//Unknown post request, so propagate to superclass
@@ -180,31 +186,9 @@ public class ClientServlet extends DefaultServlet {
 		response.setContentType(CONTENT_TYPE_JSON);
 		response.getWriter().write(json.toString());
 	}
-	
-	/**
-	 * Handles a explored request.
-	 * 
-	 * @param request
-	 * 		the HTTP request
-	 * @param response
-	 * 		the HTTP response object
-	 * @throws IOException
-	 * 		if sending the response to the client causes an IOException
-	 */
-	public void getExplored(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		WebClient client = server.getUser(request);
-
-		if (!checkAuthorized(client, response, true)) return;
-
-		JSONObject json = Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON();
-
-		response.setStatus(HttpStatus.OK_200);
-		response.setContentType(CONTENT_TYPE_JSON);
-		response.getWriter().write(json.toString());
-	}
 
 	/**
-	 * Handles an entities request.
+	 * Handles an action request.
 	 *
 	 * @param request
 	 * 		the HTTP request
@@ -213,42 +197,16 @@ public class ClientServlet extends DefaultServlet {
 	 * @throws IOException
 	 * 		if sending the response to the client causes an IOException
 	 */
-	public void getEntities(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		WebClient client = server.getUser(request);
-
-		if (!checkAuthorized(client, response, true)) return;
-
-		JSONObject json = JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer());
-
-		response.setStatus(HttpStatus.OK_200);
-		response.setContentType("text/json");
-		response.getWriter().write(json.toString());
-	}
-
-	/**
-	 * Handles a placeBomb request.
-	 *
-	 * @param request
-	 * 		the HTTP request
-	 * @param response
-	 * 		the HTTP response object
-	 * @throws IOException
-	 * 		if sending the response to the client causes an IOException
-	 */
-	public void placeBomb(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void requestAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		WebClient client = server.getUser(request);
 
 		if (!checkAuthorized(client, response, false)) return;
 
-		int xCoordinate = Integer.parseInt(request.getParameter("x"));
-		int yCoordinate = Integer.parseInt(request.getParameter("y"));
+		int xCoord = Integer.parseInt(request.getParameter("x"));
+		int yCoord = Integer.parseInt(request.getParameter("y"));
+		Action action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
 
-		Bomb newBomb = new Bomb();
-		newBomb.move(xCoordinate, 1, yCoordinate);
-		Main.getInstance().getCurrentGame().addEntity(newBomb);
-
-		response.setStatus(HttpStatus.OK_200);
-		response.getWriter().write("BOMB HAS BEEN PLACED.");
+		attemptAction(xCoord, yCoord, action, client, response);
 	}
 	
 	/**
@@ -274,20 +232,65 @@ public class ClientServlet extends DefaultServlet {
 		json.put("state", Main.getInstance().getGameState().name());
 		
 		switch (Main.getInstance().getGameState()) {
+			case WAITING:
+				//Fall through to running
 			case RUNNING:
+				json.put("entities",
+						EntityUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer()));
+				json.put("explored", Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON());
+				break;
 			case PAUSED:
-				//TODO Actual player information
-				//json.put("player", VRPlayer().toJSON());
-				//TODO Add entity updates
-				//TODO Add explored updates
+				//We don't send any other data when the game is paused
 				break;
 			case ENDED:
-				//TODO Add game statistics
+				Boolean elvesWin = ((EndingController) Main.getInstance().getController()).didElvesWin();
+				json.put("winner", elvesWin);
 				break;
 			default:
 				break;
 		}
 
 		response.getWriter().write(json.toString());
+	}
+
+	/**
+	 * Attempt to perform an action.
+	 *
+	 * @param xCoord
+	 * 		the x coordinate to perform the action on
+	 * @param yCoord
+	 * 		the y coordinate to perform the action on
+	 * @param action
+	 * 		the action to perform
+	 * @param client
+	 * 		the client who wants to perform the action
+	 * @param response
+	 * 		the HTTP response object
+	 * @throws IOException
+	 * 		if sending the response to the client causes an IOException
+	 */
+	protected void attemptAction(int xCoord, int yCoord, Action action, WebClient client, HttpServletResponse response) throws IOException {
+		if (!WebUtil.checkValidAction(action, client.getTeam())) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("ACTION INVALID, NOT PERFORMED");
+			return;
+		}
+
+		if (!WebUtil.checkValidLocation(xCoord, yCoord, action)) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("ACTION ON INVALID LOCATION, NOT PERFORMED");
+			return;
+		}
+
+		if (!WebUtil.checkWithinCooldown(action, client)) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("ACTION IN COOLDOWN, NOT PERFORMED");
+			return;
+		}
+
+		ActionUtil.perform(action, xCoord, yCoord);
+
+		response.setStatus(HttpStatus.OK_200);
+		response.getWriter().write("ACTION PERFORMED");
 	}
 }

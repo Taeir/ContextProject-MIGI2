@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
+import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
 import nl.tudelft.contextproject.model.level.util.Vec2I;
 import nl.tudelft.contextproject.util.Size;
 
@@ -59,7 +59,7 @@ public class Room {
 		try {
 			size = getSizeFromFileName(folder);
 			mazeTiles = new MazeTile[size.getWidth()][size.getHeight()];
-			RoomReader.importFile(folder, mazeTiles, entities, lights, 0, 0);	
+			RoomParser.importFile(folder, mazeTiles, entities, lights, 0, 0);	
 			setDoors();
 		} catch (IOException e) {
 			Logger.getLogger("MazeGeneration").severe("Unable to correctly read name!");
@@ -78,7 +78,7 @@ public class Room {
 	protected Size getSizeFromFileName(String folder) throws IOException {
 		int width = 0;
 		int height = 0;
-		String fileName = RoomReader.getMapFile(folder).getName();
+		String fileName = RoomParser.getMapFile(folder).getName();
 		Matcher m = PATTERN.matcher(fileName);
 		if (m.matches()) {
 			width = Integer.parseInt(m.group("width"));

@@ -1,7 +1,5 @@
 package nl.tudelft.contextproject.model.entities;
 
-import java.awt.Graphics2D;
-
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -9,10 +7,8 @@ import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
@@ -20,30 +16,20 @@ import nl.tudelft.contextproject.model.PhysicsObject;
  * Class representing a bomb.
  */
 public class Bomb extends Entity implements PhysicsObject {
-	private Geometry geometry;
 	private Spatial sp;
 	private RigidBodyControl rb;
+	private boolean active;
+	private float timer;
 
 	/**
 	 * Constructor for a bomb.
 	 */
 	public Bomb() {
-		Box cube1Mesh = new Box(1f, 1f, 1f);
-		geometry = new Geometry("dink", cube1Mesh);
+		sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Red);
-		Material matb = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		matb.setColor("Color", ColorRGBA.White);
-
-		if (Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o") == null) {
-			sp = geometry;
-		} else {
-			Node nod = (Node) Main.getInstance().getAssetManager().loadModel("Models/Bomb.j3o");
-			nod.setMaterial(mat);
-			((Node) nod.getChild("Cylinder.001")).getChild(0).setMaterial(matb);
-			sp = nod;
-		}
-		
+		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
+		mat.setColor("Color", ColorRGBA.White);
+		sp.setMaterial(mat);
 	}
 
 	@Override
@@ -53,17 +39,16 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	@Override
 	public void update(float tdf) {
-	}
-
-	@Override
-	public void mapDraw(Graphics2D g, int resolution) {
-		Vector3f trans = geometry.getLocalTranslation();
-		int x = (int) trans.x * resolution;
-		int y = (int) trans.y * resolution;
-		int width = resolution / 2;
-		int offset = resolution / 4;
-
-		g.fillOval(x + offset, y + offset, width, width);
+		if (active) {
+			timer += tdf;
+			if (timer > 4) {
+				Explosion exp = new Explosion(40f);
+				Vector3f vec = this.getSpatial().getLocalTranslation();
+				exp.move(vec.x, vec.y, vec.z);
+				Main.getInstance().getCurrentGame().getEntities().add(exp);
+				this.setState(EntityState.DEAD);
+			}
+		}
 	}
 
 	@Override
@@ -84,8 +69,58 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public void move(float x, float y, float z) {
 		sp.move(x, y, z);
+		//explosion.move(x, y, z);
 		if (rb == null) getPhysicsObject();
 
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
+	}
+
+	/**
+	 * activates the bomb, it will explode in 5 seconds.
+	 */
+	public void activate() {
+		this.active = true;
+	}
+
+	/**
+	 * @return 
+	 * 		true if bomb is active
+	 */
+	public boolean getActive() {
+		return this.active;
+	}
+
+	/**
+	 * @return 
+	 * 		the timer
+	 */
+	public float getTimer() {
+		return timer;
+	}
+	
+	/**
+	 * Loads a bomb entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the bomb
+	 * @param data
+	 * 		the data of the bomb
+	 * @return
+	 * 		the bomb represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static Bomb loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading bomb! Expected \"<X> <Y> <Z> Bomb\".");
+		
+		Bomb bomb = new Bomb();
+		bomb.move(position);
+		
+		return bomb;
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.BOMB;
 	}
 }

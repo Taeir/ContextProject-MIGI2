@@ -4,7 +4,6 @@ import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
-import nl.tudelft.contextproject.model.PhysicsObject;
 import nl.tudelft.contextproject.model.TickListener;
 
 /**
@@ -30,6 +29,17 @@ public abstract class Entity implements Drawable, TickListener {
 	 */
 	public void setState(EntityState newState) {
 		this.state = newState;
+	}
+	
+	/**
+	 * Move the entity by the specified amounts.
+	 * If the entity is a {@link PhysicsObject}, the physics location should also be moved.
+	 *
+	 * @param vector
+	 * 		the amount of movement
+	 */
+	public final void move(Vector3f vector) {
+		move(vector.getX(), vector.getY(), vector.getZ());
 	}
 	
 	/**
@@ -69,4 +79,9 @@ public abstract class Entity implements Drawable, TickListener {
 		return this.getSpatial().getLocalTranslation();
 	}
 
+	/**
+	 * @return
+	 * 		the EntityType of this entity
+	 */
+	public abstract EntityType getType();
 }

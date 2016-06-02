@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.model;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
@@ -14,6 +15,8 @@ public class Game {
 	private Level level;
 	private VRPlayer player;
 	private Set<Entity> entities;
+	private GameController controller;
+	private float timeLimit;
 	
 	/**
 	 * Advanced constructor for the game.
@@ -24,11 +27,17 @@ public class Game {
 	 * 		the VRPlayer in this game
 	 * @param entities
 	 * 		a list containing all entities in the game
+	 * @param controller
+	 * 		the controller instantiating this game
+	 * @param timeLimit
+	 * 		the time limit for this game
 	 */
-	public Game(Level level, VRPlayer player, Set<Entity> entities) {
+	public Game(Level level, VRPlayer player, Set<Entity> entities, GameController controller, float timeLimit) {
 		this.level = level;
 		this.player = player;
 		this.entities = entities;
+		this.controller = controller;
+		this.timeLimit = timeLimit;
 	}
 	
 	/**
@@ -36,11 +45,17 @@ public class Game {
 	 *
 	 * @param level
 	 * 		the level for this game
+	 * @param controller
+	 * 		the controller instantiating this game
+	 * @param timeLimit
+	 * 		the time limit for this game
 	 */
-	public Game(Level level) {
+	public Game(Level level, GameController controller, float timeLimit) {
 		this.level = level;
 		this.player = new VRPlayer();
 		this.entities = ConcurrentHashMap.newKeySet();
+		this.controller = controller;
+		this.timeLimit = timeLimit;
 	}
 	
 	/**
@@ -88,5 +103,36 @@ public class Game {
 	 */
 	public void setLevel(Level level) {
 		this.level = level;
+	}
+	
+	/**
+	 * End this game.
+	 * 
+	 * @param didElvesWin
+	 * 		true when the elves won, false when the dwarfs did
+	 */
+	public void endGame(boolean didElvesWin) {
+		controller.gameEnded(didElvesWin);
+	}
+
+	/**
+	 * Update the game timer.
+	 * 
+	 * @param tpf
+	 * 		the time per frame of this update
+	 */
+	public void update(float tpf) {
+		timeLimit -= tpf;
+		if (timeLimit < 0) {
+			endGame(false);
+		}
+	}
+	
+	/**
+	 * @return
+	 * 		the remaining time for the player to find the treasure
+	 */
+	public float getTimeRemaining() {
+		return timeLimit;
 	}
 }

@@ -1,7 +1,5 @@
 package nl.tudelft.contextproject.model.level;
 
-import java.awt.Graphics2D;
-
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -13,6 +11,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
@@ -28,6 +27,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 	private int height;
 	private boolean explored;
 	private ColorRGBA color;
+	private Texture texture;
 	private TileType type;
 
 	/**
@@ -44,33 +44,11 @@ public class MazeTile implements Drawable, PhysicsObject {
 		this.position = new Vector2f(x, y);
 		this.explored = false;
 		this.type = type;
-		
-		switch (type) {
-			case FLOOR:
-				this.height = 0;
-				this.color = ColorRGBA.Green;
-				break;
-			case WALL:
-				this.height = 3;
-				this.color = ColorRGBA.Blue;
-				break;
-			case CORRIDOR:
-				this.height = 0;
-				this.color = ColorRGBA.Red;
-				break;
-			case DOOR_ENTRANCE:
-				this.height = 0;
-				this.color = ColorRGBA.Magenta;
-				break;
-			case DOOR_EXIT:
-				this.height = 0;
-				this.color = ColorRGBA.Pink;
-				break;
-			default:
-				throw new IllegalArgumentException("Invalid TileType: " + type);
-		}
+		this.height = type.getHeight();
+		this.color = type.getColor();
+		this.texture = type.getTexture();
 	}
-	
+
 	/**
 	 * Getter for tileType.
 	 *
@@ -93,17 +71,10 @@ public class MazeTile implements Drawable, PhysicsObject {
 		mat.setColor("Specular", ColorRGBA.White);
 		mat.setFloat("Shininess", 64f);
 		mat.setColor("Ambient", color);
+		mat.setTexture("LightMap", texture);
 		this.spatial.setMaterial(mat);
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
-	}
-
-	@Override
-	public void mapDraw(Graphics2D g, int resolution) {
-		int x = (int) spatial.getLocalTranslation().x * resolution;
-		int y = (int) spatial.getLocalTranslation().y * resolution;
-		g.fillRect(x, y, resolution, resolution);
-
 	}
 
 	@Override

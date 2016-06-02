@@ -1,123 +1,105 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>The Cave of Caerbanogh</title>
-	<script src="jquery-1.12.3.min.js"></script>
-	<script src="main.js"></script>
-	<script>
-		//On load
-		$(document).ready(function() {
-			$(document.getElementById("buttonDiv")).hide();
-			authenticate();
-			setInterval(requestStatus, 1000);
-		});
-	</script>
-	<style>
-		html, body {
-			height: 100%;
-		}
-		#buttonDiv {
-			position: absolute;
-			top: 0;
-			right: 0;
-			width: 40%;
-			height: 100%;
-			display: inline;
-			float: right;
-			overflow-x: auto;
-			overflow-y: auto;
-			z-index: 1;
-			background-color: #D3D3D3
-		}
-		#buttons {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-		}
-		#mainDiv {
-			width: 100%;
-			height: 100%;
-			display: inline;
-			float: left;
-			overflow-x: auto;
-			overflow-y: auto;
-			z-index: 0;
-		}
-		#map .key {
-			background-color: #ffff00 !important;
-		}
-		#map .bomb {
-			background-color: #000 !important;
-		}
-		#map .door {
-			background-color: #7a5230 !important;
-		}
-		#map .vrplayer {
-			background-color: #ff00ff !important;
-		}
-		#map .playertrigger {
-			background-color: #9A32CD !important;
-		}
-		#map {
-			border-spacing: 1px;
-		}
-		#map td {
-			min-width: 20px;
-			width: 20px;
-			min-height: 20px;
-			height: 20px;
-			background-color: #888888;
-		}
-		#map .wall.explored {
-			background-color: #0000ff;
-		}
-		#map .floor.explored {
-			background-color: #00ff00;
-		}
-		#map .corridor.explored {
-			background-color: #ff0000;
-		}
-		
-	</style>
-</head>
+    <head>
+        <title>The Cave of Caerbanogh</title>
 
-<body>
-	<div id="mainDiv">
-		<div id="authorized">
-			<div id="selectTeam">
-				<button onclick="requestSetTeam('ELVES')">Elves</button>
-				<button onclick="requestSetTeam('DWARFS')">Dwarfs</button>
-				<button onclick="requestSetTeam('NONE')">No team</button>
-				<br>
-				
-				Current team: <div class="team">No team</div><br>
-			</div>
-			
-			<div id="playing">
-				Map: <br>
-				<table id="map">
-				</table>
-			</div>
-			
-			<div id="ended" style="visibility:hidden">
+        <!-- <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css"  media="screen,projection"/> -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="sidebar-wrapper-dwarfs">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a id="clickedDwarfs">Dwarfs</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('placebomb')">Place bomb</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('placepitfall')">Place pitfall</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('placemine')">Place landmine</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('spawnenemy')">Spawn enemy</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="hideAllButtons()">Cancel</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Sidebar Elves -->
+            <div id="sidebar-wrapper-elves">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a id="clickedElves">Elves</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('dropbait')">Drop bait</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('placetile')">Place tile</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="hideAllButtons()">Cancel</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /#wrapper -->
+
+		<div id="mainDiv">
+			<div id="authorized">
+				<div class="btn-group btn-group-lg" role="group" id="selectTeam">
+					<button type="button" class="btn btn-default" onClick="requestSetTeam('ELVES')" id="elvesButton">Elves</button>
+					<button type="button" class="btn btn-default" onClick="requestSetTeam('DWARFS')" id="dwarfsButton">Dwarfs</button>
+					<button type="button" class="btn btn-success" onClick="requestSetTeam('NONE')" id="noneButton">No team</button>
+				</div>
+
+				<div id="playing">
+					<table id="map">
+					</table>
+				</div>
 		
+				<div id="ended" style="visibility:hidden">
+					<h1 id="endedWinners"></h1>
+					<p id="endedMessage"></p>
+					<hr>
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
+				</div>
+				
+				<div id="paused" style="visibility:hidden">
+					<h1 class="pausemessage">Paused</h1>
+					<p class="pausemessage">The game has been paused, just sit back and relax!</p>
+					<hr>
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
+				</div>
 			</div>
 		</div>
-	</div>
-	
-	<div id="buttonDiv">
-			<div id="buttons">
-				<button onClick="placeBomb()">Place bomb</button><br>
-				<button onClick="$(document.getElementById('buttonDiv')).hide(250)">Cancel</button>
-			</div>
-	</div>
-	
-	<div id="unauthorized">
-	
-	</div>
-	<div id="error">
-	
-	</div>
-</body>
-
+				
+        <!-- Load all javascript -->
+        <script src="js/jquery-1.12.3.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+		<script>
+			//On load
+			$(document).ready(function() {
+				authenticate();
+				setInterval(requestStatus, 1000);
+			});
+		</script>
+    </body>
 </html>

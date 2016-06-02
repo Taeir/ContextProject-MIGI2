@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.entities;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.jme3.math.ColorRGBA;
@@ -20,6 +21,11 @@ public class DoorTest extends EntityTest {
 		color.set(ColorRGBA.Yellow);
 		return new Door(color);
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.DOOR;
+	}
 	
 	/**
 	 * Setup method.
@@ -27,7 +33,6 @@ public class DoorTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
-		setupGeometryMock();
 		ColorRGBA color = new ColorRGBA();
 		color.set(ColorRGBA.Yellow);
 		door = new Door(color);
@@ -42,5 +47,33 @@ public class DoorTest extends EntityTest {
 		door.setSpatial(mockedGeometry);
 		door.update(0.f);
 		verifyZeroInteractions(mockedGeometry);
+	}
+	
+	/**
+	 * Tests the setcolor method.
+	 */
+	@Test
+	public void testSetColor() {
+		door.setColor(ColorRGBA.Red);
+		assertEquals(door.getColor(), ColorRGBA.Red);
+	}
+	
+	/**
+	 * Tests if loading doors works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		Door door = Door.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.DOOR.getName(), "1/0/0/1"});
+		
+		assertEquals(loadPosition, door.getLocation());
+		assertEquals(ColorRGBA.Red, door.getColor());
+	}
+	
+	/**
+	 * Tests if loading doors with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		Door.loadEntity(loadPosition, new String[4]);
 	}
 }

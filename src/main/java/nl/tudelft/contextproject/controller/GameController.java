@@ -9,23 +9,25 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
-
+import com.jme3.math.Vector2f;
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.hud.HUD;
+import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
-import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.model.level.roomIO.RoomReader;
+import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
+
+import jmevr.app.VRApplication;
 
 /**
  * Controller for the main game.
@@ -40,13 +42,15 @@ public class GameController extends Controller {
 	 * 		The Main instance of this game
 	 * @param level
 	 * 		The level for this game
+	 * @param timeLimit
+	 * 		the time limit for this game
 	 */
-	public GameController(SimpleApplication app, Level level) {
+	public GameController(Application app, Level level, float timeLimit) {
 		super(app, "GameController");
 
-		game = new Game(level);
+		game = new Game(level, this, timeLimit);
 	}
-	
+
 	/**
 	 * Create a game with a level loaded from a file.
 	 *
@@ -54,20 +58,22 @@ public class GameController extends Controller {
 	 * 		the main app that this controller is attached to
 	 * @param folder
 	 * 		the folder where to load the level from
+	 * @param timeLimit
+	 * 		the time limit for this game
 	 */
-	public GameController(SimpleApplication app, String folder) {
+	public GameController(Application app, String folder, float timeLimit) {
 		super(app, "GameController");
 
 		Set<Entity> entities = ConcurrentHashMap.newKeySet();
 		List<Light> lights = new ArrayList<>();
 
 		try {
-			File file = RoomReader.getMapFile(folder);
+			File file = RoomParser.getMapFile(folder);
 			String[] tmp = file.getName().split("_")[0].split("x");
 			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
-			RoomReader.importFile(folder, tiles, entities, lights, 0, 0);
+			RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
 			Level level = new Level(tiles, lights);
-			game = new Game(level, new VRPlayer(), entities);
+			game = new Game(level, new VRPlayer(), entities, this, timeLimit);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -85,9 +91,17 @@ public class GameController extends Controller {
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-
 		attachLevel();
+		
+		//Check if we are running in tests or not
+		if (VRApplication.getMainVRApp().getContext() != null) {
+			new HUD(this).attachHud();
+		}
+		
 		GameController t = this;
+
+		//Listener for stop the game
+		addInputListener((ActionListener) (n, ip, tpf) -> Main.getInstance().stop(), "Exit");
 
 		ActionListener al = new ActionListener() {
 			@Override
@@ -101,56 +115,62 @@ public class GameController extends Controller {
 		};
 
 		addInputListener(al, "pause");
-		addInputListener(game.getPlayer(), "Left");
-		addInputListener(game.getPlayer(), "Right");
-		addInputListener(game.getPlayer(), "Up");
-		addInputListener(game.getPlayer(), "Down");
-		addInputListener(game.getPlayer(), "Jump");
-		addInputListener(game.getPlayer(), "Bomb");
-		addInputListener(game.getPlayer(), "Pickup");
+
+		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
 	}
 
 	/**
 	 * Attaches the current level to the renderer.
-	 * Note: this method does not clear the previous level.
 	 */
-	public void attachLevel() {
+	protected void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
 
-		int xStart = 0; 
-		int yStart = 0;
-		
-		for (int x = 0; x < level.getWidth(); x++) {
-			for (int y = 0; y < level.getHeight(); y++) {
-				if (level.isTileAtPosition(x, y)) {
-					//TODO add starting room with starting location
-					if ((xStart == 0 && yStart == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-						xStart = x;
-						yStart = y;
-					}
-					addDrawable(level.getTile(x, y));
-				}
-			}
-		}
+		Vector2f start = attachMazeTiles(level);
+		addDrawable(game.getPlayer());		
+		game.getPlayer().move(start.x, 6, start.y);
 
-		addDrawable(game.getPlayer());
-		
-		if (game.getPlayer().getPhysicsObject() != null) {
-			game.getPlayer().getPhysicsObject().setPhysicsLocation(new Vector3f(xStart, 6, yStart));
-		}
-		
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-		 
+
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
 	}
 
+	/**
+	 * Attach all {@link MazeTile}s in the level to the renderer.
+	 * 
+	 * @param 
+	 * 		level the level that contains all the mazetiles
+	 * @return 
+	 * 		the starting position of the player
+	 */
+	private Vector2f attachMazeTiles(Level level) {
+		Vector2f start = new Vector2f();
+		for (int x = 0; x < level.getWidth(); x++) {
+			for (int y = 0; y < level.getHeight(); y++) {
+				if (level.isTileAtPosition(x, y)) {
+					//TODO add starting room with starting location
+					TileType t = level.getTile(x, y).getTileType();
+					if (t == TileType.FLOOR || t == TileType.CORRIDOR) {
+						attachRoofTile(x, y);
+						if (start.x == 0 && start.y == 0) {
+							start.x = x;
+							start.y = y;
+						}
+					}
+					addDrawable(level.getTile(x, y));
+				}
+			}
+		}
+		return start;
+	}
+
 	@Override
 	public void update(float tpf) {
+		game.update(tpf);
 		game.getPlayer().update(tpf);
 		updateEntities(tpf);
 	}
@@ -212,7 +232,18 @@ public class GameController extends Controller {
 	 * @param game
 	 * 		the new game instance
 	 */
-	protected void setGame(Game game) {
+	public void setGame(Game game) {
 		this.game = game;
+	}
+	
+	/**
+	 * Callback called when the game ends.
+	 * 
+	 * @param didElvesWin
+	 * 		true when the elves won, false when the dwarfs did
+	 */
+	public void gameEnded(boolean didElvesWin) {
+		Main main = Main.getInstance();
+		main.setController(new EndingController(main, didElvesWin));
 	}
 }

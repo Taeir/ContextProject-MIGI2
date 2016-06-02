@@ -17,7 +17,7 @@ import nl.tudelft.contextproject.test.TestUtil;
  */
 public abstract class TestBase {
 	private Main main;
-	private final boolean mockGame;
+	private boolean mockGame;
 	
 	/**
 	 * Creates the TestBase without mocking the game.
@@ -37,24 +37,16 @@ public abstract class TestBase {
 	}
 	
 	/**
-	 * Test Class setup method.
-	 * Each test class will run this method.
+	 * Sets if the game should be mocked before each test.
 	 * 
-	 * This method will do two things:
-	 * 
-	 * Firstly, it will turn off the JME logging features, so 
-	 * mocked models do not generate WARNING level logs, which makes the test output
-	 * more readable.
-	 * 
-	 * Secondly, ensures that {@link Main#getInstance()} is properly set up before any tests run.
-	 * 
+	 * @param mockGame
+	 * 		if the game should be mocked
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		//Set logger level
-		Logger.getLogger("com.jme3").setLevel(Level.OFF);
+	protected void setMockGame(boolean mockGame) {
+		this.mockGame = mockGame;
 	}
 	
+
 	/**
 	 * Ensures that the main instance is set up before every test.
 	 */
@@ -76,5 +68,27 @@ public abstract class TestBase {
 		main = null;
 		
 		TestUtil.cleanupMain();
+	}
+	
+	/**
+	 * Test Class setup method.
+	 * Each test class will run this method.
+	 * 
+	 * This method will do two things:
+	 * 
+	 * Firstly, it will turn off the JME logging features, so 
+	 * mocked models do not generate WARNING level logs, which makes the test output
+	 * more readable.
+	 * 
+	 * Secondly, ensures that {@link Main#getInstance()} is properly set up before any tests run.
+	 * 
+	 */
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		//Set logger level
+		Logger.getLogger("com.jme3").setLevel(Level.OFF);
+		
+		//Create a global main for this class
+		TestUtil.recreateGlobalMain();
 	}
 }

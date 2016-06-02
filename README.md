@@ -2,7 +2,7 @@
 ### ContextProject-MIGI2 
 [![Build Status](https://travis-ci.org/Taeir/ContextProject-MIGI2.svg?branch=master)](https://travis-ci.org/Taeir/ContextProject-MIGI2)
 [![Bugs](https://badge.waffle.io/Taeir/ContextProject-MIGI2.svg?label=bug&title=Bugs)](http://waffle.io/Taeir/ContextProject-MIGI2)
-[![codecov](https://codecov.io/gh/Taeir/ContextProject-MIGI2/branch/master/graph/badge.svg)](https://codecov.io/gh/Taeir/ContextProject-MIGI2)
+[![codecov](http://codecov.io/github/Taeir/ContextProject-MIGI2/coverage.svg?branch=master)](https://codecov.io/gh/Taeir/ContextProject-MIGI2)
 
 [![Stories in Sprint](https://badge.waffle.io/Taeir/ContextProject-MIGI2.svg?label=ready%20for%20sprint&title=Sprint%20Backlog)](http://waffle.io/Taeir/ContextProject-MIGI2)
 [![In Progress](https://badge.waffle.io/Taeir/ContextProject-MIGI2.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/Taeir/ContextProject-MIGI2)
