@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -131,6 +129,9 @@ public class HUDTest extends TestBase {
 		verify(c, times(1)).attachChild(any(Picture.class));
 	}
 	
+	/**
+	 * Test setting the game timer to Integer.MAX_VALUE.
+	 */
 	@Test
 	public void testSetGameTimerMAX_VALUE() {
 		BitmapText m = mock(BitmapText.class);
@@ -141,6 +142,9 @@ public class HUDTest extends TestBase {
 		verify(m, times(1)).setText("");
 	}
 	
+	/**
+	 * Test setting the game timer.
+	 */
 	@Test
 	public void testSetGameTimer() {
 		BitmapText m = mock(BitmapText.class);
@@ -151,6 +155,9 @@ public class HUDTest extends TestBase {
 		verify(m, times(1)).setText("12");
 	}
 	
+	/**
+	 * Test updating the bombs when no bomb is in the inventory.
+	 */
 	@Test
 	public void updateBombsNotInInventory() {
 		Node node = mock(Node.class);
@@ -163,6 +170,9 @@ public class HUDTest extends TestBase {
 		verify(node, times(1)).detachAllChildren();
 	}
 	
+	/**
+	 * Test updating the bombs when the inventory contains one.
+	 */
 	@Test
 	public void updateBombsInInventory() {
 		Node node = mock(Node.class);

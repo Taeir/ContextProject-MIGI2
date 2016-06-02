@@ -81,6 +81,9 @@ public class HUD implements TickListener {
 		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
 	}
 
+	/**
+	 * Attach the game timer to the HUD.
+	 */
 	protected void attachGameTimer() {
 		gameTimer = new BitmapText(Main.getInstance().getGuiFont(), false);
 		gameTimer.setSize(screenHeight / 30);
@@ -104,6 +107,9 @@ public class HUD implements TickListener {
 
 	/**
 	 * Attaches the bomb icon and counter to the HUD.
+	 * 
+	 * @param b
+	 * 		the bomb to attach
 	 */
 	protected void attachBomb(Bomb b) {
 		if (bombNode.getChildren().size() == 0) {
@@ -141,6 +147,8 @@ public class HUD implements TickListener {
 	/**
 	 * Return a picture of a key at the right position on the HUD.
 	 * 
+	 * @param total
+	 * 		the total amount of keys
 	 * @param pos 
 	 * 		position of the key
 	 * @param color
@@ -163,6 +171,12 @@ public class HUD implements TickListener {
 		return keypic;
 	}
 	
+	/**
+	 * Set a new value for the game timer.
+	 * 
+	 * @param timer
+	 * 		the new value for the game timer
+	 */
 	public void setGameTimer(int timer) {
 		if (timer == Integer.MAX_VALUE) {
 			gameTimer.setText("");
@@ -181,6 +195,12 @@ public class HUD implements TickListener {
 		updateHearts(player);
 	}
 
+	/**
+	 * Update the bomb display.
+	 * 
+	 * @param inv
+	 * 		the inventory that contains the bomb
+	 */
 	protected void updateBombs(Inventory inv) {
 		if (inv.containsBomb()) {
 			attachBomb(inv.getBomb());
@@ -234,10 +254,24 @@ public class HUD implements TickListener {
 		keyContainer = container;
 	}
 
+	/**
+	 * Method used for testing.
+	 * Set the bomb node to a custom node.
+	 * 
+	 * @param node
+	 * 		the node to replace the bomb node
+	 */
 	protected void setBombNode(Node node) {
 		bombNode = node;
 	}
 
+	/**
+	 * Method used for testing.
+	 * Set the timer text to a custom text.
+	 * 
+	 * @param m
+	 * 		the new text
+	 */
 	public void setTimerNode(BitmapText m) {
 		gameTimer = m;
 	}
