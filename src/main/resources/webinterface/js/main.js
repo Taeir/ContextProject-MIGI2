@@ -6,6 +6,7 @@ var gExplored = null;
 var gEntities = null;
 var lastPressedX;
 var lastPressedY;
+var exploredAll = false;
 
 /**
  * Sends an authentication request to the server.
@@ -122,6 +123,7 @@ function showError(msg) {
 function switchTo(view) {
     //We don't need to switch to our current state.
     if (gView == view) return;
+    exploredAll = false;
     
     console.log("[DEBUG] Switching to " + view);
     gView = view;
@@ -164,6 +166,7 @@ function requestSetTeam(team) {
                 //Team was set to dwarfs
                 gTeam = "DWARFS";
                 updateTeam();
+                exploreAll();
                 //TODO check start game
             } else if (data == "ELVES") {
                 //Team was set to elves
@@ -211,7 +214,23 @@ function updateTeam() {
  */
 function updateGame(data) {
     updateEntities(data.entities);
-    updateExplored(data.explored);
+    if (data.team === "DWARFS" && exploredAll === false) {
+        exploreAll();
+    } else {
+        updateExplored(data.explored);
+    }
+}
+
+/**
+ * Instantly explores all tiles.
+ */
+function exploreAll() {
+    for (x = 0; x < gMap.width; x++) {
+        for (y = 0; y < gMap.height; y++){
+            $(document.getElementById("y" + y + "x" + x)).addClass("explored");
+        }
+    }
+    exploredAll = true;
 }
 
 /**
@@ -233,6 +252,7 @@ function requestMap() {
         //Update the map
         updateMap(data);
     }, "json");
+    exploredAll = false;
 }
 
 /**
@@ -356,6 +376,7 @@ function updateMap(data) {
         
         gMap = data;
     }
+    exploredAll = false;
 }
 
 /**
@@ -373,7 +394,6 @@ function updateExplored(data) {
             $(document.getElementById("y" + row[i] + "x" + x)).addClass("explored");
         }
     }
-    
     gExplored = data;
 }
 
