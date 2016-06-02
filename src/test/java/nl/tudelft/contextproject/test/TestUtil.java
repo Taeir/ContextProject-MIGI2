@@ -41,7 +41,7 @@ public final class TestUtil extends TestBase {
 	 * This method should be called in an {@code @BeforeClass} method.
 	 */
 	public static void recreateGlobalMain() {
-		globalMain = new Main();
+		//globalMain = new Main();
 	}
 	
 	/**
@@ -140,12 +140,11 @@ public final class TestUtil extends TestBase {
 	 */
 	public static void cleanupMain() {
 		Main main = Main.getInstance();
-		
 		if (isMock(main)) {
 			reset(main);
 		}
 		
-		Main.setInstance(null);
+		Main.setInstance(globalMain);
 	}
 	
 	/**

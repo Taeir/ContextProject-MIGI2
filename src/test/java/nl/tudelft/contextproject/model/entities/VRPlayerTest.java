@@ -21,6 +21,7 @@ import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the VRPlayer class.
