@@ -35,7 +35,7 @@ public class KillerBunny extends MovingEntity implements PhysicsObject {
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/bunnylowpoly.blend");
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/bunny.blend");
 		return spatial;
 	}
 

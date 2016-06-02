@@ -205,16 +205,10 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	 * Player drops a bomb from his inventory.
 	 */
 	public void dropBomb() {
-		if (!inventory.containsBomb()) return;
-		
-		Bomb bomb = new Bomb();
-		inventory.remove(bomb);
-		
-		Vector3f vec = this.getSpatial().getLocalTranslation();
-		bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-		bomb.activate();
-		
-		Main.getInstance().getCurrentGame().addEntity(bomb);
+		if (inventory.containsBomb()) {
+			inventory.getBomb().setPickedup(false);
+			inventory.remove(inventory.getBomb());
+		}
 	}
 
 	/**
@@ -229,10 +223,16 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 			if (!ent.collidesWithPlayer(INTERACT_RANGE)) continue;
 
 			if (ent instanceof Bomb) {
-				inventory.add(new Bomb());
-				ent.setState(EntityState.DEAD);
-				return;
-			} else if (ent instanceof Key) {
+				if (inventory.numberOfBombs() < 1) {
+					if (!((Bomb) ent).getPickedup()) {
+						inventory.add((Bomb) ent);
+						((Bomb) ent).activate();
+						((Bomb) ent).setPickedup(true);
+						return;
+					}
+				}
+			}
+			if (ent instanceof Key) {
 				Key key = (Key) ent;
 				inventory.add(new Key(key.getColor()));
 				ent.setState(EntityState.DEAD);

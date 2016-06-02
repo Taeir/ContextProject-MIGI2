@@ -117,7 +117,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	public boolean getPickedup() {
 		return pickedup;
 	}
-	
+
 	/**
 	 * Loads a bomb entity from an array of String data.
 	 * 
@@ -132,10 +132,10 @@ public class Bomb extends Entity implements PhysicsObject {
 	 */
 	public static Bomb loadEntity(Vector3f position, String[] data) {
 		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading bomb! Expected \"<X> <Y> <Z> Bomb\".");
-		
+
 		Bomb bomb = new Bomb();
 		bomb.move(position);
-		
+
 		return bomb;
 	}
 
