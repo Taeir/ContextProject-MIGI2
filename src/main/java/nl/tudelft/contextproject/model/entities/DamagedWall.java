@@ -37,7 +37,7 @@ public class DamagedWall extends Entity implements Health, PhysicsObject {
 		material.setTexture("LightMap", TileType.WALL.getTexture());
 		setMaterialColor();
 		this.spatial.setMaterial(material);
-		spatial.move(0, TileType.WALL.getHeight() / 2.f, 0);
+		spatial.move(0, TileType.WALL.getHeight(), 0);
 		return spatial;	
 	}
 
@@ -84,7 +84,7 @@ public class DamagedWall extends Entity implements Health, PhysicsObject {
 	}
 
 	private void setMaterialColor() {
-		float c = health / 1.5f;
+		float c = health / 4f;
 		ColorRGBA color = new ColorRGBA(c, c, c, 1);
 		material.setColor("Diffuse", color);
 		material.setColor("Specular", color);
