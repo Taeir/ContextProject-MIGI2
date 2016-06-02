@@ -220,23 +220,20 @@ public class MinimumSpanningTree {
 		MSTNode startNode, endNode;
 		while (!edgesPriorityQueue.isEmpty()) {
 			currentEdge = edgesPriorityQueue.poll();
-			//System.out.println(currentEdge);
 
 			if (currentEdge.weight == 0) {
 				continue;
 			}
-			//Deal with outgoing edges
+			
 			startNode = currentEdge.startNode;
 			endNode = currentEdge.endNode;
-			if (startNode.outgoingEdges.size() > 1) {
+			if (startNode.outgoingEdges.size() > 1 && endNode.incomingEdges.size() > 1) {
 				if (checkConnectionAfterRemoval(currentEdge)) {
 					startNode.outgoingEdges.remove(currentEdge);
 					endNode.incomingEdges.remove(currentEdge);
 					edgesTotal--;
-					if (edgesTotal % 100 == 0) 
-					System.out.println("Number of edges " + (edgesTotal + 1) + " -> " + edgesTotal);
+					if (edgesTotal % 1000 == 0) System.out.println("Number of edges " + edgesTotal);
 				}
-				//Deel with incoming edges
 			}
 		}
 	}

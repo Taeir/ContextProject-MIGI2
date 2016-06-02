@@ -98,7 +98,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		createReverseMST();
 		//createMST();
 		placeCorridors();
-
+		MSTBasedLevelFactory.carveCorridorWalls(mazeTiles);
 		return new Level(mazeTiles, lights);
 	}
 
@@ -219,11 +219,11 @@ public class MSTBasedLevelFactory implements LevelFactory {
 					mazeTiles[x][y] = new MazeTile(x, y, TileType.CORRIDOR);
 				}
 			}
-			
-			
+
+
 		}
 	}	
-	
+
 	/**
 	 * Get all corridor locations on the map.
 	 * @return
@@ -234,7 +234,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		CorridorEdge currentCorridor;
 		for (Integer corridorID: chosenEdges) {
 			currentCorridor = edges.get(corridorID);
-			
+
 			//TODO DEBUG
 			if (currentCorridor.start.location.distance(currentCorridor.end.location) < 2) {
 				System.out.println("Too close, give me some space please!");
@@ -243,8 +243,45 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		}
 		return corridorList;
 	}
-	
-	
+
+	/**
+	 * This method adds walls to corridors on the map.
+	 * Checks if a Tile is a corridor, if true add a wall to all Null TileTypes.
+	 *
+	 * @param map
+	 *		the map in which to place the corridor walls
+	 */
+	protected static void carveCorridorWalls(MazeTile[][] map) {
+		int width = map[0].length;
+		int heigth = map.length;
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < heigth; j++) {
+				if (map[i][j] != null) {
+					if (map[i][j].getTileType() == TileType.CORRIDOR) {
+						//Check North
+						if (j != 0 && map[i][j - 1] == null) {
+							map[i][j - 1] = new MazeTile(i, j - 1, TileType.WALL);
+						}
+
+						//Check South
+						if (j != heigth - 1 && map[i][j + 1] == null) {
+							map[i][j + 1] = new MazeTile(i, j + 1, TileType.WALL);
+						}
+
+						//Check West
+						if (i != 0 && map[i - 1][j] == null) {
+							map[i - 1][j] = new MazeTile(i - 1, j, TileType.WALL);
+						}
+
+						//Check East
+						if (i != width - 1 && map[i + 1][j] == null) {
+							map[i + 1][j] = new MazeTile(i + 1, j, TileType.WALL);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Add RoomNode to graph and map.
