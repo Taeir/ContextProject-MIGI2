@@ -38,7 +38,7 @@ public class GameController extends Controller {
 	 * The highest tpf that will be passed to all entities.
 	 * This ensures that a big lag-spike wont allow entities to glitch through walls.
 	 */
-	private static final float MAX_TPF = .033f;
+	public static final float MAX_TPF = .033f;
 	private Game game;
 	private HUD hud;
 
