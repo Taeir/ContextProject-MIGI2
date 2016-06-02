@@ -42,6 +42,7 @@ import jmevr.app.VRApplication;
  */
 public class GameController extends Controller {
 	private Game game;
+	private HUD hud;
 
 	/**
 	 * Constructor for the game controller.
@@ -103,7 +104,8 @@ public class GameController extends Controller {
 		
 		//Check if we are running in tests or not
 		if (VRApplication.getMainVRApp().getContext() != null) {
-			new HUD(this).attachHud();
+			hud = new HUD(this);
+			hud.attachHud();
 		}
 		
 		GameController t = this;
@@ -205,6 +207,7 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
+		hud.setGameTimer(Math.round(game.getTimeRemaining()));
 		game.update(tpf);
 		game.getPlayer().update(tpf);
 		updateEntities(tpf);

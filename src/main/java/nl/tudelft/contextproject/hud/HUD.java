@@ -30,6 +30,8 @@ public class HUD implements TickListener {
 	private float screenHeight;
 	private float screenWidth;
 
+	private BitmapText gameTimer;
+
 	
 	
 	/**
@@ -40,7 +42,7 @@ public class HUD implements TickListener {
 	 */
 	public HUD(GameController controller) {
 		this.controller = controller;
-		this.screenHeight = VRGuiManager.getCanvasSize().getX();
+		this.screenHeight = VRGuiManager.getCanvasSize().getY();
 		this.screenWidth = VRGuiManager.getCanvasSize().getX();
 	}
 	
@@ -70,12 +72,22 @@ public class HUD implements TickListener {
 		
 		bombNode = new Node("Bombs");
 		controller.addGuiElement(bombNode);
-				
+		
+		attachGameTimer();				
 		attachHeartContainers();
 		
 		// Attach listeners
 		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
 		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
+	}
+
+	protected void attachGameTimer() {
+		gameTimer = new BitmapText(Main.getInstance().getGuiFont(), false);
+		gameTimer.setSize(screenHeight / 30);
+		gameTimer.setColor(ColorRGBA.White);
+		float h = gameTimer.getLineHeight() + screenHeight / 10;
+		gameTimer.setLocalTranslation(100, h, 0);
+		controller.addGuiElement(gameTimer);
 	}
 
 	/**
@@ -121,7 +133,7 @@ public class HUD implements TickListener {
 		heart.setWidth(screenWidth / 20);
 		heart.setHeight(screenHeight / 20);
 		float start = .5f - .06f * (VRPlayer.PLAYER_MAX_HEALTH / 2);
-		heart.setPosition(screenWidth * (start + 0.06f * pos), screenHeight + 50);
+		heart.setPosition(screenWidth * (start + 0.06f * pos), screenHeight * .9f);
 		
 		return heart;
 	}
@@ -149,6 +161,14 @@ public class HUD implements TickListener {
 		keypic.setMaterial(mat);
 		
 		return keypic;
+	}
+	
+	public void setGameTimer(int timer) {
+		if (timer == Integer.MAX_VALUE) {
+			gameTimer.setText("");
+		} else {
+			gameTimer.setText("" + timer);
+		}
 	}
 
 	@Override
