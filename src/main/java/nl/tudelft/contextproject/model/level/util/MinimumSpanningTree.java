@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
 
-import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
-
-
 /**
  * Minimum spanning tree (MST) algorithm class. 
  * Takes a graph and turns it into a minimum spanning tree,
@@ -27,12 +24,12 @@ public class MinimumSpanningTree {
 	 * Constructor.
 	 * @param roomNodes
 	 * 					RoomNodes of graph
-	 * @param edges
+	 * @param corridorEdges
 	 * 					CorridorEdges of graph in a HashMap with corridor IDs as key
 	 */
-	public MinimumSpanningTree(List<RoomNode> roomNodes, HashMap<Integer, CorridorEdge> edges) {
+	public MinimumSpanningTree(List<RoomNode> roomNodes, HashMap<Integer, CorridorEdge> corridorEdges) {
 		this.roomNodes = roomNodes;
-		this.corridorEdges = edges;
+		this.corridorEdges = corridorEdges;
 		this.graphNodes = new HashSet<MSTNode>();
 		this.resultMST = new HashSet<MSTEdge>();
 	}
@@ -66,10 +63,21 @@ public class MinimumSpanningTree {
 			endNode = new MSTNode(MSTNodeType.ENTRANCE_NODE,
 					corridorEdge.end,
 					corridorEdge.end.node.id);
+			
+			System.out.println(startNode.roomNodeID + " -> " + endNode.roomNodeID);
 
 			//Check if there nodes already existed.
-			startNode = treeNodes.getOrDefault(startNode.originalDoor, startNode);
-			endNode = treeNodes.getOrDefault(endNode.originalDoor, endNode);
+			if (treeNodes.containsKey(startNode.originalDoor)) {
+				startNode = treeNodes.get(startNode.originalDoor);
+			} else {
+				treeNodes.put(startNode.originalDoor, startNode);
+			}
+			
+			if (treeNodes.containsKey(endNode.originalDoor)) {
+				endNode = treeNodes.get(endNode.originalDoor);
+			} else {
+				treeNodes.put(endNode.originalDoor, endNode);
+			}
 
 			//Create edge MSTEdge
 			currentEdge = new MSTEdge(startNode, endNode, corridorEdge.weight, corridorEdge.id);
@@ -129,11 +137,13 @@ public class MinimumSpanningTree {
 	protected void createMST() {
 		PriorityQueue<MSTEdge> edgesPriorityQueue = new PriorityQueue<>(new MSTEdgeWeightComparator());
 		HashMap<MSTNode, HashSet<MSTEdge>> clusterStructure = new HashMap<MSTNode, HashSet<MSTEdge>>(4 * graphNodes.size());
-		
+		System.out.println("graphnodes " + graphNodes.size());
+		System.out.println("CorridorEdges " + corridorEdges.size());
 		//Add all edges to priority queue and create a cluster for each node
 		for (MSTNode node : graphNodes) {
 			edgesPriorityQueue.addAll(node.edges);
-			clusterStructure.put(node, new HashSet<MSTEdge>());
+			
+			clusterStructure.put(node, new HashSet<>());
 		}
 		
 		//Run Kruskal's algorithm
@@ -142,16 +152,22 @@ public class MinimumSpanningTree {
 		HashSet<MSTEdge> startCluster, endCluster;
 		while (numberOfEdgesInCluster < (graphNodes.size() - 1)) {
 			currentEdge = edgesPriorityQueue.poll();
+			System.out.println(currentEdge);
+			
 			startCluster = clusterStructure.get(currentEdge.startNode);
 			endCluster = clusterStructure.get(currentEdge.endNode);
-			
+			System.out.println("Clusters equal: " + startCluster.equals(endCluster));
 			if (!startCluster.equals(endCluster) || startCluster.isEmpty() || endCluster.isEmpty()) {
 				resultMST.add(currentEdge);
 				startCluster.addAll(endCluster);
 				startCluster.add(currentEdge);
 				clusterStructure.put(currentEdge.endNode, startCluster);
+				System.out.println("Cluster size after merging: " + startCluster.size());
+				if (currentEdge.startNode.nodeType != MSTNodeType.CONNECTOR_NODE 
+						&& currentEdge.endNode.nodeType != MSTNodeType.CONNECTOR_NODE) {
+					numberOfEdgesInCluster++;
+				}
 			}
-			numberOfEdgesInCluster++;
 		}
 	}
 	

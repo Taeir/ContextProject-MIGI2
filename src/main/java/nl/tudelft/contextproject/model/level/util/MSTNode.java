@@ -70,6 +70,10 @@ public class MSTNode {
 	public void addEdge(MSTEdge edge) {
 		edges.add(edge);
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "MSTNode [edges=" + edges.size() + ", roomNodeID=" + roomNodeID
+				+ ", nodeType=" + nodeType + "]";
+	}
 }

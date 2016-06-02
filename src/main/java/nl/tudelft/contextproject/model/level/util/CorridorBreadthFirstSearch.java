@@ -65,8 +65,8 @@ public final class CorridorBreadthFirstSearch {
 				//Found end, stop breadth first search. 
 				break;
 			}
-			validNeighbours = getNeighBors(mazeTiles, currentNode);
-			for (Vec2I neigborNode: validNeighbours) {
+			validNeighbours = getNeighBors(mazeTiles, currentNode, end);
+			for (Vec2I neigborNode : validNeighbours) {
 				if (distanceMap.containsKey(neigborNode)) {
 					continue;
 				} else {
@@ -75,6 +75,7 @@ public final class CorridorBreadthFirstSearch {
 				}
 			}
 		}
+		
 		//Retrace steps back
 		Stack<Vec2I> route = new Stack<Vec2I>();
 		currentNode = end;
@@ -83,7 +84,7 @@ public final class CorridorBreadthFirstSearch {
 			route.push(currentNode);
 		}
 
-		return null;
+		return route;
 	}
 
 	/**
@@ -125,6 +126,7 @@ public final class CorridorBreadthFirstSearch {
 
 	/**
 	 * Get list of neighbor nodes.
+	 * Only empty Tiles are neighbors, except if that tile is the end tile.
 	 * @param mazeTiles
 	 * 		map with rooms, but no corridors
 	 * @param currentNode
@@ -132,29 +134,33 @@ public final class CorridorBreadthFirstSearch {
 	 * @return
 	 * 		list that are neighbors of current node and not already a tile.
 	 */
-	protected static ArrayList<Vec2I> getNeighBors(MazeTile[][] mazeTiles, Vec2I currentNode) {
+	protected static ArrayList<Vec2I> getNeighBors(MazeTile[][] mazeTiles, Vec2I currentNode, Vec2I endNode) {
 		ArrayList<Vec2I> neigboursOfCurrentNode = new ArrayList<Vec2I>();
 		int x = currentNode.x;
 		int y = currentNode.y;
 
 		//Check North
-		if (y != 0 && mazeTiles[x][y - 1] == null) {
-			neigboursOfCurrentNode.add(new Vec2I(x, y - 1));
+		Vec2I newVector = new Vec2I(x, y - 1);
+		if (y != 0 && (mazeTiles[x][y - 1] == null || newVector.equals(endNode))) {
+			neigboursOfCurrentNode.add(newVector);
 		}
 
 		//Check South
-		if (y != mazeTiles.length - 1 && mazeTiles[x][y + 1] == null) {
-			neigboursOfCurrentNode.add(new Vec2I(x, y + 1));
+		newVector = new Vec2I(x, y + 1);
+		if (y != mazeTiles.length - 1 && (mazeTiles[x][y + 1] == null || newVector.equals(endNode))) {
+			neigboursOfCurrentNode.add(newVector);
 		}
 
 		//Check West
-		if (x != 0 && mazeTiles[x - 1][y] == null) {
-			neigboursOfCurrentNode.add(new Vec2I(x - 1, y));
+		newVector = new Vec2I(x - 1, y);
+		if (x != 0 && (mazeTiles[x - 1][y] == null || newVector.equals(endNode))) {
+			neigboursOfCurrentNode.add(newVector);
 		}
 
 		//Check East
-		if (x != mazeTiles[0].length - 1 && mazeTiles[x + 1][y] == null) {
-			neigboursOfCurrentNode.add(new Vec2I(x + 1, y));
+		newVector = new Vec2I(x + 1, y);
+		if (x != mazeTiles[0].length - 1 && (mazeTiles[x + 1][y] == null || newVector.equals(endNode))) {
+			neigboursOfCurrentNode.add(newVector);
 		}
 
 		return neigboursOfCurrentNode;

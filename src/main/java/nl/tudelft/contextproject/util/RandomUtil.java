@@ -29,4 +29,6 @@ public final class RandomUtil {
 	public static int getRandomIntegerFromInterval(Random rand, int min, int max) {
 		return (rand.nextInt((max - min)) + min);
 	}
+	
+	
 }

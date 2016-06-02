@@ -28,4 +28,9 @@ public class MSTEdge {
 		this.corridorID = corridorID;		
 	}
 
+	@Override
+	public String toString() {
+		return "MSTEdge [startNode=" + startNode + ", endNode=" + endNode + ", weight=" + weight + ", corridorID="
+				+ corridorID + "]";
+	}
 }

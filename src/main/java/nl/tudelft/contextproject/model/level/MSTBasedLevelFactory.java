@@ -26,11 +26,17 @@ public class MSTBasedLevelFactory implements LevelFactory {
 
 	public static final int START_ROOM_ID = -1;
 	//Max width of level 
-	protected static final int MAX_WIDTH = 200;
+	protected static final int MAX_WIDTH = 40;
 	//Max height of level 
-	protected static final int MAX_HEIGHT = 200;
-	//Number of attempts 
-	private static final int MAX_ATTEMPTS = 1000;
+	protected static final int MAX_HEIGHT = 40;
+
+	/**
+	 * Number of tries when placing rooms randomly.
+	 * Increasing this number increase the density of the maze that is generated.
+	 * The density is also dependent on the MAX_WIDTH and MAX_HEIGHT, because a larger
+	 * size will require more attempts to fill to the same density.
+	 */
+	private static final int MAX_ATTEMPTS = 100;
 
 	/**
 	 * Allow duplicates rooms in a single level.
@@ -214,6 +220,11 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		CorridorEdge currentCorridor;
 		for (Integer corridorID: chosenEdges) {
 			currentCorridor = edges.get(corridorID);
+			
+			//TODO DEBUG
+			if (currentCorridor.start.location.distance(currentCorridor.end.location) < 2) {
+				System.out.println("Too close, give me some space please!");
+			}
 			corridorList.add(CorridorBreadthFirstSearch.creatCorridor(mazeTiles, currentCorridor.start.location, currentCorridor.end.location));
 		}
 		return corridorList;

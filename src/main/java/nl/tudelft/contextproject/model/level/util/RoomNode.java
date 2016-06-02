@@ -128,7 +128,7 @@ public class RoomNode {
 		int ySize = room.size.getHeight();
 		for (int x = 0; x < xSize; x++) {
 			for (int y = 0; y < ySize; y++) {
-				if (checkTileOverlap(tiles, coordinates)) {
+				if (checkTileOverlap(tiles, coordinates, x , y)) {
 					return true;
 				}
 			}
@@ -142,12 +142,14 @@ public class RoomNode {
 	 * 				map of tiles
 	 * @param coordinates
 	 * 				location on the map
+	 * @param y 
+	 * @param x 
 	 * @return
 	 * 				true if room overlaps with existing tile. 
 	 */
-	public boolean checkTileOverlap(MazeTile[][] tiles, Vec2I coordinates) {
-		for (int i = coordinates.x - MIN_DIST; i < coordinates.x + MIN_DIST; i++) {
-			for (int j = coordinates.y - MIN_DIST; j < coordinates.y + MIN_DIST; j++) {
+	public boolean checkTileOverlap(MazeTile[][] tiles, Vec2I coordinates, int x, int y) {
+		for (int i = x + coordinates.x - MIN_DIST; i < x + coordinates.x + MIN_DIST; i++) {
+			for (int j = y + coordinates.y - MIN_DIST; j < y + coordinates.y + MIN_DIST; j++) {
 				if (tiles[i][j] != null) {
 					return true;
 				}

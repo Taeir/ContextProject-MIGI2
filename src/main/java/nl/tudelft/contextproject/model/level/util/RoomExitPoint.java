@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.model.level.util;
 
-
 /**
  * Exit point of a room.
  * 
