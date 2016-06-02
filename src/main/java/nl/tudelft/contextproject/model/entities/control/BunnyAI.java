@@ -57,10 +57,10 @@ public class BunnyAI implements EntityControl {
 		randomJump(tpf);
 		Entity target = findTarget(playerdist, tpf);
 		Spatial sp = owner.getSpatial();
-        if (sp != null) {
-            sp.lookAt(target.getLocation(), Vector3f.UNIT_Y);
-            sp.rotate(0, (float) Math.toRadians(-90), 0);
-        }
+		if (sp != null) {
+			sp.lookAt(target.getLocation(), Vector3f.UNIT_Y);
+			sp.rotate(0, (float) Math.toRadians(-90), 0);
+			}
 		Vector3f move = target.getLocation().subtract(owner.getLocation()).normalize().mult(tpf);
 		owner.move(move.x, move.y, move.z);
 	}
