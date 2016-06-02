@@ -159,11 +159,4 @@ public class TileParserTest extends TestBase {
 		assertEquals(TileType.DOOR_EXIT, TileParser.format(TileParser.DOOR_EXIT_FORMAT));
 	}
 
-	/**
-	 * Test translate method of Empty.
-	 */
-	@Test
-	public void testTranslateEmpty() {
-		assertEquals(TileType.EMPTY, TileParser.format("emptry string"));
-	}
 }

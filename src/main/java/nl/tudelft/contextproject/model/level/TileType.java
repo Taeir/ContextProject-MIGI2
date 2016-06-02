@@ -10,7 +10,6 @@ import nl.tudelft.contextproject.Main;
  */
 public enum TileType {
 
-	EMPTY(0, 0, ColorRGBA.Black, null),
 	FLOOR(1, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
 	WALL(2, 3, ColorRGBA.Gray, "Textures/walltexture.png"),
 	CORRIDOR(3, 0, ColorRGBA.Green, "Textures/grasstexture.png"),

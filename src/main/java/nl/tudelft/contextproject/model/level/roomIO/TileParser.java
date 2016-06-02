@@ -89,8 +89,7 @@ public final class TileParser {
 				return TileType.DOOR_EXIT;
 			case CORRIDOR_FORMAT:
 				return TileType.CORRIDOR;
-			default:
-				return TileType.EMPTY;
 		}
+		return null;
 	}
 }
