@@ -34,6 +34,11 @@ import jmevr.app.VRApplication;
  * Controller for the main game.
  */
 public class GameController extends Controller {
+	/**
+	 * The highest tpf that will be passed to all entities.
+	 * This ensures that a big lag-spike wont allow entities to glitch through walls.
+	 */
+	private static final float MAX_TPF = .033f;
 	private Game game;
 	private HUD hud;
 
@@ -195,6 +200,7 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
+		tpf = Math.min(tpf, MAX_TPF);
 		hud.setGameTimer(Math.round(game.getTimeRemaining()));
 		game.update(tpf);
 		game.getPlayer().update(tpf);
