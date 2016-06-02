@@ -55,6 +55,12 @@ body {
 #map .Killer_Bunny {
 	background-color: #FFFFFF !important;
 }
+#map .Invisible_Wall {
+    background-color: #E6E6E6 !important;
+}
+#map .Damaged_Wall {
+    background-color: #BFBFBF !important;
+}
 #map {
 	border-spacing: 0px;
 }

@@ -21,7 +21,7 @@ import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends MovingEntity implements PhysicsObject {
+public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 
 	//Physics interaction constants.
 
@@ -271,32 +271,17 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		inventory = inv;
 	}
 
-	/**
-	 * Returns the player's health.
-	 * 
-	 * @return 
-	 * 		the player's health
-	 */
+	@Override
 	public float getHealth() {
 		return health;
 	}
 
-	/**
-	 * Sets a player's health.
-	 * 
-	 * @param health
-	 * 		health to be set
-	 */
-	public void setHealth(float health) {
+	@Override
+	public void setHealth(float heal) {
 		this.health = Math.min(PLAYER_MAX_HEALTH, health);
 	}
-
-	/**
-	 * Reduces a players health.
-	 * 
-	 * @param amount 
-	 * 		the amount of damage taken
-	 */
+	
+	@Override
 	public void takeDamage(float amount) {
 		health -= amount;
 		if (health < 0) {
