@@ -21,30 +21,48 @@ public class Torch extends Entity implements PhysicsObject {
 	private Spatial sp;
 	private RigidBodyControl rb;
 	private ParticleEmitter fire;
+	private boolean torchtype;
 
 	/**
 	 * Constructor for a key.
+	 * 
+	 * @param type
+	 * 		type of the torch (true = walltorch, false = ceilinglamp)
 	 */
-	public Torch() {
-		sp = Main.getInstance().getAssetManager().loadModel("Models/torch.blend");
+	public Torch(boolean type) {
+		torchtype = type;
 		fire = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 30);
-	    Material mat = new Material(Main.getInstance().getAssetManager(), 
-	            "Common/MatDefs/Misc/Particle.j3md");
-	    mat.setTexture("Texture", Main.getInstance().getAssetManager().loadTexture(
-	            "Effects/Explosion/flame.png"));
-	    fire.setMaterial(mat);
-	    fire.setImagesX(2); 
-	    fire.setImagesY(2);
-	    fire.setEndColor(new ColorRGBA(1f, 0f, 0f, 1f));
-	    fire.setStartColor(new ColorRGBA(1f, 1f, 0f, 0.5f));
-	    fire.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 1, 0));
-	    fire.setStartSize(0.15f);
-	    fire.setEndSize(0.05f);
-	    fire.setGravity(0, 0, 0);
-	    fire.setLowLife(0.2f);
-	    fire.setHighLife(0.5f);
-	    fire.getParticleInfluencer().setVelocityVariation(0.1f);
-	    fire.move(-0.09f, 0.27f, -0.003f);
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Particle.j3md");
+		mat.setTexture("Texture", Main.getInstance().getAssetManager().loadTexture("Effects/Explosion/flame.png"));
+		fire.setMaterial(mat);
+		fire.setImagesX(2); 
+		fire.setImagesY(2);
+		fire.setEndColor(new ColorRGBA(1f, 0f, 0f, 1f));
+		fire.setStartColor(new ColorRGBA(1f, 1f, 0f, 0.5f));
+		fire.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 0.7f, 0));
+		if (type) {
+			sp = Main.getInstance().getAssetManager().loadModel("Models/torch.blend");
+			fire.setStartSize(0.15f);
+			fire.setEndSize(0.05f);
+			fire.setGravity(0, 0, 0);
+			fire.setLowLife(0.2f);
+			fire.setHighLife(0.5f);
+			fire.getParticleInfluencer().setVelocityVariation(0.0f);
+			fire.move(-0.09f, 0.27f, -0.003f);
+		} else {
+			sp = Main.getInstance().getAssetManager().loadModel("Models/ceilinglamp.blend");
+			fire.setStartSize(0.1f);
+			fire.setEndSize(0.04f);
+			fire.setGravity(0, 0, 0);
+			fire.setLowLife(0.2f);
+			fire.setHighLife(0.5f);
+			fire.getParticleInfluencer().setVelocityVariation(0.0f);
+			fire.move(0, 0.11f, 0);
+			this.move(0, 5.3f, 0);
+		}
+
+		
+		
 	}
 
 	@Override
@@ -85,39 +103,42 @@ public class Torch extends Entity implements PhysicsObject {
 	public ParticleEmitter getFire() {
 		return fire;
 	}
-	
+
 	/**
 	 * Rotates the torch and the flame to attach to a south wall.
 	 */
 	public void rotateSouth() {
+		if (!torchtype) return;
 		sp.rotate(0f, (float) (0.5 * Math.PI), 0f);
 		sp.move(-0.075f, 0, -0.075f);
 		this.move(0, 0, 0.65f);
 	}
-	
+
 	/**
 	 * Rotates the torch and the flame to attach to a east wall.
 	 */
 	public void rotateEast() {
+		if (!torchtype) return;
 		sp.rotate(0f, (float) (Math.PI), 0f);
 		sp.move(-0.17f, 0, 0);
 		this.move(.75f, 0, 0);
 	}
-	
+
 	/**
 	 * Rotates the torch and the flame to attach to a north wall.
 	 */
 	public void rotateNorth() {
+		if (!torchtype) return;
 		sp.rotate(0f, (float) (-0.5 * Math.PI), 0f);
 		sp.move(-0.095f, 0, 0.08f);
 		this.move(0, 0, -.63f);
 	}
-	
+
 	/**
 	 * Rotates the torch and the flame to attach to a west wall.
 	 */
 	public void rotateWest() {
+		if (!torchtype) return;
 		this.move(-.55f, 0, 0);
 	}
-	
 }
