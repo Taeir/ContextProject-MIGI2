@@ -154,7 +154,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		if (getLocation().y < 0 && fallingTimer == 0) {
 			resp = getLocation().clone();
 			resp.y = 5;
-			fallingTimer = 2;
+			fallingTimer = 40;
 		}
 		if (fallingTimer != 0) {
 			fallingTimer -= tpf;
