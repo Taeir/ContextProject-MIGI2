@@ -11,6 +11,7 @@ public class EndingController extends GameController {
 	
 	private static final String WIN_LEVEL = "WinLevel";
 	private static final String LOSE_LEVEL = "LoseLevel";
+	private boolean elvesWin;
 
 	/**
 	 * Constructor for the endingController.
@@ -22,6 +23,7 @@ public class EndingController extends GameController {
 	 */
 	public EndingController(Application app, boolean elvesWin) {
 		super(app, "/maps/" + (elvesWin ? WIN_LEVEL : LOSE_LEVEL) + "/", Float.MAX_VALUE);
+		this.elvesWin = elvesWin;
 	}
 	
 	@Override
@@ -31,4 +33,12 @@ public class EndingController extends GameController {
 
 	@Override
 	protected void placeTreasure(Game game) { };
+
+	/**
+	 * @return
+	 * 		true if the elves won, false if the dwarfs won
+	 */
+	public boolean didElvesWin() {
+		return elvesWin;
+	}
 }

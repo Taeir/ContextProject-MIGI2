@@ -188,7 +188,6 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testPickUpBomb() {
-		TestUtil.mockGame();
 		Bomb bomb = new Bomb();
 		Vector3f vec = player.getSpatial().getLocalTranslation();
 		bomb.move(vec.x + 1, vec.y, vec.z);
@@ -202,7 +201,6 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testPickUpKey() {
-		TestUtil.mockGame();
 		Key key = new Key(ColorRGBA.Yellow);
 		Vector3f vec = player.getSpatial().getLocalTranslation();
 		key.move(vec.x + 1, vec.y, vec.z);
@@ -216,9 +214,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testsetHealth() {
-		player.setHealth(2);
-		player.setHealth(4);
-		assertTrue(player.getHealth() == Math.min(4, VRPlayer.PLAYER_MAX_HEALTH));
+		player.setHealth(1 + VRPlayer.PLAYER_MAX_HEALTH);
+		assertEquals(VRPlayer.PLAYER_MAX_HEALTH, player.getHealth(), 1e-8);
 	}
 	
 	/**

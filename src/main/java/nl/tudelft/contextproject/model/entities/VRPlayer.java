@@ -25,7 +25,7 @@ import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends MovingEntity implements PhysicsObject, TickProducer {
+public class VRPlayer extends MovingEntity implements PhysicsObject, TickProducer, Health {
 
 	//Physics interaction constants.
 
@@ -212,9 +212,9 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		Bomb bomb = inventory.getBomb();
 		inventory.remove(bomb);
 		bomb.setPickedup(false);
-		bomb.setState(EntityState.NEW);
-		
-		Main.getInstance().getCurrentGame().addEntity(bomb);
+//		bomb.setState(EntityState.NEW);
+//		TODO
+//		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
 
 	/**
@@ -229,7 +229,6 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 
 			if (ent instanceof Bomb && !inventory.containsBomb()) {
 				inventory.add((Bomb) ent);
-//				ent.setState(EntityState.DEAD);
 				return;
 			} else if (ent instanceof Key) {
 				Key key = (Key) ent;
@@ -271,33 +270,18 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		inventory = inv;
 	}
 
-	/**
-	 * Returns the player's health.
-	 * 
-	 * @return 
-	 * 		the player's health
-	 */
+	@Override
 	public float getHealth() {
 		return health;
 	}
 
-	/**
-	 * Sets a player's health.
-	 * 
-	 * @param health
-	 * 		health to be set
-	 */
-	public void setHealth(float health) {
+	@Override
+	public void setHealth(float heal) {
 		this.health = Math.min(PLAYER_MAX_HEALTH, health);
 		updateTickListeners();
 	}
-
-	/**
-	 * Reduces a players health.
-	 * 
-	 * @param amount 
-	 * 		the amount of damage taken
-	 */
+	
+	@Override
 	public void takeDamage(float amount) {
 		health -= amount;
 		if (health < 0) {

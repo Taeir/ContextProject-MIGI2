@@ -17,7 +17,7 @@ public class KillerBunnyTest extends MovingEnemyTest {
 	private KillerBunny bunny;
 
 	/**
-	 * Create a fresh instance for every test.
+	 * Create a fresh bunny for every test.
 	 */
 	@Before
 	public void setUp() {
@@ -29,27 +29,48 @@ public class KillerBunnyTest extends MovingEnemyTest {
 	public MovingEntity getEnemy() {
 		return bunny;
 	}
-
-	@Override
-	public EntityType getType() {
-		return EntityType.KILLER_BUNNY;
+	
+	/**
+	 * Test if taking damage reduces the health correctly.
+	 */
+	@Test
+	public void testTakeDamage() {
+		bunny.getSpatial();
+		bunny.setHealth(3);
+		bunny.takeDamage(1f);
+		assertEquals(2f, bunny.getHealth(), 1e-6);
 	}
-
+	
 	/**
 	 * Tests if loading killer bunnies works properly.
 	 */
 	@Test
 	public void testLoadEntity() {
 		KillerBunny bunny = KillerBunny.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.KILLER_BUNNY.getName()});
-		
+
 		assertEquals(loadPosition, bunny.getLocation());
 	}
-
+	
 	/**
 	 * Tests if loading killer bunnies with invalid data throws an exception.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testLoadEntityInvalidData() {
 		KillerBunny.loadEntity(loadPosition, new String[3]);
+	}
+	 
+	/**
+	 * Test if killing the entity kills it.
+	 */
+	@Test
+	public void testKill() {
+		bunny.setHealth(1);
+		bunny.takeDamage(2f);
+		assertEquals(EntityState.DEAD, bunny.getState());
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.KILLER_BUNNY;
 	}
 }

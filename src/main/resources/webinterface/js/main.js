@@ -6,6 +6,7 @@ var gExplored = null;
 var gEntities = null;
 var lastPressedX;
 var lastPressedY;
+var exploredAll = false;
 
 /**
  * Sends an authentication request to the server.
@@ -22,19 +23,19 @@ function authenticate() {
             } else if (data == "IN_PROGRESS") {
                 //Game is already in progress
                 gAuth = false;
-                showError("You cannot join this game because it has already started.");
+                showAlert("You cannot join this game because it has already started.", "Warning");
             } else if (data == "FULL") {
                 //Game is full
                 gAuth = false;
-                showError("You cannot join this game because it is full.");
+                showAlert("You cannot join this game because it is full.", "Warning");
             } else {
                 //Unknown server response
                 gAuth = false;
-                showError("Unknown server response: " + data);
+                showAlert("Unknown server response: " + data, "Danger");
             }
         } else {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
         }
     });
 }
@@ -64,22 +65,16 @@ function requestStatus() {
     $.post("/status", function(data, status) {
         if (status != "success") {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
             return;
         }
 
         //Check if we are authorized
         if (!checkAuthorized(data)) return;
         
-        //If we are authorized, update the game with the recieved information
-        updateGame(data);
-        
         //Set the correct team
-        if (data.team == undefined || data.team == "NONE") {
-            //We don't have a team, so we switch to team selection
+        if (data.team == "NONE") {
             gTeam = undefined;
-            switchTo("WAITING");
-            return;
         } else if (data.team == "DWARFS") {
             //We are in team DWARFS
             gTeam = "DWARFS";
@@ -93,12 +88,14 @@ function requestStatus() {
             switchTo("WAITING");
         } else if (data.state == "RUNNING") {
             switchTo("RUNNING");
-            updateGame(data);
         } else if (data.state == "PAUSED") {
             switchTo("PAUSED");
         } else if (data.state == "ENDED") {
             switchTo("ENDED");
         }
+        
+        //If we are authorized, update the game with the recieved information
+        updateGame(data);
     }, "json");
 }
 
@@ -107,10 +104,31 @@ function requestStatus() {
  *
  * @param msg
  *      the message to display
+ * @param severity
+ *      the serverity of the error
  */
-function showError(msg) {
-    //TODO Change to better error dialog
-    alert(msg);
+function showAlert(msg, severity) {
+    var selected;
+    switch (severity) {
+        case "Danger":
+            selected = "dangerBox";
+            break;
+        case "Warning":
+            selected = "warningBox";
+            break;
+        case "Success":
+            selected = "successBox";
+            break;
+        default:
+            selected = "dangerBox";
+            break;
+    }
+    
+    document.getElementById(selected).innerHTML = msg;
+    $("#" + selected).fadeIn();
+    window.setTimeout(function () {
+       $("#" + selected).fadeOut(300) 
+    }, 3000);
 }
 
 /**
@@ -122,22 +140,36 @@ function showError(msg) {
 function switchTo(view) {
     //We don't need to switch to our current state.
     if (gView == view) return;
+    exploredAll = false;
     
     console.log("[DEBUG] Switching to " + view);
     gView = view;
-    requestMap();
     switch (view) {
         case "WAITING":
-            //TODO
+            requestMap();
+            $(document.getElementById("selectTeam")).show();
+            $(document.getElementById("playing")).show();
+            $(document.getElementById("ended")).css("visibility", "hidden");
+            $(document.getElementById("paused")).css("visibility", "hidden");
             break;
         case "RUNNING":
+            requestMap();
             $(document.getElementById("selectTeam")).hide();
+            $(document.getElementById("playing")).show();
+            $(document.getElementById("ended")).css("visibility", "hidden");
+            $(document.getElementById("paused")).css("visibility", "hidden");
             break;
         case "PAUSED":
-            console.log("PAUSED STATE HIT");
+            $(document.getElementById("selectTeam")).hide();
+            $(document.getElementById("playing")).hide();
+            $(document.getElementById("ended")).css("visibility", "hidden");
+            $(document.getElementById("paused")).css("visibility", "visible");
             break;
         case "ENDED":
-            //TODO
+            $(document.getElementById("selectTeam")).hide();
+            $(document.getElementById("playing")).hide();
+            $(document.getElementById("ended")).css("visibility", "visible");
+            $(document.getElementById("paused")).css("visibility", "hidden");
             break;
     }
 }
@@ -149,7 +181,7 @@ function switchTo(view) {
  *      the team to set. Must be in [ELVES, DWARFS, NONE]
  */
 function requestSetTeam(team) {
-    hideAllButtons(0);
+    hideAllButtons();
     //Check if the team is valid
     if (team != "ELVES" && team != "DWARFS" && team != "NONE") throw "Invalid team!";
     
@@ -157,13 +189,14 @@ function requestSetTeam(team) {
     $.post("/setteam", {team: team}, function(data, status) {
         if (status == "success") {
             if (data != team) {
-                showError("Game has already started!");
+                showAlert("Game has already started!", "Warning");
             }
             
             if (data == "DWARFS") {
                 //Team was set to dwarfs
                 gTeam = "DWARFS";
                 updateTeam();
+                exploreAll();
                 //TODO check start game
             } else if (data == "ELVES") {
                 //Team was set to elves
@@ -177,17 +210,17 @@ function requestSetTeam(team) {
                 //TODO check start game
             } else if (data == "INVALID") {
                 //Invalid team was sent
-                showError("Invalid team!");
+                showAlert("Invalid team!", "Danger");
             } else if (data == "UNAUTHORIZED") {
                 //Not in the current game, and game is running
-                showError("You are not in the game, and the game has already started!");
+                showAlert("You are not in the game, and the game has already started!", "Warning");
             } else {
                 //Unknown server response
-                showError("Unknown server response: " + data);
+                showAlert("Unknown server response: " + data, "Danger");
             }
         } else {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
         }
     });
 }
@@ -196,10 +229,27 @@ function requestSetTeam(team) {
  * Updates the team view.
  */
 function updateTeam() {
+    var elvesButton = $(document.getElementById("elvesButton"));
+    var dwarfsButton = $(document.getElementById("dwarfsButton"));
+    var noneButton = $(document.getElementById("noneButton"));
+    
+    elvesButton.removeClass("btn-success");
+    dwarfsButton.removeClass("btn-success");
+    noneButton.removeClass("btn-success");
+    
+    elvesButton.addClass("btn-default");
+    dwarfsButton.addClass("btn-default");
+    noneButton.addClass("btn-default");
+    
     if (gTeam == undefined) {
-        $(".team").html("No team");
+        noneButton.removeClass("btn-default");
+        noneButton.addClass("btn-success");
+    } else if (gTeam === "DWARFS") {
+        dwarfsButton.removeClass("btn-default");
+        dwarfsButton.addClass("btn-success");
     } else {
-        $(".team").html(gTeam);
+        elvesButton.removeClass("btn-default");
+        elvesButton.addClass("btn-success");
     }
 }
 
@@ -210,8 +260,41 @@ function updateTeam() {
  *      the status data sent from the server
  */
 function updateGame(data) {
-    updateEntities(data.entities);
-    updateExplored(data.explored);
+    if (data.state === "RUNNING" || data.state === "WAITING") {
+        updateEntities(data.entities);
+        if (data.team === "DWARFS" && exploredAll === false) {
+            exploreAll();
+        } else {
+            updateExplored(data.explored);
+        }
+    } else if (data.state === "ENDED") {
+        displayWinner(data);
+    }
+}
+
+function displayWinner(data) {
+    var winHeader = document.getElementById("endedWinners");
+    var winMessage = document.getElementById("endedMessage");
+    var winner = (data.winner ? "ELVES" : "DWARFS");
+    winHeader.innerHTML = (data.winner? "Elves won!" : "Dwarfs won!");
+    
+    if (winner === data.team) {
+        winMessage.innerHTML = "Congratulations!";
+    } else {
+        winMessage.innerHTML = "Better luck next time!";
+    }
+}
+
+/**
+ * Instantly explores all tiles.
+ */
+function exploreAll() {
+    for (x = 0; x < gMap.width; x++) {
+        for (y = 0; y < gMap.height; y++){
+            $(document.getElementById("y" + y + "x" + x)).addClass("explored");
+        }
+    }
+    exploredAll = true;
 }
 
 /**
@@ -223,7 +306,7 @@ function requestMap() {
     $.post("/map", function(data, status) {
         if (status != "success") {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
             return;
         }
 
@@ -233,6 +316,7 @@ function requestMap() {
         //Update the map
         updateMap(data);
     }, "json");
+    exploredAll = false;
 }
 
 /**
@@ -247,7 +331,7 @@ function requestAction(argument) {
     $.post("/requestaction", {x: lastPressedX, y: lastPressedY, action: encoded},  function(data, status) {
         if (status != "success") {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
             return;
         }
 
@@ -255,7 +339,7 @@ function requestAction(argument) {
         if (!checkAuthorized(data)) return;
         
     }, "json");
-    hideAllButtons(250);
+    hideAllButtons();
 }
 
 /**
@@ -280,24 +364,51 @@ function createClickableFunc(x, y) {
  * Shows the button menu depending on what team you are in.
  */
 function showButtons() {
+    editLegend();
     if (gTeam === "DWARFS") {
-        $(document.getElementById('dwarvesButtons')).show(250);
+        $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
+        $("#wrapper").toggleClass("toggled", true);
     } else if (gTeam === "ELVES") {
-        $(document.getElementById('elvesButtons')).show(250);
+        $("#sidebar-wrapper-elves").css("visibility", "visible");
+        $("#wrapper").toggleClass("toggled", true);
     } else {
         console.log("[DEBUG] No team selected, buttons not shown.");
+    }
+    
+}
+
+/**
+ * Changes the legend to represent the currently selected tile.
+ */
+function editLegend() {
+    var selected;
+    var classes = document.getElementById("y" + lastPressedY + "x" + lastPressedX).className.split(" ");
+    
+    if (gTeam === "DWARFS") {
+        selected = document.getElementById("clickedDwarfs");
+    } else if (gTeam === "ELVES") {
+        selected = document.getElementById("clickedElves");
+    } else {
+        return;
+    }
+
+    if ((classes.indexOf("explored") === -1) && (classes.length < 2)) {
+        selected.innerHTML = "Selected: Unexplored";
+    } else {
+        var newInner = classes[classes.length - 1];
+        if (newInner === "explored") newInner = classes[classes.length - 2];
+        if (newInner == null) newInner = "Void";
+        selected.innerHTML = "Selected: " + newInner.replace("_", " ");
     }
 }
 
 /**
  * Hide both button divs.
- *
- * @param time
- *      the time the hiding animation should take
  */
-function hideAllButtons(time) {
-    $(document.getElementById('dwarvesButtons')).hide(time);
-    $(document.getElementById('elvesButtons')).hide(time);
+function hideAllButtons() {
+    $("#wrapper").toggleClass("toggled", false);
+    $("#sidebar-wrapper-dwarfs").css("visibility", "hidden");
+    $("#sidebar-wrapper-elves").css("visibility", "hidden");
 }
 
 /**
@@ -356,6 +467,7 @@ function updateMap(data) {
         
         gMap = data;
     }
+    exploredAll = false;
 }
 
 /**
@@ -373,7 +485,6 @@ function updateExplored(data) {
             $(document.getElementById("y" + row[i] + "x" + x)).addClass("explored");
         }
     }
-    
     gExplored = data;
 }
 
@@ -410,27 +521,31 @@ function getClassForEntityType(entityType) {
         case 0:
             return "unknown";
         case 1:
-            return "bomb";
+            return "Bomb";
         case 2:
-            return "door";
+            return "Door";
         case 3:
-            return "key";
+            return "Key";
         case 4:
-            return "vrplayer";
+            return "Player";
         case 5:
-            return "playertrigger";
+            return "Player_Trigger";
         case 6:
-            return "pitfall";
+            return "Pitfall";
         case 7:
-            return "landmine";
+            return "Landmine";
         case 8:
-            return "carrot";
+            return "Carrot";
         case 9:
-            return "killerbunny";
+            return "Killer_Bunny";
         case 10:
-            return "voidplatform";
+            return "Platform";
+        case 11:
+            return "Invisible_Wall";
+        case 12:
+            return "Damaged_Wall";
         default:
-            showError("Invalid tile type: " + entityType);
+            showAlert("Invalid tile type: " + entityType, "Danger");
             throw "Invalid tile type: " + entityType;
     }
 }
@@ -446,15 +561,13 @@ function getClassForTileType(tileType) {
         case 0:
             return "";
         case 1:
-            return "floor";
+            return "Floor";
         case 2:
-            return "wall";
+            return "Wall";
         case 3:
-            return "corridor";
-        case 4:
-            return "invisible_wall";
+            return "Corridor";
         default:
-            showError("Invalid tile type: " + tileType);
+            showAlert("Invalid tile type: " + tileType, "Danger");
             throw "Invalid tile type: " + tileType;
     }
 }
@@ -500,7 +613,16 @@ function toggleFullscreen() {
             document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
         }
     } else {
-        if (document.exitFullscreen) {
+        disableFullScreen();
+    }
+    hideAllButtons();
+}
+
+/**
+ * Disables fullscreen.
+ */
+function disableFullScreen() {
+    if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
@@ -509,5 +631,4 @@ function toggleFullscreen() {
         } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
         }
-    }
 }

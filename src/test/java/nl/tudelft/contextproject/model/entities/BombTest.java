@@ -86,7 +86,6 @@ public class BombTest extends EntityTest {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * Tests if loading bombs works properly.
 	 */
 	@Test

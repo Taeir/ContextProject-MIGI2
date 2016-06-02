@@ -1,75 +1,109 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>The Cave of Caerbanogh</title>
-		<script src="js/jquery-1.12.3.min.js"></script>
-		<script src="js/main.js"></script>
-		<script src="js/materialize.min.js"></script>
-		<link type="text/css" rel="stylesheet" href="css/style.css" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height" />
-		<script>
-			//On load
-			$(document).ready(function() {
-				$(document.getElementById("dwarvesButtons")).hide();
-				$(document.getElementById("elvesButtons")).hide();
-				authenticate();
-				setInterval(requestStatus, 1000);
-			});
-		</script>
-	</head>
+    <head>
+        <title>The Cave of Caerbanogh</title>
 
-	<body>
+        <!-- <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css"  media="screen,projection"/> -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="sidebar-wrapper-dwarfs">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a id="clickedDwarfs">Dwarfs</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('placebomb')">Place bomb</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('placepitfall')">Place pitfall</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('placemine')">Place landmine</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('spawnenemy')">Spawn enemy</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="hideAllButtons()">Cancel</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Sidebar Elves -->
+            <div id="sidebar-wrapper-elves">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a id="clickedElves">Elves</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('dropbait')">Drop bait</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="requestAction('placetile')">Place tile</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="hideAllButtons()">Cancel</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /#wrapper -->
+
+        <div id="dangerBox" class="alert alert-danger" data-alert="alert" onClick="$('#dangerBox').fadeOut(300)"></div>
+        <div id="warningBox" class="alert alert-warning" data-alert="alert" onClick="$('#warningBox').fadeOut(300)"></div>
+        <div id="successBox" class="alert alert-success" data-alert="alert" onClick="$('#successBox').fadeOut(300)"></div>
+        
 		<div id="mainDiv">
 			<div id="authorized">
-				<div id="selectTeam">
-					<button onclick="requestSetTeam('ELVES')" id="clickable">Elves</button>
-					<button onclick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
-					<button onclick="requestSetTeam('NONE')" id="clickable">No team</button>
-					<br>	
-					Current team: <div class="team">No team</div><br>
+				<div class="btn-group btn-group-lg" role="group" id="selectTeam">
+					<button type="button" class="btn btn-default" onClick="requestSetTeam('ELVES')" id="elvesButton">Elves</button>
+					<button type="button" class="btn btn-default" onClick="requestSetTeam('DWARFS')" id="dwarfsButton">Dwarfs</button>
+					<button type="button" class="btn btn-success" onClick="requestSetTeam('NONE')" id="noneButton">No team</button>
 				</div>
-				
+
 				<div id="playing">
 					<table id="map">
 					</table>
 				</div>
-				
+		
 				<div id="ended" style="visibility:hidden">
-					
+					<h1 id="endedWinners"></h1>
+					<p id="endedMessage"></p>
+					<hr>
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
+				</div>
+				
+				<div id="paused" style="visibility:hidden">
+					<h1 class="pausemessage">Paused</h1>
+					<p class="pausemessage">The game has been paused, just sit back and relax!</p>
+					<hr>
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
 				</div>
 			</div>
 		</div>
-		
-		<div id="dwarvesButtons">
-			<div id="fullscreensetter">
-				<button onclick="toggleFullscreen()" id="clickable">FS</button>
-			</div>
-			<div id="buttons">
-				<button onClick="requestAction('placebomb')" id="clickable">Place bomb</button><br>
-				<button onClick="requestAction('placepitfall')" id="clickable">Place pitfall</button><br>
-				<button onClick="requestAction('placemine')" id="clickable">Place landmine</button><br>
-				<button onClick="requestAction('spawnenemy')" id="clickable">Spawn enemy</button><br>
-				<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
-			</div>
-		</div>
-		
-		<div id="elvesButtons">
-			<div id="fullscreensetter">
-					<button onclick="toggleFullscreen()" id="clickable">FS</button>
-			</div>
-			<div id="buttons">
-				<button onClick="requestAction('dropbait')" id="clickable">Drop bait</button><br>
-				<button onClick="requestAction('placetile')" id="clickable">Place tile</button><br>
-				<button onClick="hideAllButtons(250)" id="clickable">Cancel</button>
-			</div>
-		</div>
-		
-		<div id="unauthorized">
-		
-		</div>
-		
-		<div id="error">
-		
-		</div>
-	</body>
+				
+        <!-- Load all javascript -->
+        <script src="js/jquery-1.12.3.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+		<script>
+			//On load
+			$(document).ready(function() {
+				authenticate();
+				setInterval(requestStatus, 1000);
+			});
+		</script>
+    </body>
 </html>
