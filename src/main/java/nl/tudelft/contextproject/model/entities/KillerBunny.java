@@ -32,7 +32,7 @@ public class KillerBunny extends MovingEntity implements PhysicsObject, Health {
 	public KillerBunny(Vector3f position) {
 		super(new BunnyAI());
 		spatial = getSpatial();
-		spatial.move(position);
+		spatial.setLocalTranslation(position);
 		getPhysicsObject();
 		
 	}
@@ -95,5 +95,24 @@ public class KillerBunny extends MovingEntity implements PhysicsObject, Health {
 	@Override
 	public EntityType getType() {
 		return EntityType.KILLER_BUNNY;
+	}
+	
+	/**
+	 * Loads a killerBunny entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the bunny
+	 * @param data
+	 * 		the data of the bunny
+	 * @return
+	 * 		the bunny represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static KillerBunny loadEntity(Vector3f position, String[] data) {
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> KillerBunny\".");
+		
+		KillerBunny bunny = new KillerBunny(position);		
+		return bunny;
 	}
 }

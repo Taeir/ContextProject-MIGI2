@@ -375,7 +375,6 @@
 						<exclude>**/StartGame.class</exclude>
 						<exclude>**/Healer.class</exclude>
 						<exclude>**/SpawnBunnies.class</exclude>
-						<exclude>**/RestartGame.class</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

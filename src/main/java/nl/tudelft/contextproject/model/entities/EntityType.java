@@ -21,7 +21,7 @@ public enum EntityType {
 	LANDMINE("LandMine", 			7,  LandMine::loadEntity),
 	
 	CARROT("Carrot", 				8,  Carrot::loadEntity),
-	KILLER_BUNNY("KillerBunny", 	9,  null),
+	KILLER_BUNNY("KillerBunny", 	9,  KillerBunny::loadEntity),
 	
 	VOID_PLATFORM("VoidPlatform", 	10, VoidPlatform::loadEntity),
 	
