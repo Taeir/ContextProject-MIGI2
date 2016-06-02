@@ -300,18 +300,41 @@ function createClickableFunc(x, y) {
  * Shows the button menu depending on what team you are in.
  */
 function showButtons() {
+    editLegend();
     if (gTeam === "DWARFS") {
-        document.getElementById("clickedDwarfs").innerHTML = document.getElementById("y" + lastPressedY + "x" + lastPressedX).className;
         $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else if (gTeam === "ELVES") {
-        document.getElementById("clickedElves").innerHTML = document.getElementById("y" + lastPressedY + "x" + lastPressedX).className;
         $("#sidebar-wrapper-elves").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else {
         console.log("[DEBUG] No team selected, buttons not shown.");
     }
     
+}
+
+/**
+ * Changes the legend to represent the currently selected tile.
+ */
+function editLegend() {
+    var selected;
+    var classes = document.getElementById("y" + lastPressedY + "x" + lastPressedX).className.split(" ");
+    
+    if (gTeam === "DWARFS") {
+        selected = document.getElementById("clickedDwarfs");
+    } else if (gTeam === "ELVES") {
+        selected = document.getElementById("clickedElves");
+    } else {
+        return;
+    }
+
+    if ((classes.indexOf("explored") === -1) && (classes.length < 2)) {
+        selected.innerHTML = "Selected: Unexplored";
+    } else {
+        var newInner = classes[classes.length - 1];
+        if (newInner === "explored") newInner = classes[classes.length - 2];
+        selected.innerHTML = "Selected: " + newInner.replace("_", " ");
+    }
 }
 
 /**
@@ -433,25 +456,25 @@ function getClassForEntityType(entityType) {
         case 0:
             return "unknown";
         case 1:
-            return "bomb";
+            return "Bomb";
         case 2:
-            return "door";
+            return "Door";
         case 3:
-            return "key";
+            return "Key";
         case 4:
-            return "vrplayer";
+            return "Player";
         case 5:
-            return "playertrigger";
+            return "Player_Trigger";
         case 6:
-            return "pitfall";
+            return "Pitfall";
         case 7:
-            return "landmine";
+            return "Landmine";
         case 8:
-            return "carrot";
+            return "Carrot";
         case 9:
-            return "killerbunny";
+            return "Killer_Bunny";
         case 10:
-            return "voidplatform";
+            return "Platform";
         default:
             showError("Invalid tile type: " + entityType);
             throw "Invalid tile type: " + entityType;
@@ -469,13 +492,13 @@ function getClassForTileType(tileType) {
         case 0:
             return "";
         case 1:
-            return "floor";
+            return "Floor";
         case 2:
-            return "wall";
+            return "Wall";
         case 3:
-            return "corridor";
+            return "Corridor";
         case 4:
-            return "invisible_wall";
+            return "Invisible_Wall";
         default:
             showError("Invalid tile type: " + tileType);
             throw "Invalid tile type: " + tileType;

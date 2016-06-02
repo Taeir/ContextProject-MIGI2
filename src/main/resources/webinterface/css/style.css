@@ -28,31 +28,31 @@ body {
 	overflow-y: auto;
 	z-index: 0;
 }
-#map .key {
+#map .Key {
 	background-color: #FFFF00 !important;
 }
-#map .bomb {
+#map .Bomb {
 	background-color: #000000 !important;
 }
-#map .door {
+#map .Door {
 	background-color: #7A5230 !important;
 }
-#map .vrplayer {
+#map .Player {
 	background-color: #FF00FF !important;
 }
-#map .playertrigger {
+#map .Player_Trigger {
 	background-color: #9A32CD !important;
 }
-#map .pitfall {
+#map .Pitfall {
 	background-color: #4A7023 !important;
 }
-#map .landmine {
+#map .Landmine {
 	background-color: #FF6C6C !important;
 }
-#map .carrot {
+#map .Carrot {
 	background-color: #FFA500 !important;
 }
-#map .killerbunny {
+#map .Killer_Bunny {
 	background-color: #FFFFFF !important;
 }
 #map {
@@ -65,9 +65,9 @@ body {
 	height: 40px;
 	background-color: #327ed4;
 }
-#map .wall.explored {
+#map .Wall.explored {
 	background-color: #D3D3D3;
 }
-#map .floor.explored, #map .corridor.explored, #map .voidplatform {
+#map .Floor.explored, #map .Corridor.explored, #map .Platform {
 	background-color: #769f50;
 }
