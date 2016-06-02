@@ -333,6 +333,7 @@ function editLegend() {
     } else {
         var newInner = classes[classes.length - 1];
         if (newInner === "explored") newInner = classes[classes.length - 2];
+        if (newInner == null) newInner = "Void";
         selected.innerHTML = "Selected: " + newInner.replace("_", " ");
     }
 }
