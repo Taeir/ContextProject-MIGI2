@@ -31,7 +31,7 @@ public class Vec2ITest {
 	 */
 	@Test
 	public void testHashCode() {
-		assertEquals(994, testVector.hashCode());
+		assertEquals(65538, testVector.hashCode());
 	}
 
 	/**
