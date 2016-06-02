@@ -110,7 +110,7 @@ public class KillerBunny extends MovingEntity implements PhysicsObject, Health {
 	 * 		if the given data array is of incorrect length
 	 */
 	public static KillerBunny loadEntity(Vector3f position, String[] data) {
-		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> KillerBunny\".");
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading a killer bunny! Expected \"<X> <Y> <Z> KillerBunny\".");
 		
 		KillerBunny bunny = new KillerBunny(position);		
 		return bunny;

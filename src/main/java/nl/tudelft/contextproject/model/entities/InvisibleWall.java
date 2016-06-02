@@ -101,7 +101,7 @@ public class InvisibleWall extends Entity implements PhysicsObject, Health {
 	 * 		if the given data array is of incorrect length
 	 */
 	public static InvisibleWall loadEntity(Vector3f position, String[] data) {
-		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> InvisibleWall\".");
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading an invisible wall! Expected \"<X> <Y> <Z> InvisibleWall\".");
 		
 		InvisibleWall wall = new InvisibleWall();
 		wall.move(position);

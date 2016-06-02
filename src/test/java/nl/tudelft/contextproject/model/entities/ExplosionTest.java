@@ -68,7 +68,7 @@ public class ExplosionTest extends EntityTest {
 	 * Test if the player gets correctly damaged.
 	 */
 	@Test
-	public void testDamagEntitiesPlayer() {
+	public void testDamageEntitiesPlayer() {
 		VRPlayer p = Main.getInstance().getCurrentGame().getPlayer();
 		explosion.damageEntities(100, 2);
 		assertEquals(1, p.getHealth(), 1e-6);
@@ -78,7 +78,7 @@ public class ExplosionTest extends EntityTest {
 	 * Test if other entities are correctly damaged.
 	 */
 	@Test
-	public void testDamagEntitiesOther() {
+	public void testDamageEntitiesOther() {
 		Game g = Main.getInstance().getCurrentGame();
 		InvisibleWall i = new InvisibleWall();
 		i.getSpatial();	// prevent nullpointer
