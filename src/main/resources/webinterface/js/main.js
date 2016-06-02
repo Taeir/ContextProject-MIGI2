@@ -106,8 +106,11 @@ function requestStatus() {
  *      the message to display
  */
 function showError(msg) {
-    //TODO Change to better error dialog
-    alert(msg);
+    document.getElementById("alertBox").innerHTML = msg;
+    $("#alertBox").fadeIn();
+    window.setTimeout(function () {
+       $("#alertBox").fadeOut(300) 
+    }, 1500);
 }
 
 /**
@@ -572,6 +575,20 @@ function encodeAction(action) {
         default:
             return -1;
     }
+}
+
+/**
+ * Show an alert to the player.
+ *
+ * @param
+ *      the message to show in the alert
+ */
+function showAlert(message) {
+    document.getElementById("alertBox").innerHTML = message;
+    $("#alertBox").fadeIn();
+    window.setTimeout(function () {
+       $("#alertBox").fadeOut(300) 
+    }, 1500);
 }
 
 /**
