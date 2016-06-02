@@ -66,7 +66,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 		Box b = new Box(.5f, .5f + height, .5f);
 		this.spatial = new Geometry("Box", b);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-	    TangentBinormalGenerator.generate(b);
+		TangentBinormalGenerator.generate(b);
 		mat.setBoolean("UseMaterialColors", true);    
 		mat.setColor("Diffuse", color);
 		mat.setColor("Specular", ColorRGBA.White);

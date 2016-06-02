@@ -188,7 +188,6 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testPickUpBomb() {
-		TestUtil.mockGame();
 		Bomb bomb = new Bomb();
 		Vector3f vec = player.getSpatial().getLocalTranslation();
 		bomb.move(vec.x + 1, vec.y, vec.z);
@@ -202,7 +201,6 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testPickUpKey() {
-		TestUtil.mockGame();
 		Key key = new Key(ColorRGBA.Yellow);
 		Vector3f vec = player.getSpatial().getLocalTranslation();
 		key.move(vec.x + 1, vec.y, vec.z);
