@@ -42,6 +42,24 @@ public class KillerBunnyTest extends MovingEnemyTest {
 	}
 	
 	/**
+	 * Tests if loading killer bunnies works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		KillerBunny bunny = KillerBunny.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.KILLER_BUNNY.getName()});
+
+		assertEquals(loadPosition, bunny.getLocation());
+	}
+	
+	/**
+	 * Tests if loading killer bunnies with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		KillerBunny.loadEntity(loadPosition, new String[3]);
+	}
+	 
+	/**
 	 * Test if killing the entity kills it.
 	 */
 	@Test

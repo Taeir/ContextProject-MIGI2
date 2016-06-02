@@ -48,6 +48,6 @@ public class InvisibleWallTest extends EntityTest {
 
 	@Override
 	public EntityType getType() {
-		return instance.getType();
+		return EntityType.INVISIBLE_WALL;
 	}
 }
