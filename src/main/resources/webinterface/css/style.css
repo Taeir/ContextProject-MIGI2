@@ -59,7 +59,7 @@ body {
     background-color: #E6E6E6 !important;
 }
 #map .Damaged_Wall {
-    background-color: #BFBFBF;
+    background-color: #BFBFBF !important;
 }
 #map {
 	border-spacing: 0px;
