@@ -138,6 +138,14 @@ public class Torch extends Entity implements PhysicsObject {
 		if (!torchtype) return;
 		this.move(-.55f, 0, 0);
 	}
+	
+	/**
+	 * @return
+	 * 		the boolean depicting the type of torch
+	 */
+	public boolean getTorchType() {
+		return torchtype;
+	}
 
 	/**
 	 * Loads a torch entity from an array of String data.
@@ -167,6 +175,5 @@ public class Torch extends Entity implements PhysicsObject {
 	@Override
 	public EntityType getType() {
 		return EntityType.TORCH;
-
 	}
 }
