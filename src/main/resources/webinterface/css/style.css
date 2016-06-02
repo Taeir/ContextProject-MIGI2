@@ -86,3 +86,12 @@ body {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
+#dangerBox, #warningBox, #successBox {
+    position: absolute;
+    z-index: 1400;
+    top: 2%;
+    right: 2%;
+    margin: 0px auto;
+    text-align: center;
+    display: none;
+}
