@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.tudelft.contextproject.controller.EndingController;
 import nl.tudelft.contextproject.util.webinterface.ActionUtil;
 import nl.tudelft.contextproject.util.webinterface.EntityUtil;
 import nl.tudelft.contextproject.util.QRGenerator;
@@ -232,20 +233,18 @@ public class ClientServlet extends DefaultServlet {
 		
 		switch (Main.getInstance().getGameState()) {
 			case WAITING:
-				//For now fall through to running
+				//Fall through to running
 			case RUNNING:
 				json.put("entities",
 						EntityUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer()));
 				json.put("explored", Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON());
 				break;
 			case PAUSED:
-				//TODO Actual player information
-				//json.put("player", VRPlayer().toJSON());
-				//TODO Add entity updates
-				//TODO Add explored updates
+				//We don't send any other data when the game is paused
 				break;
 			case ENDED:
-				//TODO Add game statistics
+				Boolean elvesWin = ((EndingController) Main.getInstance().getController()).didElvesWin();
+				json.put("winner", elvesWin);
 				break;
 			default:
 				break;

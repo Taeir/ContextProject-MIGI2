@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,21 +11,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.asset.AssetManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Quad;
-import com.jme3.util.TangentBinormalGenerator;
-
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.hud.HUD;
-import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
@@ -136,9 +129,9 @@ public class GameController extends Controller {
 		if (level == null) throw new IllegalStateException("No level set!");
 
 		Vector2f start = attachMazeTiles(level);
-		attachRoof(level);
 		addDrawable(game.getPlayer());		
 		game.getPlayer().move(start.x, 6, start.y);
+
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
@@ -147,38 +140,6 @@ public class GameController extends Controller {
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
 	}
-
-	private void attachRoof(Level level) {
-		addDrawable(new Drawable() {
-			@Override
-			public Spatial getSpatial() {
-				Quad roof = new Quad(level.getWidth(), level.getHeight());
-
-				Geometry geom = new Geometry("roof", roof);
-
-				AssetManager am = Main.getInstance().getAssetManager();
-				Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
-				mat.setBoolean("UseMaterialColors", true);
-				TangentBinormalGenerator.generate(roof);
-				ColorRGBA color = ColorRGBA.Gray;
-				mat.setColor("Diffuse", color);
-				mat.setColor("Specular", color);
-				mat.setFloat("Shininess", 64f);
-				mat.setColor("Ambient", color);
-				mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
-				mat.setTexture("NormalMap", am.loadTexture("Textures/rocknormalmap.jpg"));
-				geom.setMaterial(mat); 
-
-				geom.rotate((float) Math.toRadians(90), 0, 0);
-				geom.move(0, 6, 0);
-				return geom;
-			}
-
-			@Override
-			public void setSpatial(Spatial spatial) { }
-		});
-	}
-
 	/**
 	 * Attach all {@link MazeTile}s in the level to the renderer.
 	 * 
@@ -193,9 +154,13 @@ public class GameController extends Controller {
 			for (int y = 0; y < level.getHeight(); y++) {
 				if (level.isTileAtPosition(x, y)) {
 					//TODO add starting room with starting location
-					if ((start.x == 0 && start.y == 0) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-						start.x = x;
-						start.y = y;
+					TileType t = level.getTile(x, y).getTileType();
+					if (t == TileType.FLOOR || t == TileType.CORRIDOR) {
+						attachRoofTile(x, y);
+						if (start.x == 0 && start.y == 0) {
+							start.x = x;
+							start.y = y;
+						}
 					}
 					addDrawable(level.getTile(x, y));
 				}
