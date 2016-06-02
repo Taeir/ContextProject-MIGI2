@@ -17,9 +17,11 @@ import com.jme3.scene.Spatial;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the VRPlayer class.
@@ -182,6 +184,54 @@ public class VRPlayerTest extends MovingEnemyTest {
 	}
 	
 	/**
+	 * Tests if a bomb gets picked up if pickup is pressed.
+	 */
+	@Test
+	public void testPickUpBomb() {
+		TestUtil.mockGame();
+		Bomb bomb = new Bomb();
+		Vector3f vec = player.getSpatial().getLocalTranslation();
+		bomb.move(vec.x + 1, vec.y, vec.z);
+		Main.getInstance().getCurrentGame().getEntities().add(bomb);
+		player.pickUp();
+		assertTrue(bomb.isPickedup());
+	}
+	
+	/**
+	 * Tests wether you pick up a nearby key when pickup is pressed.
+	 */
+	@Test
+	public void testPickUpKey() {
+		TestUtil.mockGame();
+		Key key = new Key(ColorRGBA.Yellow);
+		Vector3f vec = player.getSpatial().getLocalTranslation();
+		key.move(vec.x + 1, vec.y, vec.z);
+		Main.getInstance().getCurrentGame().getEntities().add(key);
+		player.pickUp();
+		player.getInventory().containsKey();
+	}
+	
+	/**
+	 * Tests if setting your health does not go over your maxhealth.
+	 */
+	@Test
+	public void testsetHealth() {
+		player.setHealth(2);
+		player.setHealth(4);
+		assertTrue(player.getHealth() == 3);
+	}
+	
+	/**
+	 * Tests if changing the inventory changes the inventory.
+	 */
+	@Test
+	public void testsetInventory() {
+		Inventory inv = new Inventory();
+		player.setInventory(inv);
+		assertEquals(player.getInventory(), inv);
+	}
+	
+	/**
 	 * Tests if the exploration works correctly.
 	 * 
 	 * <p>This means that exploration should NOT update tiles that are outside the exploration
@@ -259,5 +309,5 @@ public class VRPlayerTest extends MovingEnemyTest {
 		Game game = new Game(level, null, 10f);
 		when(Main.getInstance().getCurrentGame()).thenReturn(game);
 		return tile;
-	}
+	}	
 }

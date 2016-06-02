@@ -11,6 +11,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 
+import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
@@ -85,6 +86,7 @@ public class BombTest extends EntityTest {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Tests if loading bombs works properly.
 	 */
 	@Test
@@ -100,5 +102,18 @@ public class BombTest extends EntityTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testLoadEntityInvalidData() {
 		Bomb.loadEntity(loadPosition, new String[3]);
+	}
+
+	/**
+	 * Tests if the bomb stays in front of the player when it's picked up.
+	 */
+	@Test
+	public void testPickedup() {
+		TestUtil.mockGame();
+		bomb.setPickedup(true);
+		bomb.update(1);
+		Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(1.5f);
+		Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation().add(vec.x, 1, vec.z);
+		assertEquals(bomb.getSpatial().getLocalTranslation(), vec2);
 	}
 }

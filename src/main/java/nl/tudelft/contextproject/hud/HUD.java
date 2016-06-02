@@ -97,19 +97,12 @@ public class HUD implements TickListener {
 			BitmapText textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
 			textBomb.setSize(screenHeight / 30);
 			textBomb.setColor(ColorRGBA.White);
-
-			textBomb.setLocalTranslation(screenWidth / 3f, textBomb.getLineHeight() + screenHeight / 40, 0);
+			float w = screenWidth / 2f;
+			float h = textBomb.getLineHeight() + screenHeight / 60;
+			textBomb.setLocalTranslation(w, h, 0);
 			bombNode.attachChild(textBomb);
-
-			// Attach bomb icon
-			Picture bombPicture = new Picture("Bomb Picture");
-			bombPicture.setImage(Main.getInstance().getAssetManager(), "Textures/bombicon.png", true);
-			bombPicture.setWidth(screenWidth / 12);
-			bombPicture.setHeight(screenHeight / 10);
-			bombPicture.setPosition(screenWidth / 4f, 60);
-			bombNode.attachChild(bombPicture);
 		}
-		((BitmapText) bombNode.getChild(0)).setText("" + b.getTimer());
+		((BitmapText) bombNode.getChild(0)).setText("" + Math.round(b.getTimer() * 10) / 10.f);
 	}
 	
 	/**

@@ -47,7 +47,7 @@ public class HUDTest extends TestBase {
 	public void testAttachHud() {
 		hud.attachHud();
 		
-		verify(controller, times(4)).addGuiElement(any(Spatial.class));
+		verify(controller, times(3)).addGuiElement(any(Node.class));
 		
 		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
 		assertTrue(player.getTickListeners().contains(hud));

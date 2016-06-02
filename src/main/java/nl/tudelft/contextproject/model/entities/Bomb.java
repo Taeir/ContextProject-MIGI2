@@ -21,7 +21,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	private RigidBodyControl rb;
 	private boolean active;
 	private float timer;
-
+	private boolean pickedup;
 	/**
 	 * Constructor for a bomb.
 	 */
@@ -40,6 +40,11 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	@Override
 	public void update(float tpf) {
+		if (this.isPickedup()) {
+			Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(1.5f);
+			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation().add(vec.x, 1, vec.z);
+			this.getSpatial().setLocalTranslation(vec2);
+		}
 		if (active) {
 			timer -= tpf;
 			if (timer < 0) {
@@ -70,7 +75,6 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public void move(float x, float y, float z) {
 		sp.move(x, y, z);
-		//explosion.move(x, y, z);
 		if (rb == null) getPhysicsObject();
 
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
@@ -124,5 +128,21 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public EntityType getType() {
 		return EntityType.BOMB;
+	}
+
+	/**
+	 * @param bool
+	 * 		decides whether the bomb is picked up 
+	 */
+	public void setPickedup(Boolean bool) {
+		pickedup = bool;
+	}
+
+	/**
+	 * @return 
+	 * 		returns wether the bomb is picked up or not
+	 */
+	public boolean isPickedup() {
+		return pickedup;
 	}
 }

@@ -57,6 +57,7 @@ public class Inventory implements TickProducer {
 	public void add(Bomb bomb) {
 		this.bomb = bomb;
 		this.bomb.activate();
+		this.bomb.setPickedup(true);
 		updateTickListeners();
 	}
 	

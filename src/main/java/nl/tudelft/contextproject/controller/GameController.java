@@ -20,6 +20,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
+import com.jme3.util.TangentBinormalGenerator;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.hud.HUD;
@@ -137,7 +138,6 @@ public class GameController extends Controller {
 		attachRoof(level);
 		addDrawable(game.getPlayer());		
 		game.getPlayer().move(start.x, 6, start.y);
-
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
@@ -158,12 +158,14 @@ public class GameController extends Controller {
 				AssetManager am = Main.getInstance().getAssetManager();
 				Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
 				mat.setBoolean("UseMaterialColors", true);
+				TangentBinormalGenerator.generate(roof);
 				ColorRGBA color = ColorRGBA.Gray;
 				mat.setColor("Diffuse", color);
 				mat.setColor("Specular", color);
 				mat.setFloat("Shininess", 64f);
 				mat.setColor("Ambient", color);
 				mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
+				mat.setTexture("NormalMap", am.loadTexture("Textures/rocknormalmap.jpg"));
 				geom.setMaterial(mat); 
 
 				geom.rotate((float) Math.toRadians(90), 0, 0);

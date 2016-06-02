@@ -105,7 +105,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		inventory.update(tpf);
 
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
-		
+
 		updateExploration(tpf);
 	}
 
@@ -119,26 +119,26 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		//We want to update exploration at an interval (for performance reasons)
 		explorationTimer += tpf;
 		if (explorationTimer < EXPLORATION_INTERVAL) return;
-		
+
 		explorationTimer = 0f;
-		
+
 		//Please note that the Z coordinate of the player is the Y coordinate of the tile.
 		Level level = Main.getInstance().getCurrentGame().getLevel();
 		int x = Math.round(getLocation().getX());
 		int y = Math.round(getLocation().getZ());
-		
+
 		//Explore in a square around the player
 		for (int dx = -EXPLORATION_RADIUS; dx < EXPLORATION_RADIUS; dx++) {
 			int tileX = x + dx;
 			if (tileX < 0 || tileX >= level.getWidth()) continue;
-			
+
 			for (int dy = -EXPLORATION_RADIUS; dy < EXPLORATION_RADIUS; dy++) {
 				int tileY = y + dy;
 				if (tileY < 0 || tileY >= level.getHeight()) continue;
-				
+
 				MazeTile tile = level.getTile(tileX, tileY);
 				if (tile == null) continue;
-				
+
 				tile.setExplored(true);
 			}
 		}
@@ -216,13 +216,14 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		
 		Bomb bomb = inventory.getBomb();
 		inventory.remove(bomb);
+		bomb.setPickedup(false);
 		
 		bomb.move(this.getLocation().subtract(bomb.getLocation().add(0, 1, 0)));
 		bomb.setState(EntityState.NEW);
 		
 		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
-	
+
 	/**
 	 * Player picks up a nearby item.
 	 * Also opens nearby doors if the player has the correct key.
@@ -235,7 +236,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 
 			if (ent instanceof Bomb && !inventory.containsBomb()) {
 				inventory.add((Bomb) ent);
-				ent.setState(EntityState.DEAD);
+//				ent.setState(EntityState.DEAD);
 				return;
 			} else if (ent instanceof Key) {
 				Key key = (Key) ent;
