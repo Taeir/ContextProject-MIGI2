@@ -72,15 +72,9 @@ function requestStatus() {
         //Check if we are authorized
         if (!checkAuthorized(data)) return;
         
-        //If we are authorized, update the game with the recieved information
-        updateGame(data);
-        
         //Set the correct team
-        if (data.team == undefined || data.team == "NONE") {
-            //We don't have a team, so we switch to team selection
+        if (data.team == "NONE") {
             gTeam = undefined;
-            switchTo("WAITING");
-            return;
         } else if (data.team == "DWARFS") {
             //We are in team DWARFS
             gTeam = "DWARFS";
@@ -94,12 +88,14 @@ function requestStatus() {
             switchTo("WAITING");
         } else if (data.state == "RUNNING") {
             switchTo("RUNNING");
-            updateGame(data);
         } else if (data.state == "PAUSED") {
             switchTo("PAUSED");
         } else if (data.state == "ENDED") {
             switchTo("ENDED");
         }
+        
+        //If we are authorized, update the game with the recieved information
+        updateGame(data);
     }, "json");
 }
 
@@ -127,19 +123,32 @@ function switchTo(view) {
     
     console.log("[DEBUG] Switching to " + view);
     gView = view;
-    requestMap();
     switch (view) {
         case "WAITING":
-            //TODO
+            requestMap();
+            $(document.getElementById("selectTeam")).show();
+            $(document.getElementById("playing")).show();
+            $(document.getElementById("ended")).css("visibility", "hidden");
+            $(document.getElementById("paused")).css("visibility", "hidden");
             break;
         case "RUNNING":
+            requestMap();
             $(document.getElementById("selectTeam")).hide();
+            $(document.getElementById("playing")).show();
+            $(document.getElementById("ended")).css("visibility", "hidden");
+            $(document.getElementById("paused")).css("visibility", "hidden");
             break;
         case "PAUSED":
-            console.log("PAUSED STATE HIT");
+            $(document.getElementById("selectTeam")).hide();
+            $(document.getElementById("playing")).hide();
+            $(document.getElementById("ended")).css("visibility", "hidden");
+            $(document.getElementById("paused")).css("visibility", "visible");
             break;
         case "ENDED":
-            //TODO
+            $(document.getElementById("selectTeam")).hide();
+            $(document.getElementById("playing")).hide();
+            $(document.getElementById("ended")).css("visibility", "visible");
+            $(document.getElementById("paused")).css("visibility", "hidden");
             break;
     }
 }
@@ -199,10 +208,27 @@ function requestSetTeam(team) {
  * Updates the team view.
  */
 function updateTeam() {
+    var elvesButton = $(document.getElementById("elvesButton"));
+    var dwarfsButton = $(document.getElementById("dwarfsButton"));
+    var noneButton = $(document.getElementById("noneButton"));
+    
+    elvesButton.removeClass("btn-success");
+    dwarfsButton.removeClass("btn-success");
+    noneButton.removeClass("btn-success");
+    
+    elvesButton.addClass("btn-default");
+    dwarfsButton.addClass("btn-default");
+    noneButton.addClass("btn-default");
+    
     if (gTeam == undefined) {
-        $(".team").html("No team");
+        noneButton.removeClass("btn-default");
+        noneButton.addClass("btn-success");
+    } else if (gTeam === "DWARFS") {
+        dwarfsButton.removeClass("btn-default");
+        dwarfsButton.addClass("btn-success");
     } else {
-        $(".team").html(gTeam);
+        elvesButton.removeClass("btn-default");
+        elvesButton.addClass("btn-success");
     }
 }
 
@@ -213,11 +239,28 @@ function updateTeam() {
  *      the status data sent from the server
  */
 function updateGame(data) {
-    updateEntities(data.entities);
-    if (data.team === "DWARFS" && exploredAll === false) {
-        exploreAll();
+    if (data.state === "RUNNING" || data.state === "WAITING") {
+        updateEntities(data.entities);
+        if (data.team === "DWARFS" && exploredAll === false) {
+            exploreAll();
+        } else {
+            updateExplored(data.explored);
+        }
+    } else if (data.state === "ENDED") {
+        displayWinner(data);
+    }
+}
+
+function displayWinner(data) {
+    var winHeader = document.getElementById("endedWinners");
+    var winMessage = document.getElementById("endedMessage");
+    var winner = (data.winner ? "ELVES" : "DWARFS");
+    winHeader.innerHTML = (data.winner? "Elves won!" : "Dwarfs won!");
+    
+    if (winner === data.team) {
+        winMessage.innerHTML = "Congratulations!";
     } else {
-        updateExplored(data.explored);
+        winMessage.innerHTML = "Better luck next time!";
     }
 }
 
@@ -547,7 +590,16 @@ function toggleFullscreen() {
             document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
         }
     } else {
-        if (document.exitFullscreen) {
+        disableFullScreen();
+    }
+    hideAllButtons();
+}
+
+/**
+ * Disables fullscreen.
+ */
+function disableFullScreen() {
+    if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
@@ -556,6 +608,4 @@ function toggleFullscreen() {
         } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
         }
-    }
-    hideAllButtons();
 }

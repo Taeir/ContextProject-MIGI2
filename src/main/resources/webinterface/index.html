@@ -6,7 +6,7 @@
         <!-- <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css"  media="screen,projection"/> -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
-         <link href="css/simple-sidebar.css" rel="stylesheet">
+        <link href="css/simple-sidebar.css" rel="stylesheet">
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, height=device-height" />
     </head>
@@ -63,21 +63,29 @@
 
 		<div id="mainDiv">
 			<div id="authorized">
-				<div id="selectTeam">
-					<button onClick="requestSetTeam('ELVES')" id="clickable">Elves</button>
-					<button onClick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
-					<button onClick="requestSetTeam('NONE')" id="clickable">No team</button>
-					<br>	
-					Current team: <div class="team">No team</div><br>
+				<div class="btn-group btn-group-lg" role="group" id="selectTeam">
+					<button type="button" class="btn btn-default" onClick="requestSetTeam('ELVES')" id="elvesButton">Elves</button>
+					<button type="button" class="btn btn-default" onClick="requestSetTeam('DWARFS')" id="dwarfsButton">Dwarfs</button>
+					<button type="button" class="btn btn-success" onClick="requestSetTeam('NONE')" id="noneButton">No team</button>
 				</div>
-		
+
 				<div id="playing">
 					<table id="map">
 					</table>
 				</div>
 		
 				<div id="ended" style="visibility:hidden">
-			
+					<h1 id="endedWinners"></h1>
+					<p id="endedMessage"></p>
+					<hr>
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
+				</div>
+				
+				<div id="paused" style="visibility:hidden">
+					<h1 class="pausemessage">Paused</h1>
+					<p class="pausemessage">The game has been paused, just sit back and relax!</p>
+					<hr>
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
 				</div>
 			</div>
 		</div>

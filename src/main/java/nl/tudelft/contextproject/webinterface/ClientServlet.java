@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.tudelft.contextproject.controller.EndingController;
 import nl.tudelft.contextproject.util.webinterface.ActionUtil;
 import nl.tudelft.contextproject.util.webinterface.EntityUtil;
 import nl.tudelft.contextproject.util.QRGenerator;
@@ -232,7 +233,7 @@ public class ClientServlet extends DefaultServlet {
 		
 		switch (Main.getInstance().getGameState()) {
 			case WAITING:
-				//For now fall through to running
+				//Fall through to running
 			case RUNNING:
 				json.put("entities",
 						EntityUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer()));
@@ -245,7 +246,8 @@ public class ClientServlet extends DefaultServlet {
 				//TODO Add explored updates
 				break;
 			case ENDED:
-				//TODO Add game statistics
+				Boolean elvesWin = ((EndingController) Main.getInstance().getController()).didElvesWin();
+				json.put("winner", elvesWin);
 				break;
 			default:
 				break;
