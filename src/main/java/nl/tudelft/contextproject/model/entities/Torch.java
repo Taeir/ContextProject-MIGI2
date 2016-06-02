@@ -40,29 +40,25 @@ public class Torch extends Entity implements PhysicsObject {
 		fire.setEndColor(new ColorRGBA(1f, 0f, 0f, 1f));
 		fire.setStartColor(new ColorRGBA(1f, 1f, 0f, 0.5f));
 		fire.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 0.7f, 0));
+		fire.setGravity(0, 0, 0);
+		fire.setLowLife(0.2f);
+		fire.setHighLife(0.5f);
+		fire.getParticleInfluencer().setVelocityVariation(0.0f);
 		if (type) {
 			sp = Main.getInstance().getAssetManager().loadModel("Models/torch.blend");
 			fire.setStartSize(0.15f);
 			fire.setEndSize(0.05f);
-			fire.setGravity(0, 0, 0);
-			fire.setLowLife(0.2f);
-			fire.setHighLife(0.5f);
-			fire.getParticleInfluencer().setVelocityVariation(0.0f);
 			fire.move(-0.09f, 0.27f, -0.003f);
 		} else {
 			sp = Main.getInstance().getAssetManager().loadModel("Models/ceilinglamp.blend");
 			fire.setStartSize(0.1f);
 			fire.setEndSize(0.04f);
-			fire.setGravity(0, 0, 0);
-			fire.setLowLife(0.2f);
-			fire.setHighLife(0.5f);
-			fire.getParticleInfluencer().setVelocityVariation(0.0f);
 			fire.move(0, 0.11f, 0);
 			this.move(0, 5.32f, 0);
 		}
 
-		
-		
+
+
 	}
 
 	@Override
