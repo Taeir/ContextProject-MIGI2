@@ -233,4 +233,12 @@ public class HUD implements TickListener {
 	protected void setKeyContainer(Node container) {
 		keyContainer = container;
 	}
+
+	protected void setBombNode(Node node) {
+		bombNode = node;
+	}
+
+	public void setTimerNode(BitmapText m) {
+		gameTimer = m;
+	}
 }

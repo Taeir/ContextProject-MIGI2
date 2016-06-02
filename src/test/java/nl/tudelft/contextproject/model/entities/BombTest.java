@@ -72,7 +72,7 @@ public class BombTest extends EntityTest {
 		when(mock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
 		when(mock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
 		bomb.update(1);
-		assertEquals(1, bomb.getTimer(), 1E-5);
+		assertEquals(9, bomb.getTimer(), 1E-5);
 	}
 	/**
 	 * Tests if an active bomb disappears after 5 seconds.
@@ -81,7 +81,7 @@ public class BombTest extends EntityTest {
 	public void testUpdateActiveFiveSeconds() {
 		TestUtil.mockGame();
 		bomb.activate();
-		bomb.update(5.1f);
+		bomb.update(11.1f);
 		assertEquals(EntityState.DEAD, bomb.getState());
 	}
 	

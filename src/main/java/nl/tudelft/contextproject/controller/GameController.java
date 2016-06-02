@@ -34,7 +34,7 @@ import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
-
+import nl.tudelft.contextproject.test.TestUtil;
 import jmevr.app.VRApplication;
 
 /**
@@ -283,5 +283,9 @@ public class GameController extends Controller {
 	public void gameEnded(boolean didElvesWin) {
 		Main main = Main.getInstance();
 		main.setController(new EndingController(main, didElvesWin));
+	}
+
+	protected void setHUD(HUD hud) {
+		this.hud = hud;
 	}
 }
