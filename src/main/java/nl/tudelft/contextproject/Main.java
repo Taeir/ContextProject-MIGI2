@@ -413,7 +413,7 @@ public class Main extends VRApplication implements TickProducer {
 	}
 	
 	/**
-	 * Loads the gui font.
+	 * Loads and sets the gui font.
 	 */
 	public void setGuiFont() {
 		guifont = getAssetManager().loadFont("Interface/Fonts/Default.fnt");

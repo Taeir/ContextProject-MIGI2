@@ -212,9 +212,6 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		Bomb bomb = inventory.getBomb();
 		inventory.remove(bomb);
 		bomb.setPickedup(false);
-//		bomb.setState(EntityState.NEW);
-//		TODO
-//		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
 
 	/**

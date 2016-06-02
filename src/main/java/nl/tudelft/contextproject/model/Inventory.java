@@ -22,7 +22,6 @@ public class Inventory implements TickProducer {
 	 */
 	public Inventory() {
 		this.keys = new ArrayList<>();
-		this.bomb = null;
 		this.listeners = new ArrayList<>();
 	}
 	

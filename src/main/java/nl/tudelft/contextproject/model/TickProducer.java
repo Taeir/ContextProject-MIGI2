@@ -11,12 +11,12 @@ public interface TickProducer {
 	 * @return
 	 * 		a list with all the attached tickListeners
 	 */
-	public List<TickListener> getTickListeners();
+	List<TickListener> getTickListeners();
 
 	/**
 	 * Update all attached {@link TickListener}s with 0 as tpf.
 	 */
-	public default void updateTickListeners() {
+	default void updateTickListeners() {
 		updateTickListeners(0);
 	}
 	
@@ -26,7 +26,7 @@ public interface TickProducer {
 	 * @param tpf
 	 * 		the tpf value for the update
 	 */
-	public default void updateTickListeners(float tpf) {
+	default void updateTickListeners(float tpf) {
 		for (TickListener tl : getTickListeners()) {
 			tl.update(tpf);
 		}
@@ -38,7 +38,7 @@ public interface TickProducer {
 	 * @param tl
 	 * 		the {@link TickListener} to attach
 	 */
-	public default void attachTickListener(TickListener tl) {
+	default void attachTickListener(TickListener tl) {
 		getTickListeners().add(tl);		
 	}
 	
@@ -48,7 +48,7 @@ public interface TickProducer {
 	 * @param tl
 	 * 		the TickListener to remove
 	 */
-	public default void removeTickListener(TickListener tl) {
+	default void removeTickListener(TickListener tl) {
 		getTickListeners().remove(tl);
 	}
 }

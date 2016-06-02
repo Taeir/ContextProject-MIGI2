@@ -275,7 +275,6 @@ public class GameController extends Controller {
 
 	/**
 	 * Method used for testing.
-	 * sets the hud to a new hud.
 	 * 
 	 * @param hud
 	 * 		the new hud
