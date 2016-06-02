@@ -20,6 +20,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
+import com.jme3.util.TangentBinormalGenerator;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.hud.HUD;
@@ -34,7 +35,6 @@ import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
-
 import jmevr.app.VRApplication;
 
 /**
@@ -42,6 +42,7 @@ import jmevr.app.VRApplication;
  */
 public class GameController extends Controller {
 	private Game game;
+	private HUD hud;
 
 	/**
 	 * Constructor for the game controller.
@@ -103,7 +104,8 @@ public class GameController extends Controller {
 		
 		//Check if we are running in tests or not
 		if (VRApplication.getMainVRApp().getContext() != null) {
-			new HUD(this).attachHud();
+			hud = new HUD(this);
+			hud.attachHud();
 		}
 		
 		GameController t = this;
@@ -137,8 +139,8 @@ public class GameController extends Controller {
 		Vector2f start = attachMazeTiles(level);
 		attachRoof(level);
 		addDrawable(game.getPlayer());		
+		
 		game.getPlayer().move(start.x, 0, start.y);
-
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
@@ -182,12 +184,14 @@ public class GameController extends Controller {
 				AssetManager am = Main.getInstance().getAssetManager();
 				Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
 				mat.setBoolean("UseMaterialColors", true);
+				TangentBinormalGenerator.generate(roof);
 				ColorRGBA color = ColorRGBA.Gray;
 				mat.setColor("Diffuse", color);
 				mat.setColor("Specular", color);
 				mat.setFloat("Shininess", 64f);
 				mat.setColor("Ambient", color);
 				mat.setTexture("LightMap", am.loadTexture("Textures/rocktexture.png"));
+				mat.setTexture("NormalMap", am.loadTexture("Textures/rocknormalmap.jpg"));
 				geom.setMaterial(mat); 
 
 				geom.rotate((float) Math.toRadians(90), 0, 0);
@@ -227,6 +231,7 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
+		hud.setGameTimer(Math.round(game.getTimeRemaining()));
 		game.update(tpf);
 		game.getPlayer().update(tpf);
 		updateEntities(tpf);
@@ -302,5 +307,16 @@ public class GameController extends Controller {
 	public void gameEnded(boolean didElvesWin) {
 		Main main = Main.getInstance();
 		main.setController(new EndingController(main, didElvesWin));
+	}
+
+	/**
+	 * Method used for testing.
+	 * sets the hud to a new hud.
+	 * 
+	 * @param hud
+	 * 		the new hud
+	 */
+	protected void setHUD(HUD hud) {
+		this.hud = hud;
 	}
 }

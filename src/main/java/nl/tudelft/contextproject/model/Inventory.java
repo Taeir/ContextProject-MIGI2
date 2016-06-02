@@ -1,7 +1,7 @@
 package nl.tudelft.contextproject.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 import com.jme3.math.ColorRGBA;
 import nl.tudelft.contextproject.model.entities.Bomb;
@@ -11,18 +11,19 @@ import nl.tudelft.contextproject.model.entities.Key;
 /**
  * Class representing the players inventory.
  */
-public class Inventory {
-	ArrayList<Entity> pickedUpEntities;
-	private int keys;
-	private int bombs;
+public class Inventory implements TickProducer {
+	ArrayList<ColorRGBA> keys;
+	Bomb bomb;
+	
+	ArrayList<TickListener> listeners;
 
 	/**
 	 * Constructor for the inventory, starts empty with 0 keys and doors.
 	 */
 	public Inventory() {
-		this.pickedUpEntities = new ArrayList<>();
-		this.keys = 0;
-		this.bombs = 0;
+		this.keys = new ArrayList<>();
+		this.bomb = null;
+		this.listeners = new ArrayList<>();
 	}
 	
 	/**
@@ -32,17 +33,9 @@ public class Inventory {
 	 * 		the number of keys
 	 */
 	public int numberOfKeys() {
-		return keys;
+		return keys.size();
 	}
-	/**
-	 * Returns the number of bombs in the inventory.
-	 * 
-	 * @return 
-	 * 		the number of bombs 
-	 */
-	public int numberOfBombs() {
-		return bombs;
-	}
+	
 	/**
 	 * Adds a key to the inventory.
 	 *
@@ -50,8 +43,8 @@ public class Inventory {
 	 * 		the key to be added
 	 */
 	public void add(Key key) {
-		pickedUpEntities.add(key);
-		keys++;	
+		keys.add(key.getColor());
+		updateTickListeners();
 	}
 	
 	/**
@@ -61,8 +54,10 @@ public class Inventory {
 	 * 		the bomb to be added
 	 */
 	public void add(Bomb bomb) {
-		pickedUpEntities.add(bomb);
-		bombs++;
+		this.bomb = bomb;
+		this.bomb.activate();
+		this.bomb.setPickedup(true);
+		updateTickListeners();
 	}
 	
 	/**
@@ -72,30 +67,33 @@ public class Inventory {
 	 * 		the bomb/key to remove
 	 */
 	public void remove(Entity ent) {
-		Iterator<Entity> it = pickedUpEntities.iterator();
-		if (ent instanceof Bomb) {
-			while (it.hasNext()) {
-				Entity entity = it.next();
-				if (!(entity instanceof Bomb)) continue;
-				
-				it.remove();
-				bombs--;
-				return;
-			}
-		} else if (ent instanceof Key) {
-			Key toRemove = (Key) ent;
-			while (it.hasNext()) {
-				Entity entity = it.next();
-				if (!(entity instanceof Key)) continue;
-				
-				Key key = (Key) entity;
-				if (key.getColor().equals(toRemove.getColor())) {
-					it.remove();
-					keys--;
-					return;
-				}
-			}
+		if (ent instanceof Bomb && bomb != null) {
+			bomb = null;
+			updateTickListeners();
+			return;
 		}
+		if (ent instanceof Key) {
+			ColorRGBA c = ((Key) ent).getColor();
+			keys.remove(c);
+			updateTickListeners();
+		}
+	}
+	
+
+	
+	/**
+	 * Returns a key of the given color in the players inventory.
+	 *
+	 * @param color
+	 * 		the color of the key
+	 * @return
+	 * 		the key of that color
+	 */
+	public Key getKey(ColorRGBA color) {
+		if (keys.contains(color)) {
+			return new Key(color);
+		}
+		return null;
 	}
 	
 	/**
@@ -105,12 +103,7 @@ public class Inventory {
 	 * 		if the inventory contains a bomb, returns that bomb. Otherwise returns null
 	 */
 	public Bomb getBomb() {
-		for (Entity ent : pickedUpEntities) {
-			if (ent instanceof Bomb) {
-				return (Bomb) ent;
-			}
-		}
-		return null;
+		return bomb;
 	}
 
 	/**
@@ -120,7 +113,7 @@ public class Inventory {
 	 * 		true if the inventory contains a bomb
 	 */
 	public boolean containsBomb() {
-		return (bombs > 0);
+		return bomb != null;
 	}
 
 	/**
@@ -130,7 +123,7 @@ public class Inventory {
 	 * 		true if the inventory contains a key
 	 */
 	public boolean containsKey() {
-		return (keys > 0);
+		return !keys.isEmpty();
 	}
 
 	/**
@@ -142,41 +135,7 @@ public class Inventory {
 	 * 		true if the inventory contains a key of the wanted color
 	 */
 	public boolean containsColorKey(ColorRGBA color) {
-		if (!containsKey()) {
-			return false;
-		}
-
-		for (Entity ent : pickedUpEntities) {
-			if (ent instanceof Key) {
-				Key key = (Key) ent;
-				if (key.getColor().equals(color)) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-	
-	/**
-	 * Returns a key of the given color in the players inventory.
-	 *
-	 * @param color
-	 * 		the color of the key
-	 * @return
-	 * 		the key of that color
-	 */
-	public Key getKey(ColorRGBA color) {
-		for (Entity ent : pickedUpEntities) {
-			if (ent instanceof Key) {
-				Key key = (Key) ent;
-				if (key.getColor().equals(color)) {
-					return key;
-				}
-			}
-		}
-
-		return null;
+		return keys.contains(color);
 	}
 	
 	/**
@@ -185,6 +144,35 @@ public class Inventory {
 	 * 		the current amount of items in the inventory (bombs and keys)
 	 */
 	public int size() {
-		return pickedUpEntities.size();
+		return keys.size() + (bomb == null ? 0 : 1);
+	}
+
+	/**
+	 * @return
+	 * 		a list of all colors of keys in the inventory
+	 */
+	public List<ColorRGBA> getKeyColors() {
+		return keys;
+	}
+
+	@Override
+	public List<TickListener> getTickListeners() {
+		return listeners;
+	}
+	
+	/**
+	 * Update the bomb in the inventory.
+	 * 
+	 * @param tpf
+	 * 		the tpf for this update.
+	 */
+	public void update(float tpf) {
+		if (bomb != null) {
+			bomb.update(tpf);
+			if (!bomb.getActive()) {
+				bomb = null;
+			}
+			updateTickListeners();
+		}
 	}
 }

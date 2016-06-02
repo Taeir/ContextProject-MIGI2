@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -14,6 +16,8 @@ import com.jme3.scene.shape.Sphere;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
@@ -21,7 +25,7 @@ import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends MovingEntity implements PhysicsObject {
+public class VRPlayer extends MovingEntity implements PhysicsObject, TickProducer {
 
 	//Physics interaction constants.
 
@@ -63,6 +67,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	private float fallingTimer;
 	private float explorationTimer;
 	private float health;
+	private List<TickListener> listeners;
 
 	/**
 	 * Constructor for a default player.
@@ -72,6 +77,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		super(new PlayerControl());
 		health = PLAYER_HEALTH;
 		inventory = new Inventory();
+		listeners = new ArrayList<>();
 	}
 
 	@Override
@@ -91,9 +97,10 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	public void update(float tpf) {
 		super.update(tpf);
 		updateFallingTimer(tpf);
+		inventory.update(tpf);
 
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
-		
+
 		updateExploration(tpf);
 	}
 
@@ -107,26 +114,26 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		//We want to update exploration at an interval (for performance reasons)
 		explorationTimer += tpf;
 		if (explorationTimer < EXPLORATION_INTERVAL) return;
-		
+
 		explorationTimer = 0f;
-		
+
 		//Please note that the Z coordinate of the player is the Y coordinate of the tile.
 		Level level = Main.getInstance().getCurrentGame().getLevel();
 		int x = Math.round(getLocation().getX());
 		int y = Math.round(getLocation().getZ());
-		
+
 		//Explore in a square around the player
 		for (int dx = -EXPLORATION_RADIUS; dx < EXPLORATION_RADIUS; dx++) {
 			int tileX = x + dx;
 			if (tileX < 0 || tileX >= level.getWidth()) continue;
-			
+
 			for (int dy = -EXPLORATION_RADIUS; dy < EXPLORATION_RADIUS; dy++) {
 				int tileY = y + dy;
 				if (tileY < 0 || tileY >= level.getHeight()) continue;
-				
+
 				MazeTile tile = level.getTile(tileX, tileY);
 				if (tile == null) continue;
-				
+
 				tile.setExplored(true);
 			}
 		}
@@ -202,16 +209,14 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	public void dropBomb() {
 		if (!inventory.containsBomb()) return;
 		
-		Bomb bomb = new Bomb();
+		Bomb bomb = inventory.getBomb();
 		inventory.remove(bomb);
-		
-		Vector3f vec = this.getSpatial().getLocalTranslation();
-		bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-		bomb.activate();
+		bomb.setPickedup(false);
+		bomb.setState(EntityState.NEW);
 		
 		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
-	
+
 	/**
 	 * Player picks up a nearby item.
 	 * Also opens nearby doors if the player has the correct key.
@@ -222,9 +227,9 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		for (Entity ent : set) {
 			if (!ent.collidesWithPlayer(INTERACT_RANGE)) continue;
 
-			if (ent instanceof Bomb) {
-				inventory.add(new Bomb());
-				ent.setState(EntityState.DEAD);
+			if (ent instanceof Bomb && !inventory.containsBomb()) {
+				inventory.add((Bomb) ent);
+//				ent.setState(EntityState.DEAD);
 				return;
 			} else if (ent instanceof Key) {
 				Key key = (Key) ent;
@@ -234,7 +239,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 			} else if (ent instanceof Door) {
 				Door door = (Door) ent;
 				if (inventory.containsColorKey(door.getColor())) {
-					inventory.remove(inventory.getKey(door.getColor()));
+					inventory.remove(new Key(door.getColor()));
 					ent.setState(EntityState.DEAD);
 					return;
 				}
@@ -284,6 +289,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	 */
 	public void setHealth(float health) {
 		this.health = Math.min(PLAYER_MAX_HEALTH, health);
+		updateTickListeners();
 	}
 
 	/**
@@ -297,6 +303,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 		if (health < 0) {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
+		updateTickListeners();
 	}
 	
 	/**
@@ -323,5 +330,10 @@ public class VRPlayer extends MovingEntity implements PhysicsObject {
 	@Override
 	public EntityType getType() {
 		return EntityType.PLAYER;
+	}
+
+	@Override
+	public List<TickListener> getTickListeners() {
+		return listeners;
 	}
 }

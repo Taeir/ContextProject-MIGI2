@@ -1,30 +1,37 @@
 package nl.tudelft.contextproject.hud;
 
+import java.util.List;
+
 import com.jme3.font.BitmapText;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.scene.Node;
 import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
-
 import jmevr.util.VRGuiManager;
 
 /**
  * Class to represent a Head Up Display.
  */
 public class HUD implements TickListener {
-	private static final String ICON_EMPTY_HEART = "Textures/emptyheart.png";
-	private static final String ICON_EMPTY_KEY = "Textures/emptykeyicon.png";
 
 	private GameController controller;
-	
-	private Picture keypicyellow, keypicred, keypicblue;
-	private Picture bombPicture;
-	private BitmapText textBomb;
-	private Picture heart1, heart2, heart3;
+
+	private Node keyContainer;
+	private Node heartContainer;
+	private Node bombNode;
+
+	private float screenHeight;
+	private float screenWidth;
+
+	private BitmapText gameTimer;
+
 	
 	
 	/**
@@ -35,49 +42,87 @@ public class HUD implements TickListener {
 	 */
 	public HUD(GameController controller) {
 		this.controller = controller;
+		this.screenHeight = VRGuiManager.getCanvasSize().getY();
+		this.screenWidth = VRGuiManager.getCanvasSize().getX();
+	}
+	
+	/**
+	 * Constructor used for testing only!
+	 * This constructor allows to bypass VR/GUI settings.
+	 * 
+	 * @param controller
+	 * 		the controller for this HUD
+	 * @param width
+	 * 		the screen width
+	 * @param height
+	 * 		the screen height
+	 */
+	protected HUD(GameController controller, float width, float height) {
+		this.controller = controller;
+		this.screenHeight = height;
+		this.screenWidth = width;
 	}
 	
 	/**
 	 * Attaches the Hud to the renderer.
 	 */
-	public void attachHud() {
-		float height = VRGuiManager.getCanvasSize().getX();
-		float width = VRGuiManager.getCanvasSize().getX();
+	public void attachHud() {		
+		keyContainer = new Node("Keys");
+		controller.addGuiElement(keyContainer);	
 		
-		//Attach the keycounter
-		keypicyellow = keyGUI(1, height, width);
-		keypicred = keyGUI(2, height, width);
-		keypicblue = keyGUI(3, height, width);
-		controller.addGuiElement(keypicyellow);
-		controller.addGuiElement(keypicred);
-		controller.addGuiElement(keypicblue);
+		bombNode = new Node("Bombs");
+		controller.addGuiElement(bombNode);
 		
-		//Attach the bomb counter
-		textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
-		textBomb.setSize(height / 30);
-		textBomb.setColor(ColorRGBA.White);
-		textBomb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs());
-		textBomb.setLocalTranslation(width / 3f, textBomb.getLineHeight() + height / 40, 0);
-		controller.addGuiElement(textBomb);
+		attachGameTimer();				
+		attachHeartContainers();
 		
-		//Attach bomb icon
-		bombPicture = new Picture("Bomb Picture");
-		bombPicture.setImage(Main.getInstance().getAssetManager(), "Textures/bombicon.png", true);
-		bombPicture.setWidth(width / 12);
-		bombPicture.setHeight(height / 10);
-		bombPicture.setPosition(width / 4f, 60);
-		controller.addGuiElement(bombPicture);
+		// Attach listeners
+		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
+		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
+	}
 
-		//Attach the health counter
-		heart1 = healthContainer(1, height, width);
-		controller.addGuiElement(heart1);
-		heart2 = healthContainer(2, height, width);
-		controller.addGuiElement(heart2);
-		heart3 = healthContainer(3, height, width);
-		controller.addGuiElement(heart3);
-		
-		//Update the hud
-		Main.getInstance().attachTickListener(this);
+	/**
+	 * Attach the game timer to the HUD.
+	 */
+	protected void attachGameTimer() {
+		gameTimer = new BitmapText(Main.getInstance().getGuiFont(), false);
+		gameTimer.setSize(screenHeight / 30);
+		gameTimer.setColor(ColorRGBA.White);
+		float h = gameTimer.getLineHeight() + screenHeight / 10;
+		gameTimer.setLocalTranslation(100, h, 0);
+		controller.addGuiElement(gameTimer);
+	}
+
+	/**
+	 * Attaches the heart containers to the HUD.
+	 */
+	protected void attachHeartContainers() {
+		heartContainer = new Node("hearts");
+		controller.addGuiElement(heartContainer);
+		for (int i = 0; i < VRPlayer.PLAYER_MAX_HEALTH; i++) {
+			heartContainer.attachChild(getHealthContainer(i));
+		}
+		updateHearts(Main.getInstance().getCurrentGame().getPlayer());
+	}
+
+	/**
+	 * Attaches the bomb icon and counter to the HUD.
+	 * 
+	 * @param b
+	 * 		the bomb to attach
+	 */
+	protected void attachBomb(Bomb b) {
+		if (bombNode.getChildren().size() == 0) {
+			// Attach the bomb counter
+			BitmapText textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
+			textBomb.setSize(screenHeight / 30);
+			textBomb.setColor(ColorRGBA.White);
+			float w = screenWidth / 2f - (screenHeight / 30) * .8f;
+			float h = textBomb.getLineHeight() + screenHeight / 7;
+			textBomb.setLocalTranslation(w, h, 0);
+			bombNode.attachChild(textBomb);
+		}
+		((BitmapText) bombNode.getChild(0)).setText("" + Math.round(b.getTimer() * 10) / 10.f);
 	}
 	
 	/**
@@ -85,104 +130,149 @@ public class HUD implements TickListener {
 	 * 
 	 * @param pos
 	 * 		position of the healthContainer
-	 * @param height
-	 * 		height of the screen
-	 * @param width
-	 * 		width of the screen
 	 * @return
 	 * 		picture of the health container
 	 */
-	public Picture healthContainer(int pos, float height, float width) {
+	public Picture getHealthContainer(int pos) {
 		Picture heart = new Picture("heartcontainer" + pos);
 		heart.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
-		heart.setWidth(width / 20);
-		heart.setHeight(height / 20);
-		if (pos > 0) {
-			heart.setPosition((width / 3f), height + 50);
-		}
-		if (pos > 1) {
-			heart.setPosition((width / 2.6f), height + 50);
-		}
-		if (pos > 2) {
-			heart.setPosition((width / 2.3f), height + 50);
-		}
+		heart.setWidth(screenWidth / 20);
+		heart.setHeight(screenHeight / 20);
+		float start = .5f - .06f * (VRPlayer.PLAYER_MAX_HEALTH / 2);
+		heart.setPosition(screenWidth * (start + 0.06f * pos), screenHeight * .9f);
+		
 		return heart;
 	}
 	
 	/**
 	 * Return a picture of a key at the right position on the HUD.
 	 * 
+	 * @param total
+	 * 		the total amount of keys
 	 * @param pos 
 	 * 		position of the key
-	 * @param height
-	 * 		height of the screen 
-	 * @param width
-	 * 		width of the screen
+	 * @param color
+	 * 		the color of the key
 	 * @return
 	 * 		picture of the key
 	 */
-	public Picture keyGUI(int pos, float height, float width) {
+	public Picture getKeyImage(int total, int pos, ColorRGBA color) {
 		Picture keypic = new Picture("key Picture");
-		if (pos == 1) {
-			keypic = new Picture("key Picture");
-			keypic.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
-			keypic.setWidth(width / 30);
-			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.5f, 60);
-		} else if (pos == 2) {
-			keypic = new Picture("key2Picture");
-			keypic.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
-			keypic.setWidth(width / 30);
-			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.55f, 60);
-		} else if (pos == 3) {
-			keypic = new Picture("key3Picture");
-			keypic.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
-			keypic.setWidth(width / 30);
-			keypic.setHeight(height / 12);
-			keypic.setPosition(width * 0.6f, 60);
-		}
+		keypic.setWidth(screenWidth / 30);
+		keypic.setHeight(screenHeight / 12);
+		float start = 0.5f - (0.025f * total);
+		keypic.setPosition(screenWidth * (start + 0.05f * pos), 60);
+		
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		mat.setColor("Color", color);
+		mat.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/keyicon.png"));
+		keypic.setMaterial(mat);
 		
 		return keypic;
+	}
+	
+	/**
+	 * Set a new value for the game timer.
+	 * 
+	 * @param timer
+	 * 		the new value for the game timer
+	 */
+	public void setGameTimer(int timer) {
+		if (timer == Integer.MAX_VALUE) {
+			gameTimer.setText("");
+		} else {
+			gameTimer.setText("" + timer);
+		}
 	}
 
 	@Override
 	public void update(float tpf) {
-		//Update the bomb count in the HUD
-		textBomb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs()); 
-
 		VRPlayer player = controller.getGame().getPlayer();
-		
-		//Update the health icons in the HUD
-		if (player.getHealth() <= 2.5) {
-			heart3.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_HEART, true);
-		}
-		if (player.getHealth() <= 1.5) {
-			heart2.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_HEART, true);
-		}
-		if (player.getHealth() <= 0.5) {
-			heart1.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_HEART, true);
-		}
-		
-		Inventory inventory = player.getInventory();
-		
-		//Update the keys in the HUD
-		if ((inventory.containsColorKey(ColorRGBA.Yellow.set(1.0f, 1.0f, 0.0f, 0.0f)))) {
-			keypicyellow.setImage(Main.getInstance().getAssetManager(), "Textures/yellowkeyicon.png", true);
+		Inventory inv = player.getInventory();
+		updateBombs(inv);
+
+		updateKeys(inv);
+		updateHearts(player);
+	}
+
+	/**
+	 * Update the bomb display.
+	 * 
+	 * @param inv
+	 * 		the inventory that contains the bomb
+	 */
+	protected void updateBombs(Inventory inv) {
+		if (inv.containsBomb()) {
+			attachBomb(inv.getBomb());
 		} else {
-			keypicyellow.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
+			bombNode.detachAllChildren();
 		}
-		
-		if ((inventory.containsColorKey(ColorRGBA.Blue.set(0.0f, 0.0f, 1.0f, 0.0f)))) {
-			keypicblue.setImage(Main.getInstance().getAssetManager(), "Textures/bluekeyicon.png", true);
-		} else {
-			keypicblue.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
+	}
+
+	/**
+	 * Update the heart containers to show the player's health.
+	 * 
+	 * @param player
+	 * 		the player to get the health from
+	 */
+	protected void updateHearts(VRPlayer player) {
+		int health = Math.round(player.getHealth());
+		for (int j = 0; j < VRPlayer.PLAYER_MAX_HEALTH; j++) {
+			Picture p = (Picture) heartContainer.getChild(j);
+			if (j < health) {
+				p.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
+			} else {
+				p.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);					
+			}
 		}
-		
-		if ((inventory.containsColorKey(ColorRGBA.Red.set(1.0f, 0.0f, 0.0f, 0.0f)))) {
-			keypicred.setImage(Main.getInstance().getAssetManager(), "Textures/redkeyicon.png", true);
-		} else {
-			keypicred.setImage(Main.getInstance().getAssetManager(), ICON_EMPTY_KEY, true);
+	}
+
+	/**
+	 * Update the key display to show all keys in the player's inventory.
+	 * 
+	 * @param inventory
+	 * 		the inventory that contains the keys
+	 */
+	protected void updateKeys(Inventory inventory) {
+		keyContainer.detachAllChildren();
+		int i = 0;
+		List<ColorRGBA> keys = inventory.getKeyColors();
+		for (ColorRGBA c : keys) {
+			keyContainer.attachChild(getKeyImage(keys.size(), i, c));
+			i++;
 		}
+	}
+	
+	/**
+	 * Method used for testing.
+	 * Sets the key container to a custom container.
+	 * 
+	 * @param container
+	 * 		the new container where keys will be stored
+	 */
+	protected void setKeyContainer(Node container) {
+		keyContainer = container;
+	}
+
+	/**
+	 * Method used for testing.
+	 * Set the bomb node to a custom node.
+	 * 
+	 * @param node
+	 * 		the node to replace the bomb node
+	 */
+	protected void setBombNode(Node node) {
+		bombNode = node;
+	}
+
+	/**
+	 * Method used for testing.
+	 * Set the timer text to a custom text.
+	 * 
+	 * @param m
+	 * 		the new text
+	 */
+	public void setTimerNode(BitmapText m) {
+		gameTimer = m;
 	}
 }

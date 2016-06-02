@@ -3,12 +3,8 @@ package nl.tudelft.contextproject.model.entities;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.PhysicsControl;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
@@ -33,17 +29,13 @@ public class KillerBunny extends MovingEntity implements PhysicsObject {
 		spatial = getSpatial();
 		spatial.move(position);
 		getPhysicsObject();
-		
+
 	}
 
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-		Sphere b = new Sphere(10, 10, .15f);
-		spatial = new Geometry("KillerBunny", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.White);
-		spatial.setMaterial(mat);
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/bunnylowpoly.blend");
 		return spatial;
 	}
 
@@ -61,7 +53,7 @@ public class KillerBunny extends MovingEntity implements PhysicsObject {
 	@Override
 	public PhysicsControl getPhysicsObject() {
 		if (control != null) return control;
-		
+
 		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(.15f, .15f, 1);
 		control = new CharacterControl(capsuleShape, .1f);
 

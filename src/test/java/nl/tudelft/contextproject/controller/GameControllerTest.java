@@ -20,6 +20,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
@@ -101,7 +102,12 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testUpdatePlayer() {
+		HUD hud = mock(HUD.class);
+		controller.setHUD(hud);
+		
 		controller.update(0.5f);
+		
+		verify(hud, times(1)).setGameTimer(anyInt());
 		verify(game.getPlayer(), times(1)).update(0.5f);
 	}
 
