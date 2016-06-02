@@ -108,10 +108,10 @@ public class HUD implements TickListener {
 	/**
 	 * Attaches the bomb icon and counter to the HUD.
 	 * 
-	 * @param b
+	 * @param bomb
 	 * 		the bomb to attach
 	 */
-	protected void attachBomb(Bomb b) {
+	protected void attachBomb(Bomb bomb) {
 		if (bombNode.getChildren().size() == 0) {
 			// Attach the bomb counter
 			BitmapText textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
@@ -122,7 +122,7 @@ public class HUD implements TickListener {
 			textBomb.setLocalTranslation(w, h, 0);
 			bombNode.attachChild(textBomb);
 		}
-		((BitmapText) bombNode.getChild(0)).setText("" + Math.round(b.getTimer() * 10) / 10.f);
+		((BitmapText) bombNode.getChild(0)).setText("" + Math.round(bomb.getTimer() * 10) / 10.f);
 	}
 	
 	/**
@@ -219,7 +219,7 @@ public class HUD implements TickListener {
 		int health = Math.round(player.getHealth());
 		for (int j = 0; j < VRPlayer.PLAYER_MAX_HEALTH; j++) {
 			Picture p = (Picture) heartContainer.getChild(j);
-			if (j < health) {
+			if (j <= health) {
 				p.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
 			} else {
 				p.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);					
@@ -245,34 +245,31 @@ public class HUD implements TickListener {
 	
 	/**
 	 * Method used for testing.
-	 * Sets the key container to a custom container.
 	 * 
-	 * @param container
+	 * @param keyContainer
 	 * 		the new container where keys will be stored
 	 */
-	protected void setKeyContainer(Node container) {
-		keyContainer = container;
+	protected void setKeyContainer(Node keyContainer) {
+		this.keyContainer = keyContainer;
 	}
 
 	/**
 	 * Method used for testing.
-	 * Set the bomb node to a custom node.
 	 * 
-	 * @param node
+	 * @param bombNode
 	 * 		the node to replace the bomb node
 	 */
-	protected void setBombNode(Node node) {
-		bombNode = node;
+	protected void setBombNode(Node bombNode) {
+		this.bombNode = bombNode;
 	}
 
 	/**
 	 * Method used for testing.
-	 * Set the timer text to a custom text.
 	 * 
-	 * @param m
-	 * 		the new text
+	 * @param bitmapText
+	 * 		the new bitmapText for the timer
 	 */
-	public void setTimerNode(BitmapText m) {
-		gameTimer = m;
+	public void setTimerNode(BitmapText bitmapText) {
+		gameTimer = bitmapText;
 	}
 }
