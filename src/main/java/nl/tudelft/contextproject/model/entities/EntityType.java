@@ -27,7 +27,7 @@ public enum EntityType {
 	
 	TREASURE("Treasure", 			0,  Treasure::loadEntity),
 	WALLFRAME("WallFrame", 			0,  WallFrame::loadEntity),
-	TORCH("Torch",					0,	Torch::loadEntity),
+	TORCH("Torch", 					0,	Torch::loadEntity),
 	INVISIBLE_WALL("InvisibleWall",	11,	InvisibleWall::loadEntity),
 	DAMAGED_WALL("DamagedWall",		12,	DamagedWall::loadEntity);
 	
