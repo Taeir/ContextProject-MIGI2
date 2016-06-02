@@ -18,7 +18,7 @@ WALL WALL WALL WALL FLOOR FLOOR WALL WALL WALL WALL WALL WALL WALL WALL
 # # WALL FLOOR FLOOR FLOOR FLOOR WALL # # # # # #
 # # WALL WALL WALL WALL WALL WALL # # # # # #
 5 1 4 Key 1/0/0/1
-8.5 .5 5.5 Door 1/0/0/1
+8.5 .5 3 Door 1/0/0/1
 4.5 0 13.5 PlayerTrigger 1 .5 StartGame
 -1 .5 -1 PlayerTrigger 100 2 Healer
 5 .5 15 WallFrame NORTH start.png 1 3
