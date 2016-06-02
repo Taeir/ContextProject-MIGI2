@@ -58,7 +58,7 @@ public class Torch extends Entity implements PhysicsObject {
 			fire.setHighLife(0.5f);
 			fire.getParticleInfluencer().setVelocityVariation(0.0f);
 			fire.move(0, 0.11f, 0);
-			this.move(0, 5.3f, 0);
+			this.move(0, 5.32f, 0);
 		}
 
 		

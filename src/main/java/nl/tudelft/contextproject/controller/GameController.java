@@ -142,8 +142,8 @@ public class GameController extends Controller {
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-		Torch torch = new Torch();
-		torch.move(1, 1, 11);
+		Torch torch = new Torch(false);
+		torch.move(3, 0, 4);
 		torch.rotateNorth();
 		//torch.move(-1f, 0, 0);
 		game.addEntity(torch);
