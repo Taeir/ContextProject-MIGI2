@@ -23,19 +23,19 @@ function authenticate() {
             } else if (data == "IN_PROGRESS") {
                 //Game is already in progress
                 gAuth = false;
-                showError("You cannot join this game because it has already started.");
+                showError("You cannot join this game because it has already started.", "Warning");
             } else if (data == "FULL") {
                 //Game is full
                 gAuth = false;
-                showError("You cannot join this game because it is full.");
+                showError("You cannot join this game because it is full.", "Warning");
             } else {
                 //Unknown server response
                 gAuth = false;
-                showError("Unknown server response: " + data);
+                showError("Unknown server response: " + data, "Danger");
             }
         } else {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showError("Something went wrong: [" + status + "] " + data, "Danger");
         }
     });
 }
@@ -65,7 +65,7 @@ function requestStatus() {
     $.post("/status", function(data, status) {
         if (status != "success") {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showError("Something went wrong: [" + status + "] " + data, "Danger");
             return;
         }
 
@@ -104,12 +104,46 @@ function requestStatus() {
  *
  * @param msg
  *      the message to display
+ * @param severity
+ *      the serverity of the error
  */
-function showError(msg) {
-    document.getElementById("alertBox").innerHTML = msg;
-    $("#alertBox").fadeIn();
+function showError(msg, severity) {
+    switch (severity) {
+        case "Danger":
+            showDanger(msg);
+            break;
+        case "Warning":
+            showWarning(msg);
+            break;
+        case "Success":
+            showSuccess(msg);
+            break;
+        default:
+            showDanger(msg);
+    }
+}
+
+function showDanger(msg) {
+    document.getElementById("dangerBox").innerHTML = msg;
+    $("#dangerBox").fadeIn();
     window.setTimeout(function () {
-       $("#alertBox").fadeOut(300) 
+       $("#dangerBox").fadeOut(300) 
+    }, 1500);
+}
+
+function showWarning(msg) {
+    document.getElementById("warningBox").innerHTML = msg;
+    $("#warningBox").fadeIn();
+    window.setTimeout(function () {
+       $("#warningBox").fadeOut(300) 
+    }, 1500);
+}
+
+function showSuccess(msg) {
+    document.getElementById("successBox").innerHTML = msg;
+    $("#successBox").fadeIn();
+    window.setTimeout(function () {
+       $("#successBox").fadeOut(300) 
     }, 1500);
 }
 
@@ -171,7 +205,7 @@ function requestSetTeam(team) {
     $.post("/setteam", {team: team}, function(data, status) {
         if (status == "success") {
             if (data != team) {
-                showError("Game has already started!");
+                showError("Game has already started!", "Warning");
             }
             
             if (data == "DWARFS") {
@@ -192,17 +226,17 @@ function requestSetTeam(team) {
                 //TODO check start game
             } else if (data == "INVALID") {
                 //Invalid team was sent
-                showError("Invalid team!");
+                showError("Invalid team!", "Danger");
             } else if (data == "UNAUTHORIZED") {
                 //Not in the current game, and game is running
-                showError("You are not in the game, and the game has already started!");
+                showError("You are not in the game, and the game has already started!", "Warning");
             } else {
                 //Unknown server response
-                showError("Unknown server response: " + data);
+                showError("Unknown server response: " + data, "Danger");
             }
         } else {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showError("Something went wrong: [" + status + "] " + data, "Danger");
         }
     });
 }
@@ -288,7 +322,7 @@ function requestMap() {
     $.post("/map", function(data, status) {
         if (status != "success") {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showError("Something went wrong: [" + status + "] " + data, "Danger");
             return;
         }
 
@@ -313,7 +347,7 @@ function requestAction(argument) {
     $.post("/requestaction", {x: lastPressedX, y: lastPressedY, action: encoded},  function(data, status) {
         if (status != "success") {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data);
+            showError("Something went wrong: [" + status + "] " + data, "Danger");
             return;
         }
 
@@ -523,7 +557,7 @@ function getClassForEntityType(entityType) {
         case 10:
             return "Platform";
         default:
-            showError("Invalid tile type: " + entityType);
+            showError("Invalid tile type: " + entityType, "Danger");
             throw "Invalid tile type: " + entityType;
     }
 }
@@ -547,7 +581,7 @@ function getClassForTileType(tileType) {
         case 4:
             return "Invisible_Wall";
         default:
-            showError("Invalid tile type: " + tileType);
+            showError("Invalid tile type: " + tileType, "Danger");
             throw "Invalid tile type: " + tileType;
     }
 }
@@ -575,20 +609,6 @@ function encodeAction(action) {
         default:
             return -1;
     }
-}
-
-/**
- * Show an alert to the player.
- *
- * @param
- *      the message to show in the alert
- */
-function showAlert(message) {
-    document.getElementById("alertBox").innerHTML = message;
-    $("#alertBox").fadeIn();
-    window.setTimeout(function () {
-       $("#alertBox").fadeOut(300) 
-    }, 1500);
 }
 
 /**
