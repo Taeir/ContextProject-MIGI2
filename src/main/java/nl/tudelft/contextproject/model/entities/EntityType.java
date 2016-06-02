@@ -26,7 +26,8 @@ public enum EntityType {
 	VOID_PLATFORM("VoidPlatform", 	10, VoidPlatform::loadEntity),
 	
 	TREASURE("Treasure", 			0,  Treasure::loadEntity),
-	WALLFRAME("WallFrame", 			0,  WallFrame::loadEntity);
+	WALLFRAME("WallFrame", 			0,  WallFrame::loadEntity),
+	TORCH("Torch",					0,	Torch::loadEntity);
 	
 	private final String name;
 	private final int webId;

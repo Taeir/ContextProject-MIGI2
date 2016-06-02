@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model.entities;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
 
+
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
@@ -136,5 +137,36 @@ public class Torch extends Entity implements PhysicsObject {
 	public void rotateWest() {
 		if (!torchtype) return;
 		this.move(-.55f, 0, 0);
+	}
+
+	/**
+	 * Loads a torch entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the torch
+	 * @param data
+	 * 		the data of the torch
+	 * @return
+	 * 		the torch represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static Torch loadEntity(Vector3f position, String[] data) {
+		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading key! Expected \"<X> <Y> <Z> Torch <Type>\".");
+		Torch torch = null;
+		if (data[4] == "true") {
+			torch = new Torch(true);
+		} else {
+			torch = new Torch(false);
+		}
+		torch.move(position);
+
+		return torch;
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.TORCH;
+
 	}
 }
