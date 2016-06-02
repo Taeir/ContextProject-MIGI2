@@ -110,7 +110,7 @@ public class DamagedWall extends Entity implements Health, PhysicsObject {
 	 * 		if the given data array is of incorrect length
 	 */
 	public static DamagedWall loadEntity(Vector3f position, String[] data) {
-		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> DamagedWall\".");
+		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading a damaged wall! Expected \"<X> <Y> <Z> DamagedWall\".");
 		
 		DamagedWall wall = new DamagedWall();
 		wall.move(position);

@@ -48,6 +48,6 @@ public class DamagedWallTest extends EntityTest {
 
 	@Override
 	public EntityType getType() {
-		return instance.getType();
+		return EntityType.DAMAGED_WALL;
 	}
 }
