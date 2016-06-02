@@ -20,7 +20,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	private RigidBodyControl rb;
 	private boolean active;
 	private float timer;
-
+	private boolean pickedup;
 	/**
 	 * Constructor for a bomb.
 	 */
@@ -39,6 +39,11 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	@Override
 	public void update(float tdf) {
+		if (this.getPickedup()) {
+			Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(1.5f);
+			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation().add(vec.x, 1, vec.z);
+			this.getSpatial().setLocalTranslation(vec2);
+		}
 		if (active) {
 			timer += tdf;
 			if (timer > 4) {
@@ -69,7 +74,6 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public void move(float x, float y, float z) {
 		sp.move(x, y, z);
-		//explosion.move(x, y, z);
 		if (rb == null) getPhysicsObject();
 
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
@@ -97,7 +101,23 @@ public class Bomb extends Entity implements PhysicsObject {
 	public float getTimer() {
 		return timer;
 	}
-	
+
+	/**
+	 * @param bool
+	 * 		decides wether the bomb is picked up 
+	 */
+	public void setPickedup(Boolean bool) {
+		pickedup = bool;
+	}
+
+	/**
+	 * @return 
+	 * 		returns wether the bomb is picked up or not
+	 */
+	public boolean getPickedup() {
+		return pickedup;
+	}
+
 	/**
 	 * Loads a bomb entity from an array of String data.
 	 * 
@@ -112,10 +132,10 @@ public class Bomb extends Entity implements PhysicsObject {
 	 */
 	public static Bomb loadEntity(Vector3f position, String[] data) {
 		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading bomb! Expected \"<X> <Y> <Z> Bomb\".");
-		
+
 		Bomb bomb = new Bomb();
 		bomb.move(position);
-		
+
 		return bomb;
 	}
 

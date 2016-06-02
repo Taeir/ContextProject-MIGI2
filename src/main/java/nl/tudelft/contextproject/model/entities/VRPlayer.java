@@ -98,7 +98,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		updateFallingTimer(tpf);
 
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
-		
+
 		updateExploration(tpf);
 	}
 
@@ -112,26 +112,26 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		//We want to update exploration at an interval (for performance reasons)
 		explorationTimer += tpf;
 		if (explorationTimer < EXPLORATION_INTERVAL) return;
-		
+
 		explorationTimer = 0f;
-		
+
 		//Please note that the Z coordinate of the player is the Y coordinate of the tile.
 		Level level = Main.getInstance().getCurrentGame().getLevel();
 		int x = Math.round(getLocation().getX());
 		int y = Math.round(getLocation().getZ());
-		
+
 		//Explore in a square around the player
 		for (int dx = -EXPLORATION_RADIUS; dx < EXPLORATION_RADIUS; dx++) {
 			int tileX = x + dx;
 			if (tileX < 0 || tileX >= level.getWidth()) continue;
-			
+
 			for (int dy = -EXPLORATION_RADIUS; dy < EXPLORATION_RADIUS; dy++) {
 				int tileY = y + dy;
 				if (tileY < 0 || tileY >= level.getHeight()) continue;
-				
+
 				MazeTile tile = level.getTile(tileX, tileY);
 				if (tile == null) continue;
-				
+
 				tile.setExplored(true);
 			}
 		}
@@ -205,18 +205,12 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	 * Player drops a bomb from his inventory.
 	 */
 	public void dropBomb() {
-		if (!inventory.containsBomb()) return;
-		
-		Bomb bomb = new Bomb();
-		inventory.remove(bomb);
-		
-		Vector3f vec = this.getSpatial().getLocalTranslation();
-		bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-		bomb.activate();
-		
-		Main.getInstance().getCurrentGame().addEntity(bomb);
+		if (inventory.containsBomb()) {
+			inventory.getBomb().setPickedup(false);
+			inventory.remove(inventory.getBomb());
+		}
 	}
-	
+
 	/**
 	 * Player picks up a nearby item.
 	 * Also opens nearby doors if the player has the correct key.
@@ -225,13 +219,20 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
 
 		for (Entity ent : set) {
+
 			if (!ent.collidesWithPlayer(INTERACT_RANGE)) continue;
 
 			if (ent instanceof Bomb) {
-				inventory.add(new Bomb());
-				ent.setState(EntityState.DEAD);
-				return;
-			} else if (ent instanceof Key) {
+				if (inventory.numberOfBombs() < 1) {
+					if (!((Bomb) ent).getPickedup()) {
+						inventory.add((Bomb) ent);
+						((Bomb) ent).activate();
+						((Bomb) ent).setPickedup(true);
+						return;
+					}
+				}
+			}
+			if (ent instanceof Key) {
 				Key key = (Key) ent;
 				inventory.add(new Key(key.getColor()));
 				ent.setState(EntityState.DEAD);

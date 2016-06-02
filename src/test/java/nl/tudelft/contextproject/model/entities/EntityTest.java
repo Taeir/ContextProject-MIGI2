@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
 import static org.junit.Assert.*;
+
 import static org.mockito.Mockito.*;
 
 import nl.tudelft.contextproject.model.Drawable;

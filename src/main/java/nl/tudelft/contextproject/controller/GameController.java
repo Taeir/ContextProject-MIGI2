@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -129,7 +130,7 @@ public class GameController extends Controller {
 		Vector2f start = attachMazeTiles(level);
 		addDrawable(game.getPlayer());		
 		game.getPlayer().move(start.x, 6, start.y);
-		
+
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
@@ -138,7 +139,6 @@ public class GameController extends Controller {
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
 	}
-
 	/**
 	 * Attach all {@link MazeTile}s in the level to the renderer.
 	 * 
