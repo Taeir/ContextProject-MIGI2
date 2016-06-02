@@ -2,6 +2,9 @@ html, body {
 	height: 100%;
 	width: 100%;
 }
+body {
+    background-color: #F0F0F0;
+}
 #elvesButtons, #dwarvesButtons {
 	position: absolute;
 	top: 0;
