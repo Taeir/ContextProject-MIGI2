@@ -198,7 +198,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		ArrayList<Stack<Vec2I>> corridorList = getCorridorLocations();
 		Vec2I carveLocation;
 		int x, y;
-		for (Stack<Vec2I> stack : corridorList) {
+		//for (Stack<Vec2I> stack : corridorList) {
+			Stack<Vec2I> stack = corridorList.get(0);
 			while (!stack.empty()) {
 				carveLocation = stack.pop();
 				x = carveLocation.x;
@@ -207,7 +208,9 @@ public class MSTBasedLevelFactory implements LevelFactory {
 					mazeTiles[x][y] = new MazeTile(x, y, TileType.CORRIDOR);
 				}
 			}
-		}
+			
+			
+		//}
 	}	
 	
 	/**
