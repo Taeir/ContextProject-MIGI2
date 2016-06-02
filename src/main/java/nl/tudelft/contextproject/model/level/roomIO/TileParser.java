@@ -89,7 +89,8 @@ public final class TileParser {
 				return TileType.DOOR_EXIT;
 			case CORRIDOR_FORMAT:
 				return TileType.CORRIDOR;
+			default:
+				throw new IllegalArgumentException("Incorrect maze tile in maze file!");
 		}
-		return null;
 	}
 }
