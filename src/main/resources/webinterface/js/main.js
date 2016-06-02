@@ -128,7 +128,7 @@ function showError(msg, severity) {
     $("#" + selected).fadeIn();
     window.setTimeout(function () {
        $("#" + selected).fadeOut(300) 
-    }, 1500);
+    }, 3000);
 }
 
 /**
