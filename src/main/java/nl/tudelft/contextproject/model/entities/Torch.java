@@ -16,7 +16,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
 /**
- * Class representing a key.
+ * Class representing a torch.
  */
 public class Torch extends Entity implements PhysicsObject {
 	private Spatial sp;
@@ -25,7 +25,7 @@ public class Torch extends Entity implements PhysicsObject {
 	private boolean torchtype;
 
 	/**
-	 * Constructor for a key.
+	 * Constructor for a torch.
 	 * 
 	 * @param type
 	 * 		type of the torch (true = walltorch, false = ceilinglamp)
