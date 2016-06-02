@@ -79,8 +79,9 @@ public class DamagedWall extends Entity implements Health, PhysicsObject {
 		health -= damage;
 		if (health < 0) {
 			setState(EntityState.DEAD);
-		} 
-		setMaterialColor();
+		} else {
+			setMaterialColor();
+		}
 	}
 
 	private void setMaterialColor() {
