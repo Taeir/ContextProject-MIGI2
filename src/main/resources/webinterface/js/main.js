@@ -23,19 +23,19 @@ function authenticate() {
             } else if (data == "IN_PROGRESS") {
                 //Game is already in progress
                 gAuth = false;
-                showError("You cannot join this game because it has already started.", "Warning");
+                showAlert("You cannot join this game because it has already started.", "Warning");
             } else if (data == "FULL") {
                 //Game is full
                 gAuth = false;
-                showError("You cannot join this game because it is full.", "Warning");
+                showAlert("You cannot join this game because it is full.", "Warning");
             } else {
                 //Unknown server response
                 gAuth = false;
-                showError("Unknown server response: " + data, "Danger");
+                showAlert("Unknown server response: " + data, "Danger");
             }
         } else {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data, "Danger");
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
         }
     });
 }
@@ -65,7 +65,7 @@ function requestStatus() {
     $.post("/status", function(data, status) {
         if (status != "success") {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data, "Danger");
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
             return;
         }
 
@@ -107,7 +107,7 @@ function requestStatus() {
  * @param severity
  *      the serverity of the error
  */
-function showError(msg, severity) {
+function showAlert(msg, severity) {
     var selected;
     switch (severity) {
         case "Danger":
@@ -189,7 +189,7 @@ function requestSetTeam(team) {
     $.post("/setteam", {team: team}, function(data, status) {
         if (status == "success") {
             if (data != team) {
-                showError("Game has already started!", "Warning");
+                showAlert("Game has already started!", "Warning");
             }
             
             if (data == "DWARFS") {
@@ -210,17 +210,17 @@ function requestSetTeam(team) {
                 //TODO check start game
             } else if (data == "INVALID") {
                 //Invalid team was sent
-                showError("Invalid team!", "Danger");
+                showAlert("Invalid team!", "Danger");
             } else if (data == "UNAUTHORIZED") {
                 //Not in the current game, and game is running
-                showError("You are not in the game, and the game has already started!", "Warning");
+                showAlert("You are not in the game, and the game has already started!", "Warning");
             } else {
                 //Unknown server response
-                showError("Unknown server response: " + data, "Danger");
+                showAlert("Unknown server response: " + data, "Danger");
             }
         } else {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data, "Danger");
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
         }
     });
 }
@@ -306,7 +306,7 @@ function requestMap() {
     $.post("/map", function(data, status) {
         if (status != "success") {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data, "Danger");
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
             return;
         }
 
@@ -331,7 +331,7 @@ function requestAction(argument) {
     $.post("/requestaction", {x: lastPressedX, y: lastPressedY, action: encoded},  function(data, status) {
         if (status != "success") {
             //HTTP Error
-            showError("Something went wrong: [" + status + "] " + data, "Danger");
+            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
             return;
         }
 
@@ -541,7 +541,7 @@ function getClassForEntityType(entityType) {
         case 10:
             return "Platform";
         default:
-            showError("Invalid tile type: " + entityType, "Danger");
+            showAlert("Invalid tile type: " + entityType, "Danger");
             throw "Invalid tile type: " + entityType;
     }
 }
@@ -565,7 +565,7 @@ function getClassForTileType(tileType) {
         case 4:
             return "Invisible_Wall";
         default:
-            showError("Invalid tile type: " + tileType, "Danger");
+            showAlert("Invalid tile type: " + tileType, "Danger");
             throw "Invalid tile type: " + tileType;
     }
 }
