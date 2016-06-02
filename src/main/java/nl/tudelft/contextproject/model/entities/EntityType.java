@@ -28,7 +28,7 @@ public enum EntityType {
 	TREASURE("Treasure", 			0,  Treasure::loadEntity),
 	WALLFRAME("WallFrame", 			0,  WallFrame::loadEntity), 
 	INVISIBLE_WALL("InvisibleWall",	0,	InvisibleWall::loadEntity), 
-	DAMAGED_WALL("DamagedWall",		0,	DamagedWall::loadEntity);
+	DAMAGED_WALL("DamagedWall",		12,	DamagedWall::loadEntity);
 	
 	private final String name;
 	private final int webId;
