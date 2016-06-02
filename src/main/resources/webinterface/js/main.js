@@ -540,6 +540,10 @@ function getClassForEntityType(entityType) {
             return "Killer_Bunny";
         case 10:
             return "Platform";
+        case 11:
+            return "Invisible_Wall";
+        case 12:
+            return "Damaged_Wall";
         default:
             showAlert("Invalid tile type: " + entityType, "Danger");
             throw "Invalid tile type: " + entityType;
@@ -562,8 +566,6 @@ function getClassForTileType(tileType) {
             return "Wall";
         case 3:
             return "Corridor";
-        case 4:
-            return "Invisible_Wall";
         default:
             showAlert("Invalid tile type: " + tileType, "Danger");
             throw "Invalid tile type: " + tileType;
