@@ -7,12 +7,16 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
+import com.jme3.material.Material;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Quad;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.level.TileType;
 
 /**
  * Abstract class for controllers.
@@ -205,5 +209,25 @@ public abstract class Controller extends AbstractAppState {
 		for (Light l: rootNode.getLocalLightList()) {
 			rootNode.removeLight(l);
 		}
+	}
+	
+	/**
+	 * Attach a roof tile to the rootNode.
+	 * 
+	 * @param x
+	 * 		the x location of the tile
+	 * @param y
+	 * 		the y location of the tile
+	 */
+	public void attachRoofTile(int x, int y) {	
+		Quad q = new Quad(1, 1);
+		Geometry roofTile = new Geometry("roofTile", q);
+		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"); 
+		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/rocktexture.png"));
+		roofTile.setMaterial(mat); 
+
+		roofTile.rotate((float) Math.toRadians(90), 0, 0);
+		roofTile.move(x - .5f, TileType.WALL.getHeight() * 2, y - .5f);
+		rootNode.attachChild(roofTile);
 	}
 }
