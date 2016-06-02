@@ -95,7 +95,8 @@ public class HUD implements TickListener {
 		textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
 		textBomb.setSize(screenHeight / 30);
 		textBomb.setColor(ColorRGBA.White);
-		textBomb.setText("" + Main.getInstance().getCurrentGame().getPlayer().getInventory().numberOfBombs());
+		boolean hasBomb = Main.getInstance().getCurrentGame().getPlayer().getInventory().containsBomb();
+		textBomb.setText("" + (hasBomb ? 1 : 0));
 		textBomb.setLocalTranslation(screenWidth / 3f, textBomb.getLineHeight() + screenHeight / 40, 0);
 		controller.addGuiElement(textBomb);
 		
@@ -156,7 +157,7 @@ public class HUD implements TickListener {
 		VRPlayer player = controller.getGame().getPlayer();
 		Inventory inv = player.getInventory();
 		// Update the bomb count in the HUD
-		textBomb.setText("" + inv.numberOfBombs()); 
+		textBomb.setText("" + (inv.containsBomb() ? 1 : 0)); 
 
 		updateKeys(inv);
 		updateHearts(player);

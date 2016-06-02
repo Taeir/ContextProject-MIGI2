@@ -213,12 +213,11 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	public void dropBomb() {
 		if (!inventory.containsBomb()) return;
 		
-		Bomb bomb = new Bomb();
+		Bomb bomb = inventory.getBomb();
 		inventory.remove(bomb);
 		
-		Vector3f vec = this.getSpatial().getLocalTranslation();
-		bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-		bomb.activate();
+		bomb.move(this.getLocation().subtract(bomb.getLocation().add(0, 1, 0)));
+		bomb.setState(EntityState.NEW);
 		
 		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
@@ -233,8 +232,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		for (Entity ent : set) {
 			if (!ent.collidesWithPlayer(INTERACT_RANGE)) continue;
 
-			if (ent instanceof Bomb) {
-				inventory.add(new Bomb());
+			if (ent instanceof Bomb && !inventory.containsBomb()) {
+				inventory.add((Bomb) ent);
 				ent.setState(EntityState.DEAD);
 				return;
 			} else if (ent instanceof Key) {

@@ -13,7 +13,7 @@ import nl.tudelft.contextproject.model.entities.Key;
  */
 public class Inventory implements TickProducer {
 	ArrayList<ColorRGBA> keys;
-	ArrayList<Bomb> bombs;
+	Bomb bomb;
 	
 	ArrayList<TickListener> listeners;
 
@@ -22,7 +22,7 @@ public class Inventory implements TickProducer {
 	 */
 	public Inventory() {
 		this.keys = new ArrayList<>();
-		this.bombs = new ArrayList<>();
+		this.bomb = null;
 		this.listeners = new ArrayList<>();
 	}
 	
@@ -34,16 +34,6 @@ public class Inventory implements TickProducer {
 	 */
 	public int numberOfKeys() {
 		return keys.size();
-	}
-	
-	/**
-	 * Returns the number of bombs in the inventory.
-	 * 
-	 * @return 
-	 * 		the number of bombs 
-	 */
-	public int numberOfBombs() {
-		return bombs.size();
 	}
 	
 	/**
@@ -64,7 +54,7 @@ public class Inventory implements TickProducer {
 	 * 		the bomb to be added
 	 */
 	public void add(Bomb bomb) {
-		bombs.add(bomb);
+		this.bomb = bomb;
 		updateTickListeners();
 	}
 	
@@ -75,8 +65,8 @@ public class Inventory implements TickProducer {
 	 * 		the bomb/key to remove
 	 */
 	public void remove(Entity ent) {
-		if (ent instanceof Bomb && bombs.size() > 0) {
-			bombs.remove(0);
+		if (ent instanceof Bomb && bomb != null) {
+			bomb = null;
 			updateTickListeners();
 			return;
 		}
@@ -111,8 +101,7 @@ public class Inventory implements TickProducer {
 	 * 		if the inventory contains a bomb, returns that bomb. Otherwise returns null
 	 */
 	public Bomb getBomb() {
-		if (bombs.size() == 0) return null;
-		return bombs.get(0);
+		return bomb;
 	}
 
 	/**
@@ -122,7 +111,7 @@ public class Inventory implements TickProducer {
 	 * 		true if the inventory contains a bomb
 	 */
 	public boolean containsBomb() {
-		return !bombs.isEmpty();
+		return bomb != null;
 	}
 
 	/**
@@ -153,7 +142,7 @@ public class Inventory implements TickProducer {
 	 * 		the current amount of items in the inventory (bombs and keys)
 	 */
 	public int size() {
-		return keys.size() + bombs.size();
+		return keys.size() + (bomb == null ? 0 : 1);
 	}
 
 	/**

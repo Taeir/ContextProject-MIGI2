@@ -175,7 +175,7 @@ public class InventoryTest extends TestBase {
 		Bomb bomb = new Bomb();
 		Key key = new Key(ColorRGBA.Blue);
 		inv.add(bomb);
-		inv.add(bomb);
+		inv.add(key);
 		inv.add(key);
 		assertSame(inv.size(), 3);
 	}
@@ -190,9 +190,9 @@ public class InventoryTest extends TestBase {
 		Key key = new Key(color);
 		inv.add(key);
 		inv.add(bomb);
-		inv.add(bomb);
 		inv.remove(bomb);
-		assertSame(inv.size(), 2);
+		assertSame(inv.size(), 1);
+		assertFalse(inv.containsBomb());
 	}
 
 	/**
@@ -245,16 +245,5 @@ public class InventoryTest extends TestBase {
 		inv.add(new Key(ColorRGBA.Yellow));
 		inv.add(new Key(ColorRGBA.Red));
 		assertEquals(inv.numberOfKeys(), 2);
-	}
-	
-	/**
-	 * Tests the number of bombs method.
-	 */
-	@Test
-	public void testNumberOfBombs() {
-		inv.add(new Bomb());
-		inv.add(new Bomb());
-		inv.add(new Bomb());
-		assertEquals(inv.numberOfBombs(), 3);
 	}
 }
