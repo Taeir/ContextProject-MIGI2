@@ -7,8 +7,15 @@ import java.util.ArrayList;
  */
 public class MSTNode {
 
-	public ArrayList<MSTEdge> edges;
+	/**
+	 * Normal out going edges list.
+	 */
+	public ArrayList<MSTEdge> outgoingEdges;
 	
+	/**
+	 * List used for searching other nodes. Speeds up algorithm.
+	 */
+	public ArrayList<MSTEdge> incomingEdges;
 	public int roomNodeID;
 	
 	public DoorLocation originalDoor;
@@ -25,7 +32,8 @@ public class MSTNode {
 	 * 			id of MSTNode
 	 */
 	public MSTNode(MSTNodeType nodeType, DoorLocation originalDoor, int roomNodeID) {
-		this.edges = new ArrayList<MSTEdge>();
+		this.outgoingEdges = new ArrayList<MSTEdge>();
+		this.incomingEdges = new ArrayList<MSTEdge>();
 		this.nodeType = nodeType;
 		this.originalDoor = originalDoor;
 		this.roomNodeID = roomNodeID;
@@ -67,13 +75,22 @@ public class MSTNode {
 	 * @param edge
 	 *		edge to add
 	 */
-	public void addEdge(MSTEdge edge) {
-		edges.add(edge);
+	public void addOutGoingEdge(MSTEdge edge) {
+		outgoingEdges.add(edge);
+	}
+	
+	/**
+	 * Add an edge to the MST node incomming edges list.
+	 * @param edge
+	 *		edge to add
+	 */
+	public void addInComingEdge(MSTEdge edge) {
+		incomingEdges.add(edge);
 	}
 
 	@Override
 	public String toString() {
-		return "MSTNode [edges=" + edges.size() + ", roomNodeID=" + roomNodeID
+		return "MSTNode [edges=" + outgoingEdges.size() + ", roomNodeID=" + roomNodeID
 				+ ", nodeType=" + nodeType + "]";
 	}
 }

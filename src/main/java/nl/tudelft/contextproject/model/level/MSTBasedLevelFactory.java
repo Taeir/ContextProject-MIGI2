@@ -26,9 +26,9 @@ public class MSTBasedLevelFactory implements LevelFactory {
 
 	public static final int START_ROOM_ID = -1;
 	//Max width of level 
-	protected static final int MAX_WIDTH = 40;
+	protected static final int MAX_WIDTH = 100;
 	//Max height of level 
-	protected static final int MAX_HEIGHT = 40;
+	protected static final int MAX_HEIGHT = 100;
 
 	/**
 	 * Number of tries when placing rooms randomly.
@@ -36,13 +36,13 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * The density is also dependent on the MAX_WIDTH and MAX_HEIGHT, because a larger
 	 * size will require more attempts to fill to the same density.
 	 */
-	private static final int MAX_ATTEMPTS = 100;
+	private static final int MAX_ATTEMPTS = 200;
 
 	/**
 	 * Allow duplicates rooms in a single level.
 	 * Should be set to initialize to true if duplicates are needed.
 	 */
-	public boolean duplicates;
+	public boolean duplicates = true;
 
 	private Random rand;
 
@@ -95,7 +95,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		placeStartAndTreasureRoom();
 		placeOtherRooms();
 		createEdges();
-		createMST();
+		createReverseMST();
+		//createMST();
 		placeCorridors();
 
 		return new Level(mazeTiles, lights);
@@ -186,6 +187,17 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		chosenEdges = mst.getCorridorIDs();
 	}
 
+	/**
+	 * Create a MST, connecting all the rooms with the least amount of path.
+	 * Create the MST object.
+	 * Run the MST algorithm, selecting which edges are chosen in map generation.
+	 * 
+	 */
+	protected void createReverseMST() {
+		MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes, edges);
+		mst.runReverseKruskalAlgorithm();
+		chosenEdges = mst.getCorridorIDsReverseAlgorithm();
+	}
 
 	/**
 	 * Place the corridors from the chosenEdges list.
@@ -198,8 +210,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		ArrayList<Stack<Vec2I>> corridorList = getCorridorLocations();
 		Vec2I carveLocation;
 		int x, y;
-		//for (Stack<Vec2I> stack : corridorList) {
-			Stack<Vec2I> stack = corridorList.get(0);
+		for (Stack<Vec2I> stack : corridorList) {
 			while (!stack.empty()) {
 				carveLocation = stack.pop();
 				x = carveLocation.x;
@@ -210,7 +221,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 			}
 			
 			
-		//}
+		}
 	}	
 	
 	/**
@@ -232,6 +243,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		}
 		return corridorList;
 	}
+	
+	
 
 	/**
 	 * Add RoomNode to graph and map.
@@ -250,7 +263,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	protected void addRoomNode(RoomNode node, Vec2I position) {
 		if (!duplicates) {
 			baseNodes.remove(node);
-		} else {
+		} else if (node.id != START_ROOM_ID && node.id != -1) {
 			node = node.copy(idCounter++);
 		}
 
