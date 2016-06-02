@@ -108,42 +108,26 @@ function requestStatus() {
  *      the serverity of the error
  */
 function showError(msg, severity) {
+    var selected;
     switch (severity) {
         case "Danger":
-            showDanger(msg);
+            selected = "dangerBox";
             break;
         case "Warning":
-            showWarning(msg);
+            selected = "warningBox";
             break;
         case "Success":
-            showSuccess(msg);
+            selected = "successBox";
             break;
         default:
-            showDanger(msg);
+            selected = "dangerBox";
+            break;
     }
-}
-
-function showDanger(msg) {
-    document.getElementById("dangerBox").innerHTML = msg;
-    $("#dangerBox").fadeIn();
+    
+    document.getElementById(selected).innerHTML = msg;
+    $("#" + selected).fadeIn();
     window.setTimeout(function () {
-       $("#dangerBox").fadeOut(300) 
-    }, 1500);
-}
-
-function showWarning(msg) {
-    document.getElementById("warningBox").innerHTML = msg;
-    $("#warningBox").fadeIn();
-    window.setTimeout(function () {
-       $("#warningBox").fadeOut(300) 
-    }, 1500);
-}
-
-function showSuccess(msg) {
-    document.getElementById("successBox").innerHTML = msg;
-    $("#successBox").fadeIn();
-    window.setTimeout(function () {
-       $("#successBox").fadeOut(300) 
+       $("#" + selected).fadeOut(300) 
     }, 1500);
 }
 
