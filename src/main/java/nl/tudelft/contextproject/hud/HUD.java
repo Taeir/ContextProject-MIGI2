@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.hud;
 
+import java.util.List;
+
 import com.jme3.font.BitmapText;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -97,8 +99,8 @@ public class HUD implements TickListener {
 			BitmapText textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
 			textBomb.setSize(screenHeight / 30);
 			textBomb.setColor(ColorRGBA.White);
-			float w = screenWidth / 2f;
-			float h = textBomb.getLineHeight() + screenHeight / 60;
+			float w = screenWidth / 2f - (screenHeight / 30) * .8f;
+			float h = textBomb.getLineHeight() + screenHeight / 7;
 			textBomb.setLocalTranslation(w, h, 0);
 			bombNode.attachChild(textBomb);
 		}
@@ -134,11 +136,12 @@ public class HUD implements TickListener {
 	 * @return
 	 * 		picture of the key
 	 */
-	public Picture getKeyImage(int pos, ColorRGBA color) {
+	public Picture getKeyImage(int total, int pos, ColorRGBA color) {
 		Picture keypic = new Picture("key Picture");
 		keypic.setWidth(screenWidth / 30);
 		keypic.setHeight(screenHeight / 12);
-		keypic.setPosition(screenWidth * (0.5f + 0.05f * pos), 60);
+		float start = 0.5f - (0.025f * total);
+		keypic.setPosition(screenWidth * (start + 0.05f * pos), 60);
 		
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setColor("Color", color);
@@ -193,8 +196,9 @@ public class HUD implements TickListener {
 	protected void updateKeys(Inventory inventory) {
 		keyContainer.detachAllChildren();
 		int i = 0;
-		for (ColorRGBA c : inventory.getKeyColors()) {
-			keyContainer.attachChild(getKeyImage(i, c));
+		List<ColorRGBA> keys = inventory.getKeyColors();
+		for (ColorRGBA c : keys) {
+			keyContainer.attachChild(getKeyImage(keys.size(), i, c));
 			i++;
 		}
 	}
