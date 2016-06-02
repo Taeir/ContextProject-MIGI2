@@ -16,6 +16,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.model.Inventory;
+import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Key;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.test.TestUtil;
@@ -58,7 +59,7 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testAttachBomb() {
-		hud.attachBomb();
+		hud.attachBomb(new Bomb());
 		verify(controller, times(2)).addGuiElement(any(Spatial.class));
 	}
 	

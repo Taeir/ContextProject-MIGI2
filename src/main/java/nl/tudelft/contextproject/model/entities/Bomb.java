@@ -16,6 +16,7 @@ import nl.tudelft.contextproject.model.PhysicsObject;
  * Class representing a bomb.
  */
 public class Bomb extends Entity implements PhysicsObject {
+	private static final float TIMER = 10;
 	private Spatial sp;
 	private RigidBodyControl rb;
 	private boolean active;
@@ -38,14 +39,14 @@ public class Bomb extends Entity implements PhysicsObject {
 	}
 
 	@Override
-	public void update(float tdf) {
+	public void update(float tpf) {
 		if (active) {
-			timer += tdf;
-			if (timer > 4) {
+			timer -= tpf;
+			if (timer < 0) {
 				Explosion exp = new Explosion(40f);
-				Vector3f vec = this.getSpatial().getLocalTranslation();
-				exp.move(vec.x, vec.y, vec.z);
+				exp.move(this.getLocation());
 				Main.getInstance().getCurrentGame().getEntities().add(exp);
+				active = false;
 				this.setState(EntityState.DEAD);
 			}
 		}
@@ -80,6 +81,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	 */
 	public void activate() {
 		this.active = true;
+		this.timer = TIMER;
 	}
 
 	/**

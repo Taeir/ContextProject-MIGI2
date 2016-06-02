@@ -6,6 +6,7 @@ import java.util.List;
 import com.jme3.math.ColorRGBA;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.entities.Key;
 
 /**
@@ -55,6 +56,7 @@ public class Inventory implements TickProducer {
 	 */
 	public void add(Bomb bomb) {
 		this.bomb = bomb;
+		this.bomb.activate();
 		updateTickListeners();
 	}
 	
@@ -156,5 +158,15 @@ public class Inventory implements TickProducer {
 	@Override
 	public List<TickListener> getTickListeners() {
 		return listeners;
+	}
+	
+	public void update(float tpf) {
+		if (bomb != null) {
+			bomb.update(tpf);
+			if (!bomb.getActive()) {
+				bomb = null;
+			}
+			updateTickListeners();
+		}
 	}
 }

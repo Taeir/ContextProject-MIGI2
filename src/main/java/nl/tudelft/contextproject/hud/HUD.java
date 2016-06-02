@@ -10,6 +10,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import jmevr.util.VRGuiManager;
 
@@ -19,16 +20,14 @@ import jmevr.util.VRGuiManager;
 public class HUD implements TickListener {
 
 	private GameController controller;
-	
-	private Picture bombPicture;
-	private BitmapText textBomb;
 
 	private Node keyContainer;
 	private Node heartContainer;
+	private Node bombNode;
 
 	private float screenHeight;
-
 	private float screenWidth;
+
 	
 	
 	/**
@@ -65,9 +64,11 @@ public class HUD implements TickListener {
 	 */
 	public void attachHud() {		
 		keyContainer = new Node("Keys");
-		controller.addGuiElement(keyContainer);
+		controller.addGuiElement(keyContainer);	
 		
-		attachBomb();		
+		bombNode = new Node("Bombs");
+		controller.addGuiElement(bombNode);
+				
 		attachHeartContainers();
 		
 		// Attach listeners
@@ -90,23 +91,25 @@ public class HUD implements TickListener {
 	/**
 	 * Attaches the bomb icon and counter to the HUD.
 	 */
-	protected void attachBomb() {
-		// Attach the bomb counter
-		textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
-		textBomb.setSize(screenHeight / 30);
-		textBomb.setColor(ColorRGBA.White);
-		boolean hasBomb = Main.getInstance().getCurrentGame().getPlayer().getInventory().containsBomb();
-		textBomb.setText("" + (hasBomb ? 1 : 0));
-		textBomb.setLocalTranslation(screenWidth / 3f, textBomb.getLineHeight() + screenHeight / 40, 0);
-		controller.addGuiElement(textBomb);
-		
-		// Attach bomb icon
-		bombPicture = new Picture("Bomb Picture");
-		bombPicture.setImage(Main.getInstance().getAssetManager(), "Textures/bombicon.png", true);
-		bombPicture.setWidth(screenWidth / 12);
-		bombPicture.setHeight(screenHeight / 10);
-		bombPicture.setPosition(screenWidth / 4f, 60);
-		controller.addGuiElement(bombPicture);
+	protected void attachBomb(Bomb b) {
+		if (bombNode.getChildren().size() == 0) {
+			// Attach the bomb counter
+			BitmapText textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
+			textBomb.setSize(screenHeight / 30);
+			textBomb.setColor(ColorRGBA.White);
+
+			textBomb.setLocalTranslation(screenWidth / 3f, textBomb.getLineHeight() + screenHeight / 40, 0);
+			bombNode.attachChild(textBomb);
+
+			// Attach bomb icon
+			Picture bombPicture = new Picture("Bomb Picture");
+			bombPicture.setImage(Main.getInstance().getAssetManager(), "Textures/bombicon.png", true);
+			bombPicture.setWidth(screenWidth / 12);
+			bombPicture.setHeight(screenHeight / 10);
+			bombPicture.setPosition(screenWidth / 4f, 60);
+			bombNode.attachChild(bombPicture);
+		}
+		((BitmapText) bombNode.getChild(0)).setText("" + b.getTimer());
 	}
 	
 	/**
@@ -156,11 +159,18 @@ public class HUD implements TickListener {
 	public void update(float tpf) {
 		VRPlayer player = controller.getGame().getPlayer();
 		Inventory inv = player.getInventory();
-		// Update the bomb count in the HUD
-		textBomb.setText("" + (inv.containsBomb() ? 1 : 0)); 
+		updateBombs(inv);
 
 		updateKeys(inv);
 		updateHearts(player);
+	}
+
+	protected void updateBombs(Inventory inv) {
+		if (inv.containsBomb()) {
+			attachBomb(inv.getBomb());
+		} else {
+			bombNode.detachAllChildren();
+		}
 	}
 
 	/**

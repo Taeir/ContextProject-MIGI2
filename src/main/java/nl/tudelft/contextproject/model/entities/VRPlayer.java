@@ -102,6 +102,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	public void update(float tpf) {
 		super.update(tpf);
 		updateFallingTimer(tpf);
+		inventory.update(tpf);
 
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
 		
