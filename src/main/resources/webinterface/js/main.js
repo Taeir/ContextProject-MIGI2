@@ -519,7 +519,7 @@ function updateEntities(data) {
 function getClassForEntityType(entityType) {
     switch (entityType) {
         case 0:
-            return "unknown";
+            return "";
         case 1:
             return "Bomb";
         case 2:
