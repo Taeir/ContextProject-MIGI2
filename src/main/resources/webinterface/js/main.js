@@ -301,14 +301,17 @@ function createClickableFunc(x, y) {
  */
 function showButtons() {
     if (gTeam === "DWARFS") {
+        document.getElementById("clickedDwarfs").innerHTML = document.getElementById("y" + lastPressedY + "x" + lastPressedX).className;
         $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else if (gTeam === "ELVES") {
+        document.getElementById("clickedElves").innerHTML = document.getElementById("y" + lastPressedY + "x" + lastPressedX).className;
         $("#sidebar-wrapper-elves").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else {
         console.log("[DEBUG] No team selected, buttons not shown.");
     }
+    
 }
 
 /**
