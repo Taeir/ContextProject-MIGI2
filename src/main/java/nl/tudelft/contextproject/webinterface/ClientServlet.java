@@ -240,10 +240,7 @@ public class ClientServlet extends DefaultServlet {
 				json.put("explored", Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON());
 				break;
 			case PAUSED:
-				//TODO Actual player information
-				//json.put("player", VRPlayer().toJSON());
-				//TODO Add entity updates
-				//TODO Add explored updates
+				//We don't send any other data when the game is paused
 				break;
 			case ENDED:
 				Boolean elvesWin = ((EndingController) Main.getInstance().getController()).didElvesWin();
