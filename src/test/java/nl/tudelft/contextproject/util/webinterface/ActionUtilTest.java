@@ -8,6 +8,7 @@ import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.Carrot;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.KillerBunny;
+import nl.tudelft.contextproject.model.entities.VoidPlatform;
 import nl.tudelft.contextproject.webinterface.Action;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,5 +81,15 @@ public class ActionUtilTest extends TestBase {
 		ActionUtil.perform(Action.DROPBAIT, 0, 0);
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(Carrot.class));
+	}
+
+	/**
+	 * Test the PlaceTile action.
+	 */
+	@Test
+	public void testPerformPlaceTile() {
+		ActionUtil.perform(Action.PLACETILE, 0, 0);
+		verify(Main.getInstance(), times(1)).getCurrentGame();
+		verify(mockedGame, times(1)).addEntity(any(VoidPlatform.class));
 	}
 }

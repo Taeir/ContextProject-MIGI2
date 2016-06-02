@@ -21,6 +21,11 @@ public class KeyTest extends EntityTest {
 		color.set(ColorRGBA.Yellow);
 		return new Key(color);
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.KEY;
+	}
 	
 	/**
 	 * Setup method.
@@ -52,5 +57,24 @@ public class KeyTest extends EntityTest {
 	public void testSetColor() {
 		key.setColor(ColorRGBA.Red);
 		assertEquals(key.getColor(), ColorRGBA.Red);
+	}
+	
+	/**
+	 * Tests if loading keys works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		Key key = Key.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.KEY.getName(), "0/1/0/1"});
+		
+		assertEquals(loadPosition, key.getLocation());
+		assertEquals(ColorRGBA.Green, key.getColor());
+	}
+	
+	/**
+	 * Tests if loading keys with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		Key.loadEntity(loadPosition, new String[4]);
 	}
 }

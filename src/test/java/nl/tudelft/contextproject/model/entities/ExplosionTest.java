@@ -31,6 +31,11 @@ public class ExplosionTest extends EntityTest {
 	public Entity getEntity() {
 		return explosion;
 	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.EXPLOSION;
+	}
 	
 	/**
 	 * Test if the entity is removed when the maximum radius is reached.

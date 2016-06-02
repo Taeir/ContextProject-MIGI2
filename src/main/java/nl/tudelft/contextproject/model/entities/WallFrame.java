@@ -93,4 +93,35 @@ public class WallFrame extends Entity {
 		getSpatial().move(x, y, z);
 	}
 
+	/**
+	 * Loads a wallframe entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the wallframe
+	 * @param data
+	 * 		the data of the wallframe
+	 * @return
+	 * 		the wallframe represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static WallFrame loadEntity(Vector3f position, String[] data) {
+		if (data.length != 8) {
+			throw new IllegalArgumentException("Invalid data length for loading wall frame! "
+					+ "Expected \"<X> <Y> <Z> WallFrame <Direction> <Texture> <Width> <Height>\".");
+		}
+		
+		Direction direction = Direction.valueOf(data[4]);
+		String texture = data[3] + data[5];
+		float width = Float.parseFloat(data[6]);
+		float height = Float.parseFloat(data[7]);
+		
+		WallFrame frame = new WallFrame(position, texture, direction, width, height);
+		return frame;
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.WALLFRAME;
+	}
 }

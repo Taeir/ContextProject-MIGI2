@@ -73,6 +73,8 @@ public final class WebUtil {
 		switch (action) {
 			case DROPBAIT:
 				return true;
+			case PLACETILE:
+				return true;
 			default:
 				return false;
 		}
@@ -108,15 +110,37 @@ public final class WebUtil {
 	 * 		the x coordinate of the location
 	 * @param yCoord
 	 * 		the y coordinate of the location
+	 * @param action
+	 * 		the action to check for
 	 * @return
 	 * 		true if the location is valid, false otherwise
 	 */
-	public static boolean checkValidLocation(int xCoord, int yCoord) {
+	public static boolean checkValidLocation(int xCoord, int yCoord, Action action) {
 		MazeTile tile = Main.getInstance().getCurrentGame().getLevel().getTile(xCoord, yCoord);
-		if (tile == null || tile.getTileType() == TileType.WALL) {
+		if (tile == null && action.isAllowedVoid()) {
+			return checkValidLocationEntities(xCoord, yCoord);
+		} else if (tile == null || tile.getTileType() == TileType.WALL) {
 			return false;
 		}
 
+		if (action.isAllowedTiles()) {
+			return checkValidLocationEntities(xCoord, yCoord);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if an action can be performed according to the entities in the map.
+	 *
+	 * @param xCoord
+	 * 		the x coordinate of the location
+	 * @param yCoord
+	 * 		the y coordinate of the location
+	 * @return
+	 * 		true if the location is valid, false otherwise
+	 */
+	private static boolean checkValidLocationEntities(int xCoord, int yCoord) {
 		Set<Entity> entities = Main.getInstance().getCurrentGame().getEntities();
 		for (Entity e : entities) {
 			if (Math.round(e.getLocation().getX()) == xCoord &&
