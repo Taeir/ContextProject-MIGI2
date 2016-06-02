@@ -12,8 +12,6 @@
     </head>
     <body>
         <div id="wrapper">
-
-            <!-- Sidebar Dwarfs -->
             <div id="sidebar-wrapper-dwarfs">
                 <ul class="sidebar-nav">
                     <li class="sidebar-brand">
@@ -60,36 +58,30 @@
                     </li>
                 </ul>
             </div>
-            <!-- /#sidebar-wrapper-test -->
-
-            <!-- Page Content -->
-            <div id="page-content-wrapper">
-        		<div id="mainDiv">
-        			<div id="authorized">
-        				<div id="selectTeam">
-        					<button onClick="requestSetTeam('ELVES')" id="clickable">Elves</button>
-        					<button onClick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
-        					<button onClick="requestSetTeam('NONE')" id="clickable">No team</button>
-        					<br>	
-        					Current team: <div class="team">No team</div><br>
-        				</div>
-				
-        				<div id="playing">
-        					<table id="map">
-        					</table>
-        				</div>
-				
-        				<div id="ended" style="visibility:hidden">
-					
-        				</div>
-        			</div>
-        		</div>
-            </div>
-            <!-- /#page-content-wrapper -->
-
         </div>
         <!-- /#wrapper -->
 
+		<div id="mainDiv">
+			<div id="authorized">
+				<div id="selectTeam">
+					<button onClick="requestSetTeam('ELVES')" id="clickable">Elves</button>
+					<button onClick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
+					<button onClick="requestSetTeam('NONE')" id="clickable">No team</button>
+					<br>	
+					Current team: <div class="team">No team</div><br>
+				</div>
+		
+				<div id="playing">
+					<table id="map">
+					</table>
+				</div>
+		
+				<div id="ended" style="visibility:hidden">
+			
+				</div>
+			</div>
+		</div>
+				
         <!-- Load all javascript -->
         <script src="js/jquery-1.12.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
