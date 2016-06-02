@@ -149,7 +149,7 @@ function switchTo(view) {
  *      the team to set. Must be in [ELVES, DWARFS, NONE]
  */
 function requestSetTeam(team) {
-    hideAllButtons(0);
+    hideAllButtons();
     //Check if the team is valid
     if (team != "ELVES" && team != "DWARFS" && team != "NONE") throw "Invalid team!";
     
@@ -255,7 +255,7 @@ function requestAction(argument) {
         if (!checkAuthorized(data)) return;
         
     }, "json");
-    hideAllButtons(250);
+    hideAllButtons();
 }
 
 /**
@@ -281,10 +281,10 @@ function createClickableFunc(x, y) {
  */
 function showButtons() {
     if (gTeam === "DWARFS") {
-        $("#sidebar-wrapper-dwarfs").show();
+        $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else if (gTeam === "ELVES") {
-        $("#sidebar-wrapper-elves").show();
+        $("#sidebar-wrapper-elves").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else {
         console.log("[DEBUG] No team selected, buttons not shown.");
@@ -510,4 +510,5 @@ function toggleFullscreen() {
             document.webkitExitFullscreen();
         }
     }
+    hideAllButtons();
 }

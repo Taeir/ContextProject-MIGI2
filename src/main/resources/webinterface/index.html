@@ -20,22 +20,22 @@
                         <a>Dwarfs</a>
                     </li>
                     <li>
-                        <a href="#">Place bomb</a>
+                        <a href="#" onClick="requestAction('placebomb')">Place bomb</a>
                     </li>
                     <li>
-                        <a href="#">Place pitfall</a>
+                        <a href="#" onClick="requestAction('placepitfall')">Place pitfall</a>
                     </li>
                     <li>
-                        <a href="#">Place landmine</a>
+                        <a href="#" onClick="requestAction('placemine')">Place landmine</a>
                     </li>
                     <li>
-                        <a href="#">Spawn enemy</a>
+                        <a href="#" onClick="requestAction('spawnenemy')">Spawn enemy</a>
                     </li>
                     <li>
-                        <a href="#" onclick="hideAllButtons()">Cancel</a>
+                        <a href="#" onClick="hideAllButtons()">Cancel</a>
                     </li>
                     <li>
-                        <a href="#">Toggle fullscreen</a>
+                        <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
                     </li>
                 </ul>
             </div>
@@ -47,16 +47,16 @@
                         <a>Elves</a>
                     </li>
                     <li>
-                        <a href="#">Drop bait</a>
+                        <a href="#" onClick="requestAction('dropbait')">Drop bait</a>
                     </li>
                     <li>
-                        <a href="#">Place tile</a>
+                        <a href="#" onClick="requestAction('placetile')">Place tile</a>
                     </li>
                     <li>
-                        <a href="#" onclick="hideAllButtons()">Cancel</a>
+                        <a href="#" onClick="hideAllButtons()">Cancel</a>
                     </li>
                     <li>
-                        <a href="#">Toggle fullscreen</a>
+                        <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
                     </li>
                 </ul>
             </div>
@@ -67,11 +67,9 @@
         		<div id="mainDiv">
         			<div id="authorized">
         				<div id="selectTeam">
-        					<button onclick="requestSetTeam('ELVES')" id="clickable">Elves</button>
-        					<button onclick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
-        					<button onclick="requestSetTeam('NONE')" id="clickable">No team</button>
-                            <button onclick="testDwarfs()" id="clickable">Show Dwarfs</button>
-                            <button onclick="testElves()" id="clickable">Show Elves</button>
+        					<button onClick="requestSetTeam('ELVES')" id="clickable">Elves</button>
+        					<button onClick="requestSetTeam('DWARFS')" id="clickable">Dwarfs</button>
+        					<button onClick="requestSetTeam('NONE')" id="clickable">No team</button>
         					<br>	
         					Current team: <div class="team">No team</div><br>
         				</div>
@@ -86,14 +84,6 @@
         				</div>
         			</div>
         		</div>
-		
-        		<div id="unauthorized">
-		
-        		</div>
-		
-        		<div id="error">
-		
-        		</div>
             </div>
             <!-- /#page-content-wrapper -->
 
@@ -104,15 +94,12 @@
         <script src="js/jquery-1.12.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
-        <script>
-            function testDwarfs() {
-                gTeam = "DWARFS";
-                showButtons();
-            }
-            function testElves() {
-                gTeam = "ELVES";
-                showButtons();
-            }
-        </script>
+		<script>
+			//On load
+			$(document).ready(function() {
+				authenticate();
+				setInterval(requestStatus, 1000);
+			});
+		</script>
     </body>
 </html>
