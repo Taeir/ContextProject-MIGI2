@@ -93,6 +93,7 @@ public class Torch extends Entity implements PhysicsObject {
 
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
 	}
+	
 	/**
 	 * @return
 	 * 		the flame on the torch
@@ -160,7 +161,7 @@ public class Torch extends Entity implements PhysicsObject {
 	 * 		if the given data array is of incorrect length
 	 */
 	public static Torch loadEntity(Vector3f position, String[] data) {
-		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading key! Expected \"<X> <Y> <Z> Torch <Type>\".");
+		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading torch! Expected \"<X> <Y> <Z> Torch <Type>\".");
 		Torch torch = null;
 		if (data[4] == "true") {
 			torch = new Torch(true);
