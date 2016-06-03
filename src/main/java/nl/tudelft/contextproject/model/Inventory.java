@@ -69,9 +69,7 @@ public class Inventory implements TickProducer {
 		if (ent instanceof Bomb && bomb != null) {
 			bomb = null;
 			updateTickListeners();
-			return;
-		}
-		if (ent instanceof Key) {
+		} else if (ent instanceof Key) {
 			ColorRGBA c = ((Key) ent).getColor();
 			keys.remove(c);
 			updateTickListeners();

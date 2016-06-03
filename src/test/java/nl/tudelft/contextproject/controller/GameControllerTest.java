@@ -131,7 +131,6 @@ public class GameControllerTest extends ControllerTest {
 		controller.updateEntities(0.5f);
 
 		verify(eMock, times(1)).update(0.5f);
-		//verify(phe.getPhysicsSpace(), times(1)).add(geom);
 		verify(eMock, times(1)).setState(EntityState.ALIVE);
 
 		verify(rn, times(1)).attachChild(geom);    
