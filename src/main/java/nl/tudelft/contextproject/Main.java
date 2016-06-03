@@ -247,6 +247,8 @@ public class Main extends VRApplication implements TickProducer {
 
 		if (mouseEnabled) {
 			new NoVRMouseManager(getCamera()).registerWithInput(im);
+		} else if (VRApplication.isInVR()) {
+			new VRLookManager2(getCamera()).registerWithInput(im);
 		}
 		
 		if (isControllerConnected()) {
