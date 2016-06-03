@@ -214,9 +214,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testsetHealth() {
-		player.setHealth(2);
-		player.setHealth(4);
-		assertTrue(player.getHealth() == 3);
+		player.setHealth(1 + VRPlayer.PLAYER_MAX_HEALTH);
+		assertEquals(VRPlayer.PLAYER_MAX_HEALTH, player.getHealth(), 1e-8);
 	}
 	
 	/**

@@ -84,8 +84,10 @@ public class Bomb extends Entity implements PhysicsObject {
 	 * activates the bomb, it will explode in 5 seconds.
 	 */
 	public void activate() {
-		this.active = true;
-		this.timer = TIMER;
+		if (!active) {
+			this.active = true;
+			this.timer = TIMER;
+		}
 	}
 
 	/**

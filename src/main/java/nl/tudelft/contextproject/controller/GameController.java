@@ -21,6 +21,7 @@ import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
+import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
@@ -33,6 +34,11 @@ import jmevr.app.VRApplication;
  * Controller for the main game.
  */
 public class GameController extends Controller {
+	/**
+	 * The highest tpf that will be passed to all entities.
+	 * This ensures that a big lag-spike wont allow entities to glitch through walls.
+	 */
+	public static final float MAX_TPF = .033f;
 	private Game game;
 	private HUD hud;
 
@@ -129,17 +135,40 @@ public class GameController extends Controller {
 		if (level == null) throw new IllegalStateException("No level set!");
 
 		Vector2f start = attachMazeTiles(level);
-		addDrawable(game.getPlayer());		
-		game.getPlayer().move(start.x, 6, start.y);
-
+		addDrawable(game.getPlayer());
+		game.getPlayer().move(start.x, 0, start.y);
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
 
+		placeTreasure(game);
+		
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
 	}
+
+	/**
+	 * Place a treasure in the level.
+	 * 
+	 * @param game
+	 * 		the game that contains the level
+	 */
+	protected void placeTreasure(Game game) {
+		Level level = game.getLevel();
+
+		for (int x = level.getWidth() - 1; x >= 0; x--) {
+			for (int y = level.getHeight() - 1; y >= 0; y--) {
+				if (level.isTileAtPosition(x, y) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
+					Treasure e = new Treasure();
+					e.move(x, 0, y);
+					game.getEntities().add(e);
+					return;
+				}
+			}
+		}
+	}
+
 	/**
 	 * Attach all {@link MazeTile}s in the level to the renderer.
 	 * 
@@ -171,6 +200,7 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
+		tpf = Math.min(tpf, MAX_TPF);
 		hud.setGameTimer(Math.round(game.getTimeRemaining()));
 		game.update(tpf);
 		game.getPlayer().update(tpf);

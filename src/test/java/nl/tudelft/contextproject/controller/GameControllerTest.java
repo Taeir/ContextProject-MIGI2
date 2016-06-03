@@ -108,7 +108,7 @@ public class GameControllerTest extends ControllerTest {
 		controller.update(0.5f);
 		
 		verify(hud, times(1)).setGameTimer(anyInt());
-		verify(game.getPlayer(), times(1)).update(0.5f);
+		verify(game.getPlayer(), times(1)).update(Math.min(GameController.MAX_TPF, .5f));
 	}
 
 	/**

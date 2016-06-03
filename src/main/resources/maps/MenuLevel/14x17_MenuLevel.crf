@@ -32,5 +32,5 @@ WALL WALL WALL WALL FLOOR FLOOR WALL WALL WALL WALL WALL WALL WALL WALL
 9 0 8 InvisibleWall
 9 0 9 InvisibleWall
 9 0 10 InvisibleWall
-13 2 10 KillerBunny
+11.5 2 8 KillerBunny
 7 100 9 PointLight .5/.5/.5/.5 200
