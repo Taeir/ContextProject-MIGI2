@@ -29,7 +29,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 
 	//Physics interaction constants.
 
-	public static final float JUMP_SPEED = 13f;
+	public static final float JUMP_SPEED = 15f;
 	//Terminal velocity of the player
 	public static final float FALL_SPEED = 15f;
 	//How fast the player accelerates while falling
@@ -45,25 +45,20 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	//SHOULD NOT BE CHANGED
 	public static final int PLAYER_GRAVITY_AXIS = 1;
 
-	//Movement control constants.
-
-	public static final float SIDE_WAY_SPEED_MULTIPLIER = .05f;
-	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
-
 	//Constants for exploration.
 
 	public static final float EXPLORATION_INTERVAL = 0.5f;
 	public static final int EXPLORATION_RADIUS = 5;
 	
 	//Health constants
-	public static final float PLAYER_MAX_HEALTH = 3f;
-	public static final float PLAYER_HEALTH = 3f;
+	public static final float PLAYER_MAX_HEALTH = 5f;
+	public static final float PLAYER_HEALTH = 5f;
 	
 	//The range in which the player can interact with entities (e.g. picking up bombs/keys and opening doors)
 	public static final float INTERACT_RANGE = 2f;
 	
 	//The height at which the player is spawned in the map
-	public static final float SPAWN_HEIGHT = 10f;
+	public static final float SPAWN_HEIGHT = 2f;
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
@@ -161,7 +156,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		if (getLocation().y < 0 && fallingTimer == 0) {
 			resp = getLocation().clone();
 			resp.y = 5;
-			fallingTimer = 5;
+			fallingTimer = 2;
 		}
 		if (fallingTimer != 0) {
 			fallingTimer -= tpf;

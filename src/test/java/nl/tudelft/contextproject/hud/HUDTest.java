@@ -99,7 +99,8 @@ public class HUDTest extends TestBase {
 	public void testGetHeartPosition() {
 		Picture p = hud.getHealthContainer(2);
 		Vector3f loc = p.getLocalTranslation();
-		assertEquals(106f, loc.x, 1e-5);
+		float start = .5f - (VRPlayer.PLAYER_MAX_HEALTH / 2) * 0.06f;
+		assertEquals(200 * (start + 0.12f), loc.x, 1e-5);
 		assertEquals(180f, loc.y, 1e-5);
 	}
 	

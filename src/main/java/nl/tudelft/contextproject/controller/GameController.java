@@ -21,6 +21,7 @@ import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
+import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
@@ -34,6 +35,11 @@ import jmevr.app.VRApplication;
  * Controller for the main game.
  */
 public class GameController extends Controller {
+	/**
+	 * The highest tpf that will be passed to all entities.
+	 * This ensures that a big lag-spike wont allow entities to glitch through walls.
+	 */
+	public static final float MAX_TPF = .033f;
 	private Game game;
 	private HUD hud;
 
@@ -75,22 +81,33 @@ public class GameController extends Controller {
 				MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
 				RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
 				Level level = new Level(tiles, lights);
-				game = new Game(level, new VRPlayer(), entities, this, timeLimit);
+				Entity e = null;
+				VRPlayer  p = null;
+				for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
+					if (e instanceof VRPlayer) {
+						p = (VRPlayer) e;
+						it.remove();
+					}
+				}
+				game = new Game(level, p, entities, this, timeLimit);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			
 		} else {
 			MSTBasedLevelFactory mstLevelFactory = new MSTBasedLevelFactory("/maps/testGridMap/"); 
 			Level level = mstLevelFactory.generateRandom();
 			Set<Entity> entities = mstLevelFactory.entities;
 			Entity e = null;
+			VRPlayer  p = null;
 			for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
 				if (e instanceof VRPlayer) {
+					p = (VRPlayer) e;
 					it.remove();
-					break;
 				}
 			}
-			game = new Game(level, (VRPlayer) e, entities, this, timeLimit);			
+			game = new Game(level, p, entities, this, timeLimit);			
 		}
 	}
 
@@ -142,17 +159,17 @@ public class GameController extends Controller {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
 
-		Vector2f start = attachMazeTiles(level);
-		addDrawable(game.getPlayer());		
-
+		attachMazeTiles(level);
+		addDrawable(game.getPlayer());
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-
+		
 		AmbientLight al = new AmbientLight();
-		al.setColor(ColorRGBA.White.mult(.5f));
+		al.setColor(ColorRGBA.White.mult(.9f));
 		addLight(al);
 	}
+
 	/**
 	 * Attach all {@link MazeTile}s in the level to the renderer.
 	 * 
@@ -186,6 +203,7 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
+		tpf = Math.min(tpf, MAX_TPF);
 		hud.setGameTimer(Math.round(game.getTimeRemaining()));
 		game.update(tpf);
 		game.getPlayer().update(tpf);
@@ -241,7 +259,7 @@ public class GameController extends Controller {
 	public Game getGame() {
 		return game;
 	}
-
+	
 	/**
 	 * Method used for testing.
 	 * Set the instance of the game.
@@ -252,7 +270,7 @@ public class GameController extends Controller {
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	
+
 	/**
 	 * Callback called when the game ends.
 	 * 

@@ -1,0 +1,19 @@
+# A simple maze made of invisible walls
+10 6 10 1
+# # # # # # # # # #
+# O O O O O O O O X
+# O O O O O O O O #
+# O O O O O O O O #
+I O O O O O O O O #
+# # # # # # # # # #
+3 0 1 InvisibleWall
+3 0 2 InvisibleWall
+3 0 3 InvisibleWall
+4 0 2 InvisibleWall
+5 0 1 InvisibleWall
+5 0 2 InvisibleWall
+6 0 4 InvisibleWall
+7 0 3 InvisibleWall
+8 0 1 InvisibleWall
+8 0 3 InvisibleWall
+5 7 3 PointLight .5/.5/.5/.5 10

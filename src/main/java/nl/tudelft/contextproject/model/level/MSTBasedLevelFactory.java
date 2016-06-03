@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.light.Light;
 
@@ -27,7 +28,7 @@ import nl.tudelft.contextproject.util.RandomUtil;
  *
  */
 public class MSTBasedLevelFactory implements LevelFactory {
-	public Set<Entity> entities = new HashSet<Entity>();
+	public Set<Entity> entities = ConcurrentHashMap.newKeySet();
 
 	public static final int START_ROOM_ID = -1;
 	//Max width of level 

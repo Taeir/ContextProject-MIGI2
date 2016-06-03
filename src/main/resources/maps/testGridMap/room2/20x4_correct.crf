@@ -3,4 +3,4 @@
 I O O O - - - O O O O - - - O O O O O #
 # O O O - - - O O O O - - - O O O O O X
 # # # # # # # # # # # # # # # # # # # #
-0 0 0 AmbientLight randomColor
+10 7 2 PointLight .5/.5/.5/.5 20

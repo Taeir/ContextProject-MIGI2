@@ -15,8 +15,8 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
 public class PlayerControl implements EntityControl, ActionListener {
 
 	//Movement control constants.
-	public static final float SIDE_WAY_SPEED_MULTIPLIER = .08f;
-	public static final float STRAIGHT_SPEED_MULTIPLIER = .1f;
+	public static final float SIDE_WAY_SPEED_MULTIPLIER = .04f;
+	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
 
 	private Vector3f walkDirection;
 	private boolean left;

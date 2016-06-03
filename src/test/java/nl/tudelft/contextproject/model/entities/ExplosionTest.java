@@ -71,7 +71,7 @@ public class ExplosionTest extends EntityTest {
 	public void testDamageEntitiesPlayer() {
 		VRPlayer p = Main.getInstance().getCurrentGame().getPlayer();
 		explosion.damageEntities(100, 2);
-		assertEquals(1, p.getHealth(), 1e-6);
+		assertEquals(VRPlayer.PLAYER_MAX_HEALTH - 2, p.getHealth(), 1e-6);
 	}
 	
 	/**

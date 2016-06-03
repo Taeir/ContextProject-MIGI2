@@ -3,8 +3,10 @@
 #
 STARTROOM: startroom
 ENDROOM: endroom
-NOROOMS: 3
+NOROOMS: 6
 room1
 room2
 room3
 room4
+room5
+room6
