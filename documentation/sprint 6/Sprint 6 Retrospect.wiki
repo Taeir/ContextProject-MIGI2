@@ -212,7 +212,7 @@ In here sprint items that were described in the backlog of this sprint are discu
 <td>1.5</td>
 <td>0.5+0.5</td>
 <td>yes</td>
-<td>Less work than expected.</td>
+<td>Less work than expected. Bram also spent half an hour recruiting.</td>
 </tr>
 <tr>
 <td>[https://github.com/Taeir/ContextProject-MIGI2/issues/303 #303 Play test]</td>
@@ -366,7 +366,7 @@ This coincides with last weeks task of creating more realistic cave models ([htt
 </tr>
 <tr>
 <td rowspan=14>'''Unplanned Tasks'''</td>
-<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/0 #0 Take interaction design tests]</td>
+<td>#0 Take interaction design tests</td>
 <td>Everyone</td>
 <td>-</td>
 <td>1</td>
@@ -414,7 +414,7 @@ This coincides with last weeks task of creating more realistic cave models ([htt
 <td>As Chiel had time left, he was able to add this feature. Invisible walls are only visible to elves and dwarves.</td>
 </tr>
 <tr>
-<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/0 #0 Portable Oculus]</td>
+<td>Portable Oculus</td>
 <td>Robin / Taico</td>
 <td>-</td>
 <td>4 / 2</td>
@@ -430,7 +430,7 @@ This coincides with last weeks task of creating more realistic cave models ([htt
 <td>Chiel had time left, so he decided to improve our least tested class. This task also includes many changes to the inventory.</td>
 </tr>
 <tr>
-<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/0 #0 Fix controller]</td>
+<td>Fix controller</td>
 <td>Taico</td>
 <td>-</td>
 <td>1</td>
@@ -470,7 +470,7 @@ This coincides with last weeks task of creating more realistic cave models ([htt
 <td></td>
 </tr>
 <tr>
-<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/0 #0 Prepare game for play testing]</td>
+<td>Prepare game for play testing</td>
 <td>Chiel / Bram / Robin / Taico</td>
 <td>-</td>
 <td>6.5 /<br/>1 /<br/>3.5 /<br/>1</td>
