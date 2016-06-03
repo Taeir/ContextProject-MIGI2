@@ -43,11 +43,12 @@ public class BunnyAI implements EntityControl {
 
 	@Override
 	public void move(float tpf) {
-		if (player == null) {
-			Game game  = Main.getInstance().getCurrentGame();
-			this.player = game.getPlayer();
-			this.entities = game.getEntities();
-		}
+		Game game = Main.getInstance().getCurrentGame();
+		if (game == null) return;
+		
+		this.player = game.getPlayer();
+		this.entities = game.getEntities();
+		
 		float playerdist = player.getLocation().distance(owner.getLocation());
 		if (playerdist < ATTACK_RANGE) {
 			player.takeDamage(tpf * ATTACK_DAMAGE);
