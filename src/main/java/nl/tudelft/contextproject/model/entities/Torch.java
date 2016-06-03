@@ -57,9 +57,6 @@ public class Torch extends Entity implements PhysicsObject {
 			fire.move(0, 0.11f, 0);
 			this.move(0, 5.32f, 0);
 		}
-
-
-
 	}
 
 	@Override
@@ -162,12 +159,8 @@ public class Torch extends Entity implements PhysicsObject {
 	 */
 	public static Torch loadEntity(Vector3f position, String[] data) {
 		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading torch! Expected \"<X> <Y> <Z> Torch <Type>\".");
-		Torch torch = null;
-		if (data[4] == "true") {
-			torch = new Torch(true);
-		} else {
-			torch = new Torch(false);
-		}
+		
+		Torch torch = new Torch(Boolean.parseBoolean(data[4]));
 		torch.move(position);
 
 		return torch;
