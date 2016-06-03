@@ -8,18 +8,20 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.TestBase;
+
 /**
  * Test class for {@link TickProducer}.
  */
-public class TickProducerTest {
+public class TickProducerTest extends TestBase {
 	
-	TickProducer tp;
+	private TickProducer tp;
 
 	/**
 	 * Create a fresh instance of {@link TickProducer} for each test.
 	 */
 	@Before
-	public void test() {
+	public void setUp() {
 		tp = new TickProducer() {
 			private ArrayList<TickListener> listeners = new ArrayList<>();
 			@Override
@@ -63,7 +65,6 @@ public class TickProducerTest {
 		
 		tp.removeTickListener(tl);
 		tp.updateTickListeners();
-		verifyNoMoreInteractions(tl);
-		
+		verifyNoMoreInteractions(tl);	
 	}
 }
