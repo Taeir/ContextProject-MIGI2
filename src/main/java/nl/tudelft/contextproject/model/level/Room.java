@@ -38,13 +38,13 @@ public class Room {
 
 	//2d representation of mazeTiles in the room
 	public MazeTile[][] mazeTiles;
-	
+
 	//Entrance door locations
 	public ArrayList<Vec2I> entranceDoorsLocations;
-	
+
 	//Exit door Locations
 	public ArrayList<Vec2I> exitDoorLocations;
-	
+
 	//Original folder
 	public String folder;
 	/**
@@ -96,19 +96,21 @@ public class Room {
 	public void setDoors() {
 		entranceDoorsLocations = new ArrayList<Vec2I>();
 		exitDoorLocations = new ArrayList<Vec2I>();
-		
+
 		for (int i = 0; i < size.getWidth(); i++) {
 			for (int j = 0; j < size.getHeight(); j++) {
-				TileType mazeTile = mazeTiles[i][j].getTileType();
-				if (mazeTile == TileType.DOOR_ENTRANCE) {
-					entranceDoorsLocations.add(new Vec2I(i, j));
-				} else if (mazeTile == TileType.DOOR_EXIT) {
-					exitDoorLocations.add(new Vec2I(i, j));
+				if (mazeTiles[i][j] != null) {
+					TileType mazeTile = mazeTiles[i][j].getTileType();
+					if (mazeTile == TileType.DOOR_ENTRANCE) {
+						entranceDoorsLocations.add(new Vec2I(i, j));
+					} else if (mazeTile == TileType.DOOR_EXIT) {
+						exitDoorLocations.add(new Vec2I(i, j));
+					}
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Set mazeTiles array.
 	 * @param mazeTiles
@@ -144,7 +146,7 @@ public class Room {
 		Room other = (Room) obj;
 		if (!other.size.equals(size)) 
 			return false;
-		
+
 		for (int i = 0; i < size.getWidth(); i++) {
 			for (int j = 0; j < size.getHeight(); j++) {
 				if (mazeTiles[i][j].getTileType() != other.mazeTiles[i][j].getTileType()) {
@@ -152,7 +154,7 @@ public class Room {
 				}
 			}
 		}
-			
+
 		return true;
 	}
 

@@ -9,8 +9,7 @@ public class StartGame implements TickListener {
  @Override
  public void update(float tpf) {
   Main main = Main.getInstance();
-  Level level = new MSTBasedLevelFactory("/maps/testGridMap/").generateRandom();
-  main.setController(new GameController(main, level, 300));
+  main.setController(new GameController(main, "/maps/testGridMap/", 300, true));
  }
  
 }

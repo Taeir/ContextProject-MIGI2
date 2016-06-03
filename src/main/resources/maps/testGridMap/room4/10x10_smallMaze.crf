@@ -1,0 +1,14 @@
+# A small maze
+10 10 1 1
+# # # # I # # # # #
+# O O # O O O O O #
+# # O O O # # # O #
+# O # O # O O O # #
+# O O O # O # # # #
+# O # O O O O O O #
+# # # O # # O # O #
+# O # O # O O # O #
+# O O O # O # O O X
+# # # # # # # # # #
+1 1 1 Bomb
+3.5 0 4 PointLight 1/1/1/1 20

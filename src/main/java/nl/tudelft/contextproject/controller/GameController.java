@@ -24,6 +24,7 @@ import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
@@ -48,7 +49,7 @@ public class GameController extends Controller {
 	 */
 	public GameController(Application app, Level level, float timeLimit) {
 		super(app, "GameController");
-
+		
 		game = new Game(level, this, timeLimit);
 	}
 
@@ -62,21 +63,34 @@ public class GameController extends Controller {
 	 * @param timeLimit
 	 * 		the time limit for this game
 	 */
-	public GameController(Application app, String folder, float timeLimit) {
+	public GameController(Application app, String folder, float timeLimit, boolean isMap) {
 		super(app, "GameController");
-
-		Set<Entity> entities = ConcurrentHashMap.newKeySet();
-		List<Light> lights = new ArrayList<>();
-
-		try {
-			File file = RoomParser.getMapFile(folder);
-			String[] tmp = file.getName().split("_")[0].split("x");
-			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
-			RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
-			Level level = new Level(tiles, lights);
-			game = new Game(level, new VRPlayer(), entities, this, timeLimit);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (!isMap) {
+			Set<Entity> entities = ConcurrentHashMap.newKeySet();
+			List<Light> lights = new ArrayList<>();
+	
+			try {
+				File file = RoomParser.getMapFile(folder);
+				String[] tmp = file.getName().split("_")[0].split("x");
+				MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
+				RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
+				Level level = new Level(tiles, lights);
+				game = new Game(level, new VRPlayer(), entities, this, timeLimit);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			MSTBasedLevelFactory mstLevelFactory = new MSTBasedLevelFactory("/maps/testGridMap/"); 
+			Level level = mstLevelFactory.generateRandom();
+			Set<Entity> entities = mstLevelFactory.entities;
+			Entity e = null;
+			for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
+				if (e instanceof VRPlayer) {
+					it.remove();
+					break;
+				}
+			}
+			game = new Game(level, (VRPlayer) e, entities, this, timeLimit);			
 		}
 	}
 
@@ -130,7 +144,6 @@ public class GameController extends Controller {
 
 		Vector2f start = attachMazeTiles(level);
 		addDrawable(game.getPlayer());		
-		game.getPlayer().move(start.x, 6, start.y);
 
 		for (Light l : level.getLights()) {
 			addLight(l);
@@ -152,11 +165,13 @@ public class GameController extends Controller {
 		Vector2f start = new Vector2f();
 		for (int x = 0; x < level.getWidth(); x++) {
 			for (int y = 0; y < level.getHeight(); y++) {
+				attachRoofTile(x, y);
 				if (level.isTileAtPosition(x, y)) {
 					//TODO add starting room with starting location
 					TileType t = level.getTile(x, y).getTileType();
+					
 					if (t == TileType.FLOOR || t == TileType.CORRIDOR) {
-						attachRoofTile(x, y);
+						
 						if (start.x == 0 && start.y == 0) {
 							start.x = x;
 							start.y = y;

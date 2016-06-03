@@ -1,0 +1,6 @@
+20 4 0 1
+# # # # # # # # # # # # # # # # # # # #
+I O O O - - - O O O O - - - O O O O O #
+# O O O - - - O O O O - - - O O O O O X
+# # # # # # # # # # # # # # # # # # # #
+0 0 0 AmbientLight randomColor

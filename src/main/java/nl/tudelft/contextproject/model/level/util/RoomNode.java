@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.jme3.light.Light;
 
+import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.Room;
 
@@ -204,8 +205,12 @@ public class RoomNode {
 		for (int x = 0; x < xSize; x++) {
 			for (int y = 0; y < ySize; y++) {
 				tiles[coordinates.x + x][coordinates.y + y] = room.mazeTiles[x][y];
+				if (tiles[coordinates.x + x][coordinates.y + y] == null) continue;
 				tiles[coordinates.x + x][coordinates.y + y].replace(coordinates.x + x, coordinates.y + y);
 			}
+		}
+		for (Entity e : room.entities) {
+			e.move(coordinates.x, 0, coordinates.y);
 		}
 		updateDoorLocations();
 	}

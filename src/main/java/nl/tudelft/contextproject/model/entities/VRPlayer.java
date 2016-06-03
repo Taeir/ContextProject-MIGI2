@@ -161,7 +161,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		if (getLocation().y < 0 && fallingTimer == 0) {
 			resp = getLocation().clone();
 			resp.y = 5;
-			fallingTimer = 40;
+			fallingTimer = 5;
 		}
 		if (fallingTimer != 0) {
 			fallingTimer -= tpf;

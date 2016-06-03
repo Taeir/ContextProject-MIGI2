@@ -1,6 +1,6 @@
 # Menu Level that contains some simple tutorial material
 14 17 16 1
-# # # # # # # # # _ # # # #
+# # # # # # # # # - # # # #
 # O O O O O O O O # O O O #
 # O O O O O O O O # O O O #
 # O O O O O O O O O O O O #
@@ -12,11 +12,11 @@
 # O O O O O O O O O O O O #
 # O O O O O O O O O O O O #
 # # # # O O # # # # # # # #
-_ _ # O O O O # _ _ _ _ _ _
-_ _ # O O O O # _ _ _ _ _ _
-_ _ # O O O O # _ _ _ _ _ _
-_ _ # O O O O # _ _ _ _ _ _
-_ _ # # # # # # _ _ _ _ _ _
+- - # O O O O # - - - - - -
+- - # O O O O # - - - - - -
+- - # O O O O # - - - - - -
+- - # O O O O # - - - - - -
+- - # # # # # # - - - - - -
 5 1 4 Key 1/0/0/1
 8.5 .5 3 Door 1/0/0/1
 4.5 0 13.5 PlayerTrigger 1 .5 StartGame

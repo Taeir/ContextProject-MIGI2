@@ -3,11 +3,15 @@ package nl.tudelft.contextproject.model.level;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
 
 import com.jme3.light.Light;
 
+import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.roomIO.MapReader;
 import nl.tudelft.contextproject.model.level.util.CorridorBreadthFirstSearch;
 import nl.tudelft.contextproject.model.level.util.CorridorEdge;
@@ -23,12 +27,13 @@ import nl.tudelft.contextproject.util.RandomUtil;
  *
  */
 public class MSTBasedLevelFactory implements LevelFactory {
+	public Set<Entity> entities = new HashSet<Entity>();
 
 	public static final int START_ROOM_ID = -1;
 	//Max width of level 
-	protected static final int MAX_WIDTH = 100;
+	protected static final int MAX_WIDTH = 50;
 	//Max height of level 
-	protected static final int MAX_HEIGHT = 100;
+	protected static final int MAX_HEIGHT = 50;
 
 	/**
 	 * Number of tries when placing rooms randomly.
@@ -36,13 +41,13 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * The density is also dependent on the MAX_WIDTH and MAX_HEIGHT, because a larger
 	 * size will require more attempts to fill to the same density.
 	 */
-	private static final int MAX_ATTEMPTS = 200;
+	private static final int MAX_ATTEMPTS = 10000;
 
 	/**
 	 * Allow duplicates rooms in a single level.
 	 * Should be set to initialize to true if duplicates are needed.
 	 */
-	public boolean duplicates = true;
+	public boolean duplicates;
 
 	private Random rand;
 
@@ -99,6 +104,10 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		//createMST();
 		placeCorridors();
 		MSTBasedLevelFactory.carveCorridorWalls(mazeTiles);
+		for (RoomNode roomNode: usedNodes) {
+			Room room = roomNode.room;
+			entities.addAll(room.entities);
+		}
 		return new Level(mazeTiles, lights);
 	}
 
