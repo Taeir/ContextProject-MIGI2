@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -14,6 +16,8 @@ import com.jme3.scene.shape.Sphere;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
@@ -21,7 +25,7 @@ import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
+public class VRPlayer extends MovingEntity implements PhysicsObject, TickProducer, Health {
 
 	//Physics interaction constants.
 
@@ -68,6 +72,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	private float fallingTimer;
 	private float explorationTimer;
 	private float health;
+	private List<TickListener> listeners;
 
 	/**
 	 * Constructor for a default player.
@@ -77,6 +82,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		super(new PlayerControl());
 		health = PLAYER_HEALTH;
 		inventory = new Inventory();
+		listeners = new ArrayList<>();
 	}
 
 	@Override
@@ -96,6 +102,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	public void update(float tpf) {
 		super.update(tpf);
 		updateFallingTimer(tpf);
+		inventory.update(tpf);
 
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
 
@@ -205,10 +212,11 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	 * Player drops a bomb from his inventory.
 	 */
 	public void dropBomb() {
-		if (inventory.containsBomb()) {
-			inventory.getBomb().setPickedup(false);
-			inventory.remove(inventory.getBomb());
-		}
+		if (!inventory.containsBomb()) return;
+		
+		Bomb bomb = inventory.getBomb();
+		inventory.remove(bomb);
+		bomb.setPickedup(false);
 	}
 
 	/**
@@ -219,20 +227,12 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		Set<Entity> set = Main.getInstance().getCurrentGame().getEntities();
 
 		for (Entity ent : set) {
-
 			if (!ent.collidesWithPlayer(INTERACT_RANGE)) continue;
 
-			if (ent instanceof Bomb) {
-				if (inventory.numberOfBombs() < 1) {
-					if (!((Bomb) ent).getPickedup()) {
-						inventory.add((Bomb) ent);
-						((Bomb) ent).activate();
-						((Bomb) ent).setPickedup(true);
-						return;
-					}
-				}
-			}
-			if (ent instanceof Key) {
+			if (ent instanceof Bomb && !inventory.containsBomb()) {
+				inventory.add((Bomb) ent);
+				return;
+			} else if (ent instanceof Key) {
 				Key key = (Key) ent;
 				inventory.add(new Key(key.getColor()));
 				ent.setState(EntityState.DEAD);
@@ -240,7 +240,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 			} else if (ent instanceof Door) {
 				Door door = (Door) ent;
 				if (inventory.containsColorKey(door.getColor())) {
-					inventory.remove(inventory.getKey(door.getColor()));
+					inventory.remove(new Key(door.getColor()));
 					ent.setState(EntityState.DEAD);
 					return;
 				}
@@ -280,6 +280,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	@Override
 	public void setHealth(float heal) {
 		this.health = Math.min(PLAYER_MAX_HEALTH, health);
+		updateTickListeners();
 	}
 	
 	@Override
@@ -288,6 +289,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		if (health < 0) {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
+		updateTickListeners();
 	}
 	
 	/**
@@ -314,5 +316,10 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	@Override
 	public EntityType getType() {
 		return EntityType.PLAYER;
+	}
+
+	@Override
+	public List<TickListener> getTickListeners() {
+		return listeners;
 	}
 }

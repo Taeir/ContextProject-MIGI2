@@ -21,6 +21,7 @@ import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the VRPlayer class.
@@ -192,7 +193,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 		bomb.move(vec.x + 1, vec.y, vec.z);
 		Main.getInstance().getCurrentGame().getEntities().add(bomb);
 		player.pickUp();
-		assertTrue(bomb.getPickedup());
+		assertTrue(bomb.isPickedup());
 	}
 	
 	/**

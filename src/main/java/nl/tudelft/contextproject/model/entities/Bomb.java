@@ -16,6 +16,7 @@ import nl.tudelft.contextproject.model.PhysicsObject;
  * Class representing a bomb.
  */
 public class Bomb extends Entity implements PhysicsObject {
+	private static final float TIMER = 10;
 	private Spatial sp;
 	private RigidBodyControl rb;
 	private boolean active;
@@ -38,19 +39,19 @@ public class Bomb extends Entity implements PhysicsObject {
 	}
 
 	@Override
-	public void update(float tdf) {
-		if (this.getPickedup()) {
+	public void update(float tpf) {
+		if (this.isPickedup()) {
 			Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(1.5f);
 			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation().add(vec.x, 1, vec.z);
 			this.getSpatial().setLocalTranslation(vec2);
 		}
 		if (active) {
-			timer += tdf;
-			if (timer > 4) {
+			timer -= tpf;
+			if (timer < 0) {
 				Explosion exp = new Explosion(40f);
-				Vector3f vec = this.getSpatial().getLocalTranslation();
-				exp.move(vec.x, vec.y, vec.z);
+				exp.move(this.getLocation());
 				Main.getInstance().getCurrentGame().getEntities().add(exp);
+				active = false;
 				this.setState(EntityState.DEAD);
 			}
 		}
@@ -84,6 +85,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	 */
 	public void activate() {
 		this.active = true;
+		this.timer = TIMER;
 	}
 
 	/**
@@ -101,23 +103,7 @@ public class Bomb extends Entity implements PhysicsObject {
 	public float getTimer() {
 		return timer;
 	}
-
-	/**
-	 * @param bool
-	 * 		decides wether the bomb is picked up 
-	 */
-	public void setPickedup(Boolean bool) {
-		pickedup = bool;
-	}
-
-	/**
-	 * @return 
-	 * 		returns wether the bomb is picked up or not
-	 */
-	public boolean getPickedup() {
-		return pickedup;
-	}
-
+	
 	/**
 	 * Loads a bomb entity from an array of String data.
 	 * 
@@ -142,5 +128,21 @@ public class Bomb extends Entity implements PhysicsObject {
 	@Override
 	public EntityType getType() {
 		return EntityType.BOMB;
+	}
+
+	/**
+	 * @param bool
+	 * 		decides whether the bomb is picked up 
+	 */
+	public void setPickedup(Boolean bool) {
+		pickedup = bool;
+	}
+
+	/**
+	 * @return 
+	 * 		returns wether the bomb is picked up or not
+	 */
+	public boolean isPickedup() {
+		return pickedup;
 	}
 }
