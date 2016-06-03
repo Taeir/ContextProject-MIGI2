@@ -74,6 +74,48 @@ public class RequestHandler {
 	}
 	
 	/**
+	 * Handles a setTeam request.
+	 * 
+	 * @param request
+	 * 		the HTTP request
+	 * @param response
+	 * 		the HTTP response object
+	 * @throws IOException
+	 * 		if sending the response to the client causes an IOException
+	 */
+	public void setTeam(WebClient client, String team, HttpServletResponse response) throws IOException {
+		//TODO
+		
+		if (Main.getInstance().getGameState().isStarted()) {
+			//You cannot switch teams while the game is in progress, so we send back the current team to fix up the client.
+			//client.sendMessage(msg, response);
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write(client.getTeam().toUpperCase());
+			return;
+		}
+		
+		if (team == null) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("INVALID");
+		} else if (team.equals("DWARFS")) {
+			client.setTeam(false);
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("DWARFS");
+		} else if (team.equals("ELVES")) {
+			client.setTeam(true);
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("ELVES");
+		} else if (team.equals("NONE")) {
+			client.setTeam(null);
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("NONE");
+		} else {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("INVALID");
+		}
+	}
+	
+	/**
 	 * Handles a map request.
 	 * 
 	 * @param client
