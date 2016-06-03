@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,20 +21,26 @@ import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
+import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
-
 import jmevr.app.VRApplication;
 
 /**
  * Controller for the main game.
  */
 public class GameController extends Controller {
+	/**
+	 * The highest tpf that will be passed to all entities.
+	 * This ensures that a big lag-spike wont allow entities to glitch through walls.
+	 */
+	public static final float MAX_TPF = .033f;
 	private Game game;
+	private HUD hud;
 
 	/**
 	 * Constructor for the game controller.
@@ -95,7 +102,8 @@ public class GameController extends Controller {
 		
 		//Check if we are running in tests or not
 		if (VRApplication.getMainVRApp().getContext() != null) {
-			new HUD(this).attachHud();
+			hud = new HUD(this);
+			hud.attachHud();
 		}
 		
 		GameController t = this;
@@ -127,16 +135,38 @@ public class GameController extends Controller {
 		if (level == null) throw new IllegalStateException("No level set!");
 
 		Vector2f start = attachMazeTiles(level);
-		addDrawable(game.getPlayer());		
-		game.getPlayer().move(start.x, 6, start.y);
-		
+		addDrawable(game.getPlayer());
+		game.getPlayer().move(start.x, 0, start.y);
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
+
+		placeTreasure(game);
 		
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.5f));
 		addLight(al);
+	}
+
+	/**
+	 * Place a treasure in the level.
+	 * 
+	 * @param game
+	 * 		the game that contains the level
+	 */
+	protected void placeTreasure(Game game) {
+		Level level = game.getLevel();
+
+		for (int x = level.getWidth() - 1; x >= 0; x--) {
+			for (int y = level.getHeight() - 1; y >= 0; y--) {
+				if (level.isTileAtPosition(x, y) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
+					Treasure e = new Treasure();
+					e.move(x, 0, y);
+					game.getEntities().add(e);
+					return;
+				}
+			}
+		}
 	}
 
 	/**
@@ -170,6 +200,8 @@ public class GameController extends Controller {
 
 	@Override
 	public void update(float tpf) {
+		tpf = Math.min(tpf, MAX_TPF);
+		hud.setGameTimer(Math.round(game.getTimeRemaining()));
 		game.update(tpf);
 		game.getPlayer().update(tpf);
 		updateEntities(tpf);
@@ -245,5 +277,15 @@ public class GameController extends Controller {
 	public void gameEnded(boolean didElvesWin) {
 		Main main = Main.getInstance();
 		main.setController(new EndingController(main, didElvesWin));
+	}
+
+	/**
+	 * Method used for testing.
+	 * 
+	 * @param hud
+	 * 		the new hud
+	 */
+	protected void setHUD(HUD hud) {
+		this.hud = hud;
 	}
 }

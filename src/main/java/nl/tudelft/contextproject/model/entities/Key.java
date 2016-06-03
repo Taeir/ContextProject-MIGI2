@@ -87,7 +87,7 @@ public class Key extends Entity implements PhysicsObject {
 	public void setColor(ColorRGBA col) {
 		color = col;
 	}
-	
+
 	/**
 	 * Loads a key entity from an array of String data.
 	 * 
@@ -102,10 +102,10 @@ public class Key extends Entity implements PhysicsObject {
 	 */
 	public static Key loadEntity(Vector3f position, String[] data) {
 		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading key! Expected \"<X> <Y> <Z> Key <Color>\".");
-		
+
 		Key key = new Key(ParserUtil.getColor(data[4]));
 		key.move(position);
-		
+
 		return key;
 	}
 

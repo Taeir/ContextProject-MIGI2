@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -14,6 +16,8 @@ import com.jme3.scene.shape.Sphere;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
@@ -21,11 +25,11 @@ import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
+public class VRPlayer extends MovingEntity implements PhysicsObject, TickProducer, Health {
 
 	//Physics interaction constants.
 
-	public static final float JUMP_SPEED = 13f;
+	public static final float JUMP_SPEED = 7f;
 	//Terminal velocity of the player
 	public static final float FALL_SPEED = 15f;
 	//How fast the player accelerates while falling
@@ -41,25 +45,20 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	//SHOULD NOT BE CHANGED
 	public static final int PLAYER_GRAVITY_AXIS = 1;
 
-	//Movement control constants.
-
-	public static final float SIDE_WAY_SPEED_MULTIPLIER = .05f;
-	public static final float STRAIGHT_SPEED_MULTIPLIER = .05f;
-
 	//Constants for exploration.
 
 	public static final float EXPLORATION_INTERVAL = 0.5f;
 	public static final int EXPLORATION_RADIUS = 5;
 	
 	//Health constants
-	public static final float PLAYER_MAX_HEALTH = 3f;
-	public static final float PLAYER_HEALTH = 3f;
+	public static final float PLAYER_MAX_HEALTH = 5f;
+	public static final float PLAYER_HEALTH = 5f;
 	
 	//The range in which the player can interact with entities (e.g. picking up bombs/keys and opening doors)
 	public static final float INTERACT_RANGE = 2f;
 	
 	//The height at which the player is spawned in the map
-	public static final float SPAWN_HEIGHT = 10f;
+	public static final float SPAWN_HEIGHT = 2f;
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
@@ -68,6 +67,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	private float fallingTimer;
 	private float explorationTimer;
 	private float health;
+	private List<TickListener> listeners;
 
 	/**
 	 * Constructor for a default player.
@@ -77,6 +77,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		super(new PlayerControl());
 		health = PLAYER_HEALTH;
 		inventory = new Inventory();
+		listeners = new ArrayList<>();
 	}
 
 	@Override
@@ -96,9 +97,10 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	public void update(float tpf) {
 		super.update(tpf);
 		updateFallingTimer(tpf);
+		inventory.update(tpf);
 
 		Main.getInstance().moveCameraTo(playerControl.getPhysicsLocation());
-		
+
 		updateExploration(tpf);
 	}
 
@@ -112,26 +114,26 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		//We want to update exploration at an interval (for performance reasons)
 		explorationTimer += tpf;
 		if (explorationTimer < EXPLORATION_INTERVAL) return;
-		
+
 		explorationTimer = 0f;
-		
+
 		//Please note that the Z coordinate of the player is the Y coordinate of the tile.
 		Level level = Main.getInstance().getCurrentGame().getLevel();
 		int x = Math.round(getLocation().getX());
 		int y = Math.round(getLocation().getZ());
-		
+
 		//Explore in a square around the player
 		for (int dx = -EXPLORATION_RADIUS; dx < EXPLORATION_RADIUS; dx++) {
 			int tileX = x + dx;
 			if (tileX < 0 || tileX >= level.getWidth()) continue;
-			
+
 			for (int dy = -EXPLORATION_RADIUS; dy < EXPLORATION_RADIUS; dy++) {
 				int tileY = y + dy;
 				if (tileY < 0 || tileY >= level.getHeight()) continue;
-				
+
 				MazeTile tile = level.getTile(tileX, tileY);
 				if (tile == null) continue;
-				
+
 				tile.setExplored(true);
 			}
 		}
@@ -207,16 +209,11 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	public void dropBomb() {
 		if (!inventory.containsBomb()) return;
 		
-		Bomb bomb = new Bomb();
+		Bomb bomb = inventory.getBomb();
 		inventory.remove(bomb);
-		
-		Vector3f vec = this.getSpatial().getLocalTranslation();
-		bomb.move((int) vec.x, (int) vec.y + 1, (int) vec.z);
-		bomb.activate();
-		
-		Main.getInstance().getCurrentGame().addEntity(bomb);
+		bomb.setPickedup(false);
 	}
-	
+
 	/**
 	 * Player picks up a nearby item.
 	 * Also opens nearby doors if the player has the correct key.
@@ -227,9 +224,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		for (Entity ent : set) {
 			if (!ent.collidesWithPlayer(INTERACT_RANGE)) continue;
 
-			if (ent instanceof Bomb) {
-				inventory.add(new Bomb());
-				ent.setState(EntityState.DEAD);
+			if (ent instanceof Bomb && !inventory.containsBomb()) {
+				inventory.add((Bomb) ent);
 				return;
 			} else if (ent instanceof Key) {
 				Key key = (Key) ent;
@@ -239,7 +235,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 			} else if (ent instanceof Door) {
 				Door door = (Door) ent;
 				if (inventory.containsColorKey(door.getColor())) {
-					inventory.remove(inventory.getKey(door.getColor()));
+					inventory.remove(new Key(door.getColor()));
 					ent.setState(EntityState.DEAD);
 					return;
 				}
@@ -279,6 +275,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	@Override
 	public void setHealth(float heal) {
 		this.health = Math.min(PLAYER_MAX_HEALTH, health);
+		updateTickListeners();
 	}
 	
 	@Override
@@ -287,6 +284,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 		if (health < 0) {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
+		updateTickListeners();
 	}
 	
 	/**
@@ -313,5 +311,10 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Health {
 	@Override
 	public EntityType getType() {
 		return EntityType.PLAYER;
+	}
+
+	@Override
+	public List<TickListener> getTickListeners() {
+		return listeners;
 	}
 }
