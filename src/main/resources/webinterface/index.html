@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>
+	<head>
         <title>The Cave of Caerbanogh</title>
 
         <!-- <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css"  media="screen,projection"/> -->
@@ -70,7 +70,8 @@
 				<div class="btn-group btn-group-lg" role="group" id="selectTeam">
 					<button type="button" class="btn btn-default" onClick="requestSetTeam('ELVES')" id="elvesButton">Elves</button>
 					<button type="button" class="btn btn-default" onClick="requestSetTeam('DWARFS')" id="dwarfsButton">Dwarfs</button>
-					<button type="button" class="btn btn-success" onClick="requestSetTeam('NONE')" id="noneButton">No team</button>
+					<button type="button" class="btn btn-success" onClick="requestSetTeam('NONE')" id="noneButton">No team</button><br>
+					<button onclick="connectWebSocket()" id="clickable">Web Socket!</button>
 				</div>
 
 				<div id="playing">
@@ -97,12 +98,25 @@
         <!-- Load all javascript -->
         <script src="js/jquery-1.12.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+		<script src="js/enums.js"></script>
+		<script src="js/protocol.js"></script>
+		<script src="js/check.js"></script>
         <script src="js/main.js"></script>
 		<script>
 			//On load
 			$(document).ready(function() {
 				authenticate();
-				setInterval(requestStatus, 1000);
+				
+				//Check for websocket support
+				doWebSocketCheck(function(result) {
+					if (result === false) {
+						authenticate(function() { setInterval(requestStatus, 1000); });
+					} else if (result === true) {
+						authenticate(connectWebSocket);
+					} else {
+						useWebSocket(result);
+					}
+				});
 			});
 		</script>
     </body>
