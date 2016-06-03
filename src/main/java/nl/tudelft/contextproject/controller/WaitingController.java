@@ -1,11 +1,8 @@
 package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
-import com.jme3.app.state.AppStateManager;
-import com.jme3.input.controls.ActionListener;
 
-import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.level.RandomLevelFactory;
+import nl.tudelft.contextproject.model.Game;
 
 /**
  * A controller for the waiting state of the game.
@@ -22,26 +19,12 @@ public class WaitingController extends GameController {
 	 * 		the app this Controller is created by
 	 */
 	public WaitingController(Application app) {
-		super(app, "/maps/" + MENU_LEVEL + "/");
+		super(app, "/maps/" + MENU_LEVEL + "/", Float.MAX_VALUE);
 	}
-	
-	/**
-	 * Temporary method to enable the player to start the main game by pressing the pause button.
-	 */
+
 	@Override
-	public void initialize(AppStateManager stateManager, Application app) {
-		super.initialize(stateManager, app);
-
-		Main main = Main.getInstance();
-
-		main.getInputManager().addListener(new ActionListener() {			
-			@Override
-			public void onAction(String name, boolean isPressed, float tpf) {
-				main.setController(new GameController(main, (new RandomLevelFactory(5, false)).generateRandom()));
-			}
-		}, "pause");
-	}
-
+	protected void placeTreasure(Game game) { };
+	
 	@Override
 	public GameState getGameState() {
 		return GameState.WAITING;

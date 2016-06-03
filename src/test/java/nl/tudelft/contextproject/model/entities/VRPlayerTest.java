@@ -1,9 +1,6 @@
 package nl.tudelft.contextproject.model.entities;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -16,11 +13,15 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
+
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for the VRPlayer class.
@@ -29,15 +30,22 @@ public class VRPlayerTest extends MovingEnemyTest {
 
 	private static final double EPSILON = 1e-5;
 	private VRPlayer player;
-
-	@Override
-	public Entity getEntity() {
-		return new VRPlayer();
-	}
 	
+	/**
+	 * Constructor that ensures that the game is mocked before the tests.
+	 */
+	public VRPlayerTest() {
+		setMockGame(true);
+	}
+
 	@Override
 	public MovingEntity getEnemy() {
 		return new VRPlayer();
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.PLAYER;
 	}
 	
 	/**
@@ -46,24 +54,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Before
 	public void setUp() {
-
 		player = new VRPlayer();
 	}
-
-	//TODO This method should be tested after VR support is added as it will change!
-//	/**
-//	 * Test if updating the player moves it.
-//	 * NOTE: moving by 0 is also moving.
-//	 */
-//		@Test
-//		public void testSimpleUpdate() {
-//			Geometry mockedGeometry = mock(Geometry.class);
-//			CharacterControl mockedCharacterControl = mock(CharacterControl.class);
-//			player.setSpatial(mockedGeometry);
-//			player.setCharacterControl(mockedCharacterControl);
-//			player.update(0.f);
-//			verify(mockedGeometry, times(1)).move(anyFloat(), anyFloat(), anyFloat());
-//		}
 
 	/**
 	 * Test getGeometry().
@@ -192,6 +184,51 @@ public class VRPlayerTest extends MovingEnemyTest {
 	}
 	
 	/**
+	 * Tests if a bomb gets picked up if pickup is pressed.
+	 */
+	@Test
+	public void testPickUpBomb() {
+		Bomb bomb = new Bomb();
+		Vector3f vec = player.getSpatial().getLocalTranslation();
+		bomb.move(vec.x + 1, vec.y, vec.z);
+		Main.getInstance().getCurrentGame().getEntities().add(bomb);
+		player.pickUp();
+		assertTrue(bomb.isPickedup());
+	}
+	
+	/**
+	 * Tests wether you pick up a nearby key when pickup is pressed.
+	 */
+	@Test
+	public void testPickUpKey() {
+		Key key = new Key(ColorRGBA.Yellow);
+		Vector3f vec = player.getSpatial().getLocalTranslation();
+		key.move(vec.x + 1, vec.y, vec.z);
+		Main.getInstance().getCurrentGame().getEntities().add(key);
+		player.pickUp();
+		player.getInventory().containsKey();
+	}
+	
+	/**
+	 * Tests if setting your health does not go over your maxhealth.
+	 */
+	@Test
+	public void testsetHealth() {
+		player.setHealth(1 + VRPlayer.PLAYER_MAX_HEALTH);
+		assertEquals(VRPlayer.PLAYER_MAX_HEALTH, player.getHealth(), 1e-8);
+	}
+	
+	/**
+	 * Tests if changing the inventory changes the inventory.
+	 */
+	@Test
+	public void testsetInventory() {
+		Inventory inv = new Inventory();
+		player.setInventory(inv);
+		assertEquals(player.getInventory(), inv);
+	}
+	
+	/**
 	 * Tests if the exploration works correctly.
 	 * 
 	 * <p>This means that exploration should NOT update tiles that are outside the exploration
@@ -214,6 +251,45 @@ public class VRPlayerTest extends MovingEnemyTest {
 	}
 	
 	/**
+	 * Test if damaging the player makes the player take damage.
+	 */
+	@Test
+	public void testTakeDamage() {
+		float exp = player.getHealth() - .2f;
+		player.takeDamage(.2f);
+		assertEquals(exp, player.getHealth(), 1e-8);
+	}
+	
+	/**
+	 * Test if killing the player ends the game.
+	 */
+	@Test
+	public void testKill() {
+		float dmg = player.getHealth() + .2f;
+		player.takeDamage(dmg);
+		assertEquals(GameState.ENDED, Main.getInstance().getGameState());
+	}
+	
+	/**
+	 * Tests if loading players works properly.
+	 */
+	@Test
+	public void testLoadEntity() {
+		VRPlayer player = VRPlayer.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.PLAYER.getName()});
+		
+		//Players are spawned a certain amount higher than where they are spawned in.
+		assertEquals(loadPosition.add(0f, VRPlayer.SPAWN_HEIGHT, 0f), player.getLocation());
+	}
+
+	/**
+	 * Tests if loading players with invalid data throws an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testLoadEntityInvalidData() {
+		VRPlayer.loadEntity(loadPosition, new String[3]);
+	}
+	
+	/**
 	 * Creates a 1x1 mocked level with a single floor tile.
 	 * 
 	 * @return
@@ -227,8 +303,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
 		when(level.getTile(anyInt(), anyInt())).thenReturn(tile);
 		
-		Game game = new Game(level);
+		Game game = new Game(level, null, 10f);
 		when(Main.getInstance().getCurrentGame()).thenReturn(game);
 		return tile;
-	}
+	}	
 }

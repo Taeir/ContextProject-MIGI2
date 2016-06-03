@@ -20,6 +20,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.Game;
@@ -50,7 +51,7 @@ public class GameControllerTest extends ControllerTest {
 	public void setUp() {
 		main = Main.getInstance();
 		Level l = null;
-		controller = new GameController(main, l);
+		controller = new GameController(main, l, 10f);
 
 		Light light = mock(Light.class);
 		rootNode = mock(Node.class);
@@ -80,7 +81,7 @@ public class GameControllerTest extends ControllerTest {
 		LinkedList<Light> lights = new LinkedList<>();
 		lights.add(light);
 		level = new Level(tiles, lights);
-		game = new Game(level, player, entities);
+		game = new Game(level, player, entities, controller, 10f);
 
 		controller.setGame(game);
 		controller.setPhysicsEnvironmentNode(phe);
@@ -101,8 +102,13 @@ public class GameControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testUpdatePlayer() {
+		HUD hud = mock(HUD.class);
+		controller.setHUD(hud);
+		
 		controller.update(0.5f);
-		verify(game.getPlayer(), times(1)).update(0.5f);
+		
+		verify(hud, times(1)).setGameTimer(anyInt());
+		verify(game.getPlayer(), times(1)).update(Math.min(GameController.MAX_TPF, .5f));
 	}
 
 	/**
@@ -125,7 +131,6 @@ public class GameControllerTest extends ControllerTest {
 		controller.updateEntities(0.5f);
 
 		verify(eMock, times(1)).update(0.5f);
-		//verify(phe.getPhysicsSpace(), times(1)).add(geom);
 		verify(eMock, times(1)).setState(EntityState.ALIVE);
 
 		verify(rn, times(1)).attachChild(geom);    

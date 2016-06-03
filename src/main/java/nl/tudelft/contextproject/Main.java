@@ -2,10 +2,10 @@ package nl.tudelft.contextproject;
 
 import java.awt.Desktop;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.app.state.AbstractAppState;
@@ -31,6 +31,7 @@ import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
 import jmevr.app.VRApplication;
@@ -42,23 +43,23 @@ import lombok.SneakyThrows;
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
-public class Main extends VRApplication {
+public class Main extends VRApplication implements TickProducer {
 	public static final int PORT_NUMBER = 8080;
-	//Set to false to disable VR
-	public static final boolean VR = true;
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
 	public static final boolean MIRROR_WINDOW = true;
+	public static final Float TIME_LIMIT = 300f;
 	
 	private static boolean hideQR;
 	
 	private static Main instance;
+	private static boolean mouseEnabled;
 	
 	private Controller controller;
 	private WebServer webServer;
-	private List<TickListener> tickListeners = new LinkedList<>();
 	private BitmapFont guifont;
+	private List<TickListener> tickListeners = new ArrayList<>();
 	
 	/**
 	 * Main method that is called when the program is started.
@@ -72,19 +73,21 @@ public class Main extends VRApplication {
 		List<String> a = Arrays.asList(args);
 		hideQR = a.contains("--hideQR");
 		
+		boolean dvr = a.contains("--disableVR");
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, dvr);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, !dvr);
+
+		mouseEnabled = a.contains("--enableMouse");
+		
 		AppSettings settings = new AppSettings(true);
 		settings.setUseJoysticks(true);
 		main.setSettings(settings);
-
-		//Set if we want to run in VR mode or not.
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, !VR);
 		
 		//Use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
 		//Runs faster when set to false, but will allow mirroring
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, MIRROR_WINDOW);
 		//Render two eyes, regardless of SteamVR
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
 		//Show gui even if it is behind things
@@ -94,7 +97,7 @@ public class Main extends VRApplication {
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
 		
 		//Set frustum distances here before app starts
-		main.preconfigureFrustrumNearFar(0.1f, 512f);
+		//main.preconfigureFrustrumNearFar(0.1f, 512f);
 		
 		//You can downsample for performance reasons
 		main.preconfigureResolutionMultiplier(RESOLUTION);
@@ -123,15 +126,17 @@ public class Main extends VRApplication {
 	 * 		true is the controller was changed, false otherwise
 	 */
 	public boolean setController(Controller c) {
-		if (c != controller) {
+		if (c != controller && c != null) {
 			if (controller != null) {
 				getStateManager().detach(controller);
 			}
+
 			controller = c;
-			
-			if (controller != null) {
-				getStateManager().attach(controller);
+			getStateManager().attach(controller);
+			if (webServer != null) {
+				webServer.clearCooldowns();
 			}
+			
 			return true;
 		}
 		return false;
@@ -185,6 +190,11 @@ public class Main extends VRApplication {
 	public void setTickListeners(List<TickListener> listeners) {
 		tickListeners = listeners;
 	}
+	
+	@Override
+	public List<TickListener> getTickListeners() {
+		return tickListeners;
+	}
 
 	@Override
 	public void simpleInitApp() {
@@ -194,7 +204,7 @@ public class Main extends VRApplication {
 			Log.getLog("VR").info("Attached device: No");
 		}
 		
-		guifont = getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+		setGuiFont();
 		
 		getViewPort().setBackgroundColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 1f));
 		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
@@ -233,12 +243,12 @@ public class Main extends VRApplication {
 	@SneakyThrows
 	protected void setupControlMappings() {
 		InputManager im = getInputManager();
-		
-		//Add mouse controls when No VR is attached.
-		if (!VRApplication.isInVR()) {
+		im.setCursorVisible(false);
+
+		if (mouseEnabled) {
 			new NoVRMouseManager(getCamera()).registerWithInput(im);
 		}
-
+		
 		if (isControllerConnected()) {
 			Joystick j = im.getJoysticks()[0];
 
@@ -304,34 +314,12 @@ public class Main extends VRApplication {
 	
 	@Override
 	public void simpleUpdate(float tpf) {
-		for (TickListener tl : tickListeners) {
-			tl.update(tpf);
-		}
+		updateTickListeners(tpf);
 
 		getListener().setLocation(getCamera().getLocation());
 		getListener().setRotation(getCamera().getRotation());
 
 		BackgroundMusic.getInstance().update();
-	}
-	
-	/**
-	 * Add a TickListener.
-	 *
-	 * @param tl
-	 * 		the TickListener to add
-	 */
-	public void attachTickListener(TickListener tl) {
-		tickListeners.add(tl);
-	}
-	
-	/**
-	 * Remove a registered TickListener.
-	 *
-	 * @param tl
-	 * 		the TickListener to remove
-	 */
-	public void removeTickListener(TickListener tl) {
-		tickListeners.remove(tl);
 	}
 
 	/**
@@ -414,8 +402,6 @@ public class Main extends VRApplication {
 		return guifont;
 	}
 	
-
-	
 	/**
 	 * Returns the Controller.
 	 * 
@@ -424,5 +410,12 @@ public class Main extends VRApplication {
 	 */
 	public Controller getController() {
 		return controller;
+	}
+	
+	/**
+	 * Loads and sets the gui font.
+	 */
+	public void setGuiFont() {
+		guifont = getAssetManager().loadFont("Interface/Fonts/Default.fnt");
 	}
 }

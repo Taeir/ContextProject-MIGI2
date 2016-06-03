@@ -9,6 +9,8 @@ import org.mockito.AdditionalMatchers;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
+import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
@@ -30,6 +32,11 @@ public class ExplosionTest extends EntityTest {
 	@Override
 	public Entity getEntity() {
 		return explosion;
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.EXPLOSION;
 	}
 	
 	/**
@@ -55,6 +62,31 @@ public class ExplosionTest extends EntityTest {
 		when(mock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
 		explosion.update(1);
 		verify(mock, times(1)).setLocalScale(AdditionalMatchers.gt(1f));
+	}
+	
+	/**
+	 * Test if the player gets correctly damaged.
+	 */
+	@Test
+	public void testDamageEntitiesPlayer() {
+		VRPlayer p = Main.getInstance().getCurrentGame().getPlayer();
+		explosion.damageEntities(100, 2);
+		assertEquals(VRPlayer.PLAYER_MAX_HEALTH - 2, p.getHealth(), 1e-6);
+	}
+	
+	/**
+	 * Test if other entities are correctly damaged.
+	 */
+	@Test
+	public void testDamageEntitiesOther() {
+		Game g = Main.getInstance().getCurrentGame();
+		InvisibleWall i = new InvisibleWall();
+		i.getSpatial();	// prevent nullpointer
+		i.setHealth(6);
+		g.getEntities().add(i);
+		
+		explosion.damageEntities(10, 5);
+		assertEquals(1, i.getHealth(), 1e-6);
 	}
 
 }

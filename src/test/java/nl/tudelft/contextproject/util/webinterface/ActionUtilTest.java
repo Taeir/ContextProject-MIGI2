@@ -8,6 +8,8 @@ import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.Carrot;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.KillerBunny;
+import nl.tudelft.contextproject.model.entities.VoidPlatform;
+import nl.tudelft.contextproject.webinterface.Action;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,7 +39,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformPlaceBomb() {
-		ActionUtil.perform("placebomb", 0, 0);
+		ActionUtil.perform(Action.PLACEBOMB, 0, 0);
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(Bomb.class));
 	}
@@ -47,7 +49,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformPlacePitfall() {
-		ActionUtil.perform("placepitfall", 0, 0);
+		ActionUtil.perform(Action.PLACEPITFALL, 0, 0);
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(Pitfall.class));
 	}
@@ -57,7 +59,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformPlaceMine() {
-		ActionUtil.perform("placemine", 0, 0);
+		ActionUtil.perform(Action.PLACEMINE, 0, 0);
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(LandMine.class));
 	}
@@ -67,7 +69,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformSpawnEnemy() {
-		ActionUtil.perform("spawnenemy", 0, 0);
+		ActionUtil.perform(Action.SPAWNENEMY, 0, 0);
 		verify(mockedGame, times(1)).addEntity(any(KillerBunny.class));
 	}
 
@@ -76,16 +78,18 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformDropBait() {
-		ActionUtil.perform("dropbait", 0, 0);
+		ActionUtil.perform(Action.DROPBAIT, 0, 0);
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(Carrot.class));
 	}
 
 	/**
-	 * Make sure we thrown an exception if an illegal action occurs.
+	 * Test the PlaceTile action.
 	 */
-	@Test (expected = IllegalArgumentException.class)
-	public void testDefault() {
-		ActionUtil.perform("HackGameAndWinInstantly", 0, 0);
+	@Test
+	public void testPerformPlaceTile() {
+		ActionUtil.perform(Action.PLACETILE, 0, 0);
+		verify(Main.getInstance(), times(1)).getCurrentGame();
+		verify(mockedGame, times(1)).addEntity(any(VoidPlatform.class));
 	}
 }

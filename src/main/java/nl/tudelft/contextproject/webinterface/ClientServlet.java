@@ -7,8 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.tudelft.contextproject.controller.EndingController;
 import nl.tudelft.contextproject.util.webinterface.ActionUtil;
-import nl.tudelft.contextproject.util.JSONUtil;
+import nl.tudelft.contextproject.util.webinterface.EntityUtil;
 import nl.tudelft.contextproject.util.QRGenerator;
 
 import nl.tudelft.contextproject.util.webinterface.WebUtil;
@@ -203,9 +204,9 @@ public class ClientServlet extends DefaultServlet {
 
 		int xCoord = Integer.parseInt(request.getParameter("x"));
 		int yCoord = Integer.parseInt(request.getParameter("y"));
-		String action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
+		Action action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
 
-		attemptAction(xCoord, yCoord, action, client.getTeam(), response);
+		attemptAction(xCoord, yCoord, action, client, response);
 	}
 	
 	/**
@@ -232,20 +233,18 @@ public class ClientServlet extends DefaultServlet {
 		
 		switch (Main.getInstance().getGameState()) {
 			case WAITING:
-				//For now fall through to running
+				//Fall through to running
 			case RUNNING:
 				json.put("entities",
-						JSONUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer()));
+						EntityUtil.entitiesToJson(Main.getInstance().getCurrentGame().getEntities(), Main.getInstance().getCurrentGame().getPlayer()));
 				json.put("explored", Main.getInstance().getCurrentGame().getLevel().toExploredWebJSON());
 				break;
 			case PAUSED:
-				//TODO Actual player information
-				//json.put("player", VRPlayer().toJSON());
-				//TODO Add entity updates
-				//TODO Add explored updates
+				//We don't send any other data when the game is paused
 				break;
 			case ENDED:
-				//TODO Add game statistics
+				Boolean elvesWin = ((EndingController) Main.getInstance().getController()).didElvesWin();
+				json.put("winner", elvesWin);
 				break;
 			default:
 				break;
@@ -263,23 +262,29 @@ public class ClientServlet extends DefaultServlet {
 	 * 		the y coordinate to perform the action on
 	 * @param action
 	 * 		the action to perform
-	 * @param team
-	 * 		the team of the player who wants to perform the action
+	 * @param client
+	 * 		the client who wants to perform the action
 	 * @param response
 	 * 		the HTTP response object
 	 * @throws IOException
 	 * 		if sending the response to the client causes an IOException
 	 */
-	protected void attemptAction(int xCoord, int yCoord, String action, String team, HttpServletResponse response) throws IOException {
-		if (!WebUtil.checkValidAction(action, team)) {
+	protected void attemptAction(int xCoord, int yCoord, Action action, WebClient client, HttpServletResponse response) throws IOException {
+		if (!WebUtil.checkValidAction(action, client.getTeam())) {
 			response.setStatus(HttpStatus.OK_200);
 			response.getWriter().write("ACTION INVALID, NOT PERFORMED");
 			return;
 		}
 
-		if (!WebUtil.checkValidLocation(xCoord, yCoord)) {
+		if (!WebUtil.checkValidLocation(xCoord, yCoord, action)) {
 			response.setStatus(HttpStatus.OK_200);
 			response.getWriter().write("ACTION ON INVALID LOCATION, NOT PERFORMED");
+			return;
+		}
+
+		if (!WebUtil.checkWithinCooldown(action, client)) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write("ACTION IN COOLDOWN, NOT PERFORMED");
 			return;
 		}
 

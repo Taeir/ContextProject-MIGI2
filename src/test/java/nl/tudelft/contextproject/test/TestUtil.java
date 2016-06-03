@@ -1,11 +1,6 @@
 package nl.tudelft.contextproject.test;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.function.Supplier;
@@ -19,6 +14,7 @@ import com.jme3.input.dummy.DummyMouseInput;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.system.JmeSystem;
+import com.jme3.texture.Texture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
@@ -27,6 +23,8 @@ import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
 
+import jmevr.app.VRApplication.PRECONFIG_PARAMETER;
+
 /**
  * Utility class for testing.
  * 
@@ -34,6 +32,8 @@ import nl.tudelft.contextproject.model.level.Level;
  */
 public final class TestUtil extends TestBase {
 	private static Main globalMain;
+	private static final AssetManager ASSET_MANAGER = JmeSystem.newAssetManager(JmeSystem.getPlatformAssetConfigURL());
+	private static final Texture TEST_TEXTURE = ASSET_MANAGER.loadTexture("Textures/simple.png");
 	
 	private TestUtil() { }
 	
@@ -42,6 +42,7 @@ public final class TestUtil extends TestBase {
 	 */
 	public static void recreateGlobalMain() {
 		globalMain = new Main();
+		globalMain.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, true);
 	}
 	
 	/**
@@ -63,7 +64,7 @@ public final class TestUtil extends TestBase {
 	 */
 	public static Main setupMainForTesting() {
 		if (globalMain == null) {
-			globalMain = new Main();
+			recreateGlobalMain();
 		}
 		
 		Main mainNoSpy = globalMain;
@@ -76,7 +77,6 @@ public final class TestUtil extends TestBase {
 		AssetManager assetManager 	= mainNoSpy.getAssetManager();
 		AudioRenderer audioRenderer = mainNoSpy.getAudioRenderer();
 		Camera camera 				= mainNoSpy.getCamera();
-		//FlyByCamera flyByCamera 	= mainNoSpy.getFlyByCamera();
 		Listener listener 			= mainNoSpy.getListener();
 		InputManager inputManager 	= mainNoSpy.getInputManager();
 		Node rootNode 				= mainNoSpy.getRootNode();
@@ -86,9 +86,12 @@ public final class TestUtil extends TestBase {
 		when(mainSpy.toString()).thenReturn("TestUtilSpyMain");
 
 		//Ensure that there is a spy AssetManager.
-		assetManager = toMockito(assetManager, () -> JmeSystem.newAssetManager(JmeSystem.getPlatformAssetConfigURL()));
+		assetManager = toMockito(assetManager, () -> ASSET_MANAGER);
 		doReturn(assetManager).when(mainSpy).getAssetManager();
 		
+		//Ensure that textures are mocked
+		doReturn(TEST_TEXTURE).when(assetManager).loadTexture(anyString());
+
 		//Ensure that there is a mock AudioRenderer
 		audioRenderer = toMockito(audioRenderer, AudioRenderer.class, false);
 		doReturn(audioRenderer).when(mainSpy).getAudioRenderer();
@@ -140,12 +143,11 @@ public final class TestUtil extends TestBase {
 	 */
 	public static void cleanupMain() {
 		Main main = Main.getInstance();
-		
 		if (isMock(main)) {
 			reset(main);
 		}
 		
-		Main.setInstance(null);
+		Main.setInstance(globalMain);
 	}
 	
 	/**
@@ -261,7 +263,7 @@ public final class TestUtil extends TestBase {
 		
 		//Create a mocked level in a real GameController
 		Level level = mock(Level.class);
-		GameController gc = new GameController(main, level);
+		GameController gc = new GameController(main, level, 10f);
 		
 		//Spy on the game
 		Game game = spy(gc.getGame());

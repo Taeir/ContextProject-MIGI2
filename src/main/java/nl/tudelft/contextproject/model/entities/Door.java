@@ -1,17 +1,19 @@
 package nl.tudelft.contextproject.model.entities;
+
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.util.ParserUtil;
 
 /**
  * Class representing a door.
@@ -29,15 +31,14 @@ public class Door extends Entity implements PhysicsObject {
 	 */
 	public Door(ColorRGBA col) {
 		color = col;
-		Box cube1Mesh = new Box(1f, 1f, 1f);
-		Geometry geometry = new Geometry("dink", cube1Mesh); 
 		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
-		sp.scale(2f);
+		sp.scale(1.2f, 2.2f, 1.2f);
+		sp.rotate(0, (float) (Math.PI), 0);
 		Material mat3 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat3.setColor("Color", color);
 		if (sp instanceof Node) {
 			Node node = (Node) sp;
-			geometry = (Geometry) ((Node) node.getChild("Cube.001")).getChild(0);
+			Geometry geometry = (Geometry) ((Node) node.getChild("Cube.001")).getChild(0);
 			Material mat = geometry.getMaterial();
 			mat.setColor("Ambient", color);
 			geometry.setMaterial(mat);
@@ -91,5 +92,31 @@ public class Door extends Entity implements PhysicsObject {
 	 */
 	public ColorRGBA getColor() {
 		return color;
+	}
+	
+	/**
+	 * Loads a door entity from an array of String data.
+	 * 
+	 * @param position
+	 * 		the position of the door
+	 * @param data
+	 * 		the data of the door
+	 * @return
+	 * 		the door represented by the given data
+	 * @throws IllegalArgumentException
+	 * 		if the given data array is of incorrect length
+	 */
+	public static Door loadEntity(Vector3f position, String[] data) {
+		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading door! Expected \"<X> <Y> <Z> Door <Color>\".");
+		
+		Door door = new Door(ParserUtil.getColor(data[4]));
+		door.move(position);
+		
+		return door;
+	}
+
+	@Override
+	public EntityType getType() {
+		return EntityType.DOOR;
 	}
 }
