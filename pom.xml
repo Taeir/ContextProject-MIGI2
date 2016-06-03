@@ -3,7 +3,7 @@
 
 	<groupId>nl.tudelft</groupId>
 	<artifactId>contextproject-migi2</artifactId>
-	<version>0.5.0</version>
+	<version>0.6.0</version>
 	<packaging>jar</packaging>
 	<name>The Cave of Caerbannog</name>
 
