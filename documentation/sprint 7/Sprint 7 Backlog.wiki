@@ -329,6 +329,31 @@ Bombs need to be made diffusible from the elves actions menu in the web interfac
 </tr>
 </table>
 
+== Total hours ==
+
+{|
+! '''Group Member name'''
+! '''Hours'''
+|-
+| Robin
+| 23 + 6
+|-
+| Bram
+| 21 + 6
+|-
+| Taico
+| 22 + 6
+|-
+| Wytze
+| 24 + 6
+|-
+| Chiel*
+| 20 + 6
+|}
+
+Chiel did a lot of work last week, and indicated he had less time this week, so he has slightly less hours.
+
+
 == Explanation for priorities of sprint items ==
 
 <table>
