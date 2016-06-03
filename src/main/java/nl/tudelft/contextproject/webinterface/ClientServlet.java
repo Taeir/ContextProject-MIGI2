@@ -206,7 +206,8 @@ public class ClientServlet extends DefaultServlet {
 		int yCoord = Integer.parseInt(request.getParameter("y"));
 		Action action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
 
-		attemptAction(xCoord, yCoord, action, client, response);
+		server.getRequestHandler().attemptAction(xCoord, yCoord, action, client, response);
+		//attemptAction(xCoord, yCoord, action, client, response);
 	}
 	
 	/**

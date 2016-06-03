@@ -1,10 +1,11 @@
 package nl.tudelft.contextproject.webinterface;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 import javax.servlet.SessionCookieConfig;
@@ -18,6 +19,8 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.util.QRGenerator;
+import nl.tudelft.contextproject.webinterface.websockets.COCSocket;
+import nl.tudelft.contextproject.webinterface.websockets.COCWebSocketServlet;
 
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Server;
@@ -35,12 +38,11 @@ public class WebServer {
 	public static final int MAX_PLAYERS = 4;
 	private static final Log LOG = Log.getLog("WebInterface");
 	
-	private HashMap<String, WebClient> clients = new HashMap<>();
+	private Map<String, WebClient> clients = new ConcurrentHashMap<>();
 	private boolean running;
 	private int port;
 	private Server server;
-	private HashSessionIdManager sessionIdManager;
-	private ServletContextHandler contextHandler;
+	private RequestHandler requestHandler = new RequestHandler(this);
 	
 	/**
 	 * @return
@@ -78,7 +80,7 @@ public class WebServer {
 		server = new Server(this.port);
 		
 		//We need a way to track users, so we use a session manager that uses cookies.
-		sessionIdManager = new HashSessionIdManager();
+		HashSessionIdManager sessionIdManager = new HashSessionIdManager();
 		server.setSessionIdManager(sessionIdManager);
 
 		//Create the session manager
@@ -93,13 +95,17 @@ public class WebServer {
 		SessionHandler sessionHandler = new SessionHandler(sessionManager);
 
 		//Create the handler that chains everything together.
-		contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		contextHandler.setContextPath("/");
 		contextHandler.setResourceBase(FileUtil.getFile("/webinterface/").getAbsolutePath());
 		contextHandler.setSessionHandler(sessionHandler);
 
 		//Add the handler to the server
 		server.setHandler(contextHandler);
+
+		//Add a servlet for handling web sockets
+		COCWebSocketServlet ws = new COCWebSocketServlet(this);
+		contextHandler.addServlet(new ServletHolder(ws), "/ws/");
 
 		//Add a servlet for handling sessions
 		ClientServlet cs = new ClientServlet(this);
@@ -157,6 +163,41 @@ public class WebServer {
 		if (session2.getValue().equals(session.getId())) return null;
 
 		return clients.get(session2.getValue());
+	}
+	
+	/**
+	 * Gets the client for the given session ID.
+	 * 
+	 * @param session
+	 * 		the session id
+	 * @return
+	 * 		the client with the given session ID, or null if there is no such client
+	 */
+	public WebClient getUser(String session) {
+		return clients.get(session);
+	}
+	
+	/**
+	 * Disconnects the given client from the game.
+	 * 
+	 * @param client
+	 * 		the client to disconnect
+	 * @param statusCode
+	 * 		the status code to send
+	 */
+	public void disconnect(WebClient client, int statusCode) {
+		COCSocket socket = client.getWebSocket();
+		if (socket != null) socket.getSession().close(statusCode, null);
+		
+		clients.values().removeAll(Collections.singletonList(client));
+	}
+	
+	/**
+	 * @return
+	 * 		the RequestHandler of this WebServer
+	 */
+	public RequestHandler getRequestHandler() {
+		return this.requestHandler;
 	}
 	
 	/**
