@@ -55,6 +55,12 @@ body {
 #map .Killer_Bunny {
 	background-color: #FFFFFF !important;
 }
+#map .Invisible_Wall {
+    background-color: #E6E6E6 !important;
+}
+#map .Damaged_Wall {
+    background-color: #BFBFBF !important;
+}
 #map {
 	border-spacing: 0px;
 }
@@ -85,4 +91,13 @@ body {
 	position: fixed;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+#dangerBox, #warningBox, #successBox {
+    position: absolute;
+    z-index: 1400;
+    top: 2%;
+    right: 2%;
+    margin: 0px auto;
+    text-align: center;
+    display: none;
 }

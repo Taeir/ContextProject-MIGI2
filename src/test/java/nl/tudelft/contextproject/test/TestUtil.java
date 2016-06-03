@@ -143,12 +143,11 @@ public final class TestUtil extends TestBase {
 	 */
 	public static void cleanupMain() {
 		Main main = Main.getInstance();
-		
 		if (isMock(main)) {
 			reset(main);
 		}
 		
-		Main.setInstance(null);
+		Main.setInstance(globalMain);
 	}
 	
 	/**

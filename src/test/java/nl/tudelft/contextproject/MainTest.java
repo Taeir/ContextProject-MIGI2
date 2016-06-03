@@ -3,8 +3,6 @@ package nl.tudelft.contextproject;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.util.LinkedList;
-
 import com.jme3.input.DefaultJoystickAxis;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
@@ -170,7 +168,6 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testTickListeners() {
-		main.setTickListeners(new LinkedList<TickListener>());
 		TickListener tl = mock(TickListener.class);
 
 		main.simpleUpdate(0.1f);
