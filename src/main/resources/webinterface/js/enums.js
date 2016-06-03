@@ -15,8 +15,7 @@ GameStates = Object.freeze({
 
 Teams = Object.freeze({
     0: "DWARFS",
-    1: "ELVES",
-    2: "NONE"
+    1: "ELVES"
 });
 
 //The different error codes that can be sent by the server

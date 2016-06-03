@@ -84,22 +84,8 @@ function handleStatusUpdateMessage(data) {
     //Check if we are authorized
     if (!checkAuthorized(data)) return;
     
-    //If we are authorized, update the game with the received information
-    updateGame(data);
-    
     //Set the correct team
-    if (data.team == undefined || data.team == "NONE") {
-        //We don't have a team, so we switch to team selection
-        gTeam = undefined;
-        switchTo("WAITING");
-        return;
-    } else if (data.team == "DWARFS") {
-        //We are in team DWARFS
-        gTeam = "DWARFS";
-    } else if (data.team == "ELVES") {
-        //We are in team ELVES
-        gTeam = "ELVES";
-    }
+    gTeam = Team[data.team];
     
     //Switch to the correct state
     if (data.state == "WAITING") {
@@ -111,6 +97,9 @@ function handleStatusUpdateMessage(data) {
     } else if (data.state == "ENDED") {
         switchTo("ENDED");
     }
+    
+    //If we are authorized, update the game with the received information
+    updateGame(data);
 };
 
 /**
