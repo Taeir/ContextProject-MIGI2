@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.model.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -67,7 +66,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	private float fallingTimer;
 	private float explorationTimer;
 	private float health;
-	private List<TickListener> listeners;
+	private Set<TickListener> listeners;
 
 	/**
 	 * Constructor for a default player.
@@ -77,7 +76,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		super(new PlayerControl());
 		health = PLAYER_HEALTH;
 		inventory = new Inventory();
-		listeners = new ArrayList<>();
+		listeners = new HashSet<>();
 	}
 
 	@Override
@@ -314,7 +313,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	}
 
 	@Override
-	public List<TickListener> getTickListeners() {
+	public Set<TickListener> getTickListeners() {
 		return listeners;
 	}
 }

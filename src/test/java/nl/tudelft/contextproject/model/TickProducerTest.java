@@ -2,8 +2,8 @@ package nl.tudelft.contextproject.model;
 
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,9 +23,10 @@ public class TickProducerTest extends TestBase {
 	@Before
 	public void setUp() {
 		tp = new TickProducer() {
-			private ArrayList<TickListener> listeners = new ArrayList<>();
+			private Set<TickListener> listeners = new HashSet<>();
+			
 			@Override
-			public List<TickListener> getTickListeners() {
+			public Set<TickListener> getTickListeners() {
 				return listeners;
 			}
 		};
