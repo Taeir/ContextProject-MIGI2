@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.junit.BeforeClass;
 
@@ -49,60 +48,37 @@ public class WebTestBase extends TestBase {
 	}
 	
 	/**
-	 * Creates a spied session2 cookie with the given id.
+	 * Creates a spied cookie with the given id.
 	 * 
 	 * @param id
 	 * 		the id of the cookie
 	 * @return
-	 * 		a spied session2 cookie with the given id
+	 * 		a spied cookie with the given id
 	 */
-	public Cookie createSession2Cookie(String id) {
-		Cookie cookie = new Cookie(WebServer.SESSION2_COOKIE, id);
-		cookie.setMaxAge(24 * 60 * 60);
+	public Cookie createCookie(String id) {
+		Cookie cookie = new Cookie(WebServer.COOKIE_NAME, id);
+		cookie.setMaxAge(WebServer.COOKIE_MAX_AGE);
 		return spy(cookie);
 	}
 	
 	/**
-	 * Creates a mocked session with the given id.
-	 * 
-	 * @param id
-	 * 		the id of the session
-	 * @return
-	 * 		a mocked session with the given id
-	 */
-	public HttpSession createSession(String id) {
-		HttpSession session = mock(HttpSession.class);
-		when(session.getId()).thenReturn(id);
-		
-		return session;
-	}
-	
-	/**
-	 * Creates a mocked HttpServletRequest with the given parameters.
+	 * Creates a mocked HttpServletRequest with the given session id.
 	 * The request will use method "GET" and will access URI "/".
 	 * 
-	 * @param id1
+	 * @param id
 	 * 		the session id of the request
-	 * @param id2
-	 * 		the session2 id of the request. If null, the request will not have a session2 cookie.
-	 * @param auth
-	 * 		if false, then getSession(false) will return null
 	 * @return
 	 * 		a mocked HttpServletRequest
 	 */
-	public HttpServletRequest createMockedRequest(String id1, String id2, boolean auth) {
-		return createMockedRequest(id1, id2, auth, true, "/");
+	public HttpServletRequest createMockedRequest(String id) {
+		return createMockedRequest(id, true, "/");
 	}
 	
 	/**
 	 * Creates a mocked HttpServletRequest with the given parameters.
 	 * 
-	 * @param id1
+	 * @param id
 	 * 		the session id of the request
-	 * @param id2
-	 * 		the session2 id of the request. If null, the request will not have a session2 cookie.
-	 * @param auth
-	 * 		if false, then getSession(false) will return null
 	 * @param method
 	 * 		the method of the request. true = GET, false = POST
 	 * @param uri
@@ -110,22 +86,14 @@ public class WebTestBase extends TestBase {
 	 * @return
 	 * 		a mocked HttpServletRequest
 	 */
-	public HttpServletRequest createMockedRequest(String id1, String id2, boolean auth, boolean method, String uri) {
+	public HttpServletRequest createMockedRequest(String id, boolean method, String uri) {
 		//Mock the request
 		HttpServletRequest request = mock(HttpServletRequest.class);
 
-		//Create spied/mocked sessions
-		HttpSession session = createSession(id1);
-
-		//Set the session
-		if (auth) when(request.getSession(false)).thenReturn(session);
-		when(request.getSession(true)).thenReturn(session);
-		when(request.getSession()).thenReturn(session);
-
 		//Set the session2 cookie
-		if (id2 != null) {
-			Cookie cookie2 = createSession2Cookie(id2);
-			when(request.getCookies()).thenReturn(new Cookie[] { cookie2 });
+		if (id != null) {
+			Cookie cookie = createCookie(id);
+			when(request.getCookies()).thenReturn(new Cookie[] { cookie });
 		}
 
 		//Set the method (GET/POST)

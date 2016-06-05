@@ -37,12 +37,12 @@ public class COCWebSocketCreator implements WebSocketCreator {
 	public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
 		WebClient client = null;
 		for (HttpCookie cookie : req.getCookies()) {
-			if (!cookie.getName().equals(WebServer.SESSION2_COOKIE)) continue;
+			if (!cookie.getName().equals(WebServer.COOKIE_NAME)) continue;
 			
-			System.out.println("Client session2 ID found: " + cookie.getValue());
+			System.out.println("Client session ID found: " + cookie.getValue());
 			client = server.getUser(cookie.getValue());
 			if (client == null) {
-				System.out.println(" - but session2 ID was not bound to a WebClient");
+				System.out.println(" - but session ID was not bound to a WebClient");
 			}
 			
 			break;
