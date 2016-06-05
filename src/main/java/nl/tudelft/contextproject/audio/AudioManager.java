@@ -6,17 +6,22 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import com.jme3.audio.AudioNode;
+import com.jme3.audio.AudioRenderer;
 import com.jme3.audio.Environment;
+import com.jme3.audio.Listener;
+import com.jme3.renderer.Camera;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.TickListener;
 
 /**
  * Singleton class to manage audio.
  */
-public final class AudioManager {
+public final class AudioManager implements TickListener {
 	private static final AudioManager INSTANCE = new AudioManager();
 	
 	private HashMap<SoundType, Set<AudioNode>> sounds = new HashMap<>();
+	private Listener listener;
 	
 	private AudioManager() {
 		for (SoundType soundType : SoundType.values()) {
@@ -36,9 +41,17 @@ public final class AudioManager {
 	
 	/**
 	 * Initializes the AudioManager.
+	 * 
+	 * @param renderer
+	 * 		the audio renderer to apply the cave effect to
+	 * @param listener
+	 * 		the listener to use
 	 */
-	public void init() {
-		Main.getInstance().getAudioRenderer().setEnvironment(Environment.Cavern);
+	public void init(AudioRenderer renderer, Listener listener) {
+		this.listener = listener;
+		if (renderer != null) {
+			renderer.setEnvironment(Environment.Cavern);
+		}
 	}
 	
 	/**
@@ -126,5 +139,12 @@ public final class AudioManager {
 				an.setVolume(soundType.getGain());
 			}
 		}
+	}
+	
+	@Override
+	public void update(float tpf) {
+		Camera cam = Main.getInstance().getCamera();
+		listener.setLocation(cam.getLocation());
+		listener.setRotation(cam.getRotation());
 	}
 }

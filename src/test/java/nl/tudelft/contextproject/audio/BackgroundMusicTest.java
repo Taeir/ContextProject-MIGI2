@@ -227,7 +227,7 @@ public class BackgroundMusicTest extends TestBase {
 		reset(an);
 
 		//Call the update
-		BackgroundMusic.getInstance().update();
+		BackgroundMusic.getInstance().update(1f);
 
 		//The song should not have been changed any more
 		verifyZeroInteractions(an);
@@ -249,7 +249,7 @@ public class BackgroundMusicTest extends TestBase {
 		when(an.getStatus()).thenReturn(Status.Playing);
 
 		//Call the update
-		BackgroundMusic.getInstance().update();
+		BackgroundMusic.getInstance().update(1f);
 
 		//We should not have been stopped
 		verify(an, times(0)).stop();
@@ -271,7 +271,7 @@ public class BackgroundMusicTest extends TestBase {
 		when(an.getStatus()).thenReturn(Status.Stopped);
 
 		//Call the update
-		BackgroundMusic.getInstance().update();
+		BackgroundMusic.getInstance().update(1f);
 
 		//We should have been explicitly stopped by the method
 		verify(an, times(1)).stop();
