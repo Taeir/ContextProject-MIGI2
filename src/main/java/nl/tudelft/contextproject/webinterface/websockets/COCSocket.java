@@ -5,10 +5,7 @@ import java.io.IOException;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.StatusCode;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.TickListener;
@@ -22,8 +19,7 @@ import lombok.SneakyThrows;
 /**
  * Class that is a WebSocket to a single client.
  */
-@WebSocket(maxTextMessageSize = 64 * 1024)
-public class COCSocket implements TickListener {
+public class COCSocket extends WebSocketAdapter implements TickListener {
 	public static final float UPDATE_INTERVAL = 1.0f;
 	
 	public static final boolean KICK_ILLEGAL_CLIENTS = false;
@@ -31,8 +27,6 @@ public class COCSocket implements TickListener {
 	private final WebServer server;
 	private final WebClient client;
 	private float timer;
-	private Session session;
-	private RemoteEndpoint remote;
 	
 	/**
 	 * Creates a new COCSocket for the given client.
@@ -47,20 +41,9 @@ public class COCSocket implements TickListener {
 		this.client = client;
 	}
 	
-	/**
-	 * Handles messages from the client.
-	 * 
-	 * <p>The only messages that the client can send are action messages,
-	 * <code>&lt;action&gt; &lt;x&gt; &lt;y&gt;</code>, and quit messages,
-	 * <code>QUIT</code>.
-	 * 
-	 * @param message
-	 * 		the message that was sent by the client
-	 * @throws IOException
-	 * 		if writing to the response causes an exception
-	 */
-	@OnWebSocketMessage
-	public void onMessage(String message) throws IOException {
+	@SneakyThrows(IOException.class)
+	@Override
+	public void onWebSocketText(String message) {
 		System.out.println("[DEBUG] [WebSocket] Message received: " + message);
 		
 		if ("QUIT".equals(message)) {
@@ -89,22 +72,15 @@ public class COCSocket implements TickListener {
 		if (KICK_ILLEGAL_CLIENTS) {
 			server.disconnect(client, StatusCode.POLICY_VIOLATION);
 		} else {
-			remote.sendStringByFuture(COCErrorCode.ACTION_ILLEGAL.toString());
+			RemoteEndpoint remote = getRemote();
+			if (remote != null) remote.sendStringByFuture(COCErrorCode.ACTION_ILLEGAL.toString());
 		}
 	}
 	
-	/**
-	 * Handles new connections.
-	 * 
-	 * @param session
-	 * 		the session the client connected with
-	 * @throws IOException
-	 * 		if sending the "OK" response fails
-	 */
-	@OnWebSocketConnect
-	public void onConnect(Session session) throws IOException {
-		this.session = session;
-		this.remote = session.getRemote();
+	@Override
+	public void onWebSocketConnect(Session session) {
+		super.onWebSocketConnect(session);
+		timer = 0f;
 		
 		System.out.println("[DEBUG] [WebSocket] Websocket connected!");
 		
@@ -113,8 +89,7 @@ public class COCSocket implements TickListener {
 		} catch (Exception ex) {
 			System.out.println("Failed to send OK message!");
 			ex.printStackTrace();
-			
-			session.disconnect();
+			session.close(StatusCode.SERVER_ERROR, null);
 			return;
 		}
 		
@@ -122,17 +97,11 @@ public class COCSocket implements TickListener {
 		Main.getInstance().attachTickListener(this);
 	}
 	
-	/**
-	 * Handles socket close.
-	 * 
-	 * @param status
-	 * 		the status code with which the socket is being closed
-	 * @param reason
-	 * 		the reason the socket is being closed
-	 */
-	@OnWebSocketClose
-	public void onClose(int status, String reason) {
-		System.out.println("[DEBUG] [WebSocket] Websocket close: [" + status + "] " + reason);
+	@Override
+	public void onWebSocketClose(int statusCode, String reason) {
+		super.onWebSocketClose(statusCode, reason);
+
+		System.out.println("[DEBUG] [WebSocket] Websocket close: [" + statusCode + "] " + reason);
 		
 		Main.getInstance().removeTickListener(this);
 		this.client.removeWebSocket(this);
@@ -146,21 +115,5 @@ public class COCSocket implements TickListener {
 		
 		timer = 0f;
 		server.getNormalHandler().sendStatusUpdate(client, null);
-	}
-	
-	/**
-	 * @return
-	 * 		the session of this socket
-	 */
-	public Session getSession() {
-		return session;
-	}
-	
-	/**
-	 * @return
-	 * 		the remote endpoint of this socket
-	 */
-	public RemoteEndpoint getRemote() {
-		return remote;
 	}
 }
