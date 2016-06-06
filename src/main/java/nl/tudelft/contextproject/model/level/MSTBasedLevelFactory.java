@@ -232,8 +232,6 @@ public class MSTBasedLevelFactory implements LevelFactory {
 					mazeTiles[x][y] = new MazeTile(x, y, TileType.CORRIDOR);
 				}
 			}
-
-
 		}
 	}	
 

@@ -135,7 +135,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 		player.updateFallingTimer(4);
 		player.updateFallingTimer(.5f);
 		
-		assertEquals(-10f, player.getLocation().y, 1e-4);
+		assertEquals(5f, player.getLocation().y, 1e-4);
 	}
 	
 	/**
