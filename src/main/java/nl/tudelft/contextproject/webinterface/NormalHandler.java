@@ -68,13 +68,13 @@ public class NormalHandler {
 		
 		//Check if game started
 		if (Main.getInstance().getGameState().isStarted()) {
-			response.getWriter().write("" + COCErrorCode.AUTHENTICATE_FAIL_IN_PROGRESS.getNr());
+			response.getWriter().write(COCErrorCode.AUTHENTICATE_FAIL_IN_PROGRESS.toString());
 			return;
 		}
 		
 		//Check if game is full
 		if (server.getUniqueClientCount() > WebServer.MAX_PLAYERS) {
-			response.getWriter().write("" + COCErrorCode.AUTHENTICATE_FAIL_FULL.getNr());
+			response.getWriter().write(COCErrorCode.AUTHENTICATE_FAIL_FULL.toString());
 			return;
 		}
 		
@@ -153,13 +153,13 @@ public class NormalHandler {
 		//Users that are not in the game cannot set their team
 		WebClient client = server.getUser(request);
 		if (client == null) {
-			response.getWriter().write("" + COCErrorCode.SETTEAM_UNAUTHORIZED.getNr());
+			response.getWriter().write(COCErrorCode.SETTEAM_UNAUTHORIZED.toString());
 			return;
 		}
 		
 		//Changing teams while the game is in progress is not allowed
 		if (Main.getInstance().getGameState().isStarted()) {
-			response.getWriter().write("" + COCErrorCode.SETTEAM_STARTED.getNr());
+			response.getWriter().write(COCErrorCode.SETTEAM_STARTED.toString());
 			return;
 		}
 		
@@ -184,20 +184,20 @@ public class NormalHandler {
 	private void attemptSetTeam(WebClient client, String team, HttpServletResponse response) throws IOException {
 		if ("DWARFS".equals(team)) {
 			if (server.getDwarfsCount() >= WebServer.MAX_DWARFS) {
-				response.getWriter().write("" + COCErrorCode.SETTEAM_TEAM_FULL.getNr());
+				response.getWriter().write(COCErrorCode.SETTEAM_TEAM_FULL.toString());
 			} else {
 				client.setTeam(Team.DWARFS);
 				response.getWriter().write("" + Team.DWARFS.ordinal());
 			}
 		} else if ("ELVES".equals(team)) {
 			if (server.getElvesCount() >= WebServer.MAX_ELVES) {
-				response.getWriter().write("" + COCErrorCode.SETTEAM_TEAM_FULL.getNr());
+				response.getWriter().write(COCErrorCode.SETTEAM_TEAM_FULL.toString());
 			} else {
 				client.setTeam(Team.ELVES);
 				response.getWriter().write("" + Team.ELVES.ordinal());
 			}
 		} else {
-			response.getWriter().write("" + COCErrorCode.SETTEAM_INVALID_TEAM.getNr());
+			response.getWriter().write(COCErrorCode.SETTEAM_INVALID_TEAM.toString());
 		}
 	}
 	
