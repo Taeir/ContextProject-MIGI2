@@ -73,7 +73,7 @@ public class NormalHandler {
 		}
 		
 		//Check if game is full
-		if (server.getUniqueClientCount() > WebServer.MAX_PLAYERS) {
+		if (server.getUniqueClientCount() >= WebServer.MAX_PLAYERS) {
 			response.getWriter().write(COCErrorCode.AUTHENTICATE_FAIL_FULL.toString());
 			return;
 		}
