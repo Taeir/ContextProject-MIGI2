@@ -53,6 +53,7 @@ public final class ActionUtil {
 				placeTile(xCoord, yCoord);
 				break;
 			case OPENGATE:
+				openGate(xCoord, yCoord);
 				break;
 			default:
 				throw new IllegalArgumentException("Your action is not valid.");
