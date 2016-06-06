@@ -21,6 +21,7 @@ import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
+import nl.tudelft.contextproject.model.entities.Gate;
 import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
@@ -140,7 +141,9 @@ public class GameController extends Controller {
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-
+		Gate gate = new Gate();
+		gate.move(2, 1, 2);
+		game.addEntity(gate);
 		placeTreasure(game);
 		
 		AmbientLight al = new AmbientLight();
