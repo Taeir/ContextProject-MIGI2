@@ -3,8 +3,6 @@ package nl.tudelft.contextproject.model.level;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -28,9 +26,9 @@ import nl.tudelft.contextproject.util.RandomUtil;
  *
  */
 public class MSTBasedLevelFactory implements LevelFactory {
-	public Set<Entity> entities = ConcurrentHashMap.newKeySet();
 
 	public static final int START_ROOM_ID = -1;
+
 	//Max width of level 
 	protected static final int MAX_WIDTH = 50;
 	//Max height of level 
@@ -43,6 +41,9 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * size will require more attempts to fill to the same density.
 	 */
 	private static final int MAX_ATTEMPTS = 10000;
+
+
+	public Set<Entity> entities = ConcurrentHashMap.newKeySet();
 
 	/**
 	 * Allow duplicates rooms in a single level.
