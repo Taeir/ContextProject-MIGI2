@@ -181,7 +181,7 @@ public class NormalHandler {
 	 * @throws IOException
 	 * 		if writing to the response causes an IOException
 	 */
-	private void attemptSetTeam(WebClient client, String team, HttpServletResponse response) throws IOException {
+	protected void attemptSetTeam(WebClient client, String team, HttpServletResponse response) throws IOException {
 		if ("DWARFS".equals(team)) {
 			if (server.getDwarfsCount() >= WebServer.MAX_DWARFS) {
 				response.getWriter().write(COCErrorCode.SETTEAM_TEAM_FULL.toString());
@@ -296,7 +296,7 @@ public class NormalHandler {
 	 * @throws IOException
 	 * 		if writing to the response causes an IOException
 	 */
-	private void attemptAction(WebClient client, Action action, int xCoord, int yCoord, HttpServletResponse response) throws IOException {
+	protected void attemptAction(WebClient client, Action action, int xCoord, int yCoord, HttpServletResponse response) throws IOException {
 		if (!WebUtil.checkValidAction(action, client.getTeam())) {
 			client.sendMessage(COCErrorCode.ACTION_ILLEGAL.toString(), response);
 			return;
@@ -336,7 +336,9 @@ public class NormalHandler {
 	public void onStatusUpdateRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		WebClient client = server.getUser(request);
 		if (client == null) {
-			response.getWriter().write(COCErrorCode.UNAUTHORIZED.toString());
+			response.setStatus(HttpStatus.OK_200);
+			response.setContentType("text/json");
+			response.getWriter().write(COCErrorCode.UNAUTHORIZED.toJSON());
 			return;
 		}
 
