@@ -56,9 +56,9 @@ public class DamagedWall extends Entity implements Health, PhysicsObject {
 		if (spatial == null) {
 			this.getSpatial();
 		}
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(spatial);
-		phControl = new RigidBodyControl(sceneShape, 0);
+		phControl = new RigidBodyControl(1.5f);
 		phControl.setPhysicsLocation(spatial.getLocalTranslation());
+		spatial.addControl(phControl);
 		return phControl;
 	}
 
