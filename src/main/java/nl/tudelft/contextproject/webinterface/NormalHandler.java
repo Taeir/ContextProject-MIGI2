@@ -79,7 +79,7 @@ public class NormalHandler {
 		}
 		
 		Cookie cookie = server.createCookie();
-		server.registerUser(new WebClient(), cookie.getValue());
+		server.getClients().put(cookie.getValue(), new WebClient());
 
 		response.addCookie(cookie);
 		response.getWriter().write("ALLOWED");

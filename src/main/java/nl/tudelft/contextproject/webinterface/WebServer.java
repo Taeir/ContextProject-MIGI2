@@ -165,18 +165,6 @@ public class WebServer {
 	}
 	
 	/**
-	 * Registers the given user.
-	 * 
-	 * @param client
-	 * 		the WebClient to register
-	 * @param session
-	 * 		the session to register under
-	 */
-	public void registerUser(WebClient client, String session) {
-		clients.put(session, client);
-	}
-	
-	/**
 	 * Disconnects the given client from the game.
 	 * 
 	 * @param client
@@ -244,7 +232,7 @@ public class WebServer {
 			//User is allowed to join
 			logAuthentication(request);
 			cookie = createCookie();
-			registerUser(new WebClient(), cookie.getValue());
+			clients.put(cookie.getValue(), new WebClient());
 
 			response.addCookie(cookie);
 			response.setStatus(HttpStatus.OK_200);
