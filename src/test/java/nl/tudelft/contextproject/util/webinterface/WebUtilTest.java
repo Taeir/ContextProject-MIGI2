@@ -10,6 +10,7 @@ import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.webinterface.Action;
+import nl.tudelft.contextproject.webinterface.Team;
 import nl.tudelft.contextproject.webinterface.WebClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,9 +32,6 @@ import static org.mockito.Mockito.when;
  * Test for the WebUtil class.
  */
 public class WebUtilTest extends TestBase {
-	private static final String DWARFS = "Dwarfs";
-	private static final String ELVES = "Elves";
-
 	private Game mockedGame;
 	private Level mockedLevel;
 	private Vector3f zeroVector;
@@ -72,9 +70,9 @@ public class WebUtilTest extends TestBase {
 	 */
 	@Test
 	public void testCheckValidAction() {
-		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, ELVES));
-		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, DWARFS));
-		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, "hax0r"));
+		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, Team.ELVES));
+		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, Team.DWARFS));
+		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, Team.NONE));
 	}
 
 	/**
@@ -198,7 +196,7 @@ public class WebUtilTest extends TestBase {
 		List<Long> timestamps = new ArrayList<>();
 		performedActions.put(Action.PLACEBOMB, timestamps);
 
-		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getTeam()).thenReturn(Team.DWARFS);
 		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
@@ -221,7 +219,7 @@ public class WebUtilTest extends TestBase {
 
 		performedActions.put(Action.PLACEBOMB, timestamps);
 
-		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getTeam()).thenReturn(Team.DWARFS);
 		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		assertFalse(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
@@ -243,7 +241,7 @@ public class WebUtilTest extends TestBase {
 
 		performedActions.put(Action.PLACEBOMB, timestamps);
 
-		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getTeam()).thenReturn(Team.DWARFS);
 		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
