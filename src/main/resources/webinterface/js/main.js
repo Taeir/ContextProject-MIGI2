@@ -595,7 +595,7 @@ function encodeAction(action) {
         case "placetile":
             return 5;
         case "opengate":
-        	return 7;
+        	return 6;
         default:
             return -1;
     }

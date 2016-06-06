@@ -155,11 +155,8 @@ public final class ActionUtil {
 	private static void openGate(int xCoord, int yCoord) {
 		for (Entity ent: Main.getInstance().getCurrentGame().getEntities()) {
 			if (ent instanceof Gate) {
-				if (xCoord == ent.getLocation().x && yCoord == ent.getLocation().z) {
 					((Gate) ent).openGate();
-				}
 			}
 		}
-		System.out.println("test");
 	}
 }

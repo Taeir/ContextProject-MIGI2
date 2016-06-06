@@ -10,8 +10,8 @@ public enum Action {
 	PLACEMINE(10, 4, false, true),
 	SPAWNENEMY(10, 1, false, true),
 	DROPBAIT(10, 5, false, true),
-	OPENGATE(5, 1, false, true),
 	PLACETILE(0, Integer.MAX_VALUE, true, false),
+	OPENGATE(5, 1, false, true),
 	INVALID(0, 0, false, false);
 
 	private int cooldown;
