@@ -36,6 +36,9 @@ ErrorCodes = Object.freeze({
     112: {name: "SETTEAM_UNAUTHORIZED",
           msg: "You are not in the game, and the game has already started!",
           severity: Severity.Warning},
+    113: {name: "SETTEAM_TEAM_FULL",
+          msg: "This team is full!",
+          severity: Severity.Warning},
 
     200: {name: "ACTION_ILLEGAL_LOCATION",
           msg: "You cannot perform this action at this location.",
@@ -43,6 +46,9 @@ ErrorCodes = Object.freeze({
     201: {name: "ACTION_COOLDOWN",
           msg: "This action is on cooldown",
           severity: Severity.Warning},
+    202: {name: "ACTION_ILLEGAL",
+          msg: "Stop cheating! This action is not possible in your current team.",
+          severity: Severity.Danger},
 
     300: {name: "UNAUTHORIZED",
           msg: "You are not in the current game!",

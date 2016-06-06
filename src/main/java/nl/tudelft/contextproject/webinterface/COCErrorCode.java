@@ -15,11 +15,15 @@ public enum COCErrorCode {
 	SETTEAM_INVALID_TEAM(111),
 	/** Client tried to set it's team, but was not authorized. */
 	SETTEAM_UNAUTHORIZED(112),
+	/** Client tried to set it's team to a team that was full. */
+	SETTEAM_TEAM_FULL(113),
 
 	/** The client attempted to perform an action at an illegal location. */
 	ACTION_ILLEGAL_LOCATION(200),
 	/** The action the client attempted was on cooldown. */
 	ACTION_COOLDOWN(201),
+	/** The action is illegal for the current team / action is not known. */
+	ACTION_ILLEGAL(202),
 	
 	/** The client is not authorized. */
 	UNAUTHORIZED(300),
@@ -53,5 +57,10 @@ public enum COCErrorCode {
 	 */
 	public String toJSON() {
 		return "{error: " + nr + "}";
+	}
+	
+	@Override
+	public String toString() {
+		return "" + nr;
 	}
 }
