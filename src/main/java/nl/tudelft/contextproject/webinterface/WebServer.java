@@ -174,6 +174,18 @@ public class WebServer {
 	public NormalHandler getNormalHandler() {
 		return this.normalHandler;
 	}
+	
+	/**
+	 * Sets the normalhandler to the given handler.
+	 * 
+	 * <p>This method is only used by the tests.
+	 * 
+	 * @param handler
+	 * 		the new NormalHandler to use
+	 */
+	protected void setNormalHandler(NormalHandler handler) {
+		this.normalHandler = handler;
+	}
 
 	/**
 	 * Clears the cooldowns set for all clients currently connected to the server.
