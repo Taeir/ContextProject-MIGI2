@@ -28,8 +28,6 @@ import nl.tudelft.contextproject.test.TestUtil;
  * Test class for {@link NormalHandler}.
  */
 public class NormalHandlerTest extends WebTestBase {
-
-	private static final String CONTENT_TYPE_JSON = "text/json";
 	private NormalHandler handler;
 	private WebServer server;
 	

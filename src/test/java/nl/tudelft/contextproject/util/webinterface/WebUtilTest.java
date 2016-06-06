@@ -69,6 +69,8 @@ public class WebUtilTest extends TestBase {
 	public void testCheckValidElves() {
 		assertTrue(WebUtil.checkValidElves(Action.DROPBAIT));
 		assertTrue(WebUtil.checkValidElves(Action.PLACETILE));
+		assertTrue(WebUtil.checkValidElves(Action.OPENGATE));
+		assertTrue(WebUtil.checkValidElves(Action.DROPBOX));
 		assertFalse(WebUtil.checkValidElves(Action.PLACEBOMB));
 	}
 
