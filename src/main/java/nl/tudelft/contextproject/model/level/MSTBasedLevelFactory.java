@@ -27,11 +27,23 @@ import nl.tudelft.contextproject.util.RandomUtil;
  */
 public class MSTBasedLevelFactory implements LevelFactory {
 
+	/**
+	 * Start roomID.
+	 */
 	public static final int START_ROOM_ID = -1;
+	
+	/**
+	 * Treasure roomID.
+	 */
+	public static final int TREASURE_ROOM_ID = 2;
 
-	//Max width of level 
+	/**
+	 * Max width of the level.
+	 */
 	protected static final int MAX_WIDTH = 50;
-	//Max height of level 
+	/**
+	 * Max width of the level.
+	 */
 	protected static final int MAX_HEIGHT = 50;
 
 	/**
@@ -42,7 +54,9 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 */
 	private static final int MAX_ATTEMPTS = 10000;
 
-
+	/**
+	 * Current Entity storage.
+	 */
 	public Set<Entity> entities = ConcurrentHashMap.newKeySet();
 
 	/**
@@ -52,25 +66,15 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	public boolean duplicates;
 
 	private Random rand;
-
 	private ArrayList<RoomNode> baseNodes;
-
 	private ArrayList<RoomNode> usedNodes;
-
-	private int idCounter;
-
 	private HashMap<Integer, CorridorEdge> edges;
-
 	private ArrayList<Integer> chosenEdges;
-
 	private ArrayList<RoomEntrancePoint> usedEntrancePoints;
-
 	private ArrayList<RoomExitPoint> usedExitPoints;
-
+	private int idCounter;
 	private RoomTuple startAndEndRooms;
-
 	private ArrayList<Light> lights;
-
 	private MazeTile[][] mazeTiles;
 
 
@@ -113,8 +117,6 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		return new Level(mazeTiles, lights);
 	}
 
-
-
 	/**
 	 * Place start and treasure room on semi-random locations.
 	 * Start room is placed in left-most quarter, treasure-room in right most quarter.
@@ -127,7 +129,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		Vec2I startLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				RoomNode.MIN_DIST, endLeftMostQuarter), 
 				RandomUtil.getRandomIntegerFromInterval(rand, 
-						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
+				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
 		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), START_ROOM_ID);
 		addRoomNode(startNode, startLocation);
 
@@ -135,8 +137,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		Vec2I treasureLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				beginningRightMostQuarter, MAX_WIDTH - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)), 
 				RandomUtil.getRandomIntegerFromInterval(rand, 
-						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
-		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom(), -2);
+				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
+		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom(), TREASURE_ROOM_ID);
 		addRoomNode(treasureNode, treasureLocation);
 	}
 
@@ -245,11 +247,6 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		CorridorEdge currentCorridor;
 		for (Integer corridorID: chosenEdges) {
 			currentCorridor = edges.get(corridorID);
-
-			//TODO DEBUG
-			if (currentCorridor.start.location.distance(currentCorridor.end.location) < 2) {
-				System.out.println("Too close, give me some space please!");
-			}
 			corridorList.add(CorridorBreadthFirstSearch.creatCorridor(mazeTiles, currentCorridor.start.location, currentCorridor.end.location));
 		}
 		return corridorList;
