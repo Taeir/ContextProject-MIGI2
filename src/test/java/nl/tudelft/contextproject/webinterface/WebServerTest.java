@@ -1,26 +1,13 @@
 package nl.tudelft.contextproject.webinterface;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
+import static org.junit.Assert.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import nl.tudelft.contextproject.controller.GameState;
-import nl.tudelft.contextproject.test.TestUtil;
 
 /**
  * Test class for {@link WebServer}.
@@ -47,6 +34,59 @@ public class WebServerTest extends WebTestBase {
 	@After
 	public void tearDown() throws Exception {
 		webServer.stop();
+	}
+	
+	/**
+	 * Tests if {@link WebServer#getUniqueClientCount()} works properly.
+	 */
+	@Test
+	public void testGetUniqueClientCount() {
+		assertEquals(0, webServer.getUniqueClientCount());
+		
+		webServer.getClients().put("A", new WebClient());
+		assertEquals(1, webServer.getUniqueClientCount());
+	}
+	
+	/**
+	 * Tests if {@link WebServer#getDwarfsCount()} works properly.
+	 */
+	@Test
+	public void testGetDwarfsCount() {
+		WebClient clientA = new WebClient();
+		clientA.setTeam(Team.DWARFS);
+		
+		WebClient clientB = new WebClient();
+		clientB.setTeam(Team.ELVES);
+		
+		WebClient clientC = new WebClient();
+		clientC.setTeam(Team.ELVES);
+		
+		webServer.getClients().put("A", clientA);
+		webServer.getClients().put("B", clientB);
+		webServer.getClients().put("C", clientC);
+		
+		assertEquals(1, webServer.getDwarfsCount());
+	}
+	
+	/**
+	 * Tests if {@link WebServer#getElvesCount()} works properly.
+	 */
+	@Test
+	public void testGetElvesCount() {
+		WebClient clientA = new WebClient();
+		clientA.setTeam(Team.ELVES);
+		
+		WebClient clientB = new WebClient();
+		clientB.setTeam(Team.DWARFS);
+		
+		WebClient clientC = new WebClient();
+		clientC.setTeam(Team.ELVES);
+		
+		webServer.getClients().put("A", clientA);
+		webServer.getClients().put("B", clientB);
+		webServer.getClients().put("C", clientC);
+		
+		assertEquals(2, webServer.getElvesCount());
 	}
 	
 	/**
@@ -146,123 +186,6 @@ public class WebServerTest extends WebTestBase {
 		HttpServletRequest request = createMockedRequest(ID);
 		
 		assertSame(client, webServer.getUser(request));
-	}
-
-	/**
-	 * Test method for {@link WebServer#handleAuthentication(HttpServletRequest, HttpServletResponse)},
-	 * when the user connecting is not known.
-	 * 
-	 * @throws IOException
-	 * 		if an IOException occurs
-	 */
-	@Test
-	public void testHandleAuthentication_unknown() throws IOException {
-		//Create request and response mocks
-		HttpServletRequest request = createMockedRequest(null);
-		HttpServletResponse response = createMockedResponse();
-
-		//Set the waitning GameState
-		TestUtil.setGameState(GameState.WAITING);
-
-		//Game is not full, so user should get authenticated
-		assertTrue(webServer.handleAuthentication(request, response));
-
-		//The user should have been added
-		assertEquals(1, webServer.getClients().size());
-
-		//Verify that the cookie has been added, and that the response is correct
-		verify(response).addCookie(any());
-		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter()).write("AUTHENTICATED");
-	}
-	
-	/**
-	 * Test method for {@link WebServer#handleAuthentication(HttpServletRequest, HttpServletResponse)},
-	 * when the user connecting is not known, and the game is in progress.
-	 * 
-	 * @throws IOException
-	 * 		if an IOException occurs
-	 */
-	@Test
-	public void testHandleAuthentication_unknown_inProgress() throws IOException {
-		//Create request and response mocks
-		HttpServletRequest request = createMockedRequest(null);
-		HttpServletResponse response = createMockedResponse();
-
-		//Set the running GameState
-		TestUtil.setGameState(GameState.RUNNING);
-
-		//Game is in progress, so user should not get authenticated
-		assertFalse(webServer.handleAuthentication(request, response));
-
-		//The user should not have been added
-		assertEquals(0, webServer.getClients().size());
-
-		//Verify that the response says the game is in progress
-		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter()).write("IN_PROGRESS");
-	}
-	
-	/**
-	 * Test method for {@link WebServer#handleAuthentication(HttpServletRequest, HttpServletResponse)},
-	 * when the user connecting is not known, and the game is full.
-	 * 
-	 * @throws IOException
-	 * 		if an IOException occurs
-	 */
-	@Test
-	public void testHandleAuthentication_unknown_full() throws IOException {
-		//Ensure that the game is full
-		for (int i = 0; i < WebServer.MAX_PLAYERS; i++) {
-			webServer.getClients().put("" + i, new WebClient());
-		}
-
-		//Create request and response mocks
-		HttpServletRequest request = createMockedRequest(null);
-		HttpServletResponse response = createMockedResponse();
-
-		//Set the waiting GameState
-		TestUtil.setGameState(GameState.WAITING);
-
-		//Game is full, so user should not get authenticated
-		assertFalse(webServer.handleAuthentication(request, response));
-
-		//The user should not have been added
-		assertEquals(WebServer.MAX_PLAYERS, webServer.getClients().size());
-
-		//Verify the response says the game is full
-		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter()).write("FULL");
-	}
-	
-	/**
-	 * Test method for {@link WebServer#handleAuthentication(HttpServletRequest, HttpServletResponse)},
-	 * when the user connecting is known.
-	 * 
-	 * @throws IOException
-	 * 		if an IOException occurs
-	 */
-	@Test
-	public void testHandleAuthentication_known() throws IOException {
-		//Add the client
-		webServer.getClients().put(ID, new WebClient());
-
-		//Create request and response mocks
-		HttpServletRequest request = createMockedRequest(ID);
-		HttpServletResponse response = createMockedResponse();
-
-		//Set the waiting GameState
-		TestUtil.setGameState(GameState.WAITING);
-
-		//Game is not full, so users should get authenticated
-		assertTrue(webServer.handleAuthentication(request, response));
-
-		//The user should have been added
-		assertEquals(1, webServer.getClients().size());
-
-		//The user should get an authenticated response
-		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter()).write("AUTHENTICATED");
 	}
 
 	/**
