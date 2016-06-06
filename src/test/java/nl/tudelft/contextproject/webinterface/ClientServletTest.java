@@ -107,6 +107,27 @@ public class ClientServletTest extends WebTestBase {
 	}
 
 	/**
+	 * Test method for {@link ClientServlet#doPost}, when posting to /indexrefresh.
+	 * 
+	 * @throws Exception
+	 * 		if an exception occurs calling doPost of the servlet
+	 */
+	@Test
+	public void testDoPost_indexrefresh() throws Exception {
+		HttpServletRequest request = createMockedRequest(ID, false, "/indexrefresh");
+		HttpServletResponse response = createMockedResponse();
+
+		//Ensure that the original method does not get called
+		doNothing().when(handler).onIndexRefresh(any(), any());
+
+		//Call the post
+		servlet.doPost(request, response);
+
+		//Verify that onIndexRefresh has been called
+		verify(handler).onIndexRefresh(request, response);
+	}
+	
+	/**
 	 * Test method for {@link ClientServlet#doPost}, when posting to /login.
 	 * 
 	 * @throws Exception

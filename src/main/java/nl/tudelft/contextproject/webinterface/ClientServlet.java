@@ -53,8 +53,9 @@ public class ClientServlet extends DefaultServlet {
 		//Handle the post request differently based on the requested URL.
 		String uri = request.getRequestURI().substring(1);
 		switch (uri) {
-			//Intentional fall through
-			case "join":
+			case "indexrefresh":
+				server.getNormalHandler().onIndexRefresh(request, response);
+				break;
 			case "login":
 				server.getNormalHandler().onJoinRequest(request, response);
 				break;
