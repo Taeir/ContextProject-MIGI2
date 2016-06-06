@@ -66,4 +66,21 @@ public enum Action {
 	public boolean isAllowedTiles() {
 		return allowedTiles;
 	}
+	
+	/**
+	 * Gets the action with the given ordinal.
+	 * If the ordinal is not valid, this method returns null.
+	 * 
+	 * @param ordinal
+	 * 		the ordinal of the action to get
+	 * @return
+	 * 		the Action with the given ordinal
+	 */
+	public static Action getAction(int ordinal) {
+		if (ordinal < 0) return null;
+		
+		Action[] actions = values();
+		if (ordinal >= actions.length) return null;
+		return actions[ordinal];
+	}
 }

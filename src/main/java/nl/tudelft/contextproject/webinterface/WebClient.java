@@ -176,18 +176,15 @@ public class WebClient {
 	/**
 	 * Send a confirmation message to the client.
 	 * 
-	 * @param msg
-	 * 		the message to send
 	 * @param response
 	 * 		the response to send to, can be null
 	 * @throws IOException
 	 * 		if writing to the response causes an IOException
 	 */
-	public void confirmMessage(String msg, HttpServletResponse response) throws IOException {
+	public void confirmMessage(HttpServletResponse response) throws IOException {
 		if (response == null) return;
 		
 		response.setStatus(HttpStatus.NO_CONTENT_204);
-		//response.getWriter().write(msg);
 	}
 	
 	public void disconnect(int errorCode) {

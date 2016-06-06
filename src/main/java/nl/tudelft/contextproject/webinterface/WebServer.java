@@ -29,14 +29,17 @@ public class WebServer {
 	public static final String COOKIE_NAME = "COC_SESSION";
 	public static final int COOKIE_MAX_AGE = 24 * 60;
 	public static final int MAX_PLAYERS = 4;
+	public static final int MAX_DWARFS = 2;
+	public static final int MAX_ELVES = 2;
+	
 	private static final Log LOG = Log.getLog("WebInterface");
 	
 	private Map<String, WebClient> clients = new ConcurrentHashMap<>();
 	private boolean running;
 	private int port;
 	private Server server;
-	private RequestHandler requestHandler = new RequestHandler(this);
 	private SessionIdManager sessionIdManager = new SessionIdManager();
+	private NormalHandler normalHandler = new NormalHandler(this);
 	
 	/**
 	 * @return
@@ -190,10 +193,10 @@ public class WebServer {
 	
 	/**
 	 * @return
-	 * 		the RequestHandler of this WebServer
+	 * 		the handler for normal requests for this server
 	 */
-	public RequestHandler getRequestHandler() {
-		return this.requestHandler;
+	public NormalHandler getNormalHandler() {
+		return this.normalHandler;
 	}
 	
 	/**

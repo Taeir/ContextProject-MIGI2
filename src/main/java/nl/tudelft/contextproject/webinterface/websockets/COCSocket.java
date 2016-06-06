@@ -5,19 +5,13 @@ import java.io.IOException;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.StatusCode;
-import org.eclipse.jetty.websocket.api.WriteCallback;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import org.json.JSONObject;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.TickListener;
-import nl.tudelft.contextproject.util.webinterface.ActionUtil;
-import nl.tudelft.contextproject.util.webinterface.EntityUtil;
-import nl.tudelft.contextproject.util.webinterface.WebUtil;
 import nl.tudelft.contextproject.webinterface.Action;
 import nl.tudelft.contextproject.webinterface.COCErrorCode;
 import nl.tudelft.contextproject.webinterface.WebClient;
@@ -34,8 +28,8 @@ public class COCSocket implements TickListener {
 	
 	public static final boolean KICK_ILLEGAL_CLIENTS = false;
 	
-	private final transient WebServer server;
-	private final transient WebClient client;
+	private final WebServer server;
+	private final WebClient client;
 	private float timer;
 	private Session session;
 	private RemoteEndpoint remote;
@@ -53,20 +47,59 @@ public class COCSocket implements TickListener {
 		this.client = client;
 	}
 	
-	@SneakyThrows
+	/**
+	 * Handles messages from the client.
+	 * 
+	 * <p>The only messages that the client can send are action messages,
+	 * <code>&lt;action&gt; &lt;x&gt; &lt;y&gt;</code>, and quit messages,
+	 * <code>QUIT</code>.
+	 * 
+	 * @param message
+	 * 		the message that was sent by the client
+	 * @throws IOException
+	 * 		if writing to the response causes an exception
+	 */
 	@OnWebSocketMessage
-	public void onText(String message) {
+	public void onMessage(String message) throws IOException {
 		System.out.println("[DEBUG] [WebSocket] Message received: " + message);
 		
-		//ACTION: Info
-		if (message.startsWith("RequestAction")) {
-			//TODO
+		if ("QUIT".equals(message)) {
+			server.disconnect(client, StatusCode.NORMAL);
+			return;
 		}
 		
+		String[] parts = message.split(" ");
+		if (parts.length != 3) {
+			illegalAction();
+			return;
+		}
+		
+		int actionCode = Integer.parseInt(parts[0]);
+		Action action = Action.getAction(actionCode);
+		if (action == null) {
+			illegalAction();
+			return;
+		}
+		
+		int x = Integer.parseInt(parts[1]);
+		int y = Integer.parseInt(parts[2]);
+		
+		server.getNormalHandler().onActionRequest(client, x, y, action);
+	}
+
+	/**
+	 * Based on the kicking policy, either kicks this client or sends an ACTION_ILLEGAL error code.
+	 */
+	private void illegalAction() {
+		if (KICK_ILLEGAL_CLIENTS) {
+			server.disconnect(client, StatusCode.POLICY_VIOLATION);
+		} else {
+			remote.sendStringByFuture(COCErrorCode.ACTION_ILLEGAL.toString());
+		}
 	}
 	
 	/**
-	 * Method to handle a new connection.
+	 * Handles new connections.
 	 * 
 	 * @param session
 	 * 		the session the client connected with
@@ -75,7 +108,10 @@ public class COCSocket implements TickListener {
 	 */
 	@OnWebSocketConnect
 	public void onConnect(Session session) throws IOException {
-		System.out.println("Websocket connected!");
+		this.session = session;
+		this.remote = session.getRemote();
+		
+		System.out.println("[DEBUG] [WebSocket] Websocket connected!");
 		
 		try {
 			session.getRemote().sendString("OK");
@@ -88,108 +124,33 @@ public class COCSocket implements TickListener {
 		}
 		
 		this.client.setWebSocket(this);
-		this.session = session;
-		this.remote = session.getRemote();
-		
 		Main.getInstance().attachTickListener(this);
 	}
 	
+	/**
+	 * Handles socket close.
+	 * 
+	 * @param status
+	 * 		the status code with which the socket is being closed
+	 * @param reason
+	 * 		the reason the socket is being closed
+	 */
 	@OnWebSocketClose
-	public void onClose(Session session, int status, String reason) {
-		System.out.println("Websocket close: [" + status + "] " + reason);
+	public void onClose(int status, String reason) {
+		System.out.println("[DEBUG] [WebSocket] Websocket close: [" + status + "] " + reason);
 		
 		Main.getInstance().removeTickListener(this);
 		this.client.removeWebSocket(this);
 	}
 
+	@SneakyThrows(IOException.class)
 	@Override
 	public void update(float tpf) {
 		timer += tpf;
 		if (timer < UPDATE_INTERVAL) return;
 		
 		timer = 0f;
-		remote.sendString(statusUpdate(), new WriteCallback() {
-
-			@Override
-			public void writeFailed(Throwable x) {
-				System.err.println("[WebSocket] WRITE FAILED!");
-				x.printStackTrace();
-			}
-
-			@Override
-			public void writeSuccess() {
-				System.out.println("[DEBUG] [WebSocket] Message written");
-			}
-		});
-	}
-	
-	private String statusUpdate() {
-		JSONObject json = new JSONObject();
-		json.put("team", client.getTeam().toUpperCase());
-		json.put("state", Main.getInstance().getGameState().name());
-		
-		Game game = Main.getInstance().getCurrentGame();
-		
-		switch (Main.getInstance().getGameState()) {
-			case WAITING:
-				//For now fall through to running
-			case RUNNING:
-				json.put("entities", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
-				json.put("explored", game.getLevel().toExploredWebJSON());
-				break;
-			case PAUSED:
-				//TODO Actual player information
-				//json.put("player", VRPlayer().toJSON());
-				//TODO Add entity updates
-				//TODO Add explored updates
-				break;
-			case ENDED:
-				//TODO Add game statistics
-				break;
-			default:
-				break;
-		}
-		
-		return json.toString();
-	}
-	
-	/**
-	 * Attempt to perform an action.
-	 *
-	 * @param xCoord
-	 * 		the x coordinate to perform the action on
-	 * @param yCoord
-	 * 		the y coordinate to perform the action on
-	 * @param action
-	 * 		the action to perform
-	 * @param client
-	 * 		the client who wants to perform the action
-	 * @throws IOException
-	 * 		if sending the response to the client causes an IOException
-	 */
-	protected void attemptAction(int xCoord, int yCoord, Action action, WebClient client) throws IOException {
-		if (!WebUtil.checkValidAction(action, client.getTeam())) {
-			//The client performed an illegal action for it's team. This is not possible under normal circumstances.
-			if (KICK_ILLEGAL_CLIENTS) session.close(StatusCode.POLICY_VIOLATION, null);
-			return;
-		}
-
-		if (!WebUtil.checkValidLocation(xCoord, yCoord, action)) {
-			remote.sendStringByFuture(COCErrorCode.ACTION_ILLEGAL_LOCATION.toJSON());
-			return;
-		}
-
-		if (!WebUtil.checkWithinCooldown(action, client)) {
-			remote.sendStringByFuture(COCErrorCode.ACTION_COOLDOWN.toJSON());
-			return;
-		}
-
-		try {
-			ActionUtil.perform(action, xCoord, yCoord);
-		} catch (Exception ex) {
-			remote.sendStringByFuture(COCErrorCode.SERVER_ERROR.toJSON());
-			throw ex;
-		}
+		server.getNormalHandler().sendStatusUpdate(client, null);
 	}
 	
 	/**

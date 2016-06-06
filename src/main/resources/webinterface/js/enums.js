@@ -8,14 +8,27 @@ Severity = Object.freeze({
 //The different states the game can be in.
 GameStates = Object.freeze({
     0: "WAITING",
-    1: "PLAYING",
+    1: "RUNNING",
     2: "PAUSED",
     3: "ENDED"
 });
 
 Teams = Object.freeze({
     0: "DWARFS",
-    1: "ELVES"
+    1: "ELVES",
+    2: "NONE"
+});
+
+//The different actions that we can perform.
+Actions = Object.freeze({
+    BOMB: 0,
+    PIT: 1,
+    MINE: 2,
+    ENEMY: 3,
+    BAIT: 4,
+    TILE: 5,
+    GATE: 6,
+    BOX: 7
 });
 
 //The different error codes that can be sent by the server

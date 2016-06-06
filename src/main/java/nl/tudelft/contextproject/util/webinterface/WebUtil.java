@@ -6,6 +6,7 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.webinterface.Action;
+import nl.tudelft.contextproject.webinterface.Team;
 import nl.tudelft.contextproject.webinterface.WebClient;
 
 import java.util.Iterator;
@@ -50,11 +51,11 @@ public final class WebUtil {
 	 * @return
 	 * 		true if the action is valid, false otherwise
 	 */
-	public static boolean checkValidAction(Action action, String team) {
+	public static boolean checkValidAction(Action action, Team team) {
 		switch (team) {
-			case "Elves":
+			case ELVES:
 				return checkValidElves(action);
-			case "Dwarfs":
+			case DWARFS:
 				return checkValidDwarfs(action);
 			default:
 				return false;
