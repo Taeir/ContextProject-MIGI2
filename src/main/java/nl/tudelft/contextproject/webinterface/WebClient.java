@@ -95,7 +95,7 @@ public class WebClient {
 	 */
 	public void resetPerformed() {
 		this.performedActions.clear();
-		if (team == null) return;
+
 		if (isElf()) {
 			setUpPerformedElves();
 		} else {
@@ -109,6 +109,8 @@ public class WebClient {
 	private void setUpPerformedElves() {
 		performedActions.put(Action.DROPBAIT, new ArrayList<>());
 		performedActions.put(Action.PLACETILE, new ArrayList<>());
+		performedActions.put(Action.DROPBOX, new ArrayList<>());
+		performedActions.put(Action.OPENGATE, new ArrayList<>());
 	}
 
 	/**
@@ -116,6 +118,7 @@ public class WebClient {
 	 */
 	private void setUpPerformedDwarfs() {
 		performedActions.put(Action.PLACEBOMB, new ArrayList<>());
+		performedActions.put(Action.PLACEMINE, new ArrayList<>());
 		performedActions.put(Action.PLACEPITFALL, new ArrayList<>());
 		performedActions.put(Action.SPAWNENEMY, new ArrayList<>());
 	}
@@ -178,22 +181,11 @@ public class WebClient {
 	 * 
 	 * @param response
 	 * 		the response to send to, can be null
-	 * @throws IOException
-	 * 		if writing to the response causes an IOException
 	 */
-	public void confirmMessage(HttpServletResponse response) throws IOException {
+	public void confirmMessage(HttpServletResponse response) {
 		if (response == null) return;
 		
 		response.setStatus(HttpStatus.NO_CONTENT_204);
-	}
-	
-	public void disconnect(int errorCode) {
-		COCSocket socket = this.webSocket;
-		if (socket != null) {
-			socket.getSession().close(errorCode, null);
-		}
-		
-		
 	}
 
 	@Override
