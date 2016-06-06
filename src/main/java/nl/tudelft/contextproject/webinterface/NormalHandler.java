@@ -102,12 +102,20 @@ public class NormalHandler {
 	/**
 	 * Handles update requests from users in the index view.
 	 * 
+	 * @param request
+	 * 		the request the client made
 	 * @param response
 	 * 		the object to write the response to
 	 * @throws IOException
 	 * 		if writing to the response causes an IOException
 	 */
-	public void onIndexRefresh(HttpServletResponse response) throws IOException {
+	public void onIndexRefresh(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		WebClient client = server.getUser(request);
+		if (client != null) {
+			attemptRejoin(response);
+			return;
+		}
+		
 		response.setStatus(HttpStatus.OK_200);
 		
 		if (Main.getInstance().getGameState().isStarted() || server.getUniqueClientCount() >= WebServer.MAX_PLAYERS) {

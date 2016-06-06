@@ -57,7 +57,7 @@ public class NormalHandlerTest extends WebTestBase {
 		HttpServletResponse response = createMockedResponse();
 		handler.onJoinRequest(request, response);
 		
-		verify(handler, times(1)).attemptRejoin(response);
+		verify(handler).attemptRejoin(response);
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class NormalHandlerTest extends WebTestBase {
 		HttpServletResponse response = createMockedResponse();
 		handler.onJoinRequest(request, response);
 		
-		verify(handler, times(1)).attemptJoinNew(response);
+		verify(handler).attemptJoinNew(response);
 	}
 
 	/**
@@ -92,9 +92,9 @@ public class NormalHandlerTest extends WebTestBase {
 		handler.attemptJoinNew(response);
 		
 		//Response should be ALLOWED, and client should have been added.
-		verify(response, times(1)).setStatus(HttpStatus.OK_200);
-		verify(response, times(1)).addCookie(any());
-		verify(response.getWriter(), times(1)).write("ALLOWED");
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response).addCookie(any());
+		verify(response.getWriter()).write("ALLOWED");
 		
 		assertEquals(1, server.getUniqueClientCount());
 	}
@@ -114,8 +114,8 @@ public class NormalHandlerTest extends WebTestBase {
 		handler.attemptJoinNew(response);
 		
 		//Response should be an error, and client should not have been added.
-		verify(response, times(1)).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter(), times(1)).write(COCErrorCode.AUTHENTICATE_FAIL_IN_PROGRESS.toString());
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write(COCErrorCode.AUTHENTICATE_FAIL_IN_PROGRESS.toString());
 		
 		assertEquals(0, server.getUniqueClientCount());
 	}
@@ -139,8 +139,8 @@ public class NormalHandlerTest extends WebTestBase {
 		handler.attemptJoinNew(response);
 		
 		//Response should be an error, and client should not have been added.
-		verify(response, times(1)).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter(), times(1)).write(COCErrorCode.AUTHENTICATE_FAIL_FULL.toString());
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write(COCErrorCode.AUTHENTICATE_FAIL_FULL.toString());
 		
 		assertEquals(WebServer.MAX_PLAYERS, server.getUniqueClientCount());
 	}
@@ -157,8 +157,8 @@ public class NormalHandlerTest extends WebTestBase {
 		handler.attemptRejoin(response);
 		
 		//Client should have rejoined
-		verify(response, times(1)).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter(), times(1)).write("REJOIN");
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("REJOIN");
 	}
 
 	/**
@@ -171,11 +171,12 @@ public class NormalHandlerTest extends WebTestBase {
 	public void testOnIndexRefresh_allowed() throws IOException {
 		TestUtil.setGameState(GameState.WAITING);
 		
+		HttpServletRequest request = createMockedRequest("A");
 		HttpServletResponse response = createMockedResponse();
-		handler.onIndexRefresh(response);
+		handler.onIndexRefresh(request, response);
 		
-		verify(response, times(1)).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter(), times(1)).write("y");
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("y");
 	}
 	
 	/**
@@ -189,11 +190,12 @@ public class NormalHandlerTest extends WebTestBase {
 	public void testOnIndexRefresh_started() throws IOException {
 		TestUtil.setGameState(GameState.RUNNING);
 		
+		HttpServletRequest request = createMockedRequest("A");
 		HttpServletResponse response = createMockedResponse();
-		handler.onIndexRefresh(response);
+		handler.onIndexRefresh(request, response);
 		
-		verify(response, times(1)).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter(), times(1)).write("n");
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("n");
 	}
 	
 	/**
@@ -211,11 +213,32 @@ public class NormalHandlerTest extends WebTestBase {
 			server.getClients().put("" + i, new WebClient());
 		}
 		
+		HttpServletRequest request = createMockedRequest("A");
 		HttpServletResponse response = createMockedResponse();
-		handler.onIndexRefresh(response);
+		handler.onIndexRefresh(request, response);
 		
-		verify(response, times(1)).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter(), times(1)).write("n");
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("n");
+	}
+	
+	/**
+	 * Test method for {@link NormalHandler#onIndexRefresh}, when the client was connected before.
+	 * 
+	 * @throws IOException
+	 * 		will not happen because of mocks
+	 */
+	@Test
+	public void testOnIndexRefresh_rejoin() throws IOException {
+		TestUtil.setGameState(GameState.WAITING);
+		
+		server.getClients().put("A", new WebClient());
+		
+		HttpServletRequest request = createMockedRequest("A");
+		HttpServletResponse response = createMockedResponse();
+		handler.onIndexRefresh(request, response);
+		
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write("REJOIN");
 	}
 
 	/**
@@ -247,8 +270,8 @@ public class NormalHandlerTest extends WebTestBase {
 		
 		handler.onSetTeamRequest(request, response);
 		
-		verify(response, times(1)).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter(), times(1)).write(COCErrorCode.SETTEAM_UNAUTHORIZED.toString());
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write(COCErrorCode.SETTEAM_UNAUTHORIZED.toString());
 	}
 	
 	/**
@@ -267,8 +290,8 @@ public class NormalHandlerTest extends WebTestBase {
 		
 		handler.onSetTeamRequest(request, response);
 		
-		verify(response, times(1)).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter(), times(1)).write(COCErrorCode.SETTEAM_STARTED.toString());
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write(COCErrorCode.SETTEAM_STARTED.toString());
 	}
 	
 	/**
@@ -291,7 +314,7 @@ public class NormalHandlerTest extends WebTestBase {
 		setParameter(request, "team", Team.ELVES.name());
 		handler.onSetTeamRequest(request, response);
 		
-		verify(handler, times(1)).attemptSetTeam(client, Team.ELVES.name(), response);
+		verify(handler).attemptSetTeam(client, Team.ELVES.name(), response);
 	}
 	
 	/**
@@ -311,7 +334,7 @@ public class NormalHandlerTest extends WebTestBase {
 		//Team should have been set
 		assertTrue(client.isElf());
 		assertEquals(1, server.getElvesCount());
-		verify(response.getWriter(), times(1)).write("" + Team.ELVES.ordinal());
+		verify(response.getWriter()).write("" + Team.ELVES.ordinal());
 	}
 	
 	/**
@@ -333,7 +356,7 @@ public class NormalHandlerTest extends WebTestBase {
 		
 		//Team should not be changed, and response should be the full error.
 		assertFalse(client.isElf());
-		verify(response.getWriter(), times(1)).write(COCErrorCode.SETTEAM_TEAM_FULL.toString());
+		verify(response.getWriter()).write(COCErrorCode.SETTEAM_TEAM_FULL.toString());
 	}
 	
 	/**
@@ -353,7 +376,7 @@ public class NormalHandlerTest extends WebTestBase {
 		//Team should have been set
 		assertTrue(client.isDwarf());
 		assertEquals(1, server.getDwarfsCount());
-		verify(response.getWriter(), times(1)).write("" + Team.DWARFS.ordinal());
+		verify(response.getWriter()).write("" + Team.DWARFS.ordinal());
 	}
 	
 	/**
@@ -375,7 +398,7 @@ public class NormalHandlerTest extends WebTestBase {
 		
 		//Team should not be changed, and response should be the full error.
 		assertFalse(client.isDwarf());
-		verify(response.getWriter(), times(1)).write(COCErrorCode.SETTEAM_TEAM_FULL.toString());
+		verify(response.getWriter()).write(COCErrorCode.SETTEAM_TEAM_FULL.toString());
 	}
 	
 	/**
@@ -393,7 +416,7 @@ public class NormalHandlerTest extends WebTestBase {
 		
 		handler.attemptSetTeam(client, "INVALID", response);
 		
-		verify(response.getWriter(), times(1)).write(COCErrorCode.SETTEAM_INVALID_TEAM.toString());
+		verify(response.getWriter()).write(COCErrorCode.SETTEAM_INVALID_TEAM.toString());
 	}
 	
 	/**
@@ -409,7 +432,7 @@ public class NormalHandlerTest extends WebTestBase {
 		HttpServletResponse response = createMockedResponse();
 		handler.onMapRequest(request, response);
 		
-		verify(response.getWriter(), times(1)).write(COCErrorCode.UNAUTHORIZED.toJSON());
+		verify(response.getWriter()).write(COCErrorCode.UNAUTHORIZED.toJSON());
 	}
 
 	/**
@@ -428,7 +451,7 @@ public class NormalHandlerTest extends WebTestBase {
 		HttpServletResponse response = createMockedResponse();
 		handler.onMapRequest(request, response);
 		
-		verify(response.getWriter(), times(1)).write(json.toString());
+		verify(response.getWriter()).write(json.toString());
 	}
 
 	/**
@@ -445,7 +468,7 @@ public class NormalHandlerTest extends WebTestBase {
 		WebClient clientMock = mock(WebClient.class);
 		handler.onMapRequest(clientMock);
 		
-		verify(clientMock, times(1)).sendMessage(json, null);
+		verify(clientMock).sendMessage(json, null);
 	}
 
 	/**
@@ -481,7 +504,7 @@ public class NormalHandlerTest extends WebTestBase {
 		
 		handler.onActionRequest(request, response);
 		
-		verify(response.getWriter(), times(1)).write(COCErrorCode.UNAUTHORIZED.toString());
+		verify(response.getWriter()).write(COCErrorCode.UNAUTHORIZED.toString());
 	}
 
 	/**
@@ -506,7 +529,7 @@ public class NormalHandlerTest extends WebTestBase {
 		
 		handler.onActionRequest(request, response);
 		
-		verify(handler, times(1)).attemptAction(client, Action.PLACEBOMB, 1, 2, response);
+		verify(handler).attemptAction(client, Action.PLACEBOMB, 1, 2, response);
 	}
 
 	/**
@@ -527,7 +550,7 @@ public class NormalHandlerTest extends WebTestBase {
 		
 		handler.onActionRequest(client, x, y, action);
 		
-		verify(handler, times(1)).attemptAction(client, action, x, y, null);
+		verify(handler).attemptAction(client, action, x, y, null);
 	}
 
 	/**
@@ -544,7 +567,7 @@ public class NormalHandlerTest extends WebTestBase {
 		HttpServletResponse response = createMockedResponse();
 		handler.onStatusUpdateRequest(request, response);
 		
-		verify(response.getWriter(), times(1)).write(COCErrorCode.UNAUTHORIZED.toJSON());
+		verify(response.getWriter()).write(COCErrorCode.UNAUTHORIZED.toJSON());
 	}
 	
 	/**
@@ -563,7 +586,7 @@ public class NormalHandlerTest extends WebTestBase {
 		HttpServletResponse response = createMockedResponse();
 		handler.onStatusUpdateRequest(request, response);
 		
-		verify(handler, times(1)).sendStatusUpdate(client, response);
+		verify(handler).sendStatusUpdate(client, response);
 	}
 	
 	/**

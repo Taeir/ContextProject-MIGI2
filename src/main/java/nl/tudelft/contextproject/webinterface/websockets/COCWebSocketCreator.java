@@ -2,9 +2,6 @@ package nl.tudelft.contextproject.webinterface.websockets;
 
 import java.net.HttpCookie;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.eclipse.jetty.websocket.api.StatusCode;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
@@ -12,15 +9,12 @@ import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 import nl.tudelft.contextproject.webinterface.WebClient;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
-import lombok.SneakyThrows;
-
 /**
  * Class for creating WebSockets when clients request them.
  */
 public class COCWebSocketCreator implements WebSocketCreator {
 	private static final NotAuthorizedSocket UNAUTHORIZED_SOCKET = new NotAuthorizedSocket();
 	private final transient WebServer server;
-	
 	
 	/**
 	 * Creates a new {@link COCWebSocketCreator} for the given server.
@@ -32,7 +26,6 @@ public class COCWebSocketCreator implements WebSocketCreator {
 		this.server = server;
 	}
 	
-	@SneakyThrows
 	@Override
 	public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
 		WebClient client = null;
@@ -49,13 +42,11 @@ public class COCWebSocketCreator implements WebSocketCreator {
 		}
 		
 		if (client == null) {
-			System.out.println("WebClient not found!");
+			System.out.println("[DEBUG] WebClient not found!");
 			return UNAUTHORIZED_SOCKET;
 		}
 		
-		System.out.println("Matching WebClient found, creating COCSocket");
-		//Use the text protocol
-		//resp.setAcceptedSubProtocol("text");
+		System.out.println("[DEBUG] Matching WebClient found, creating COCSocket");
 		return new COCSocket(server, client);
 	}
 
