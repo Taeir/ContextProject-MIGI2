@@ -1,20 +1,15 @@
 package nl.tudelft.contextproject.webinterface;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.util.FileUtil;
-import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.webinterface.websockets.COCSocket;
 import nl.tudelft.contextproject.webinterface.websockets.COCWebSocketServlet;
 
-import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -28,8 +23,6 @@ public class WebServer {
 	public static final int MAX_PLAYERS = 4;
 	public static final int MAX_DWARFS = 2;
 	public static final int MAX_ELVES = 2;
-	
-	private static final Log LOG = Log.getLog("WebInterface");
 	
 	private Map<String, WebClient> clients = new ConcurrentHashMap<>();
 	private boolean running;
@@ -180,65 +173,6 @@ public class WebServer {
 	 */
 	public NormalHandler getNormalHandler() {
 		return this.normalHandler;
-	}
-	
-	/**
-	 * Handles authentication. This method returns true if the user has already been authenticated as a user
-	 * in the game, and returns false otherwise.
-	 * 
-	 * <p>If the game has not yet started and is not full, the user will be authenticated as a new user and
-	 * redirected to the select team page. This method will still return false in that case.
-	 * 
-	 * <p>NOTE: If this method returns false, then the response will be committed and unusable.
-	 * 
-	 * @param request
-	 * 		the http request the user has made
-	 * @param response
-	 * 		the http response to the user
-	 * 
-	 * @return
-	 * 		true if the user is authenticated, false otherwise
-	 * 
-	 * @throws IOException
-	 * 		if writing the response to the client causes an IOException
-	 */
-	public boolean handleAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Cookie cookie = findCookie(COOKIE_NAME, request.getCookies());
-		if (cookie == null || !clients.containsKey(cookie.getValue())) {
-			//This is a new user
-			
-			if (Main.getInstance().getGameState().isStarted()) {
-				LOG.fine("Disallowed user from joining game: cannot join in progress game");
-				response.setStatus(HttpStatus.OK_200);
-				response.getWriter().write("IN_PROGRESS");
-
-				return false;
-			}
-
-			if (getUniqueClientCount() >= MAX_PLAYERS) {
-				LOG.fine("Disallowing user from joining game: game is full");
-				
-				response.setStatus(HttpStatus.OK_200);
-				response.getWriter().write("FULL");
-			
-				return false;
-			}
-			
-			//User is allowed to join
-			cookie = createCookie();
-			clients.put(cookie.getValue(), new WebClient());
-
-			response.addCookie(cookie);
-			response.setStatus(HttpStatus.OK_200);
-			response.getWriter().write("AUTHENTICATED");
-
-			return true;
-		}
-		
-
-		response.setStatus(HttpStatus.OK_200);
-		response.getWriter().write("AUTHENTICATED");
-		return true;
 	}
 
 	/**
