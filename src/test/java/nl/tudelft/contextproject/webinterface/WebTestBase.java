@@ -1,25 +1,32 @@
 package nl.tudelft.contextproject.webinterface;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 import org.junit.BeforeClass;
 
+import com.jme3.math.Vector3f;
+
+import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
+import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.entities.EntityType;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.TileType;
 
 import lombok.SneakyThrows;
 
@@ -38,7 +45,7 @@ public class WebTestBase extends TestBase {
 	 */
 	@BeforeClass
 	public static void webBeforeClassSetUp() {
-		Logger.getLogger("WebInterface").setLevel(Level.OFF);
+		Logger.getLogger("WebInterface").setLevel(java.util.logging.Level.OFF);
 		
 		//Create mocked logger that does nothing
 		org.eclipse.jetty.util.log.Logger noLoggerMock = mock(org.eclipse.jetty.util.log.Logger.class);
@@ -160,5 +167,38 @@ public class WebTestBase extends TestBase {
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));
 		
 		return response;
+	}
+	
+	/**
+	 * Mocks the level, such that all tiles in the level have the given TileType.
+	 * 
+	 * @param tileType
+	 * 		the type to use for all tiles
+	 */
+	public void mockLevel(TileType tileType) {
+		Game mockedGame = mock(Game.class);
+		Level mockedLevel = mock(Level.class);
+		MazeTile mockedTile = mock(MazeTile.class);
+		VRPlayer mockedPlayer = mock(VRPlayer.class);
+		
+		//Main
+		when(Main.getInstance().getCurrentGame()).thenReturn(mockedGame);
+		
+		//Game
+		when(mockedGame.getLevel()).thenReturn(mockedLevel);
+		when(mockedGame.getEntities()).thenReturn(new HashSet<>());
+		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
+		
+		//Level
+		when(mockedLevel.getTile(anyInt(), anyInt())).thenReturn(mockedTile);
+		when(mockedLevel.toWebJSON()).thenReturn(new JSONObject());
+		when(mockedLevel.toExploredWebJSON()).thenReturn(new JSONObject());
+		
+		//Tile
+		when(mockedTile.getTileType()).thenReturn(tileType);
+		
+		//Player
+		when(mockedPlayer.getLocation()).thenReturn(new Vector3f(1000, 1000, 1000));
+		when(mockedPlayer.getType()).thenReturn(EntityType.PLAYER);
 	}
 }
