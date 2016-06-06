@@ -27,11 +27,15 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 	 * Constructor for a crate with specific health.
 	 * 
 	 * @param health
+	 * 		the start health of the crate
 	 */
 	public Crate(float health) {
 		this.health = health;
 	}
 	
+	/**
+	 * Constructor for a crate with .5 health.
+	 */
 	public Crate() {
 		this.health = .5f;
 	}
@@ -64,7 +68,6 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 		if (control != null) return control;
 		
 		control = new RigidBodyControl(1.5f);
-//		control.setPhysicsLocation(getSpatial().getLocalTranslation());
 		getSpatial().addControl(control);
 		return control;
 	}
@@ -81,6 +84,12 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 		return EntityType.CRATE;
 	}
 	
+	/**
+	 * Throw the crate in the specified relative direction.
+	 * 
+	 * @param move
+	 * 		the direction to throw in
+	 */
 	public void doThrow(Vector3f move) {
 		if (control == null) getPhysicsObject();
 		control.applyImpulse(move, new Vector3f());

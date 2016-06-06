@@ -10,6 +10,7 @@ import com.jme3.math.ColorRGBA;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Door;
+import nl.tudelft.contextproject.model.entities.Holdable;
 import nl.tudelft.contextproject.model.entities.Key;
 
 /**
@@ -57,7 +58,7 @@ public class InventoryTest extends TestBase {
 	@Test 
 	public void testBadWeatherGetKey() {
 		Bomb bomb = new Bomb();
-		inv.add(bomb);
+		inv.pickUp(bomb);
 		ColorRGBA color = ColorRGBA.Yellow;
 		Key key = new Key(color);
 		inv.add(key);
@@ -72,9 +73,9 @@ public class InventoryTest extends TestBase {
 	@Test 
 	public void testGetBomb() {
 		Bomb bomb = new Bomb();
-		inv.add(bomb);
-		Bomb bomb2 = inv.getBomb();
-		assertEquals(bomb, bomb2);
+		inv.pickUp(bomb);
+		Holdable hold = inv.getHolding();
+		assertEquals(bomb, hold);
 
 	}
 
@@ -86,8 +87,8 @@ public class InventoryTest extends TestBase {
 		ColorRGBA color = ColorRGBA.Yellow;
 		Key key = new Key(color);
 		inv.add(key);
-		Bomb bomb2 = inv.getBomb();
-		assertEquals(bomb2, null);
+		Holdable hold = inv.getHolding();
+		assertEquals(hold, null);
 
 	}
 
@@ -95,10 +96,10 @@ public class InventoryTest extends TestBase {
 	 * Tests if adding a bomb adds it to the inventory.
 	 */
 	@Test
-	public void testAddBomb() {
+	public void testAddHoldable() {
 		Bomb bomb = new Bomb();
-		inv.add(bomb);
-		assertTrue(inv.containsBomb());
+		inv.pickUp(bomb);
+		assertTrue(inv.isHolding());
 	}
 
 	/**
@@ -107,8 +108,8 @@ public class InventoryTest extends TestBase {
 	@Test
 	public void testContainsBomb() {
 		Bomb bomb = new Bomb();
-		inv.add(bomb);
-		assertTrue(inv.containsBomb());
+		inv.pickUp(bomb);
+		assertTrue(inv.isHolding());
 	}
 
 	/**
@@ -139,7 +140,7 @@ public class InventoryTest extends TestBase {
 	@Test
 	public void testBadWeatherContainsColorKey() {
 		Bomb bomb = new Bomb();
-		inv.add(bomb);
+		inv.pickUp(bomb);
 		ColorRGBA color = ColorRGBA.Yellow;
 		Key key = new Key(color);
 		inv.add(key);
@@ -152,7 +153,7 @@ public class InventoryTest extends TestBase {
 	@Test
 	public void testContainsNoKeys() {
 		Bomb bomb = new Bomb();
-		inv.add(bomb);
+		inv.pickUp(bomb);
 		assertFalse(inv.containsColorKey(ColorRGBA.Red));
 	}
 
@@ -162,9 +163,9 @@ public class InventoryTest extends TestBase {
 	@Test
 	public void testRemoveBomb() {
 		Bomb bomb = new Bomb();
-		inv.add(bomb);
-		inv.remove(bomb);
-		assertFalse(inv.containsBomb());
+		inv.pickUp(bomb);
+		inv.drop();
+		assertFalse(inv.isHolding());
 	}
 
 	/**
@@ -174,7 +175,7 @@ public class InventoryTest extends TestBase {
 	public void testSize() {
 		Bomb bomb = new Bomb();
 		Key key = new Key(ColorRGBA.Blue);
-		inv.add(bomb);
+		inv.pickUp(bomb);
 		inv.add(key);
 		inv.add(key);
 		assertSame(inv.size(), 3);
@@ -189,10 +190,10 @@ public class InventoryTest extends TestBase {
 		ColorRGBA color = ColorRGBA.Yellow;
 		Key key = new Key(color);
 		inv.add(key);
-		inv.add(bomb);
-		inv.remove(bomb);
-		assertSame(inv.size(), 1);
-		assertFalse(inv.containsBomb());
+		inv.pickUp(bomb);
+		inv.drop();
+		assertSame(1, inv.size());
+		assertFalse(inv.isHolding());
 	}
 
 	/**
@@ -213,7 +214,7 @@ public class InventoryTest extends TestBase {
 	@Test
 	public void testRemoveWrongKey() {
 		Bomb bomb = new Bomb();
-		inv.add(bomb);
+		inv.pickUp(bomb);
 		Key key = new Key(ColorRGBA.Yellow);
 		Key key2 = new Key(ColorRGBA.Red);
 		inv.add(key);
@@ -227,7 +228,7 @@ public class InventoryTest extends TestBase {
 	@Test
 	public void testRemoveNothing() {
 		Bomb bomb = new Bomb();
-		inv.add(bomb);
+		inv.pickUp(bomb);
 		ColorRGBA color = ColorRGBA.Yellow;
 		Key key = new Key(color);
 		Door door = new Door(color);

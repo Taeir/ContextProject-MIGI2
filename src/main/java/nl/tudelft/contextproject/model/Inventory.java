@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jme3.math.ColorRGBA;
-import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.Holdable;
 import nl.tudelft.contextproject.model.entities.Key;
@@ -48,14 +47,14 @@ public class Inventory implements TickProducer {
 	}
 	
 	/**
-	 * Adds a bomb to the inventory.
+	 * Pickup a holdable.
 	 *
-	 * @param bomb
-	 * 		the bomb to be added
+	 * @param holdable
+	 * 		the holdable to be picked up
 	 */
-	public void pickUp(Holdable e) {
-		this.holding = e;
-		e.pickUp();
+	public void pickUp(Holdable holdable) {
+		this.holding = holdable;
+		holdable.pickUp();
 		updateTickListeners();
 	}
 	
@@ -73,6 +72,12 @@ public class Inventory implements TickProducer {
 		}
 	}
 	
+	/**
+	 * Drop the holdable that the inventory holds.
+	 * 
+	 * @return
+	 * 		the holdable that was held or null when nothing was held.
+	 */
 	public Holdable drop() {
 		if (holding == null) return null;
 		holding.drop();

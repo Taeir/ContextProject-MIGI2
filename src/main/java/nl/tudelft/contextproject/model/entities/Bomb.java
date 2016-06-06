@@ -80,6 +80,7 @@ public class Bomb extends Entity implements PhysicsObject, Holdable {
 	public void move(float x, float y, float z) {
 		if (rb == null) getPhysicsObject();
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
+		rb.update(0);
 	}
 
 	/**

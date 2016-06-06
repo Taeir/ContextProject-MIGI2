@@ -6,7 +6,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.entities.Crate;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 
@@ -77,11 +76,7 @@ public class PlayerControl implements EntityControl, ActionListener {
 				break;
 			case "Jump":
 				if (isPressed) {
-//					playerControl.jump();
-					Crate e = new Crate();
-					Main.getInstance().getCurrentGame().addEntity(e);
-					e.move(owner.getLocation().add(1, 1, 1));
-					e.doThrow(new Vector3f(1, 1, 3));
+					playerControl.jump();
 				}
 				break;
 			case "Bomb":

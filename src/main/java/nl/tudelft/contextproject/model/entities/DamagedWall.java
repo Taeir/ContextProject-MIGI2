@@ -1,9 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -57,7 +55,6 @@ public class DamagedWall extends Entity implements Health, PhysicsObject {
 			this.getSpatial();
 		}
 		phControl = new RigidBodyControl(1.5f);
-		phControl.setPhysicsLocation(spatial.getLocalTranslation());
 		spatial.addControl(phControl);
 		return phControl;
 	}
