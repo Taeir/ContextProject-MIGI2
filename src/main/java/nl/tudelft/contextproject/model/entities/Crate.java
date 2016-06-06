@@ -22,7 +22,8 @@ public class Crate extends Entity implements PhysicsObject, Health {
 	private float health;
 
 	/**
-	 * Constructor for a crate with specific health;
+	 * Constructor for a crate with specific health.
+	 * 
 	 * @param health
 	 */
 	public Crate(float health) {
@@ -30,7 +31,7 @@ public class Crate extends Entity implements PhysicsObject, Health {
 	}
 	
 	public Crate() {
-		this.health = 1f;
+		this.health = .5f;
 	}
 
 	@Override

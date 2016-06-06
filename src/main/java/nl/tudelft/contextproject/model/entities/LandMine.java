@@ -86,7 +86,7 @@ public class LandMine extends PlayerTrigger {
 		Vector3f playerLoc = game.getPlayer().getLocation();
 		if (getLocation().distance(playerLoc) < dist) return true;
 		for (Entity e : game.getEntities()) {
-			if (e instanceof Crate) return true;
+			if (e instanceof Crate && getLocation().distance(e.getLocation()) < dist + .3f) return true;
 		}
 		return false;
 	}

@@ -546,7 +546,7 @@ function getClassForEntityType(entityType) {
             return "Damaged_Wall";
         default:
             showAlert("Invalid tile type: " + entityType, "Danger");
-            throw "Invalid tile type: " + entityType;
+            //throw "Invalid tile type: " + entityType;
     }
 }
 
