@@ -29,8 +29,8 @@ public enum EntityType {
 	WALLFRAME("WallFrame", 			0,  WallFrame::loadEntity),
 	TORCH("Torch", 					0,  Torch::loadEntity),
 	INVISIBLE_WALL("InvisibleWall",	11,	InvisibleWall::loadEntity),
-	DAMAGED_WALL("DamagedWall",		12,	DamagedWall::loadEntity);
-	
+	DAMAGED_WALL("DamagedWall",		12,	DamagedWall::loadEntity),
+	GATE("Torch",					14,	Torch::loadEntity);
 	private final String name;
 	private final int webId;
 	private final BiFunction<Vector3f, String[], Entity> loader;
