@@ -86,7 +86,7 @@ public class PlayerControl implements EntityControl, ActionListener {
 				break;
 			case "Bomb":
 				if (isPressed) {
-					owner.dropBomb();
+					owner.drop();
 				}
 				break;
 			case "Pickup":

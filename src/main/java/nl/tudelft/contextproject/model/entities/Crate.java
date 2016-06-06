@@ -4,6 +4,7 @@ import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
@@ -15,11 +16,12 @@ import nl.tudelft.contextproject.model.PhysicsObject;
 /**
  * A crate that can be thrown and damaged.
  */
-public class Crate extends Entity implements PhysicsObject, Health {
+public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 
 	private Spatial spatial;
 	private RigidBodyControl control;
 	private float health;
+	private boolean isPickedUp;
 
 	/**
 	 * Constructor for a crate with specific health.
@@ -56,9 +58,6 @@ public class Crate extends Entity implements PhysicsObject, Health {
 	public void setSpatial(Spatial spatial) {
 		this.spatial = spatial;
 	}
-
-	@Override
-	public void update(float tpf) { }
 
 	@Override
 	public PhysicsControl getPhysicsObject() {
@@ -125,6 +124,35 @@ public class Crate extends Entity implements PhysicsObject, Health {
 	@Override
 	public float getHealth() {
 		return health;
+	}
+	
+	@Override
+	public void update(float tpf) {
+		if (this.isPickedUp()) {
+			Quaternion rot = Main.getInstance().getCamera().getRotation();
+			Vector3f vec = rot.getRotationColumn(2).mult(2f);
+			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
+			control.setPhysicsLocation(vec2);
+			control.setPhysicsRotation(rot);
+		}
+	}
+
+	@Override
+	public boolean isPickedUp() {
+		return isPickedUp;
+	}
+
+	@Override
+	public void pickUp() {
+		isPickedUp = true;
+	}
+
+	@Override
+	public void drop() {
+		isPickedUp = false;
+		Vector3f move = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(1.5f);
+		move.y = 2;
+		doThrow(move.mult(10));
 	}
 
 }
