@@ -18,10 +18,10 @@ public class WebClientTest extends TestBase {
 	public void testIsElf() {
 		WebClient client = new WebClient();
 		
-		client.setTeam(true);
+		client.setTeam(Team.ELVES);
 		assertTrue(client.isElf());
 		
-		client.setTeam(false);
+		client.setTeam(Team.DWARFS);
 		assertFalse(client.isElf());
 	}
 
@@ -31,11 +31,11 @@ public class WebClientTest extends TestBase {
 	@Test
 	public void testIsDwarf() {
 		WebClient client = new WebClient();
-		client.setTeam(false);
+		client.setTeam(Team.DWARFS);
 		
 		assertTrue(client.isDwarf());
 		
-		client.setTeam(true);
+		client.setTeam(Team.ELVES);
 		assertFalse(client.isDwarf());
 	}
 
@@ -45,9 +45,9 @@ public class WebClientTest extends TestBase {
 	@Test
 	public void testGetTeam() {
 		WebClient client = new WebClient();
-		client.setTeam(false);
+		client.setTeam(Team.DWARFS);
 		
-		assertEquals("Dwarfs", client.getTeam());
+		assertEquals(Team.DWARFS, client.getTeam());
 	}
 
 	/**
@@ -56,14 +56,14 @@ public class WebClientTest extends TestBase {
 	@Test
 	public void testSetTeam() {
 		WebClient client = new WebClient();
-		client.setTeam(false);
+		client.setTeam(Team.DWARFS);
 		
 		assertTrue(client.isDwarf());
 		
-		client.setTeam(null);
+		client.setTeam(Team.NONE);
 		assertFalse(client.isDwarf());
 		assertFalse(client.isElf());
-		assertEquals("None", client.getTeam());
+		assertEquals(Team.NONE, client.getTeam());
 	}
 
 	/**
@@ -73,9 +73,9 @@ public class WebClientTest extends TestBase {
 	public void testToString() {
 		//Create a new WebClient with team Elves
 		WebClient client = new WebClient();
-		client.setTeam(true);
+		client.setTeam(Team.ELVES);
 		
-		assertEquals("WebClient<team=Elves>", client.toString());
+		assertEquals("WebClient<team=ELVES>", client.toString());
 	}
 
 }
