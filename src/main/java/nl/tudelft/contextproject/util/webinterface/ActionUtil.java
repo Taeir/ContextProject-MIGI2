@@ -4,6 +4,8 @@ import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Carrot;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.Gate;
 import nl.tudelft.contextproject.model.entities.KillerBunny;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
@@ -49,6 +51,8 @@ public final class ActionUtil {
 				break;
 			case PLACETILE:
 				placeTile(xCoord, yCoord);
+				break;
+			case OPENGATE:
 				break;
 			default:
 				throw new IllegalArgumentException("Your action is not valid.");
@@ -137,5 +141,24 @@ public final class ActionUtil {
 		VoidPlatform voidPlatform = new VoidPlatform();
 		voidPlatform.move(xCoord, 0, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(voidPlatform);
+	}
+	
+	/**
+	 * Opens a gate.
+	 * 
+	 * @param xCoord
+	 * 		the x coordinate to use
+	 * @param yCoord
+	 * 		the y coordinate to use
+	 */
+	private static void openGate(int xCoord, int yCoord) {
+		for (Entity ent: Main.getInstance().getCurrentGame().getEntities()) {
+			if (ent instanceof Gate) {
+				if (xCoord == ent.getLocation().x && yCoord == ent.getLocation().z) {
+					((Gate) ent).openGate();
+				}
+			}
+		}
+		System.out.println("test");
 	}
 }
