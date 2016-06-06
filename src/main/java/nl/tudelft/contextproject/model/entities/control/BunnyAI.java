@@ -47,6 +47,7 @@ public class BunnyAI implements EntityControl {
 		if (game == null) return;
 		
 		this.player = game.getPlayer();
+		if (player == null) return;
 		this.entities = game.getEntities();
 		
 		float playerdist = player.getLocation().distance(owner.getLocation());

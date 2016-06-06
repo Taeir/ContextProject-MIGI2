@@ -89,6 +89,7 @@ public class GameController extends Controller {
 						it.remove();
 					}
 				}
+				if (p == null) p = new VRPlayer();
 				game = new Game(level, p, entities, this, timeLimit);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -107,6 +108,7 @@ public class GameController extends Controller {
 					it.remove();
 				}
 			}
+			if (p == null) p = new VRPlayer();
 			game = new Game(level, p, entities, this, timeLimit);			
 		}
 	}

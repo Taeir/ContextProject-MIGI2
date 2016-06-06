@@ -104,6 +104,7 @@ public class WebClient {
 	 */
 	private void setUpPerformedDwarfs() {
 		performedActions.put(Action.PLACEBOMB, new ArrayList<>());
+		performedActions.put(Action.PLACEMINE, new ArrayList<>());
 		performedActions.put(Action.PLACEPITFALL, new ArrayList<>());
 		performedActions.put(Action.SPAWNENEMY, new ArrayList<>());
 	}
