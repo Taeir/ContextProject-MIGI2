@@ -1,10 +1,8 @@
 package nl.tudelft.contextproject.webinterface;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -227,7 +225,6 @@ public class WebServer {
 			}
 			
 			//User is allowed to join
-			logAuthentication(request);
 			cookie = createCookie();
 			clients.put(cookie.getValue(), new WebClient());
 
@@ -242,30 +239,6 @@ public class WebServer {
 		response.setStatus(HttpStatus.OK_200);
 		response.getWriter().write("AUTHENTICATED");
 		return true;
-	}
-	
-	/**
-	 * Logs the fact that the given request is being authenticated.
-	 * 
-	 * @param request
-	 * 		the request of the user to log
-	 */
-	private void logAuthentication(HttpServletRequest request) {
-		if (!LOG.getLogger().isLoggable(Level.FINE)) return;
-		
-		StringBuilder sb = new StringBuilder(64);
-		sb.append("Authenticating user:").append(System.lineSeparator())
-		  .append("  IP: ").append(request.getRemoteAddr()).append(System.lineSeparator())
-		  .append("  Headers:").append(System.lineSeparator());
-		
-		Enumeration<String> e = request.getHeaderNames();
-		while (e.hasMoreElements()) {
-			String k = e.nextElement();
-			String v = request.getHeader(k);
-			sb.append("    ").append(k).append(": ").append(v).append(System.lineSeparator());
-		}
-		
-		LOG.fine(sb.toString());
 	}
 
 	/**
