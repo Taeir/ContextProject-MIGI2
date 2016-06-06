@@ -55,6 +55,18 @@ public class WebTestBase extends TestBase {
 	}
 	
 	/**
+	 * Sets the given NormalHandler on the given WebServer.
+	 * 
+	 * @param handler
+	 * 		the NormalHandler to set
+	 * @param server
+	 * 		the server to set the handler of
+	 */
+	public void setHandler(NormalHandler handler, WebServer server) {
+		server.setNormalHandler(handler);
+	}
+	
+	/**
 	 * Creates a spied cookie with the given id.
 	 * 
 	 * @param id

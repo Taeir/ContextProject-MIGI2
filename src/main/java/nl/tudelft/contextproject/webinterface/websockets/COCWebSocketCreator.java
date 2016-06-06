@@ -14,7 +14,7 @@ import nl.tudelft.contextproject.webinterface.WebServer;
  */
 public class COCWebSocketCreator implements WebSocketCreator {
 	private static final NotAuthorizedSocket UNAUTHORIZED_SOCKET = new NotAuthorizedSocket();
-	private final transient WebServer server;
+	private final WebServer server;
 	
 	/**
 	 * Creates a new {@link COCWebSocketCreator} for the given server.
@@ -32,12 +32,7 @@ public class COCWebSocketCreator implements WebSocketCreator {
 		for (HttpCookie cookie : req.getCookies()) {
 			if (!cookie.getName().equals(WebServer.COOKIE_NAME)) continue;
 			
-			System.out.println("Client session ID found: " + cookie.getValue());
 			client = server.getUser(cookie.getValue());
-			if (client == null) {
-				System.out.println(" - but session ID was not bound to a WebClient");
-			}
-			
 			break;
 		}
 		

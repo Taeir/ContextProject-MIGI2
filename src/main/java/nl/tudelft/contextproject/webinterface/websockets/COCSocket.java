@@ -22,8 +22,6 @@ import lombok.SneakyThrows;
 public class COCSocket extends WebSocketAdapter implements TickListener {
 	public static final float UPDATE_INTERVAL = 1.0f;
 	
-	public static final boolean KICK_ILLEGAL_CLIENTS = false;
-	
 	private final WebServer server;
 	private final WebClient client;
 	private float timer;
@@ -53,7 +51,8 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 		
 		String[] parts = message.split(" ");
 		if (parts.length != 3) {
-			illegalAction();
+			RemoteEndpoint remote = getRemote();
+			if (remote != null) remote.sendStringByFuture(COCErrorCode.ACTION_ILLEGAL.toString());
 			return;
 		}
 		
@@ -63,18 +62,6 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 		int y = Integer.parseInt(parts[2]);
 		
 		server.getNormalHandler().onActionRequest(client, x, y, action);
-	}
-
-	/**
-	 * Based on the kicking policy, either kicks this client or sends an ACTION_ILLEGAL error code.
-	 */
-	private void illegalAction() {
-		if (KICK_ILLEGAL_CLIENTS) {
-			server.disconnect(client, StatusCode.POLICY_VIOLATION);
-		} else {
-			RemoteEndpoint remote = getRemote();
-			if (remote != null) remote.sendStringByFuture(COCErrorCode.ACTION_ILLEGAL.toString());
-		}
 	}
 	
 	@Override
@@ -87,7 +74,6 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 		try {
 			session.getRemote().sendString("OK");
 		} catch (Exception ex) {
-			System.out.println("Failed to send OK message!");
 			ex.printStackTrace();
 			session.close(StatusCode.SERVER_ERROR, null);
 			return;
@@ -110,6 +96,8 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 	@SneakyThrows(IOException.class)
 	@Override
 	public void update(float tpf) {
+		if (getSession() == null) return;
+		
 		timer += tpf;
 		if (timer < UPDATE_INTERVAL) return;
 		
