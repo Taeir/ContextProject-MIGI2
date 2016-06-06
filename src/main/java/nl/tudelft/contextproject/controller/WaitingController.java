@@ -19,11 +19,8 @@ public class WaitingController extends GameController {
 	 * 		the app this Controller is created by
 	 */
 	public WaitingController(Application app) {
-		super(app, "/maps/" + MENU_LEVEL + "/", Float.MAX_VALUE);
+		super(app, "/maps/" + MENU_LEVEL + "/", Float.MAX_VALUE, false);
 	}
-
-	@Override
-	protected void placeTreasure(Game game) { };
 	
 	@Override
 	public GameState getGameState() {

@@ -32,14 +32,6 @@ public class RandomLevelFactoryTest extends TestBase {
 		factory.createRNG(0);
 	}
 
-	/**
-	 * Test the method for getting a random integer in a certain
-	 * interval.
-	 */
-	@Test
-	public void testGetRandom() {
-		assertEquals(0, factory.getRandom(0, 10));
-	}
 
 	/**
 	 * Test to check you can't spawn less than 1 room.

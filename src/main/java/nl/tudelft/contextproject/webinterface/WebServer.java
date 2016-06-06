@@ -32,7 +32,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class WebServer {
 	public static final String SESSION2_COOKIE = "COC_SESSION2";
-	public static final int MAX_PLAYERS = 4;
+	public static final int MAX_PLAYERS = 8;
 	private static final Log LOG = Log.getLog("WebInterface");
 	
 	private HashMap<String, WebClient> clients = new HashMap<>();
@@ -184,13 +184,13 @@ public class WebServer {
 		if (cookie == null || !clients.containsKey(cookie.getValue())) {
 			//This is a new user
 			
-			if (Main.getInstance().getGameState().isStarted()) {
-				Log.getLog("WebInterface").fine("Disallowed user from joining game: cannot join in progress game");
-				response.setStatus(HttpStatus.OK_200);
-				response.getWriter().write("IN_PROGRESS");
-
-				return false;
-			}
+//			if (Main.getInstance().getGameState().isStarted()) {
+//				Log.getLog("WebInterface").fine("Disallowed user from joining game: cannot join in progress game");
+//				response.setStatus(HttpStatus.OK_200);
+//				response.getWriter().write("IN_PROGRESS");
+//
+//				return false;
+//			}
 
 			if (getUniqueClientCount() >= MAX_PLAYERS) {
 				LOG.fine("Disallowing user from joining game: game is full");

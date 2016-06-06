@@ -68,21 +68,47 @@ public class GameController extends Controller {
 	 * @param timeLimit
 	 * 		the time limit for this game
 	 */
-	public GameController(Application app, String folder, float timeLimit) {
+	public GameController(Application app, String folder, float timeLimit, boolean isMap) {
 		super(app, "GameController");
-
-		Set<Entity> entities = ConcurrentHashMap.newKeySet();
-		List<Light> lights = new ArrayList<>();
-
-		try {
-			File file = RoomParser.getMapFile(folder);
-			String[] tmp = file.getName().split("_")[0].split("x");
-			MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
-			RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
-			Level level = new Level(tiles, lights);
-			game = new Game(level, new VRPlayer(), entities, this, timeLimit);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (!isMap) {
+			Set<Entity> entities = ConcurrentHashMap.newKeySet();
+			List<Light> lights = new ArrayList<>();
+	
+			try {
+				File file = RoomParser.getMapFile(folder);
+				String[] tmp = file.getName().split("_")[0].split("x");
+				MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
+				RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
+				Level level = new Level(tiles, lights);
+				Entity e = null;
+				VRPlayer  p = null;
+				for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
+					if (e instanceof VRPlayer) {
+						p = (VRPlayer) e;
+						it.remove();
+					}
+				}
+				if (p == null) p = new VRPlayer();
+				game = new Game(level, p, entities, this, timeLimit);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+		} else {
+			MSTBasedLevelFactory mstLevelFactory = new MSTBasedLevelFactory("/maps/testGridMap/"); 
+			Level level = mstLevelFactory.generateRandom();
+			Set<Entity> entities = mstLevelFactory.entities;
+			Entity e = null;
+			VRPlayer  p = null;
+			for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
+				if (e instanceof VRPlayer) {
+					p = (VRPlayer) e;
+					it.remove();
+				}
+			}
+			if (p == null) p = new VRPlayer();
+			game = new Game(level, p, entities, this, timeLimit);			
 		}
 	}
 
@@ -134,39 +160,15 @@ public class GameController extends Controller {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
 
-		Vector2f start = attachMazeTiles(level);
+		attachMazeTiles(level);
 		addDrawable(game.getPlayer());
-		game.getPlayer().move(start.x, 0, start.y);
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-
-		placeTreasure(game);
 		
 		AmbientLight al = new AmbientLight();
-		al.setColor(ColorRGBA.White.mult(.5f));
+		al.setColor(ColorRGBA.White.mult(.9f));
 		addLight(al);
-	}
-
-	/**
-	 * Place a treasure in the level.
-	 * 
-	 * @param game
-	 * 		the game that contains the level
-	 */
-	protected void placeTreasure(Game game) {
-		Level level = game.getLevel();
-
-		for (int x = level.getWidth() - 1; x >= 0; x--) {
-			for (int y = level.getHeight() - 1; y >= 0; y--) {
-				if (level.isTileAtPosition(x, y) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-					Treasure e = new Treasure();
-					e.move(x, 0, y);
-					game.getEntities().add(e);
-					return;
-				}
-			}
-		}
 	}
 
 	/**

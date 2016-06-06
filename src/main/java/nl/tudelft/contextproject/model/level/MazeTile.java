@@ -7,6 +7,7 @@ import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
@@ -21,6 +22,7 @@ import nl.tudelft.contextproject.model.PhysicsObject;
  * Class representing a tile in the maze.
  */
 public class MazeTile implements Drawable, PhysicsObject {
+	private RigidBodyControl rigidBody;
 	private Spatial spatial;
 	private Vector2f position;
 	private int height;
@@ -43,7 +45,6 @@ public class MazeTile implements Drawable, PhysicsObject {
 		this.position = new Vector2f(x, y);
 		this.explored = false;
 		this.type = type;
-		
 		this.height = type.getHeight();
 		this.color = type.getColor();
 		this.texture = type.getTexture();
@@ -90,11 +91,39 @@ public class MazeTile implements Drawable, PhysicsObject {
 		if (spatial == null) {
 			this.getSpatial();
 		}
+		if (rigidBody != null) {
+			return rigidBody;
+		}
 
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(spatial);
-		RigidBodyControl rigidBody = new RigidBodyControl(sceneShape, 0);
+		rigidBody = new RigidBodyControl(sceneShape, 0);
 		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
 		return rigidBody;
+	}
+	
+	/**
+	 * Replace MazeTile.
+	 * This method is used during room creations. As rooms have a MazeTile[][] array before they are placed, this would 
+	 * result in the wrong actual location of the object. Thus the MazeTile has to be replaced as soon as it actually placed
+	 * in the maze.
+	 * @param x
+	 * 				new x location
+	 * @param y 
+	 * 				new y location
+	 */
+	public void replace(int x, int y) {
+		position.x = x;
+		position.y = y;		
+		if (spatial == null) {
+			this.getSpatial();
+		} else {
+			spatial.setLocalTranslation(position.x, height, position.y);
+		}
+		if (rigidBody == null) {
+			this.getPhysicsObject();
+		} else {
+			rigidBody.setPhysicsLocation(new Vector3f(position.x, height, position.y));
+		}
 	}
 
 	/**
