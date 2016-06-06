@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
-import nl.tudelft.contextproject.util.QRGenerator;
 import nl.tudelft.contextproject.webinterface.websockets.COCSocket;
 import nl.tudelft.contextproject.webinterface.websockets.COCWebSocketServlet;
 
@@ -84,8 +83,6 @@ public class WebServer {
 	 */
 	public synchronized void start(int port) throws Exception {
 		if (running) throw new IllegalStateException("Server is already running");
-
-		QRGenerator.getInstance().generateQRcode();
 
 		this.running = true;
 		this.port = port;
