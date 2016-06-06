@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.webinterface;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,7 +51,23 @@ public class WebServer {
 	 * 		the amount of unique clients connected
 	 */
 	public int getUniqueClientCount() {
-		return (int) clients.values().stream().distinct().count();
+		return clients.size();
+	}
+	
+	/**
+	 * @return
+	 * 		the amount of dwarfs
+	 */
+	public int getDwarfsCount() {
+		return (int) clients.values().stream().filter(c -> c.isDwarf()).count();
+	}
+	
+	/**
+	 * @return
+	 * 		the amount of elves
+	 */
+	public int getElvesCount() {
+		return (int) clients.values().stream().filter(c -> c.isElf()).count();
 	}
 	
 	/**
@@ -170,7 +185,7 @@ public class WebServer {
 		COCSocket socket = client.getWebSocket();
 		if (socket != null) socket.getSession().close(statusCode, null);
 		
-		clients.values().removeAll(Collections.singletonList(client));
+		clients.values().remove(client);
 	}
 	
 	/**
