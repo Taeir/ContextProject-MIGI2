@@ -101,4 +101,12 @@ public class Gate extends Entity implements PhysicsObject {
 	public void openGate() {
 		open = true;
 	}
+	
+	/**
+	 * @return
+	 * 		returns true if the gate is open
+	 */
+	public boolean getOpen() {
+		return open;
+	}
 }
