@@ -25,6 +25,7 @@ import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
@@ -54,7 +55,7 @@ public class GameController extends Controller {
 	 */
 	public GameController(Application app, Level level, float timeLimit) {
 		super(app, "GameController");
-
+		
 		game = new Game(level, this, timeLimit);
 	}
 
@@ -183,11 +184,13 @@ public class GameController extends Controller {
 		Vector2f start = new Vector2f();
 		for (int x = 0; x < level.getWidth(); x++) {
 			for (int y = 0; y < level.getHeight(); y++) {
+				attachRoofTile(x, y);
 				if (level.isTileAtPosition(x, y)) {
 					//TODO add starting room with starting location
 					TileType t = level.getTile(x, y).getTileType();
+					
 					if (t == TileType.FLOOR || t == TileType.CORRIDOR) {
-						attachRoofTile(x, y);
+						
 						if (start.x == 0 && start.y == 0) {
 							start.x = x;
 							start.y = y;
@@ -258,7 +261,7 @@ public class GameController extends Controller {
 	public Game getGame() {
 		return game;
 	}
-
+	
 	/**
 	 * Method used for testing.
 	 * Set the instance of the game.
@@ -269,7 +272,7 @@ public class GameController extends Controller {
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	
+
 	/**
 	 * Callback called when the game ends.
 	 * 
