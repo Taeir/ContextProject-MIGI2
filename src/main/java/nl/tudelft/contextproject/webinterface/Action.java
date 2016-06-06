@@ -71,7 +71,7 @@ public enum Action {
 	
 	/**
 	 * Gets the action with the given ordinal.
-	 * If the ordinal is not valid, this method returns null.
+	 * If the ordinal is not valid, this method returns {@link #INVALID}.
 	 * 
 	 * @param ordinal
 	 * 		the ordinal of the action to get
@@ -79,10 +79,10 @@ public enum Action {
 	 * 		the Action with the given ordinal
 	 */
 	public static Action getAction(int ordinal) {
-		if (ordinal < 0) return null;
+		if (ordinal < 0) return INVALID;
 		
 		Action[] actions = values();
-		if (ordinal >= actions.length) return null;
+		if (ordinal >= actions.length) return INVALID;
 		return actions[ordinal];
 	}
 }

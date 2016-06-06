@@ -24,24 +24,6 @@ public final class WebUtil {
 	private WebUtil() {}
 
 	/**
-	 * Decode an action integer back to its action.
-	 *
-	 * @param action
-	 * 		the action to decode
-	 * @return
-	 * 		the decoded action
-	 */
-	public static Action decodeAction(int action) {
-		Action[] actions = Action.values();
-
-		if (action >= 0 && action < actions.length) {
-			return actions[action];
-		} else {
-			return Action.INVALID;
-		}
-	}
-
-	/**
 	 * Check if an action is valid.
 	 *
 	 * @param action
@@ -75,6 +57,10 @@ public final class WebUtil {
 			case DROPBAIT:
 				return true;
 			case PLACETILE:
+				return true;
+			case OPENGATE:
+				return true;
+			case DROPBOX:
 				return true;
 			default:
 				return false;

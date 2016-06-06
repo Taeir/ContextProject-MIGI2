@@ -45,14 +45,6 @@ public enum COCErrorCode {
 
 	/**
 	 * @return
-	 * 		the number of the error code
-	 */
-	public int getNr() {
-		return this.nr;
-	}
-
-	/**
-	 * @return
 	 * 		a json string for this error message
 	 */
 	public String toJSON() {

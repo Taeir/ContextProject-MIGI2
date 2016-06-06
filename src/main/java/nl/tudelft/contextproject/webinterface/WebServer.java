@@ -137,7 +137,7 @@ public class WebServer {
 		Cookie session = findCookie(COOKIE_NAME, request.getCookies());
 		if (session == null) return null;
 		
-		return clients.get(session.getValue());
+		return getUser(session.getValue());
 	}
 	
 	/**

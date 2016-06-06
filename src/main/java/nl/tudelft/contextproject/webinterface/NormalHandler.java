@@ -257,7 +257,7 @@ public class NormalHandler {
 
 		int xCoord = Integer.parseInt(request.getParameter("x"));
 		int yCoord = Integer.parseInt(request.getParameter("y"));
-		Action action = WebUtil.decodeAction(Integer.parseInt(request.getParameter("action")));
+		Action action = Action.getAction(Integer.parseInt(request.getParameter("action")));
 
 		attemptAction(client, action, xCoord, yCoord, response);
 	}

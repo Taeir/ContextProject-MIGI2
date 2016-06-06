@@ -76,11 +76,6 @@ public class COCSocket implements TickListener {
 		
 		int actionCode = Integer.parseInt(parts[0]);
 		Action action = Action.getAction(actionCode);
-		if (action == null) {
-			illegalAction();
-			return;
-		}
-		
 		int x = Integer.parseInt(parts[1]);
 		int y = Integer.parseInt(parts[2]);
 		

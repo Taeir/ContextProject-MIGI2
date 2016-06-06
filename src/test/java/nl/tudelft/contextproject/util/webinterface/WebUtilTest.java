@@ -53,19 +53,6 @@ public class WebUtilTest extends TestBase {
 	}
 
 	/**
-	 * Test for decoding actions.
-	 */
-	@Test
-	public void testDecode() {
-		assertEquals(WebUtil.decodeAction(0), Action.PLACEBOMB);
-		assertEquals(WebUtil.decodeAction(1), Action.PLACEPITFALL);
-		assertEquals(WebUtil.decodeAction(2), Action.PLACEMINE);
-		assertEquals(WebUtil.decodeAction(3), Action.SPAWNENEMY);
-		assertEquals(WebUtil.decodeAction(4), Action.DROPBAIT);
-		assertEquals(WebUtil.decodeAction(-1), Action.INVALID);
-	}
-
-	/**
 	 * Test for checking if an action is valid.
 	 */
 	@Test
