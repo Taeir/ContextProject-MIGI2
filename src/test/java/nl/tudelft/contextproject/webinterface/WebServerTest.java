@@ -1,13 +1,19 @@
 package nl.tudelft.contextproject.webinterface;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import org.eclipse.jetty.websocket.api.Session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import nl.tudelft.contextproject.webinterface.websockets.COCSocket;
 
 /**
  * Test class for {@link WebServer}.
@@ -229,4 +235,36 @@ public class WebServerTest extends WebTestBase {
 		assertEquals(WebServer.COOKIE_MAX_AGE, cookie.getMaxAge());
 	}
 
+	/**
+	 * Tests if {@link WebServer#clearCooldowns()} properly resets all the cooldowns.
+	 */
+	@Test
+	public void testClearCooldowns() {
+		WebClient clientA = mock(WebClient.class);
+		WebClient clientB = mock(WebClient.class);
+		webServer.getClients().put("A", clientA);
+		webServer.getClients().put("B", clientB);
+		
+		webServer.clearCooldowns();
+		verify(clientA).resetPerformed();
+		verify(clientB).resetPerformed();
+	}
+	
+	/**
+	 * Tests if {@link WebServer#disconnect} properly disconnects a client.
+	 */
+	@Test
+	public void testDisconnect() {
+		COCSocket socket = mock(COCSocket.class);
+		when(socket.getSession()).thenReturn(mock(Session.class));
+		
+		WebClient client = new WebClient();
+		client.setWebSocket(socket);
+		
+		webServer.getClients().put("A", client);
+		webServer.disconnect(client, 10);
+		
+		verify(socket.getSession()).close(10, null);
+		assertFalse(webServer.getClients().containsValue(client));
+	}
 }
