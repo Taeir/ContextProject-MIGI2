@@ -20,11 +20,11 @@ public final class RandomUtil {
 	 * @param rand
 	 * 		Random object
 	 * @param min
-	 *		The minimum value the random number can be
+	 *		the minimum value the random number can be
 	 * @param max
-	 *		The maximum value the random number can be
+	 *		the maximum value the random number can be
 	 * @return
-	 *		The random number
+	 *		the random number
 	 */
 	public static int getRandomIntegerFromInterval(Random rand, int min, int max) {
 		return (rand.nextInt((max - min)) + min);
