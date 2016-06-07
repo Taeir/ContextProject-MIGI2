@@ -37,9 +37,6 @@ body {
 #map .Door {
 	background-color: #7A5230 !important;
 }
-#map .Gate {
-	background-color; #939393 !important;
-}
 #map .Player {
 	background-color: #FF00FF !important;
 }
@@ -63,6 +60,9 @@ body {
 }
 #map .Damaged_Wall {
 	background-color: #BFBFBF !important;
+}
+#map .Gate {
+	background-color: #424242 !important;
 }
 #map {
 	border-spacing: 0px;
