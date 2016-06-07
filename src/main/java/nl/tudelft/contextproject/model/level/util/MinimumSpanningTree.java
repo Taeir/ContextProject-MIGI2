@@ -110,6 +110,7 @@ public class MinimumSpanningTree {
 			connectorNode = new MSTNode(MSTNodeType.CONNECTOR_NODE, null, roomID);
 			while (itMSTNodes.hasNext()) {
 				currentNode = itMSTNodes.next();
+				
 				/*
 				 * If the current Node is an entrance node:
 				 * 		a connection from the entrance node to the connector node has to be created.
@@ -178,33 +179,6 @@ public class MinimumSpanningTree {
 				endNode.incomingEdges.remove(currentEdge);
 			}
 		}
-	}
-
-	/**
-	 * Count all nodes by traversing the graph, skip excluded edge.
-	 * 
-	 * @param excludedEdge
-	 * 		edge that should be excluded
-	 * @return
-	 * 		number of Nodes that were traversed
-	 */
-	public int traverseMinusEdge(MSTEdge excludedEdge) {
-		HashSet<MSTNode> visitedNodes = new HashSet<MSTNode>();
-		ArrayDeque<MSTNode> queue = new ArrayDeque<MSTNode>();
-		queue.add(startRoomNode);
-		MSTNode currentNode;
-		MSTNode currentEndNode;
-		while (!queue.isEmpty()) {
-			currentNode = queue.poll();
-			visitedNodes.add(currentNode);
-			for (MSTEdge currentEdge : currentNode.outgoingEdges) {
-				currentEndNode = currentEdge.endNode;
-				if (!currentEdge.equals(excludedEdge) && !visitedNodes.contains(currentEndNode)) {
-					queue.add(currentEndNode);
-				}
-			}
-		}
-		return visitedNodes.size();
 	}
 	
 	/**

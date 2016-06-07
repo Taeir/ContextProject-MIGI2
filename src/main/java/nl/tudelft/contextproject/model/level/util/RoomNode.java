@@ -62,23 +62,6 @@ public class RoomNode {
 	}
 	
 	/**
-	 * Return all outgoingEdges on the same door.
-	 * 
-	 * @param exit
-	 * 		door
-	 * @return
-	 * 		List of outgoing edges with same door
-	 */
-	public List<CorridorEdge> getOutgoingEdgesOfExit(RoomExitPoint exit) {
-		ArrayList<CorridorEdge> resultEdges = new ArrayList<CorridorEdge>();
-		for (CorridorEdge corridor : outgoingEdges) {
-			if (corridor.start.location.equals(exit.location)) {
-				resultEdges.add(corridor);
-			}
-		}
-		return resultEdges;
-	}
-	/**
 	 * Get number of outgoing connection points.
 	 * 
 	 * @return
