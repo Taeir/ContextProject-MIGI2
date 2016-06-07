@@ -18,6 +18,7 @@ public class Gate extends Entity implements PhysicsObject {
 	private Spatial sp;
 	private RigidBodyControl rb;
 	private Boolean open;
+	
 	/**
 	 * Constructor for a gate.
 	 */
@@ -34,16 +35,16 @@ public class Gate extends Entity implements PhysicsObject {
 	}
 
 	@Override
-	public void update(float tdf) {
+	public void update(float tpf) {
 		if (open) {
 			if (sp.getLocalTranslation().y < 6) {
-				this.move(0, 2 * tdf, 0);
+				this.move(0, 2 * tpf, 0);
 			} else {
 				open = false;
 			}
 		} else {
 			if (sp.getLocalTranslation().y > 1) {
-				this.move(0, -0.5f * tdf, 0);
+				this.move(0, -0.5f * tpf, 0);
 			}
 		}
 	}
