@@ -31,6 +31,8 @@ public final class EntityUtil {
 		JSONArray jArray = new JSONArray();
 
 		for (Entity entity : entities) {
+			if (entity.getType().getWebId() == 0) continue;
+			
 			JSONObject entityJson = entityToJson(entity);
 			jArray.put(entityJson);
 		}
