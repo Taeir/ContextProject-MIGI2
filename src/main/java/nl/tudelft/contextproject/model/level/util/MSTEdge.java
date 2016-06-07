@@ -14,13 +14,13 @@ public class MSTEdge {
 	 * Constructor.
 	 * 
 	 * @param startNode
-	 * 			start node ID
+	 * 		start node ID
 	 * @param endNode
-	 * 			end node ID
+	 * 		end node ID
 	 * @param weight
-	 * 			weight of edge
+	 * 		weight of edge
 	 * @param corridorID
-	 * 			ID of corridorEdge
+	 * 		ID of corridorEdge
 	 */
 	public MSTEdge(MSTNode startNode, MSTNode endNode, double weight, int corridorID) {
 		this.startNode = startNode;
