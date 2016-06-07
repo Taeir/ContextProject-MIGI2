@@ -108,7 +108,7 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 	 * 		if the given data array is of incorrect length
 	 */
 	public static Crate loadEntity(Vector3f position, String[] data) {
-		if (data.length != 6) throw new IllegalArgumentException("Invalid data length for loading crate! Expected \"<X> <Y> <Z> Crate <Health>\".");
+		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading crate! Expected \"<X> <Y> <Z> Crate <Health>\".");
 		
 		Crate crate = new Crate(Float.parseFloat(data[4]));
 		crate.move(position);
