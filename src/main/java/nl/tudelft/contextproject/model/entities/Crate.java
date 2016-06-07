@@ -53,6 +53,7 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 		mat.setColor("Specular", color);
 		mat.setFloat("Shininess", 64f);
 		mat.setColor("Ambient", color);
+		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/crate.png"));
 		this.spatial.setMaterial(mat); 
 		this.spatial.move(0, 0.5f, 0);
 		return spatial;
