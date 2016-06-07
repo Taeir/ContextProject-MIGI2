@@ -85,5 +85,36 @@ public class MazeTileTest extends DrawableTest {
 		assertEquals(new Vector3f(10, 0, 123), tileFloor.getSpatial().getLocalTranslation());
 		assertEquals(new Vector3f(10, 3, 123), tileWall.getSpatial().getLocalTranslation());
 	}
-
+	
+	/**
+	 * Test replacing the position.
+	 */
+	@Test
+	public void testReplace() {
+		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
+		tile.replace(1, 1);
+		assertEquals(tile.getPosition().x, 1, 1E-4);
+	}
+	
+	/**
+	 * Test replacing the position with spatial.
+	 */
+	@Test
+	public void testReplaceWithSpatial() {
+		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
+		tile.replace(1, 1);
+		tile.getSpatial();
+		assertEquals(tile.getPosition().x, 1, 1E-4);
+	}
+	
+	/**
+	 * Test replacing the position with spatial.
+	 */
+	@Test
+	public void testReplaceWithPhysicsObject() {
+		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
+		tile.replace(1, 1);
+		tile.getPhysicsObject();
+		assertEquals(tile.getPosition().x, 1, 1E-4);
+	}
 }

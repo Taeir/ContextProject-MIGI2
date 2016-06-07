@@ -59,6 +59,16 @@ public class MazeTile implements Drawable, PhysicsObject {
 	public TileType getTileType() {
 		return type;
 	}
+	
+	/**
+	 * Get position of MazeTile.
+	 * 
+	 * @return
+	 * 		position
+	 */
+	public Vector2f getPosition() {
+		return position;
+	}
 
 	@Override
 	public Spatial getSpatial() {
@@ -145,4 +155,4 @@ public class MazeTile implements Drawable, PhysicsObject {
 		this.explored = explored;
 		return returnValue;
 	}
-}
+} 
