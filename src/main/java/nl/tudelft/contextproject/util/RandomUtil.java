@@ -9,10 +9,9 @@ public final class RandomUtil {
 	
 	/**
 	 * Private constructor.
+	 * To prevent initialization. 
 	 */
-	private RandomUtil() {
-		//To prevent initialization.
-	}
+	private RandomUtil() {}
 	
 	/**
 	 * Return a random number between two values.
