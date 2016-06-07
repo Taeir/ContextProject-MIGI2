@@ -34,7 +34,7 @@ public class RoomNodeTest extends TestBase {
 	 */
 	@Test
 	public void testRoomNode() {
-		assertTrue(room.equals(roomNode.room));
+		assertEquals(room, roomNode.room);
 	}
 
 	/**

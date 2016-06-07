@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Class for testing the RandomLevelFactory.
  */
+@SuppressWarnings("deprecation")
 public class RandomLevelFactoryTest extends TestBase {
 
 	@Rule

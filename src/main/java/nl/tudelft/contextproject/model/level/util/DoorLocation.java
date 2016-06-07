@@ -7,11 +7,11 @@ package nl.tudelft.contextproject.model.level.util;
  * Used for determining if a door connection point has been used.
  */
 public abstract class DoorLocation {
-	
+
 	public Vec2I location;
 	public Boolean used;
 	public RoomNode node;
-	
+
 	/**
 	 * Update the door location if door has been moved.
 	 * 
@@ -34,30 +34,17 @@ public abstract class DoorLocation {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DoorLocation other = (DoorLocation) obj;
-		if (location == null) {
-			if (other.location != null)
+		if (obj instanceof DoorLocation) {
+			DoorLocation other = (DoorLocation) obj;
+			if (!location.equals(other.location))
 				return false;
-		} else if (!location.equals(other.location))
-			return false;
-		if (node == null) {
-			if (other.node != null)
+			if (!node.equals(other.node))
 				return false;
-		} else if (!node.equals(other.node))
-			return false;
-		if (used == null) {
-			if (other.used != null)
+			if (!used.equals(other.used))
 				return false;
-		} else if (!used.equals(other.used))
-			return false;
+		} 
 		return true;
 	}
-	
-	
+
+
 }

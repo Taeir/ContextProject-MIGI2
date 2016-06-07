@@ -1,8 +1,7 @@
 package nl.tudelft.contextproject.model.level.util;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -84,7 +83,7 @@ public class Vec2ITest {
 	 */
 	@Test
 	public void testEqualsSame() {
-		assertTrue(testVector.equals(testVector));
+		assertEquals(testVector, testVector);
 	}
 	
 	/**
@@ -93,7 +92,7 @@ public class Vec2ITest {
 	@Test
 	public void testEqualsEqual() {
 		Vec2I secondVector = new Vec2I(testX, testY);
-		assertTrue(testVector.equals(secondVector));
+		assertEquals(testVector, secondVector);
 	}
 	
 	/**
@@ -102,7 +101,7 @@ public class Vec2ITest {
 	@Test
 	public void testEqualsXDifferent() {
 		Vec2I secondVector = new Vec2I(testX + 1, testY);
-		assertFalse(testVector.equals(secondVector));
+		assertNotEquals(testVector, secondVector);
 	}
 	
 	/**
@@ -111,7 +110,7 @@ public class Vec2ITest {
 	@Test
 	public void testEqualsYDifferent() {
 		Vec2I secondVector = new Vec2I(testX, testY + 1);
-		assertFalse(testVector.equals(secondVector));
+		assertNotEquals(testVector, secondVector);
 	}
 	
 	/**
@@ -119,7 +118,7 @@ public class Vec2ITest {
 	 */
 	@Test
 	public void testEqualsOtherObject() {
-		assertFalse(testVector.equals(new Integer(5)));
+		assertNotEquals(testVector, 5);
 	}
 	
 	/**
@@ -127,7 +126,7 @@ public class Vec2ITest {
 	 */
 	@Test
 	public void testEqualsNull() {
-		assertFalse(testVector.equals(null));
+		assertNotEquals(testVector, null);
 	}
 	
 	/**

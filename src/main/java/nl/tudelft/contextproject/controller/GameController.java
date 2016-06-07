@@ -21,7 +21,6 @@ import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
-import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
@@ -68,6 +67,8 @@ public class GameController extends Controller {
 	 * 		the folder where to load the level from
 	 * @param timeLimit
 	 * 		the time limit for this game
+	 * @param isMap
+	 * 		if the level is a map, otherwise the map is a single room file
 	 */
 	public GameController(Application app, String folder, float timeLimit, boolean isMap) {
 		super(app, "GameController");

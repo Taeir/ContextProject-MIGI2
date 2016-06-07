@@ -151,6 +151,7 @@ public class MinimumSpanningTree {
 
 	/**
 	 * Run the actual algorithm.
+	 * <p>
 	 * This method uses Kruskal's algorithm.
 	 * First, a priority queue of MSTEdges is constructed with smallest weight first. Since the MSTNode graph is connected,
 	 * this means that n - 1 edges from the original MSTNode graph will create a minimum spanning tree.
@@ -198,7 +199,7 @@ public class MinimumSpanningTree {
 	 * Using this algorithm we can enforce the additional constraint that
 	 * each room exit location has to be connected to at least 1 or more
 	 * room entrance locations of another room.
-	 * 
+	 * <p>
 	 * This algorithm adds reverse edges, for every edge. This lowers to time to check whether
 	 * the graph is still connected, as it allows for a breadth first search from node 1 of the removed
 	 * edge to node 2 of the removed edge.
@@ -230,11 +231,11 @@ public class MinimumSpanningTree {
 			
 			startNode = currentEdge.startNode;
 			endNode = currentEdge.endNode;
-			if (startNode.outgoingEdges.size() > 1 && endNode.incomingEdges.size() > 1) {
-				if (checkConnectionAfterRemoval(currentEdge)) {
-					startNode.outgoingEdges.remove(currentEdge);
-					endNode.incomingEdges.remove(currentEdge);
-				}
+			if (startNode.outgoingEdges.size() > 1 
+				&& endNode.incomingEdges.size() > 1
+				&& checkConnectionAfterRemoval(currentEdge)) {
+				startNode.outgoingEdges.remove(currentEdge);
+				endNode.incomingEdges.remove(currentEdge);
 			}
 		}
 	}
@@ -257,11 +258,9 @@ public class MinimumSpanningTree {
 			currentNode = queue.poll();
 			visitedNodes.add(currentNode);
 			for (MSTEdge currentEdge : currentNode.outgoingEdges) {
-				if (!currentEdge.equals(excludedEdge)) {
-					currentEndNode = currentEdge.endNode;
-					if (!visitedNodes.contains(currentEndNode)) {
-						queue.add(currentEndNode);
-					}
+				currentEndNode = currentEdge.endNode;
+				if (!currentEdge.equals(excludedEdge) && !visitedNodes.contains(currentEndNode)) {
+					queue.add(currentEndNode);
 				}
 			}
 		}

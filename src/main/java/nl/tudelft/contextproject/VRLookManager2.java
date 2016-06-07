@@ -10,11 +10,14 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 
+/**
+ * Hacky VR look manager used during play testing.
+ * TODO: Must be refactored out during refactoring phase.
+ */
 public class VRLookManager2 implements AnalogListener {
 	private Camera cam;
 	private Vector3f initialUpVec;
 	private float rotationSpeed = 1f;
-	private float moveSpeed = 3f;
 	private boolean invertY;
 
 	/**

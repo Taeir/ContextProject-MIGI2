@@ -38,12 +38,12 @@ public final class CorridorBreadthFirstSearch {
 
 	/**
 	 * Bread first search through maze tiles to find the end tile.
-	 * 
+	 * <p>
 	 * Works by keeping a hashMap of visited tiles and their distance saved,
 	 * holds all possible neighbors of currently visited tiles in a queue. At
 	 * each step the neighbors of the current tile are added to the queue and
 	 * their distance is updated.
-	 * 
+	 * <p>
 	 * After visiting the end node, the algorithm looks for a path back to the 
 	 * starting node. This done by checking all neighbor tiles from the current tile
 	 * and tacking the the one which reduces the distance to the start node. Each visited
@@ -142,6 +142,11 @@ public final class CorridorBreadthFirstSearch {
 	/**
 	 * Get list of neighbor nodes.
 	 * Only empty Tiles are neighbors, except if that tile is the end tile.
+	 * <p>
+	 * PMD error: The method getNeighBors() has an NPath complexity of 256
+	 * 		This method is not impossible to split up to reduce complexity, however
+	 * 		since it would only complicate readability of the method, or create 4 extra methods
+	 * 		that we thought it was not necessary to reduce the complexity.
 	 * 
 	 * @param mazeTiles
 	 * 		map with rooms, but no corridors

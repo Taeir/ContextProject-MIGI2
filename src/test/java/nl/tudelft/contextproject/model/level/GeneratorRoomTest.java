@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
  * Class for creating a GeneratorRoom.
  * This is a room only used by the generator.
  */
+@SuppressWarnings("deprecation")
 public class GeneratorRoomTest extends TestBase {
     private Size mockedSize;
 
@@ -35,7 +36,7 @@ public class GeneratorRoomTest extends TestBase {
     /**
      * Test the constructor and all getters.
      */
-    @Test
+	@Test
     public void testConstructor() {
         GeneratorRoom testRoom = new GeneratorRoom(0, 0, mockedSize);
 

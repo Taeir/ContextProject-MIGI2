@@ -31,7 +31,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Start roomID.
 	 */
 	public static final int START_ROOM_ID = -1;
-	
+
 	/**
 	 * Treasure roomID.
 	 */
@@ -129,7 +129,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		Vec2I startLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				RoomNode.MIN_DIST, endLeftMostQuarter), 
 				RandomUtil.getRandomIntegerFromInterval(rand, 
-				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
+						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
 		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), START_ROOM_ID);
 		addRoomNode(startNode, startLocation);
 
@@ -137,7 +137,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		Vec2I treasureLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				beginningRightMostQuarter, MAX_WIDTH - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)), 
 				RandomUtil.getRandomIntegerFromInterval(rand, 
-				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
+						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
 		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom(), TREASURE_ROOM_ID);
 		addRoomNode(treasureNode, treasureLocation);
 	}
@@ -262,27 +262,25 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		int heigth = map.length;
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < heigth; j++) {
-				if (map[i][j] != null) {
-					if (map[i][j].getTileType() == TileType.CORRIDOR) {
-						//Check North
-						if (j != 0 && map[i][j - 1] == null) {
-							map[i][j - 1] = new MazeTile(i, j - 1, TileType.WALL);
-						}
+				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
+					//Check North
+					if (j != 0 && map[i][j - 1] == null) {
+						map[i][j - 1] = new MazeTile(i, j - 1, TileType.WALL);
+					}
 
-						//Check South
-						if (j != heigth - 1 && map[i][j + 1] == null) {
-							map[i][j + 1] = new MazeTile(i, j + 1, TileType.WALL);
-						}
+					//Check South
+					if (j != heigth - 1 && map[i][j + 1] == null) {
+						map[i][j + 1] = new MazeTile(i, j + 1, TileType.WALL);
+					}
 
-						//Check West
-						if (i != 0 && map[i - 1][j] == null) {
-							map[i - 1][j] = new MazeTile(i - 1, j, TileType.WALL);
-						}
+					//Check West
+					if (i != 0 && map[i - 1][j] == null) {
+						map[i - 1][j] = new MazeTile(i - 1, j, TileType.WALL);
+					}
 
-						//Check East
-						if (i != width - 1 && map[i + 1][j] == null) {
-							map[i + 1][j] = new MazeTile(i + 1, j, TileType.WALL);
-						}
+					//Check East
+					if (i != width - 1 && map[i + 1][j] == null) {
+						map[i + 1][j] = new MazeTile(i + 1, j, TileType.WALL);
 					}
 				}
 			}
@@ -298,6 +296,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Adds lights to the lights list.
 	 * 
 	 * Copies the RoomNode if duplicates are allowed.
+	 * 
 	 * @param	node
 	 * 				Node to add
 	 * @param position
@@ -306,7 +305,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	protected void addRoomNode(RoomNode node, Vec2I position) {
 		if (!duplicates) {
 			baseNodes.remove(node);
-		} else if (node.id != START_ROOM_ID && node.id != -1) {
+		} else if (node.id != START_ROOM_ID) {
 			node = node.copy(idCounter++);
 		}
 

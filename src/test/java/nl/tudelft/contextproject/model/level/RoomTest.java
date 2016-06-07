@@ -1,8 +1,7 @@
 package nl.tudelft.contextproject.model.level;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -47,7 +46,7 @@ public class RoomTest extends TestBase {
 	 */
 	@Test
 	public void testRoomConstructorSize() {
-		assertTrue(testRoom.size.equals(new Size(2, 3)));
+		assertEquals(testRoom.size, new Size(2, 3));
 	}
 	
 	/**
@@ -67,7 +66,7 @@ public class RoomTest extends TestBase {
 	@Test(expected = IOException.class)
 	public void testSetSizeFromIncorrectFileName() throws IOException {
 		Size testSize = testRoom.getSizeFromFileName(ROOM_INCORRECT_FOLDER);
-		assertTrue(testSize.equals(new Size(2, 3)));
+		assertEquals(testSize, new Size(2, 3));
 	}
 
 	/**
@@ -78,7 +77,7 @@ public class RoomTest extends TestBase {
 		Size testSize;
 		try {
 			testSize = testRoom.getSizeFromFileName(ROOM_FOLDER);
-			assertTrue(testSize.equals(new Size(2, 3)));
+			assertEquals(testSize, new Size(2, 3));
 		} catch (IOException e) {
 			fail();
 			e.printStackTrace();
@@ -106,7 +105,7 @@ public class RoomTest extends TestBase {
 		Room testRoom2 = new Room(ROOM_FOLDER);
 		testRoom2.setMazeTiles(mazeTiles);
 		testRoom2.setSize(zeroSize);
-		assertTrue(testRoom.equals(testRoom2));
+		assertEquals(testRoom, testRoom2);
 	}
 	
 	/**
@@ -115,7 +114,7 @@ public class RoomTest extends TestBase {
 	@Test
 	public void testEqualsEqualRooms() {
 		Room testRoom2 = new Room(ROOM_FOLDER);
-		assertTrue(testRoom.equals(testRoom2));
+		assertEquals(testRoom, testRoom2);
 	}
 	
 	/**
@@ -123,7 +122,7 @@ public class RoomTest extends TestBase {
 	 */
 	@Test
 	public void testEqualsSameRoom() {
-		assertTrue(testRoom.equals(testRoom));
+		assertEquals(testRoom, testRoom);
 	}
 	
 	/**
@@ -131,7 +130,7 @@ public class RoomTest extends TestBase {
 	 */
 	@Test
 	public void testEqualsNull() {
-		assertFalse(testRoom.equals(null));
+		assertNotEquals(testRoom, null);
 	}
 	
 	/**
@@ -139,7 +138,7 @@ public class RoomTest extends TestBase {
 	 */
 	@Test
 	public void testEqualsOtherObject() {
-		assertFalse(testRoom.equals(new Float(0)));
+		assertNotEquals(testRoom, 5);
 	}
 	
 	/**
@@ -150,6 +149,6 @@ public class RoomTest extends TestBase {
 		Size size = new Size(0, 0);
 		Room testRoom2 = new Room(ROOM_FOLDER);
 		testRoom2.setSize(size);
-		assertFalse(testRoom.equals(testRoom2));
+		assertNotEquals(testRoom, testRoom2);
 	}
 }

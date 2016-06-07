@@ -26,6 +26,12 @@ public final class MapReader {
 	/**
 	 * Read a entire map folder and load all rooms in memory.
 	 * Can have comments starting with # at the top of the .cmf map file.
+	 * FindBug warning: NP_DEREFERENCE_OF_READLINE_VALUE
+	 *		This warning is ignored because we solved the complexity FindBugs warning by moving this
+	 *		null check to another method instead. 
+	 * FindBugs warning: NP_NULL_ON_SOME_PATH
+	 * 		This warning is ignored because there is an actual null check in place, this happens in 
+	 * 		another method, so FindBugs does not see this check.
 	 * 
 	 * @param mapFolder
 	 * 		path of room folders and load file
@@ -45,32 +51,54 @@ public final class MapReader {
 			}
 			
 			//Get start Room
-			if (line == null) throw new IllegalArgumentException("Start room must be defined!");
+			checkLineNull(line, "Start room must be defined!");
 			String[] tmp = line.split(" ");
-			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the starting room!");
+			checkStringArrayLength(tmp, 2, "You should specify the number of rooms!");
 			Room startRoom = new Room(mapFolder + tmp[1] + "/");
 			
 			//Get treasure Room
 			line = br.readLine();
-			if (line == null) throw new IllegalArgumentException("There should be a treasure room!");
+			checkLineNull(line, "There should be a treasure room!");
 			tmp = line.split(" ");
-			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the treasure room!");
+			checkStringArrayLength(tmp, 2, "You should specify the number of rooms!");
 			Room treasureRoom = new Room(mapFolder + tmp[1] + "/");
 			
 			//Get the rest of the Rooms
 			line = br.readLine();
-			if (line == null) throw new IllegalArgumentException("Number of rooms should be specified!");
+			checkLineNull(line, "Number of rooms should be specified!");
 			tmp = line.split(" ");
-			if (tmp.length != 2) throw new IllegalArgumentException("You should specify the number of rooms!");
+			checkStringArrayLength(tmp, 2, "You should specify the number of rooms!");
 			int noRooms = Integer.parseInt(tmp[1]);
 			for (int i = 0; i < noRooms; i++) {
 				line = br.readLine();
-				if (line == null) throw new IllegalArgumentException("Not enough rooms in list!");
+				checkLineNull(line, "Not enough rooms in list!");
 				rooms.add(new Room(mapFolder + line + "/"));
 			}
 			
 			return new RoomTuple(startRoom, treasureRoom);
 		}
+	}
+	
+	/**
+	 * Check if line is null, throw IllegalArgumentException if true.
+	 * 
+	 * @param line
+	 * 		string to check;
+	 * @param msg
+	 * 		message in illegal argument exception
+	 */
+	private static void checkLineNull(String line, String msg) {
+		if (line == null) throw new IllegalArgumentException(msg);
+	}
+	
+	/**
+	 * Check if string array doesn't equal a certain length, throw exception if true.
+	 * @param stringArray
+	 * @param length
+	 * @param msg
+	 */
+	private static void checkStringArrayLength(String[] stringArray, int length, String msg) {
+		if (stringArray.length != length) throw new IllegalArgumentException(msg);
 	}
 	
 	/**
