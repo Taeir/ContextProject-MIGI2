@@ -26,9 +26,11 @@ public final class MapParser {
 	/**
 	 * Read a entire map folder and load all rooms in memory.
 	 * Can have comments starting with # at the top of the .cmf map file.
+	 * <p>
 	 * FindBug warning: NP_DEREFERENCE_OF_READLINE_VALUE
 	 *		This warning is ignored because we solved the complexity FindBugs warning by moving this
 	 *		null check to another method instead. 
+	 *<br>
 	 * FindBugs warning: NP_NULL_ON_SOME_PATH
 	 * 		This warning is ignored because there is an actual null check in place, this happens in 
 	 * 		another method, so FindBugs does not see this check.
