@@ -22,6 +22,9 @@ public class MSTNode {
 	 */
 	public int roomNodeID;
 	
+	/**
+	 * Used as identifier when in use.
+	 */
 	public DoorLocation originalDoor;
 	
 	public MSTNodeType nodeType;
@@ -56,23 +59,18 @@ public class MSTNode {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MSTNode other = (MSTNode) obj;
-		if (nodeType != other.nodeType)
-			return false;
-		if (originalDoor == null) {
-			if (other.originalDoor != null)
+		if (obj instanceof MSTNode) {
+			MSTNode other = (MSTNode) obj;
+			if (nodeType != other.nodeType)
 				return false;
-		} else if (!originalDoor.equals(other.originalDoor))
-			return false;
-		if (roomNodeID != other.roomNodeID)
-			return false;
-		return true;
+			if (originalDoor == null) {
+				if (other.originalDoor != null)
+					return false;
+			} else if (!originalDoor.equals(other.originalDoor)) return false;
+			if (roomNodeID != other.roomNodeID) return false;
+			return true;
+		}
+		return false;
 	}
 
 	/**
