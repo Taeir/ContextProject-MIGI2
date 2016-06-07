@@ -104,6 +104,7 @@ public class MinimumSpanningTree {
 		int roomID;
 		MSTNode currentNode, connectorNode;
 		MSTEdge newEdge;
+		startRoomNode = null;
 		for (RoomNode roomNode : roomNodes) {
 			roomID = roomNode.id;
 			Iterator<MSTNode> itMSTNodes = getMSTNodesWithSameRoomID(treeNodes, roomID);

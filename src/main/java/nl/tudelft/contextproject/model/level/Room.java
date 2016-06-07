@@ -31,25 +31,39 @@ public class Room {
 	 */
 	private static final Pattern PATTERN = Pattern.compile("(?<width>\\d+)x(?<height>\\d+)_.*");
 
-	//Room size 
+	/**
+	 * Room size. 
+	 */
 	public Size size;
 
-	//List of entities in the room
+	/**
+	 * Entities in the room.
+	 */
 	public Set<Entity> entities;
 
-	//List of lights in the room
+	/**
+	 * Lights in the room.
+	 */
 	public List<Light> lights;
 
-	//2d representation of mazeTiles in the room
+	/**
+	 * MazeTile map.
+	 */
 	public MazeTile[][] mazeTiles;
 
-	//Entrance door locations
+	/**
+	 * Entrance door locations.
+	 */
 	public ArrayList<Vec2I> entranceDoorsLocations;
 
-	//Exit door Locations
+	/**
+	 * Exit door locations.
+	 */
 	public ArrayList<Vec2I> exitDoorLocations;
 
-	//Original folder
+	/**
+	 * Original folder.
+	 */
 	public String folder;
 	
 	/**
@@ -155,9 +169,10 @@ public class Room {
 		for (int i = 0; i < size.getWidth(); i++) {
 			for (int j = 0; j < size.getHeight(); j++) {
 				if (mazeTiles[i][j] == null && mazeTiles[i][j] == null) {
-					return true;
+					if (mazeTiles[i][j] == null) return true;
+					return false;
 				}
-				else if (mazeTiles[i][j] == null || mazeTiles[i][j].getTileType() != other.mazeTiles[i][j].getTileType()) {
+				else if (mazeTiles[i][j].getTileType() != other.mazeTiles[i][j].getTileType()) {
 					return false;
 				}
 			}
