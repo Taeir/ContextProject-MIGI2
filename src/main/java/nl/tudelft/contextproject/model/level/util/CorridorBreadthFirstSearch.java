@@ -14,11 +14,9 @@ public final class CorridorBreadthFirstSearch {
 
 	/**
 	 * Private constructor to prevent initialization.
+	 * To prevent initialization.
 	 */
-	private CorridorBreadthFirstSearch() {
-		//To prevent initialization
-	}
-
+	private CorridorBreadthFirstSearch() {}
 
 	/**
 	 * Bread first search through maze tiles to find the end tile.

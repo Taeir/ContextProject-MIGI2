@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.model.level.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import com.jme3.light.Light;
 

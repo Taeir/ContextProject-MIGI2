@@ -180,5 +180,16 @@ public class MapReaderTest {
 		File testFile = MapParser.getMapFile("/maps/correctWithName/");
 		assertTrue(testFile.exists());
 	}
+	
+	/**
+	 * Test exception if path does not exist.
+	 * @throws FileNotFoundException 
+	 * 			this should happen here
+	 */
+	@Test (expected = FileNotFoundException.class)
+	public void testGetMapFileExceptionNotAPAd() throws FileNotFoundException {
+		File testFile = MapParser.getMapFile("notAPad");
+		assertTrue(testFile.exists());
+	}
 
 }

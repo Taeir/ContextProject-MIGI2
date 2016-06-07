@@ -118,6 +118,15 @@ public class RoomTest extends TestBase {
 	}
 	
 	/**
+	 * Rest Equal rooms, copy.
+	 */
+	@Test
+	public void testEqualsEqualCopy() {
+		Room copy = testRoom.copy();
+		assertEquals(testRoom, copy);
+	}
+	
+	/**
 	 * Rest Equal rooms same room.
 	 */
 	@Test

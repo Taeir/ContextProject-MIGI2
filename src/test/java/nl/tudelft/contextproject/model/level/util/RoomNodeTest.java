@@ -193,4 +193,13 @@ public class RoomNodeTest extends TestBase {
 	public void testEqualsSame() {
 		assertEquals(roomNode, roomNode);
 	}
+	
+	/**
+	 * Test equals, with copy, that has same ID. 
+	 */
+	@Test
+	public void testCopy() {
+		RoomNode copy = roomNode.copy(0);
+		assertEquals(roomNode, copy);
+	}
 }

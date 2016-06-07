@@ -154,7 +154,10 @@ public class Room {
 
 		for (int i = 0; i < size.getWidth(); i++) {
 			for (int j = 0; j < size.getHeight(); j++) {
-				if (mazeTiles[i][j].getTileType() != other.mazeTiles[i][j].getTileType()) {
+				if (mazeTiles[i][j] == null && mazeTiles[i][j] == null) {
+					return true;
+				}
+				else if (mazeTiles[i][j] == null || mazeTiles[i][j].getTileType() != other.mazeTiles[i][j].getTileType()) {
 					return false;
 				}
 			}

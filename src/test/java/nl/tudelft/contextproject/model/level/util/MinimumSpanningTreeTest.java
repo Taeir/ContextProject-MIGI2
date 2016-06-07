@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
-import nl.tudelft.contextproject.model.level.Room;
 
 /**
  * Test class for minimum spanning tree.

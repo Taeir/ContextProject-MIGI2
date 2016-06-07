@@ -251,7 +251,6 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		int heigth = map[0].length;
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < heigth; j++) {
-				System.out.println("i,j: " + i + "," + j);
 				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
 					//Check North
 					if (j != 0 && map[i][j - 1] == null) {
