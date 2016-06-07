@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.controller;
 
 import java.io.File;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,7 +22,6 @@ import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
-import nl.tudelft.contextproject.model.entities.Gate;
 import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
