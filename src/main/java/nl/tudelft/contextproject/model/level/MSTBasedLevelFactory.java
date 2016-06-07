@@ -246,7 +246,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		CorridorEdge currentCorridor;
 		for (Integer corridorID: chosenEdges) {
 			currentCorridor = edges.get(corridorID);
-			corridorList.add(CorridorBreadthFirstSearch.creatCorridor(mazeTiles, currentCorridor.start.location, currentCorridor.end.location));
+			corridorList.add(CorridorBreadthFirstSearch.breadthFirstSearch(mazeTiles, currentCorridor.start.location, currentCorridor.end.location));
 		}
 		return corridorList;
 	}

@@ -108,7 +108,7 @@ public class MazeTileTest extends DrawableTest {
 	}
 	
 	/**
-	 * Test replacing the position with spatial.
+	 * Test replacing the position with rigid body.
 	 */
 	@Test
 	public void testReplaceWithPhysicsObject() {
