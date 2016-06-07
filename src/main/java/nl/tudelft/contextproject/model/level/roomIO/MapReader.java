@@ -28,14 +28,13 @@ public final class MapReader {
 	 * Can have comments starting with # at the top of the .cmf map file.
 	 * 
 	 * @param mapFolder
-	 * 			path of room folders and load file
+	 * 		path of room folders and load file
 	 * @param rooms
-	 * 			list which should hold the room
-	 * 			final maze room
+	 * 		list which should hold the rooms
 	 * @return RoomTuple
-	 * 			return a room tuple with the starting and end rooms.
+	 * 		return a room tuple with the starting and end rooms.
 	 * @throws IOException
-	 * 			when wrong format is delivered 
+	 * 		when wrong format is delivered 
 	 */
 	public static RoomTuple readMap(String mapFolder, List<Room> rooms) throws IOException {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(mapFolder)), StandardCharsets.UTF_8))) {
@@ -74,9 +73,6 @@ public final class MapReader {
 		}
 	}
 	
-	
-	
-
 	/**
 	 * Get the map file with room data from a folder.
 	 * Uses the FileUtil class to safely retrieve the file.
