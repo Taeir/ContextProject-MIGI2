@@ -41,9 +41,9 @@ public class WallFrame extends Entity {
 		mat.setFloat("Shininess", 64f);
 		mat.setColor("Ambient", color);
 		mat.setTexture("LightMap", am.loadTexture(texture));
-		this.spatial.setMaterial(mat); 
+		this.spatial.setMaterial(mat);
 
-		spatial.setLocalTranslation(position);
+		spatial.setLocalTranslation(position.add(0, .5f, 0));
 		snapToWall(orientation);
 	}
 
