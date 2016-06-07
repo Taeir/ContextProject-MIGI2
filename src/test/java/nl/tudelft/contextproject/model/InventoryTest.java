@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.model;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -246,5 +247,17 @@ public class InventoryTest extends TestBase {
 		inv.add(new Key(ColorRGBA.Yellow));
 		inv.add(new Key(ColorRGBA.Red));
 		assertEquals(inv.numberOfKeys(), 2);
+	}
+	
+	/**
+	 * Test if updating the inventory updates the item in the holding slot.
+	 */
+	@Test
+	public void testUpdate() {
+		Bomb mock = mock(Bomb.class);
+		inv.pickUp(mock);
+		inv.update(12f);
+		
+		verify(mock, times(1)).update(12f);
 	}
 }

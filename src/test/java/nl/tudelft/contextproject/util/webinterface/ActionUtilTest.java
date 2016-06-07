@@ -6,6 +6,7 @@ import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.Carrot;
+import nl.tudelft.contextproject.model.entities.Crate;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.KillerBunny;
 import nl.tudelft.contextproject.model.entities.VoidPlatform;
@@ -91,5 +92,15 @@ public class ActionUtilTest extends TestBase {
 		ActionUtil.perform(Action.PLACETILE, 0, 0);
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(VoidPlatform.class));
+	}
+	
+	/**
+	 * Test the DropCrate action.
+	 */
+	@Test
+	public void testPerformDropCrate() {
+		ActionUtil.perform(Action.DROPCRATE, 0, 0);
+		verify(Main.getInstance(), times(1)).getCurrentGame();
+		verify(mockedGame, times(1)).addEntity(any(Crate.class));
 	}
 }

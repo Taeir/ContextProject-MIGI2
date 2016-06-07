@@ -76,7 +76,7 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 	public void move(float x, float y, float z) {
 		if (control == null) getPhysicsObject();
 		control.setPhysicsLocation(control.getPhysicsLocation().add(x, y, z));
-
+		control.update(0);
 	}
 
 	@Override

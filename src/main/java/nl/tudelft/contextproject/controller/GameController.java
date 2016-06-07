@@ -125,7 +125,7 @@ public class GameController extends Controller {
 
 		addInputListener(al, "pause");
 
-		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
+		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Drop", "Pickup");
 	}
 
 	/**

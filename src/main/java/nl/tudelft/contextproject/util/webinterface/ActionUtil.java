@@ -4,6 +4,7 @@ import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Carrot;
+import nl.tudelft.contextproject.model.entities.Crate;
 import nl.tudelft.contextproject.model.entities.KillerBunny;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
@@ -50,9 +51,26 @@ public final class ActionUtil {
 			case PLACETILE:
 				placeTile(xCoord, yCoord);
 				break;
+			case DROPCRATE:
+				dropCrate(xCoord, yCoord);
+				break;
 			default:
 				throw new IllegalArgumentException("Your action is not valid.");
 		}
+	}
+
+	/**
+	 * Drop a crate.
+	 * 
+	 * @param xCoord
+	 * 		the x coordinate to use
+	 * @param yCoord
+	 * 		the y coordinate to use
+	 */
+	private static void dropCrate(int xCoord, int yCoord) {
+		Crate c = new Crate();
+		c.move(xCoord, 5, yCoord);
+		Main.getInstance().getCurrentGame().addEntity(c);
 	}
 
 	/**

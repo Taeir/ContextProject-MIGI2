@@ -256,7 +256,7 @@ public class Main extends VRApplication implements TickProducer {
 
 			j.getButton("0").assignButton("Jump");				// A
 			j.getButton("3").assignButton("Unmapped");			// Y
-			j.getButton("2").assignButton("Bomb");				// X
+			j.getButton("2").assignButton("Drop");				// X
 			j.getButton("1").assignButton("Pickup");			// B
 		} else {
 			im.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
@@ -264,7 +264,7 @@ public class Main extends VRApplication implements TickProducer {
 			im.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
 			im.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
 			im.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-			im.addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
+			im.addMapping("Drop", new KeyTrigger(KeyInput.KEY_Q));
 			im.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
 

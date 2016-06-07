@@ -61,6 +61,9 @@ body {
 #map .Damaged_Wall {
     background-color: #BFBFBF !important;
 }
+#map .Crate {
+    background-color: ffcc00 !important;
+}
 #map {
 	border-spacing: 0px;
 }
