@@ -283,16 +283,12 @@ public class RoomNode {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (obj instanceof RoomNode) {
 		RoomNode other = (RoomNode) obj;
-		if (id != other.id)
-			return false;
+		if (id != other.id) return false;
 		return true;
+		}
+		return false;
 	}
 		
 }
