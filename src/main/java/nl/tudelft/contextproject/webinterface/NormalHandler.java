@@ -96,7 +96,7 @@ public class NormalHandler {
 	 */
 	public void attemptRejoin(HttpServletResponse response) throws IOException {
 		response.setStatus(HttpStatus.OK_200);
-		response.getWriter().write("REJOIN");
+		response.getWriter().write("" + Main.getInstance().getGameState().ordinal());
 	}
 	
 	/**
@@ -161,7 +161,7 @@ public class NormalHandler {
 		//Users that are not in the game cannot set their team
 		WebClient client = server.getUser(request);
 		if (client == null) {
-			response.getWriter().write(COCErrorCode.SETTEAM_UNAUTHORIZED.toString());
+			response.getWriter().write(COCErrorCode.UNAUTHORIZED.toString());
 			return;
 		}
 		
@@ -374,6 +374,9 @@ public class NormalHandler {
 		
 		switch (state) {
 			case WAITING:
+				json.put("dwarfs", server.getDwarfsCount());
+				json.put("elves", server.getElvesCount());
+				
 				//Fall through to running
 			case RUNNING:
 				json.put("entities", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));

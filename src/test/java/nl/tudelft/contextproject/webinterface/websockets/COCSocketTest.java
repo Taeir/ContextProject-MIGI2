@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.controller.GameState;
+import nl.tudelft.contextproject.test.TestUtil;
 import nl.tudelft.contextproject.webinterface.Action;
 import nl.tudelft.contextproject.webinterface.COCErrorCode;
 import nl.tudelft.contextproject.webinterface.NormalHandler;
@@ -83,12 +85,14 @@ public class COCSocketTest extends WebTestBase {
 	 */
 	@Test
 	public void testOnWebSocketConnect() throws IOException {
+		TestUtil.setGameState(GameState.RUNNING);
+		
 		Session session = mock(Session.class);
 		when(session.getRemote()).thenReturn(mock(RemoteEndpoint.class));
 		
 		socket.onWebSocketConnect(session);
 		
-		verify(session.getRemote()).sendString("OK");
+		verify(session.getRemote()).sendString("" + GameState.RUNNING.ordinal());
 		verify(Main.getInstance()).attachTickListener(socket);
 		assertSame(socket, client.getWebSocket());
 	}
@@ -101,6 +105,8 @@ public class COCSocketTest extends WebTestBase {
 	 */
 	@Test
 	public void testOnWebSocketConnect_error() throws IOException {
+		TestUtil.setGameState(GameState.WAITING);
+		
 		RemoteEndpoint remote = mock(RemoteEndpoint.class);
 		doThrow(IOException.class).when(remote).sendString(anyString());
 		

@@ -7,14 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
-import nl.tudelft.contextproject.model.level.Level;
-import nl.tudelft.contextproject.model.level.RandomLevelFactory;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
@@ -22,32 +17,17 @@ import nl.tudelft.contextproject.test.TestUtil;
  */
 public class ClientServletTest extends WebTestBase {
 	private static final String ID = "TESTID";
-
-	private static Level level;
 	
 	public WebServer webServer;
 	public ClientServlet servlet;
 	public NormalHandler handler;
 
 	/**
-	 * Initializes a level for the tests.
-	 */
-	@BeforeClass
-	public static void initializeLevel() {
-		//Generate a new seeded level
-		level = new RandomLevelFactory(5, false).generateSeeded(1);
-	}
-
-	/**
-	 * Creates a new GameController and a new ClientServlet before every test, and sets the game
-	 * state to WAITING.
+	 * Creates a new WebServer, ClientServlet and NormalHandler before every test, and sets the
+	 * game state to WAITING.
 	 */
 	@Before
 	public void setUp() {
-		//Create a new controller and set it
-		GameController controller = new GameController(Main.getInstance(), level, 10f);
-		Main.getInstance().setController(controller);
-		
 		webServer = spy(new WebServer());
 		servlet = spy(new ClientServlet(webServer));
 		handler = spy(new NormalHandler(webServer));

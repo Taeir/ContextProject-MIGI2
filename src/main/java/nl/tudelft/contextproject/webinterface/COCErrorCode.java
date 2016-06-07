@@ -13,10 +13,8 @@ public enum COCErrorCode {
 	SETTEAM_STARTED(110),
 	/** Client tried to set it's team to an invalid value (cheating). */
 	SETTEAM_INVALID_TEAM(111),
-	/** Client tried to set it's team, but was not authorized. */
-	SETTEAM_UNAUTHORIZED(112),
 	/** Client tried to set it's team to a team that was full. */
-	SETTEAM_TEAM_FULL(113),
+	SETTEAM_TEAM_FULL(112),
 
 	/** The client attempted to perform an action at an illegal location. */
 	ACTION_ILLEGAL_LOCATION(200),

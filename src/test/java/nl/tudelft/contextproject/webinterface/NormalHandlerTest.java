@@ -153,12 +153,14 @@ public class NormalHandlerTest extends WebTestBase {
 	 */
 	@Test
 	public void testAttemptRejoin() throws IOException {
+		TestUtil.setGameState(GameState.RUNNING);
+		
 		HttpServletResponse response = createMockedResponse();
 		handler.attemptRejoin(response);
 		
 		//Client should have rejoined
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter()).write("REJOIN");
+		verify(response.getWriter()).write("" + GameState.RUNNING.ordinal());
 	}
 
 	/**
@@ -238,7 +240,7 @@ public class NormalHandlerTest extends WebTestBase {
 		handler.onIndexRefresh(request, response);
 		
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter()).write("REJOIN");
+		verify(response.getWriter()).write("" + GameState.WAITING.ordinal());
 	}
 
 	/**
@@ -271,7 +273,7 @@ public class NormalHandlerTest extends WebTestBase {
 		handler.onSetTeamRequest(request, response);
 		
 		verify(response).setStatus(HttpStatus.OK_200);
-		verify(response.getWriter()).write(COCErrorCode.SETTEAM_UNAUTHORIZED.toString());
+		verify(response.getWriter()).write(COCErrorCode.UNAUTHORIZED.toString());
 	}
 	
 	/**
