@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.jme3.math.Vector3f;
+
 /**
  * Utility class for the webinterface.
  */
@@ -117,6 +119,10 @@ public final class WebUtil {
 	 */
 	public static boolean checkValidLocation(int xCoord, int yCoord, Action action) {
 		MazeTile tile = Main.getInstance().getCurrentGame().getLevel().getTile(xCoord, yCoord);
+		if (withinPlayerRadius(xCoord, yCoord, action)) {
+			System.out.println("test");
+			return false;
+		}
 		if (tile == null && action.isAllowedVoid()) {
 			return checkValidLocationEntities(xCoord, yCoord);
 		} else if (tile == null || tile.getTileType() == TileType.WALL) {
@@ -198,5 +204,28 @@ public final class WebUtil {
 				itr.remove();
 			}
 		}
+	}
+
+	/**
+	 * Returns true if the action is performed within the player radius.
+	 * Returns false if there is no player or it is outside of the player radius.
+	 * 
+	 * @param xCoord
+	 * 		the x coordinate of the location
+	 * @param yCoord
+	 * 		the y coordinate of the location
+	 * @param action
+	 * 		the action to check for 
+	 * @return
+	 * 		true if the action is within the player radius
+	 */
+	public static boolean withinPlayerRadius(int xCoord, int yCoord, Action action) {
+		if (Main.getInstance().getCurrentGame().getPlayer() != null) {
+			if (Main.getInstance().getCurrentGame().getPlayer().getSpatial() != null) {
+				Vector3f vec = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation();
+				return (Math.abs((Math.abs(vec.x) + Math.abs(vec.z) - Math.abs(xCoord) - Math.abs(yCoord))) < action.getRadius());
+			} 
+		}
+	return false;
 	}
 }
