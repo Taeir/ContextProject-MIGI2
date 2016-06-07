@@ -18,7 +18,6 @@ public class RoomEntrancePoint extends DoorLocation {
 	 */
 	public RoomEntrancePoint(RoomNode node, Vec2I location) {
 		super.location = location;
-		super.used = false;
 		super.node = node;
 	}
 

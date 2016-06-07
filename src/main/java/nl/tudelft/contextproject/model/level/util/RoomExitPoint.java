@@ -18,7 +18,6 @@ public class RoomExitPoint extends DoorLocation {
 	 */
 	public RoomExitPoint(RoomNode node, Vec2I location) {
 		super.location = location;
-		super.used = false;
 		super.node = node;
 	}
 }

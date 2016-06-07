@@ -9,7 +9,6 @@ package nl.tudelft.contextproject.model.level.util;
 public abstract class DoorLocation {
 
 	public Vec2I location;
-	public Boolean used;
 	public RoomNode node;
 
 	/**
@@ -28,7 +27,6 @@ public abstract class DoorLocation {
 		int result = 1;
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + ((node == null) ? 0 : node.hashCode());
-		result = prime * result + ((used == null) ? 0 : used.hashCode());
 		return result;
 	}
 
@@ -40,10 +38,9 @@ public abstract class DoorLocation {
 				return false;
 			if (!node.equals(other.node))
 				return false;
-			if (!used.equals(other.used))
-				return false;
+			return true;
 		} 
-		return true;
+		return false;
 	}
 
 
