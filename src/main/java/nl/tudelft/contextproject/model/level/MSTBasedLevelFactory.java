@@ -65,21 +65,22 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 */
 	public boolean duplicates;
 
-	private Random rand;
-	private ArrayList<RoomNode> baseNodes;
-	private ArrayList<RoomNode> usedNodes;
-	private HashMap<Integer, CorridorEdge> edges;
-	private ArrayList<Integer> chosenEdges;
-	private ArrayList<RoomEntrancePoint> usedEntrancePoints;
-	private ArrayList<RoomExitPoint> usedExitPoints;
-	private int idCounter;
-	private RoomTuple startAndEndRooms;
-	private ArrayList<Light> lights;
-	private MazeTile[][] mazeTiles;
+	public Random rand;
+	public ArrayList<RoomNode> baseNodes;
+	public ArrayList<RoomNode> usedNodes;
+	public HashMap<Integer, CorridorEdge> edges;
+	public ArrayList<Integer> chosenEdges;
+	public ArrayList<RoomEntrancePoint> usedEntrancePoints;
+	public ArrayList<RoomExitPoint> usedExitPoints;
+	public int idCounter;
+	public RoomTuple startAndEndRooms;
+	public ArrayList<Light> lights;
+	public MazeTile[][] mazeTiles;
 
 
 	/**
 	 * Constructor.
+	 * 
 	 * @param mapFolder
 	 * 		location and name of mapFolder
 	 */
@@ -122,8 +123,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Start room is placed in left-most quarter, treasure-room in right most quarter.
 	 */
 	protected void placeStartAndTreasureRoom() {
-		int endLeftMostQuarter = (int) Math.round((double) MAX_WIDTH / 4.0);
-		int beginningRightMostQuarter = (int) Math.round(3.0 * (double) MAX_WIDTH / 4.0);
+		int endLeftMostQuarter = (int) Math.round(MAX_WIDTH / 4.0);
+		int beginningRightMostQuarter = (int) Math.round(3.0 * MAX_WIDTH / 4.0);
 
 		//Place start room
 		Vec2I startLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
@@ -258,10 +259,11 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 *		the map in which to place the corridor walls
 	 */
 	protected static void carveCorridorWalls(MazeTile[][] map) {
-		int width = map[0].length;
-		int heigth = map.length;
+		int width = map.length;
+		int heigth = map[0].length;
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < heigth; j++) {
+				System.out.println("i,j: " + i + "," + j);
 				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
 					//Check North
 					if (j != 0 && map[i][j - 1] == null) {
