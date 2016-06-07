@@ -141,9 +141,7 @@ public class GameController extends Controller {
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-		Gate gate = new Gate();
-		gate.move(2, 1, 2);
-		game.addEntity(gate);
+		
 		placeTreasure(game);
 		
 		AmbientLight al = new AmbientLight();
