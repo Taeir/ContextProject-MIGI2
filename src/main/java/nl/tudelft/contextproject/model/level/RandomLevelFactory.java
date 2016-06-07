@@ -14,7 +14,10 @@ import nl.tudelft.contextproject.util.FileUtil;
 
 /**
  * An implementation of a LevelFactory that creates a level randomly.
+ * @deprecated This class is no longer used in the current maze generation and could be
+ * removed from the code base during refactoring.
  */
+@Deprecated
 public class RandomLevelFactory implements LevelFactory {
 	protected static final int MAX_WIDTH = 50;
 	protected static final int MAX_HEIGHT = 50;
