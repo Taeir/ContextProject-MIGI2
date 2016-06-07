@@ -16,6 +16,10 @@ import java.util.PriorityQueue;
  * Minimum spanning tree (MST) algorithm class. 
  * Takes a graph and turns it into a minimum spanning tree,
  * thus this class will remove edges.
+ * 
+ * Contains an modified algorithm that leaves a slightly more
+ * connected tree than a minimum one, as required for the
+ * maze generation.
  */
 public class MinimumSpanningTree {
 
@@ -40,10 +44,11 @@ public class MinimumSpanningTree {
 	}
 
 	/**
-	 * Run Prim's algorithm.
+	 * Run Kruskal's algorithm.
 	 * A greedy algorithm to find the minimum spanning tree.
 	 * 
 	 * First generates a new graph that deals with multiple exits and entrances per room.
+	 * Then run the algorithm on that graph.
 	 */
 	public void runKruskalAlgorithm() {
 		createTransformedGraph();
@@ -51,14 +56,15 @@ public class MinimumSpanningTree {
 	}
 
 	/**
-	 * Run Prim's algorithm.
-	 * A greedy algorithm to find the minimum spanning tree.
+	 * Run the Reverse Delete algorithm.
+	 * A greedy algorithm to find a minimum spanning tree.
 	 * 
 	 * First generates a new graph that deals with multiple exits and entrances per room.
+	 * Then run the algorithm on that graph.
 	 */
-	public void runReverseKruskalAlgorithm() {
+	public void runReverseDeleteAlgorithm() {
 		createTransformedGraph();
-		createMSTReverseKruskal();
+		createMSTReverseDelete();
 	}
 
 	/**
@@ -79,8 +85,6 @@ public class MinimumSpanningTree {
 			endNode = new MSTNode(MSTNodeType.ENTRANCE_NODE,
 					corridorEdge.end,
 					corridorEdge.end.node.id);
-
-			//System.out.println(startNode.roomNodeID + " -> " + endNode.roomNodeID);
 
 			//Check if there nodes already existed.
 			if (treeNodes.containsKey(startNode.originalDoor)) {
@@ -107,6 +111,7 @@ public class MinimumSpanningTree {
 	 * This is done by creating an extra node per RoomNode id. The entrance nodes
 	 * are then connected to the connector node and the connector node is connected to the
 	 * exit nodes. This step makes sure the graphNodes is a connected graph.
+	 * 
 	 * @param treeNodes
 	 * 		HashMap with DoorLocations as key and values as MSTNodes
 	 */
@@ -133,12 +138,13 @@ public class MinimumSpanningTree {
 					newEdge = new MSTEdge(connectorNode, currentNode, 0, -1);
 					connectorNode.addOutGoingEdge(newEdge);
 				}
+				//add the current node with edges to the graph
 				graphNodes.add(currentNode);
 			}
+			//add the connector node with edges to the graph
 			graphNodes.add(connectorNode);
 			if (connectorNode.roomNodeID == MSTBasedLevelFactory.START_ROOM_ID) {
 				startRoomNode = connectorNode;
-				System.out.println("Found startRoomNode!");
 			}
 		}
 	}
@@ -157,8 +163,6 @@ public class MinimumSpanningTree {
 	public void createMST() {
 		PriorityQueue<MSTEdge> edgesPriorityQueue = new PriorityQueue<>(new MSTEdgeWeightComparator());
 		HashMap<MSTNode, HashSet<MSTEdge>> clusterStructure = new HashMap<MSTNode, HashSet<MSTEdge>>(4 * graphNodes.size());
-		System.out.println("graphnodes " + graphNodes.size());
-		System.out.println("CorridorEdges " + corridorEdges.size());
 		//Add all edges to priority queue and create a cluster for each node
 		for (MSTNode node : graphNodes) {
 			edgesPriorityQueue.addAll(node.outgoingEdges);
@@ -172,17 +176,15 @@ public class MinimumSpanningTree {
 		HashSet<MSTEdge> startCluster, endCluster;
 		while (numberOfEdgesInCluster < (graphNodes.size() - 1)) {
 			currentEdge = edgesPriorityQueue.poll();
-			System.out.println(currentEdge);
 
 			startCluster = clusterStructure.get(currentEdge.startNode);
 			endCluster = clusterStructure.get(currentEdge.endNode);
-			System.out.println("Clusters equal: " + startCluster.equals(endCluster));
+			
 			if (!startCluster.equals(endCluster) || startCluster.isEmpty() || endCluster.isEmpty()) {
 				resultMST.add(currentEdge);
 				startCluster.addAll(endCluster);
 				startCluster.add(currentEdge);
 				clusterStructure.put(currentEdge.endNode, startCluster);
-				System.out.println("Cluster size after merging: " + startCluster.size());
 				if (currentEdge.startNode.nodeType != MSTNodeType.CONNECTOR_NODE 
 						&& currentEdge.endNode.nodeType != MSTNodeType.CONNECTOR_NODE) {
 					numberOfEdgesInCluster++;
@@ -192,35 +194,36 @@ public class MinimumSpanningTree {
 	}
 
 	/**
-	 * Do Kruskal's algorithm in reverse.
-	 * This algorithm is also called the reverse-delete algorithm.
+	 * Do Kruskal's algorithm in reverse, the Reverse Delete Algorithm.
 	 * Using this algorithm we can enforce the additional constraint that
 	 * each room exit location has to be connected to at least 1 or more
 	 * room entrance locations of another room.
+	 * 
 	 * This algorithm adds reverse edges, for every edge. This lowers to time to check whether
 	 * the graph is still connected, as it allows for a breadth first search from node 1 of the removed
 	 * edge to node 2 of the removed edge.
 	 */
-	protected void createMSTReverseKruskal() {
+	protected void createMSTReverseDelete() {
 		PriorityQueue<MSTEdge> edgesPriorityQueue = new PriorityQueue<>(new MSTEdgeWeightComparatorReverse());
-		System.out.println("graphnodes " + graphNodes.size());
-		System.out.println("CorridorEdges " + corridorEdges.size());
+
 		//Add all edges to priority queue
 		for (MSTNode node : graphNodes) {
 			edgesPriorityQueue.addAll(node.outgoingEdges);
+			
+			//For each node, also adds it incoming edge to speed up the constraint checking
 			for (MSTEdge outGoingEdge: node.outgoingEdges) {
 				MSTNode endNode = outGoingEdge.endNode;
 				endNode.addInComingEdge(outGoingEdge);
 			}
 		}
 
-		//Run Kruskal's algorithm in reverse
-		int edgesTotal = edgesPriorityQueue.size();
+		//Run the Reverse Delete algorithm
 		MSTEdge currentEdge;
 		MSTNode startNode, endNode;
 		while (!edgesPriorityQueue.isEmpty()) {
 			currentEdge = edgesPriorityQueue.poll();
 
+			//Skip edges of weight zero, as they must exist in the tree.
 			if (currentEdge.weight == 0) {
 				continue;
 			}
@@ -231,8 +234,6 @@ public class MinimumSpanningTree {
 				if (checkConnectionAfterRemoval(currentEdge)) {
 					startNode.outgoingEdges.remove(currentEdge);
 					endNode.incomingEdges.remove(currentEdge);
-					edgesTotal--;
-					if (edgesTotal % 1000 == 0) System.out.println("Number of edges " + edgesTotal);
 				}
 			}
 		}
@@ -240,6 +241,7 @@ public class MinimumSpanningTree {
 
 	/**
 	 * Count all nodes by traversing the graph, skip excluded edge.
+	 * 
 	 * @param excludedEdge
 	 * 		edge that should be excluded
 	 * @return
@@ -268,6 +270,7 @@ public class MinimumSpanningTree {
 	
 	/**
 	 * Check if two nodes are still connected after edge is excluded.
+	 * 
 	 * @param excludedEdge
 	 * 		edge that should be excluded
 	 * @return
@@ -276,8 +279,7 @@ public class MinimumSpanningTree {
 	public boolean checkConnectionAfterRemoval(MSTEdge excludedEdge) {
 		HashSet<MSTNode> visitedNodes = new HashSet<MSTNode>();
 		ArrayDeque<MSTNode> queue = new ArrayDeque<MSTNode>();
-		
-		
+			
 		MSTNode node1 = excludedEdge.startNode;
 		queue.add(node1);
 		MSTNode node2 = excludedEdge.endNode;
@@ -297,6 +299,7 @@ public class MinimumSpanningTree {
 					}
 				}
 			}
+			
 			//Check incoming edges
 			for (MSTEdge currentEdge : currentNode.incomingEdges) {
 				if (!currentEdge.equals(excludedEdge)) {
@@ -315,6 +318,7 @@ public class MinimumSpanningTree {
 
 	/**
 	 * Translate the MST tree back to a list of corridor IDs.
+	 * 
 	 * @return
 	 * 		list of corridor IDs
 	 */
@@ -332,6 +336,7 @@ public class MinimumSpanningTree {
 
 	/**
 	 * Translate the MST tree back to a list of corridor IDs when using the Reverse algorithm.
+	 * 
 	 * @return
 	 * 		list of corridor IDs
 	 */
@@ -351,6 +356,8 @@ public class MinimumSpanningTree {
 
 	/**
 	 * Scan treeNodes HashMap to find nodes that have the same RoomNode ID.
+	 * Used in reconnecting the split rooms with the connector Node.
+	 * 
 	 * @param treeNodes
 	 * 		treeNodes HashMap
 	 * @param roomID

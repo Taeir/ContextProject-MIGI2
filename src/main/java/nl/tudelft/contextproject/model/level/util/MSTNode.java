@@ -16,6 +16,10 @@ public class MSTNode {
 	 * List used for searching other nodes. Speeds up algorithm.
 	 */
 	public ArrayList<MSTEdge> incomingEdges;
+	
+	/**
+	 * RoomNode ID used for reconnecting nodes with the same RoomNode ID.
+	 */
 	public int roomNodeID;
 	
 	public DoorLocation originalDoor;
@@ -24,6 +28,7 @@ public class MSTNode {
 	
 	/**
 	 * Constructor.
+	 * 
 	 * @param nodeType
 	 * 			node type
 	 * @param originalDoor
@@ -72,6 +77,7 @@ public class MSTNode {
 
 	/**
 	 * Add an edge to the MST node outgoing edges list.
+	 * 
 	 * @param edge
 	 *		edge to add
 	 */
@@ -80,7 +86,8 @@ public class MSTNode {
 	}
 	
 	/**
-	 * Add an edge to the MST node incomming edges list.
+	 * Add an edge to the MST node incoming edges list.
+	 * 
 	 * @param edge
 	 *		edge to add
 	 */

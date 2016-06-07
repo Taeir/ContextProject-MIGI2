@@ -14,6 +14,7 @@ public abstract class DoorLocation {
 	
 	/**
 	 * Update the door location if door has been moved.
+	 * 
 	 * @param coordinates
 	 * 					move coordinates.
 	 */

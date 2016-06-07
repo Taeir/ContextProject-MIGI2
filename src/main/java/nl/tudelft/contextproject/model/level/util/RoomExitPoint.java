@@ -10,6 +10,7 @@ public class RoomExitPoint extends DoorLocation {
 	/**
 	 * Door entrance connection point.
 	 * Automatically sets used to false.
+	 * 
 	 * @param node
 	 * 				room to which the door belongs to
 	 * @param location

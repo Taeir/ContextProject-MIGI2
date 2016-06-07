@@ -8,7 +8,7 @@ import java.util.Stack;
 import nl.tudelft.contextproject.model.level.MazeTile;
 
 /**
- * Corridor utility class.
+ * Corridor breadth first search utility class.
  */
 public final class CorridorBreadthFirstSearch {
 
@@ -22,6 +22,7 @@ public final class CorridorBreadthFirstSearch {
 	/**
 	 * Create a corridor from start Vec2I to end Vec2I.
 	 * Corridor is saved as a stack so it can be carved later.
+	 * 
 	 * @param mazeTiles
 	 * 		maze tiles to carve in
 	 * @param start
@@ -37,6 +38,18 @@ public final class CorridorBreadthFirstSearch {
 
 	/**
 	 * Bread first search through maze tiles to find the end tile.
+	 * 
+	 * Works by keeping a hashMap of visited tiles and their distance saved,
+	 * holds all possible neighbors of currently visited tiles in a queue. At
+	 * each step the neighbors of the current tile are added to the queue and
+	 * their distance is updated.
+	 * 
+	 * After visiting the end node, the algorithm looks for a path back to the 
+	 * starting node. This done by checking all neighbor tiles from the current tile
+	 * and tacking the the one which reduces the distance to the start node. Each visited
+	 * node is pushed on a stack which will then be in the correct order to transfer the
+	 * path from start to finish.
+	 * 
 	 * @param mazeTiles
 	 * 		maze tiles to carve in
 	 * @param start
@@ -49,18 +62,17 @@ public final class CorridorBreadthFirstSearch {
 	protected static Stack<Vec2I> breadthFirstSearch(MazeTile[][] mazeTiles, Vec2I start, Vec2I end) {
 		ArrayDeque<Vec2I> queue = new ArrayDeque<Vec2I>();
 		HashMap<Vec2I, Integer> distanceMap = new HashMap<Vec2I, Integer>();
-		//HashMap<Vec2I, HashSet<BFSEdge>> graph = new HashMap<Vec2I, HashSet<BFSEdge>>();
 
 		queue.add(start);
 		distanceMap.put(start, 0);
 
 		//Search end
-		int currentDistance;
+		int newDistance;
 		Vec2I currentNode;
 		ArrayList<Vec2I> validNeighbours;
 		while (!queue.isEmpty()) {
 			currentNode = queue.remove();
-			currentDistance = distanceMap.get(currentNode) + 1;
+			newDistance = distanceMap.get(currentNode) + 1;
 			if (currentNode.equals(end)) {
 				//Found end, stop breadth first search. 
 				break;
@@ -70,7 +82,7 @@ public final class CorridorBreadthFirstSearch {
 				if (distanceMap.containsKey(neigborNode)) {
 					continue;
 				} else {
-					distanceMap.put(neigborNode, currentDistance);
+					distanceMap.put(neigborNode, newDistance);
 					queue.add(neigborNode);
 				}
 			}
@@ -89,6 +101,9 @@ public final class CorridorBreadthFirstSearch {
 
 	/**
 	 * Check all 4 directions for a vector with shorter distance.
+	 * This method will return the first node it can find with a shorter distance in 
+	 * the order of North, South, West and finally, East.
+	 * 
 	 * @param distanceMap
 	 * 		distance Map
 	 * @param previousNode
@@ -119,7 +134,7 @@ public final class CorridorBreadthFirstSearch {
 		if (distanceMap.getOrDefault(neighbourNode, defaultValue) < previousDistance) {
 			return neighbourNode;
 		} else {
-			//East, should not be made, since this is the only option left
+			//East, no check necessary, since this is the only option left
 			return new Vec2I(x + 1, y);
 		}
 	}
@@ -127,10 +142,13 @@ public final class CorridorBreadthFirstSearch {
 	/**
 	 * Get list of neighbor nodes.
 	 * Only empty Tiles are neighbors, except if that tile is the end tile.
+	 * 
 	 * @param mazeTiles
 	 * 		map with rooms, but no corridors
 	 * @param currentNode
 	 * 		node that the algorithm is at
+	 * @param endNode
+	 * 		the end node in the BFS algorithm
 	 * @return
 	 * 		list that are neighbors of current node and not already a tile.
 	 */

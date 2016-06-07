@@ -11,7 +11,8 @@ import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.Room;
 
 /**
- * Room Node for Graph creation.
+ * Room Node, contains placement maze generation related data and methods.
+ * 
  * Contains methods useful for graphs.
  */
 public class RoomNode {
@@ -19,7 +20,7 @@ public class RoomNode {
 	/**
 	 * Minimum distance between rooms and boundaries.
 	 */
-	public static final int MIN_DIST = 2;
+	public static final int MIN_DIST = 3;
 	
 	public int id;
 	public Vec2I coordinates;
@@ -30,10 +31,11 @@ public class RoomNode {
 	
 	/**
 	 * Constructor.
+	 * 
 	 * @param room
-	 * 			room to set.
+	 * 		Room information, interior.
 	 * @param id
-	 * 			id of roomNode
+	 * 		ID of RoomNode, used for references when switching data structures.
 	 */
 	public RoomNode(Room room, int id) {
 		this.room = room;
@@ -51,8 +53,9 @@ public class RoomNode {
 	
 	/**
 	 * Add an outgoing edge.
+	 * 
 	 * @param edge
-	 * 				edge to add
+	 * 		edge to add
 	 */
 	public void addOutgoingEdge(CorridorEdge edge) {
 		outgoingEdges.add(edge);
@@ -60,10 +63,11 @@ public class RoomNode {
 	
 	/**
 	 * Return all outgoingEdges on the same door.
+	 * 
 	 * @param exit
-	 * 				door
+	 * 		door
 	 * @return
-	 * 				List of outgoing edges with same door
+	 * 		List of outgoing edges with same door
 	 */
 	public List<CorridorEdge> getOutgoingEdgesOfExit(RoomExitPoint exit) {
 		ArrayList<CorridorEdge> resultEdges = new ArrayList<CorridorEdge>();
@@ -76,8 +80,9 @@ public class RoomNode {
 	}
 	/**
 	 * Get number of outgoing connection points.
+	 * 
 	 * @return
-	 * 			number of outgoing connection points
+	 * 		number of outgoing connection points
 	 */
 	public int getNumberOfOutgoingConnections() {
 		return exits.size();
@@ -85,8 +90,9 @@ public class RoomNode {
 	
 	/**
 	 * Get number of incoming connection points.
+	 * 
 	 * @return
-	 * 			number of incoming connection points
+	 * 		number of incoming connection points
 	 */
 	public int getNumberOfIncommingConnections() {
 		return entrances.size();
@@ -94,12 +100,13 @@ public class RoomNode {
 	
 	/**
 	 * Scan Tile type and room to see if it possible to place the room.
+	 * 
 	 * @param tiles
-	 * 				possible tiles
+	 * 		possible tiles
 	 * @param coordinates
-	 * 				location
+	 * 		location
 	 * @return
-	 * 				true if placement of RoomNode at xCoordinate, yCoordinate with Rotation of rotation is possible 
+	 * 		true if placement of RoomNode at xCoordinate, yCoordinate with Rotation of rotation is possible 
 	 */
 	public boolean scanPossiblePlacement(MazeTile[][] tiles, Vec2I coordinates) {
 		//First check boundaries 
@@ -117,19 +124,20 @@ public class RoomNode {
 	/**
 	 * Check if RoomNode at location would overlap with existing rooms.
 	 * Boundaries should have been checked before this is called.
+	 * 
 	 * @param tiles
-	 * 				tiles map
+	 * 		tiles map
 	 * @param coordinates
-	 * 				location
+	 * 		location
 	 * @return
-	 * 				true if room overlaps with existing room
+	 * 		true if room overlaps with existing room
 	 */
 	public boolean checkRoomOverlap(MazeTile[][] tiles, Vec2I coordinates) {
 		int xSize = room.size.getWidth();
 		int ySize = room.size.getHeight();
 		for (int x = 0; x < xSize; x++) {
 			for (int y = 0; y < ySize; y++) {
-				if (checkTileOverlap(tiles, coordinates, x , y)) {
+				if (checkTileOverlap(tiles, coordinates, x, y)) {
 					return true;
 				}
 			}
@@ -139,14 +147,17 @@ public class RoomNode {
 
 	/**
 	 * Checks if tile intersects with existing tile.
+	 * 
 	 * @param tiles
-	 * 				map of tiles
+	 * 		map of tiles
 	 * @param coordinates
-	 * 				location on the map
+	 * 		room location on the map
+	 * @param x
+	 * 		current x location in the room interior 
 	 * @param y 
-	 * @param x 
+	 * 		current y location in the room interior
 	 * @return
-	 * 				true if room overlaps with existing tile. 
+	 * 		true if room overlaps with existing tile. 
 	 */
 	public boolean checkTileOverlap(MazeTile[][] tiles, Vec2I coordinates, int x, int y) {
 		for (int i = x + coordinates.x - MIN_DIST; i < x + coordinates.x + MIN_DIST; i++) {
@@ -161,42 +172,49 @@ public class RoomNode {
 
 	/**
 	 * Check boundaries of the tiles map.
+	 * 
 	 * @param tiles
-	 * 				map to be checked
+	 * 		map to be checked
 	 * @param coordinates
-	 * 				location
+	 * 		location
 	 * @return
-	 * 				true if there is a collision, false if there is none
+	 * 		true if there is a collision, false if there is none
 	 */
 	public boolean checkBoundaryCollision(MazeTile[][] tiles, Vec2I coordinates) {
 		//Check collisions with top boundary
 		if (coordinates.y <= (MIN_DIST)) {
 			return true;
 		}
+		
 		//Check collisions with left boundary
 		if (coordinates.x  <= (MIN_DIST)) {
 			return true;
 		}
+		
 		//Check collisions with right boundary
 		if ((coordinates.x +  MIN_DIST) >= tiles[0].length) {
 			return true;
 		}
+		
 		//Check collisions bottom boundary
 		if ((coordinates.y + MIN_DIST) >= tiles.length) {
 			return true;
 		}
+		
 		//No collisions
 		return false;
 	}
 	
 	/**
 	 * Carve room into tiles.
-	 * Also replaces the mazetiles to the correct location in the maze.
-	 * Alos updates the doors location.
+	 * Places the RoomNode in a location in the MazeTile maze.
+	 * Also updates the doors location.
+	 * Also updates entity locations.
+	 * 
 	 * @param tiles
-	 * 				map to carve room on
+	 * 		map to carve room on
 	 * @param coordinates
-	 * 				location of room
+	 * 		location of room
 	 */
 	public void carveRoomNode(MazeTile[][] tiles, Vec2I coordinates) {
 		this.coordinates = coordinates;
@@ -229,17 +247,19 @@ public class RoomNode {
 
 	/**
 	 * Get all outgoing connection points.
+	 * 
 	 * @return
-	 * 				all outgoing connection points
+	 * 		all outgoing connection points
 	 */
 	public Collection<? extends RoomExitPoint> geOutGoingConnections() {
 		return exits;
 	}
 
 	/**
-	 * get all incoming connection points.
+	 * Get all incoming connection points.
+	 * 
 	 * @return
-	 * 				all incoming connection points
+	 * 		all incoming connection points
 	 */
 	public Collection<? extends RoomEntrancePoint> getIncomingConnections() {
 		return entrances;
@@ -247,8 +267,9 @@ public class RoomNode {
 
 	/**
 	 * Get lights.
+	 * 
 	 * @return
-	 * 				lights of the room
+	 * 		lights of the room
 	 */
 	public Collection<? extends Light> getLights() {
 		return room.lights;
@@ -256,10 +277,11 @@ public class RoomNode {
 
 	/**
 	 * Create a copy of the room.
+	 * 
 	 * @param idCounter
-	 * 				id of new room
+	 * 		id of new room
 	 * @return
-	 * 				copy of new room
+	 * 		copy of new room
 	 */
 	public RoomNode copy(int idCounter) {
 		return new RoomNode(this.room.copy(), idCounter);

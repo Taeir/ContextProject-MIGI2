@@ -208,7 +208,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 */
 	protected void createReverseMST() {
 		MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes, edges);
-		mst.runReverseKruskalAlgorithm();
+		mst.runReverseDeleteAlgorithm();
 		chosenEdges = mst.getCorridorIDsReverseAlgorithm();
 	}
 
