@@ -26,6 +26,7 @@ public class Gate extends Entity implements PhysicsObject {
 		sp = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
 		sp.scale(1.2f, 2.2f, 1.2f);
 		sp.rotate(0, (float) (Math.PI), 0);
+		sp.move(0, .5f, 0);
 		open = false;
 	}
 
@@ -43,7 +44,7 @@ public class Gate extends Entity implements PhysicsObject {
 				open = false;
 			}
 		} else {
-			if (sp.getLocalTranslation().y > 1) {
+			if (sp.getLocalTranslation().y > .5f) {
 				this.move(0, -0.5f * tpf, 0);
 			}
 		}
