@@ -34,7 +34,6 @@ public class CorridorEdge {
 		this.weight = calculateWeight();
 	}
 	
-
 	/**
 	 * Calculate the weight of the edge. 
 	 * 
