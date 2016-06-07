@@ -8,95 +8,68 @@ var lastPressedX;
 var lastPressedY;
 var exploredAll = false;
 
+
+
 /**
- * Sends an authentication request to the server.
+ * Function that is called on load of the page.
  */
-function authenticate() {
-    $.post("/login", function(data, status) {
-        if (status == "success") {
-            if (data == "AUTHENTICATED" || data == "UPDATED") {
-                //Successfully authenticated
-                gAuth = true;
-                
-                //Switch to team selection
-                switchTo("WAITING");
-            } else if (data == "IN_PROGRESS") {
-                //Game is already in progress
-                gAuth = false;
-                showAlert("You cannot join this game because it has already started.", "Warning");
-            } else if (data == "FULL") {
-                //Game is full
-                gAuth = false;
-                showAlert("You cannot join this game because it is full.", "Warning");
-            } else {
-                //Unknown server response
-                gAuth = false;
-                showAlert("Unknown server response: " + data, "Danger");
-            }
+function onLoad() {
+    //Check for websocket support
+    doWebSocketCheck(function(result, state) {
+        if (result === false) {
+            //Client does not support websockets, then perform the indexRefresh check.
+            indexRefresh(true);
+        } else if (result === true) {
+            //Client supports websockets, and is a new client.
+            switchTo(Views.INDEX);
         } else {
-            //HTTP Error
-            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
+            //Client dropped out of the game, switch to the correct view.
+            useWebSocket(result);
+            switchTo(state.view);
         }
     });
 }
 
 /**
- * Checks if the given data implies that we are authorized.
- * If not, this method will attempt to authenticate and will return false.
+ * Refreshes the INDEX and INSTRUCTION view Join game buttons, based on server response.
  *
- * @param data
- *      the json data sent from the server
+ * @param init
+ *      if true, this method will always switch the view.
  */
-function checkAuthorized(data) {
-    if (data.auth == false) {
-        //We are not authenticated, so we will try to do so.
-        gAuth = false;
-        authenticate();
-        return false;
+function indexRefresh(init) {
+    //Not the correct view for index refreshes
+    if (init !== true && gView !== Views.INDEX && gView !== Views.INSTRUCTION) {
+        clearInterval(indexRefreshInterval);
+        return;
     }
     
-    return true;
+    requestIndexRefresh(function(result) {
+        if (result === true) {
+            if (init === true) switchTo(Views.INDEX);
+            
+            var btnJoin = $(document.getElementById("btnJoin"));
+            btnJoin.removeClass("disabled");
+        } else if (result === false) {
+            if (init === true) switchTo(Views.INDEX);
+            
+            var btnJoin = $(document.getElementById("btnJoin"));
+            btnJoin.addClass("disabled");
+        } else {
+            switchTo(result.view);
+        }
+    });
 }
 
-/**
- * Requests the current status from the server.
- */
-function requestStatus() {
-    $.post("/status", function(data, status) {
-        if (status != "success") {
-            //HTTP Error
-            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
-            return;
-        }
-
-        //Check if we are authorized
-        if (!checkAuthorized(data)) return;
-        
-        //Set the correct team
-        if (data.team == "NONE") {
-            gTeam = undefined;
-        } else if (data.team == "DWARFS") {
-            //We are in team DWARFS
-            gTeam = "DWARFS";
-        } else if (data.team == "ELVES") {
-            //We are in team ELVES
-            gTeam = "ELVES";
-        }
-        
-        //Switch to the correct state
-        if (data.state == "WAITING") {
-            switchTo("WAITING");
-        } else if (data.state == "RUNNING") {
-            switchTo("RUNNING");
-        } else if (data.state == "PAUSED") {
-            switchTo("PAUSED");
-        } else if (data.state == "ENDED") {
-            switchTo("ENDED");
-        }
-        
-        //If we are authorized, update the game with the recieved information
-        updateGame(data);
-    }, "json");
+function resetEverything() {
+    exploredAll = false;
+    
+    //requests.js
+    stopIndexRefresh();
+    stopStatusUpdates();
+    statusTimeoutCount = 0;
+    
+    //Switch to the INDEX
+    switchTo(Views.INDEX);
 }
 
 /**
@@ -139,90 +112,61 @@ function showAlert(msg, severity) {
  */
 function switchTo(view) {
     //We don't need to switch to our current state.
-    if (gView == view) return;
+    if (gView === view) return;
+    gView = view;
     exploredAll = false;
     
     console.log("[DEBUG] Switching to " + view);
-    gView = view;
     switch (view) {
-        case "WAITING":
+        case Views.INDEX:
+            startIndexRefresh();
+            stopStatusUpdates();
+            
+            break;
+        case Views.INSTRUCTION:
+            startIndexRefresh();
+            stopStatusUpdates();
+            
+            break;
+        case Views.TEAM:
+            stopIndexRefresh();
+            startStatusUpdates();
+            
             requestMap();
             $(document.getElementById("selectTeam")).show();
             $(document.getElementById("playing")).show();
             $(document.getElementById("ended")).css("visibility", "hidden");
             $(document.getElementById("paused")).css("visibility", "hidden");
             break;
-        case "RUNNING":
+        case Views.GAME:
+            stopIndexRefresh();
+            startStatusUpdates();
+            
             requestMap();
             $(document.getElementById("selectTeam")).hide();
             $(document.getElementById("playing")).show();
             $(document.getElementById("ended")).css("visibility", "hidden");
             $(document.getElementById("paused")).css("visibility", "hidden");
             break;
-        case "PAUSED":
+        case Views.PAUSED:
+            stopIndexRefresh();
+            startStatusUpdates();
+            
             $(document.getElementById("selectTeam")).hide();
             $(document.getElementById("playing")).hide();
             $(document.getElementById("ended")).css("visibility", "hidden");
             $(document.getElementById("paused")).css("visibility", "visible");
             break;
-        case "ENDED":
+        case Views.ENDED:
+            stopIndexRefresh();
+            startStatusUpdates();
+            
             $(document.getElementById("selectTeam")).hide();
             $(document.getElementById("playing")).hide();
             $(document.getElementById("ended")).css("visibility", "visible");
             $(document.getElementById("paused")).css("visibility", "hidden");
             break;
     }
-}
-
-/**
- * Requests the server to set the team.
- *
- * @param team
- *      the team to set. Must be in [ELVES, DWARFS, NONE]
- */
-function requestSetTeam(team) {
-    hideAllButtons();
-    //Check if the team is valid
-    if (team != "ELVES" && team != "DWARFS" && team != "NONE") throw "Invalid team!";
-    
-    //Send a post request to the server to set the team
-    $.post("/setteam", {team: team}, function(data, status) {
-        if (status == "success") {
-            if (data != team) {
-                showAlert("Game has already started!", "Warning");
-            }
-            
-            if (data == "DWARFS") {
-                //Team was set to dwarfs
-                gTeam = "DWARFS";
-                updateTeam();
-                exploreAll();
-                //TODO check start game
-            } else if (data == "ELVES") {
-                //Team was set to elves
-                gTeam = "ELVES";
-                updateTeam();
-                //TODO check start game
-            } else if (data == "NONE") {
-                //Team was unset
-                gTeam = undefined;
-                updateTeam();
-                //TODO check start game
-            } else if (data == "INVALID") {
-                //Invalid team was sent
-                showAlert("Invalid team!", "Danger");
-            } else if (data == "UNAUTHORIZED") {
-                //Not in the current game, and game is running
-                showAlert("You are not in the game, and the game has already started!", "Warning");
-            } else {
-                //Unknown server response
-                showAlert("Unknown server response: " + data, "Danger");
-            }
-        } else {
-            //HTTP Error
-            showAlert("Something went wrong: [" + status + "] " + data, "Danger");
-        }
-    });
 }
 
 /**
@@ -260,15 +204,19 @@ function updateTeam() {
  *      the status data sent from the server
  */
 function updateGame(data) {
-    if (data.state === "RUNNING" || data.state === "WAITING") {
-        updateEntities(data.entities);
-        if (data.team === "DWARFS" && exploredAll === false) {
-            exploreAll();
-        } else {
-            updateExplored(data.explored);
-        }
-    } else if (data.state === "ENDED") {
-        displayWinner(data);
+    var state = GameStates[data.state];
+    switch (state.name) {
+        case "RUNNING":
+        case "WAITING":
+            updateEntities(data.entities);
+            if (Teams[data.team] === "DWARFS" && exploredAll === false) {
+                exploreAll();
+            } else {
+                updateExplored(data.explored);
+            }
+            break;
+        case "ENDED":
+            displayWinner(data);
     }
 }
 
@@ -276,7 +224,7 @@ function displayWinner(data) {
     var winHeader = document.getElementById("endedWinners");
     var winMessage = document.getElementById("endedMessage");
     var winner = (data.winner ? "ELVES" : "DWARFS");
-    winHeader.innerHTML = (data.winner? "Elves won!" : "Dwarfs won!");
+    winHeader.innerHTML = (data.winner ? "Elves won!" : "Dwarfs won!");
     
     if (winner === data.team) {
         winMessage.innerHTML = "Congratulations!";
@@ -623,12 +571,12 @@ function toggleFullscreen() {
  */
 function disableFullScreen() {
     if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        }
+        document.exitFullscreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
 }

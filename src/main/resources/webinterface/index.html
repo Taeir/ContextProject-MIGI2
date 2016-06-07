@@ -99,25 +99,12 @@
         <script src="js/jquery-1.12.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
 		<script src="js/enums.js"></script>
-		<script src="js/protocol.js"></script>
+		<script src="js/requests.js"></script>
 		<script src="js/check.js"></script>
         <script src="js/main.js"></script>
 		<script>
 			//On load
-			$(document).ready(function() {
-				authenticate();
-				
-				//Check for websocket support
-				doWebSocketCheck(function(result) {
-					if (result === false) {
-						authenticate(function() { setInterval(requestStatus, 1000); });
-					} else if (result === true) {
-						authenticate(connectWebSocket);
-					} else {
-						useWebSocket(result);
-					}
-				});
-			});
+			$(document).ready(onLoad);
 		</script>
     </body>
 </html>

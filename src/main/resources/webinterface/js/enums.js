@@ -5,12 +5,22 @@ Severity = Object.freeze({
     Success: "successBox"
 });
 
+//The different views the client can be in.
+Views = Object.freeze({
+    INDEX: 0,
+    INSTRUCTION: 1,
+    TEAM: 2,
+    GAME: 3,
+    PAUSED: 4,
+    ENDED: 5
+});
+
 //The different states the game can be in.
 GameStates = Object.freeze({
-    0: "WAITING",
-    1: "RUNNING",
-    2: "PAUSED",
-    3: "ENDED"
+    0: {name: "WAITING", view: Views.TEAM},
+    1: {name: "RUNNING", view: Views.GAME},
+    2: {name: "PAUSED",  view: Views.PAUSED},
+    3: {name: "ENDED",   view: Views.ENDED}
 });
 
 Teams = Object.freeze({
@@ -31,6 +41,23 @@ Actions = Object.freeze({
     BOX: 7
 });
 
+//The different entity types
+EntityTypes = Object.freeze({
+    0:  "",
+    1:  "Bomb",
+    2:  "Door",
+    3:  "Key",
+    4:  "Player",
+    5:  "Player_Trigger",
+    6:  "Pitfall",
+    7:  "Landmine",
+    8:  "Carrot",
+    9:  "Killer_Bunny",
+    10: "Platform",
+    11: "Invisible_Wall",
+    12: "Damaged_Wall"
+});
+
 //The different error codes that can be sent by the server
 ErrorCodes = Object.freeze({
     100: {name: "AUTHENTICATE_FAIL_IN_PROGRESS",
@@ -46,10 +73,7 @@ ErrorCodes = Object.freeze({
     111: {name: "SETTEAM_INVALID_TEAM",
           msg: "Stop cheating!",
           severity: Severity.Danger},
-    112: {name: "SETTEAM_UNAUTHORIZED",
-          msg: "You are not in the game, and the game has already started!",
-          severity: Severity.Warning},
-    113: {name: "SETTEAM_TEAM_FULL",
+    112: {name: "SETTEAM_TEAM_FULL",
           msg: "This team is full!",
           severity: Severity.Warning},
 
@@ -72,3 +96,14 @@ ErrorCodes = Object.freeze({
           severity: Severity.Danger}
 });
 
+//An object defining different constant values.
+Constants = Object.freeze({
+    Intervals: {
+        //Interval of Index refresh Requests, in ms.
+        INDEX_REFRESH: 5000,
+        
+        //Interval of Status update Requests, in ms.
+        STATUS_UPDATE: 800
+    }
+
+});
