@@ -107,9 +107,9 @@ public class MazeTile implements Drawable, PhysicsObject {
 	 * result in the wrong actual location of the object. Thus the MazeTile has to be replaced as soon as it actually placed
 	 * in the maze.
 	 * @param x
-	 * 				new x location
+	 * 		new x location
 	 * @param y 
-	 * 				new y location
+	 * 		new y location
 	 */
 	public void replace(int x, int y) {
 		position.x = x;

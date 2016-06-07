@@ -25,6 +25,10 @@ import nl.tudelft.contextproject.util.Size;
  */
 public class Room {
 
+	/**
+	 * Read format from map file.
+	 * TODO: Refactor parser classes so that size only is defined at one location.
+	 */
 	private static final Pattern PATTERN = Pattern.compile("(?<width>\\d+)x(?<height>\\d+)_.*");
 
 	//Room size 
@@ -47,6 +51,7 @@ public class Room {
 
 	//Original folder
 	public String folder;
+	
 	/**
 	 * Constructor will load room from files using RoomIO.
 	 * @param folder
@@ -114,7 +119,7 @@ public class Room {
 	/**
 	 * Set mazeTiles array.
 	 * @param mazeTiles
-	 * 			maze tiles to set
+	 * 		maze tiles to set
 	 */
 	public void setMazeTiles(MazeTile[][] mazeTiles) {
 		this.mazeTiles = mazeTiles;
@@ -161,7 +166,7 @@ public class Room {
 	/**
 	 * Set size for testing.
 	 * @param size
-	 * 			size to set
+	 * 		size to set
 	 */
 	public void setSize(Size size) {
 		this.size = size;
@@ -170,7 +175,7 @@ public class Room {
 	/**
 	 * Create a copy of the room.
 	 * @return
-	 * 			copy of the room.
+	 * 		copy of the room.
 	 */
 	public Room copy() {
 		return new Room(folder);
