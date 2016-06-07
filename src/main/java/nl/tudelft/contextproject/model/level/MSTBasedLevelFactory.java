@@ -122,7 +122,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Place start and treasure room on semi-random locations.
 	 * Start room is placed in left-most quarter, treasure-room in right most quarter.
 	 */
-	protected void placeStartAndTreasureRoom() {
+	public void placeStartAndTreasureRoom() {
 		int endLeftMostQuarter = (int) Math.round(MAX_WIDTH / 4.0);
 		int beginningRightMostQuarter = (int) Math.round(3.0 * MAX_WIDTH / 4.0);
 
@@ -147,7 +147,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Place the other rooms.
 	 * Will try to place random rooms until max attempts has been reached or there are no rooms left to place.
 	 */
-	protected void placeOtherRooms() {
+	public void placeOtherRooms() {
 		int attempts = 0;
 		int randomIndex;
 		RoomNode currentNode;
@@ -176,7 +176,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Creates edges from exits from one room to entrances to another room.
 	 * It creates an edge from every exit to every entrance.
 	 */
-	protected void createEdges() {
+	public void createEdges() {
 		int corridorIdcounter = 0;
 		for (RoomEntrancePoint entrance : usedEntrancePoints) {
 			for (RoomExitPoint exit : usedExitPoints) {
@@ -187,18 +187,6 @@ public class MSTBasedLevelFactory implements LevelFactory {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Create a MST, connecting all the rooms with the least amount of path.
-	 * Create the MST object.
-	 * Run the MST algorithm, selecting which edges are chosen in map generation.
-	 * 
-	 */
-	protected void createMST() {
-		MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes, edges);
-		mst.runKruskalAlgorithm();
-		chosenEdges = mst.getCorridorIDs();
 	}
 
 	/**
@@ -347,7 +335,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * @param seed
 	 *		the seed to use for the random number generator
 	 */
-	protected void createRNG(long seed) {
+	public void createRNG(long seed) {
 		rand = new Random(seed);
 	}
 }

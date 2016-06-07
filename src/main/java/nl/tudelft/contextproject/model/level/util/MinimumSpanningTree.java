@@ -15,44 +15,29 @@ import java.util.PriorityQueue;
 /**
  * Minimum spanning tree (MST) algorithm class. 
  * Takes a graph and turns it into a minimum spanning tree,
- * thus this class will remove edges.
- * 
- * Contains an modified algorithm that leaves a slightly more
- * connected tree than a minimum one, as required for the
- * maze generation.
+ * this minimum tree is not an actual minimum tree as it contains several more edges
+ * to ensure that every exit and entrance of a room is connected.
+ *
  */
 public class MinimumSpanningTree {
 
 	public List<RoomNode> roomNodes;
 	public HashMap<Integer, CorridorEdge> corridorEdges;
 	public HashSet<MSTNode> graphNodes;
-	public HashSet<MSTEdge> resultMST;
 	public MSTNode startRoomNode;
 
 	/**
 	 * Constructor.
+	 * 
 	 * @param roomNodes
-	 * 					RoomNodes of graph
+	 * 		RoomNodes of graph
 	 * @param corridorEdges
-	 * 					CorridorEdges of graph in a HashMap with corridor IDs as key
+	 * 		CorridorEdges of graph in a HashMap with corridor IDs as key
 	 */
 	public MinimumSpanningTree(List<RoomNode> roomNodes, HashMap<Integer, CorridorEdge> corridorEdges) {
 		this.roomNodes = roomNodes;
 		this.corridorEdges = corridorEdges;
 		this.graphNodes = new HashSet<MSTNode>();
-		this.resultMST = new HashSet<MSTEdge>();
-	}
-
-	/**
-	 * Run Kruskal's algorithm.
-	 * A greedy algorithm to find the minimum spanning tree.
-	 * 
-	 * First generates a new graph that deals with multiple exits and entrances per room.
-	 * Then run the algorithm on that graph.
-	 */
-	public void runKruskalAlgorithm() {
-		createTransformedGraph();
-		createMST();
 	}
 
 	/**
@@ -145,51 +130,6 @@ public class MinimumSpanningTree {
 			graphNodes.add(connectorNode);
 			if (connectorNode.roomNodeID == MSTBasedLevelFactory.START_ROOM_ID) {
 				startRoomNode = connectorNode;
-			}
-		}
-	}
-
-	/**
-	 * Run the actual algorithm.
-	 * <p>
-	 * This method uses Kruskal's algorithm.
-	 * First, a priority queue of MSTEdges is constructed with smallest weight first. Since the MSTNode graph is connected,
-	 * this means that n - 1 edges from the original MSTNode graph will create a minimum spanning tree.
-	 * Then a cluster structure is created. This structure is a HashMap&lt;MSTNode, Set&lt;MSTEdge&gt;&gt;. This means that clusters is
-	 * represented by a set of Edges. After that the algorithms start. Kruskal's algorithm checks for the first edge in the 
-	 * priority queue: if the clusters of that edges are not equal, or either cluster is still empty, then it means that 
-	 * the clusters aren't equal and must be combined. Since they are sets, simply an addall and the adding of the current edge
-	 * is enough to define the new clusters. This is done until the MSTNode graph number of nodes minus one edges have been created.
-	 */
-	public void createMST() {
-		PriorityQueue<MSTEdge> edgesPriorityQueue = new PriorityQueue<>(new MSTEdgeWeightComparator());
-		HashMap<MSTNode, HashSet<MSTEdge>> clusterStructure = new HashMap<MSTNode, HashSet<MSTEdge>>(4 * graphNodes.size());
-		//Add all edges to priority queue and create a cluster for each node
-		for (MSTNode node : graphNodes) {
-			edgesPriorityQueue.addAll(node.outgoingEdges);
-
-			clusterStructure.put(node, new HashSet<>());
-		}
-
-		//Run Kruskal's algorithm
-		int numberOfEdgesInCluster = 0;
-		MSTEdge currentEdge;
-		HashSet<MSTEdge> startCluster, endCluster;
-		while (numberOfEdgesInCluster < (graphNodes.size() - 1)) {
-			currentEdge = edgesPriorityQueue.poll();
-
-			startCluster = clusterStructure.get(currentEdge.startNode);
-			endCluster = clusterStructure.get(currentEdge.endNode);
-			
-			if (!startCluster.equals(endCluster) || startCluster.isEmpty() || endCluster.isEmpty()) {
-				resultMST.add(currentEdge);
-				startCluster.addAll(endCluster);
-				startCluster.add(currentEdge);
-				clusterStructure.put(currentEdge.endNode, startCluster);
-				if (currentEdge.startNode.nodeType != MSTNodeType.CONNECTOR_NODE 
-						&& currentEdge.endNode.nodeType != MSTNodeType.CONNECTOR_NODE) {
-					numberOfEdgesInCluster++;
-				}
 			}
 		}
 	}
@@ -316,24 +256,6 @@ public class MinimumSpanningTree {
 	}
 
 	/**
-	 * Translate the MST tree back to a list of corridor IDs.
-	 * 
-	 * @return
-	 * 		list of corridor IDs
-	 */
-	public ArrayList<Integer> getCorridorIDs() {
-		ArrayList<Integer> corridorIDs = new ArrayList<Integer>();
-		int corridorID;
-		for (MSTEdge edge : resultMST) {
-			corridorID = edge.corridorID;
-			if (corridorID != -1) {
-				corridorIDs.add(corridorID);
-			}
-		}
-		return corridorIDs;
-	}
-
-	/**
 	 * Translate the MST tree back to a list of corridor IDs when using the Reverse algorithm.
 	 * 
 	 * @return
@@ -378,8 +300,4 @@ public class MinimumSpanningTree {
 		}
 		return list.iterator();
 	}
-
-
-
-
 }
