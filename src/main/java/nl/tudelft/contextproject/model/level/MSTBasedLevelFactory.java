@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.level.roomIO.MapReader;
+import nl.tudelft.contextproject.model.level.roomIO.MapParser;
 import nl.tudelft.contextproject.model.level.util.CorridorBreadthFirstSearch;
 import nl.tudelft.contextproject.model.level.util.CorridorEdge;
 import nl.tudelft.contextproject.model.level.util.MinimumSpanningTree;
@@ -330,7 +330,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		usedEntrancePoints = new ArrayList<RoomEntrancePoint>();
 		usedExitPoints = new ArrayList<RoomExitPoint>();
 		try {
-			startAndEndRooms = MapReader.readMap(mapFolder, rooms);
+			startAndEndRooms = MapParser.readMap(mapFolder, rooms);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -16,12 +16,12 @@ import nl.tudelft.contextproject.util.FileUtil;
 /**
  * Reads all the rooms in a single map.
  */
-public final class MapReader {
+public final class MapParser {
 	
 	/**
 	 * Private constructor to avoid instantiation.
 	 */
-	private MapReader() {}
+	private MapParser() {}
 	
 	/**
 	 * Read a entire map folder and load all rooms in memory.

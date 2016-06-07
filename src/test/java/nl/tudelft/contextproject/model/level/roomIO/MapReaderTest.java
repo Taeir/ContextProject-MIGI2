@@ -39,7 +39,7 @@ public class MapReaderTest {
 	@Test
 	public void testReadMapStartRoomCorrect() {
 		try {
-			RoomTuple startAndTreasureRoom = MapReader.readMap(TEST_MAP_LOCATION, rooms);
+			RoomTuple startAndTreasureRoom = MapParser.readMap(TEST_MAP_LOCATION, rooms);
 			Room startRoom = new Room(TEST_MAP_LOCATION + "startroom/");
 			assertTrue(startAndTreasureRoom.getStarterRoom().equals(startRoom));
 		} catch (IOException e) {
@@ -55,7 +55,7 @@ public class MapReaderTest {
 	@Test
 	public void testReadMapTreasureRoomCorrect() {
 		try {
-			RoomTuple startAndTreasureRoom = MapReader.readMap(TEST_MAP_LOCATION, rooms);
+			RoomTuple startAndTreasureRoom = MapParser.readMap(TEST_MAP_LOCATION, rooms);
 			Room treasureRoom = new Room(TEST_MAP_LOCATION + "endroom/");
 			assertTrue(startAndTreasureRoom.getTreasureRoom().equals(treasureRoom));
 		} catch (IOException e) {
@@ -71,7 +71,7 @@ public class MapReaderTest {
 	@Test
 	public void testReadMapARoomCorrect() {
 		try {
-			MapReader.readMap(TEST_MAP_LOCATION, rooms);
+			MapParser.readMap(TEST_MAP_LOCATION, rooms);
 			Room room = new Room(TEST_MAP_LOCATION + "room1/");
 			assertTrue(rooms.get(0).equals(room));
 		} catch (IOException e) {
@@ -88,7 +88,7 @@ public class MapReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionEmpty() throws IOException {
-		MapReader.readMap("/maps/incorrectMapFiles/empty/", rooms);
+		MapParser.readMap("/maps/incorrectMapFiles/empty/", rooms);
 	}
 	
 	/**
@@ -99,7 +99,7 @@ public class MapReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoStartRoom() throws IOException {
-		MapReader.readMap("/maps/incorrectMapFiles/noStartRoom/", rooms);
+		MapParser.readMap("/maps/incorrectMapFiles/noStartRoom/", rooms);
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class MapReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoEndRoom1() throws IOException {
-		MapReader.readMap("/maps/incorrectMapFiles/noTreasureRoom1/", rooms);
+		MapParser.readMap("/maps/incorrectMapFiles/noTreasureRoom1/", rooms);
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class MapReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoEndRoom2() throws IOException {
-		MapReader.readMap("/maps/incorrectMapFiles/noTreasureRoom2/", rooms);
+		MapParser.readMap("/maps/incorrectMapFiles/noTreasureRoom2/", rooms);
 	}
 	
 	/**
@@ -132,7 +132,7 @@ public class MapReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoExtra1() throws IOException {
-		MapReader.readMap("/maps/incorrectMapFiles/noRoomCount1/", rooms);
+		MapParser.readMap("/maps/incorrectMapFiles/noRoomCount1/", rooms);
 	}
 	
 	/**
@@ -143,7 +143,7 @@ public class MapReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoExtra2() throws IOException {
-		MapReader.readMap("/maps/incorrectMapFiles/noRoomCount2/", rooms);
+		MapParser.readMap("/maps/incorrectMapFiles/noRoomCount2/", rooms);
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class MapReaderTest {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoExtra3() throws IOException {
-		MapReader.readMap("/maps/incorrectMapFiles/noRoom1/", rooms);
+		MapParser.readMap("/maps/incorrectMapFiles/noRoom1/", rooms);
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class MapReaderTest {
 	@Test
 	public void testGetMapFile() {
 		try {
-			File testFile = MapReader.getMapFile(TEST_MAP_LOCATION);
+			File testFile = MapParser.getMapFile(TEST_MAP_LOCATION);
 			assertTrue(testFile.exists());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -177,7 +177,7 @@ public class MapReaderTest {
 	 */
 	@Test (expected = FileNotFoundException.class)
 	public void testGetMapFileException() throws FileNotFoundException {
-		File testFile = MapReader.getMapFile("/maps/correctWithName/");
+		File testFile = MapParser.getMapFile("/maps/correctWithName/");
 		assertTrue(testFile.exists());
 	}
 
