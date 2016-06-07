@@ -87,7 +87,7 @@ public final class MapParser {
 	 * @param line
 	 * 		string to check;
 	 * @param msg
-	 * 		message in illegal argument exception
+	 * 		message in IllegalArgumentException
 	 */
 	private static void checkLineNull(String line, String msg) {
 		if (line == null) throw new IllegalArgumentException(msg);
@@ -96,8 +96,11 @@ public final class MapParser {
 	/**
 	 * Check if string array doesn't equal a certain length, throw exception if true.
 	 * @param stringArray
+	 * 		stringArray to check
 	 * @param length
+	 * 		length that the array should have
 	 * @param msg
+	 * 		message in IllegalArgumentException
 	 */
 	private static void checkStringArrayLength(String[] stringArray, int length, String msg) {
 		if (stringArray.length != length) throw new IllegalArgumentException(msg);
