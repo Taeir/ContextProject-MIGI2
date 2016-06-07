@@ -61,6 +61,4 @@ public class Size {
 			return false;
 		return true;
 	}
-	
-	
 }
