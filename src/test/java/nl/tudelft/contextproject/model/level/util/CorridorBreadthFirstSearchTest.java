@@ -89,7 +89,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		MazeTile[][] mazeTiles = new MazeTile[1][1];
 		Vec2I currentNode = new Vec2I(0, 0);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertTrue(CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).isEmpty());
+		assertTrue(CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).isEmpty());
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[1][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(0, 1);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertTrue(CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).isEmpty());
+		assertTrue(CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).isEmpty());
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[1][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(0, 1);
 		Vec2I endNode = new Vec2I(0, 0);
-		assertEquals(1, CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).size());
+		assertEquals(1, CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).size());
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[1][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(0, 1);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertEquals(1, CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).size());
+		assertEquals(1, CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).size());
 	}
 	
 	/**
@@ -139,7 +139,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		MazeTile[][] mazeTiles = new MazeTile[1][1];
 		Vec2I currentNode = new Vec2I(0, 0);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertTrue(CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).isEmpty());
+		assertTrue(CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).isEmpty());
 	}
 	
 	/**
@@ -152,7 +152,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[1][0] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(0, 0);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertTrue(CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).isEmpty());
+		assertTrue(CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).isEmpty());
 	}
 	
 	/**
@@ -165,7 +165,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[1][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(0, 1);
 		Vec2I endNode = new Vec2I(0, 1);
-		assertEquals(1, CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).size());
+		assertEquals(1, CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).size());
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[1][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(0, 1);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertEquals(1, CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).size());
+		assertEquals(1, CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).size());
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		MazeTile[][] mazeTiles = new MazeTile[1][1];
 		Vec2I currentNode = new Vec2I(0, 0);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertTrue(CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).isEmpty());
+		assertTrue(CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).isEmpty());
 	}
 	
 	/**
@@ -202,7 +202,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[1][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(1, 0);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertTrue(CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).isEmpty());
+		assertTrue(CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).isEmpty());
 	}
 	
 	/**
@@ -215,7 +215,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[1][0] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(1, 0);
 		Vec2I endNode = new Vec2I(1, 0);
-		assertEquals(1, CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).size());
+		assertEquals(1, CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).size());
 	}
 	
 	/**
@@ -227,7 +227,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[1][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(1, 0);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertEquals(1, CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).size());
+		assertEquals(1, CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).size());
 	}
 	
 	/**
@@ -239,7 +239,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		MazeTile[][] mazeTiles = new MazeTile[1][1];
 		Vec2I currentNode = new Vec2I(0, 0);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertTrue(CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).isEmpty());
+		assertTrue(CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).isEmpty());
 	}
 	
 	/**
@@ -252,7 +252,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[0][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(0, 0);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertTrue(CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).isEmpty());
+		assertTrue(CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).isEmpty());
 	}
 	
 	/**
@@ -265,7 +265,7 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[0][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(0, 0);
 		Vec2I endNode = new Vec2I(1, 0);
-		assertEquals(1, CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).size());
+		assertEquals(1, CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).size());
 	}
 	
 	/**
@@ -277,6 +277,6 @@ public class CorridorBreadthFirstSearchTest extends TestBase {
 		mazeTiles[0][1] = new MazeTile(0, 0, TileType.FLOOR);
 		Vec2I currentNode = new Vec2I(0, 0);
 		Vec2I endNode = new Vec2I(2, 2);
-		assertEquals(1, CorridorBreadthFirstSearch.getNeighBors(mazeTiles, currentNode, endNode).size());
+		assertEquals(1, CorridorBreadthFirstSearch.getNeighbors(mazeTiles, currentNode, endNode).size());
 	}
 }

@@ -58,7 +58,7 @@ public final class CorridorBreadthFirstSearch {
 				//Found end, stop breadth first search. 
 				break;
 			}
-			validNeighbours = getNeighBors(mazeTiles, currentNode, end);
+			validNeighbours = getNeighbors(mazeTiles, currentNode, end);
 			for (Vec2I neigborNode : validNeighbours) {
 				if (distanceMap.containsKey(neigborNode)) {
 					continue;
@@ -138,7 +138,7 @@ public final class CorridorBreadthFirstSearch {
 	 * @return
 	 * 		list that are neighbors of current node and not already a tile.
 	 */
-	protected static ArrayList<Vec2I> getNeighBors(MazeTile[][] mazeTiles, Vec2I currentNode, Vec2I endNode) {
+	protected static ArrayList<Vec2I> getNeighbors(MazeTile[][] mazeTiles, Vec2I currentNode, Vec2I endNode) {
 		ArrayList<Vec2I> neigboursOfCurrentNode = new ArrayList<Vec2I>();
 		int x = currentNode.x;
 		int y = currentNode.y;

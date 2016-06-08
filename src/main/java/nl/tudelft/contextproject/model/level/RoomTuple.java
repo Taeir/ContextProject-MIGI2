@@ -25,8 +25,6 @@ public class RoomTuple {
 	}
 
 	/**
-	 * Get starter room.
-	 * 
 	 * @return
 	 * 		starter Room.
 	 */
@@ -45,8 +43,6 @@ public class RoomTuple {
 	}
 
 	/**
-	 * Get treasure Room.
-	 * 
 	 * @return treasureRoom
 	 * 		treasure Room
 	 */
