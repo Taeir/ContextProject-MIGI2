@@ -1,0 +1,57 @@
+# Tutorial level, which contains all mechanics we have in the game.
+51 7  10
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# O O O O # O O O O # O O O O # B O O O # O O O O # V T T V # O O O O # O O O O # O O O O # O O O O #
+# O O O O # O O K O # O O B O # O O I O # I I I I # O O O O # O O F O # O O M O # O O O O # O O O O #
+# O O O O O O O O O D O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O #
+# O O O O # O O K O # O O B O # O O I O # I I I I # O O O O # O O F O # O O M O # O O O O # O O O O #
+# O O O O # O O O O # O O O O # B O O O # O O O O # V T T V # O O O O # O O O O # O O O O # O O O O #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+2 0 1 VRPlayer
+
+9 0 3 Key 1/0/0/1
+9 0 5 Key 1/0/1/0
+11 0 4 Door 1/0/0/1
+
+14 0 3 Bomb
+14 0 5 Bomb
+
+19 0 3 InvisibleWall
+19 0 5 InvisibleWall
+17 0 2 Bomb
+17 0 6 Bomb
+
+23 0 2 KillerBunny
+22 0 3 InvisibleWall
+23 0 3 InvisibleWall
+24 0 3 InvisibleWall
+25 0 3 InvisibleWall
+23 0 6 KillerBunny
+22 0 5 InvisibleWall
+23 0 5 InvisibleWall
+24 0 5 InvisibleWall
+25 0 5 InvisibleWall
+
+28 0 2 VoidPlatform
+29 0 2 VoidPlatform
+28 0 6 VoidPlatform
+29 0 6 VoidPlatform
+
+34 0 3 Pitfall
+34 0 5 Pitfall
+
+39 0 3 LandMine
+39 0 5 LandMine
+
+50 0 4 PlayerTrigger StartGame
+
+3.5 10 4 PointLight .5/.5/.5/.5 10
+8.5 10 4 PointLight .5/.5/.5/.5 10
+13.5 10 4 PointLight .5/.5/.5/.5 10
+18.5 10 4 PointLight .5/.5/.5/.5 10
+23.5 10 4 PointLight .5/.5/.5/.5 10
+28.5 10 4 PointLight .5/.5/.5/.5 10
+33.5 10 4 PointLight .5/.5/.5/.5 10
+38.5 10 4 PointLight .5/.5/.5/.5 10
+43.5 10 4 PointLight .5/.5/.5/.5 10
+48.5 10 4 PointLight .5/.5/.5/.5 10
