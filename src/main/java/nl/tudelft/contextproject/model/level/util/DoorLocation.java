@@ -21,24 +21,19 @@ public abstract class DoorLocation {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((location == null) ? 0 : location.hashCode());
-		result = prime * result + ((node == null) ? 0 : node.hashCode());
-		return result;
+		return 31 * (31 + location.hashCode()) + node.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof DoorLocation) {
-			DoorLocation other = (DoorLocation) obj;
-			if (!location.equals(other.location))
-				return false;
-			if (!node.equals(other.node))
-				return false;
-			return true;
-		} 
-		return false;
+		if (obj == this) return true;
+		if (!(obj instanceof DoorLocation)) return false;
+		
+		DoorLocation other = (DoorLocation) obj;
+		if (!location.equals(other.location)) return false;
+		if (!node.equals(other.node)) return false;
+		
+		return true;
 	}
 
 

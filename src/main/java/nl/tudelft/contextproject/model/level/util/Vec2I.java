@@ -29,7 +29,6 @@ public class Vec2I {
 		this.x = x;
 		this.y = y;
 	}
-
 	
 	/**
 	 * Get x - coordinate.
@@ -79,14 +78,12 @@ public class Vec2I {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
-		Vec2I other = (Vec2I) obj;
-		if (x != other.x) return false;
-		if (y != other.y) return false;
-		return true;
-	}
 
+		if (!(obj instanceof Vec2I)) return false;
+
+		Vec2I other = (Vec2I) obj;
+		return x == other.x && y == other.y;
+	}
 
 	@Override
 	public String toString() {
