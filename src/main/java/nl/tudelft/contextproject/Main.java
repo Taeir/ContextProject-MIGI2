@@ -336,6 +336,7 @@ public class Main extends VRApplication implements TickProducer {
 		}
 		return instance;
 	}
+	
 	/**
 	 * Opens the QR code to join the game in the default browser.
 	 */

@@ -59,7 +59,7 @@ public class VRLookManager2 implements AnalogListener {
 	 */
 	protected void mapJoystick(Joystick joystick) {
 		//Invert the Y axis, so that up is up and down is down.
-		invertY = true;
+		invertY = false;
 
 		// Map it differently if there are Z axis
 		if (joystick.getAxis(JoystickAxis.Z_ROTATION) != null && joystick.getAxis(JoystickAxis.Z_AXIS) != null) {
