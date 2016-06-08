@@ -16,7 +16,6 @@ import nl.tudelft.contextproject.model.level.Room;
 public class MSTNodeTest extends TestBase {
 
 	private MSTNode node;
-	//private MSTNode node2;
 	private MSTNodeType nodeType;
 	private RoomExitPoint doorLocation;
 	private int roomNodeID;

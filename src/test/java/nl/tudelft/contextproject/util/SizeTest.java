@@ -14,8 +14,8 @@ import nl.tudelft.contextproject.TestBase;
  */
 public class SizeTest extends TestBase {
 
-	private static final int W = 1;
-	private static final int H = 1;
+	private static final int WIDTH = 1;
+	private static final int HEIGHT = 1;
 	
 	private Size size;
 	
@@ -24,7 +24,7 @@ public class SizeTest extends TestBase {
 	 */
 	@Before
 	public void testSetup() {
-		size = new Size(W, H);
+		size = new Size(WIDTH, HEIGHT);
 	}
 	
 	/**
@@ -32,8 +32,8 @@ public class SizeTest extends TestBase {
 	 */
 	@Test
 	public void testConstructor() {
-		assertEquals(size.getWidth(), W);
-		assertEquals(size.getHeight(), H);
+		assertEquals(size.getWidth(), WIDTH);
+		assertEquals(size.getHeight(), HEIGHT);
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public class SizeTest extends TestBase {
 	 */
 	@Test
 	public void testEqualsEqual() {
-		Size testSize = new Size(W, H);
+		Size testSize = new Size(WIDTH, HEIGHT);
 		assertEquals(size, testSize);
 	}
 	
@@ -74,7 +74,7 @@ public class SizeTest extends TestBase {
 	 */
 	@Test
 	public void testEqualsDifferentWeigth() {
-		Size testSize = new Size(W + 1, H);
+		Size testSize = new Size(WIDTH + 1, HEIGHT);
 		assertFalse(size.equals(testSize));
 	}
 	
@@ -83,7 +83,7 @@ public class SizeTest extends TestBase {
 	 */
 	@Test
 	public void testEqualsDifferentHeigth() {
-		Size testSize = new Size(W, H + 1);
+		Size testSize = new Size(WIDTH, HEIGHT + 1);
 		assertFalse(size.equals(testSize));
 	}
 	
