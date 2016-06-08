@@ -20,9 +20,6 @@ public class TutorialController extends GameController {
 	}
 
 	@Override
-	protected void placeTreasure(Game game) { }
-
-	@Override
 	public GameState getGameState() {
 		return GameState.TUTORIAL;
 	}

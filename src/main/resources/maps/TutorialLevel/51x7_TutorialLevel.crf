@@ -1,5 +1,5 @@
 # Tutorial level, which contains all mechanics we have in the game.
-51 7 43 1
+51 7 49 1
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # O O O O # O O O O # O O O O # O O O O # O O O O # - - - - # O O O O # O O O O # O O O O # O O O O #
 # O O O O # O O O O # O O O O # O O O O # O O O O # O O O O # O O O O # O O O O # O O O O # O O O O #
@@ -46,8 +46,14 @@
 29 0 5 WallFrame NORTH voidplatform.png 4 5
 33 0 2 Pitfall 1
 33 0 4 Pitfall 1
+31 0 1 WallFrame SOUTH pitfall.png 4 5
+34 0 5 WallFrame NORTH pitfall.png 4 5
 38 0 2 LandMine
 38 0 4 LandMine
+36 0 1 WallFrame SOUTH mine.png 4 5
+39 0 5 WallFrame NORTH mine.png 4 5
+44 0 2 Crate 10
+44 0 4 Crate 10
 49 0 3 PlayerTrigger 1 .5 StartGame
 49 0 3 WallFrame EAST start.png 1 3
 25.5 100 4 PointLight .5/.5/.5/.5 200
