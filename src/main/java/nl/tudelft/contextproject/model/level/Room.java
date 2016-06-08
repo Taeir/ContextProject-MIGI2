@@ -27,47 +27,26 @@ public class Room {
 
 	/**
 	 * Read format from map file.
-	 * TODO: Refactor parser classes so that size only is defined at one location.
+	 *
 	 */
+	//TODO: Refactor parser classes so that size only is defined at one location.
 	private static final Pattern PATTERN = Pattern.compile("(?<width>\\d+)x(?<height>\\d+)_.*");
 
-	/**
-	 * Room size. 
-	 */
 	public Size size;
-
-	/**
-	 * Entities in the room.
-	 */
 	public Set<Entity> entities;
-
-	/**
-	 * Lights in the room.
-	 */
 	public List<Light> lights;
-
-	/**
-	 * MazeTile map.
-	 */
 	public MazeTile[][] mazeTiles;
-
-	/**
-	 * Entrance door locations.
-	 */
 	public ArrayList<Vec2I> entranceDoorsLocations;
-
-	/**
-	 * Exit door locations.
-	 */
 	public ArrayList<Vec2I> exitDoorLocations;
 
 	/**
-	 * Original folder.
+	 * Original folder of the map file.
 	 */
 	public String folder;
 	
 	/**
 	 * Constructor will load room from files using RoomIO.
+	 * 
 	 * @param folder
 	 * 		fileName of the room
 	 */
@@ -87,6 +66,7 @@ public class Room {
 
 	/**
 	 * Get size of room from folder name.
+	 * 
 	 * @param folder
 	 * 		folder of the Room
 	 * @return
@@ -132,6 +112,7 @@ public class Room {
 
 	/**
 	 * Set mazeTiles array.
+	 * 
 	 * @param mazeTiles
 	 * 		maze tiles to set
 	 */
@@ -183,6 +164,7 @@ public class Room {
 
 	/**
 	 * Set size for testing.
+	 * 
 	 * @param size
 	 * 		size to set
 	 */
@@ -192,6 +174,7 @@ public class Room {
 
 	/**
 	 * Create a copy of the room.
+	 * 
 	 * @return
 	 * 		copy of the room.
 	 */
