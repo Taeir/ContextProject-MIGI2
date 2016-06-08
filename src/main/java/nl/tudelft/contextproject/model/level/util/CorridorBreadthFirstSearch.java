@@ -14,7 +14,6 @@ public final class CorridorBreadthFirstSearch {
 
 	/**
 	 * Private constructor to prevent initialization.
-	 * To prevent initialization.
 	 */
 	private CorridorBreadthFirstSearch() {}
 
