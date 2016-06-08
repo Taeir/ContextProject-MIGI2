@@ -120,7 +120,6 @@ public final class WebUtil {
 	public static boolean checkValidLocation(int xCoord, int yCoord, Action action) {
 		MazeTile tile = Main.getInstance().getCurrentGame().getLevel().getTile(xCoord, yCoord);
 		if (withinPlayerRadius(xCoord, yCoord, action)) {
-			System.out.println("test");
 			return false;
 		}
 		if (tile == null && action.isAllowedVoid()) {
@@ -221,11 +220,9 @@ public final class WebUtil {
 	 */
 	public static boolean withinPlayerRadius(int xCoord, int yCoord, Action action) {
 		if (Main.getInstance().getCurrentGame().getPlayer() != null) {
-			if (Main.getInstance().getCurrentGame().getPlayer().getSpatial() != null) {
-				Vector3f vec = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation();
-				return (Math.abs((Math.abs(vec.x) + Math.abs(vec.z) - Math.abs(xCoord) - Math.abs(yCoord))) < action.getRadius());
-			} 
+			Vector3f vec = Main.getInstance().getCurrentGame().getPlayer().getLocation();
+			return (Math.abs((Math.abs(vec.x) + Math.abs(vec.z) - Math.abs(xCoord) - Math.abs(yCoord))) < action.getRadius());
 		}
-	return false;
+		return false;
 	}
 }
