@@ -144,7 +144,9 @@ public class Room {
 			for (int j = 0; j < size.getHeight(); j++) {
 				if (mazeTiles[i][j] == null) {
 					if (other.mazeTiles[i][j] != null) return false;
-				} else if (other.mazeTiles[i][j] != null) {
+					
+					continue;
+				} else if (other.mazeTiles[i][j] == null) {
 					return false;
 				}
 				

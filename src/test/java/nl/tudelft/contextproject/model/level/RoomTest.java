@@ -90,7 +90,7 @@ public class RoomTest extends TestBase {
 	 */
 	@Test
 	public void testHashCode() {
-		assertEquals(31 + Arrays.deepHashCode(testRoom.mazeTiles), testRoom.hashCode());
+		assertEquals(Arrays.deepHashCode(testRoom.mazeTiles), testRoom.hashCode());
 	}
 	
 	/**
