@@ -59,6 +59,9 @@ public class ClientServlet extends DefaultServlet {
 			case "login":
 				server.getNormalHandler().onJoinRequest(request, response);
 				break;
+			case "quit":
+				server.getNormalHandler().onQuitRequest(request, response);
+				break;
 			case "setteam":
 				server.getNormalHandler().onSetTeamRequest(request, response);
 				break;

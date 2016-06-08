@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.http.HttpStatus;
+import org.eclipse.jetty.websocket.api.StatusCode;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -161,6 +162,41 @@ public class NormalHandlerTest extends WebTestBase {
 		//Client should have rejoined
 		verify(response).setStatus(HttpStatus.OK_200);
 		verify(response.getWriter()).write("" + GameState.RUNNING.ordinal());
+	}
+	
+	/**
+	 * Test method for {@link NormalHandler#onQuitRequest}, when the user is known.
+	 * 
+	 * @throws IOException
+	 * 		will not happen because of mocks
+	 */
+	@Test
+	public void testOnQuitRequest_known() throws IOException {
+		WebClient client = new WebClient();
+		server.getClients().put("A", client);
+		
+		HttpServletRequest request = createMockedRequest("A");
+		HttpServletResponse response = createMockedResponse();
+		handler.onQuitRequest(request, response);
+		
+		verify(server).disconnect(client, StatusCode.NORMAL);
+		verify(response).setStatus(HttpStatus.NO_CONTENT_204);
+	}
+	
+	/**
+	 * Test method for {@link NormalHandler#onQuitRequest}, when the user is unknown.
+	 * 
+	 * @throws IOException
+	 * 		will not happen because of mocks
+	 */
+	@Test
+	public void testOnQuitRequest_unknown() throws IOException {
+		HttpServletRequest request = createMockedRequest("A");
+		HttpServletResponse response = createMockedResponse();
+		handler.onQuitRequest(request, response);
+		
+		verify(response).setStatus(HttpStatus.OK_200);
+		verify(response.getWriter()).write(COCErrorCode.UNAUTHORIZED.toString());
 	}
 
 	/**
@@ -470,6 +506,7 @@ public class NormalHandlerTest extends WebTestBase {
 		WebClient clientMock = mock(WebClient.class);
 		handler.onMapRequest(clientMock);
 		
+		assertEquals(json.get("type"), "map");
 		verify(clientMock).sendMessage(json, null);
 	}
 

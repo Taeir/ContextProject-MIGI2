@@ -28,37 +28,37 @@ body {
 	overflow-y: auto;
 	z-index: 0;
 }
-#map .Key {
+#map .Key.explored {
 	background-color: #FFFF00 !important;
 }
-#map .Bomb {
+#map .Bomb.explored {
 	background-color: #000000 !important;
 }
-#map .Door {
+#map .Door.explored {
 	background-color: #7A5230 !important;
 }
-#map .Player {
+#map .Player, #map .Player.Explored {
 	background-color: #FF00FF !important;
 }
-#map .Player_Trigger {
+#map .Player_Trigger.explored {
 	background-color: #9A32CD !important;
 }
-#map .Pitfall {
+#map .Pitfall.explored {
 	background-color: #4A7023 !important;
 }
-#map .Landmine {
+#map .Landmine.explored {
 	background-color: #FF6C6C !important;
 }
-#map .Carrot {
+#map .Carrot.explored {
 	background-color: #FFA500 !important;
 }
-#map .Killer_Bunny {
+#map .Killer_Bunny.explored {
 	background-color: #FFFFFF !important;
 }
-#map .Invisible_Wall {
+#map .Invisible_Wall.explored {
     background-color: #E6E6E6 !important;
 }
-#map .Damaged_Wall {
+#map .Damaged_Wall.explored {
     background-color: #BFBFBF !important;
 }
 #map {
@@ -88,7 +88,6 @@ body {
 }
 #disableFS {
 	position: fixed;
-	position: fixed;
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
@@ -100,4 +99,9 @@ body {
     margin: 0px auto;
     text-align: center;
     display: none;
+}
+.btnMenu {
+	position: fixed;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }

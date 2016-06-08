@@ -129,6 +129,27 @@ public class ClientServletTest extends WebTestBase {
 	}
 	
 	/**
+	 * Test method for {@link ClientServlet#doPost}, when posting to /quit.
+	 * 
+	 * @throws Exception
+	 * 		if an exception occurs calling doPost of the servlet
+	 */
+	@Test
+	public void testDoPost_quit() throws Exception {
+		HttpServletRequest request = createMockedRequest(ID, false, "/quit");
+		HttpServletResponse response = createMockedResponse();
+
+		//Ensure that the original method does not get called
+		doNothing().when(handler).onQuitRequest(any(), any());
+
+		//Call the post
+		servlet.doPost(request, response);
+
+		//Verify that onQuitRequest has been called
+		verify(handler).onQuitRequest(request, response);
+	}
+	
+	/**
 	 * Test method for {@link ClientServlet#doPost}, when posting to /setteam.
 	 * 
 	 * @throws Exception

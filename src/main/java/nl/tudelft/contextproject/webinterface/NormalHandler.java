@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.http.HttpStatus;
+import org.eclipse.jetty.websocket.api.StatusCode;
 import org.json.JSONObject;
 
 import nl.tudelft.contextproject.Main;
@@ -123,6 +124,28 @@ public class NormalHandler {
 		} else {
 			response.getWriter().write("y");
 		}
+	}
+	
+	/**
+	 * Handles requests to quit the game.
+	 * 
+	 * @param request
+	 * 		the request the client made
+	 * @param response
+	 * 		the object to write the response to
+	 * @throws IOException
+	 * 		if writing to the response causes an IOException
+	 */
+	public void onQuitRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		WebClient client = server.getUser(request);
+		if (client == null) {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write(COCErrorCode.UNAUTHORIZED.toString());
+			return;
+		}
+		
+		server.disconnect(client, StatusCode.NORMAL);
+		response.setStatus(HttpStatus.NO_CONTENT_204);
 	}
 	
 	/**
@@ -243,6 +266,7 @@ public class NormalHandler {
 	 */
 	public void onMapRequest(WebClient client) throws IOException {
 		JSONObject json = Main.getInstance().getCurrentGame().getLevel().toWebJSON();
+		json.put("type", "map");
 		client.sendMessage(json, null);
 	}
 	
@@ -380,7 +404,10 @@ public class NormalHandler {
 				//Fall through to running
 			case RUNNING:
 				json.put("entities", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
-				json.put("explored", game.getLevel().toExploredWebJSON());
+				
+				if (client.isElf()) {
+					json.put("explored", game.getLevel().toExploredWebJSON());
+				}
 				break;
 			case PAUSED:
 				//We don't send any other data when the game is paused

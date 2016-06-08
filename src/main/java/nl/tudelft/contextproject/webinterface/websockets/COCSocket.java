@@ -42,10 +42,11 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 	@SneakyThrows(IOException.class)
 	@Override
 	public void onWebSocketText(String message) {
-		System.out.println("[DEBUG] [WebSocket] Message received: " + message);
-		
-		if ("QUIT".equals(message)) {
+		if ("quit".equals(message)) {
 			server.disconnect(client, StatusCode.NORMAL);
+			return;
+		} else if ("map".equals(message)) {
+			server.getNormalHandler().onMapRequest(client);
 			return;
 		}
 		
@@ -64,12 +65,11 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 		server.getNormalHandler().onActionRequest(client, x, y, action);
 	}
 	
+	@SneakyThrows
 	@Override
 	public void onWebSocketConnect(Session session) {
 		super.onWebSocketConnect(session);
 		timer = 0f;
-		
-		System.out.println("[DEBUG] [WebSocket] Websocket connected!");
 		
 		try {
 			session.getRemote().sendString("" + Main.getInstance().getGameState().ordinal());
@@ -79,6 +79,9 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 			return;
 		}
 		
+		//Send the map
+		server.getNormalHandler().onMapRequest(client);
+		
 		this.client.setWebSocket(this);
 		Main.getInstance().attachTickListener(this);
 	}
@@ -87,8 +90,6 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 	public void onWebSocketClose(int statusCode, String reason) {
 		super.onWebSocketClose(statusCode, reason);
 
-		System.out.println("[DEBUG] [WebSocket] Websocket close: [" + statusCode + "] " + reason);
-		
 		Main.getInstance().removeTickListener(this);
 		this.client.removeWebSocket(this);
 	}

@@ -47,9 +47,22 @@ public class COCSocketTest extends WebTestBase {
 	 */
 	@Test
 	public void testOnWebSocketText_quit() {
-		socket.onWebSocketText("QUIT");
+		socket.onWebSocketText("quit");
 		
 		verify(server).disconnect(client, StatusCode.NORMAL);
+	}
+	
+	/**
+	 * Tests if {@link COCSocket#onWebSocketText} properly handles map messages.
+	 * 
+	 * @throws IOException
+	 * 		will not occur because of mocks
+	 */
+	@Test
+	public void testOnWebSocketText_map() throws IOException {
+		socket.onWebSocketText("map");
+		
+		verify(handler).onMapRequest(client);
 	}
 	
 	/**

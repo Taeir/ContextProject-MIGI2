@@ -36,12 +36,8 @@ public class COCWebSocketCreator implements WebSocketCreator {
 			break;
 		}
 		
-		if (client == null) {
-			System.out.println("[DEBUG] WebClient not found!");
-			return UNAUTHORIZED_SOCKET;
-		}
+		if (client == null) return UNAUTHORIZED_SOCKET;
 		
-		System.out.println("[DEBUG] Matching WebClient found, creating COCSocket");
 		return new COCSocket(server, client);
 	}
 
