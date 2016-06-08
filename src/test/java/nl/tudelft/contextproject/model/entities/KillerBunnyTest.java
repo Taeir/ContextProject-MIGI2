@@ -48,7 +48,7 @@ public class KillerBunnyTest extends MovingEnemyTest {
 	public void testLoadEntity() {
 		KillerBunny bunny = KillerBunny.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.KILLER_BUNNY.getName()});
 
-		assertEquals(loadPosition, bunny.getLocation());
+		assertEquals(expectedPosition.add(0, 0.5f, 0), bunny.getLocation());
 	}
 	
 	/**

@@ -7,12 +7,14 @@ import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.Carrot;
 import nl.tudelft.contextproject.model.entities.Crate;
+import nl.tudelft.contextproject.model.entities.Gate;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.KillerBunny;
 import nl.tudelft.contextproject.model.entities.VoidPlatform;
 import nl.tudelft.contextproject.webinterface.Action;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -102,5 +104,15 @@ public class ActionUtilTest extends TestBase {
 		ActionUtil.perform(Action.DROPCRATE, 0, 0);
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(Crate.class));
+	}
+	/**
+	 * Tests the OpenGate action.
+	 */
+	public void testPerformOpenGate() {
+		Gate gate = mock(Gate.class);
+		mockedGame.addEntity(gate);
+		ActionUtil.perform(Action.OPENGATE, 0, 0);
+		verify(Main.getInstance(), times(1)).getCurrentGame();
+		Mockito.verify(gate, Mockito.atLeastOnce()).openGate();
 	}
 }

@@ -148,9 +148,18 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	protected void updateFallingTimer(float tpf) {
 		if (fallingTimer < 0) {
 			fallingTimer = 0;
+
 			Vector3f move = getLocation().subtract(resp);
 			move(-move.x, -move.y, -move.z);
 			takeDamage(1f);
+			
+			//Create a void platform at player location
+			VoidPlatform vp = new VoidPlatform();
+			Vector3f vploc = getLocation().clone();
+			vploc.y = 0;
+			vp.move(vploc);
+			Main.getInstance().getCurrentGame().addEntity(vp);
+			
 			return;
 		}
 		if (getLocation().y < 0 && fallingTimer == 0) {

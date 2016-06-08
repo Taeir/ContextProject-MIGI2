@@ -12,6 +12,7 @@ public enum Action {
 	DROPBAIT(10, 5, 0, false, true),
 	PLACETILE(0, Integer.MAX_VALUE, 0, true, false),
 	DROPCRATE(10, 1, 0, false, true),
+	OPENGATE(5, 1, 0, false, true),
 	INVALID(0, 0, 0, false, false);
 
 	private int cooldown;
