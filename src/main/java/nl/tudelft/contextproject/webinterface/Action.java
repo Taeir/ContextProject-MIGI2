@@ -11,6 +11,7 @@ public enum Action {
 	SPAWNENEMY(10, 1, 5, false, true),
 	DROPBAIT(10, 5, 0, false, true),
 	PLACETILE(0, Integer.MAX_VALUE, 0, true, false),
+	OPENGATE(5, 1, 0, false, true),
 	INVALID(0, 0, 0, false, false);
 
 	private int cooldown;

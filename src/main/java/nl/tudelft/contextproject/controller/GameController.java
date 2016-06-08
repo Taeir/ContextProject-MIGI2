@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.controller;
 
 import java.io.File;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -140,7 +141,7 @@ public class GameController extends Controller {
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-
+		
 		placeTreasure(game);
 		
 		AmbientLight al = new AmbientLight();

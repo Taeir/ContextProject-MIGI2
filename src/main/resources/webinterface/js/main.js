@@ -544,6 +544,8 @@ function getClassForEntityType(entityType) {
             return "Invisible_Wall";
         case 12:
             return "Damaged_Wall";
+        case 14:
+        	return "Gate";
         default:
             showAlert("Invalid tile type: " + entityType, "Danger");
             throw "Invalid tile type: " + entityType;
@@ -592,6 +594,8 @@ function encodeAction(action) {
             return 4;
         case "placetile":
             return 5;
+        case "opengate":
+        	return 6;
         default:
             return -1;
     }
