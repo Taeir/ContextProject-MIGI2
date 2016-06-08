@@ -102,7 +102,7 @@ public class GameController extends Controller {
 			Level level = mstLevelFactory.generateRandom();
 			Set<Entity> entities = mstLevelFactory.entities;
 			Entity e = null;
-			VRPlayer  p = null;
+			VRPlayer p = null;
 			for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
 				if (e instanceof VRPlayer) {
 					p = (VRPlayer) e;

@@ -142,7 +142,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		int attempts = 0;
 		int randomIndex;
 		RoomNode currentNode;
-		while (attempts <= MAX_ATTEMPTS && !baseNodes.isEmpty()) {
+		while (attempts < MAX_ATTEMPTS && !baseNodes.isEmpty()) {
 
 			//Get random room
 			randomIndex = rand.nextInt(baseNodes.size());
@@ -274,7 +274,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Adds entrances to usedEntrancePoints list.
 	 * Adds exits to usedExitsPoints list.
 	 * Adds lights to the lights list.
-	 * 
+	 * <p>
 	 * Copies the RoomNode if duplicates are allowed.
 	 * 
 	 * @param node
@@ -299,6 +299,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 
 	/**
 	 * Initialize all the data containers needed for building.
+	 * 
 	 * @param mapFolder
 	 * 		location of map folder
 	 */
