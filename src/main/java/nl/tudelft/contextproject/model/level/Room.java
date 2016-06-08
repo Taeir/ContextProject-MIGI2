@@ -26,8 +26,7 @@ import nl.tudelft.contextproject.util.Size;
 public class Room {
 
 	/**
-	 * Read format from map file.
-	 *
+	 * Pattern needed to read format from map file.
 	 */
 	//TODO: Refactor parser classes so that size only is defined at one location.
 	private static final Pattern PATTERN = Pattern.compile("(?<width>\\d+)x(?<height>\\d+)_.*");
