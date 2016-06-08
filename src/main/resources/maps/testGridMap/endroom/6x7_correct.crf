@@ -1,0 +1,11 @@
+# The treasure room of the game
+6 7 1 1
+# # # # # #
+# O O O O #
+# O O O O #
+# O O O O I
+# O O O O #
+# O O O O #
+# I # # # #
+3.5 0 4 Treasure
+3.5 0 4 PointLight 1/1/1/1 20
