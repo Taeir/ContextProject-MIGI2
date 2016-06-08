@@ -95,6 +95,7 @@ public final class MapParser {
 	
 	/**
 	 * Check if string array doesn't equal a certain length, throw exception if true.
+	 * 
 	 * @param stringArray
 	 * 		stringArray to check
 	 * @param length
@@ -126,6 +127,6 @@ public final class MapParser {
 			if (names[i].endsWith(".cmf")) return FileUtil.getFile(path + names[i]);
 		}
 
-		throw new FileNotFoundException("Could not find a '.crf' file in " + path + ".");
+		throw new FileNotFoundException("Could not find a '.cmf' file in " + path + ".");
 	}
 }
