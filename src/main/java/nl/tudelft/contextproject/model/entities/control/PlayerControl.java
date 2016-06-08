@@ -7,7 +7,6 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Spatial;
 
 import jmevr.app.VRApplication;
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 
@@ -35,7 +34,7 @@ public class PlayerControl implements EntityControl, ActionListener {
 		Vector3f camDir = camera.getDirection().mult(2.0f);
 		Vector3f camLeft = camera.getLeft().mult(2.0f);
 		walkDirection = new Vector3f();
-		System.out.println(camera);
+		
 		if (left) {
 			walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
 		}
