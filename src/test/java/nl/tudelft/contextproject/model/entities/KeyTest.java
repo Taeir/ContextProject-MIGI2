@@ -66,7 +66,7 @@ public class KeyTest extends EntityTest {
 	public void testLoadEntity() {
 		Key key = Key.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.KEY.getName(), "0/1/0/1"});
 		
-		assertEquals(loadPosition, key.getLocation());
+		assertEquals(expectedPosition.add(0, .5f, 0), key.getLocation());
 		assertEquals(ColorRGBA.Green, key.getColor());
 	}
 	

@@ -5,16 +5,18 @@ package nl.tudelft.contextproject.webinterface;
  */
 public enum Action {
 	//Cooldowns are set in seconds
-	PLACEBOMB(10, 3, false, true),
-	PLACEPITFALL(10, 2, false, true),
-	PLACEMINE(10, 4, false, true),
-	SPAWNENEMY(10, 1, false, true),
-	DROPBAIT(10, 5, false, true),
-	PLACETILE(0, Integer.MAX_VALUE, true, false),
-	INVALID(0, 0, false, false);
+	PLACEBOMB(10, 3, 3, false, true),
+	PLACEPITFALL(10, 2, 5, false, true),
+	PLACEMINE(10, 4, 5, false, true),
+	SPAWNENEMY(10, 1, 5, false, true),
+	DROPBAIT(10, 5, 0, false, true),
+	PLACETILE(0, Integer.MAX_VALUE, 0, true, false),
+	OPENGATE(5, 1, 0, false, true),
+	INVALID(0, 0, 0, false, false);
 
 	private int cooldown;
 	private int maxAmount;
+	private int radius;
 	private boolean allowedVoid;
 	private boolean allowedTiles;
 
@@ -23,14 +25,17 @@ public enum Action {
 	 * 		the cooldown in seconds
 	 * @param maxAmount
 	 * 		the max amount of times you can perform the action within a cooldown
+	 * @param radius
+	 * 		the radius round the player this action can not occur on
 	 * @param allowedVoid
 	 * 		if the action can be performed in the void
 	 * @param allowedTiles
 	 * 		if the action can be performed on tiles
 	 */
-	Action(int cooldown, int maxAmount, boolean allowedVoid, boolean allowedTiles) {
+	Action(int cooldown, int maxAmount, int radius, boolean allowedVoid, boolean allowedTiles) {
 		this.cooldown = cooldown * 1000;
 		this.maxAmount = maxAmount;
+		this.radius = radius;
 		this.allowedVoid = allowedVoid;
 		this.allowedTiles = allowedTiles;
 	}
@@ -50,7 +55,15 @@ public enum Action {
 	public int getMaxAmount() {
 		return maxAmount;
 	}
-
+	
+	/**
+	 * @return
+	 * 		the radius around the player on which this action can not be performed
+	 */
+	public int getRadius() {
+		return radius;
+	}
+	
 	/**
 	 * @return
 	 * 		true if the action can be performed in the void, false if not

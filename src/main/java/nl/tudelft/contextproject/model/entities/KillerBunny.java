@@ -28,7 +28,7 @@ public class KillerBunny extends MovingEntity implements PhysicsObject, Health {
 	public KillerBunny(Vector3f position) {
 		super(new BunnyAI());
 		spatial = getSpatial();
-		spatial.setLocalTranslation(position);
+		spatial.setLocalTranslation(position.add(0, 1, 0));
 		getPhysicsObject();
 
 	}

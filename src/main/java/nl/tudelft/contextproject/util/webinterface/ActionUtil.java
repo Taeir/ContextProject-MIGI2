@@ -4,6 +4,8 @@ import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Carrot;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.Gate;
 import nl.tudelft.contextproject.model.entities.KillerBunny;
 import nl.tudelft.contextproject.model.entities.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
@@ -50,6 +52,9 @@ public final class ActionUtil {
 			case PLACETILE:
 				placeTile(xCoord, yCoord);
 				break;
+			case OPENGATE:
+				openGate(xCoord, yCoord);
+				break;
 			default:
 				throw new IllegalArgumentException("Your action is not valid.");
 		}
@@ -65,7 +70,7 @@ public final class ActionUtil {
 	 */
 	private static void placeBomb(int xCoord, int yCoord) {
 		Bomb bomb = new Bomb();
-		bomb.move(xCoord, 1, yCoord);
+		bomb.move(xCoord, 0, yCoord);
 		bomb.activate();
 		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
@@ -107,7 +112,7 @@ public final class ActionUtil {
 	 * 		the y coordinate to use
 	 */
 	private static void spawnEnemy(int xCoord, int yCoord) {
-		KillerBunny bunny = new KillerBunny(new Vector3f(xCoord, 1, yCoord));
+		KillerBunny bunny = new KillerBunny(new Vector3f(xCoord, 0, yCoord));
 		Main.getInstance().getCurrentGame().addEntity(bunny);
 	}
 
@@ -121,7 +126,7 @@ public final class ActionUtil {
 	 */
 	private static void dropBait(int xCoord, int yCoord) {
 		Carrot carrot = new Carrot();
-		carrot.move(xCoord, 1, yCoord);
+		carrot.move(xCoord, 0, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(carrot);
 	}
 
@@ -137,5 +142,21 @@ public final class ActionUtil {
 		VoidPlatform voidPlatform = new VoidPlatform();
 		voidPlatform.move(xCoord, 0, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(voidPlatform);
+	}
+	
+	/**
+	 * Opens a gate.
+	 * 
+	 * @param xCoord
+	 * 		the x coordinate to use
+	 * @param yCoord
+	 * 		the y coordinate to use
+	 */
+	private static void openGate(int xCoord, int yCoord) {
+		for (Entity ent: Main.getInstance().getCurrentGame().getEntities()) {
+			if (ent instanceof Gate) {
+					((Gate) ent).openGate();
+			}
+		}
 	}
 }

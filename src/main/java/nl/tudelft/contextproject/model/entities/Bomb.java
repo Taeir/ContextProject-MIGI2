@@ -30,6 +30,7 @@ public class Bomb extends Entity implements PhysicsObject {
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
 		mat.setColor("Color", ColorRGBA.White);
+		sp.move(0, 1, 0);
 		sp.setMaterial(mat);
 	}
 
