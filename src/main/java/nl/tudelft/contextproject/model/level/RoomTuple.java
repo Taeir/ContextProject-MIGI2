@@ -13,10 +13,11 @@ public class RoomTuple {
 	
 	/**
 	 * Constructor.
+	 * 
 	 * @param starterRoom
-	 * 			starter Room
+	 * 		starter Room
 	 * @param treasureRoom
-	 * 			treasure Room
+	 * 		treasure Room
 	 */
 	public RoomTuple(Room starterRoom, Room treasureRoom) {
 		this.starterRoom = starterRoom;
@@ -25,8 +26,9 @@ public class RoomTuple {
 
 	/**
 	 * Get starter room.
+	 * 
 	 * @return
-	 * 			starter Room.
+	 * 		starter Room.
 	 */
 	public Room getStarterRoom() {
 		return starterRoom;
@@ -34,8 +36,9 @@ public class RoomTuple {
 
 	/**
 	 * Set starter Room.
+	 * 
 	 * @param starterRoom
-	 *			Room to set to starterRoom
+	 *		Room to set to starterRoom
 	 */
 	public void setStarterRoom(Room starterRoom) {
 		this.starterRoom = starterRoom;
@@ -43,8 +46,9 @@ public class RoomTuple {
 
 	/**
 	 * Get treasure Room.
+	 * 
 	 * @return treasureRoom
-	 * 			treasure Room
+	 * 		treasure Room
 	 */
 	public Room getTreasureRoom() {
 		return treasureRoom;
@@ -52,8 +56,9 @@ public class RoomTuple {
 
 	/**
 	 * Set treasure Room.
+	 * 
 	 * @param treasureRoom
-	 * 			treasureRoom to set
+	 * 		treasureRoom to set
 	 */
 	public void setTreasureRoom(Room treasureRoom) {
 		this.treasureRoom = treasureRoom;

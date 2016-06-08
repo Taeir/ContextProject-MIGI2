@@ -116,6 +116,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 	 * This method is used during room creations. As rooms have a MazeTile[][] array before they are placed, this would 
 	 * result in the wrong actual location of the object. Thus the MazeTile has to be replaced as soon as it actually placed
 	 * in the maze.
+	 * 
 	 * @param x
 	 * 		new x location
 	 * @param y 
