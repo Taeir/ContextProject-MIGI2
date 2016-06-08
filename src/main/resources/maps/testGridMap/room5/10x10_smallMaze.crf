@@ -1,0 +1,19 @@
+# A room containing a bunny cage
+10 10 6 1
+# # # # I # # # # #
+# O O O O O O O O #
+# O O O O O O O O #
+# O O # # O # O O #
+# O O # O O # O O #
+# O O # O O # O O #
+# O O # O # # O O #
+# O O O O O O O O #
+# O O O O O O O O X
+# # # # # # # # # #
+5 0 3 DamagedWall
+4 0 6 DamagedWall
+4.5 1 4.5 KillerBunny
+4.5 1 4.5 KillerBunny
+4.5 1 4.5 KillerBunny
+4.5 1 4.5 KillerBunny
+3.5 7 4 PointLight 1/1/1/1 20

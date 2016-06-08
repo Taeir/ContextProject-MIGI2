@@ -36,6 +36,7 @@ import nl.tudelft.contextproject.util.QRGenerator;
 /**
  * Test class for {@link ClientServlet}.
  */
+@SuppressWarnings("deprecation")
 public class ClientServletTest extends WebTestBase {
 	private static final String ID1 = "TESTID1";
 	private static final String JSON_CONTENT_TYPE = "text/json";

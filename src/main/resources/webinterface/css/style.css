@@ -56,10 +56,13 @@ body {
 	background-color: #FFFFFF !important;
 }
 #map .Invisible_Wall {
-    background-color: #E6E6E6 !important;
+	background-color: #E6E6E6 !important;
 }
 #map .Damaged_Wall {
-    background-color: #BFBFBF !important;
+	background-color: #BFBFBF !important;
+}
+#map .Gate {
+	background-color: #424242 !important;
 }
 #map {
 	border-spacing: 0px;

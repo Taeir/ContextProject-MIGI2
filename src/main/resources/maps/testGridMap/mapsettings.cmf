@@ -1,0 +1,12 @@
+#
+# Test map layout 
+#
+STARTROOM: startroom
+ENDROOM: endroom
+NOROOMS: 6
+room1
+room2
+room3
+room4
+room5
+room6

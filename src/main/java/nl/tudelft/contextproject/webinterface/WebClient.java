@@ -97,6 +97,7 @@ public class WebClient {
 	private void setUpPerformedElves() {
 		performedActions.put(Action.DROPBAIT, new ArrayList<>());
 		performedActions.put(Action.PLACETILE, new ArrayList<>());
+		performedActions.put(Action.OPENGATE, new ArrayList<>());
 	}
 
 	/**
@@ -104,6 +105,7 @@ public class WebClient {
 	 */
 	private void setUpPerformedDwarfs() {
 		performedActions.put(Action.PLACEBOMB, new ArrayList<>());
+		performedActions.put(Action.PLACEMINE, new ArrayList<>());
 		performedActions.put(Action.PLACEPITFALL, new ArrayList<>());
 		performedActions.put(Action.SPAWNENEMY, new ArrayList<>());
 	}
