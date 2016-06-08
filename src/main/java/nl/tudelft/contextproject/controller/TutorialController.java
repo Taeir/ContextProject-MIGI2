@@ -16,7 +16,7 @@ public class TutorialController extends GameController {
 	 * 		the application this controller is attached to
 	 */
 	public TutorialController(Application app) {
-		super(app, "/maps/" + TUTORIAL_LEVEL + "/", Float.MAX_VALUE);
+		super(app, "/maps/" + TUTORIAL_LEVEL + "/", Float.MAX_VALUE, false);
 	}
 
 	@Override
