@@ -14,6 +14,7 @@ import com.jme3.renderer.Camera;
  * VRLook manager, controller input for virtual reality.
  */
 public class VRLookManager implements AnalogListener {
+	
 	private Camera cam;
 	private Vector3f initialUpVec;
 	private float rotationSpeed = 0.4f;

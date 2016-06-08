@@ -20,6 +20,7 @@ public class VRLookManagerTest extends TestBase {
 
 	private VRLookManager vrManager;
 	private Camera mockedCam;
+	
 	/**
 	 * Set up a VRLookMAnager.
 	 */

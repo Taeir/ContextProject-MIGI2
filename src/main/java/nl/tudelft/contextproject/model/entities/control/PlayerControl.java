@@ -30,26 +30,28 @@ public class PlayerControl implements EntityControl, ActionListener {
 
 	@Override
 	public void move(float tpf) {
-		Camera camera = VRApplication.getVRViewManager().getCamLeft();
-		Vector3f camDir = camera.getDirection().mult(2.0f);
-		Vector3f camLeft = camera.getLeft().mult(2.0f);
-		walkDirection = new Vector3f();
-		
-		if (left) {
-			walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
+		if (VRApplication.getVRViewManager() != null) {
+			Camera camera = VRApplication.getVRViewManager().getCamLeft();
+			Vector3f camDir = camera.getDirection().mult(2.0f);
+			Vector3f camLeft = camera.getLeft().mult(2.0f);
+			walkDirection = new Vector3f();
+
+			if (left) {
+				walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
+			}
+			if (right) {
+				walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
+			}
+			if (up) {
+				walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
+			}
+			if (down) {
+				walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
+			}
+
+			playerControl.setWalkDirection(walkDirection);
+			spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
 		}
-		if (right) {
-			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
-		}
-		if (up) {
-			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
-		if (down) {
-			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
-		
-		playerControl.setWalkDirection(walkDirection);
-		spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
 	}
 
 	@Override
