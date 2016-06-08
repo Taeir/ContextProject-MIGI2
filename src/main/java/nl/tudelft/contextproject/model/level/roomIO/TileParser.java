@@ -11,17 +11,34 @@ import nl.tudelft.contextproject.model.level.TileType;
  */
 public final class TileParser {
 	
-	//Corridor character for .crf files.
+	/**
+	 * Corridor character for .crf files.
+	 */
 	public static final String CORRIDOR_FORMAT = "C";
-	//Floor character for .crf files.
+	
+	/**
+	 * Floor character for .crf files.
+	 */
 	public static final String FLOOR_FORMAT = "O";
-	//Wall character for .crf files.
+	
+	/**
+	 * Wall character for .crf files.
+	 */
 	public static final String WALL_FORMAT = "#";
-	//Door:Entrance character for .crf files.
+	
+	/**
+	 * Door:Entrance character for .crf files.
+	 */
 	public static final String DOOR_ENTRANCE_FORMAT = "I";
-	//Door:Exit character for .crf files.
+	
+	/**
+	 * Door:Exit character for .crf files.
+	 */
 	public static final String DOOR_EXIT_FORMAT = "X";
-	//Empty tile character for .crf files.
+	
+	/**
+	 * Empty tile character for .crf files.
+	 */
 	public static final String EMPTY_FORMAT = "-";
 	
 	/**
@@ -72,10 +89,11 @@ public final class TileParser {
 
 	/**
 	 * Translate the map file to actual type.
+	 * 
 	 * @param string
-	 * 			read type
+	 * 		read type
 	 * @return
-	 * 			TileType value
+	 * 		TileType value
 	 */
 	public static TileType format(String string) {
 		switch (string) {
