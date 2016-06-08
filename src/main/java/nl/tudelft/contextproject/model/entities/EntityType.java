@@ -9,32 +9,33 @@ import com.jme3.math.Vector3f;
  */
 public enum EntityType {
 	BOMB("Bomb", 					1,  Bomb::loadEntity),
-	EXPLOSION("Explosion",			0,  null),
+	LANDMINE("LandMine", 			2,  LandMine::loadEntity),
+	PITFALL("Pitfall", 				3,  Pitfall::loadEntity),
 	
-	DOOR("Door", 					2,  Door::loadEntity),
-	KEY("Key", 						3,  Key::loadEntity),
+	DOOR("Door", 					4,  Door::loadEntity),
+	KEY("Key", 						5,  Key::loadEntity),
+	GATE("Gate",					6,  Gate::loadEntity),
+	CRATE("Crate",					7,  Crate::loadEntity),
 	
-	PLAYER("Player", 				4,  VRPlayer::loadEntity),
-	PLAYER_TRIGGER("PlayerTrigger", 5,  PlayerTrigger::loadEntity),
-	
-	PITFALL("Pitfall", 				6,  Pitfall::loadEntity),
-	LANDMINE("LandMine", 			7,  LandMine::loadEntity),
-	
-	CARROT("Carrot", 				8,  Carrot::loadEntity),
-	KILLER_BUNNY("KillerBunny", 	9,  KillerBunny::loadEntity),
+	CARROT("Carrot", 				8, Carrot::loadEntity),
+	KILLER_BUNNY("KillerBunny", 	9, KillerBunny::loadEntity),
 	
 	VOID_PLATFORM("VoidPlatform", 	10, VoidPlatform::loadEntity),
-	
-	TREASURE("Treasure", 			0,  Treasure::loadEntity),
-	WALLFRAME("WallFrame", 			0,  WallFrame::loadEntity),
-	TORCH("Torch", 					0,  Torch::loadEntity),
 	INVISIBLE_WALL("InvisibleWall",	11,	InvisibleWall::loadEntity),
-	DAMAGED_WALL("DamagedWall",		12,	DamagedWall::loadEntity), 
-	CRATE("Crate",					13, Crate::loadEntity),
-	GATE("Gate",					14,	Gate::loadEntity);
+	DAMAGED_WALL("DamagedWall",		12,	DamagedWall::loadEntity),
+	
+	PLAYER("Player", 				13, VRPlayer::loadEntity),
+	PLAYER_TRIGGER("PlayerTrigger", 14, PlayerTrigger::loadEntity),
+	
+	TREASURE("Treasure", 			15, Treasure::loadEntity),
+	
+	EXPLOSION("Explosion",			0,  null),
+	WALLFRAME("WallFrame", 			0,  WallFrame::loadEntity),
+	TORCH("Torch", 					0,  Torch::loadEntity);
+	
 	private final String name;
 	private final int webId;
-	private final BiFunction<Vector3f, String[], Entity> loader;
+	private final transient BiFunction<Vector3f, String[], Entity> loader;
 	
 	/**
 	 * Creates a new EntityType.

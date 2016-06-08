@@ -1,23 +1,55 @@
 package nl.tudelft.contextproject.webinterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.eclipse.jetty.http.HttpStatus;
+import org.json.JSONObject;
+
+import nl.tudelft.contextproject.webinterface.websockets.COCSocket;
+
 import java.util.List;
 
 /**
  * Class to represent connected web clients.
  */
 public class WebClient {
-	private Boolean team;
-	private Map<Action, List<Long>> performedActions;
-
+	private Team team = Team.NONE;
+	private Map<Action, List<Long>> performedActions = new HashMap<>();
+	private COCSocket webSocket;
+	
 	/**
-	 * Constructor for a WebClient.
+	 * @return
+	 * 		the websocket of this client, or null if this client has no websocket
 	 */
-	public WebClient() {
-		team = null;
-		performedActions = new HashMap<>();
+	public synchronized COCSocket getWebSocket() {
+		return this.webSocket;
+	}
+	
+	/**
+	 * Sets the websocket of this client.
+	 * 
+	 * @param socket
+	 * 		the socket to set
+	 */
+	public synchronized void setWebSocket(COCSocket socket) {
+		this.webSocket = socket;
+	}
+	
+	/**
+	 * Removes the websocket from this client, if it is equal to the given socket.
+	 * 
+	 * @param socket
+	 * 		the socket to remove
+	 */
+	public synchronized void removeWebSocket(COCSocket socket) {
+		if (this.webSocket == socket) {
+			this.webSocket = null;
+		}
 	}
 
 	/**
@@ -25,11 +57,7 @@ public class WebClient {
 	 * 		if this client is an elf
 	 */
 	public boolean isElf() {
-		if (team == null) {
-			return false;
-		}
-		
-		return team;
+		return team == Team.ELVES;
 	}
 	
 	/**
@@ -37,11 +65,7 @@ public class WebClient {
 	 * 		if this client is a dwarf
 	 */
 	public boolean isDwarf() {
-		if (team == null) {
-			return false;
-		}
-		
-		return !team;
+		return team == Team.DWARFS;
 	}
 	
 	/**
@@ -50,30 +74,18 @@ public class WebClient {
 	 * @return
 	 * 		the name of the team of this player
 	 */
-	public String getTeam() {
-		if (team == null) {
-			return "None";
-		} else if (team) {
-			return "Elves";
-		} else {
-			return "Dwarfs";
-		}
+	public Team getTeam() {
+		return this.team;
 	}
 	
 	/**
 	 * Sets the team of this client.
 	 * Also resets the performedActions hashmap.
 	 * 
-	 * <ul>
-	 * <li><code>null</code> = no team</li>
-	 * <li><code>true</code> = Elves</li>
-	 * <li><code>false</code> = Dwarves</li>
-	 * </ul>
-	 * 
 	 * @param team
 	 * 		the team of this client
 	 */
-	public void setTeam(Boolean team) {
+	public void setTeam(Team team) {
 		this.team = team;
 		resetPerformed();
 	}
@@ -83,8 +95,8 @@ public class WebClient {
 	 */
 	public void resetPerformed() {
 		this.performedActions.clear();
-		if (team == null) return;
-		if (team) {
+
+		if (isElf()) {
 			setUpPerformedElves();
 		} else {
 			setUpPerformedDwarfs();
@@ -118,6 +130,63 @@ public class WebClient {
 	 */
 	public Map<Action, List<Long>> getPerformedActions() {
 		return performedActions;
+	}
+	
+	/**
+	 * Sends a JSON message to this client.
+	 * 
+	 * @param msg
+	 * 		the JSON message to respond with
+	 * @param response
+	 * 		the response to send to, can be null
+	 * @throws IOException
+	 * 		if writing the response results in an error
+	 */
+	public void sendMessage(JSONObject msg, HttpServletResponse response) throws IOException {
+		if (response == null) {
+			COCSocket socket = this.webSocket;
+			if (socket != null) {
+				socket.getRemote().sendStringByFuture(msg.toString());
+			}
+		} else {
+			response.setStatus(HttpStatus.OK_200);
+			response.setContentType("text/json");
+			response.getWriter().write(msg.toString());
+		}
+	}
+	
+	/**
+	 * Send a message to this client.
+	 * 
+	 * @param msg
+	 * 		the message to respond with
+	 * @param response
+	 * 		the response to send to, can be null
+	 * @throws IOException
+	 * 		if writing the response results in an error
+	 */
+	public void sendMessage(String msg, HttpServletResponse response) throws IOException {
+		if (response == null) {
+			COCSocket socket = this.webSocket;
+			if (socket != null) {
+				socket.getRemote().sendStringByFuture(msg);
+			}
+		} else {
+			response.setStatus(HttpStatus.OK_200);
+			response.getWriter().write(msg);
+		}
+	}
+	
+	/**
+	 * Send a confirmation message to the client.
+	 * 
+	 * @param response
+	 * 		the response to send to, can be null
+	 */
+	public void confirmMessage(HttpServletResponse response) {
+		if (response == null) return;
+		
+		response.setStatus(HttpStatus.NO_CONTENT_204);
 	}
 
 	@Override
