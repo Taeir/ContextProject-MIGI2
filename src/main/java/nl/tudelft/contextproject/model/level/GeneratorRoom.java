@@ -6,6 +6,7 @@ import nl.tudelft.contextproject.util.Size;
 
 /**
  * Class which represents a room used by the RandomLevelFactory.
+ * 
  * @deprecated This class is no longer used in the current maze generation and could be
  * removed from the code base during refactoring.
  */

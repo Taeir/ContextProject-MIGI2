@@ -23,7 +23,6 @@ import nl.tudelft.contextproject.util.RandomUtil;
 
 /**
  * Minimum Spanning Tree Based Level Factory.
- *
  */
 public class MSTBasedLevelFactory implements LevelFactory {
 
@@ -122,7 +121,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		Vec2I startLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				RoomNode.MIN_DIST, endLeftMostQuarter), 
 				RandomUtil.getRandomIntegerFromInterval(rand, 
-						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
+				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
 		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), START_ROOM_ID);
 		addRoomNode(startNode, startLocation);
 
@@ -130,7 +129,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		Vec2I treasureLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
 				beginningRightMostQuarter, MAX_WIDTH - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)), 
 				RandomUtil.getRandomIntegerFromInterval(rand, 
-						RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
+				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
 		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom(), TREASURE_ROOM_ID);
 		addRoomNode(treasureNode, treasureLocation);
 	}
@@ -184,8 +183,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	/**
 	 * Create a MST, connecting all the rooms with the least amount of path.
 	 * Create the MST object.
-	 * Run the MST algorithm, selecting which edges are chosen in map generation.
-	 * 
+	 * Run the reverse MST algorithm, selecting which edges are chosen in map generation.
 	 */
 	protected void createReverseMST() {
 		MinimumSpanningTree mst = new MinimumSpanningTree(usedNodes, edges);
@@ -218,6 +216,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 
 	/**
 	 * Get all corridor locations on the map.
+	 * 
 	 * @return
 	 * 		list of stacks of corridor locations
 	 */
@@ -278,7 +277,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * 
 	 * Copies the RoomNode if duplicates are allowed.
 	 * 
-	 * @param	node
+	 * @param node
 	 * 		Node to add
 	 * @param position
 	 * 		position of room
@@ -301,7 +300,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	/**
 	 * Initialize all the data containers needed for building.
 	 * @param mapFolder
-	 * 			location of map folder
+	 * 		location of map folder
 	 */
 	protected void initializeBuilder(String mapFolder) {
 		ArrayList<Room> rooms = new ArrayList<Room>();

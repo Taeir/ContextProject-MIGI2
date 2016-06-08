@@ -14,6 +14,7 @@ import nl.tudelft.contextproject.util.FileUtil;
 
 /**
  * An implementation of a LevelFactory that creates a level randomly.
+ * 
  * @deprecated This class is no longer used in the current maze generation and could be
  * removed from the code base during refactoring.
  */
