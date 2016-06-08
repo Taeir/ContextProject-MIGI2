@@ -20,7 +20,6 @@ import com.jme3.math.Vector2f;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.entities.Crate;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
 import nl.tudelft.contextproject.model.entities.Treasure;
