@@ -31,6 +31,7 @@ public class Key extends Entity implements PhysicsObject {
 	public Key(ColorRGBA col) {
 		color = col;
 		sp = Main.getInstance().getAssetManager().loadModel("Models/key.blend");
+		sp.move(0, 1, 0);
 		Node node = (Node) sp;
 		Geometry geometry = (Geometry) ((Node) node.getChild("Cube")).getChild(0);
 		Material mat = geometry.getMaterial();

@@ -92,7 +92,7 @@ public class BombTest extends EntityTest {
 	public void testLoadEntity() {
 		Bomb bomb = Bomb.loadEntity(loadPosition, new String[]{"1", "1", "1", EntityType.BOMB.getName()});
 		
-		assertEquals(loadPosition, bomb.getLocation());
+		assertEquals(expectedPosition.add(0, 0.5f, 0), bomb.getLocation());
 	}
 	
 	/**

@@ -19,6 +19,7 @@ import nl.tudelft.contextproject.test.TestUtil;
 public abstract class EntityTest extends DrawableTest {
 	
 	protected final Vector3f loadPosition = new Vector3f(1, 1, 1);
+	protected final Vector3f expectedPosition = loadPosition.add(0, .5f, 0);
 	private Entity entity;
 	
 	@Override

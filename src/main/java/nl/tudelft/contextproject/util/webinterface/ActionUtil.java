@@ -65,7 +65,7 @@ public final class ActionUtil {
 	 */
 	private static void placeBomb(int xCoord, int yCoord) {
 		Bomb bomb = new Bomb();
-		bomb.move(xCoord, 1, yCoord);
+		bomb.move(xCoord, 0, yCoord);
 		bomb.activate();
 		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
@@ -107,7 +107,7 @@ public final class ActionUtil {
 	 * 		the y coordinate to use
 	 */
 	private static void spawnEnemy(int xCoord, int yCoord) {
-		KillerBunny bunny = new KillerBunny(new Vector3f(xCoord, 1, yCoord));
+		KillerBunny bunny = new KillerBunny(new Vector3f(xCoord, 0, yCoord));
 		Main.getInstance().getCurrentGame().addEntity(bunny);
 	}
 
@@ -121,7 +121,7 @@ public final class ActionUtil {
 	 */
 	private static void dropBait(int xCoord, int yCoord) {
 		Carrot carrot = new Carrot();
-		carrot.move(xCoord, 1, yCoord);
+		carrot.move(xCoord, 0, yCoord);
 		Main.getInstance().getCurrentGame().addEntity(carrot);
 	}
 

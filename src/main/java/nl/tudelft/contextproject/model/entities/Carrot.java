@@ -24,6 +24,7 @@ public class Carrot extends Entity {
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 		spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot.blend");
+		spatial.move(0, 1, 0);
 		return spatial;
 	}
 
