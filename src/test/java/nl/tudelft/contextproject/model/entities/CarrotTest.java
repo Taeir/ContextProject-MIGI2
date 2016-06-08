@@ -56,7 +56,7 @@ public class CarrotTest extends EntityTest {
 	public void testLoadEntity() {
 		Carrot carrot = Carrot.loadEntity(loadPosition, new String[]{"1", "1", "1", EntityType.CARROT.getName()});
 		
-		assertEquals(loadPosition, carrot.getLocation());
+		assertEquals(expectedPosition.add(0, 0.5f, 0), carrot.getLocation());
 	}
 	
 	/**

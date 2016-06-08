@@ -52,7 +52,7 @@ public class TreasureTest extends EntityTest {
 	@Test
 	public void testLoadEntity() {
 		Treasure treasure = Treasure.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.TREASURE.getName()});
-		assertEquals(loadPosition, treasure.getLocation());
+		assertEquals(loadPosition.add(0, 1, 0), treasure.getLocation());
 	}
 
 	/**

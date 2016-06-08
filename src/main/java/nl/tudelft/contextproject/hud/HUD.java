@@ -202,8 +202,8 @@ public class HUD implements TickListener {
 	 * 		the inventory that contains the bomb
 	 */
 	protected void updateBombs(Inventory inv) {
-		if (inv.containsBomb()) {
-			attachBomb(inv.getBomb());
+		if (inv.isHolding() && inv.getHolding() instanceof Bomb) {
+			attachBomb((Bomb) inv.getHolding());
 		} else {
 			bombNode.detachAllChildren();
 		}

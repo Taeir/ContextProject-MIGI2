@@ -96,7 +96,7 @@ public class WallFrameTest extends EntityTest {
 		WallFrame frame = WallFrame.loadEntity(loadPosition, new String[] {"1", "1", "1", "/", "NORTH", "logo.png", "2", "2"});
 		
 		//The position of the frame is changed, because it has "snapped" to the wall
-		assertEquals(loadPosition.add(0.5f, 0f, 0.49f), frame.getLocation());
+		assertEquals(expectedPosition.add(0.5f, 0f, 0.49f), frame.getLocation());
 	}
 
 	/**

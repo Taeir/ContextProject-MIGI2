@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.util.webinterface;
 
 import com.jme3.math.Vector3f;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.Game;
@@ -158,8 +159,8 @@ public class WebUtilTest extends TestBase {
 	 */
 	@Test
 	public void testCheckValidLocationValid() {
-		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
-		when(mockedLevel.getTile(0, 0)).thenReturn(tile);
+		MazeTile tile = new MazeTile(2, 3, TileType.FLOOR);
+		when(mockedLevel.getTile(2, 3)).thenReturn(tile);
 		Set<Entity> entities = new HashSet<>();
 		when(mockedGame.getEntities()).thenReturn(entities);
 
@@ -168,7 +169,7 @@ public class WebUtilTest extends TestBase {
 		Vector3f oneVector = new Vector3f(1, 1, 1);
 		when(mockedPlayer.getLocation()).thenReturn(oneVector);
 
-		assertTrue(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
+		assertTrue(WebUtil.checkValidLocation(2, 3, Action.PLACEBOMB));
 	}
 
 	/**
@@ -248,5 +249,22 @@ public class WebUtilTest extends TestBase {
 
 		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
 		assertEquals(1, timestamps.size());
+	}
+	
+	/**
+	 * Checks if we are allowed to place a bomb within the player radius.
+	 */
+	@Test
+	public void testWithinplayerRadius() {
+		MazeTile tile = new MazeTile(2, 2, TileType.FLOOR);
+		Set<Entity> entities = new HashSet<>();
+		Vector3f oneVector = new Vector3f(1, 1, 1);
+		
+		when(mockedLevel.getTile(2, 2)).thenReturn(tile);
+		when(mockedGame.getEntities()).thenReturn(entities);
+		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
+		when(mockedPlayer.getLocation()).thenReturn(oneVector);
+		
+		assertFalse(WebUtil.checkValidLocation(2, 2, Action.PLACEBOMB));
 	}
 }

@@ -6,6 +6,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -15,7 +16,7 @@ import nl.tudelft.contextproject.model.PhysicsObject;
 /**
  * Class representing a bomb.
  */
-public class Bomb extends Entity implements PhysicsObject {
+public class Bomb extends Entity implements PhysicsObject, Holdable {
 	private static final float TIMER = 10;
 	private Spatial sp;
 	private RigidBodyControl rb;
@@ -30,6 +31,7 @@ public class Bomb extends Entity implements PhysicsObject {
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
 		mat.setColor("Color", ColorRGBA.White);
+		sp.move(0, 1, 0);
 		sp.setMaterial(mat);
 	}
 
@@ -40,10 +42,12 @@ public class Bomb extends Entity implements PhysicsObject {
 
 	@Override
 	public void update(float tpf) {
-		if (this.isPickedup()) {
-			Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(1.5f);
-			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation().add(vec.x, 1, vec.z);
-			this.getSpatial().setLocalTranslation(vec2);
+		if (this.isPickedUp()) {
+			Quaternion rot = Main.getInstance().getCamera().getRotation();
+			Vector3f vec = rot.getRotationColumn(2).mult(2f);
+			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
+			rb.setPhysicsLocation(vec2);
+			rb.setPhysicsRotation(rot);
 		}
 		if (active) {
 			timer -= tpf;
@@ -69,15 +73,15 @@ public class Bomb extends Entity implements PhysicsObject {
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
 		rb = new RigidBodyControl(sceneShape, 0);
 		rb.setPhysicsLocation(sp.getLocalTranslation());
+		sp.addControl(rb);
 		return rb;
 	}
 
 	@Override
 	public void move(float x, float y, float z) {
-		sp.move(x, y, z);
 		if (rb == null) getPhysicsObject();
-
 		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
+		rb.update(0);
 	}
 
 	/**
@@ -133,18 +137,22 @@ public class Bomb extends Entity implements PhysicsObject {
 	}
 
 	/**
-	 * @param bool
-	 * 		decides whether the bomb is picked up 
-	 */
-	public void setPickedup(Boolean bool) {
-		pickedup = bool;
-	}
-
-	/**
 	 * @return 
 	 * 		returns wether the bomb is picked up or not
 	 */
-	public boolean isPickedup() {
+	@Override
+	public boolean isPickedUp() {
 		return pickedup;
+	}
+
+	@Override
+	public void pickUp() {
+		pickedup = true;
+		activate();
+	}
+
+	@Override
+	public void drop() {
+		pickedup = false;
 	}
 }

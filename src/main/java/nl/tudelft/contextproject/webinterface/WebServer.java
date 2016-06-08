@@ -32,7 +32,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class WebServer {
 	public static final String SESSION2_COOKIE = "COC_SESSION2";
-	public static final int MAX_PLAYERS = 4;
+	public static final int MAX_PLAYERS = 8;
 	private static final Log LOG = Log.getLog("WebInterface");
 	
 	private HashMap<String, WebClient> clients = new HashMap<>();

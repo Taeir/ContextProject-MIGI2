@@ -26,7 +26,7 @@ public class TileParserTest extends TestBase {
 	@Test
 	public void testGetTileEmpty() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "#";
+		String in = TileParser.EMPTY_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileParser.readTiles(tiles, 1, 1, 0, 0, br);
 		assertNull(tiles[0][0]);
@@ -41,7 +41,7 @@ public class TileParserTest extends TestBase {
 	@Test
 	public void testGetTileWall() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "WALL";
+		String in = TileParser.WALL_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileParser.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.WALL, tiles[0][0].getTileType());
@@ -56,7 +56,7 @@ public class TileParserTest extends TestBase {
 	@Test
 	public void testGetTileCorridor() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "CORRIDOR";
+		String in = TileParser.CORRIDOR_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileParser.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.CORRIDOR, tiles[0][0].getTileType());
@@ -71,7 +71,7 @@ public class TileParserTest extends TestBase {
 	@Test
 	public void testGetTileFloor() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "FLOOR";
+		String in = TileParser.FLOOR_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileParser.readTiles(tiles, 1, 1, 0, 0, br);
 		assertEquals(TileType.FLOOR, tiles[0][0].getTileType());
@@ -100,7 +100,7 @@ public class TileParserTest extends TestBase {
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetTileTooFewTilesInARow() throws IOException {
 		MazeTile[][] tiles = new MazeTile[1][1];
-		String in = "FLOOR";
+		String in = TileParser.FLOOR_FORMAT;
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileParser.readTiles(tiles, 2, 1, 0, 0, br);
 	}
@@ -117,6 +117,46 @@ public class TileParserTest extends TestBase {
 		String in = "FLOOR";
 		BufferedReader br = new BufferedReader(new StringReader(in));
 		TileParser.readTiles(tiles, 1, 2, 0, 0, br);
+	}
+	
+	/**
+	 * Test translate method of wall.
+	 */
+	@Test
+	public void testTranslateWall() {
+		assertEquals(TileType.WALL, TileParser.format(TileParser.WALL_FORMAT));
+	}
+	
+	/**
+	 * Test translate method of floor.
+	 */
+	@Test
+	public void testTranslateFloor() {
+		assertEquals(TileType.FLOOR, TileParser.format(TileParser.FLOOR_FORMAT));
+	}
+	
+	/**
+	 * Test translate method of corridor.
+	 */
+	@Test
+	public void testTranslateCorridor() {
+		assertEquals(TileType.CORRIDOR, TileParser.format(TileParser.CORRIDOR_FORMAT));
+	}
+	
+	/**
+	 * Test translate method of door entrance.
+	 */
+	@Test
+	public void testTranslateDoorEntrance() {
+		assertEquals(TileType.DOOR_ENTRANCE, TileParser.format(TileParser.DOOR_ENTRANCE_FORMAT));
+	}
+	
+	/**
+	 * Test translate method of door exit.
+	 */
+	@Test
+	public void testTranslateDoorExit() {
+		assertEquals(TileType.DOOR_EXIT, TileParser.format(TileParser.DOOR_EXIT_FORMAT));
 	}
 
 }
