@@ -12,7 +12,7 @@ import nl.tudelft.contextproject.model.level.Room;
 /**
  * Room Node, contains placement maze generation related data and methods.
  * 
- * Contains methods useful for graphs.
+ * Contains methods useful for graphs and placement in MazeTile arrays.
  */
 public class RoomNode {
 	
@@ -82,6 +82,7 @@ public class RoomNode {
 	
 	/**
 	 * Scan Tile type and room to see if it possible to place the room.
+	 * First check the boundaries and then check room overlap.
 	 * 
 	 * @param tiles
 	 * 		possible tiles
@@ -91,12 +92,9 @@ public class RoomNode {
 	 * 		true if placement of RoomNode at xCoordinate, yCoordinate with Rotation of rotation is possible 
 	 */
 	public boolean scanPossiblePlacement(MazeTile[][] tiles, Vec2I coordinates) {
-		//First check boundaries 
 		if (checkBoundaryCollision(tiles, coordinates)) {
 			return false;
 		}
-		
-		//Check room overlap
 		if (checkRoomOverlap(tiles, coordinates)) {
 			return false;
 		}
@@ -233,7 +231,7 @@ public class RoomNode {
 	 * @return
 	 * 		all outgoing connection points
 	 */
-	public Collection<? extends RoomExitPoint> geOutGoingConnections() {
+	public Collection<RoomExitPoint> geOutGoingConnections() {
 		return exits;
 	}
 
@@ -243,7 +241,7 @@ public class RoomNode {
 	 * @return
 	 * 		all incoming connection points
 	 */
-	public Collection<? extends RoomEntrancePoint> getIncomingConnections() {
+	public Collection<RoomEntrancePoint> getIncomingConnections() {
 		return entrances;
 	}
 
@@ -283,9 +281,9 @@ public class RoomNode {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof RoomNode) {
-		RoomNode other = (RoomNode) obj;
-		if (id != other.id) return false;
-		return true;
+			RoomNode other = (RoomNode) obj;
+			if (id != other.id) return false;
+			return true;
 		}
 		return false;
 	}
