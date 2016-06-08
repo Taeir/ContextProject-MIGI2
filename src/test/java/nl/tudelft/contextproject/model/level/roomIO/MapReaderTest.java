@@ -19,7 +19,9 @@ import nl.tudelft.contextproject.model.level.RoomTuple;
  */
 public class MapReaderTest {
 
-	//Location of the test map
+	/**
+	 * Location of the test map.
+	 */
 	private static final String TEST_MAP_LOCATION = "/maps/testGridMap/";
 
 	private ArrayList<Room> rooms;
@@ -83,8 +85,9 @@ public class MapReaderTest {
 	/**
 	 * Test reading of a incorrect map file (.cmf).
 	 * Tests exception of no starterRoom.
+	 * 
 	 * @throws IOException
-	 * 			should happen here
+	 * 		should happen here
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionEmpty() throws IOException {
@@ -105,8 +108,9 @@ public class MapReaderTest {
 	/**
 	 * Test reading of a incorrect map file (.cmf).
 	 * Tests exception of no treasureRoom.
+	 * 
 	 * @throws IOException
-	 * 			should happen here
+	 * 		should happen here
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoEndRoom1() throws IOException {
@@ -116,8 +120,9 @@ public class MapReaderTest {
 	/**
 	 * Test reading of a incorrect map file (.cmf).
 	 * Tests exception of no treasureRoom definition.
+	 * 
 	 * @throws IOException
-	 * 			should happen here
+	 * 		should happen here
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoEndRoom2() throws IOException {
@@ -127,8 +132,9 @@ public class MapReaderTest {
 	/**
 	 * Test reading of a incorrect map file (.cmf).
 	 * Tests exception of no extra rooms.
+	 * 
 	 * @throws IOException
-	 * 			should happen here
+	 * 		should happen here
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoExtra1() throws IOException {
@@ -138,8 +144,9 @@ public class MapReaderTest {
 	/**
 	 * Test reading of a incorrect map file (.cmf).
 	 * Tests exception of no extra rooms definition.
+	 * 
 	 * @throws IOException
-	 * 			should happen here
+	 * 		should happen here
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoExtra2() throws IOException {
@@ -149,8 +156,9 @@ public class MapReaderTest {
 	/**
 	 * Test reading of a incorrect map file (.cmf).
 	 * Tests exception of when there are not enough extra rooms.
+	 * 
 	 * @throws IOException
-	 * 			should happen here
+	 * 		should happen here
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadMapExceptionNoExtra3() throws IOException {
@@ -172,8 +180,9 @@ public class MapReaderTest {
 
 	/**
 	 * Test exception if .cmf file does not exist.
+	 * 
 	 * @throws FileNotFoundException 
-	 * 			this should happen here
+	 * 		this should happen here
 	 */
 	@Test (expected = FileNotFoundException.class)
 	public void testGetMapFileException() throws FileNotFoundException {
@@ -183,8 +192,9 @@ public class MapReaderTest {
 	
 	/**
 	 * Test exception if path does not exist.
+	 * 
 	 * @throws FileNotFoundException 
-	 * 			this should happen here
+	 * 		this should happen here
 	 */
 	@Test (expected = FileNotFoundException.class)
 	public void testGetMapFileExceptionNotAPAd() throws FileNotFoundException {

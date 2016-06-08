@@ -50,7 +50,7 @@ public class RoomTest extends TestBase {
 	}
 	
 	/**
-	 * Test IOException during reading wrong file name.
+	 * Test zero size room during reading wrong file name.
 	 */
 	@Test
 	public void testRoomConstructorIncorrectFileName() {
@@ -60,6 +60,7 @@ public class RoomTest extends TestBase {
 
 	/**
 	 * Test size retrieval with incorrect file name.
+	 * 
 	 * @throws IOException 
 	 * 			should happen as room name is incorrect
 	 */
