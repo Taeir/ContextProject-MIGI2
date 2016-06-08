@@ -154,11 +154,6 @@ public final class WebUtil {
 			}
 		}
 
-		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
-		if (Math.round(player.getLocation().getX()) == xCoord && Math.round(player.getLocation().getZ()) == yCoord) {
-			return false;
-		}
-
 		return true;
 	}
 
