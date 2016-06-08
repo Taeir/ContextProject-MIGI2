@@ -177,10 +177,6 @@ public class GameController extends Controller {
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.9f));
 		addLight(al);
-		
-		Entity e = new Crate();
-		e.move(5, 10, 5);
-		game.addEntity(e);
 	}
 
 	/**

@@ -76,7 +76,7 @@ public class Inventory implements TickProducer {
 	 * Drop the holdable that the inventory holds.
 	 * 
 	 * @return
-	 * 		the holdable that was held or null when nothing was held.
+	 * 		the holdable that was held or null when nothing was held
 	 */
 	public Holdable drop() {
 		if (holding == null) return null;
@@ -146,6 +146,7 @@ public class Inventory implements TickProducer {
 	
 	/**
 	 * Gives the size of the current inventory.
+	 * 
 	 * @return
 	 * 		the current amount of items in the inventory (bombs and keys)
 	 */
@@ -170,7 +171,7 @@ public class Inventory implements TickProducer {
 	 * Update the bomb in the inventory.
 	 * 
 	 * @param tpf
-	 * 		the tpf for this update.
+	 * 		the tpf for this update
 	 */
 	public void update(float tpf) {
 		if (holding != null) {
