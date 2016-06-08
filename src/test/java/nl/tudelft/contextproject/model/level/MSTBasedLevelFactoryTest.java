@@ -4,8 +4,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +14,9 @@ import nl.tudelft.contextproject.TestBase;
  */
 public class MSTBasedLevelFactoryTest extends TestBase {
 
-	//Location of the test map
+	/**
+	 * Location of the test map.
+	 */
 	private static final String TEST_MAP_LOCATION = "/maps/testMap2/";
 	
 	private MSTBasedLevelFactory factoryMST;
@@ -293,11 +293,11 @@ public class MSTBasedLevelFactoryTest extends TestBase {
 	 * Test reading of a incorrect map file (.cmf).
 	 * Tests exception of no starterRoom definition.
 	 * 
-	 * @throws IOException
+	 * @throws IllegalArgumentException
 	 * 		should happen here
 	 */
 	@Test (expected = IllegalArgumentException.class)
-	public void testInitializeBuilderReadMapExceptionNoStartRoom() throws IOException {
+	public void testInitializeBuilderReadMapExceptionNoStartRoom() throws IllegalArgumentException {
 		MSTBasedLevelFactory willNotInitialize = new MSTBasedLevelFactory("/maps/incorrectMapFiles/noStartRoom/");
 		assertNotNull(willNotInitialize);
 	}
