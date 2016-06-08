@@ -1,5 +1,5 @@
 2 2 1 1
-FLOOR WALL
-WALL WALL
+O #
+# #
 0 0 0 Door 1/0/0/0
 0 0 0 AmbientLight randomColor

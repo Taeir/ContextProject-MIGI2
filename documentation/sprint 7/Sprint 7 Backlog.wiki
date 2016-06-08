@@ -1,0 +1,492 @@
+= Sprint Backlog, Iteration #7 =
+Context project: Computer games<br />
+Group: MIGI2
+
+<table>
+<tr>
+<td>'''User Story'''</td>
+<td>'''Task'''</td>
+<td>'''Member responsible for task'''</td>
+<td>'''Task Assigned To'''</td>
+<td>'''Estimated Effort per Task''' (in hours)</td>
+<td>'''Priority (A-E)<br />'''(A is highest)</td>
+</tr>
+<tr>
+<td rowspan=3>[https://github.com/Taeir/ContextProject-MIGI2/issues/352 '''#352 - Websockets''']<br />
+As a player, I want the webserver to make use of sockets, so I have a quicker response when I perform an action.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/353 #353 - Finalize implementation - Server]<br />
+Finalize the java side of the socket implementation.</td>
+<td>Taico</td>
+<td>Bram, Taico</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/354 #354 - Finalize implementation - Client]<br />
+Finalize the javascript side of the socket implementation.</td>
+<td>Taico</td>
+<td>Bram, Taico</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/355 #355 - Test websockets]<br />
+After all code has been finalized the websockets need to be tested.</td>
+<td>Taico</td>
+<td>Bram, Taico</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=5>[https://github.com/Taeir/ContextProject-MIGI2/issues/356 '''#356 - Make webinterface user friendly''']<br />
+As a player, I want an interface which is nice and clear to use, so the game is more enjoyable.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/357 #357 - Instructions]<br />
+Add instructions to the webpage which explain how to play.</td>
+<td>Bram</td>
+<td>Bram, Taico</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/358 #358 - Scalable]<br />
+Make the map part of the webinterface scalable.</td>
+<td>Bram</td>
+<td>Bram, Taico</td>
+<td>2.5</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/359 #359 - Alerts]<br />
+Show alerts when an action fails.</td>
+<td>Bram</td>
+<td>Bram, Taico</td>
+<td>1</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/360 #360 - Game counter]<br />
+Show a counter on the webpage representing how much time is left.</td>
+<td>Bram</td>
+<td>Bram, Taico</td>
+<td>1</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/361 #361 - Bomb counter]<br />
+Show a counter on every bomb representing how much time is left before it explodes.</td>
+<td>Bram</td>
+<td>Bram, Taico</td>
+<td>0.5</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/362 '''#362 - Cave generation''']<br />
+As the VR player, I want corridors to be more than straight lines of 1 tile wide, they should be slightly randomized so that the level is more immersive.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/362 #362 - Corridor Beautification]<br />
+Add noise to corridor creation during map making.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>5</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/363 '''#363 - Nausea reduction''']<br />
+As a player, I want the game to be less nauseating, so that I can enjoy the game more.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/364 #364 - Remove direction bug in controller]<br />
+As the VR player, I want the controller to feel natural and responsive, so that I get less nauseas when playing the game.
+
+Remove the direction bug that was found during play testing.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>4</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/365 #365 - Literature about Oculus Nausea reduction methods]<br />
+We want to see if we can somehow apply some kind of post processing filter to reduce nausea (e.g. blur). This task is about looking for literature about nausea reducing methods that we can apply in our game.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>10</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/366 '''#366 - Playtesting''']<br />
+As a developer, I want to playtest my game, so that I know what to improve in my game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/367 #367 - Update questionnaire]<br />
+We found that the questionnaire needs to be changed to improve and add some questions.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/368 #368 - Prepare]<br />
+Preparations need to be made to make sure the playtesting runs as smoothly as possible.</td>
+<td>Robin</td>
+<td>Everyone</td>
+<td>1.5</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/369 #369 - Playtest]<br />
+A playtesting session should be held.</td>
+<td>Robin</td>
+<td>Everyone</td>
+<td>1.5</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/370 #370 - Process feedback]<br />
+All feedback received as a result of the playtest session should be processed.</td>
+<td>Robin</td>
+<td>Everyone</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/371 '''#371 - Report''']<br />
+As a group working for on the context project, I want to write a final user interaction report, so that I get a grade for this part op the project.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/372 #372 - Basic structure]<br />
+Create a basic structure for the report</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/373 #373 - Integrate test results]<br />
+Create a way to add the results of play testing to the report.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>D</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/374 #374 - Gameplay testing literature]<br />
+Add literature study for user testing to the document.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>D</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/375 #375 - Type notes]<br />
+Taico took notes during the Interaction Design meeting. These notes need to be typed so that every teammember can read them.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>0</td>
+<td>E</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/376 '''#376 - Respawning''']<br />
+As a player, I want to respawn in the game, so that I don't fall endlessly when I fall into a pitfall.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/377 #377 - Player spawning from File]<br />
+Player spawning is currently set to a hardcoded position. This needs to be moved to the rooms. Loading entities from room files is already possible, but the player is a special entity that needs special loading behavior.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/378 #378 - Respawn on void platform]<br />
+The player should respawn on a void platform when they fall out of the map. Currently, the player is constantly respawned, but right above where they fell, resulting in an endless fall. This task is to add a Void Platform to spawn the player on.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/379 '''#379 - Tutorial''']<br />
+As a player, I want to have a tutorial, so I know how to play the game</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/380 #380 - Create tutorial]<br />
+Add a state to the game which allows us tho show a tutorial. Also create the tutorial.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>5</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/381 #381 - Write tutorial storyboard]<br />
+A storyboard has to be written explaining what should be in the tutorial.</td>
+<td>Bram</td>
+<td>Everyone</td>
+<td>2</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/382 '''#382 - Fix initial entity positions''']<br />
+As a map/room creator, I want have consistent positions of entities when creating them, so that I can create maps/rooms more easily.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/382 #382 - Fix initial entity positions]<br />
+Fix the initial positions for all entities.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/383 '''#383 - Trailer concept''']<br />
+As a person that might want to buy the game, I want to view a short trailer, so that I can decide if I should buy it.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/383 #383 - Trailer concept]<br />
+Create a storyboard for the trailer.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>5</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/384 '''#384 - Boxes''']<br />
+As a player wearing the Oculus Rift, I want to have boxes added to the game, so that I can reach the treasure more easily.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/385 #385 - Box entity]<br />
+Add a box entity to the game that can be picked up and thrown by the player, that will trigger certain other entities.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/386 #386 - Box spawn limitations]<br />
+Add a box placement cap to the elves.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>1</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/387 '''#387 - Gates''']<br />
+As an elf I want there to be gates I can open, so that I have another way to help the vrplayer.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/388 #388 - Implement gates in game]<br />
+Adds a gate entity and its functions</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/389 #389 - Add gates to web interface]<br />
+The webinterface should be able to show gates</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/390 '''#390 - Balancing''']<br />
+As a developer, I want to balance the game around the feedback received from playtesters, so that the game will be enjoyable and fair for all players.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/391 #391 - Adjust constants/settings based on player feedback.]<br />
+Adjust settings and numbers based on feedback</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/392 #392 - Add radius to actions.]<br />
+Add a radius around the player in which the dwarfs can? place traps</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/289 '''#289 - Dynamically place lights (Task from last week)''']<br />
+As the VR player, lighting should come from actual sources in the game, so that I am more immersed.
+
+As a map designer, I don't want to place the lighting entities in the map, (only the lights themselves), so that map making takes a lot less time.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/393 #393 - Add dynamic lighting entity creation to corridors]<br />
+Corridors should contain light sources spread around, so that the corridors are not dark.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/394 #394 - Add dynamic lighting entity creation to rooms]<br />
+Lighting entities should be created either on the walls or the roof depending on the position of the light source.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>3</td>
+<td>D</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/395 '''#395 - Cave Generation testing and refactoring''']<br />
+As developers, we want the cave generation algorithm to be well tested and of high quality, so that it can be merged with the rest of the codebase.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/395 #395 - Test and refactor cave generation]<br />
+Every method should be refactored to our standards and the line coverage of automated testing should at least be 80%.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>8</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/396 '''#396 - Bomb Diffusion''']<br />
+As an elf, I want to be able to diffuse bombs, so that I can prevent the player from being blown up.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/396 #396 - Bomb Diffusion]<br />
+Bombs need to be made diffusible from the elves actions menu in the web interface.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>3</td>
+<td>B</td>
+</tr>
+</table>
+
+== Total hours ==
+
+{|
+! '''Group Member name'''
+! '''Hours'''
+|-
+| Robin
+| 23 + 6
+|-
+| Bram
+| 21 + 6
+|-
+| Taico
+| 22 + 6
+|-
+| Wytze
+| 24 + 6
+|-
+| Chiel*
+| 20 + 6
+|}
+
+Chiel did a lot of work last week, and indicated he had less time this week, so he has slightly less hours.
+
+
+== Explanation for priorities of sprint items ==
+
+<table>
+<tr>
+<td>'''Task(s)'''</td>
+<td>'''Explanation'''</td>
+</tr>
+<tr>
+<td>353, 354</td>
+<td>Websockets would greatly improve the response time, but the game is playable in its current state.</td>
+</tr>
+<tr>
+<td>355</td>
+<td>We can't start testing until the code has been written. Without tests we could still use the sockets.</td>
+</tr>
+<tr>
+<td>357</td>
+<td>Players did not know what to do and how to do it, this has to be fixed.</td>
+</tr>
+<tr>
+<td>358</td>
+<td>Players requested this functionality, however the game works without it.</td>
+</tr>
+<tr>
+<td>359</td>
+<td>This clears up confusion and should be added, however isn't necessary.</td>
+</tr>
+<tr>
+<td>360, 361</td>
+<td>Not a needed feature, but would be nice to have.</td>
+</tr>
+<tr>
+<td>362</td>
+<td>This feature will greatly improve the playability of the game, but since it is looks, it might not be the most important feature.</td>
+</tr>
+<tr>
+<td>364</td>
+<td>This feature is important because it was feedback on play testing.</td>
+</tr>
+<tr>
+<td>365</td>
+<td>The game becomes playable for more people if it is less nauseating (playtesting showed that this is a real issue), so this is pretty important.</td>
+</tr>
+<tr>
+<td>367</td>
+<td>Playtesting is very important. This task is needed to get the most out of a playtest session.</td>
+</tr>
+<tr>
+<td>368</td>
+<td>If the playtesting is not correctly prepared, we can not get the most out of a playtest session.</td>
+</tr>
+<tr>
+<td>369</td>
+<td>Playtesting needs to be performed (testing, testing, testing!).</td>
+</tr>
+<tr>
+<td>370</td>
+<td>All feedback should be taken into account when making further decisions for the game.</td>
+</tr>
+<tr>
+<td>372</td>
+<td>Is a deliverable for next week</td>
+</tr>
+<tr>
+<td>373</td>
+<td>Depends on previous task</td>
+</tr>
+<tr>
+<td>374</td>
+<td>Depends on first subtask</td>
+</tr>
+<tr>
+<td>375</td>
+<td>This task is not related to the game, but rather with the report, which is something for next week.</td>
+</tr>
+<tr>
+<td>377</td>
+<td>Without this feature, our new map generation cannot work properly.</td>
+</tr>
+<tr>
+<td>378</td>
+<td>Without this feature, falling in a pitfall would be an insta-win for the dwarves, which is a game-breaking bug.</td>
+</tr>
+<tr>
+<td>380, 381</td>
+<td>After playtesting we found out people don't know exactly what to do, this has to be addressed.</td>
+</tr>
+<tr>
+<td>382</td>
+<td>Only improving the usability of a feature.</td>
+</tr>
+<tr>
+<td>383</td>
+<td>The trailer can also double as a short game explanation during user testing.</td>
+</tr>
+<tr>
+<td>385</td>
+<td>Boxes are part of the core gameplay.</td>
+</tr>
+<tr>
+<td>386</td>
+<td>Depends on the first task.</td>
+</tr>
+<tr>
+<td>388</td>
+<td>This feature has to be implemented before the feature freeze</td>
+</tr>
+<tr>
+<td>389</td>
+<td>This feature depends on the previous task</td>
+</tr>
+<tr>
+<td>391</td>
+<td>Catering to the player is of the utmost importance in our game.</td>
+</tr>
+<tr>
+<td>392</td>
+<td>Without this feature dwarfs are overpowered, and the game is not a lot of fun.</td>
+</tr>
+<tr>
+<td>393</td>
+<td>This feature improves the immersion factor in our game, but isn't required to be done, dark corridors are a higher hindrance than lights not having entities.</td>
+</tr>
+<tr>
+<td>394</td>
+<td>This feature improves the immersion factor in our game, but isn't required for the gameplay.</td>
+</tr>
+<tr>
+<td>395</td>
+<td>This task should be completed as soon as possible, so that we can properly playtest with it, and so that everyone can build upon the new algorithm.</td>
+</tr>
+<tr>
+<td>396</td>
+<td>This task is a feature that we found out we could use during playtesting, so we deem it pretty important.</td>
+</tr>
+</table>

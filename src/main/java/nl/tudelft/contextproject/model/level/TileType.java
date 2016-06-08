@@ -7,16 +7,24 @@ import nl.tudelft.contextproject.Main;
 
 /**
  * Enum representing the possible TileTypes in the game.
+ * <p>
+ * PMD error: The String literal "Textures/grasstexture.png" appears 4 times in this file; the first occurrence is on line 13
+ * 		This string will change later in some positions 
+ * 		and it is a bit weird to define an constant that references a texture.
  */
 public enum TileType {
+
 	FLOOR(1, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
 	WALL(2, 3, ColorRGBA.Gray, "Textures/walltexture.png"),
-	CORRIDOR(3, 0, ColorRGBA.Green, "Textures/grasstexture.png");
+	CORRIDOR(3, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
+	DOOR_ENTRANCE(4, 0, ColorRGBA.White, "Textures/grasstexture.png"),
+	DOOR_EXIT(5, 0, ColorRGBA.Red, "Textures/grasstexture.png");
 	
 	private int jsonid;
 	private int height;
 	private ColorRGBA color;
 	private Texture texture;
+	
 	
 	/**
 	 * @param jsonid

@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Class for testing the RandomLevelFactory.
  */
+@SuppressWarnings("deprecation")
 public class RandomLevelFactoryTest extends TestBase {
 
 	@Rule
@@ -32,14 +33,6 @@ public class RandomLevelFactoryTest extends TestBase {
 		factory.createRNG(0);
 	}
 
-	/**
-	 * Test the method for getting a random integer in a certain
-	 * interval.
-	 */
-	@Test
-	public void testGetRandom() {
-		assertEquals(0, factory.getRandom(0, 10));
-	}
 
 	/**
 	 * Test to check you can't spawn less than 1 room.

@@ -64,6 +64,12 @@ body {
 #map .Damaged_Wall.explored {
     background-color: #BFBFBF !important;
 }
+#map .Gate.explored {
+	background-color: #424242 !important;
+}
+#map .Crate.explored {
+    background-color: #ffcc00 !important;
+}
 #map {
 	border-spacing: 0px;
 }

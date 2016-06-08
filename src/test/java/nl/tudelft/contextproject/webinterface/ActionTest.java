@@ -70,7 +70,7 @@ public class ActionTest {
 	 */
 	@Test
 	public void testAction7() {
-		assertSame(Action.getAction(7), Action.DROPBOX);
+		assertSame(Action.getAction(7), Action.DROPCRATE);
 	}
 	
 	/**

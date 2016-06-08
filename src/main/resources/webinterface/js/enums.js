@@ -38,7 +38,7 @@ Actions = Object.freeze({
     BAIT: 4,
     TILE: 5,
     GATE: 6,
-    BOX: 7
+    CRATE: 7
 });
 
 //The different entity types --> their CSS class
@@ -50,7 +50,7 @@ EntityTypes = Object.freeze({
     4:  "Door",
     5:  "Key",
     6:  "Gate",
-    7:  "Box",
+    7:  "Crate",
     
     8:  "Carrot",
     9:  "Killer_Bunny",

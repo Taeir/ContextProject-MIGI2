@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.jme3.math.ColorRGBA;
-import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.Holdable;
 import nl.tudelft.contextproject.model.entities.Key;
 
 /**
@@ -15,7 +15,7 @@ import nl.tudelft.contextproject.model.entities.Key;
  */
 public class Inventory implements TickProducer {
 	ArrayList<ColorRGBA> keys;
-	Bomb bomb;
+	Holdable holding;
 	
 	private Set<TickListener> listeners;
 
@@ -49,15 +49,14 @@ public class Inventory implements TickProducer {
 	}
 	
 	/**
-	 * Adds a bomb to the inventory.
+	 * Pickup a holdable.
 	 *
-	 * @param bomb
-	 * 		the bomb to be added
+	 * @param holdable
+	 * 		the holdable to be picked up
 	 */
-	public void add(Bomb bomb) {
-		this.bomb = bomb;
-		this.bomb.activate();
-		this.bomb.setPickedup(true);
+	public void pickUp(Holdable holdable) {
+		this.holding = holdable;
+		holdable.pickUp();
 		updateTickListeners();
 	}
 	
@@ -68,17 +67,27 @@ public class Inventory implements TickProducer {
 	 * 		the bomb/key to remove
 	 */
 	public void remove(Entity ent) {
-		if (ent instanceof Bomb && bomb != null) {
-			bomb = null;
-			updateTickListeners();
-		} else if (ent instanceof Key) {
+		if (ent instanceof Key) {
 			ColorRGBA c = ((Key) ent).getColor();
 			keys.remove(c);
 			updateTickListeners();
 		}
 	}
 	
-
+	/**
+	 * Drop the holdable that the inventory holds.
+	 * 
+	 * @return
+	 * 		the holdable that was held or null when nothing was held
+	 */
+	public Holdable drop() {
+		if (holding == null) return null;
+		holding.drop();
+		Holdable res = holding;
+		holding = null;
+		updateTickListeners();
+		return res;
+	}
 	
 	/**
 	 * Returns a key of the given color in the players inventory.
@@ -101,8 +110,8 @@ public class Inventory implements TickProducer {
 	 * @return
 	 * 		if the inventory contains a bomb, returns that bomb. Otherwise returns null
 	 */
-	public Bomb getBomb() {
-		return bomb;
+	public Holdable getHolding() {
+		return holding;
 	}
 
 	/**
@@ -111,8 +120,8 @@ public class Inventory implements TickProducer {
 	 * @return
 	 * 		true if the inventory contains a bomb
 	 */
-	public boolean containsBomb() {
-		return bomb != null;
+	public boolean isHolding() {
+		return holding != null;
 	}
 
 	/**
@@ -139,11 +148,12 @@ public class Inventory implements TickProducer {
 	
 	/**
 	 * Gives the size of the current inventory.
+	 * 
 	 * @return
 	 * 		the current amount of items in the inventory (bombs and keys)
 	 */
 	public int size() {
-		return keys.size() + (bomb == null ? 0 : 1);
+		return keys.size() + (holding == null ? 0 : 1);
 	}
 
 	/**
@@ -163,14 +173,11 @@ public class Inventory implements TickProducer {
 	 * Update the bomb in the inventory.
 	 * 
 	 * @param tpf
-	 * 		the tpf for this update.
+	 * 		the tpf for this update
 	 */
 	public void update(float tpf) {
-		if (bomb != null) {
-			bomb.update(tpf);
-			if (!bomb.getActive()) {
-				bomb = null;
-			}
+		if (holding != null) {
+			holding.update(tpf);
 			updateTickListeners();
 		}
 	}

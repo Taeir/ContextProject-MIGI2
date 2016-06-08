@@ -14,8 +14,8 @@ public enum EntityType {
 	
 	DOOR("Door", 					4,  Door::loadEntity),
 	KEY("Key", 						5,  Key::loadEntity),
-	GATE("Gate",					6,  null),
-	BOX("Box",						7,  null),
+	GATE("Gate",					6,  Gate::loadEntity),
+	CRATE("Crate",					7,  Crate::loadEntity),
 	
 	CARROT("Carrot", 				8, Carrot::loadEntity),
 	KILLER_BUNNY("KillerBunny", 	9, KillerBunny::loadEntity),
@@ -30,7 +30,8 @@ public enum EntityType {
 	TREASURE("Treasure", 			15, Treasure::loadEntity),
 	
 	EXPLOSION("Explosion",			0,  null),
-	WALLFRAME("WallFrame", 			0,  WallFrame::loadEntity);
+	WALLFRAME("WallFrame", 			0,  WallFrame::loadEntity),
+	TORCH("Torch", 					0,  Torch::loadEntity);
 	
 	private final String name;
 	private final int webId;
