@@ -35,7 +35,7 @@ public enum EntityType {
 	
 	private final String name;
 	private final int webId;
-	private final BiFunction<Vector3f, String[], Entity> loader;
+	private final transient BiFunction<Vector3f, String[], Entity> loader;
 	
 	/**
 	 * Creates a new EntityType.
