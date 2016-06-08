@@ -568,8 +568,6 @@ function getClassForTileType(tileType) {
             return "Corridor";
         default:
         	return "Floor"
-            //showAlert("Invalid tile type: " + tileType, "Danger");
-           // throw "Invalid tile type: " + tileType;
     }
 }
 
