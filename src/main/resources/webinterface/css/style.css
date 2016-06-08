@@ -64,6 +64,9 @@ body {
 #map .Gate {
 	background-color: #424242 !important;
 }
+#map .Crate {
+    background-color: #ffcc00 !important;
+}
 #map {
 	border-spacing: 0px;
 }

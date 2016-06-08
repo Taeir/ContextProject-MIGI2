@@ -8,6 +8,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Game;
 
 /**
  * An entity that drops the player through the level when stepped on.
@@ -41,7 +42,16 @@ public class Pitfall extends PlayerTrigger {
 	public void onTrigger() {
 		this.setState(EntityState.DEAD);
 		VRPlayer p = Main.getInstance().getCurrentGame().getPlayer();
-		p.move(0, -2f, 0);
+		if (p.getLocation().distance(getLocation()) > width) {
+			for (Entity e : Main.getInstance().getCurrentGame().getEntities()) {
+				if (e instanceof Crate && e.getLocation().distance(getLocation()) < width + .3f) {
+					e.setState(EntityState.DEAD);
+					return;
+				}
+			}
+		} else {
+			p.move(0, -2f, 0);
+		}
 	}
 
 	@Override
@@ -93,5 +103,16 @@ public class Pitfall extends PlayerTrigger {
 	@Override
 	public EntityType getType() {
 		return EntityType.PITFALL;
+	}
+	
+	@Override
+	public boolean collidesWithPlayer(float dist) {
+		Game game = Main.getInstance().getCurrentGame();
+		Vector3f playerLoc = game.getPlayer().getLocation();
+		if (getLocation().distance(playerLoc) < dist) return true;
+		for (Entity e : game.getEntities()) {
+			if (e instanceof Crate && e.getLocation().distance(getLocation()) < dist + .3f) return true;
+		}
+		return false;
 	}
 }

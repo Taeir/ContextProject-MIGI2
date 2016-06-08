@@ -179,7 +179,7 @@ public class HUDTest extends TestBase {
 		Node node = mock(Node.class);
 		hud.setBombNode(node);
 		Inventory inv = Main.getInstance().getCurrentGame().getPlayer().getInventory();
-		inv.add(new Bomb());
+		inv.pickUp(new Bomb());
 		when(node.getChildren()).thenReturn(new ArrayList<>());
 		when(node.getChild(0)).thenReturn(mock(BitmapText.class));
 		
