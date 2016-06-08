@@ -27,6 +27,8 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
+import nl.tudelft.contextproject.input.NoVRMouseManager;
+import nl.tudelft.contextproject.input.VRLookManager;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
@@ -248,7 +250,7 @@ public class Main extends VRApplication implements TickProducer {
 		if (mouseEnabled) {
 			new NoVRMouseManager(getCamera()).registerWithInput(im);
 		} else if (VRApplication.isInVR()) {
-			new VRLookManager2(getCamera()).registerWithInput(im);
+			new VRLookManager(VRApplication.getObserver()).registerWithInput(im);
 		}
 		
 		if (isControllerConnected()) {
