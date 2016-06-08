@@ -1,4 +1,5 @@
 var supportsWebSockets;
+var supportsClassList;
 
 /**
  * Checks if websockets are supported.
@@ -38,7 +39,7 @@ function doWebSocketCheck(callback) {
         socket.onmessage = function(evt) {
             supportsWebSockets = true;
             
-            if (evt.data === undefined) {
+            if (evt.data === undefined || evt.data === "") {
                 callback(true);
                 return;
             }
@@ -58,3 +59,25 @@ function doWebSocketCheck(callback) {
         callback(false);
     }
 };
+
+/**
+ * Checks if this browser has support for the classList property.
+ *
+ * If the browser does not have support, the (much slower) className property will be used instead.
+ */
+function checkClassListSupport() {
+    if (document.body.classList) {
+        var list = document.body.classList;
+        var len = list.length;
+        
+        //Check for double add support.
+        list.add("meh");
+        list.add("meh");
+        
+        supportsClassList = (list.length === len + 1);
+        list.remove("meh");
+        list.remove("meh");
+    } else {
+        supportsClassList = false;
+    }
+}

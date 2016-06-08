@@ -10,6 +10,7 @@ var indexRefreshInterval;
  */
 function startIndexRefresh() {
     if (indexRefreshInterval === undefined) {
+        indexRefresh();
         indexRefreshInterval = setInterval(indexRefresh, Constants.Intervals.INDEX_REFRESH);
     }
 }
@@ -28,8 +29,13 @@ function stopIndexRefresh() {
  * Start the status update requests.
  */
 function startStatusUpdates() {
-    if (supportsWebSockets === false && statusUpdateInterval === undefined) {
-        statusUpdateInterval = setInterval(requestStatusUpdate, Constants.Intervals.STATUS_UPDATE);
+    if (supportsWebSockets === false) {
+        if (statusUpdateInterval === undefined) {
+            requestStatusUpdate();
+            statusUpdateInterval = setInterval(requestStatusUpdate, Constants.Intervals.STATUS_UPDATE);
+        }
+    } else if (supportsWebSockets === true && !isSocketOpen()) {
+        createWebSocket();
     }
 }
 
@@ -40,6 +46,8 @@ function stopStatusUpdates() {
     if (statusUpdateInterval !== undefined) {
         clearInterval(statusUpdateInterval);
         statusUpdateInterval = undefined;
+    } else if (isSocketOpen()) {
+        closeWebSocket();
     }
 }
 
@@ -75,7 +83,7 @@ function requestIndexRefresh(callback) {
         },
         error: function(jqxhr, status, error) {
             callback(false);
-            handleGlobalRequestError(jqxhr, status, error);
+            handleIndexRefreshError(jqxhr, status, error);
         }
     });
 };
@@ -96,7 +104,19 @@ function requestJoinGame() {
 }
 
 /**
- * Requests the server to set the team.
+ * Requests the server to set the team, either via websocket or normally.
+ *
+ * @param team
+ *      the team to set
+ */
+function requestSetTeam(team) {
+    requestNormal_setTeam(team);
+    
+    //TODO WebSocket
+}
+
+/**
+ * Requests the server to set the team normally.
  *
  * On success, this function calls handleSetTeam.
  * On failure, this function calls handleGlobalRequestError.
@@ -104,7 +124,7 @@ function requestJoinGame() {
  * @param team
  *      the team to set
  */
-function requestSetTeam(team) {
+function requestNormal_setTeam(team) {
     //Send a post request to the server to set the team
     $.ajax({
         type: "POST",
@@ -113,6 +133,16 @@ function requestSetTeam(team) {
         success: handleSetTeam,
         error: handleGlobalRequestError
     });
+}
+
+/**
+ * Requests the server to set the team via websocket. 
+ *
+ * @param team
+ *      the team to set
+ */
+function requestSocket_setTeam(team) {
+    gSocket.send("setteam " + team);
 }
 
 /**
@@ -132,13 +162,30 @@ function requestStatusUpdate() {
 }
 
 /**
+ * Requests the map from the server, either via websocket or normally.
+ */
+function requestMap() {
+    if (isSocketOpen()) {
+        requestSocket_map();
+    } else {
+        requestNormal_map();
+    }
+}
+
+/**
+ * Requests the map from the server via websocket.
+ */
+function requestSocket_map() {
+    gSocket.send("map");
+}
+
+/**
  * Requests the map from the server.
  *
  * On success, this function calls handleMap.
  * On failure, this function calls handleGlobalRequestError.
  */
-function requestMap() {
-    console.log("[DEBUG] GETTING MAP");
+function requestNormal_map() {
     $.ajax({
         type: "POST",
         url: "/map",
@@ -149,203 +196,85 @@ function requestMap() {
 }
 
 /**
+ * Sends an action request to the server, either via websocket or normally.
+ *
+ * Afterwards, hides the buttons.
+ *
+ * @param action
+ *      the unencoded action to request
+ */
+function requestAction(action) {
+    var encoded = Actions[action];
+    if (encoded === undefined) return;
+    
+    if (isSocketOpen()) {
+        requestSocket_action(encoded);
+    } else {
+        requestNormal_action(encoded);
+    }
+    
+    //[GUI] Hide the sidebar buttons
+    hideGameButtons();
+}
+
+/**
+ * Function to request an action via the websocket.
+ *
+ * @param action
+ *      the encoded action to request
+ */
+function requestSocket_action(action) {
+    gSocket.send(action + " " + lastPressedX + " " + lastPressedY);
+}
+
+/**
  * Sends an action request to the server.
  *
  * On success, this function calls handleActionResponse.
  * On failure, this function calls handleGlobalRequestError.
+ *
+ * @param action
+ *      the encoded action to request
  */
-function requestAction(argument) {
-    //[UTIL] encode the action
-    var encoded = encodeAction(argument);
-    if (encoded === -1) return;
-    
-    console.log("[DEBUG] Requesting action: " + argument + ".");
+function requestNormal_action(action) {
     $.ajax({
         type: "POST",
         url: "/requestaction",
-        data: {x: lastPressedX, y: lastPressedY, action: encoded},
+        data: {x: lastPressedX, y: lastPressedY, action: action},
         success: handleActionResponse,
         error: handleGlobalRequestError
     });
-    
-    //[GUI] Hide the menu
-    hideAllButtons();
 }
 
-// ================================================================================================
-// =========================================== HANDLERS ===========================================
-// ================================================================================================
-
 /**
- * Handles join game responses from the server.
- *
- * @param data
- *      the data sent from the server. Either "ALLOWED", a GameState, or an ErrorCode
+ * Sends a quit game request, either via websocket or normally.
  */
-function handleJoinGame(data) {
-    if (data === "ALLOWED") {
-        //Switch to team selection
-        switchTo(Views.TEAM);
+function requestQuitGame() {
+    if (isSocketOpen()) {
+        requestSocket_quitGame();
     } else {
-        var state = GameStates[data];
-        if (state !== undefined) {
-            switchTo(state.view);
-        } else {
-            handleError(data);
-        }
+        requestNormal_quitGame();
     }
 }
 
 /**
- * Handles set team responses from the server.
- 
- * @param data
- *      the data sent from the server. Either the ordinal of the team to switch to, or an ErrorCode
+ * Function to request to quit the game via websocket.
  */
-function handleSetTeam(data) {
-    var nTeam = Teams[data];
-    if (nTeam == undefined) {
-        //Switch to the INDEX view when the client is not in the current game.
-        handleErrorCode(data, function() { switchTo(Views.INDEX) });
-        return;
-    }
-    
-    //Update the team only if it changed
-    if (gTeam != nTeam) {
-        gTeam = nTeam;
-        updateTeam();
-    }
+function requestSocket_quitGame() {
+    gSocket.send("quit");
 }
 
 /**
- * Handles server status update messages.
+ * Sends a quit game request to the server.
  *
- * @param data
- *      an object containing the information sent by the server
+ * On success, this function calls handleQuitGameResponse.
+ * On failure, this function calls handleGlobalRequestError.
  */
-function handleStatusUpdateMessage(data) {
-    //Reset timeout count
-    statusTimeoutCount = 0;
-    
-    //Check for errors
-    if (data.error != undefined) {
-        handleErrorCode(data.error, function() { switchTo(Views.INDEX) });
-        return;
-    }
-    
-    //Update the team
-    var team = Teams[data.team];
-    if (team != gTeam) {
-        gTeam = team;
-        updateTeam();
-    }
-    
-    //Switch to the correct view
-    var view = GameStates[data.state].view;
-    if (view != gView) {
-        switchTo(view);
-    }
-    
-    //Update the game with the received information
-    updateGame(data);
+function requestNormal_quitGame(action) {
+    $.ajax({
+        type: "POST",
+        url: "/quit",
+        success: handleQuitGameResponse,
+        error: handleGlobalRequestError
+    });
 }
-
-/**
- * Handles map responses from the server.
- *
- * @param data
- *      the data sent from the server
- */
-function handleMap(data) {
-    if (data.error !== undefined) {
-        handleErrorCode(data.error);
-        return;
-    }
-    
-    exploredAll = false;
-    updateMap(data);
-}
-
-/**
- * Handles action responses from the server.
- *
- * @param data
- *      the data sent from the server
- */
-function handleActionResponse(data) {
-    if (!data) return;
-    
-    handleErrorCode(data);
-}
-
-// ================================================================================================
-// ======================================== ERROR HANDLERS ========================================
-// ================================================================================================
-
-/**
- * Handles global request errors.
- *
- * @param jqxhr
- *      the jqXHR object
- * @param status
- *      the status, either "timeout", "error", "abort", "parsererror" or null
- * @param error
- *      the textual portion of the HTTP status ("Not Found", "Internal Server Error")
- */
-function handleGlobalRequestError(jqxhr, status, error) {
-    if (status === "timeout") {
-        showAlert("Something went wrong: request timed out.", Severity.Danger);
-    } else if (status === "abort") {
-        showAlert("Something went wrong: request was aborted.", Severity.Danger);
-    } else if (status === "parsererror") {
-        showAlert("Something went wrong: data from server is corrupt.", Severity.Danger);
-    } else {
-        showAlert("Something went wrong: " + error, Severity.Danger);
-    }
-}
-
-/**
- * Handles status update request errors.
- *
- * @param jqxhr
- *      the jqXHR object
- * @param status
- *      the status, either "timeout", "error", "abort", "parsererror" or null
- * @param error
- *      the textual portion of the HTTP status ("Not Found", "Internal Server Error")
- */
-function handleStatusUpdateRequestError(jqxhr, status, error) {
-    if (status === "timeout") {
-        //Allow 5 timeouts before switching back to the INDEX view.
-        if (++statusTimeoutCount >= 5) {
-            clearInterval(statusUpdateInterval);
-            statusTimeoutCount = 0;
-
-            switchTo(Views.INDEX);
-            showAlert("Server is not responding!", Severity.Danger);
-        }
-    } else {
-        handleGlobalRequestError(jqxhr, status, error);
-    }
-}
-
-/**
- * Function to handle error codes from the server.
- *
- * @param code
- *      the error code
- * @param unauthorizedCallback
- *      [OPTIONAL] the callback to call when the error is the UNAUTHORIZED error
- */
-function handleErrorCode(code, unauthorizedCallback) {
-    var err = ErrorCodes[code];
-    if (err !== undefined) {
-        console.log("Error [" + err.name + "] (" + code + "): " + err.msg);
-        showAlert(err.msg, err.severity);
-        if (unauthorizedCallback !== undefined && err.name === "UNAUTHORIZED") {
-            unauthorizedCallback();
-        }
-    } else {
-        console.log("Error [?] (" + code + "): null");
-    }
-};

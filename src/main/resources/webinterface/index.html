@@ -18,19 +18,19 @@
                         <a id="clickedDwarfs">Dwarfs</a>
                     </li>
                     <li>
-                        <a href="#" onClick="requestAction('placebomb')">Place bomb</a>
+                        <a href="#" onClick="requestAction('BOMB')">Place bomb</a>
                     </li>
                     <li>
-                        <a href="#" onClick="requestAction('placepitfall')">Place pitfall</a>
+                        <a href="#" onClick="requestAction('PIT')">Place pitfall</a>
                     </li>
                     <li>
-                        <a href="#" onClick="requestAction('placemine')">Place landmine</a>
+                        <a href="#" onClick="requestAction('MINE')">Place landmine</a>
                     </li>
                     <li>
-                        <a href="#" onClick="requestAction('spawnenemy')">Spawn enemy</a>
+                        <a href="#" onClick="requestAction('ENEMY')">Spawn enemy</a>
                     </li>
                     <li>
-                        <a href="#" onClick="hideAllButtons()">Cancel</a>
+                        <a href="#" onClick="hideGameButtons()">Cancel</a>
                     </li>
                     <li>
                         <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
@@ -45,13 +45,19 @@
                         <a id="clickedElves">Elves</a>
                     </li>
                     <li>
-                        <a href="#" onClick="requestAction('dropbait')">Drop bait</a>
+                        <a href="#" onClick="requestAction('BAIT')">Drop bait</a>
                     </li>
                     <li>
-                        <a href="#" onClick="requestAction('placetile')">Place tile</a>
+                        <a href="#" onClick="requestAction('TILE')">Place tile</a>
+                    </li>
+					<li>
+                        <a href="#" onClick="requestAction('GATE')">Open gate</a>
+                    </li>
+					<li>
+                        <a href="#" onClick="requestAction('BOX')">Drop box</a>
                     </li>
                     <li>
-                        <a href="#" onClick="hideAllButtons()">Cancel</a>
+                        <a href="#" onClick="hideGameButtons()">Cancel</a>
                     </li>
                     <li>
                         <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
@@ -61,37 +67,50 @@
         </div>
         <!-- /#wrapper -->
 
-        <div id="dangerBox" class="alert alert-danger" data-alert="alert" onClick="$('#dangerBox').fadeOut(300)"></div>
-        <div id="warningBox" class="alert alert-warning" data-alert="alert" onClick="$('#warningBox').fadeOut(300)"></div>
-        <div id="successBox" class="alert alert-success" data-alert="alert" onClick="$('#successBox').fadeOut(300)"></div>
+        <div id="dangerBox" class="alert alert-danger" data-alert="alert" onClick="$(this).fadeOut(300)"></div>
+        <div id="warningBox" class="alert alert-warning" data-alert="alert" onClick="$(this).fadeOut(300)"></div>
+        <div id="successBox" class="alert alert-success" data-alert="alert" onClick="$(this).fadeOut(300)"></div>
         
 		<div id="mainDiv">
-			<div id="authorized">
-				<div class="btn-group btn-group-lg" role="group" id="selectTeam">
-					<button type="button" class="btn btn-default" onClick="requestSetTeam('ELVES')" id="elvesButton">Elves</button>
-					<button type="button" class="btn btn-default" onClick="requestSetTeam('DWARFS')" id="dwarfsButton">Dwarfs</button>
-					<button type="button" class="btn btn-success" onClick="requestSetTeam('NONE')" id="noneButton">No team</button><br>
-					<button onclick="connectWebSocket()" id="clickable">Web Socket!</button>
-				</div>
+			<div id="indexView">
+				<img src="logo.png" width="300" height="210" id="logo"/>
+				<hr>
+				<button type="button" class="btn btn-default" onClick="enableFullScreen(); switchTo(Views.INSTRUCTION)">Instructions</button>
+				<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+			</div>
+			
+			<div id="instructionsView" style="display: none">
+				PLACEHOLDER FOR INSTRUCTIONS
+				<hr>
+				<button type="button" class="btn btn-default btnMenu" onClick="enableFullScreen(); switchTo(Views.INDEX)">Back to menu</button>
+				<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+			</div>
+			
+			<div class="btn-group btn-group-lg" role="group" id="teamView" style="display: none">
+				<button type="button" class="btn btn-default" onClick="requestSetTeam('ELVES')" id="elvesButton">Elves</button>
+				<button type="button" class="btn btn-default" onClick="requestSetTeam('DWARFS')" id="dwarfsButton">Dwarfs</button>
+				<button type="button" class="btn btn-success" onClick="requestSetTeam('NONE')" id="noneButton">No team</button>
+			</div>
 
-				<div id="playing">
-					<table id="map">
-					</table>
-				</div>
-		
-				<div id="ended" style="visibility:hidden">
-					<h1 id="endedWinners"></h1>
-					<p id="endedMessage"></p>
-					<hr>
-					<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
-				</div>
-				
-				<div id="paused" style="visibility:hidden">
-					<h1 class="pausemessage">Paused</h1>
-					<p class="pausemessage">The game has been paused, just sit back and relax!</p>
-					<hr>
-					<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
-				</div>
+			<div id="gameView" style="display: none">
+				<table id="map">
+				</table>
+			</div>
+	
+			<div id="endedView" style="display: none">
+				<h1 id="endedWinners"></h1>
+				<p id="endedMessage"></p>
+				<hr>
+				<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
+				<hr>
+				<button type="button" class="btn btn-default btnMenu" onClick="requestQuitGame(); switchTo(Views.INDEX)">Back to menu</button>
+			</div>
+			
+			<div id="pausedView" style="display: none">
+				<h1 class="pausemessage">Paused</h1>
+				<p class="pausemessage">The game has been paused, just sit back and relax!</p>
+				<hr>
+				<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
 			</div>
 		</div>
 				
@@ -99,10 +118,17 @@
         <script src="js/jquery-1.12.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
 		<script src="js/enums.js"></script>
+		<script src="js/websockets.js"></script>
 		<script src="js/requests.js"></script>
+		<script src="js/handlers.js"></script>
+		<script src="js/updates.js"></script>
+		<script src="js/gui.js"></script>
 		<script src="js/check.js"></script>
         <script src="js/main.js"></script>
 		<script>
+			//Perform checks
+			checkClassListSupport();
+			
 			//On load
 			$(document).ready(onLoad);
 		</script>

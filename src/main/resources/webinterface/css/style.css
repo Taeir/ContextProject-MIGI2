@@ -11,6 +11,9 @@ body {
 	outline: none;
 	border: 0px;
 }
+#logo {
+	text-align: center;
+}
 #buttons {
 	position: absolute;
 	left: 10%;

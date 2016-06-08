@@ -41,21 +41,33 @@ Actions = Object.freeze({
     BOX: 7
 });
 
-//The different entity types
+//The different entity types --> their CSS class
 EntityTypes = Object.freeze({
-    0:  "",
     1:  "Bomb",
-    2:  "Door",
-    3:  "Key",
-    4:  "Player",
-    5:  "Player_Trigger",
-    6:  "Pitfall",
-    7:  "Landmine",
+    2:  "Landmine",
+    3:  "Pitfall",
+    
+    4:  "Door",
+    5:  "Key",
+    6:  "Gate",
+    7:  "Box",
+    
     8:  "Carrot",
     9:  "Killer_Bunny",
+    
     10: "Platform",
     11: "Invisible_Wall",
-    12: "Damaged_Wall"
+    12: "Damaged_Wall",
+    
+    13:  "Player",
+    14:  "Player_Trigger"
+});
+
+//The different tile types --> their CSS class
+TileTypes = Object.freeze({
+    1: "Floor",
+    2: "Wall",
+    3: "Corridor"
 });
 
 //The different error codes that can be sent by the server
@@ -103,7 +115,10 @@ Constants = Object.freeze({
         INDEX_REFRESH: 5000,
         
         //Interval of Status update Requests, in ms.
-        STATUS_UPDATE: 800
+        STATUS_UPDATE: 800,
+        
+        //Default time that alerts are shown for, in ms.
+        ALERT: 4000
     }
 
 });
