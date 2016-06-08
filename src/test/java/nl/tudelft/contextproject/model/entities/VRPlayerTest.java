@@ -109,8 +109,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test 
 	public void testDropBomb() {
-		player.getInventory().add(new Bomb());
-		player.dropBomb();
+		player.getInventory().pickUp(new Bomb());
+		player.drop();
 		assertSame(player.getInventory().size(), 0);
 	}
 
@@ -120,7 +120,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 	@Test
 	public void testDropNoBomb() {
 		player.getInventory().add(new Key(ColorRGBA.Yellow));
-		player.dropBomb();
+		player.drop();
 		assertSame(player.getInventory().size(), 1);
 	}
 	
@@ -192,7 +192,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 		bomb.move(vec.x + 1, vec.y, vec.z);
 		Main.getInstance().getCurrentGame().getEntities().add(bomb);
 		player.pickUp();
-		assertTrue(bomb.isPickedup());
+		assertTrue(bomb.isPickedUp());
 	}
 	
 	/**

@@ -22,7 +22,6 @@ import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
-import nl.tudelft.contextproject.model.entities.Treasure;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
@@ -154,7 +153,7 @@ public class GameController extends Controller {
 
 		addInputListener(al, "pause");
 
-		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
+		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Drop", "Pickup");
 	}
 
 	/**
@@ -169,9 +168,6 @@ public class GameController extends Controller {
 		for (Light l : level.getLights()) {
 			addLight(l);
 		}
-
-		placeTreasure(game);
-
 		
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(.9f));
@@ -277,27 +273,6 @@ public class GameController extends Controller {
 	 */
 	public void setGame(Game game) {
 		this.game = game;
-	}
-
-	/**
-	 * Place a treasure in the level.
-	 * 
-	 * @param game
-	 * 		the game that contains the level
-	 */
-	protected void placeTreasure(Game game) {
-		Level level = game.getLevel();
-
-		for (int x = level.getWidth() - 1; x >= 0; x--) {
-			for (int y = level.getHeight() - 1; y >= 0; y--) {
-				if (level.isTileAtPosition(x, y) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-					Treasure e = new Treasure();
-					e.move(x, 0, y);
-					game.getEntities().add(e);
-					return;
-				}
-			}
-		}
 	}
 	
 	/**

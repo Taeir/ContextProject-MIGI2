@@ -544,6 +544,8 @@ function getClassForEntityType(entityType) {
             return "Invisible_Wall";
         case 12:
             return "Damaged_Wall";
+        case 13:
+            return "Crate";
         case 14:
         	return "Gate";
         default:
@@ -593,8 +595,10 @@ function encodeAction(action) {
             return 4;
         case "placetile":
             return 5;
+        case "dropcrate":
+            return 6;
         case "opengate":
-        	return 6;
+        	return 7;
         default:
             return -1;
     }
