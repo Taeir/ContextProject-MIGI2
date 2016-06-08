@@ -28,21 +28,22 @@ import nl.tudelft.contextproject.util.RandomUtil;
 public class MSTBasedLevelFactory implements LevelFactory {
 
 	/**
-	 * Start roomID.
+	 * Start roomID, should be different from treasure room ID and below zero.
 	 */
 	public static final int START_ROOM_ID = -1;
 
 	/**
-	 * Treasure roomID.
+	 * Treasure roomID, should be different from start room ID and below zero.
 	 */
-	public static final int TREASURE_ROOM_ID = 2;
+	public static final int TREASURE_ROOM_ID = -2;
 
 	/**
-	 * Max width of the level.
+	 * Max width of the level, at the moment only square maps are supported.
 	 */
 	protected static final int MAX_WIDTH = 50;
+	
 	/**
-	 * Max width of the level.
+	 * Max height of the level, at the moment only square maps are supported.
 	 */
 	protected static final int MAX_HEIGHT = 50;
 
@@ -54,17 +55,8 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 */
 	private static final int MAX_ATTEMPTS = 10000;
 
-	/**
-	 * Current Entity storage.
-	 */
 	public Set<Entity> entities = ConcurrentHashMap.newKeySet();
-
-	/**
-	 * Allow duplicates rooms in a single level.
-	 * Should be set to initialize to true if duplicates are needed.
-	 */
 	public boolean duplicates;
-
 	public Random rand;
 	public ArrayList<RoomNode> baseNodes;
 	public ArrayList<RoomNode> usedNodes;
@@ -99,6 +91,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 *	<li>Create MST. </li>
 	 *	<li>For every edge still existing use breadth first search to find corridors.</li>
 	 *	<li>Beautify corridors.</li>
+	 *	<li>Add all placed entities in the entity list.</li>
 	 *</ol>
 	 */
 	@Override
@@ -108,7 +101,6 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		placeOtherRooms();
 		createEdges();
 		createReverseMST();
-		//createMST();
 		placeCorridors();
 		MSTBasedLevelFactory.carveCorridorWalls(mazeTiles);
 		for (RoomNode roomNode: usedNodes) {
@@ -287,9 +279,9 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Copies the RoomNode if duplicates are allowed.
 	 * 
 	 * @param	node
-	 * 				Node to add
+	 * 		Node to add
 	 * @param position
-	 * 				position of room
+	 * 		position of room
 	 */
 	protected void addRoomNode(RoomNode node, Vec2I position) {
 		if (!duplicates) {
