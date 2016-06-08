@@ -349,6 +349,7 @@ public class MSTBasedLevelFactoryTest extends TestBase {
 	
 	/**
 	 * Create a basic TileType map with a corridor.
+	 * 
 	 * @return
 	 * 		a 3 by 3 map which looks like NNN, NCN, NNN where N is null and C a corridor TileType
 	 */

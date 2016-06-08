@@ -43,7 +43,7 @@ public class MinimumSpanningTree {
 	/**
 	 * Run the Reverse Delete algorithm.
 	 * A greedy algorithm to find a minimum spanning tree.
-	 * 
+	 * <p>
 	 * First generates a new graph that deals with multiple exits and entrances per room.
 	 * Then run the algorithm on that graph.
 	 */
@@ -54,7 +54,6 @@ public class MinimumSpanningTree {
 
 	/**
 	 * Generate a new graph that deals better with rooms.
-	 * 
 	 */
 	protected void createTransformedGraph() {
 		HashMap<DoorLocation, MSTNode> treeNodes = new HashMap<DoorLocation, MSTNode>();

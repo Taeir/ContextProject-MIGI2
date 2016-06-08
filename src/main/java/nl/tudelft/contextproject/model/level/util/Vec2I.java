@@ -19,6 +19,7 @@ public class Vec2I {
 	
 	/**
 	 * Constructor.
+	 * 
 	 * @param x
 	 * 		x - coordinate
 	 * @param y

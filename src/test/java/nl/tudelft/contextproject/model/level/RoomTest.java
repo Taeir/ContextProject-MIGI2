@@ -62,7 +62,7 @@ public class RoomTest extends TestBase {
 	 * Test size retrieval with incorrect file name.
 	 * 
 	 * @throws IOException 
-	 * 			should happen as room name is incorrect
+	 * 		should happen as room name is incorrect
 	 */
 	@Test(expected = IOException.class)
 	public void testSetSizeFromIncorrectFileName() throws IOException {
