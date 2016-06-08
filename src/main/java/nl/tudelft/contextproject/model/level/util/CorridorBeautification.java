@@ -64,10 +64,11 @@ public final class CorridorBeautification {
 	public static void widenCorridors(MazeTile[][] map, Random rand) {
 		int width = map.length;
 		int heigth = map[0].length;
+		CorridorType corridorType;
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < heigth; j++) {
 				if (map[i][j].getTileType() == TileType.CORRIDOR) {
-					//Find out type of corridor
+					//corridorType = TileType.getCorridorTypeFromMap(getThreeByThree(map, i, j));
 					
 					//Deal vit with it
 				}
