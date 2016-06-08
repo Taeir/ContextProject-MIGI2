@@ -1,8 +1,8 @@
 package nl.tudelft.contextproject.util.webinterface;
 
 import nl.tudelft.contextproject.Main;
+
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.webinterface.Action;
