@@ -269,10 +269,7 @@ public class RoomNode {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
+		return id;
 	}
 
 	/**
@@ -280,12 +277,10 @@ public class RoomNode {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof RoomNode) {
-			RoomNode other = (RoomNode) obj;
-			if (id != other.id) return false;
-			return true;
-		}
-		return false;
+		if (obj == this) return true;
+		if (!(obj instanceof RoomNode)) return false;
+		
+		return id == ((RoomNode) obj).id;
 	}
 		
 }
