@@ -297,6 +297,8 @@ public final class TestUtil extends TestBase {
 		
 		//Spy on the game controller
 		main.setController(spy(gc));
+		
+		doCallRealMethod().when(main).getCurrentGame();
 	}
 	
 	/**
