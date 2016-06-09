@@ -224,8 +224,7 @@ public class Main extends VRApplication implements TickProducer {
 			showQRCode();
 		}
 
-		AudioManager.getInstance().init();
-		BackgroundMusic.getInstance().start();
+		setupAudio();
 		
 		//Register an AppState to properly clean up the game.
 		getStateManager().attach(new AbstractAppState() {
@@ -236,6 +235,17 @@ public class Main extends VRApplication implements TickProducer {
 				onGameStopped();
 			}
 		});
+	}
+
+	/**
+	 * Sets up everything audio related.
+	 */
+	private void setupAudio() {
+		AudioManager.getInstance().init(getAudioRenderer(), getListener());
+		attachTickListener(AudioManager.getInstance());
+		
+		BackgroundMusic.getInstance().start();
+		attachTickListener(BackgroundMusic.getInstance());
 	}
 
 	/**
@@ -318,11 +328,6 @@ public class Main extends VRApplication implements TickProducer {
 	@Override
 	public void simpleUpdate(float tpf) {
 		updateTickListeners(tpf);
-
-		getListener().setLocation(getCamera().getLocation());
-		getListener().setRotation(getCamera().getRotation());
-
-		BackgroundMusic.getInstance().update();
 	}
 
 	/**

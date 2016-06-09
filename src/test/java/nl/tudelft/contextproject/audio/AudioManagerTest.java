@@ -3,6 +3,8 @@ package nl.tudelft.contextproject.audio;
 import static org.mockito.Mockito.*;
 
 import com.jme3.audio.AudioNode;
+import com.jme3.audio.AudioRenderer;
+import com.jme3.audio.Listener;
 
 import nl.tudelft.contextproject.TestBase;
 
@@ -15,13 +17,16 @@ import org.junit.Test;
  */
 public class AudioManagerTest extends TestBase {
 	public AudioNode an;
+	public Listener listener;
 	
 	/**
-	 * Mock an AudioNode before every test.
+	 * Mock an AudioNode before every test, and reinitialize the AudioManager.
 	 */
 	@Before
 	public void setUp() {
 		an = mock(AudioNode.class);
+		listener = mock(Listener.class);
+		AudioManager.getInstance().init(mock(AudioRenderer.class), listener);
 	}
 	
 	/**
@@ -135,6 +140,17 @@ public class AudioManagerTest extends TestBase {
 		//Clean up
 		AudioManager.getInstance().unregisterVolume(anAmbient, SoundType.AMBIENT);
 		AudioManager.getInstance().unregisterVolume(anBackground, SoundType.BACKGROUND_MUSIC);
+	}
+	
+	/**
+	 * Tests if {@link AudioManager#update(float)} correctly updates the Listener.
+	 */
+	@Test
+	public void testUpdate() {
+		AudioManager.getInstance().update(10f);
+		
+		verify(listener, times(1)).setLocation(any());
+		verify(listener, times(1)).setRotation(any());
 	}
 
 }

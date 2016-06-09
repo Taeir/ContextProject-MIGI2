@@ -8,7 +8,6 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
@@ -16,28 +15,23 @@ import nl.tudelft.contextproject.model.PhysicsObject;
 /**
  * Class representing a bomb.
  */
-public class Bomb extends Entity implements PhysicsObject, Holdable {
+public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdable {
 	private static final float TIMER = 10;
-	private Spatial sp;
-	private RigidBodyControl rb;
+	
 	private boolean active;
 	private float timer;
 	private boolean pickedup;
+	
 	/**
 	 * Constructor for a bomb.
 	 */
 	public Bomb() {
-		sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
 		mat.setColor("Color", ColorRGBA.White);
-		sp.move(0, 1, 0);
-		sp.setMaterial(mat);
-	}
-
-	@Override
-	public Spatial getSpatial() {
-		return sp;
+		spatial.move(0, 1, 0);
+		spatial.setMaterial(mat);
 	}
 
 	@Override
@@ -46,8 +40,8 @@ public class Bomb extends Entity implements PhysicsObject, Holdable {
 			Quaternion rot = Main.getInstance().getCamera().getRotation();
 			Vector3f vec = rot.getRotationColumn(2).mult(2f);
 			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
-			rb.setPhysicsLocation(vec2);
-			rb.setPhysicsRotation(rot);
+			rigidBody.setPhysicsLocation(vec2);
+			rigidBody.setPhysicsRotation(rot);
 		}
 		if (active) {
 			timer -= tpf;
@@ -62,26 +56,21 @@ public class Bomb extends Entity implements PhysicsObject, Holdable {
 	}
 
 	@Override
-	public void setSpatial(Spatial spatial) {
-		sp = spatial;
-	}
-
-	@Override
 	public PhysicsControl getPhysicsObject() {
-		if (rb != null) return rb;
+		if (rigidBody != null) return rigidBody;
 
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
-		rb = new RigidBodyControl(sceneShape, 0);
-		rb.setPhysicsLocation(sp.getLocalTranslation());
-		sp.addControl(rb);
-		return rb;
+		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(getSpatial());
+		rigidBody = new RigidBodyControl(sceneShape, 0);
+		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
+		spatial.addControl(rigidBody);
+		return rigidBody;
 	}
 
 	@Override
 	public void move(float x, float y, float z) {
-		if (rb == null) getPhysicsObject();
-		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
-		rb.update(0);
+		if (rigidBody == null) getPhysicsObject();
+		rigidBody.setPhysicsLocation(rigidBody.getPhysicsLocation().add(x, y, z));
+		rigidBody.update(0);
 	}
 
 	/**

@@ -1,9 +1,5 @@
 package nl.tudelft.contextproject.model.entities;
 
-import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.control.PhysicsControl;
-import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -17,10 +13,7 @@ import nl.tudelft.contextproject.model.PhysicsObject;
 /**
  * A platform that can be placed in the void.
  */
-public class VoidPlatform extends Entity implements PhysicsObject {
-
-	private Spatial spatial;
-	private RigidBodyControl phControl;
+public class VoidPlatform extends AbstractPhysicsEntity implements PhysicsObject {
 
 	@Override
 	public Spatial getSpatial() {
@@ -41,31 +34,10 @@ public class VoidPlatform extends Entity implements PhysicsObject {
 	}
 
 	@Override
-	public void setSpatial(Spatial spatial) {
-		this.spatial = spatial;
-	}
-
-	@Override
-	public void update(float tpf) { }
-
-	@Override
-	public PhysicsControl getPhysicsObject() {
-		if (phControl != null) return phControl;
-		
-		if (spatial == null) {
-			this.getSpatial();
-		}
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(spatial);
-		phControl = new RigidBodyControl(sceneShape, 0);
-		phControl.setPhysicsLocation(spatial.getLocalTranslation());
-		return phControl;
-	}
-
-	@Override
 	public void move(float x, float y, float z) {
 		getPhysicsObject();
-		phControl.setPhysicsLocation(getLocation().add(x, y, z));
-		spatial.setLocalTranslation(phControl.getPhysicsLocation());
+		rigidBody.setPhysicsLocation(getLocation().add(x, y, z));
+		spatial.setLocalTranslation(rigidBody.getPhysicsLocation());
 	}
 
 	/**

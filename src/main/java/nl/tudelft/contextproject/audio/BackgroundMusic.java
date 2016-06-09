@@ -12,11 +12,12 @@ import com.jme3.audio.AudioSource;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
+import nl.tudelft.contextproject.model.TickListener;
 
 /**
  * Class for playing/managing background music.
  */
-public final class BackgroundMusic {
+public final class BackgroundMusic implements TickListener {
 	private static final BackgroundMusic INSTANCE = new BackgroundMusic();
 	
 	private List<String> music = new ArrayList<String>();
@@ -176,10 +177,8 @@ public final class BackgroundMusic {
 		return current;
 	}
 	
-	/**
-	 * Called to indicate an update.
-	 */
-	public void update() {
+	@Override
+	public void update(float tpf) {
 		AudioNode an = current;
 		if (an == null) return;
 

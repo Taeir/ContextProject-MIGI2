@@ -59,18 +59,19 @@ public class MSTNode {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof MSTNode) {
-			MSTNode other = (MSTNode) obj;
-			if (nodeType != other.nodeType)
-				return false;
-			if (originalDoor == null) {
-				if (other.originalDoor != null)
-					return false;
-			} else if (!originalDoor.equals(other.originalDoor)) return false;
-			if (roomNodeID != other.roomNodeID) return false;
-			return true;
-		}
-		return false;
+		if (obj == this) return true;
+		
+		if (!(obj instanceof MSTNode)) return false;
+		
+		MSTNode other = (MSTNode) obj;
+		if (roomNodeID != other.roomNodeID) return false;
+		if (nodeType != other.nodeType) return false;
+		
+		if (originalDoor == null) {
+			if (other.originalDoor != null) return false;
+		} else if (!originalDoor.equals(other.originalDoor)) return false;
+		
+		return true;
 	}
 
 	/**
