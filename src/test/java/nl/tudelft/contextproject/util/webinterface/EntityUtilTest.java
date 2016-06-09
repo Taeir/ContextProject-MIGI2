@@ -45,6 +45,7 @@ public class EntityUtilTest extends TestBase {
 		JSONObject json = EntityUtil.entityToJson(bomb);
 		assertEquals(json.getInt("x"), 0);
 		assertEquals(json.getInt("y"), 0);
-		assertEquals(json.getInt("type"), 1);
+		assertEquals(json.getInt("t"), 1);
+		assertEquals(json.getInt("d"), 0);
 	}
 }

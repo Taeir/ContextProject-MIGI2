@@ -2,6 +2,8 @@ package nl.tudelft.contextproject.util.webinterface;
 
 import java.util.Set;
 
+import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.model.entities.EntityType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -55,7 +57,10 @@ public final class EntityUtil {
 		JSONObject json = new JSONObject();
 		json.put("x", Math.round(entity.getLocation().getX()));
 		json.put("y", Math.round(entity.getLocation().getZ()));
-		json.put("type", entity.getType().getWebId());
+		json.put("t", entity.getType().getWebId());
+		if (entity.getType() == EntityType.BOMB) {
+			json.put("d", Math.round(((Bomb) entity).getTimer()));
+		}
 		return json;
 	}
 }
