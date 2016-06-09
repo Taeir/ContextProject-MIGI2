@@ -19,6 +19,7 @@ function updateGame(data) {
         case "RUNNING":
         case "WAITING":
             updateEntities(data.entities);
+            updateTimer(data.timer);
             
             if (Teams[data.team] === "DWARFS") {
                 exploreAll();
@@ -48,6 +49,16 @@ function updateTeam(nTeam) {
     
     updateTeamButtons();
     hideGameButtons();
+}
+
+/**
+ * Updates the timer to the recieved time.
+ *
+ * @param time
+ *      the current time
+ */
+function updateTimer(time) {
+    $(".timer").html(time);
 }
 
 // ================================================================================================
