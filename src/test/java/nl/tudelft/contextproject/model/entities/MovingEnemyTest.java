@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.model.entities;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.junit.Test;
@@ -53,12 +52,8 @@ public abstract class MovingEnemyTest extends EntityTest {
 	 */
 	@Test
 	public void testIsAINotNull() {
-		try {
-			MovingEntity e = getEnemy();
-			e.update(.2f);
-		} catch (NullPointerException e) {
-			fail();
-		}
+		MovingEntity e = getEnemy();
+		e.update(.2f);
 	}
 
 }

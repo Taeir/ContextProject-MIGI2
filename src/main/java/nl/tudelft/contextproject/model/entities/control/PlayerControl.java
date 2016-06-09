@@ -3,9 +3,10 @@ package nl.tudelft.contextproject.model.entities.control;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.scene.Spatial;
 
-import nl.tudelft.contextproject.Main;
+import jmevr.app.VRApplication;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 
@@ -29,26 +30,28 @@ public class PlayerControl implements EntityControl, ActionListener {
 
 	@Override
 	public void move(float tpf) {
-		//TODO this will change after VR support is implemented
-		Vector3f camDir = Main.getInstance().getCamera().getDirection();
-		Vector3f camLeft = Main.getInstance().getCamera().getLeft();
-		walkDirection = new Vector3f();
+		if (VRApplication.getVRViewManager() != null) {
+			Camera camera = VRApplication.getVRViewManager().getCamLeft();
+			Vector3f camDir = camera.getDirection().mult(2.0f);
+			Vector3f camLeft = camera.getLeft().mult(2.0f);
+			walkDirection = new Vector3f();
 
-		if (left) {
-			walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
-		}
-		if (right) {
-			walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
-		}
-		if (up) {
-			walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
-		if (down) {
-			walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
-		}
+			if (left) {
+				walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
+			}
+			if (right) {
+				walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
+			}
+			if (up) {
+				walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
+			}
+			if (down) {
+				walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
+			}
 
-		playerControl.setWalkDirection(walkDirection);
-		spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
+			playerControl.setWalkDirection(walkDirection);
+			spatial.setLocalTranslation(playerControl.getPhysicsLocation().add(0, -2, 0));
+		}
 	}
 
 	@Override
