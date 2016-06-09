@@ -46,6 +46,8 @@ public class SizeTest extends TestBase {
 	
 	/**
 	 * Test same object with equal method.
+	 * 
+	 * NOTE: This test might seem pointless, but it tests our equals method for same objects.
 	 */
 	@Test
 	public void testEqualsSame() {
