@@ -12,6 +12,7 @@ import com.jme3.light.Light;
 
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.roomIO.MapParser;
+import nl.tudelft.contextproject.model.level.util.CorridorBeautification;
 import nl.tudelft.contextproject.model.level.util.CorridorBreadthFirstSearch;
 import nl.tudelft.contextproject.model.level.util.CorridorEdge;
 import nl.tudelft.contextproject.model.level.util.MinimumSpanningTree;
@@ -101,7 +102,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		createEdges();
 		createReverseMST();
 		placeCorridors();
-		MSTBasedLevelFactory.carveCorridorWalls(mazeTiles);
+		beautifyCorridors();
 		for (RoomNode roomNode: usedNodes) {
 			Room room = roomNode.room;
 			entities.addAll(room.entities);
@@ -215,6 +216,14 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	}	
 
 	/**
+	 * Extend the corridors and add walls to them.
+	 */
+	protected void beautifyCorridors() {
+		CorridorBeautification.simpleCorridorWidening(mazeTiles);
+		CorridorBeautification.carveCorridorWalls(mazeTiles);
+	}
+	
+	/**
 	 * Get all corridor locations on the map.
 	 * 
 	 * @return
@@ -230,42 +239,6 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		return corridorList;
 	}
 
-	/**
-	 * This method adds walls to corridors on the map.
-	 * Checks if a Tile is a corridor, if true add a wall to all Null TileTypes.
-	 *
-	 * @param map
-	 *		the map in which to place the corridor walls
-	 */
-	protected static void carveCorridorWalls(MazeTile[][] map) {
-		int width = map.length;
-		int heigth = map[0].length;
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < heigth; j++) {
-				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
-					//Check North
-					if (j != 0 && map[i][j - 1] == null) {
-						map[i][j - 1] = new MazeTile(i, j - 1, TileType.WALL);
-					}
-
-					//Check South
-					if (j != heigth - 1 && map[i][j + 1] == null) {
-						map[i][j + 1] = new MazeTile(i, j + 1, TileType.WALL);
-					}
-
-					//Check West
-					if (i != 0 && map[i - 1][j] == null) {
-						map[i - 1][j] = new MazeTile(i - 1, j, TileType.WALL);
-					}
-
-					//Check East
-					if (i != width - 1 && map[i + 1][j] == null) {
-						map[i + 1][j] = new MazeTile(i + 1, j, TileType.WALL);
-					}
-				}
-			}
-		}
-	}
 
 	/**
 	 * Add RoomNode to graph and map.

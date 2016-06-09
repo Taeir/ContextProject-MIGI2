@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.model.level;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,127 +50,7 @@ public class MSTBasedLevelFactoryTest extends TestBase {
 		assertNotNull(factoryMST.mazeTiles);
 	}
 
-	/**
-	 * Test if a corridor North of a tile is carved correctly.
-	 */
-	@Test
-	public void testCarveCorridorNorthCorrect() {
-		MazeTile[][] testMap = new MazeTile[1][2];
-		testMap[0][1] = new MazeTile(0, 1, TileType.CORRIDOR);
-		MSTBasedLevelFactory.carveCorridorWalls(testMap);
-		assertEquals(TileType.WALL, testMap[0][0].getTileType());
-	}
 	
-	/**
-	 * Test if a corridor North of a tile is not carved if not possible.
-	 */
-	@Test
-	public void testCarveCorridorNorthAlreadyFilled() {
-		MazeTile[][] testMap = new MazeTile[1][2];
-		testMap[0][0] = new MazeTile(0, 0, TileType.FLOOR);
-		testMap[0][1] = new MazeTile(0, 1, TileType.CORRIDOR);
-		MSTBasedLevelFactory.carveCorridorWalls(testMap);
-		assertEquals(TileType.FLOOR, testMap[0][0].getTileType());
-	}
-	
-	/**
-	 * Test if a corridor North of a tile is carved correctly.
-	 */
-	@Test
-	public void testCarveCorridorSouthCorrect() {
-		MazeTile[][] testMap = new MazeTile[1][2];
-		testMap[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
-		MSTBasedLevelFactory.carveCorridorWalls(testMap);
-		assertEquals(TileType.WALL, testMap[0][1].getTileType());
-	}
-	
-	/**
-	 * Test if a corridor South of a tile is not carved if not possible.
-	 */
-	@Test
-	public void testCarveCorridorSouthAlreadyFilled() {
-		MazeTile[][] testMap = new MazeTile[1][2];
-		testMap[0][1] = new MazeTile(0, 1, TileType.FLOOR);
-		testMap[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
-		MSTBasedLevelFactory.carveCorridorWalls(testMap);
-		assertEquals(TileType.FLOOR, testMap[0][1].getTileType());
-	}
-	
-	/**
-	 * Test if a corridor West of a tile is carved correctly.
-	 */
-	@Test
-	public void testCarveCorridorWestCorrect() {
-		MazeTile[][] testMap = new MazeTile[2][1];
-		testMap[1][0] = new MazeTile(1, 0, TileType.CORRIDOR);
-		MSTBasedLevelFactory.carveCorridorWalls(testMap);
-		assertEquals(TileType.WALL, testMap[0][0].getTileType());
-	}
-	
-	/**
-	 * Test if a corridor West of a tile is not carved if not possible.
-	 */
-	@Test
-	public void testCarveCorridorWestAlreadyFilled() {
-		MazeTile[][] testMap = new MazeTile[2][1];
-		testMap[0][0] = new MazeTile(0, 0, TileType.FLOOR);
-		testMap[1][0] = new MazeTile(1, 0, TileType.CORRIDOR);
-		MSTBasedLevelFactory.carveCorridorWalls(testMap);
-		assertEquals(TileType.FLOOR, testMap[0][0].getTileType());
-	}
-	
-	/**
-	 * Test if a corridor East of a tile is carved correctly.
-	 */
-	@Test
-	public void testCarveCorridorEastCorrect() {
-		MazeTile[][] testMap = new MazeTile[2][1];
-		testMap[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
-		MSTBasedLevelFactory.carveCorridorWalls(testMap);
-		assertEquals(TileType.WALL, testMap[1][0].getTileType());
-	}
-	
-	/**
-	 * Test if a corridor East of a tile is not carved if not possible.
-	 */
-	@Test
-	public void testCarveCorridorEastAlreadyFilled() {
-		MazeTile[][] testMap = new MazeTile[2][1];
-		testMap[1][0] = new MazeTile(1, 0, TileType.FLOOR);
-		testMap[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
-		MSTBasedLevelFactory.carveCorridorWalls(testMap);
-		assertEquals(TileType.FLOOR, testMap[1][0].getTileType());
-	}
-	
-	/**
-	 * Test if corridor carving does nothing if corridor is one edge of the map.
-	 */
-	@Test
-	public void testCarveCorridorAllDirectionsNotPossible() {
-		MazeTile[][] testMap1 = new MazeTile[1][1];
-		MazeTile[][] testMap2 = new MazeTile[1][1];
-		testMap1[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
-		testMap2[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
-		MSTBasedLevelFactory.carveCorridorWalls(testMap1);
-		assertTrue(equalTileTypeMap(testMap2, testMap1));
-	}
-	
-	/**
-	 * Test if carving happens in all directions at the same time.
-	 * Note that this shouldn't happen in game as it will close in the player, however
-	 * this method should still make this possible.
-	 */
-	@Test
-	public void testCarveCorridorAllDirections() {
-		MazeTile[][] testMap1 = createBaseTileTypeMap();
-		MazeTile[][] testMap2 = createBaseTileTypeMap();
-		MSTBasedLevelFactory.carveCorridorWalls(testMap1);
-		testMap2[0][1] = new MazeTile(0, 1, TileType.WALL);
-		testMap2[1][0] = new MazeTile(1, 0, TileType.WALL);
-		testMap2[1][2] = new MazeTile(1, 2, TileType.WALL);
-		testMap2[2][1] = new MazeTile(2, 1, TileType.WALL);
-		assertTrue(equalTileTypeMap(testMap2, testMap1));
-	}
 
 	/**
 	 * Test the map creation with a simple map folder.
