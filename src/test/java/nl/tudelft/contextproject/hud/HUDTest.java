@@ -49,7 +49,7 @@ public class HUDTest extends TestBase {
 	public void testAttachHud() {
 		hud.attachHud();
 		
-		verify(controller, times(4)).addGuiElement(any(Spatial.class));
+		verify(controller, times(6)).addGuiElement(any(Spatial.class));
 		
 		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
 		assertTrue(player.getTickListeners().contains(hud));
@@ -88,7 +88,7 @@ public class HUDTest extends TestBase {
 	public void testGetKeyImagePosition() {
 		Picture p = hud.getKeyImage(1, 2, ColorRGBA.Red);
 		Vector3f loc = p.getLocalTranslation();
-		assertEquals(115f, loc.x, 1e-5);
+		assertEquals(145f, loc.x, 1e-5);
 		assertEquals(60f, loc.y, 1e-5);
 	}
 	
