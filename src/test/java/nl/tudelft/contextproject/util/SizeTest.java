@@ -50,7 +50,7 @@ public class SizeTest extends TestBase {
 	 */
 	@Test
 	public void testEqualsSame() {
-		assertTrue(size.equals(size));
+		assertEquals(size, size);
 	}
 	
 	/**

@@ -191,12 +191,9 @@ public class GameController extends Controller {
 					//TODO add starting room with starting location
 					TileType t = level.getTile(x, y).getTileType();
 					
-					if (t == TileType.FLOOR || t == TileType.CORRIDOR) {
-						
-						if (start.x == 0 && start.y == 0) {
-							start.x = x;
-							start.y = y;
-						}
+					if ((t == TileType.FLOOR || t == TileType.CORRIDOR) && start.x == 0 && start.y == 0) {
+						start.x = x;
+						start.y = y;
 					}
 					addDrawable(level.getTile(x, y));
 				}
