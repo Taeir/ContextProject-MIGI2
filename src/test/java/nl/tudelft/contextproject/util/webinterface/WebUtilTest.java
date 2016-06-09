@@ -252,6 +252,6 @@ public class WebUtilTest extends TestBase {
 		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
 		when(mockedPlayer.getLocation()).thenReturn(oneVector);
 		
-		assertFalse(WebUtil.checkValidLocation(2, 2, Action.PLACEBOMB));
+		assertFalse(WebUtil.checkValidLocation(1 + Action.PLACEMINE.getRadius(), 1, Action.PLACEMINE));
 	}
 }

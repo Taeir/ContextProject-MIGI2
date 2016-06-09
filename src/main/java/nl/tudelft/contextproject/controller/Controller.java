@@ -8,10 +8,12 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
+import com.jme3.util.TangentBinormalGenerator;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
@@ -224,6 +226,14 @@ public abstract class Controller extends AbstractAppState {
 		Geometry roofTile = new Geometry("roofTile", q);
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"); 
 		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/rocktexture.png"));
+		TangentBinormalGenerator.generate(q);
+		mat.setBoolean("UseMaterialColors", true);    
+		mat.setColor("Diffuse", ColorRGBA.Gray);
+		mat.setColor("Specular", ColorRGBA.White);
+		mat.setFloat("Shininess", 64f);
+		mat.setColor("Ambient", ColorRGBA.Gray);
+		mat.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/rocknormalmap.jpg"));
+		mat.setBoolean("UseMaterialColors", true);
 		roofTile.setMaterial(mat); 
 
 		roofTile.rotate((float) Math.toRadians(90), 0, 0);

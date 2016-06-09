@@ -20,9 +20,9 @@ import nl.tudelft.contextproject.model.entities.VRPlayer;
 public class BunnyAI implements EntityControl {
 
 	//The damage per second that a bunny will do
-	private static final float ATTACK_DAMAGE = .5f;
+	private static final float ATTACK_DAMAGE = 1f;
 	//The range in which the bunny attacks
-	private static final double ATTACK_RANGE = .4;
+	private static final double ATTACK_RANGE = .8;
 	//The frequency of jumps of the bunny
 	private static final float JUMP_FREQUENCY = 2;
 	
