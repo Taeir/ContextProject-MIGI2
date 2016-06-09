@@ -5,6 +5,11 @@ package nl.tudelft.contextproject.controller;
  */
 public enum GameState {
 	/**
+	 * VRPlayer is playing the tutorial.
+	 */
+	TUTORIAL,
+
+	/**
 	 * Waiting for the game to start.
 	 */
 	WAITING,

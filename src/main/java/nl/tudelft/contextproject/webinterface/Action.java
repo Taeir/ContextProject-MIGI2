@@ -11,8 +11,8 @@ public enum Action {
 	SPAWNENEMY(10, 1, 5, false, true),
 	DROPBAIT(10, 5, 0, false, true),
 	PLACETILE(0, Integer.MAX_VALUE, 0, true, false),
-	DROPCRATE(10, 1, 0, false, true),
 	OPENGATE(5, 1, 0, false, true),
+	DROPCRATE(10, 1, 0, false, true),
 	INVALID(0, 0, 0, false, false);
 
 	private int cooldown;
@@ -79,5 +79,22 @@ public enum Action {
 	 */
 	public boolean isAllowedTiles() {
 		return allowedTiles;
+	}
+	
+	/**
+	 * Gets the action with the given ordinal.
+	 * If the ordinal is not valid, this method returns {@link #INVALID}.
+	 * 
+	 * @param ordinal
+	 * 		the ordinal of the action to get
+	 * @return
+	 * 		the Action with the given ordinal
+	 */
+	public static Action getAction(int ordinal) {
+		if (ordinal < 0) return INVALID;
+		
+		Action[] actions = values();
+		if (ordinal >= actions.length) return INVALID;
+		return actions[ordinal];
 	}
 }

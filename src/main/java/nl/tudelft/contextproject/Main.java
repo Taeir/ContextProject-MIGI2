@@ -2,11 +2,10 @@ package nl.tudelft.contextproject;
 
 import java.awt.Desktop;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
-
-
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.font.BitmapFont;
@@ -55,13 +54,13 @@ public class Main extends VRApplication implements TickProducer {
 	
 	private static boolean hideQR;
 	
-	private static Main instance;
+	private static volatile Main instance;
 	private static boolean mouseEnabled;
 	
 	private Controller controller;
 	private WebServer webServer;
+	private Set<TickListener> tickListeners = ConcurrentHashMap.newKeySet();
 	private BitmapFont guifont;
-	private List<TickListener> tickListeners = new ArrayList<>();
 	
 	/**
 	 * Main method that is called when the program is started.
@@ -184,17 +183,17 @@ public class Main extends VRApplication implements TickProducer {
 
 	/**
 	 * Method used for testing.
-	 * Sets the list of tickListeners to the specified list.
+	 * Sets the set of tickListeners to the specified set.
 	 *
 	 * @param listeners
-	 * 		the new List of TickListeners
+	 * 		the new Set of TickListeners
 	 */
-	public void setTickListeners(List<TickListener> listeners) {
+	public void setTickListeners(Set<TickListener> listeners) {
 		tickListeners = listeners;
 	}
 	
 	@Override
-	public List<TickListener> getTickListeners() {
+	public Set<TickListener> getTickListeners() {
 		return tickListeners;
 	}
 
