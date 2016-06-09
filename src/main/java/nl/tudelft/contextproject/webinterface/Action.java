@@ -6,9 +6,9 @@ package nl.tudelft.contextproject.webinterface;
 public enum Action {
 	//Cooldowns are set in seconds	
 	PLACEBOMB(10, 3, 1, false, true),
-	PLACEPITFALL(10, 2, 8, false, true),
-	PLACEMINE(10, 4, 8, false, true),
-	SPAWNENEMY(10, 1, 5, false, true),
+	PLACEPITFALL(10, 2, 3, false, true),
+	PLACEMINE(10, 4, 3, false, true),
+	SPAWNENEMY(10, 1, 2, false, true),
 	DROPBAIT(10, 5, 0, false, true),
 	PLACETILE(0, Integer.MAX_VALUE, 0, true, false),
 	OPENGATE(5, 1, 0, false, true),
