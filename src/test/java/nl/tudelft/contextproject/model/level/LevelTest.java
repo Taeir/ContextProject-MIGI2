@@ -1,7 +1,7 @@
 package nl.tudelft.contextproject.model.level;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,6 +14,8 @@ import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Entity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,6 +42,13 @@ public class LevelTest extends TestBase {
 		tileMock2 = mock(MazeTile.class);
 		entityMock = mock(Entity.class);
 
+		TileType type = TileType.FLOOR;
+		when(tileMock1.getTileType()).thenReturn(type);
+		when(tileMock1.isExplored()).thenReturn(true);
+		
+		type = TileType.WALL;
+		when(tileMock2.getTileType()).thenReturn(type);
+		
 		MazeTile[][] tiles = {{tileMock1, null, tileMock2},
 							  {tileMock2, tileMock1, null}};
 		
@@ -119,5 +128,30 @@ public class LevelTest extends TestBase {
 	@Test
 	public void testGetPlayerSpawnPosition() {
 		assertEquals(new Vector3f(1, 1, 1), level.getPlayerSpawnPosition());
+	}
+	
+	/**
+	 * Test if {@link Level#toWebJSON()} works properly.
+	 */
+	@Test
+	public void testToWebJSON() {
+		JSONObject json = level.toWebJSON();
+
+		assertEquals(2, json.get("width"));
+		assertEquals(3, json.get("height"));
+
+		JSONObject tiles = json.getJSONObject("tiles");
+		assertEquals(2, tiles.length());
+		assertEquals(3, tiles.getJSONArray("0").length());
+	}
+	
+	/**
+	 * Test if {@link Level#toExploredWebJSON()} works properly.
+	 */
+	@Test
+	public void testToExploredWebJSON() {
+		JSONObject json = level.toExploredWebJSON();
+		assertEquals(0, json.getJSONArray("0").get(0));
+		assertEquals(1, json.getJSONArray("1").get(0));
 	}
 }
