@@ -2,6 +2,9 @@ package nl.tudelft.contextproject.test;
 
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
@@ -11,6 +14,8 @@ import com.jme3.audio.Listener;
 import com.jme3.input.InputManager;
 import com.jme3.input.dummy.DummyKeyInput;
 import com.jme3.input.dummy.DummyMouseInput;
+import com.jme3.light.Light;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.system.JmeSystem;
@@ -21,7 +26,10 @@ import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
 
 import jmevr.app.VRApplication.PRECONFIG_PARAMETER;
 
@@ -252,6 +260,15 @@ public final class TestUtil extends TestBase {
 	/**
 	 * Ensures that {@link Main#getCurrentGame()} returns a mocked game.
 	 * The game returned will be a Mockito spy.
+	 * 
+	 * <p>This method ensures the following:
+	 * <ul>
+	 * <li>{@link Main#getController()} will return a spied GameController</li>
+	 * <li>{@link Main#getCurrentGame()} and {@link GameController#getGame()} will return a spied Game</li>
+	 * <li>{@link Game#getLevel()} will return a spied level</li>
+	 * <li>The level will be 1x1, with no tiles, no entities and no lights.</li>
+	 * <li>{@link Game#getPlayer()} will return a spied dummy player (see {@link VRPlayer#loadEntity}).</li>
+	 * </ul>
 	 */
 	public static void mockGame() {
 		Main main;
@@ -261,17 +278,25 @@ public final class TestUtil extends TestBase {
 			main = Main.getInstance();
 		}
 		
-		//Create a mocked level in a real GameController
-		Level level = mock(Level.class);
-		GameController gc = new GameController(main, level, 10f);
+		//Create a full fledged level.
+		Set<Entity> entities = ConcurrentHashMap.newKeySet();
+		List<Light> lights = new ArrayList<Light>();
+		MazeTile[][] tiles = new MazeTile[1][1];
+		Vector3f playerSpawn = new Vector3f();
+		Level levelSpy = spy(new Level(tiles, lights, entities, playerSpawn));
+		
+		GameController gc = new GameController(main, levelSpy, 10f);
 		
 		//Spy on the game
-		Game game = spy(gc.getGame());
-		gc.setGame(game);
+		Game gameSpy = spy(gc.getGame());
+		gc.setGame(gameSpy);
+		
+		//Fake player
+		VRPlayer player = spy(VRPlayer.loadEntity(playerSpawn, new String[4]));
+		doReturn(player).when(gameSpy).getPlayer();
 		
 		//Spy on the game controller
-		gc = spy(gc);
-		main.setController(gc);
+		main.setController(spy(gc));
 	}
 	
 	/**

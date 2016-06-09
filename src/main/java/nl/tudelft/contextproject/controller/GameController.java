@@ -1,14 +1,6 @@
 package nl.tudelft.contextproject.controller;
 
-import java.io.File;
-
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -17,18 +9,20 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.LevelFactory;
 import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.RoomLevelFactory;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
+
 import jmevr.app.VRApplication;
 
 /**
@@ -40,6 +34,7 @@ public class GameController extends Controller {
 	 * This ensures that a big lag-spike wont allow entities to glitch through walls.
 	 */
 	public static final float MAX_TPF = .033f;
+
 	private Game game;
 	private HUD hud;
 
@@ -73,46 +68,16 @@ public class GameController extends Controller {
 	 */
 	public GameController(Application app, String folder, float timeLimit, boolean isMap) {
 		super(app, "GameController");
+		
+		LevelFactory factory;
 		if (!isMap) {
-			Set<Entity> entities = ConcurrentHashMap.newKeySet();
-			List<Light> lights = new ArrayList<>();
-	
-			try {
-				File file = RoomParser.getMapFile(folder);
-				String[] tmp = file.getName().split("_")[0].split("x");
-				MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
-				RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
-				Level level = new Level(tiles, lights);
-				Entity e = null;
-				VRPlayer  p = null;
-				for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
-					if (e instanceof VRPlayer) {
-						p = (VRPlayer) e;
-						it.remove();
-					}
-				}
-				if (p == null) p = new VRPlayer();
-				game = new Game(level, p, entities, this, timeLimit);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			
+			factory = new RoomLevelFactory(folder);
 		} else {
-			MSTBasedLevelFactory mstLevelFactory = new MSTBasedLevelFactory("/maps/testGridMap/"); 
-			Level level = mstLevelFactory.generateRandom();
-			Set<Entity> entities = mstLevelFactory.entities;
-			Entity e = null;
-			VRPlayer p = null;
-			for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
-				if (e instanceof VRPlayer) {
-					p = (VRPlayer) e;
-					it.remove();
-				}
-			}
-			if (p == null) p = new VRPlayer();
-			game = new Game(level, p, entities, this, timeLimit);			
+			factory = new MSTBasedLevelFactory("/maps/testGridMap/"); 	
 		}
+		
+		Level level = factory.generateRandom();
+		game = new Game(level, this, timeLimit);
 	}
 
 	@Override

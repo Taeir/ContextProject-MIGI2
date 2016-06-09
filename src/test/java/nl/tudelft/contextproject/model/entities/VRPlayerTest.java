@@ -1,9 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +14,6 @@ import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
-import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
@@ -172,7 +169,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 		
 		//Mock the player's spatial to the appropriate location
 		Spatial spatial = mock(Spatial.class);
-		when(spatial.getLocalTranslation()).thenReturn(new Vector3f(VRPlayer.EXPLORATION_RADIUS, 2, VRPlayer.EXPLORATION_RADIUS));
+		when(spatial.getLocalTranslation()).thenReturn(new Vector3f(VRPlayer.EXPLORATION_RADIUS, VRPlayer.SPAWN_HEIGHT, VRPlayer.EXPLORATION_RADIUS));
 		player.setSpatial(spatial);
 		
 		//When we now call updateExploration
@@ -239,7 +236,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 		
 		//Mock the player's spatial to the appropriate location
 		Spatial spatial = mock(Spatial.class);
-		when(spatial.getLocalTranslation()).thenReturn(new Vector3f(VRPlayer.EXPLORATION_RADIUS + 1, 2, VRPlayer.EXPLORATION_RADIUS + 1));
+		when(spatial.getLocalTranslation()).thenReturn(new Vector3f(VRPlayer.EXPLORATION_RADIUS + 1, VRPlayer.SPAWN_HEIGHT, VRPlayer.EXPLORATION_RADIUS + 1));
 		player.setSpatial(spatial);
 		
 		//When we now call updateExploration
@@ -295,15 +292,10 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 * 		the one and only MazeTile in the level
 	 */
 	private MazeTile mock1x1Level() {
-		Level level = mock(Level.class);
-		when(level.getHeight()).thenReturn(1);
-		when(level.getWidth()).thenReturn(1);
+		Level level = Main.getInstance().getCurrentGame().getLevel();
 		
 		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
 		when(level.getTile(anyInt(), anyInt())).thenReturn(tile);
-		
-		Game game = new Game(level, null, 10f);
-		when(Main.getInstance().getCurrentGame()).thenReturn(game);
 		return tile;
 	}	
 }

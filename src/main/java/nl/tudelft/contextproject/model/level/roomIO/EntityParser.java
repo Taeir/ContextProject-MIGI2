@@ -2,12 +2,18 @@ package nl.tudelft.contextproject.model.level.roomIO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityType;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**
@@ -66,5 +72,42 @@ public final class EntityParser {
 			Entity entity = type.loadEntity(position, data);
 			entities.add(entity);
 		}
+	}
+	
+	/**
+	 * Removes all VRPlayers from the given collection, chooses a random player from these, and
+	 * returns it's location.
+	 * 
+	 * <p>This method allows setting the player spawn location in the room files. This can be done
+	 * by simply adding a player entity in the room file with its location:
+	 * <pre>1 2 1 Player</pre>
+	 * 
+	 * <p>If there are no player entities in the given list, this method returns the location
+	 * <code>(0, 0, 0)</code>.
+	 * 
+	 * @param entities
+	 * 		the entities to work with
+	 * @param random
+	 * 		the random to use for determining the player location
+	 * 
+	 * @return
+	 * 		a randomly selected player spawn location
+	 */
+	public static Vector3f getPlayerSpawnLocation(Collection<Entity> entities, Random random) {
+		List<VRPlayer> players = new ArrayList<>();
+		Iterator<Entity> it = entities.iterator();
+		while (it.hasNext()) {
+			Entity entity = it.next();
+			if (!(entity instanceof VRPlayer)) continue;
+			
+			players.add((VRPlayer) entity);
+			it.remove();
+		}
+		
+		if (players.isEmpty()) return new Vector3f();
+		
+		//Choose a random player
+		int index = random.nextInt(players.size());
+		return players.get(index).getLocation();
 	}
 }
