@@ -4,10 +4,10 @@ package nl.tudelft.contextproject.webinterface;
  * Enum representing the possible actions a player can perform.
  */
 public enum Action {
-	//Cooldowns are set in seconds
-	PLACEBOMB(10, 3, 3, false, true),
-	PLACEPITFALL(10, 2, 5, false, true),
-	PLACEMINE(10, 4, 5, false, true),
+	//Cooldowns are set in seconds	
+	PLACEBOMB(10, 3, 1, false, true),
+	PLACEPITFALL(10, 2, 8, false, true),
+	PLACEMINE(10, 4, 8, false, true),
 	SPAWNENEMY(10, 1, 5, false, true),
 	DROPBAIT(10, 5, 0, false, true),
 	PLACETILE(0, Integer.MAX_VALUE, 0, true, false),
