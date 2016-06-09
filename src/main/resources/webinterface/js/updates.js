@@ -267,7 +267,7 @@ function updateEntities(data) {
         if (gEntities !== null) {
             //Remove the old data
             for (var i = 0, len = gEntities.length; i < len; i++) {
-                var type = EntityTypes[gEntities[i].type];
+                var type = EntityTypes[gEntities[i].t];
                 if (type === undefined) continue;
                 
                 var element = document.getElementById("y" + gEntities[i].y + "x" + gEntities[i].x);
@@ -278,7 +278,7 @@ function updateEntities(data) {
         }
         
         for (var i = 0, len = data.length; i < len; i++) {
-            var type = EntityTypes[data[i].type];
+            var type = EntityTypes[data[i].t];
             if (type === undefined) continue;
             
             var element = document.getElementById("y" + data[i].y + "x" + data[i].x);
@@ -290,7 +290,7 @@ function updateEntities(data) {
         if (gEntities !== null) {
             //Remove the old data
             for (var i = 0, len = gEntities.length; i < len; i++) {
-                var type = EntityTypes[gEntities[i].type];
+                var type = EntityTypes[gEntities[i].t];
                 if (type === undefined) continue;
                 
                 $(document.getElementById("y" + gEntities[i].y + "x" + gEntities[i].x)).removeClass(type);
@@ -298,7 +298,7 @@ function updateEntities(data) {
         }
         
         for (var i = 0, len = data.length; i < len; i++) {
-            var type = EntityTypes[data[i].type];
+            var type = EntityTypes[data[i].t];
             if (type === undefined) continue;
             
             $(document.getElementById("y" + data[i].y + "x" + data[i].x)).addClass(type);
