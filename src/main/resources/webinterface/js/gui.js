@@ -86,6 +86,8 @@ function switchToTeam() {
     stopIndexRefresh();
     startStatusUpdates();
     
+    updateTeam(undefined);
+    
     requestMap();
     
     $(document.getElementById("indexView")).hide();

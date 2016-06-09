@@ -20,7 +20,7 @@ import lombok.SneakyThrows;
  * Class that is a WebSocket to a single client.
  */
 public class COCSocket extends WebSocketAdapter implements TickListener {
-	public static final float UPDATE_INTERVAL = 0.6f;
+	public static final float UPDATE_INTERVAL = 0.15f;
 	
 	private final WebServer server;
 	private final WebClient client;
