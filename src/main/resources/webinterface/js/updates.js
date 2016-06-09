@@ -58,7 +58,11 @@ function updateTeam(nTeam) {
  *      the current time
  */
 function updateTimer(time) {
-    $(".timer").html(time);
+    if (time > 3600) {
+        $(".timer").html("&infin;")
+    } else {
+        $(".timer").html(time);
+    }
 }
 
 // ================================================================================================
