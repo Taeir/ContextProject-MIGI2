@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.input;
 
 import com.jme3.input.CameraInput;
 import com.jme3.input.InputManager;

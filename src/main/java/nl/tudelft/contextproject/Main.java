@@ -27,6 +27,8 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
+import nl.tudelft.contextproject.input.NoVRMouseManager;
+import nl.tudelft.contextproject.input.VRLookManager;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
@@ -97,7 +99,7 @@ public class Main extends VRApplication implements TickProducer {
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
 		
 		//Set frustum distances here before app starts
-		//main.preconfigureFrustrumNearFar(0.1f, 512f);
+		main.preconfigureFrustrumNearFar(0.1f, 512f);
 		
 		//You can downsample for performance reasons
 		main.preconfigureResolutionMultiplier(RESOLUTION);
@@ -210,7 +212,7 @@ public class Main extends VRApplication implements TickProducer {
 		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
 		
 		VRGuiManager.setPositioningMode(POSITIONING_MODE.AUTO_CAM_ALL);
-		VRGuiManager.setGuiScale(0.50f);
+		VRGuiManager.setGuiScale(0.40f);
 		VRGuiManager.setPositioningElasticity(0f);
 		
 		setupControlMappings();
@@ -247,6 +249,8 @@ public class Main extends VRApplication implements TickProducer {
 
 		if (mouseEnabled) {
 			new NoVRMouseManager(getCamera()).registerWithInput(im);
+		} else if (VRApplication.isInVR()) {
+			new VRLookManager(VRApplication.getObserver()).registerWithInput(im);
 		}
 		
 		if (isControllerConnected()) {
@@ -256,7 +260,7 @@ public class Main extends VRApplication implements TickProducer {
 
 			j.getButton("0").assignButton("Jump");				// A
 			j.getButton("3").assignButton("Unmapped");			// Y
-			j.getButton("2").assignButton("Bomb");				// X
+			j.getButton("2").assignButton("Drop");				// X
 			j.getButton("1").assignButton("Pickup");			// B
 		} else {
 			im.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
@@ -264,7 +268,7 @@ public class Main extends VRApplication implements TickProducer {
 			im.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
 			im.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
 			im.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-			im.addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
+			im.addMapping("Drop", new KeyTrigger(KeyInput.KEY_Q));
 			im.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
 
@@ -334,6 +338,7 @@ public class Main extends VRApplication implements TickProducer {
 		}
 		return instance;
 	}
+	
 	/**
 	 * Opens the QR code to join the game in the default browser.
 	 */

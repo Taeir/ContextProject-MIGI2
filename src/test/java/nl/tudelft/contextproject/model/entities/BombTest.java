@@ -92,7 +92,7 @@ public class BombTest extends EntityTest {
 	public void testLoadEntity() {
 		Bomb bomb = Bomb.loadEntity(loadPosition, new String[]{"1", "1", "1", EntityType.BOMB.getName()});
 		
-		assertEquals(loadPosition, bomb.getLocation());
+		assertEquals(expectedPosition.add(0, 0.5f, 0), bomb.getLocation());
 	}
 	
 	/**
@@ -109,10 +109,11 @@ public class BombTest extends EntityTest {
 	@Test
 	public void testPickedup() {
 		TestUtil.mockGame();
-		bomb.setPickedup(true);
+		bomb.pickUp();
 		bomb.update(1);
-		Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(1.5f);
-		Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation().add(vec.x, 1, vec.z);
-		assertEquals(bomb.getSpatial().getLocalTranslation(), vec2);
+		bomb.getPhysicsObject().update(1);
+		Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(2f);
+		Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
+		assertEquals(vec2, bomb.getLocation());
 	}
 }

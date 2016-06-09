@@ -77,6 +77,10 @@ public final class WebUtil {
 				return true;
 			case PLACETILE:
 				return true;
+			case DROPCRATE:
+				return true;
+			case OPENGATE:
+				return true;
 			default:
 				return false;
 		}

@@ -2,8 +2,6 @@ package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
 
-import nl.tudelft.contextproject.model.Game;
-
 /**
  * GameController for the ending state.
  */
@@ -22,7 +20,7 @@ public class EndingController extends GameController {
 	 * 		true when the elves won, false when the dwarfs won
 	 */
 	public EndingController(Application app, boolean elvesWin) {
-		super(app, "/maps/" + (elvesWin ? WIN_LEVEL : LOSE_LEVEL) + "/", Float.MAX_VALUE);
+		super(app, "/maps/" + (elvesWin ? WIN_LEVEL : LOSE_LEVEL) + "/", Float.MAX_VALUE, false);
 		this.elvesWin = elvesWin;
 	}
 	
@@ -30,9 +28,6 @@ public class EndingController extends GameController {
 	public GameState getGameState() {
 		return GameState.ENDED;
 	}
-
-	@Override
-	protected void placeTreasure(Game game) { };
 
 	/**
 	 * @return

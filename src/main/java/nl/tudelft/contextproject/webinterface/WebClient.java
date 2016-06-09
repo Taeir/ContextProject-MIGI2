@@ -97,13 +97,17 @@ public class WebClient {
 	private void setUpPerformedElves() {
 		performedActions.put(Action.DROPBAIT, new ArrayList<>());
 		performedActions.put(Action.PLACETILE, new ArrayList<>());
+		performedActions.put(Action.DROPCRATE, new ArrayList<>());
+		performedActions.put(Action.OPENGATE, new ArrayList<>());
 	}
 
 	/**
 	 * Create sets in the HashMap for all dwarfs actions.
 	 */
 	private void setUpPerformedDwarfs() {
+		performedActions.put(Action.PLACEMINE, new ArrayList<>());
 		performedActions.put(Action.PLACEBOMB, new ArrayList<>());
+		performedActions.put(Action.PLACEMINE, new ArrayList<>());
 		performedActions.put(Action.PLACEPITFALL, new ArrayList<>());
 		performedActions.put(Action.SPAWNENEMY, new ArrayList<>());
 	}
