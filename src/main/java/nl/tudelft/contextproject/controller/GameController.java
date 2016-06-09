@@ -184,22 +184,22 @@ public class GameController extends Controller {
 	 * 		the time per frame for this update
 	 */
 	void updateEntities(float tpf) {
-		for (Iterator<Entity> i = game.getEntities().iterator(); i.hasNext();) {
-			Entity e = i.next();
-			EntityState state = e.getState();
+		for (Iterator<Entity> it = game.getEntities().iterator(); it.hasNext();) {
+			Entity entity = it.next();
+			EntityState state = entity.getState();
 
 			switch (state) {
 				case DEAD:
-					removeDrawable(e);
-					i.remove();
+					removeDrawable(entity);
+					it.remove();
 					break;
 				case NEW:
-					addDrawable(e);
-					e.setState(EntityState.ALIVE);
-					e.update(tpf);
+					addDrawable(entity);
+					entity.setState(EntityState.ALIVE);
+					entity.update(tpf);
 					break;
 				default:
-					e.update(tpf);
+					entity.update(tpf);
 					break;
 			}
 		}
