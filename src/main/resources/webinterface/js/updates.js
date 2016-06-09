@@ -278,6 +278,9 @@ function updateEntities(data) {
                 if (element == null) continue;
                 
                 element.classList.remove(type);
+                if (type === "Bomb") {
+                    element.innerHTML = "";
+                }
             }
         }
         
@@ -289,6 +292,9 @@ function updateEntities(data) {
             if (element == null) continue;
             
             element.classList.add(type);
+            if (type === "Bomb") {
+                element.innerHTML = data[i].d;
+            }
         }
     } else {
         if (gEntities !== null) {
@@ -298,6 +304,9 @@ function updateEntities(data) {
                 if (type === undefined) continue;
                 
                 $(document.getElementById("y" + gEntities[i].y + "x" + gEntities[i].x)).removeClass(type);
+                if (type === "Bomb") {
+                    element.innerHTML = "";
+                }
             }
         }
         
@@ -306,6 +315,9 @@ function updateEntities(data) {
             if (type === undefined) continue;
             
             $(document.getElementById("y" + data[i].y + "x" + data[i].x)).addClass(type);
+            if (type === "Bomb") {
+                element.innerHTML = data[i].d;
+            }
         }
     }
     

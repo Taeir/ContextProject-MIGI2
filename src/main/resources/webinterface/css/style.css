@@ -36,6 +36,7 @@ body {
 }
 #map .Bomb.explored {
 	background-color: #000000 !important;
+    font-size: 1.5em !important;
 }
 #map .Door.explored {
 	background-color: #7A5230 !important;
@@ -75,10 +76,15 @@ body {
 }
 #map td, #map th {
 	min-width: 40px;
+    max-width: 40px;
 	width: 40px;
 	min-height: 40px;
+    max-height: 40px;
 	height: 40px;
 	background-color: #327ed4;
+    color: white;
+    text-align: center;
+    font-size: 0px;
 }
 #map .Wall.explored {
 	background-color: #D3D3D3;
