@@ -58,7 +58,7 @@ public final class EntityUtil {
 		json.put("x", Math.round(entity.getLocation().getX()));
 		json.put("y", Math.round(entity.getLocation().getZ()));
 		json.put("t", entity.getType().getWebId());
-		if (entity.getType() == EntityType.BOMB) {
+		if (entity instanceof Bomb) {
 			json.put("d", Math.round(((Bomb) entity).getTimer()));
 		}
 		return json;
