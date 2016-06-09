@@ -15,7 +15,6 @@ import nl.tudelft.contextproject.test.TestUtil;
 /**
  * Test class for {@link ClientServlet}.
  */
-@SuppressWarnings("deprecation")
 public class ClientServletTest extends WebTestBase {
 	private static final String ID = "TESTID";
 	
