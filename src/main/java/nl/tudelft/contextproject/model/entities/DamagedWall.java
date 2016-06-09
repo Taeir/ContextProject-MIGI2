@@ -16,10 +16,8 @@ import nl.tudelft.contextproject.model.level.TileType;
 /**
  * A damaged wall that can be destroyed by explosions.
  */
-public class DamagedWall extends Entity implements Health, PhysicsObject {
+public class DamagedWall extends AbstractPhysicsEntity implements Health, PhysicsObject {
 
-	private Spatial spatial;
-	private RigidBodyControl phControl;
 	private Material material;
 	private float health = 1.5f;
 
@@ -40,30 +38,19 @@ public class DamagedWall extends Entity implements Health, PhysicsObject {
 	}
 
 	@Override
-	public void setSpatial(Spatial spatial) {
-		this.spatial = spatial;
-	}
-
-	@Override
-	public void update(float tpf) { }
-
-	@Override
 	public PhysicsControl getPhysicsObject() {
-		if (phControl != null) return phControl;
-		
-		if (spatial == null) {
-			this.getSpatial();
-		}
-		phControl = new RigidBodyControl(1.5f);
-		spatial.addControl(phControl);
-		return phControl;
+		if (rigidBody != null) return rigidBody;
+
+		rigidBody = new RigidBodyControl(1.5f);
+		getSpatial().addControl(rigidBody);
+		return rigidBody;
 	}
 
 	@Override
 	public void move(float x, float y, float z) {
 		getPhysicsObject();
-		phControl.setPhysicsLocation(getLocation().add(x, y, z));
-		spatial.setLocalTranslation(phControl.getPhysicsLocation());
+		rigidBody.setPhysicsLocation(getLocation().add(x, y, z));
+		spatial.setLocalTranslation(rigidBody.getPhysicsLocation());
 	}
 
 	@Override
