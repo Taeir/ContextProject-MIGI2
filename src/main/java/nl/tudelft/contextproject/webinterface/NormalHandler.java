@@ -410,6 +410,7 @@ public class NormalHandler {
 				if (client.isElf()) {
 					json.put("explored", game.getLevel().toExploredWebJSON());
 				}
+				json.put("timer", game.getTimeRemaining());
 				break;
 			case PAUSED:
 				//We don't send any other data when the game is paused
