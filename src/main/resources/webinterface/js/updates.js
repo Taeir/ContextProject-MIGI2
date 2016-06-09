@@ -39,7 +39,7 @@ function updateGame(data) {
  *      the new team. Must be a team from Teams [ENUM]
  */
 function updateTeam(nTeam) {
-    if (gTeam === nTeam || nTeam === undefined) return;
+    if (gTeam === nTeam) return;
     
     gTeam = nTeam;
     
