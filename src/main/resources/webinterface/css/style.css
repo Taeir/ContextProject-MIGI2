@@ -86,10 +86,10 @@ body {
 #map .Floor.explored, #map .Corridor.explored, #map .Platform {
 	background-color: #769f50;
 }
-#endedWinners, #endedMessage, .pausemessage {
+#endedWinners, #endedMessage, .pausemessage, .tutorialmessage {
 	text-align: center;
 }
-#ended, #paused {
+#endedView, #pausedView, #tutorialView {
 	position: fixed;
 	top: 50%;
 	left: 50%;

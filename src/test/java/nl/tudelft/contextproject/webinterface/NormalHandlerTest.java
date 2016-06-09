@@ -92,10 +92,10 @@ public class NormalHandlerTest extends WebTestBase {
 		HttpServletResponse response = createMockedResponse();
 		handler.attemptJoinNew(response);
 		
-		//Response should be ALLOWED, and client should have been added.
+		//Response should be the current game state, and client should have been added.
 		verify(response).setStatus(HttpStatus.OK_200);
 		verify(response).addCookie(any());
-		verify(response.getWriter()).write("ALLOWED");
+		verify(response.getWriter()).write("" + GameState.WAITING.ordinal());
 		
 		assertEquals(1, server.getUniqueClientCount());
 	}

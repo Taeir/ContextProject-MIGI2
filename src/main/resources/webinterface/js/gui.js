@@ -39,6 +39,9 @@ function switchTo(view) {
         case Views.ENDED:
             switchToEnded();
             break;
+        case Views.TUTORIAL:
+            switchToTutorial();
+            break;
         default:
             showAlert("Unknown view: " + view, Severity.Danger, 5000);
             break;
@@ -72,6 +75,7 @@ function switchToInstructions() {
     $(document.getElementById("teamView")).hide();
     $(document.getElementById("gameView")).hide();
     $(document.getElementById("pausedView")).hide();
+    $(document.getElementById("tutorialView")).hide();
     $(document.getElementById("instructionsView")).show();
 }
 
@@ -88,8 +92,27 @@ function switchToTeam() {
     $(document.getElementById("instructionsView")).hide();
     $(document.getElementById("pausedView")).hide();
     $(document.getElementById("endedView")).hide();
+    $(document.getElementById("tutorialView")).hide();
     $(document.getElementById("gameView")).show();
     $(document.getElementById("teamView")).show();
+}
+
+/**
+ * Manages switching to the tutorial view.
+ */
+function switchToTutorial() {
+    stopIndexRefresh();
+    startStatusUpdates();
+    
+    requestMap();
+    
+    $(document.getElementById("indexView")).hide();
+    $(document.getElementById("instructionsView")).hide();
+    $(document.getElementById("pausedView")).hide();
+    $(document.getElementById("endedView")).hide();
+    $(document.getElementById("gameView")).hide();
+    $(document.getElementById("teamView")).hide();
+    $(document.getElementById("tutorialView")).show();
 }
 
 /**
@@ -106,6 +129,7 @@ function switchToGame() {
     $(document.getElementById("indexView")).hide();
     $(document.getElementById("instructionsView")).hide();
     $(document.getElementById("endedView")).hide();
+    $(document.getElementById("tutorialView")).hide();
     $(document.getElementById("gameView")).show();
 }
 
@@ -121,6 +145,7 @@ function switchToPaused() {
     $(document.getElementById("indexView")).hide();
     $(document.getElementById("instructionsView")).hide();
     $(document.getElementById("endedView")).hide();
+    $(document.getElementById("tutorialView")).hide();
     $(document.getElementById("pausedView")).show();
 }
 
@@ -136,6 +161,7 @@ function switchToEnded() {
     $(document.getElementById("indexView")).hide();
     $(document.getElementById("instructionsView")).hide();
     $(document.getElementById("pausedView")).hide();
+    $(document.getElementById("tutorialView")).hide();
     $(document.getElementById("endedView")).show();
 }
 
