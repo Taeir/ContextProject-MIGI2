@@ -6,6 +6,7 @@ import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.webinterface.Action;
+import nl.tudelft.contextproject.webinterface.Team;
 import nl.tudelft.contextproject.webinterface.WebClient;
 
 import java.util.Iterator;
@@ -25,24 +26,6 @@ public final class WebUtil {
 	private WebUtil() {}
 
 	/**
-	 * Decode an action integer back to its action.
-	 *
-	 * @param action
-	 * 		the action to decode
-	 * @return
-	 * 		the decoded action
-	 */
-	public static Action decodeAction(int action) {
-		Action[] actions = Action.values();
-
-		if (action >= 0 && action < actions.length) {
-			return actions[action];
-		} else {
-			return Action.INVALID;
-		}
-	}
-
-	/**
 	 * Check if an action is valid.
 	 *
 	 * @param action
@@ -52,11 +35,11 @@ public final class WebUtil {
 	 * @return
 	 * 		true if the action is valid, false otherwise
 	 */
-	public static boolean checkValidAction(Action action, String team) {
+	public static boolean checkValidAction(Action action, Team team) {
 		switch (team) {
-			case "Elves":
+			case ELVES:
 				return checkValidElves(action);
-			case "Dwarfs":
+			case DWARFS:
 				return checkValidDwarfs(action);
 			default:
 				return false;
@@ -126,6 +109,7 @@ public final class WebUtil {
 		if (withinPlayerRadius(xCoord, yCoord, action)) {
 			return false;
 		}
+		
 		if (tile == null && action.isAllowedVoid()) {
 			return checkValidLocationEntities(xCoord, yCoord);
 		} else if (tile == null || tile.getTileType() == TileType.WALL) {

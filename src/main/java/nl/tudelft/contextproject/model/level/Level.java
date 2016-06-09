@@ -97,11 +97,11 @@ public class Level {
 		//Store all the tiles in a JSONObject.
 		JSONObject jsonTiles = new JSONObject();
 		for (int x = 0; x < mazeTiles.length; x++) {
-			MazeTile[] row = mazeTiles[x];
+			MazeTile[] column = mazeTiles[x];
 
 			JSONArray jArray = new JSONArray();
 
-			for (MazeTile tile : row) {
+			for (MazeTile tile : column) {
 				if (tile == null) {
 					jArray.put(0);
 				} else {
@@ -127,13 +127,13 @@ public class Level {
 	public JSONObject toExploredWebJSON() {
 		JSONObject json = new JSONObject();
 		for (int x = 0; x < mazeTiles.length; x++) {
-			MazeTile[] row = mazeTiles[x];
+			MazeTile[] column = mazeTiles[x];
 
 			JSONArray jArray = new JSONArray();
 			
-			for (int y = 0; y < row.length; y++) {
+			for (int y = 0; y < column.length; y++) {
 				//We are only interested in explored tiles
-				if (row[y] == null || !row[y].isExplored()) continue;
+				if (column[y] == null || !column[y].isExplored()) continue;
 				
 				jArray.put(y);
 			}

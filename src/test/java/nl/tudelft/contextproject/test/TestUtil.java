@@ -2,7 +2,7 @@ package nl.tudelft.contextproject.test;
 
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 import com.jme3.asset.AssetManager;
@@ -133,7 +133,7 @@ public final class TestUtil extends TestBase {
 		mainNoSpy.setGuiNode(guiNode);
 		
 		//Reset the controller and tick listeners
-		mainNoSpy.setTickListeners(new ArrayList<>());
+		mainNoSpy.setTickListeners(ConcurrentHashMap.newKeySet());
 		mainNoSpy.setController(null);
 		return mainSpy;
 	}

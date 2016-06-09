@@ -1,6 +1,6 @@
 package nl.tudelft.contextproject.model;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Interface for classes that produce ticks that can be listened to.
@@ -9,9 +9,9 @@ public interface TickProducer {
 
 	/**
 	 * @return
-	 * 		a list with all the attached tickListeners
+	 * 		a set with all the attached tickListeners
 	 */
-	List<TickListener> getTickListeners();
+	Set<TickListener> getTickListeners();
 
 	/**
 	 * Update all attached {@link TickListener}s with 0 as tpf.

@@ -11,6 +11,7 @@ import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.webinterface.Action;
+import nl.tudelft.contextproject.webinterface.Team;
 import nl.tudelft.contextproject.webinterface.WebClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,9 +33,6 @@ import static org.mockito.Mockito.when;
  * Test for the WebUtil class.
  */
 public class WebUtilTest extends TestBase {
-	private static final String DWARFS = "Dwarfs";
-	private static final String ELVES = "Elves";
-
 	private Game mockedGame;
 	private Level mockedLevel;
 	private Vector3f zeroVector;
@@ -56,26 +54,13 @@ public class WebUtilTest extends TestBase {
 	}
 
 	/**
-	 * Test for decoding actions.
-	 */
-	@Test
-	public void testDecode() {
-		assertEquals(WebUtil.decodeAction(0), Action.PLACEBOMB);
-		assertEquals(WebUtil.decodeAction(1), Action.PLACEPITFALL);
-		assertEquals(WebUtil.decodeAction(2), Action.PLACEMINE);
-		assertEquals(WebUtil.decodeAction(3), Action.SPAWNENEMY);
-		assertEquals(WebUtil.decodeAction(4), Action.DROPBAIT);
-		assertEquals(WebUtil.decodeAction(-1), Action.INVALID);
-	}
-
-	/**
 	 * Test for checking if an action is valid.
 	 */
 	@Test
 	public void testCheckValidAction() {
-		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, ELVES));
-		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, DWARFS));
-		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, "hax0r"));
+		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, Team.ELVES));
+		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, Team.DWARFS));
+		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, Team.NONE));
 	}
 
 	/**
@@ -85,6 +70,8 @@ public class WebUtilTest extends TestBase {
 	public void testCheckValidElves() {
 		assertTrue(WebUtil.checkValidElves(Action.DROPBAIT));
 		assertTrue(WebUtil.checkValidElves(Action.PLACETILE));
+		assertTrue(WebUtil.checkValidElves(Action.OPENGATE));
+		assertTrue(WebUtil.checkValidElves(Action.DROPCRATE));
 		assertFalse(WebUtil.checkValidElves(Action.PLACEBOMB));
 	}
 
@@ -199,7 +186,7 @@ public class WebUtilTest extends TestBase {
 		List<Long> timestamps = new ArrayList<>();
 		performedActions.put(Action.PLACEBOMB, timestamps);
 
-		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getTeam()).thenReturn(Team.DWARFS);
 		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
@@ -222,7 +209,7 @@ public class WebUtilTest extends TestBase {
 
 		performedActions.put(Action.PLACEBOMB, timestamps);
 
-		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getTeam()).thenReturn(Team.DWARFS);
 		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		assertFalse(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
@@ -244,7 +231,7 @@ public class WebUtilTest extends TestBase {
 
 		performedActions.put(Action.PLACEBOMB, timestamps);
 
-		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getTeam()).thenReturn(Team.DWARFS);
 		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));

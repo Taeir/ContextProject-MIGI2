@@ -102,6 +102,14 @@ public final class QRGenerator {
 	public ByteArrayOutputStream streamQRcode() {
 		return QRCode.from(hostingAddress).to(ImageType.PNG).withCharset("UTF-8").withSize(WIDTH, HEIGTH).stream();
 	}
+	
+	/**
+	 * @return
+	 * 		the address used for the QR codes
+	 */
+	public String getQRAddress() {
+		return hostingAddress;
+	}
 
 	/**
 	 * Set the correct ipv4 address of this computer.

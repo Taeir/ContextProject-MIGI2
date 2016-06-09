@@ -19,6 +19,11 @@ import nl.tudelft.contextproject.webinterface.Action;
 public final class ActionUtil {
 
 	/**
+	 * The radius in which gates can be opened.
+	 */
+	private static final float GATE_RADIUS = 2f;
+
+	/**
 	 * Private constructor to avoid initialization.
 	 */
 	private ActionUtil() {}
@@ -171,10 +176,13 @@ public final class ActionUtil {
 	 * 		the y coordinate to use
 	 */
 	private static void openGate(int xCoord, int yCoord) {
-		for (Entity ent: Main.getInstance().getCurrentGame().getEntities()) {
-			if (ent instanceof Gate) {
-					((Gate) ent).openGate();
-			}
+		for (Entity ent : Main.getInstance().getCurrentGame().getEntities()) {
+			if (!(ent instanceof Gate)) continue;
+			
+			Vector3f loc = ent.getLocation();
+			if (loc.x - xCoord > GATE_RADIUS || loc.z - yCoord > 2f) continue;
+			
+			((Gate) ent).openGate();
 		}
 	}
 }

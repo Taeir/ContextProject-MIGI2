@@ -1,29 +1,16 @@
 package nl.tudelft.contextproject.webinterface;
 
-import java.io.IOException;
-import java.util.EnumSet;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
+import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.SessionCookieConfig;
-import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.util.FileUtil;
-import nl.tudelft.contextproject.logging.Log;
-import nl.tudelft.contextproject.util.QRGenerator;
+import nl.tudelft.contextproject.webinterface.websockets.COCSocket;
+import nl.tudelft.contextproject.webinterface.websockets.COCWebSocketServlet;
 
-import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.session.HashSessionIdManager;
-import org.eclipse.jetty.server.session.HashSessionManager;
-import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -31,16 +18,18 @@ import org.eclipse.jetty.servlet.ServletHolder;
  * Class to run the web interface.
  */
 public class WebServer {
-	public static final String SESSION2_COOKIE = "COC_SESSION2";
-	public static final int MAX_PLAYERS = 8;
-	private static final Log LOG = Log.getLog("WebInterface");
+	public static final String COOKIE_NAME = "COC_SESSION";
+	public static final int COOKIE_MAX_AGE = 24 * 60;
+	public static final int MAX_PLAYERS = 4;
+	public static final int MAX_DWARFS = 2;
+	public static final int MAX_ELVES = 2;
 	
-	private HashMap<String, WebClient> clients = new HashMap<>();
+	private Map<String, WebClient> clients = new ConcurrentHashMap<>();
 	private boolean running;
 	private int port;
 	private Server server;
-	private HashSessionIdManager sessionIdManager;
-	private ServletContextHandler contextHandler;
+	private SessionIdManager sessionIdManager = new SessionIdManager();
+	private NormalHandler normalHandler = new NormalHandler(this);
 	
 	/**
 	 * @return
@@ -55,7 +44,23 @@ public class WebServer {
 	 * 		the amount of unique clients connected
 	 */
 	public int getUniqueClientCount() {
-		return (int) clients.values().stream().distinct().count();
+		return clients.size();
+	}
+	
+	/**
+	 * @return
+	 * 		the amount of dwarfs
+	 */
+	public int getDwarfsCount() {
+		return (int) clients.values().stream().filter(c -> c.isDwarf()).count();
+	}
+	
+	/**
+	 * @return
+	 * 		the amount of elves
+	 */
+	public int getElvesCount() {
+		return (int) clients.values().stream().filter(c -> c.isElf()).count();
 	}
 	
 	/**
@@ -70,36 +75,22 @@ public class WebServer {
 	public synchronized void start(int port) throws Exception {
 		if (running) throw new IllegalStateException("Server is already running");
 
-		QRGenerator.getInstance().generateQRcode();
-
 		this.running = true;
 		this.port = port;
 
 		server = new Server(this.port);
-		
-		//We need a way to track users, so we use a session manager that uses cookies.
-		sessionIdManager = new HashSessionIdManager();
-		server.setSessionIdManager(sessionIdManager);
-
-		//Create the session manager
-		HashSessionManager sessionManager = new HashSessionManager();
-		sessionManager.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
-
-		//Set the cookie config
-		SessionCookieConfig scc = sessionManager.getSessionCookieConfig();
-		scc.setComment("CoC Session Cookie");
-		scc.setName("COC_SESSION");
-		
-		SessionHandler sessionHandler = new SessionHandler(sessionManager);
 
 		//Create the handler that chains everything together.
-		contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		contextHandler.setContextPath("/");
 		contextHandler.setResourceBase(FileUtil.getFile("/webinterface/").getAbsolutePath());
-		contextHandler.setSessionHandler(sessionHandler);
 
 		//Add the handler to the server
 		server.setHandler(contextHandler);
+
+		//Add a servlet for handling web sockets
+		COCWebSocketServlet ws = new COCWebSocketServlet(this);
+		contextHandler.addServlet(new ServletHolder(ws), "/ws/");
 
 		//Add a servlet for handling sessions
 		ClientServlet cs = new ClientServlet(this);
@@ -142,126 +133,58 @@ public class WebServer {
 	 * 		the WebClient for the given request, or null if no such WebClient exists
 	 */
 	public WebClient getUser(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
+		//Check the session cookie. If it is not present, then we don't have the user.
+		Cookie session = findCookie(COOKIE_NAME, request.getCookies());
 		if (session == null) return null;
 		
-		//Get the client for the SESSION1 id. If we find one, we return it.
-		WebClient client = clients.get(session.getId());
-		if (client != null) return client;
-		
-		//Check the SESSION2 cookie. If it is not present, then we don't have the user.
-		Cookie session2 = findCookie(SESSION2_COOKIE, request.getCookies());
-		if (session2 == null) return null;
-		
-		//If the SESSION2 id is the same as the SESSION1 id, then we don't have the user.
-		if (session2.getValue().equals(session.getId())) return null;
-
-		return clients.get(session2.getValue());
+		return getUser(session.getValue());
 	}
 	
 	/**
-	 * Handles authentication. This method returns true if the user has already been authenticated as a user
-	 * in the game, and returns false otherwise.
+	 * Gets the client for the given session ID.
 	 * 
-	 * <p>If the game has not yet started and is not full, the user will be authenticated as a new user and
-	 * redirected to the select team page. This method will still return false in that case.
-	 * 
-	 * <p>NOTE: If this method returns false, then the response will be committed and unusable.
-	 * 
-	 * @param request
-	 * 		the http request the user has made
-	 * @param response
-	 * 		the http response to the user
-	 * 
+	 * @param session
+	 * 		the session id
 	 * @return
-	 * 		true if the user is authenticated, false otherwise
-	 * 
-	 * @throws IOException
-	 * 		if writing the response to the client causes an IOException
+	 * 		the client with the given session ID, or null if there is no such client
 	 */
-	public boolean handleAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Cookie cookie = findCookie(SESSION2_COOKIE, request.getCookies());
-		if (cookie == null || !clients.containsKey(cookie.getValue())) {
-			//This is a new user
-			
-			if (Main.getInstance().getGameState().isStarted()) {
-				Log.getLog("WebInterface").fine("Disallowed user from joining game: cannot join in progress game");
-				response.setStatus(HttpStatus.OK_200);
-				response.getWriter().write("IN_PROGRESS");
-
-				return false;
-			}
-
-			if (getUniqueClientCount() >= MAX_PLAYERS) {
-				LOG.fine("Disallowing user from joining game: game is full");
-				
-				response.setStatus(HttpStatus.OK_200);
-				response.getWriter().write("FULL");
-			
-				return false;
-			}
-			
-			//User is allowed to join
-			logAuthentication(request);
-			cookie = createCookie(request);
-			clients.put(cookie.getValue(), new WebClient());
-
-			response.addCookie(cookie);
-			response.setStatus(HttpStatus.OK_200);
-			response.getWriter().write("AUTHENTICATED");
-
-			return true;
-		}
-		
-		//This client is known in the current session
-		WebClient client = clients.get(cookie.getValue());
-		
-		//Check if the session has changed
-		HttpSession session = request.getSession(true);
-		if (!cookie.getValue().equals(session.getId())) {
-			//Client session was lost, so recreate it.
-			cookie.setValue(session.getId());
-			cookie.setMaxAge(24 * 60 * 60);
-			
-			//Add the client under their new session ID
-			//We do not remove the client from their old ID, as other requests might still be using the old ID.
-			clients.put(session.getId(), client);
-
-			response.addCookie(cookie);
-			
-			response.setStatus(HttpStatus.OK_200);
-			response.getWriter().write("UPDATED");
-			return true;
-		} else {
-			//Client session and cookie match, so we are all good.
-			response.setStatus(HttpStatus.OK_200);
-			response.getWriter().write("AUTHENTICATED");
-			return true;
-		}
+	public WebClient getUser(String session) {
+		return clients.get(session);
 	}
 	
 	/**
-	 * Logs the fact that the given request is being authenticated.
+	 * Disconnects the given client from the game.
 	 * 
-	 * @param request
-	 * 		the request of the user to log
+	 * @param client
+	 * 		the client to disconnect
+	 * @param statusCode
+	 * 		the status code to send
 	 */
-	private void logAuthentication(HttpServletRequest request) {
-		if (!LOG.getLogger().isLoggable(Level.FINE)) return;
+	public void disconnect(WebClient client, int statusCode) {
+		COCSocket socket = client.getWebSocket();
+		if (socket != null) socket.getSession().close(statusCode, null);
 		
-		StringBuilder sb = new StringBuilder(64);
-		sb.append("Authenticating user:").append(System.lineSeparator())
-		  .append("  IP: ").append(request.getRemoteAddr()).append(System.lineSeparator())
-		  .append("  Headers:").append(System.lineSeparator());
-		
-		Enumeration<String> e = request.getHeaderNames();
-		while (e.hasMoreElements()) {
-			String k = e.nextElement();
-			String v = request.getHeader(k);
-			sb.append("    ").append(k).append(": ").append(v).append(System.lineSeparator());
-		}
-		
-		LOG.fine(sb.toString());
+		clients.values().remove(client);
+	}
+	
+	/**
+	 * @return
+	 * 		the handler for normal requests for this server
+	 */
+	public NormalHandler getNormalHandler() {
+		return this.normalHandler;
+	}
+	
+	/**
+	 * Sets the normalhandler to the given handler.
+	 * 
+	 * <p>This method is only used by the tests.
+	 * 
+	 * @param handler
+	 * 		the new NormalHandler to use
+	 */
+	protected void setNormalHandler(NormalHandler handler) {
+		this.normalHandler = handler;
 	}
 
 	/**
@@ -298,21 +221,14 @@ public class WebServer {
 	}
 	
 	/**
-	 * Creates a new SESSION2 cookie for the given request.
-	 * 
-	 * <p>To create the SESSION2 cookie, a session is created as well.
-	 * 
-	 * @param request
-	 * 		the request to create the cookie for
+	 * Creates a new cookie for tracking a client.
 	 * 
 	 * @return
 	 * 		the newly created cookie
 	 */
-	public static Cookie createCookie(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-
-		Cookie cookie = new Cookie(SESSION2_COOKIE, session.getId());
-		cookie.setMaxAge(24 * 60 * 60);
+	public Cookie createCookie() {
+		Cookie cookie = new Cookie(COOKIE_NAME, sessionIdManager.createSessionId());
+		cookie.setMaxAge(COOKIE_MAX_AGE);
 		return cookie;
 	}
 }

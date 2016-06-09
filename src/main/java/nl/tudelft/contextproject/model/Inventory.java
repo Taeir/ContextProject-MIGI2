@@ -1,7 +1,9 @@
 package nl.tudelft.contextproject.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.jme3.math.ColorRGBA;
 import nl.tudelft.contextproject.model.entities.Entity;
@@ -15,14 +17,14 @@ public class Inventory implements TickProducer {
 	ArrayList<ColorRGBA> keys;
 	Holdable holding;
 	
-	ArrayList<TickListener> listeners;
+	private Set<TickListener> listeners;
 
 	/**
 	 * Constructor for the inventory, starts empty with 0 keys and doors.
 	 */
 	public Inventory() {
 		this.keys = new ArrayList<>();
-		this.listeners = new ArrayList<>();
+		this.listeners = new HashSet<>();
 	}
 	
 	/**
@@ -163,7 +165,7 @@ public class Inventory implements TickProducer {
 	}
 
 	@Override
-	public List<TickListener> getTickListeners() {
+	public Set<TickListener> getTickListeners() {
 		return listeners;
 	}
 	
