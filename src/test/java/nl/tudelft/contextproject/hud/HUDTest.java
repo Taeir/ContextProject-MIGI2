@@ -73,7 +73,7 @@ public class HUDTest extends TestBase {
 	}
 	
 	/**
-	 * Test if attaching the heart containers attache the main conrtainer.
+	 * Test if attaching the heart containers attaches the main container.
 	 */
 	@Test
 	public void testAttachHeartContainers() {
@@ -81,6 +81,23 @@ public class HUDTest extends TestBase {
 		verify(controller, times(1)).addGuiElement(any(Node.class));
 	}
 	
+	/**
+	 * Test if attaching the helmet attaches it to the HUD.
+	 */
+	@Test
+	public void testAttachHelmet() {
+		hud.attachHelmet();
+		verify(controller, times(1)).addGuiElement(any(Node.class));
+	}
+	
+	/**
+	 * Tests if attaching the nose attaches it to the HUD.
+	 */
+	@Test
+	public void testAttachNose() {
+		hud.attachNose();
+		verify(controller, times(1)).addGuiElement(any(Node.class));
+	}
 	/**
 	 * Test if the key Image gets the correct position when created.
 	 */
