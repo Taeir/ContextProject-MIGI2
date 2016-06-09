@@ -12,15 +12,17 @@ Views = Object.freeze({
     TEAM: 2,
     GAME: 3,
     PAUSED: 4,
-    ENDED: 5
+    ENDED: 5,
+    TUTORIAL: 6
 });
 
 //The different states the game can be in.
 GameStates = Object.freeze({
-    0: {name: "WAITING", view: Views.TEAM},
-    1: {name: "RUNNING", view: Views.GAME},
-    2: {name: "PAUSED",  view: Views.PAUSED},
-    3: {name: "ENDED",   view: Views.ENDED}
+    0: {name: "TUTORIAL", view: Views.TUTORIAL},
+    1: {name: "WAITING", view: Views.TEAM},
+    2: {name: "RUNNING", view: Views.GAME},
+    3: {name: "PAUSED",  view: Views.PAUSED},
+    4: {name: "ENDED",   view: Views.ENDED}
 });
 
 Teams = Object.freeze({

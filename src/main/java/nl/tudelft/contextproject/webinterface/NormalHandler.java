@@ -83,7 +83,7 @@ public class NormalHandler {
 		server.getClients().put(cookie.getValue(), new WebClient());
 
 		response.addCookie(cookie);
-		response.getWriter().write("ALLOWED");
+		response.getWriter().write("" + Main.getInstance().getGameState().ordinal());
 	}
 	
 	/**
@@ -397,6 +397,8 @@ public class NormalHandler {
 		json.put("state", state.ordinal());
 		
 		switch (state) {
+			case TUTORIAL:
+				break;
 			case WAITING:
 				json.put("dwarfs", server.getDwarfsCount());
 				json.put("elves", server.getElvesCount());
