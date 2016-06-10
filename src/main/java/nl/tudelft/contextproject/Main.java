@@ -99,7 +99,7 @@ public class Main extends VRApplication implements TickProducer {
 		
 		//Set frustum distances here before app starts
 		main.preconfigureFrustrumNearFar(0.1f, 512f);
-		//main.pre
+		
 		//You can downsample for performance reasons
 		main.preconfigureResolutionMultiplier(RESOLUTION);
 
