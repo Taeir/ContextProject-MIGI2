@@ -64,30 +64,6 @@ public class WebUtilTest extends TestBase {
 	}
 
 	/**
-	 * Test for checking if an action is valid as an elf.
-	 */
-	@Test
-	public void testCheckValidElves() {
-		assertTrue(WebUtil.checkValidElves(Action.DROPBAIT));
-		assertTrue(WebUtil.checkValidElves(Action.PLACETILE));
-		assertTrue(WebUtil.checkValidElves(Action.OPENGATE));
-		assertTrue(WebUtil.checkValidElves(Action.DROPCRATE));
-		assertFalse(WebUtil.checkValidElves(Action.PLACEBOMB));
-	}
-
-	/**
-	 * Test for checking if an action is valid as a dwarf.
-	 */
-	@Test
-	public void testCheckValidDwarfs() {
-		assertTrue(WebUtil.checkValidDwarfs(Action.PLACEBOMB));
-		assertTrue(WebUtil.checkValidDwarfs(Action.PLACEPITFALL));
-		assertTrue(WebUtil.checkValidDwarfs(Action.PLACEMINE));
-		assertTrue(WebUtil.checkValidDwarfs(Action.SPAWNENEMY));
-		assertFalse(WebUtil.checkValidDwarfs(Action.DROPBAIT));
-	}
-
-	/**
 	 * Test for checking if placing in the void is not a valid location.
 	 */
 	@Test
@@ -126,37 +102,31 @@ public class WebUtilTest extends TestBase {
 	}
 
 	/**
-	 * Test for checking if placing in the player is not a valid location.
+	 * Test if placing inside of the player radius is invalid.
 	 */
 	@Test
-	public void testCheckValidLocationPlayer() {
-		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
-		when(mockedLevel.getTile(0, 0)).thenReturn(tile);
+	public void testCheckRadiusInvalid() {
 		Set<Entity> entities = new HashSet<>();
 		when(mockedGame.getEntities()).thenReturn(entities);
 
 		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
 		when(mockedPlayer.getLocation()).thenReturn(zeroVector);
 
-		assertFalse(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
+		assertFalse(WebUtil.checkOutsideRadius(0, 0, Action.SPAWNENEMY));
 	}
 
 	/**
-	 * Check if placing on a valid location is indeed a valid location.
+	 * Check if placing outside of the player radius is valid.
 	 */
 	@Test
-	public void testCheckValidLocationValid() {
-		MazeTile tile = new MazeTile(2, 3, TileType.FLOOR);
-		when(mockedLevel.getTile(2, 3)).thenReturn(tile);
+	public void testCheckRadiusValid() {
 		Set<Entity> entities = new HashSet<>();
 		when(mockedGame.getEntities()).thenReturn(entities);
 
-
 		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
-		Vector3f oneVector = new Vector3f(1, 1, 1);
-		when(mockedPlayer.getLocation()).thenReturn(oneVector);
+		when(mockedPlayer.getLocation()).thenReturn(zeroVector);
 
-		assertTrue(WebUtil.checkValidLocation(2, 3, Action.PLACEBOMB));
+		assertTrue(WebUtil.checkOutsideRadius(Action.SPAWNENEMY.getRadius() + 1, Action.SPAWNENEMY.getRadius() + 1, Action.SPAWNENEMY));
 	}
 
 	/**

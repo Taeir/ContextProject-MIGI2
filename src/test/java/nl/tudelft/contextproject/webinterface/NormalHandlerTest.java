@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.webinterface;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
@@ -17,6 +16,8 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+
+import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
@@ -728,6 +729,30 @@ public class NormalHandlerTest extends WebTestBase {
 	}
 
 	/**
+	 * Test method for {@link NormalHandler#attemptAction}, when the action is too close to the
+	 * player.
+	 *
+	 * @throws IOException
+	 * 		will not occur because of mocks
+	 */
+	@Test
+	public void testAttemptAction_radius() throws IOException {
+		HttpServletResponse response = createMockedResponse();
+
+		mockLevel(TileType.FLOOR);
+		when(Main.getInstance().getCurrentGame().getPlayer().getLocation()).thenReturn(new Vector3f());
+
+		WebClient clientMock = mockClient(Team.DWARFS);
+		clientMock.getPerformedActions().put(Action.SPAWNENEMY, new ArrayList<>());
+
+		//Try to spawn a rabbit as a dwarf
+		handler.attemptAction(clientMock, Action.SPAWNENEMY, 0, 0, response);
+
+		//Verify the action is rejected for radius
+		verify(clientMock).sendMessage(COCErrorCode.ACTION_RADIUS.toString(), response);
+	}
+	
+	/**
 	 * Test method for {@link NormalHandler#attemptAction}, when the action is valid.
 	 *
 	 * @throws IOException
@@ -747,6 +772,34 @@ public class NormalHandlerTest extends WebTestBase {
 
 		//Verify the action has been accepted
 		verify(clientMock).confirmMessage(response);
+	}
+	
+	/**
+	 * Test method for {@link NormalHandler#attemptAction}, when the action is not allowed because
+	 * the team has no slots left in their inventory for the action.
+	 *
+	 * @throws IOException
+	 * 		will not occur because of mocks
+	 */
+	@Test
+	public void testAttemptAction_inventory() throws IOException {
+		//Ensure that we can no longer perform the action
+		for (int i = 0; i < Action.SPAWNENEMY.getGlobalMaxAmount(); i++) {
+			server.getInventory().performAction(Team.DWARFS, Action.SPAWNENEMY);
+		}
+		
+		HttpServletResponse response = createMockedResponse();
+
+		mockLevel(TileType.FLOOR);
+
+		WebClient clientMock = mockClient(Team.DWARFS);
+		clientMock.getPerformedActions().put(Action.SPAWNENEMY, new ArrayList<>());
+		
+		//Try to spawn a rabbit as a dwarf
+		handler.attemptAction(clientMock, Action.SPAWNENEMY, 0, 0, response);
+
+		//Verify the action is rejected for inventory
+		verify(clientMock).sendMessage(COCErrorCode.ACTION_INVENTORY.toString(), response);
 	}
 	
 	/**
