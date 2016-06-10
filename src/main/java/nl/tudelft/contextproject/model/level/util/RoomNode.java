@@ -6,6 +6,7 @@ import java.util.Collection;
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
 import com.jme3.light.SpotLight;
+import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
@@ -215,7 +216,11 @@ public class RoomNode {
 		for (Light l : room.lights) {
 			if (l instanceof PointLight) {
 				PointLight pl = ((PointLight) l);
-				pl.setPosition(pl.getPosition().add(coordinates.x, 0, coordinates.y));
+				Vector3f position = pl.getPosition();
+				pl.setPosition(position.add(coordinates.x, 0, coordinates.y));
+				position = pl.getPosition();
+				Vec2I newLightPosition = new Vec2I(Math.round(position.x), Math.round(position.z));
+				room.entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), new Vector3f(position.x, 2, position.z)));
 			}
 			if (l instanceof SpotLight) {
 				SpotLight sl = ((SpotLight) l);

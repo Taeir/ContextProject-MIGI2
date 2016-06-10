@@ -1,5 +1,8 @@
 package nl.tudelft.contextproject.model.level.util;
 
+import com.jme3.math.Vector3f;
+
+import nl.tudelft.contextproject.model.entities.Torch;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 
@@ -32,11 +35,6 @@ public enum TorchType {
 	 * A torch that hangs from the ceiling, where rotation does not matter.
 	 */
 	CEILING_LIGHT;
-
-	/**
-	 * Constructor to complete enum body.
-	 */
-	TorchType() {};
 
 	/**
 	 * Find out the torch type from the maze and a location.
@@ -75,5 +73,47 @@ public enum TorchType {
 		}
 
 		return TorchType.CEILING_LIGHT;
+	}
+	
+	/**
+	 * Create a new Torch entity based on the TorchType.
+	 * 
+	 * @param torchType
+	 * 		type of torch 
+	 * @param location
+	 * 		location of Torch
+	 * @return
+	 * 		new Torch entity with the correct
+	 * @throws IllegalArgumentException
+	 * 		if non-existing torch type is given.
+	 */
+	public static Torch createTorchOfTorchType(TorchType torchType, Vector3f location) throws IllegalArgumentException {
+		Torch torch;
+		switch (torchType) {
+			case NORTH_WALL_LIGHT:
+				torch = new Torch(true);
+				torch.rotateNorth();
+				break;
+			case SOUTH_WALL_LIGHT:
+				torch = new Torch(true);
+				torch.rotateSouth();
+				break;
+			case WEST_WALL_LIGHT:
+				torch = new Torch(true);
+				torch.rotateWest();
+				break;
+			case EAST_WALL_LIGHT:
+				torch = new Torch(true);
+				torch.rotateEast();
+				break;
+			case CEILING_LIGHT:
+				torch = new Torch(false);
+				break;
+			default:
+				throw new IllegalArgumentException("Create torch type called with an Illegal torch type argument.");
+		}
+		
+		torch.move(location);
+		return torch;
 	}
 }
