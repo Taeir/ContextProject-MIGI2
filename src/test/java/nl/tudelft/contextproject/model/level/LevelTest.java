@@ -14,7 +14,6 @@ import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Entity;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
-import nl.tudelft.contextproject.model.Game;
 
 /**
  * Controller for the tutorial.
