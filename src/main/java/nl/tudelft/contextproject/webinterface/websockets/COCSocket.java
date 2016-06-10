@@ -41,16 +41,16 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 	
 	@SneakyThrows(IOException.class)
 	@Override
-	public void onWebSocketText(String message) {
-		if ("quit".equals(message)) {
+	public void onWebSocketText(String msg) {
+		if ("quit".equals(msg)) {
 			server.disconnect(client, StatusCode.NORMAL);
 			return;
-		} else if ("map".equals(message)) {
+		} else if ("map".equals(msg)) {
 			server.getNormalHandler().onMapRequest(client);
 			return;
 		}
 		
-		String[] parts = message.split(" ");
+		String[] parts = msg.split(" ");
 		if (parts.length != 3) {
 			RemoteEndpoint remote = getRemote();
 			if (remote != null) remote.sendStringByFuture(COCErrorCode.ACTION_ILLEGAL.toString());

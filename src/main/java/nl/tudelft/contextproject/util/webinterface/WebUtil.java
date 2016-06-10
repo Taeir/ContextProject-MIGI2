@@ -79,9 +79,9 @@ public final class WebUtil {
 	 */
 	private static boolean checkValidLocationEntities(int xCoord, int yCoord) {
 		Set<Entity> entities = Main.getInstance().getCurrentGame().getEntities();
-		for (Entity e : entities) {
-			if (Math.round(e.getLocation().getX()) == xCoord &&
-					Math.round(e.getLocation().getZ()) == yCoord) {
+		for (Entity entity : entities) {
+			if (Math.round(entity.getLocation().getX()) == xCoord &&
+					Math.round(entity.getLocation().getZ()) == yCoord) {
 				return false;
 			}
 		}
@@ -149,7 +149,7 @@ public final class WebUtil {
 		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
 		if (player == null) return false;
 		
-		Vector3f vec = player.getLocation();
-		return Math.abs((Math.abs(vec.x) + Math.abs(vec.z) - Math.abs(xCoord) - Math.abs(yCoord))) >= action.getRadius();
+		Vector3f location = player.getLocation();
+		return Math.abs((Math.abs(location.x) + Math.abs(location.z) - Math.abs(xCoord) - Math.abs(yCoord))) >= action.getRadius();
 	}
 }

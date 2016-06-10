@@ -157,14 +157,14 @@ public class NormalHandler {
 	 * 		if writing to the response causes an IOException
 	 */
 	public void onQrRequest(HttpServletResponse response) throws IOException {
-		QRGenerator qrg = QRGenerator.getInstance();
+		QRGenerator qrGenerator = QRGenerator.getInstance();
 		
 		//Write the QR code as a Base64 encoded image on a plain page.
 		response.setStatus(HttpStatus.OK_200);
 		response.getWriter().write("<html><body><img src=\"data:image/png;base64,");
-		response.getWriter().write(Base64.getEncoder().encodeToString(qrg.streamQRcode().toByteArray()));
+		response.getWriter().write(Base64.getEncoder().encodeToString(qrGenerator.streamQRcode().toByteArray()));
 		response.getWriter().write("\"/><br>");
-		response.getWriter().write(qrg.getQRAddress());
+		response.getWriter().write(qrGenerator.getQRAddress());
 		response.getWriter().write("</body></html>");
 	}
 	
