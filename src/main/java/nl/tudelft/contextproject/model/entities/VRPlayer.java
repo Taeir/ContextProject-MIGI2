@@ -28,7 +28,7 @@ import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 public class VRPlayer extends MovingEntity implements PhysicsObject, TickProducer, Health {
 
 	//Physics interaction constants.
-	public static final float JUMP_SPEED = 7f;
+	public static final float JUMP_SPEED = 15f;
 	//Terminal velocity of the player
 	public static final float FALL_SPEED = 15f;
 	//How fast the player accelerates while falling

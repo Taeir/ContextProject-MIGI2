@@ -200,6 +200,7 @@ public class RoomNode {
 	 * 		location of room
 	 */
 	public void carveRoomNode(MazeTile[][] tiles, Vec2I coordinates) {
+		System.out.println("Moved room to " + coordinates.x + ", " + coordinates.y);
 		this.coordinates = coordinates;
 		int xSize = room.size.getWidth();
 		int ySize = room.size.getHeight();
@@ -220,7 +221,8 @@ public class RoomNode {
 				pl.setPosition(position.add(coordinates.x, 0, coordinates.y));
 				position = pl.getPosition();
 				Vec2I newLightPosition = new Vec2I(Math.round(position.x), Math.round(position.z));
-				room.entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), new Vector3f(position.x, 2, position.z)));
+				room.entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), 
+						new Vector3f(newLightPosition.x, 7, newLightPosition.y)));
 			}
 			if (l instanceof SpotLight) {
 				SpotLight sl = ((SpotLight) l);

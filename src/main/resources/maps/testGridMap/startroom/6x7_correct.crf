@@ -8,4 +8,4 @@
 # O O O O #
 # X # # # #
 3.5 0 4 Player
-3.5 0 4 PointLight 1/1/1/1 20
+4 0 3 PointLight 1/1/1/1 20

@@ -52,18 +52,9 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 			fire.setStartSize(0.1f);
 			fire.setEndSize(0.04f);
 			fire.move(0, 0.11f, 0);
-			this.move(0, 5.32f, 0);
 		}
-		((Node) spatial).attachChild(spatial);
-	}
-
-	@Override
-	public void move(float x, float y, float z) {
-		spatial.move(x, y, z);
-		fire.move(x, y, z);
-		if (rigidBody == null) getPhysicsObject();
-
-		rigidBody.setPhysicsLocation(rigidBody.getPhysicsLocation().add(x, y, z));
+		((Node) spatial).attachChild(torchSpatial);
+		spatial.move(0.5f, 0, 0.5f);
 	}
 	
 	/**
@@ -80,8 +71,7 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 	public void rotateSouth() {
 		if (!torchtype) return;
 		spatial.rotate(0f, (float) (0.5 * Math.PI), 0f);
-		spatial.move(-0.075f, 0, -0.075f);
-		this.move(0, 0, 0.65f);
+		spatial.move(0, 0, 0.5f);
 	}
 
 	/**
@@ -89,9 +79,9 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 	 */
 	public void rotateEast() {
 		if (!torchtype) return;
+		//spatial.move(-0.17f, 0, 0);
 		spatial.rotate(0f, (float) (Math.PI), 0f);
-		spatial.move(-0.17f, 0, 0);
-		this.move(.75f, 0, 0);
+		spatial.move(0.5f, 0, 0);
 	}
 
 	/**
@@ -100,8 +90,7 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 	public void rotateNorth() {
 		if (!torchtype) return;
 		spatial.rotate(0f, (float) (-0.5 * Math.PI), 0f);
-		spatial.move(-0.095f, 0, 0.08f);
-		this.move(0, 0, -.63f);
+		spatial.move(0, 0, -0.5f);
 	}
 
 	/**
@@ -109,7 +98,7 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 	 */
 	public void rotateWest() {
 		if (!torchtype) return;
-		this.move(-.55f, 0, 0);
+		spatial.move(-0.5f, 0, 0);
 	}
 	
 	/**
