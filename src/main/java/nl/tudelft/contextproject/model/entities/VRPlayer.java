@@ -165,7 +165,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 			takeDamage(1f);
 
 			//Create a void platform at player location
-			if (Main.getInstance().getCurrentGame().getLevel().getTile((int) getLocation().x, (int) getLocation().z) == null) {
+			if (!(Main.getInstance().getCurrentGame().getLevel().isTileAtPosition((int) getLocation().x, (int) getLocation().z))) {
 				VoidPlatform vp = new VoidPlatform();
 				Vector3f vploc = getLocation().clone();
 				vploc.y = 0;
