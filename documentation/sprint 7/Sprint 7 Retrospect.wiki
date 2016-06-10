@@ -374,7 +374,7 @@ Here old items from previous sprints that were not included in the backlog or un
 <td>'''Notes'''<br />(Discuss why item was added to this sprint and status of item if not completed)</td>
 </tr>
 <tr>
-<td rowspan=5>'''Unplanned Tasks'''</td>
+<td rowspan=6>'''Unplanned Tasks'''</td>
 <td>[https://github.com/Taeir/ContextProject-MIGI2/issues/408 #408 Complete rewrite of the web interface]</td>
 <td>Taico, Bram</td>
 <td>-</td>
@@ -387,8 +387,8 @@ Here old items from previous sprints that were not included in the backlog or un
 <td>Taico, Bram</td>
 <td>-</td>
 <td>0.5 / 0.5</td>
-<td></td>
-<td>The EAD had to be updated with the new web interface.</td>
+<td>No</td>
+<td>The EAD has to be updated with the new web interface, but we did not have time to complete this this week. We will properly update the EAD next week. Please refer to [https://docs.google.com/document/d/1A9sPHWRz-ALzwOeL8H1Q9sdXNy40LHRkbgpCpuev-w0/ this drive document] for a WIP version.</td>
 </tr>
 <tr>
 <td> Take ETH test for Interaction design</td>
@@ -413,6 +413,14 @@ Here old items from previous sprints that were not included in the backlog or un
 <td>3</td>
 <td>[https://github.com/Taeir/ContextProject-MIGI2/issues/423 #423]</td>
 <td>Playtesting showed that we need a global team limit on how often certain actions can be performed within a game. As this is a feature, we had to implement this before the feature freeze.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/427 #427 Refactor variable names]</td>
+<td>Robin</td>
+<td>-</td>
+<td>3</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/427 #427]</td>
+<td>Some people don't like short variable names, so Robin made them all longer and clearer!</td>
 </tr>
 </table>
 
@@ -441,8 +449,8 @@ Every week, we also spend additional time that is not task related. Think about 
 </tr>
 <tr>
 <td>Chiel + Bram + Taico</td>
-<td>0.75</td>
-<td>Chiel, Bram and Taico spent an additional 45 minutes on this to create the backlog document itself.</td>
+<td>1 / 0.5 / 2 </td>
+<td>Chiel, Bram and Taico spent additional time on this to create the backlog document itself.</td>
 </tr>
 <tr>
 <td rowspan=2>Create Retrospect</td>
