@@ -387,8 +387,8 @@ Here old items from previous sprints that were not included in the backlog or un
 <td>Taico, Bram</td>
 <td>-</td>
 <td>0.5 / 0.5</td>
-<td></td>
-<td>The EAD had to be updated with the new web interface.</td>
+<td>No</td>
+<td>The EAD has to be updated with the new web interface, but we did not have time to complete this this week. We will properly update the EAD next week. Please refer to [https://docs.google.com/document/d/1A9sPHWRz-ALzwOeL8H1Q9sdXNy40LHRkbgpCpuev-w0/ this drive document] for a WIP version.</td>
 </tr>
 <tr>
 <td> Take ETH test for Interaction design</td>
