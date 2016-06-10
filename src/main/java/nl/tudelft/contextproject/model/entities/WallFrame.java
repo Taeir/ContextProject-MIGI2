@@ -30,18 +30,18 @@ public class WallFrame extends Entity {
 	 * 		the height of the frame
 	 */
 	public WallFrame(Vector3f position, String texture, Direction orientation, float width, float height) {
-		Quad b = new Quad(width, height);
-		spatial = new Geometry("WallFrame", b);
-		AssetManager am = Main.getInstance().getAssetManager();
-		Material mat = new Material(am, "Common/MatDefs/Light/Lighting.j3md");
-		mat.setBoolean("UseMaterialColors", true);
+		Quad quad = new Quad(width, height);
+		spatial = new Geometry("WallFrame", quad);
+		AssetManager assetManager = Main.getInstance().getAssetManager();
+		Material material = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+		material.setBoolean("UseMaterialColors", true);
 		ColorRGBA color = ColorRGBA.White;
-		mat.setColor("Diffuse", color);
-		mat.setColor("Specular", color);
-		mat.setFloat("Shininess", 64f);
-		mat.setColor("Ambient", color);
-		mat.setTexture("LightMap", am.loadTexture(texture));
-		this.spatial.setMaterial(mat);
+		material.setColor("Diffuse", color);
+		material.setColor("Specular", color);
+		material.setFloat("Shininess", 64f);
+		material.setColor("Ambient", color);
+		material.setTexture("LightMap", assetManager.loadTexture(texture));
+		this.spatial.setMaterial(material);
 
 		spatial.setLocalTranslation(position.add(0, .5f, 0));
 		snapToWall(orientation);

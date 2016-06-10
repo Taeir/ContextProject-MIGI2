@@ -23,8 +23,8 @@ public class InvisibleWall extends AbstractPhysicsEntity implements PhysicsObjec
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
-		Box b = new Box(.5f, 3f, .5f);
-		spatial = new Geometry("Invisible", b);
+		Box box = new Box(.5f, 3f, .5f);
+		spatial = new Geometry("Invisible", box);
 		material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		material.setColor("Color", new ColorRGBA(0, 0, 0, 0));
 		material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);

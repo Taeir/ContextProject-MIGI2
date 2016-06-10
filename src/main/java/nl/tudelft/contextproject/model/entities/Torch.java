@@ -28,9 +28,9 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 	public Torch(boolean type) {
 		torchtype = type;
 		fire = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 30);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Particle.j3md");
-		mat.setTexture("Texture", Main.getInstance().getAssetManager().loadTexture("Effects/Explosion/flame.png"));
-		fire.setMaterial(mat);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Particle.j3md");
+		material.setTexture("Texture", Main.getInstance().getAssetManager().loadTexture("Effects/Explosion/flame.png"));
+		fire.setMaterial(material);
 		fire.setImagesX(2); 
 		fire.setImagesY(2);
 		fire.setEndColor(new ColorRGBA(1f, 0f, 0f, 1f));

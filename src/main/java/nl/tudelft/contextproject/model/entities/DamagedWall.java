@@ -25,8 +25,8 @@ public class DamagedWall extends AbstractPhysicsEntity implements Health, Physic
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 		
-		Box b = new Box(.5f, TileType.WALL.getHeight(), .5f);
-		this.spatial = new Geometry("Box", b);
+		Box box = new Box(.5f, TileType.WALL.getHeight(), .5f);
+		this.spatial = new Geometry("Box", box);
 		material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
 		material.setBoolean("UseMaterialColors", true);  
 		material.setFloat("Shininess", 64f);

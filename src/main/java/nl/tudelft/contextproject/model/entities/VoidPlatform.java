@@ -19,16 +19,16 @@ public class VoidPlatform extends AbstractPhysicsEntity implements PhysicsObject
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
-		Box b = new Box(.5f, .01f, .5f);
-		this.spatial = new Geometry("plate", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-		mat.setBoolean("UseMaterialColors", true);  
+		Box box = new Box(.5f, .01f, .5f);
+		this.spatial = new Geometry("plate", box);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+		material.setBoolean("UseMaterialColors", true);  
 		ColorRGBA color = ColorRGBA.Pink.mult(.5f);
-		mat.setColor("Diffuse", color);
-		mat.setColor("Specular", color);
-		mat.setFloat("Shininess", 114f);
-		mat.setColor("Ambient", color);
-		this.spatial.setMaterial(mat); 
+		material.setColor("Diffuse", color);
+		material.setColor("Specular", color);
+		material.setFloat("Shininess", 114f);
+		material.setColor("Ambient", color);
+		this.spatial.setMaterial(material); 
 		this.spatial.move(0, 0.5f, 0);
 		return spatial;	
 	}

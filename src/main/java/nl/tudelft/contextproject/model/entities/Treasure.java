@@ -34,8 +34,8 @@ public class Treasure extends PlayerTrigger {
 	}
 	
 	@Override
-	public void setSpatial(Spatial s) {
-		this.spatial = s;
+	public void setSpatial(Spatial spatial) {
+		this.spatial = spatial;
 	}
 	
 	/**
