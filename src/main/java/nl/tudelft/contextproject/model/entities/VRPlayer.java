@@ -19,6 +19,7 @@ import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.entities.control.NoControl;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 
 /**
@@ -60,12 +61,12 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
-	private Inventory inventory;
+	private Inventory inventory = new Inventory();
 	private Vector3f resp;
 	private float fallingTimer;
 	private float explorationTimer;
-	private float health;
-	private Set<TickListener> listeners;
+	private float health = PLAYER_HEALTH;
+	private Set<TickListener> listeners = new HashSet<>();
 
 	/**
 	 * Constructor for a default player.
@@ -73,9 +74,21 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	 */
 	public VRPlayer() { 
 		super(new PlayerControl());
-		health = PLAYER_HEALTH;
-		inventory = new Inventory();
-		listeners = new HashSet<>();
+	}
+	
+	/**
+	 * Private constructor used by {@link #loadEntity(Vector3f, String[])}, to be able to load
+	 * dummy players.
+	 * 
+	 * @param location
+	 * 		the location of this player
+	 */
+	private VRPlayer(Vector3f location) {
+		super(new NoControl());
+		
+		Sphere b = new Sphere(10, 10, .2f);
+		spatial = new Geometry("blue cube", b);
+		spatial.move(location.add(0, SPAWN_HEIGHT, 0));
 	}
 
 	@Override
@@ -294,6 +307,9 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	/**
 	 * Loads a player entity from an array of String data.
 	 * 
+	 * <p>Please note that the returned player is a dummy player, with no input attached to it.
+	 * It's spatial also has no color and no material.
+	 * 
 	 * @param position
 	 * 		the position of the player
 	 * @param data
@@ -306,10 +322,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	public static VRPlayer loadEntity(Vector3f position, String[] data) {
 		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> Player\".");
 		
-		VRPlayer player = new VRPlayer();
-		player.move(position);
-		
-		return player;
+		return new VRPlayer(position);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.model.level;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,7 +66,7 @@ public class RandomLevelFactory implements LevelFactory {
 		}
 
 		ArrayList<Light> lights = new ArrayList<>(1);
-		return new Level(mazeTiles, lights);
+		return new Level(mazeTiles, lights, ConcurrentHashMap.newKeySet());
 	}
 
 	/**

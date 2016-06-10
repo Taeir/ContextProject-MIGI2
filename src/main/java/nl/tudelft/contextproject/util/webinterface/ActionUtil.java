@@ -179,8 +179,9 @@ public final class ActionUtil {
 		for (Entity ent : Main.getInstance().getCurrentGame().getEntities()) {
 			if (!(ent instanceof Gate)) continue;
 			
+			//The z is intentional, the y coordinates of the web interface map to the z coordinate in the maze.
 			Vector3f loc = ent.getLocation();
-			if (loc.x - xCoord > GATE_RADIUS || loc.z - yCoord > 2f) continue;
+			if (loc.x - xCoord > GATE_RADIUS || loc.z - yCoord > GATE_RADIUS) continue;
 			
 			((Gate) ent).openGate();
 		}

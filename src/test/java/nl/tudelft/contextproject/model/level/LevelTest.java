@@ -1,15 +1,21 @@
 package nl.tudelft.contextproject.model.level;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.jme3.light.Light;
+import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.TestBase;
+import nl.tudelft.contextproject.model.entities.Entity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,9 +24,11 @@ import org.junit.Test;
  */
 public class LevelTest extends TestBase {
 
-	private Light lMock;
-	private MazeTile tMock1;
-	private MazeTile tMock2;
+	private Light lightMock;
+	private MazeTile tileMock1;
+	private MazeTile tileMock2;
+	private Entity entityMock;
+	
 	private Level level;
 
 	/**
@@ -29,15 +37,28 @@ public class LevelTest extends TestBase {
 	 */
 	@Before
 	public void setUp() {
-		lMock = mock(Light.class);
-		tMock1 = mock(MazeTile.class);
-		tMock2 = mock(MazeTile.class);
+		lightMock = mock(Light.class);
+		tileMock1 = mock(MazeTile.class);
+		tileMock2 = mock(MazeTile.class);
+		entityMock = mock(Entity.class);
 
+		TileType type = TileType.FLOOR;
+		when(tileMock1.getTileType()).thenReturn(type);
+		when(tileMock1.isExplored()).thenReturn(true);
+		
+		type = TileType.WALL;
+		when(tileMock2.getTileType()).thenReturn(type);
+		
+		MazeTile[][] tiles = {{tileMock1, null, tileMock2},
+							  {tileMock2, tileMock1, null}};
+		
 		List<Light> lights = new ArrayList<>();
-		lights.add(lMock);
-		MazeTile[][] tiles = {{tMock1, null, tMock2},
-							  {tMock2, tMock1, null}};
-		level = new Level(tiles,  lights);
+		lights.add(lightMock);
+		
+		Set<Entity> entities = new HashSet<>();
+		entities.add(entityMock);
+		
+		level = new Level(tiles,  lights, entities, new Vector3f(1, 1, 1));
 	}
 
 	/**
@@ -62,7 +83,7 @@ public class LevelTest extends TestBase {
 	@Test
 	public void testIsTileAtPosition() {
 		assertTrue(level.isTileAtPosition(0, 0));
-		assertEquals(tMock1, level.getTile(0, 0));
+		assertEquals(tileMock1, level.getTile(0, 0));
 	}
 
 	/**
@@ -71,7 +92,7 @@ public class LevelTest extends TestBase {
 	@Test
 	public void testIsTileAtPosition2() {
 		assertTrue(level.isTileAtPosition(0, 2));
-		assertEquals(tMock2, level.getTile(0, 2));
+		assertEquals(tileMock2, level.getTile(0, 2));
 	}
 
 	/**
@@ -89,7 +110,48 @@ public class LevelTest extends TestBase {
 	@Test
 	public void testGetLights() {
 		assertEquals(1, level.getLights().size());
-		assertTrue(level.getLights().contains(lMock));
+		assertTrue(level.getLights().contains(lightMock));
 	}
 
+	/**
+	 * Test the getter for the entities in the level.
+	 */
+	@Test
+	public void testGetEntities() {
+		assertEquals(1, level.getEntities().size());
+		assertTrue(level.getEntities().contains(entityMock));
+	}
+	
+	/**
+	 * Test the getter for the player spawn position in the level.
+	 */
+	@Test
+	public void testGetPlayerSpawnPosition() {
+		assertEquals(new Vector3f(1, 1, 1), level.getPlayerSpawnPosition());
+	}
+	
+	/**
+	 * Test if {@link Level#toWebJSON()} works properly.
+	 */
+	@Test
+	public void testToWebJSON() {
+		JSONObject json = level.toWebJSON();
+
+		assertEquals(2, json.get("width"));
+		assertEquals(3, json.get("height"));
+
+		JSONObject tiles = json.getJSONObject("tiles");
+		assertEquals(2, tiles.length());
+		assertEquals(3, tiles.getJSONArray("0").length());
+	}
+	
+	/**
+	 * Test if {@link Level#toExploredWebJSON()} works properly.
+	 */
+	@Test
+	public void testToExploredWebJSON() {
+		JSONObject json = level.toExploredWebJSON();
+		assertEquals(0, json.getJSONArray("0").get(0));
+		assertEquals(1, json.getJSONArray("1").get(0));
+	}
 }
