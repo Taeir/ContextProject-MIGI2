@@ -39,25 +39,25 @@ public class DrawableFilter {
 	/**
 	 * Add an entity to the whitelist.
 	 *
-	 * @param e
+	 * @param entity
 	 * 		the entity to add
 	 * @return
 	 * 		true if the entity was added, false if it was already in the set
 	 */
-	public boolean addEntity(Entity e) {
-		return entitySet.add(e.getClass().getSimpleName());
+	public boolean addEntity(Entity entity) {
+		return entitySet.add(entity.getClass().getSimpleName());
 	}
 	
 	/**
 	 * Check if an entity is on the whitelist.
 	 *
-	 * @param e
+	 * @param entity
 	 * 		entity to check for
 	 * @return
 	 * 		true when the entity is on the whitelist, false otherwise
 	 */
-	public boolean entity(Entity e) {
-		return entitySet.contains(e.getClass().getSimpleName());
+	public boolean entity(Entity entity) {
+		return entitySet.contains(entity.getClass().getSimpleName());
 	}
 
 	/**
