@@ -406,7 +406,7 @@ public class NormalHandler {
 				//Fall through to running
 			case RUNNING:
 				json.put("entities", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
-				
+				json.put("inventory", server.getInventory().toWebJson(client.getTeam()));
 				if (client.isElf()) {
 					json.put("explored", game.getLevel().toExploredWebJSON());
 				}
