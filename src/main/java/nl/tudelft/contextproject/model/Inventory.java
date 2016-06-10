@@ -63,12 +63,12 @@ public class Inventory implements TickProducer {
 	/**
 	 * Removes a key or bomb from your inventory.
 	 *
-	 * @param ent
+	 * @param entity
 	 * 		the bomb/key to remove
 	 */
-	public void remove(Entity ent) {
-		if (ent instanceof Key) {
-			ColorRGBA c = ((Key) ent).getColor();
+	public void remove(Entity entity) {
+		if (entity instanceof Key) {
+			ColorRGBA c = ((Key) entity).getColor();
 			keys.remove(c);
 			updateTickListeners();
 		}
