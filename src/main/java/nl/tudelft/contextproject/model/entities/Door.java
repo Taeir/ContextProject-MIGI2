@@ -24,18 +24,18 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 	 */
 	public Door(ColorRGBA col) {
 		color = col;
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
-		spatial.scale(1.2f, 2.2f, 1.2f);
-		spatial.move(0, .5f, 0);
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/newDoor.blend");
+		spatial.scale(1f, 1f, 0.75f);
+		spatial.move(0, 0.55f, 0);
 		spatial.rotate(0, (float) (Math.PI), 0);
-		Material mat3 = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat3.setColor("Color", color);
 		if (spatial instanceof Node) {
 			Node node = (Node) spatial;
-			Geometry geometry = (Geometry) ((Node) node.getChild("Cube.001")).getChild(0);
+			Geometry geometry = (Geometry) ((Node) node.getChild("Cylinder")).getChild(0);
+			Geometry geometry2 = (Geometry) ((Node) node.getChild("Cylinder")).getChild(2);
 			Material mat = geometry.getMaterial();
 			mat.setColor("Ambient", color);
 			geometry.setMaterial(mat);
+			geometry2.setMaterial(mat);
 		}
 	}
 
