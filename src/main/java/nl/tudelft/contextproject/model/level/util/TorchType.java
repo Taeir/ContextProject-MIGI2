@@ -34,7 +34,12 @@ public enum TorchType {
 	/**
 	 * A torch that hangs from the ceiling, where rotation does not matter.
 	 */
-	CEILING_LIGHT;
+	CEILING_LIGHT,
+	
+	/**
+	 * A torch that is not yet defined in the game.
+	 */
+	PLACE_HOLDER_TORCH;
 
 	/**
 	 * Find out the torch type from the maze and a location.
@@ -77,6 +82,7 @@ public enum TorchType {
 	
 	/**
 	 * Create a new Torch entity based on the TorchType.
+	 * Rotates the torch in the correct direction and moves it to the location on the map.
 	 * 
 	 * @param torchType
 	 * 		type of torch 

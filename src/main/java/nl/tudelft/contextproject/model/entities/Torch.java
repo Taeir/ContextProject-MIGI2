@@ -57,6 +57,26 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 		spatial.move(-0.05f, 0, -0.05f);
 	}
 	
+	
+	
+	/**
+	 * @return the torchtype
+	 */
+	public boolean isTorchtype() {
+		return torchtype;
+	}
+
+
+
+	/**
+	 * @param torchtype the torchtype to set
+	 */
+	public void setTorchtype(boolean torchtype) {
+		this.torchtype = torchtype;
+	}
+
+
+
 	/**
 	 * @return
 	 * 		the flame on the torch
