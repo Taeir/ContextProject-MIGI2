@@ -53,13 +53,13 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testAddGuiElement_controller() {
-		Controller c = getController();
-		Node gn = mock(Node.class);
-		c.setGuiNode(gn);
-		Spatial s = mock(Spatial.class);
+		Controller controller = getController();
+		Node node = mock(Node.class);
+		controller.setGuiNode(node);
+		Spatial spatial = mock(Spatial.class);
 		
-		c.addGuiElement(s);
-		verify(gn, times(1)).attachChild(s);
+		controller.addGuiElement(spatial);
+		verify(node, times(1)).attachChild(spatial);
 	}
 	
 	/**
@@ -67,13 +67,13 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testRemoveGuiElement_controller() {
-		Controller c = getController();
-		Node gn = mock(Node.class);
-		c.setGuiNode(gn);
-		Spatial s = mock(Spatial.class);
-		when(gn.detachChild(any(Spatial.class))).thenReturn(12);
-		assertTrue(c.removeGuiElement(s));
-		verify(gn, times(1)).detachChild(s);
+		Controller controller = getController();
+		Node node = mock(Node.class);
+		controller.setGuiNode(node);
+		Spatial spatial = mock(Spatial.class);
+		when(node.detachChild(any(Spatial.class))).thenReturn(12);
+		assertTrue(controller.removeGuiElement(spatial));
+		verify(node, times(1)).detachChild(spatial);
 	}
 	
 	/**
@@ -81,14 +81,14 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testRemoveGuiElementNonExistent_controller() {
-		Controller c = getController();
-		Node gn = mock(Node.class);
-		c.setGuiNode(gn);
-		Spatial s = mock(Spatial.class);
+		Controller controller = getController();
+		Node node = mock(Node.class);
+		controller.setGuiNode(node);
+		Spatial spatial = mock(Spatial.class);
 
-		when(gn.detachChild(any(Spatial.class))).thenReturn(-1);
-		assertFalse(c.removeGuiElement(s));
-		verify(gn, times(1)).detachChild(s);
+		when(node.detachChild(any(Spatial.class))).thenReturn(-1);
+		assertFalse(controller.removeGuiElement(spatial));
+		verify(node, times(1)).detachChild(spatial);
 	}
 	
 	/**
@@ -96,21 +96,21 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testAddDrawable_controller() {
-		Controller c = getController();
-		Node rn = mock(Node.class);
-		c.setRootNode(rn);
-		Geometry geom = mock(Geometry.class);
+		Controller controller = getController();
+		Node node = mock(Node.class);
+		controller.setRootNode(node);
+		Geometry geometry = mock(Geometry.class);
 		BulletAppState phe = mock(BulletAppState.class);
-		c.setPhysicsEnvironmentNode(phe);
+		controller.setPhysicsEnvironmentNode(phe);
 		PhysicsSpace phs = mock(PhysicsSpace.class);
 		
 		when(phe.getPhysicsSpace()).thenReturn(phs);
 		
-		Drawable d = mock(Drawable.class);
-		when(d.getSpatial()).thenReturn(geom);
+		Drawable drawable = mock(Drawable.class);
+		when(drawable.getSpatial()).thenReturn(geometry);
 
-		c.addDrawable(d);
-		verify(rn, times(1)).attachChild(geom);
+		controller.addDrawable(drawable);
+		verify(node, times(1)).attachChild(geometry);
 	}
 	
 	/**
@@ -118,17 +118,17 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testRemoveDrawable_controller() {
-		Controller c = getController();
-		Node rn = mock(Node.class);
-		c.setRootNode(rn);
-		Geometry geom = mock(Geometry.class);
+		Controller controller = getController();
+		Node node = mock(Node.class);
+		controller.setRootNode(node);
+		Geometry geometry = mock(Geometry.class);
 
-		Drawable d = mock(Drawable.class);
-		when(d.getSpatial()).thenReturn(geom);
+		Drawable drawable = mock(Drawable.class);
+		when(drawable.getSpatial()).thenReturn(geometry);
 
-		when(rn.detachChild(any(Spatial.class))).thenReturn(12);
-		assertTrue(c.removeDrawable(d));
-		verify(rn, times(1)).detachChild(geom);
+		when(node.detachChild(any(Spatial.class))).thenReturn(12);
+		assertTrue(controller.removeDrawable(drawable));
+		verify(node, times(1)).detachChild(geometry);
 	}
 	
 	/**
@@ -136,17 +136,17 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testRemoveDrawableNonExistent_controller() {
-		Controller c = getController();
-		Node rn = mock(Node.class);
-		c.setRootNode(rn);
-		Geometry geom = mock(Geometry.class);
+		Controller controller = getController();
+		Node node = mock(Node.class);
+		controller.setRootNode(node);
+		Geometry geometry = mock(Geometry.class);
 
-		Drawable d = mock(Drawable.class);
-		when(d.getSpatial()).thenReturn(geom);
+		Drawable drawable = mock(Drawable.class);
+		when(drawable.getSpatial()).thenReturn(geometry);
 
-		when(rn.detachChild(any(Spatial.class))).thenReturn(-1);
-		assertFalse(c.removeDrawable(d));
-		verify(rn, times(1)).detachChild(geom);
+		when(node.detachChild(any(Spatial.class))).thenReturn(-1);
+		assertFalse(controller.removeDrawable(drawable));
+		verify(node, times(1)).detachChild(geometry);
 	}
 	
 	/**
@@ -156,7 +156,7 @@ public abstract class ControllerTest extends TestBase {
 	public void testInitialize_controller() {
 		Main app = getMain();
 
-		Controller c = new Controller(app, null) {
+		Controller controller = new Controller(app, null) {
 			@Override
 			public void update(float tpf) { }
 			
@@ -168,15 +168,15 @@ public abstract class ControllerTest extends TestBase {
 		};
 		
 		AppStateManager stateManager = mock(AppStateManager.class);
-		Node rn = mock(Node.class);
-		app.setRootNode(rn);
-		Node gn = mock(Node.class);
-		app.setGuiNode(gn);
+		Node node1 = mock(Node.class);
+		app.setRootNode(node1);
+		Node node2 = mock(Node.class);
+		app.setGuiNode(node2);
 
-		c.initialize(stateManager, app);
+		controller.initialize(stateManager, app);
 		
-		verify(rn, times(1)).attachChild(any(Node.class));
-		verify(gn, times(1)).attachChild(any(Node.class));
+		verify(node1, times(1)).attachChild(any(Node.class));
+		verify(node2, times(1)).attachChild(any(Node.class));
 	}
 	
 	/**
@@ -184,13 +184,13 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testAddLight_controller() {
-		Controller c = getController();
-		Node rn = mock(Node.class);
-		c.setRootNode(rn);
-		Light l = mock(Light.class);
+		Controller controller = getController();
+		Node node = mock(Node.class);
+		controller.setRootNode(node);
+		Light light = mock(Light.class);
 		
-		c.addLight(l);
-		verify(rn, times(1)).addLight(l);
+		controller.addLight(light);
+		verify(node, times(1)).addLight(light);
 	}
 	
 	/**
@@ -198,13 +198,13 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testRemoveLight_controller() {
-		Controller c = getController();
-		Node rn = mock(Node.class);
-		c.setRootNode(rn);
-		Light l = mock(Light.class);
+		Controller controller = getController();
+		Node node = mock(Node.class);
+		controller.setRootNode(node);
+		Light light = mock(Light.class);
 		
-		c.removeLight(l);
-		verify(rn, times(1)).removeLight(l);
+		controller.removeLight(light);
+		verify(node, times(1)).removeLight(light);
 	}
 	
 	/**
@@ -212,13 +212,13 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testAddInputListener_controller() {
-		Controller c = getController();
-		InputManager im = mock(InputManager.class);
-		c.setInputManager(im);
-		InputListener l = mock(InputListener.class);
+		Controller controller = getController();
+		InputManager inputManager = mock(InputManager.class);
+		controller.setInputManager(inputManager);
+		InputListener inputListener = mock(InputListener.class);
 		
-		c.addInputListener(l, "hello");
-		verify(im, times(1)).addListener(l, "hello");
+		controller.addInputListener(inputListener, "hello");
+		verify(inputManager, times(1)).addListener(inputListener, "hello");
 	}
 	
 	/**
@@ -226,12 +226,12 @@ public abstract class ControllerTest extends TestBase {
 	 */
 	@Test
 	public void testRemoveInputListener_controller() {
-		Controller c = getController();
-		InputManager im = mock(InputManager.class);
-		c.setInputManager(im);
-		InputListener l = mock(InputListener.class);
+		Controller controller = getController();
+		InputManager inputManager = mock(InputManager.class);
+		controller.setInputManager(inputManager);
+		InputListener inputListener = mock(InputListener.class);
 		
-		c.removeInputListener(l);
-		verify(im, times(1)).removeListener(l);
+		controller.removeInputListener(inputListener);
+		verify(inputManager, times(1)).removeListener(inputListener);
 	}
 }
