@@ -19,6 +19,7 @@ function updateGame(data) {
         case "RUNNING":
         case "WAITING":
             updateEntities(data.entities);
+            updateTimer(data.timer);
             
             if (Teams[data.team] === "DWARFS") {
                 exploreAll();
@@ -48,6 +49,20 @@ function updateTeam(nTeam) {
     
     updateTeamButtons();
     hideGameButtons();
+}
+
+/**
+ * Updates the timer to the recieved time.
+ *
+ * @param time
+ *      the current time
+ */
+function updateTimer(time) {
+    if (time > 3600) {
+        $(".timer").html("&infin;")
+    } else {
+        $(".timer").html(time);
+    }
 }
 
 // ================================================================================================
@@ -256,41 +271,53 @@ function updateEntities(data) {
         if (gEntities !== null) {
             //Remove the old data
             for (var i = 0, len = gEntities.length; i < len; i++) {
-                var type = EntityTypes[gEntities[i].type];
+                var type = EntityTypes[gEntities[i].t];
                 if (type === undefined) continue;
                 
                 var element = document.getElementById("y" + gEntities[i].y + "x" + gEntities[i].x);
                 if (element == null) continue;
                 
                 element.classList.remove(type);
+                if (type === "Bomb") {
+                    element.innerHTML = "";
+                }
             }
         }
         
         for (var i = 0, len = data.length; i < len; i++) {
-            var type = EntityTypes[data[i].type];
+            var type = EntityTypes[data[i].t];
             if (type === undefined) continue;
             
             var element = document.getElementById("y" + data[i].y + "x" + data[i].x);
             if (element == null) continue;
             
             element.classList.add(type);
+            if (type === "Bomb") {
+                element.innerHTML = data[i].d;
+            }
         }
     } else {
         if (gEntities !== null) {
             //Remove the old data
             for (var i = 0, len = gEntities.length; i < len; i++) {
-                var type = EntityTypes[gEntities[i].type];
+                var type = EntityTypes[gEntities[i].t];
                 if (type === undefined) continue;
                 
                 $(document.getElementById("y" + gEntities[i].y + "x" + gEntities[i].x)).removeClass(type);
+                if (type === "Bomb") {
+                    element.innerHTML = "";
+                }
             }
         }
         
         for (var i = 0, len = data.length; i < len; i++) {
-            var type = EntityTypes[data[i].type];
+            var type = EntityTypes[data[i].t];
             if (type === undefined) continue;
             
             $(document.getElementById("y" + data[i].y + "x" + data[i].x)).addClass(type);
+            if (type === "Bomb") {
+                element.innerHTML = data[i].d;
+            }
         }
     }
     

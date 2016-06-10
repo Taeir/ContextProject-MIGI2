@@ -322,7 +322,8 @@ function showAlert(msg, severity, time) {
 
 /**
  * Function to toggle the webpage to fullscreen.
- * This method was copied from https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
+ * The enableFullScreen and disableFullScreen methods used by this method were
+ * copied from https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
  */
 function toggleFullscreen() {
     if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
@@ -330,6 +331,7 @@ function toggleFullscreen() {
     } else {
         disableFullScreen();
     }
+    hideGameButtons();
 }
 
 /**

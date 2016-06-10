@@ -36,6 +36,7 @@ body {
 }
 #map .Bomb.explored {
 	background-color: #000000 !important;
+	font-size: 1.5em !important;
 }
 #map .Door.explored {
 	background-color: #7A5230 !important;
@@ -59,26 +60,31 @@ body {
 	background-color: #FFFFFF !important;
 }
 #map .Invisible_Wall.explored {
-    background-color: #E6E6E6 !important;
+	background-color: #E6E6E6 !important;
 }
 #map .Damaged_Wall.explored {
-    background-color: #BFBFBF !important;
+	background-color: #BFBFBF !important;
 }
 #map .Gate.explored {
 	background-color: #424242 !important;
 }
 #map .Crate.explored {
-    background-color: #ffcc00 !important;
+	background-color: #ffcc00 !important;
 }
 #map {
 	border-spacing: 0px;
 }
 #map td, #map th {
 	min-width: 40px;
+	max-width: 40px;
 	width: 40px;
 	min-height: 40px;
+	max-height: 40px;
 	height: 40px;
 	background-color: #327ed4;
+	color: white;
+	text-align: center;
+	font-size: 0px;
 }
 #map .Wall.explored {
 	background-color: #D3D3D3;
@@ -101,13 +107,13 @@ body {
 	transform: translate(-50%, -50%);
 }
 #dangerBox, #warningBox, #successBox {
-    position: absolute;
-    z-index: 1400;
-    top: 2%;
-    right: 2%;
-    margin: 0px auto;
-    text-align: center;
-    display: none;
+	position: absolute;
+	z-index: 1400;
+	top: 2%;
+	right: 2%;
+	margin: 0px auto;
+	text-align: center;
+	display: none;
 }
 .btnMenu {
 	position: fixed;
