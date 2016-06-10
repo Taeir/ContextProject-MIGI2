@@ -7,6 +7,8 @@ import java.util.List;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
+import com.jme3.math.Vector3f;
+
 import nl.tudelft.contextproject.util.ParserUtil;
 
 /**
@@ -74,6 +76,7 @@ public final class LightParser {
 
 				PointLight pl = new PointLight();
 				pl.setColor(ParserUtil.getColor(color));
+				pl.setPosition(new Vector3f(x, y, z));
 				pl.setRadius(Float.parseFloat(data[5]));
 				return pl;
 			default:
