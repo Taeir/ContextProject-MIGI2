@@ -67,14 +67,15 @@ public class HUD implements TickListener {
 	 * Attaches the Hud to the renderer.
 	 */
 	public void attachHud() {		
+		attachHelmet();
+		attachGameTimer();				
+		attachHeartContainers();
+		attachNose();
 		keyContainer = new Node("Keys");
 		controller.addGuiElement(keyContainer);	
 		
 		bombNode = new Node("Bombs");
 		controller.addGuiElement(bombNode);
-		
-		attachGameTimer();				
-		attachHeartContainers();
 		
 		// Attach listeners
 		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
@@ -118,7 +119,7 @@ public class HUD implements TickListener {
 			textBomb.setSize(screenHeight / 30);
 			textBomb.setColor(ColorRGBA.White);
 			float w = screenWidth / 2f - (screenHeight / 30) * .8f;
-			float h = textBomb.getLineHeight() + screenHeight / 7;
+			float h = screenHeight - (textBomb.getLineHeight() + screenHeight / 5);
 			textBomb.setLocalTranslation(w, h, 0);
 			bombNode.attachChild(textBomb);
 		}
@@ -139,9 +140,33 @@ public class HUD implements TickListener {
 		heart.setWidth(screenWidth / 20);
 		heart.setHeight(screenHeight / 20);
 		float start = .5f - .06f * (VRPlayer.PLAYER_MAX_HEALTH / 2);
-		heart.setPosition(screenWidth * (start + 0.06f * pos), screenHeight * .9f);
+		heart.setPosition(screenWidth * (start + 0.06f * pos), screenHeight * .80f);
 		
 		return heart;
+	}
+	
+	/**
+	 * Attaches a nose to the HUD.
+	 */
+	public void attachNose() {
+		Picture nose = new Picture("Nose");
+		nose.setImage(Main.getInstance().getAssetManager(), "Textures/nose.png", true);
+		nose.setWidth(screenWidth * 0.6f);
+		nose.setHeight(screenHeight * 0.6f);
+		nose.setPosition(screenWidth * 0.15f, screenHeight * -0.25f);
+		controller.addGuiElement(nose);
+	}
+	
+	/**
+	 * Attaches a helmet to the HUD.
+	 */
+	public void attachHelmet() {
+		Picture helm = new Picture("Helm");
+		helm.setImage(Main.getInstance().getAssetManager(), "Textures/helmet.png", true);
+		helm.setWidth(screenWidth);
+		helm.setHeight(screenHeight);
+		helm.setPosition(0, 0);
+		controller.addGuiElement(helm);
 	}
 	
 	/**
@@ -161,11 +186,11 @@ public class HUD implements TickListener {
 		keypic.setWidth(screenWidth / 30);
 		keypic.setHeight(screenHeight / 12);
 		float start = 0.5f - (0.025f * total);
-		keypic.setPosition(screenWidth * (start + 0.05f * pos), 60);
+		keypic.setPosition(screenWidth * 0.15f + screenWidth * (start + 0.05f * pos), 200);
 		
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", color);
 		mat.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/keyicon.png"));
+		mat.setColor("Color", color);
 		keypic.setMaterial(mat);
 		
 		return keypic;
