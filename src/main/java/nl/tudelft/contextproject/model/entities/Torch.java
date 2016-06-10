@@ -41,7 +41,7 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 		fire.setHighLife(0.5f);
 		fire.getParticleInfluencer().setVelocityVariation(0.0f);
 		spatial = new Node("torch");
-		//((Node) spatial).attachChild(fire);
+		((Node) spatial).attachChild(fire);
 		if (type) {
 			torchSpatial = Main.getInstance().getAssetManager().loadModel("Models/torch.blend");
 			fire.setStartSize(0.15f);

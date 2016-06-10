@@ -24,6 +24,12 @@ public class RoomNode {
 	 */
 	public static final int MIN_DIST = 3;
 	
+	/**
+	 * Render torches. 
+	 * At the moment the torches require GPU power to be rendered, so they are turned off.
+	 */
+	public boolean renderTorches;
+	
 	public int id;
 	public Vec2I coordinates;
 	public Room room;
@@ -200,7 +206,6 @@ public class RoomNode {
 	 * 		location of room
 	 */
 	public void carveRoomNode(MazeTile[][] tiles, Vec2I coordinates) {
-		System.out.println("Moved room to " + coordinates.x + ", " + coordinates.y);
 		this.coordinates = coordinates;
 		int xSize = room.size.getWidth();
 		int ySize = room.size.getHeight();
@@ -219,10 +224,12 @@ public class RoomNode {
 				PointLight pl = ((PointLight) l);
 				Vector3f position = pl.getPosition();
 				pl.setPosition(position.add(coordinates.x, 0, coordinates.y));
-				position = pl.getPosition();
-				Vec2I newLightPosition = new Vec2I(Math.round(position.x), Math.round(position.z));
-				room.entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), 
-						new Vector3f(newLightPosition.x, 4.5f, newLightPosition.y)));
+				if (renderTorches) {
+					position = pl.getPosition();
+					Vec2I newLightPosition = new Vec2I(Math.round(position.x), Math.round(position.z));
+					room.entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), 
+							new Vector3f(newLightPosition.x, 4.5f, newLightPosition.y)));
+				}
 			}
 			if (l instanceof SpotLight) {
 				SpotLight sl = ((SpotLight) l);
