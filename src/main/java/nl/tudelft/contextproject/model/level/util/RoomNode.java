@@ -3,7 +3,10 @@ package nl.tudelft.contextproject.model.level.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.jme3.light.DirectionalLight;
 import com.jme3.light.Light;
+import com.jme3.light.PointLight;
+import com.jme3.light.SpotLight;
 
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
@@ -209,6 +212,16 @@ public class RoomNode {
 		}
 		for (Entity e : room.entities) {
 			e.move(coordinates.x, 0, coordinates.y);
+		}
+		for (Light l : room.lights) {
+			if (l instanceof PointLight) {
+				PointLight pl = ((PointLight) l);
+				pl.setPosition(pl.getPosition().add(coordinates.x, 0, coordinates.y));
+			}
+			if (l instanceof SpotLight) {
+				SpotLight sl = ((SpotLight) l);
+				sl.setPosition(sl.getPosition().add(coordinates.x, 0, coordinates.y));
+			}			
 		}
 		updateDoorLocations();
 	}
