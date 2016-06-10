@@ -9,12 +9,15 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.light.Light;
+import com.jme3.light.PointLight;
 import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.roomIO.EntityParser;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
-
+import nl.tudelft.contextproject.model.level.util.RoomNode;
+import nl.tudelft.contextproject.model.level.util.TorchType;
+import nl.tudelft.contextproject.model.level.util.Vec2I;
 import lombok.SneakyThrows;
 
 /**
@@ -51,7 +54,34 @@ public class RoomLevelFactory implements LevelFactory {
 		
 		Vector3f playerSpawn = EntityParser.getPlayerSpawnLocation(entities, new Random(seed));
 		
+		addLightModels(lights, entities, tiles);
+		
 		return new Level(tiles, lights, entities, playerSpawn);
+	}
+	
+	/**
+	 * Add a light models as torches to level.
+	 * 
+	 * @param lights
+	 * 		the list of lights
+	 * @param entities
+	 * 		the list of entities which will contain the torches entities.
+	 * @param tiles
+	 * 		the map that should be checked.
+	 */
+	protected void addLightModels(List<Light> lights, Set<Entity> entities, MazeTile[][] tiles) {
+		for (Light l : lights) {
+			if (l instanceof PointLight) {
+				PointLight pl = ((PointLight) l);
+				Vector3f position = pl.getPosition();
+				if (RoomNode.renderTorches) {
+					position = pl.getPosition();
+					Vec2I newLightPosition = new Vec2I(Math.round(position.x), Math.round(position.z));
+					entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), 
+							new Vector3f(newLightPosition.x, 4.5f, newLightPosition.y)));
+				}
+			}
+		}
 	}
 
 }

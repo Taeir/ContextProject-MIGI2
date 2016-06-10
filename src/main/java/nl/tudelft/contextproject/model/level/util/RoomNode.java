@@ -26,9 +26,9 @@ public class RoomNode {
 	
 	/**
 	 * Render torches. 
-	 * At the moment the torches require GPU power to be rendered, so they are turned off.
+	 * At the moment the torches require a lot of GPU power to be rendered, so they are turned off.
 	 */
-	public boolean renderTorches;
+	public static boolean renderTorches;
 	
 	public int id;
 	public Vec2I coordinates;
@@ -216,9 +216,32 @@ public class RoomNode {
 				tiles[coordinates.x + x][coordinates.y + y].replace(coordinates.x + x, coordinates.y + y);
 			}
 		}
+		updateEntityPositions(coordinates);
+		updateLights(tiles, coordinates);
+		updateDoorLocations();
+	}
+
+	/**
+	 * Update the entity positions with the off set.
+	 * @param coordinates
+	 * 		the off set the room is being placed on.
+	 */
+	private void updateEntityPositions(Vec2I coordinates) {
 		for (Entity e : room.entities) {
 			e.move(coordinates.x, 0, coordinates.y);
 		}
+	}
+
+	/**
+	 * Method that updates the lights of the room.
+	 * Will also create Torch entities to render if enabled.
+	 * 
+	 * @param tiles
+	 * 		the current map
+	 * @param coordinates
+	 * 		the offset of the room
+	 */
+	private void updateLights(MazeTile[][] tiles, Vec2I coordinates) {
 		for (Light l : room.lights) {
 			if (l instanceof PointLight) {
 				PointLight pl = ((PointLight) l);
@@ -236,7 +259,6 @@ public class RoomNode {
 				sl.setPosition(sl.getPosition().add(coordinates.x, 0, coordinates.y));
 			}			
 		}
-		updateDoorLocations();
 	}
 
 	/**
