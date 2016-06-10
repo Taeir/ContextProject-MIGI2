@@ -140,7 +140,7 @@ public class HUD implements TickListener {
 		heart.setWidth(screenWidth / 20);
 		heart.setHeight(screenHeight / 20);
 		float start = .5f - .06f * (VRPlayer.PLAYER_MAX_HEALTH / 2);
-		heart.setPosition(screenWidth * (start + 0.06f * pos), screenHeight * .9f);
+		heart.setPosition(screenWidth * (start + 0.06f * pos), screenHeight * .80f);
 		
 		return heart;
 	}
@@ -186,7 +186,7 @@ public class HUD implements TickListener {
 		keypic.setWidth(screenWidth / 30);
 		keypic.setHeight(screenHeight / 12);
 		float start = 0.5f - (0.025f * total);
-		keypic.setPosition(screenWidth * 0.15f + screenWidth * (start + 0.05f * pos), 60);
+		keypic.setPosition(screenWidth * 0.15f + screenWidth * (start + 0.05f * pos), 200);
 		
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		mat.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/keyicon.png"));
