@@ -19,6 +19,7 @@ import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.entities.control.NoControl;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 
@@ -163,13 +164,15 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 			Vector3f move = getLocation().subtract(resp);
 			move(-move.x, -move.y, -move.z);
 			takeDamage(1f);
-			
+
 			//Create a void platform at player location
-			VoidPlatform vp = new VoidPlatform();
-			Vector3f vploc = getLocation().clone();
-			vploc.y = 0;
-			vp.move(vploc);
-			Main.getInstance().getCurrentGame().addEntity(vp);
+			if (Main.getInstance().getCurrentGame().getLevel().getTile((int) getLocation().x, (int) getLocation().z) == null) {
+				VoidPlatform vp = new VoidPlatform();
+				Vector3f vploc = getLocation().clone();
+				vploc.y = 0;
+				vp.move(vploc);
+				Main.getInstance().getCurrentGame().addEntity(vp);
+			}
 			
 			return;
 		}
