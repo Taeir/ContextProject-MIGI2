@@ -1,28 +1,23 @@
 package nl.tudelft.contextproject.model.entities;
 
-import com.jme3.bullet.collision.shapes.CollisionShape;
-
-
-import com.jme3.bullet.control.PhysicsControl;
-import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
 /**
  * Class representing a torch.
  */
-public class Torch extends Entity implements PhysicsObject {
-	private Spatial sp;
-	private RigidBodyControl rb;
+public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 	private ParticleEmitter fire;
 	private boolean torchtype;
+	private Spatial torchSpatial;
 
 	/**
 	 * Constructor for a torch.
@@ -33,9 +28,9 @@ public class Torch extends Entity implements PhysicsObject {
 	public Torch(boolean type) {
 		torchtype = type;
 		fire = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 30);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Particle.j3md");
-		mat.setTexture("Texture", Main.getInstance().getAssetManager().loadTexture("Effects/Explosion/flame.png"));
-		fire.setMaterial(mat);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Particle.j3md");
+		material.setTexture("Texture", Main.getInstance().getAssetManager().loadTexture("Effects/Explosion/flame.png"));
+		fire.setMaterial(material);
 		fire.setImagesX(2); 
 		fire.setImagesY(2);
 		fire.setEndColor(new ColorRGBA(1f, 0f, 0f, 1f));
@@ -45,52 +40,43 @@ public class Torch extends Entity implements PhysicsObject {
 		fire.setLowLife(0.2f);
 		fire.setHighLife(0.5f);
 		fire.getParticleInfluencer().setVelocityVariation(0.0f);
+		spatial = new Node("torch");
+		((Node) spatial).attachChild(fire);
 		if (type) {
-			sp = Main.getInstance().getAssetManager().loadModel("Models/torch.blend");
+			torchSpatial = Main.getInstance().getAssetManager().loadModel("Models/torch.blend");
 			fire.setStartSize(0.15f);
 			fire.setEndSize(0.05f);
 			fire.move(-0.09f, 0.27f, -0.003f);
 		} else {
-			sp = Main.getInstance().getAssetManager().loadModel("Models/ceilinglamp.blend");
+			torchSpatial = Main.getInstance().getAssetManager().loadModel("Models/ceilinglamp.blend");
 			fire.setStartSize(0.1f);
 			fire.setEndSize(0.04f);
 			fire.move(0, 0.11f, 0);
-			this.move(0, 5.32f, 0);
 		}
-	}
-
-	@Override
-	public Spatial getSpatial() {
-		return sp;
-	}
-
-	@Override
-	public void setSpatial(Spatial spatial) {
-		sp = spatial;
-	}
-
-	@Override
-	public void update(float tdf) { }
-
-	@Override
-	public PhysicsControl getPhysicsObject() {
-		if (rb != null) return rb;
-
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
-		rb = new RigidBodyControl(sceneShape, 0);
-		rb.setPhysicsLocation(sp.getLocalTranslation());
-		return rb;
-	}
-
-	@Override
-	public void move(float x, float y, float z) {
-		sp.move(x, y, z);
-		fire.move(x, y, z);
-		if (rb == null) getPhysicsObject();
-
-		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
+		((Node) spatial).attachChild(torchSpatial);
+		spatial.move(-0.05f, 0, -0.05f);
 	}
 	
+	
+	
+	/**
+	 * @return the torchtype
+	 */
+	public boolean isTorchtype() {
+		return torchtype;
+	}
+
+
+
+	/**
+	 * @param torchtype the torchtype to set
+	 */
+	public void setTorchtype(boolean torchtype) {
+		this.torchtype = torchtype;
+	}
+
+
+
 	/**
 	 * @return
 	 * 		the flame on the torch
@@ -104,9 +90,8 @@ public class Torch extends Entity implements PhysicsObject {
 	 */
 	public void rotateSouth() {
 		if (!torchtype) return;
-		sp.rotate(0f, (float) (0.5 * Math.PI), 0f);
-		sp.move(-0.075f, 0, -0.075f);
-		this.move(0, 0, 0.65f);
+		spatial.rotate(0f, (float) (0.5 * Math.PI), 0f);
+		spatial.move(0, 0, -0.42f);
 	}
 
 	/**
@@ -114,9 +99,8 @@ public class Torch extends Entity implements PhysicsObject {
 	 */
 	public void rotateEast() {
 		if (!torchtype) return;
-		sp.rotate(0f, (float) (Math.PI), 0f);
-		sp.move(-0.17f, 0, 0);
-		this.move(.75f, 0, 0);
+		spatial.rotate(0f, (float) (Math.PI), 0f);
+		spatial.move(-0.42f, 0, 0);
 	}
 
 	/**
@@ -124,9 +108,8 @@ public class Torch extends Entity implements PhysicsObject {
 	 */
 	public void rotateNorth() {
 		if (!torchtype) return;
-		sp.rotate(0f, (float) (-0.5 * Math.PI), 0f);
-		sp.move(-0.095f, 0, 0.08f);
-		this.move(0, 0, -.63f);
+		spatial.rotate(0f, (float) (-0.5 * Math.PI), 0f);
+		spatial.move(0, 0, 0.52f);
 	}
 
 	/**
@@ -134,7 +117,7 @@ public class Torch extends Entity implements PhysicsObject {
 	 */
 	public void rotateWest() {
 		if (!torchtype) return;
-		this.move(-.55f, 0, 0);
+		spatial.move(0.52f, 0, 0);
 	}
 	
 	/**

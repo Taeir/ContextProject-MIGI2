@@ -12,11 +12,12 @@ import com.jme3.audio.AudioSource;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
+import nl.tudelft.contextproject.model.TickListener;
 
 /**
  * Class for playing/managing background music.
  */
-public final class BackgroundMusic {
+public final class BackgroundMusic implements TickListener {
 	private static final BackgroundMusic INSTANCE = new BackgroundMusic();
 	
 	private List<String> music = new ArrayList<String>();
@@ -77,19 +78,19 @@ public final class BackgroundMusic {
 	 * 
 	 * This stops playing any song that was already running.
 	 * 
-	 * @param an
+	 * @param audioNode
 	 * 		the AudioNode to play
 	 */
-	public synchronized void playSong(AudioNode an) {
-		AudioManager.getInstance().registerVolume(an, SoundType.BACKGROUND_MUSIC);
+	public synchronized void playSong(AudioNode audioNode) {
+		AudioManager.getInstance().registerVolume(audioNode, SoundType.BACKGROUND_MUSIC);
 
-		an.play();
+		audioNode.play();
 		
 		if (current != null) {
 			stop();
 		}
 		
-		current = an;
+		current = audioNode;
 	}
 	
 	/**
@@ -176,14 +177,12 @@ public final class BackgroundMusic {
 		return current;
 	}
 	
-	/**
-	 * Called to indicate an update.
-	 */
-	public void update() {
-		AudioNode an = current;
-		if (an == null) return;
+	@Override
+	public void update(float tpf) {
+		AudioNode audioNode = current;
+		if (audioNode == null) return;
 
-		if (an.getStatus() == AudioSource.Status.Stopped) {
+		if (audioNode.getStatus() == AudioSource.Status.Stopped) {
 			next();
 		}
 	}

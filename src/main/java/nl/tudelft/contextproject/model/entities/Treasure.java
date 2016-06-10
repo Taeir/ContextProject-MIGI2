@@ -29,12 +29,13 @@ public class Treasure extends PlayerTrigger {
 		if (spatial != null) return spatial;
 
 		spatial = Main.getInstance().getAssetManager().loadModel("Models/chest.blend");
+		spatial.move(0, 1f, 0);
 		return spatial;
 	}
 	
 	@Override
-	public void setSpatial(Spatial s) {
-		this.spatial = s;
+	public void setSpatial(Spatial spatial) {
+		this.spatial = spatial;
 	}
 	
 	/**

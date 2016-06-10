@@ -8,10 +8,12 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.Light;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
+import com.jme3.util.TangentBinormalGenerator;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
@@ -63,74 +65,74 @@ public abstract class Controller extends AbstractAppState {
 	/**
 	 * Add an element to the GUI.
 	 *
-	 * @param s
+	 * @param spatial
 	 * 		a Spatial to add to the GUI
 	 */
-	public void addGuiElement(Spatial s) {
-		guiNode.attachChild(s);
+	public void addGuiElement(Spatial spatial) {
+		guiNode.attachChild(spatial);
 	}
 
 	/**
 	 * Removes an element from the GUI.
 	 *
-	 * @param s
+	 * @param spatial
 	 * 		the Spatial to remove
 	 * @return
 	 * 		true when the element was removed, false otherwise
 	 */
-	public boolean removeGuiElement(Spatial s) {
-		return guiNode.detachChild(s) != -1;
+	public boolean removeGuiElement(Spatial spatial) {
+		return guiNode.detachChild(spatial) != -1;
 	}
 	
 	/**
 	 * Add a Drawable to the renderer.
 	 * Drawables should also have a collision.
 	 *
-	 * @param d 
+	 * @param drawable 
 	 * 		The drawable to add
 	 */
-	public void addDrawable(Drawable d) {
-		if (d instanceof PhysicsObject) {
-			physicsEnvironment.getPhysicsSpace().add(((PhysicsObject) d).getPhysicsObject());
+	public void addDrawable(Drawable drawable) {
+		if (drawable instanceof PhysicsObject) {
+			physicsEnvironment.getPhysicsSpace().add(((PhysicsObject) drawable).getPhysicsObject());
 		}
 
-		rootNode.attachChild(d.getSpatial());
+		rootNode.attachChild(drawable.getSpatial());
 	}
 	
 	/**
 	 * Removes a Drawable from the renderer.
 	 *
-	 * @param d
+	 * @param drawable
 	 * 		the Drawable to remove
 	 * @return
 	 * 		true when the Drawable was removed, false otherwise
 	 */
-	public boolean removeDrawable(Drawable d) {
-		if (d instanceof PhysicsObject) {
-			physicsEnvironment.getPhysicsSpace().remove(((PhysicsObject) d).getPhysicsObject());
+	public boolean removeDrawable(Drawable drawable) {
+		if (drawable instanceof PhysicsObject) {
+			physicsEnvironment.getPhysicsSpace().remove(((PhysicsObject) drawable).getPhysicsObject());
 		}
 
-		return rootNode.detachChild(d.getSpatial()) != -1;
+		return rootNode.detachChild(drawable.getSpatial()) != -1;
 	}
 
 	/**
 	 * Add a light to the scene.
 	 *
-	 * @param l
+	 * @param light
 	 * 		the light to add
 	 */
-	public void addLight(Light l) {
-		rootNode.addLight(l);
+	public void addLight(Light light) {
+		rootNode.addLight(light);
 	}
 
 	/**
 	 * Removes the specified light from the scene.
 	 *
-	 * @param l
+	 * @param light
 	 * 		the light to remove
 	 */
-	public void removeLight(Light l) {
-		rootNode.removeLight(l);
+	public void removeLight(Light light) {
+		rootNode.removeLight(light);
 	}
 
 	/**
@@ -159,22 +161,22 @@ public abstract class Controller extends AbstractAppState {
 	 * Method used for testing.
 	 * Sets the rootNode of Main to a new Node.
 	 *
-	 * @param rn
+	 * @param rootNode
 	 * 		the new node to replace the rootNode
 	 */
-	protected void setRootNode(Node rn) {
-		rootNode = rn;
+	protected void setRootNode(Node rootNode) {
+		this.rootNode = rootNode;
 	}
 
 	/**
 	 * Method used for testing.
 	 * Sets the guiNode of Main to a new Node.
 	 *
-	 * @param gn
+	 * @param guiNode
 	 * 		the new node to replace the guiNode
 	 */
-	protected void setGuiNode(Node gn) {
-		guiNode = gn;
+	protected void setGuiNode(Node guiNode) {
+		this.guiNode = guiNode;
 	}
 
 	/**
@@ -206,8 +208,8 @@ public abstract class Controller extends AbstractAppState {
 		main.getRootNode().detachChild(rootNode);
 		main.getGuiNode().detachChild(guiNode);
 
-		for (Light l: rootNode.getLocalLightList()) {
-			rootNode.removeLight(l);
+		for (Light light: rootNode.getLocalLightList()) {
+			rootNode.removeLight(light);
 		}
 	}
 	
@@ -220,11 +222,19 @@ public abstract class Controller extends AbstractAppState {
 	 * 		the y location of the tile
 	 */
 	public void attachRoofTile(int x, int y) {	
-		Quad q = new Quad(1, 1);
-		Geometry roofTile = new Geometry("roofTile", q);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"); 
-		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/rocktexture.png"));
-		roofTile.setMaterial(mat); 
+		Quad quad = new Quad(1, 1);
+		Geometry roofTile = new Geometry("roofTile", quad);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"); 
+		material.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/rocktexture.png"));
+		TangentBinormalGenerator.generate(quad);
+		material.setBoolean("UseMaterialColors", true);    
+		material.setColor("Diffuse", ColorRGBA.Gray);
+		material.setColor("Specular", ColorRGBA.White);
+		material.setFloat("Shininess", 64f);
+		material.setColor("Ambient", ColorRGBA.Gray);
+		material.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/rocknormalmap.jpg"));
+		material.setBoolean("UseMaterialColors", true);
+		roofTile.setMaterial(material); 
 
 		roofTile.rotate((float) Math.toRadians(90), 0, 0);
 		roofTile.move(x - .5f, TileType.WALL.getHeight() * 2, y - .5f);

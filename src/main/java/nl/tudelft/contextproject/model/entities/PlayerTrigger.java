@@ -19,7 +19,7 @@ public class PlayerTrigger extends Entity {
 
 	private float triggerDist;
 	private TickListener action;
-	private Spatial sp;
+	private Spatial spatial;
 	private float timer;
 	private float coolDown;
 	
@@ -61,24 +61,24 @@ public class PlayerTrigger extends Entity {
 
 	@Override
 	public Spatial getSpatial() {
-		if (sp != null) return sp;
+		if (spatial != null) return spatial;
 
-		Box b = new Box(.4f, .01f, .4f);
-		this.sp = new Geometry("plate", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
-		mat.setBoolean("UseMaterialColors", true);    
-		mat.setColor("Diffuse", ColorRGBA.Orange);
-		mat.setColor("Specular", ColorRGBA.White);
-		mat.setFloat("Shininess", 64f);
-		mat.setColor("Ambient", ColorRGBA.Orange);
-		this.sp.setMaterial(mat); 
-		this.sp.move(0, 0.505f, 0);
-		return sp;
+		Box box = new Box(.4f, .01f, .4f);
+		this.spatial = new Geometry("plate", box);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");  // create a simple material
+		material.setBoolean("UseMaterialColors", true);    
+		material.setColor("Diffuse", ColorRGBA.Orange);
+		material.setColor("Specular", ColorRGBA.White);
+		material.setFloat("Shininess", 64f);
+		material.setColor("Ambient", ColorRGBA.Orange);
+		this.spatial.setMaterial(material); 
+		this.spatial.move(0, 0.505f, 0);
+		return spatial;
 	}
 
 	@Override
 	public void setSpatial(Spatial spatial) {
-		this.sp = spatial;
+		this.spatial = spatial;
 	}
 
 	@Override

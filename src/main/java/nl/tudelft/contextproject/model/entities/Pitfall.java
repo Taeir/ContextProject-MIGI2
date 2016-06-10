@@ -8,13 +8,14 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Game;
 
 /**
  * An entity that drops the player through the level when stepped on.
  */
 public class Pitfall extends PlayerTrigger {
 
-	private Spatial sp;
+	private Spatial spatial;
 	private final float width;
 	
 	/**
@@ -40,29 +41,38 @@ public class Pitfall extends PlayerTrigger {
 	@Override
 	public void onTrigger() {
 		this.setState(EntityState.DEAD);
-		VRPlayer p = Main.getInstance().getCurrentGame().getPlayer();
-		p.move(0, -2f, 0);
+		VRPlayer vrPlayer = Main.getInstance().getCurrentGame().getPlayer();
+		if (vrPlayer.getLocation().distance(getLocation()) > width) {
+			for (Entity entity : Main.getInstance().getCurrentGame().getEntities()) {
+				if (entity instanceof Crate && entity.getLocation().distance(getLocation()) < width + .3f) {
+					entity.setState(EntityState.DEAD);
+					return;
+				}
+			}
+		} else {
+			vrPlayer.move(0, -2f, 0);
+		}
 	}
 
 	@Override
 	public Spatial getSpatial() {
-		if (sp != null) return sp;
-		Box b = new Box(.4f, .01f, .4f);
-		sp = new Geometry("plate", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-		mat.setBoolean("UseMaterialColors", true);    
-		mat.setColor("Diffuse", ColorRGBA.Green);
-		mat.setColor("Specular", ColorRGBA.White);
-		mat.setFloat("Shininess", 64f);
-		mat.setColor("Ambient", ColorRGBA.Green);
-		sp.setMaterial(mat);
-		sp.move(0, -.2f, 0);
-		return sp;
+		if (spatial != null) return spatial;
+		Box box = new Box(.4f, .01f, .4f);
+		spatial = new Geometry("plate", box);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+		material.setBoolean("UseMaterialColors", true);    
+		material.setColor("Diffuse", ColorRGBA.Green);
+		material.setColor("Specular", ColorRGBA.White);
+		material.setFloat("Shininess", 64f);
+		material.setColor("Ambient", ColorRGBA.Green);
+		spatial.setMaterial(material);
+		spatial.move(0, -.2f, 0);
+		return spatial;
 	}
 
 	@Override
 	public void setSpatial(Spatial spatial) {
-		this.sp = spatial;
+		this.spatial = spatial;
 	}
 
 	@Override
@@ -93,5 +103,16 @@ public class Pitfall extends PlayerTrigger {
 	@Override
 	public EntityType getType() {
 		return EntityType.PITFALL;
+	}
+	
+	@Override
+	public boolean collidesWithPlayer(float distance) {
+		Game game = Main.getInstance().getCurrentGame();
+		Vector3f playerLoc = game.getPlayer().getLocation();
+		if (getLocation().distance(playerLoc) < distance) return true;
+		for (Entity entity : game.getEntities()) {
+			if (entity instanceof Crate && entity.getLocation().distance(getLocation()) < distance + .3f) return true;
+		}
+		return false;
 	}
 }

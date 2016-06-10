@@ -1,26 +1,32 @@
 package nl.tudelft.contextproject.webinterface;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.junit.BeforeClass;
 
+import com.jme3.math.Vector3f;
+
+import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
+import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.entities.EntityType;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.TileType;
 
 import lombok.SneakyThrows;
 
@@ -39,7 +45,7 @@ public class WebTestBase extends TestBase {
 	 */
 	@BeforeClass
 	public static void webBeforeClassSetUp() {
-		Logger.getLogger("WebInterface").setLevel(Level.OFF);
+		Logger.getLogger("WebInterface").setLevel(java.util.logging.Level.OFF);
 		
 		//Create mocked logger that does nothing
 		org.eclipse.jetty.util.log.Logger noLoggerMock = mock(org.eclipse.jetty.util.log.Logger.class);
@@ -49,60 +55,49 @@ public class WebTestBase extends TestBase {
 	}
 	
 	/**
-	 * Creates a spied session2 cookie with the given id.
+	 * Sets the given NormalHandler on the given WebServer.
+	 * 
+	 * @param handler
+	 * 		the NormalHandler to set
+	 * @param server
+	 * 		the server to set the handler of
+	 */
+	public void setHandler(NormalHandler handler, WebServer server) {
+		server.setNormalHandler(handler);
+	}
+	
+	/**
+	 * Creates a spied cookie with the given id.
 	 * 
 	 * @param id
 	 * 		the id of the cookie
 	 * @return
-	 * 		a spied session2 cookie with the given id
+	 * 		a spied cookie with the given id
 	 */
-	public Cookie createSession2Cookie(String id) {
-		Cookie cookie = new Cookie(WebServer.SESSION2_COOKIE, id);
-		cookie.setMaxAge(24 * 60 * 60);
+	public Cookie createCookie(String id) {
+		Cookie cookie = new Cookie(WebServer.COOKIE_NAME, id);
+		cookie.setMaxAge(WebServer.COOKIE_MAX_AGE);
 		return spy(cookie);
 	}
 	
 	/**
-	 * Creates a mocked session with the given id.
-	 * 
-	 * @param id
-	 * 		the id of the session
-	 * @return
-	 * 		a mocked session with the given id
-	 */
-	public HttpSession createSession(String id) {
-		HttpSession session = mock(HttpSession.class);
-		when(session.getId()).thenReturn(id);
-		
-		return session;
-	}
-	
-	/**
-	 * Creates a mocked HttpServletRequest with the given parameters.
+	 * Creates a mocked HttpServletRequest with the given session id.
 	 * The request will use method "GET" and will access URI "/".
 	 * 
-	 * @param id1
+	 * @param id
 	 * 		the session id of the request
-	 * @param id2
-	 * 		the session2 id of the request. If null, the request will not have a session2 cookie.
-	 * @param auth
-	 * 		if false, then getSession(false) will return null
 	 * @return
 	 * 		a mocked HttpServletRequest
 	 */
-	public HttpServletRequest createMockedRequest(String id1, String id2, boolean auth) {
-		return createMockedRequest(id1, id2, auth, true, "/");
+	public HttpServletRequest createMockedRequest(String id) {
+		return createMockedRequest(id, true, "/");
 	}
 	
 	/**
 	 * Creates a mocked HttpServletRequest with the given parameters.
 	 * 
-	 * @param id1
+	 * @param id
 	 * 		the session id of the request
-	 * @param id2
-	 * 		the session2 id of the request. If null, the request will not have a session2 cookie.
-	 * @param auth
-	 * 		if false, then getSession(false) will return null
 	 * @param method
 	 * 		the method of the request. true = GET, false = POST
 	 * @param uri
@@ -110,22 +105,14 @@ public class WebTestBase extends TestBase {
 	 * @return
 	 * 		a mocked HttpServletRequest
 	 */
-	public HttpServletRequest createMockedRequest(String id1, String id2, boolean auth, boolean method, String uri) {
+	public HttpServletRequest createMockedRequest(String id, boolean method, String uri) {
 		//Mock the request
 		HttpServletRequest request = mock(HttpServletRequest.class);
 
-		//Create spied/mocked sessions
-		HttpSession session = createSession(id1);
-
-		//Set the session
-		if (auth) when(request.getSession(false)).thenReturn(session);
-		when(request.getSession(true)).thenReturn(session);
-		when(request.getSession()).thenReturn(session);
-
 		//Set the session2 cookie
-		if (id2 != null) {
-			Cookie cookie2 = createSession2Cookie(id2);
-			when(request.getCookies()).thenReturn(new Cookie[] { cookie2 });
+		if (id != null) {
+			Cookie cookie = createCookie(id);
+			when(request.getCookies()).thenReturn(new Cookie[] { cookie });
 		}
 
 		//Set the method (GET/POST)
@@ -192,5 +179,38 @@ public class WebTestBase extends TestBase {
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));
 		
 		return response;
+	}
+	
+	/**
+	 * Mocks the level, such that all tiles in the level have the given TileType.
+	 * 
+	 * @param tileType
+	 * 		the type to use for all tiles
+	 */
+	public void mockLevel(TileType tileType) {
+		Game mockedGame = mock(Game.class);
+		Level mockedLevel = mock(Level.class);
+		MazeTile mockedTile = mock(MazeTile.class);
+		VRPlayer mockedPlayer = mock(VRPlayer.class);
+		
+		//Main
+		when(Main.getInstance().getCurrentGame()).thenReturn(mockedGame);
+		
+		//Game
+		when(mockedGame.getLevel()).thenReturn(mockedLevel);
+		when(mockedGame.getEntities()).thenReturn(new HashSet<>());
+		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
+		
+		//Level
+		when(mockedLevel.getTile(anyInt(), anyInt())).thenReturn(mockedTile);
+		when(mockedLevel.toWebJSON()).thenReturn(new JSONObject());
+		when(mockedLevel.toExploredWebJSON()).thenReturn(new JSONObject());
+		
+		//Tile
+		when(mockedTile.getTileType()).thenReturn(tileType);
+		
+		//Player
+		when(mockedPlayer.getLocation()).thenReturn(new Vector3f(1000, 1000, 1000));
+		when(mockedPlayer.getType()).thenReturn(EntityType.PLAYER);
 	}
 }

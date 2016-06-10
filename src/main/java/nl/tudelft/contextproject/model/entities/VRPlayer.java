@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.model.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -20,6 +19,7 @@ import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.entities.control.NoControl;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 
 /**
@@ -28,12 +28,11 @@ import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 public class VRPlayer extends MovingEntity implements PhysicsObject, TickProducer, Health {
 
 	//Physics interaction constants.
-
 	public static final float JUMP_SPEED = 7f;
 	//Terminal velocity of the player
 	public static final float FALL_SPEED = 15f;
 	//How fast the player accelerates while falling
-	public static final float PLAYER_GRAVITY = 13f;
+	public static final float PLAYER_GRAVITY = 18f;
 
 
 	//Physical collision model.
@@ -48,7 +47,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	//Constants for exploration.
 
 	public static final float EXPLORATION_INTERVAL = 0.5f;
-	public static final int EXPLORATION_RADIUS = 5;
+	public static final int EXPLORATION_RADIUS = 8;
 	
 	//Health constants
 	public static final float PLAYER_MAX_HEALTH = 5f;
@@ -62,12 +61,12 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 
 	private Spatial spatial;
 	private CharacterControl playerControl;
-	private Inventory inventory;
+	private Inventory inventory = new Inventory();
 	private Vector3f resp;
 	private float fallingTimer;
 	private float explorationTimer;
-	private float health;
-	private List<TickListener> listeners;
+	private float health = PLAYER_HEALTH;
+	private Set<TickListener> listeners = new HashSet<>();
 
 	/**
 	 * Constructor for a default player.
@@ -75,20 +74,32 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	 */
 	public VRPlayer() { 
 		super(new PlayerControl());
-		health = PLAYER_HEALTH;
-		inventory = new Inventory();
-		listeners = new ArrayList<>();
+	}
+	
+	/**
+	 * Private constructor used by {@link #loadEntity(Vector3f, String[])}, to be able to load
+	 * dummy players.
+	 * 
+	 * @param location
+	 * 		the location of this player
+	 */
+	private VRPlayer(Vector3f location) {
+		super(new NoControl());
+		
+		Sphere sphere = new Sphere(10, 10, .2f);
+		spatial = new Geometry("blue cube", sphere);
+		spatial.move(location.add(0, SPAWN_HEIGHT, 0));
 	}
 
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
-		Sphere b = new Sphere(10, 10, .2f);
-		spatial = new Geometry("blue cube", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.randomColor());
-		spatial.setMaterial(mat);
+		Sphere sphere = new Sphere(10, 10, .2f);
+		spatial = new Geometry("blue cube", sphere);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		material.setColor("Color", ColorRGBA.randomColor());
+		spatial.setMaterial(material);
 		spatial.move(0, SPAWN_HEIGHT, 0);
 		return spatial;
 	}
@@ -148,9 +159,20 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	protected void updateFallingTimer(float tpf) {
 		if (fallingTimer < 0) {
 			fallingTimer = 0;
+
 			Vector3f move = getLocation().subtract(resp);
 			move(-move.x, -move.y, -move.z);
 			takeDamage(1f);
+
+			//Create a void platform at player location
+			if (!(Main.getInstance().getCurrentGame().getLevel().isTileAtPosition((int) getLocation().x, (int) getLocation().z))) {
+				VoidPlatform voidPlatform = new VoidPlatform();
+				Vector3f voidPlatformLocation = getLocation().clone();
+				voidPlatformLocation.y = 0;
+				voidPlatform.move(voidPlatformLocation);
+				Main.getInstance().getCurrentGame().addEntity(voidPlatform);
+			}
+			
 			return;
 		}
 		if (getLocation().y < 0 && fallingTimer == 0) {
@@ -206,12 +228,9 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	/**
 	 * Player drops a bomb from his inventory.
 	 */
-	public void dropBomb() {
-		if (!inventory.containsBomb()) return;
-		
-		Bomb bomb = inventory.getBomb();
-		inventory.remove(bomb);
-		bomb.setPickedup(false);
+	public void drop() {
+		if (!inventory.isHolding()) return;
+		inventory.drop();
 	}
 
 	/**
@@ -224,8 +243,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		for (Entity ent : set) {
 			if (!ent.collidesWithPlayer(INTERACT_RANGE)) continue;
 
-			if (ent instanceof Bomb && !inventory.containsBomb()) {
-				inventory.add((Bomb) ent);
+			if (ent instanceof Holdable && !inventory.isHolding()) {
+				inventory.pickUp((Holdable) ent);
 				return;
 			} else if (ent instanceof Key) {
 				Key key = (Key) ent;
@@ -260,11 +279,11 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	}
 
 	/**
-	 * @param inv
+	 * @param inventory
 	 * 		inventory to be set
 	 */
-	public void setInventory(Inventory inv) {
-		inventory = inv;
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 
 	@Override
@@ -290,6 +309,9 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	/**
 	 * Loads a player entity from an array of String data.
 	 * 
+	 * <p>Please note that the returned player is a dummy player, with no input attached to it.
+	 * It's spatial also has no color and no material.
+	 * 
 	 * @param position
 	 * 		the position of the player
 	 * @param data
@@ -302,10 +324,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	public static VRPlayer loadEntity(Vector3f position, String[] data) {
 		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading player! Expected \"<X> <Y> <Z> Player\".");
 		
-		VRPlayer player = new VRPlayer();
-		player.move(position);
-		
-		return player;
+		return new VRPlayer(position);
 	}
 
 	@Override
@@ -314,7 +333,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	}
 
 	@Override
-	public List<TickListener> getTickListeners() {
+	public Set<TickListener> getTickListeners() {
 		return listeners;
 	}
 }

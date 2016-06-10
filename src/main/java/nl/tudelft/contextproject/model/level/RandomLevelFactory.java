@@ -3,21 +3,23 @@ package nl.tudelft.contextproject.model.level;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.jme3.light.Light;
-import com.jme3.light.PointLight;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
+import nl.tudelft.contextproject.util.Size;
 
 import nl.tudelft.contextproject.util.FileUtil;
-import nl.tudelft.contextproject.util.Size;
 
 /**
  * An implementation of a LevelFactory that creates a level randomly.
+ * 
+ * @deprecated This class is no longer used in the current maze generation and could be
+ * removed from the code base during refactoring.
  */
+@Deprecated
 public class RandomLevelFactory implements LevelFactory {
 	protected static final int MAX_WIDTH = 50;
 	protected static final int MAX_HEIGHT = 50;
@@ -64,12 +66,7 @@ public class RandomLevelFactory implements LevelFactory {
 		}
 
 		ArrayList<Light> lights = new ArrayList<>(1);
-		PointLight p = new PointLight();
-		p.setPosition(new Vector3f(MAX_HEIGHT / 2, 10, MAX_WIDTH / 2));
-		p.setColor(ColorRGBA.White);
-		p.setRadius(100);
-		lights.add(p);
-		return new Level(mazeTiles, lights);
+		return new Level(mazeTiles, lights, ConcurrentHashMap.newKeySet());
 	}
 
 	/**
@@ -241,9 +238,9 @@ public class RandomLevelFactory implements LevelFactory {
 		for (int i = 1; i < rooms.size(); i++) {
 			Vector2f prevCenter = rooms.get(i - 1).getCenter();
 			Vector2f currCenter = rooms.get(i).getCenter();
-			int rn = getRandom(0, 2);
+			int randomNumber = getRandom(0, 2);
 
-			if (rn == 1) {
+			if (randomNumber == 1) {
 				map = hCorridor(map, prevCenter.getX(), currCenter.getX(), prevCenter.getY());
 				map = vCorridor(map, prevCenter.getY(), currCenter.getY(), currCenter.getX());
 			} else {

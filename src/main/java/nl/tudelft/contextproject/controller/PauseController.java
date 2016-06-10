@@ -33,7 +33,7 @@ public class PauseController extends Controller {
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
 
-		ActionListener al = new ActionListener() {
+		ActionListener actionListener = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
 				if (!isPressed) {
@@ -43,7 +43,7 @@ public class PauseController extends Controller {
 			}
 		};
 
-		addInputListener(al, "pause");
+		addInputListener(actionListener, "pause");
 		BitmapFont guiFont = Main.getInstance().getAssetManager().loadFont("Interface/Fonts/Default.fnt");
 		BitmapText hudText = guiFont.createLabel("Paused"); 
 		hudText.setLocalTranslation(200, 200, 0);

@@ -1,0 +1,649 @@
+= Sprint Backlog, Iteration #8 =
+Context project: Computer games<br />
+Group: MIGI2
+
+<table>
+<tr>
+<td>'''User Story'''</td>
+<td>'''Task'''</td>
+<td>'''Member responsible for task'''</td>
+<td>'''Task Assigned To'''</td>
+<td>'''Estimated Effort per Task per person''' (in hours)</td>
+<td>'''Priority (A-E)<br />'''(A is highest)</td>
+</tr>
+<tr>
+<td rowspan=8>[https://github.com/Taeir/ContextProject-MIGI2/issues/429 '''#429 - Fix Webinterface''']<br />
+As a player, I want an easy to use web interface without bugs, so that I can play the game without issue and have fun.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/430 #430 - Tutorial]<br />
+A tutorial needs to be added to the webinterface. The groundwork for the backend was added in sprint #7, now the actual tutorial needs to be added.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>5</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/431 #431 - Overview Map]<br />
+Playtesting showed that a mobile screen is quite small and that it is easy to lose the player on the screen. Therefore, this task is the addition of an overview map. Players will be able to toggle to the overview and back.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/432 #432 - Quit buttons]<br />
+Playtesting showed that we need a way to quit the game. Without this feature, mobile phones that connected before will reconnect and fill a spot in the max player count, making the setup before a game finicky. This task is to address that problem.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>1</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/433 #433 - Icons]<br />
+Playtesting showed that icons are preferable over textual buttons in the actions menu. Icons make it instantly clear what you are placing on a tile, and prevents misclicking.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/434 #434 - Show Selection]<br />
+Playtesting showed that it can be unclear what tile you selected. Therefore, this task is to give the currently selected tile a different color.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>0.5</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/435 #435 - Disable Caching]<br />
+Client side caching of the css and javascript files causes problems when we change the code. Since we need to make a lot of minor modifications this week, this task is to disable caching.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>1</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/436 #436 - Hide menu with swipe]<br />
+During the stakeholders meeting, the question was posed if the menu could be hidden via swipe, or at least in a way other than the cancel button. This task is to check if swipe close is feasible, and to implement it if so.
+
+The work done on [https://github.com/Taeir/ContextProject-MIGI2/issues/358 #358 - Scaling] last sprint will make this task a lot easier.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>1</td>
+<td>D</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/437 #437 - Start conditions]<br />
+Currently, the game can be started when there are not enough players, or when players have not yet selected a team. This task is to address that issue.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=7>[https://github.com/Taeir/ContextProject-MIGI2/issues/438 '''#438 - Report''']<br />
+As a member of a context project group, I want to write a good Final Report, so that I get a good grade on this part of the project.
+
+As a developer, I want to write a good Final Report, so that I can show of our amazing game!</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/439 #439 - Introduction]<br />
+Write the introduction of the final report. The introduction includes a brief problem description and end-user's requirements.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>1.5</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/440 #440 - Overview]<br />
+Write the overview section of the final report. This section should cover the developed and implemented software product.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/441 #441 - Reflection]<br />
+Write the reflection section of the final report. This section should contain a reflection on the product and on the process from a software engineering perspective.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/442 #442 - Functionality description]<br />
+Write the functionality description for the final report.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/443 #443 - Interaction design]<br />
+Write the interaction design section of the final report. This section should include information about the playtesting, nausea reduction methods, etc.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/444 #444 - Evaluation]<br />
+Write the evaluation of the functional modules and the product in its entirety, including the failure analysis.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>5</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/445 #445 - Outlook]<br />
+Write the outlook section of the final report. This section should contain an outlook regarding the possible improvements in the future, and the strategy to achieve these improvements.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>1.5</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/366 '''#366 - Playtesting''']<br />
+As a developer, I want to playtest my game, so that I know what to improve in my game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/368 #368 - Prepare]<br />
+Preparations need to be made to make sure the playtesting runs as smoothly as possible.</td>
+<td>Robin</td>
+<td>Everyone</td>
+<td>1.5 (x5)</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/369 #369 - Playtest]<br />
+A playtesting session should be held.</td>
+<td>Robin</td>
+<td>Everyone</td>
+<td>1.5 (x5)</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/370 #370 - Process feedback]<br />
+All feedback received as a result of the playtest session should be processed.</td>
+<td>Robin</td>
+<td>Everyone</td>
+<td>1 (x5)</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/446 #446 - Play test with family]<br />
+During the weekend, Robin will try to play test the game at his parents house, to gain additional feedback.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/447 '''#447 - Balancing Session''']<br />
+As a player, I want the game to be balanced, so that the game is more fun.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/447 #447 - Balancing Session]<br />
+The game needs to be balanced, so we will hold a balancing session, where we will adjust the balancing to what we think is a balanced game.</td>
+<td>Taico</td>
+<td>Everyone</td>
+<td>4 (x5)</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=6>[https://github.com/Taeir/ContextProject-MIGI2/issues/448 '''#448 - Artwork''']<br />
+As a player, I want to see good looking models and pictures in the game, so that the game is pleasant to look at.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/449 #449 - Gates]<br />
+Create proper model for gates.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/450 #450 - Void platform]<br />
+Create proper model or texture for void platforms.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/451 #451 - Wallframes]<br />
+Create better artwork that is displayed in the different wallframes in the game.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>3</td>
+<td>D</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/452 #452 - Tutorial]<br />
+Create missing images for the tutorial, and improve some of the existing tutorial images.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>3</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/453 #453 - Action icons]<br />
+Create icons for the web interface actions.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/454 #454 - Skymap]<br />
+Add a (rock texture) skymap, so that falling in a pitfall actually looks like you are falling in something else than the void.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>1</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/455 '''#455 - Simplify torch model''']<br />
+As a player, I want the torch models to be simpler, so that the game will run at a higher frame rate and be more enjoyable as a result.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/455 #455 - Simplify torch model]<br />
+Make the torch model a lot simpler to combat frame rate issues.</td>
+<td>Wytze</td>
+<td>Wytze</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/456 '''#456 - Levels and rooms''']<br />
+As a player, I want levels to be interesting and diverse, so that I get different challenges every time I play the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/457 #457 - Map Editor]<br />
+We need to create a lot of rooms. While doing so directly with a text editor would be possible, this is very time consuming and error prone.</td>
+<td>Bram</td>
+<td>Bram</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/458 #458 - Create 5x 10 rooms]<br />
+Each member will create 10 rooms, that each pose a different challenge.</td>
+<td>Bram</td>
+<td>Everyone</td>
+<td>2 (x5)</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/459 '''#459 - Group Interaction''']<br />
+As a member of a context project group, I want to write the essay for the group interaction, so that I pass the project skills part of the project.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/459 #459 - Group Interaction]<br />
+Everyone needs to write their essay for the Group interaction</td>
+<td>Everyone</td>
+<td>Everyone</td>
+<td>3 (x5)</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/460 '''#460 - Update tutorial''']<br />
+As a player, I want to have a proper tutorial, so that I know how to play the game.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/460 #460 - Update tutorial]<br />
+The tutorial is still missing explanations for things like the intention of the game and the interaction with crates. Also, some refinements need to be made.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>2</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/461 '''#461 - Trailer script''']<br />
+As a person that might want to buy the game, I want to view a short trailer, so that I can decide if I should buy it.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/462 #462 - Trailer script]<br />
+Create a script for the trailer.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>4</td>
+<td>A</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/463 #463 - Gameplay footage]<br />
+Create some gameplay footage.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>1</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/464 '''#464 - Sound''']<br />
+As the knight, I want the game to have sounds, so that I can hear what is happening around me.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/465 #465 - Search for sound effects]<br />
+The Audio engine has been implemented a long time ago, but we still don't have any sound effects. This task comprises of finding copyright free, free to use audio files.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/466 #466 - Attach sound effects]<br />
+This task comprises of attaching the different sound effects to their corresponding events.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>1</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/467 '''#467 - Boxes''']<br />
+As a player, I want to have more subtle control over throwing my box, so that I can aim more precisely.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/467 #467 - Improve box throwing]<br />
+If you throw a box, it is currently thrown at about light speed, clips through the wall, and disappears from view. This task is to (significantly) decrease the box throwing speed, so that boxes are actually useful.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=5>[https://github.com/Taeir/ContextProject-MIGI2/issues/468 '''#468 - HUD update''']<br />
+As a player I want have a better HUD, so that I can see my status more easily.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/469 #469 - Holdable turning]<br />
+Make the holdable follow the player correctly in VR mode. Currently, held items are not held in the direction that the player is facing.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/470 #470 - Health display]<br />
+Fix rounding of health and show half hearts.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>1</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/471 #471 - Game ending indication]<br />
+Show the player a short screen indicating that the game has finished</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/472 #472 - Bomb timer]<br />
+Remove the bomb countdown timer after the bomb has exploded.</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>1</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/473 #473 - HUD element positions]<br />
+Move all HUD elements to a place that is visible for the player</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/474 '''#474 - Roof collisions''']<br />
+As a player, I don't want to be able to throw things throug the roof, so that the game becomes more realistic.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/474 #474 - Roof collisions]<br />
+Give the roof collisions</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>1</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/475 '''#475 - .crf file format explanation''']<br />
+As a map maker, I want a document that describes the file format used for storing rooms, so that I can create better rooms.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/475 #475 - .crf file format explanation]<br />
+Update the crf explanation file</td>
+<td>Chiel</td>
+<td>Chiel</td>
+<td>2</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/476 '''#476 - Fix pause''']<br />
+As a player, I want to be able to pause the game, so that I can take a quick break when necessary.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/476 #476 - Fix pause]<br />
+Currently, when the game is paused and resumed, the framerate drops by about 30%, and memory usage doubles, and other random problems occur. This task is to fix the pause, so that it no longer impacts game performance.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>2</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/485 '''#485 - Advanced Corridor Generation''']<br />
+As the Knight of Camelot, I want less dull cave corridors, so that the maze is more mazelike.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/477 #477 - Exponential probability generator]<br />
+An exponential distribution is exactly what we want to generate the wideness of the walls.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/478 #478 - Identify corridor type]<br />
+There are many different kind of corridors tiles, they can only be dealt with in a sufficient manner if they are identified first and dealt with separately.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/479 #479 - Extend corridors]<br />
+Extend (widen) corridors using the exponential generator and corridor type. Now each corridor type can be dealt with separately and be extended with the exponential distribution.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>4</td>
+<td>C</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/480 #480 - Add dynamic lighting entity creation to corridors]<br />
+corridors should contain light sources so that the corridors are not dark.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>2</td>
+<td>C</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/481 '''#481 - Emergent Architecture Design''']<br />
+As a developer, I want to have an updated Architecture design, so that we can easily explain to others how our game works.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/482 #482 - Update UML]<br />
+Update the UML with the latest changes.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/483 #483 - Maze generation]<br />
+As developers, we want to include the maze generation algorithm in our architecture design, so that the workings of it can easily be looked up.
+
+This task comprises of updating the EAD with the maze generation algorithm, and to make some simple small pictures that explain each step with a small description.</td>
+<td>Robin</td>
+<td>Robin</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/484 '''#484 - Refactoring''']<br />
+As a developer, I want to code to be clear and clean, so that I can understand it better.</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/484 #484 - Refactoring]<br />
+The new features added in sprint 7 combined created a bit of a code mess here and there, which needs to be addressed.</td>
+<td>Taico</td>
+<td>Taico</td>
+<td>4</td>
+<td>B</td>
+</tr>
+</table>
+
+== Total hours ==
+
+{|
+! '''Group Member name'''
+! '''Hours'''
+|-
+| Robin
+| 21 + 13
+|-
+| Bram
+| 20.5 + 13
+|-
+| Taico
+| 23 + 13
+|-
+| Wytze
+| 20 + 13
+|-
+| Chiel*
+| 20 + 13
+|}
+
+== Explanation for priorities of sprint items ==
+
+<table>
+<tr>
+<td>'''Task(s)'''</td>
+<td>'''Explanation'''</td>
+</tr>
+<tr>
+<td>430</td>
+<td>Without the tutorial, the game is not clear, which significantly impacts how much players like the game.</td>
+</tr>
+<tr>
+<td>431, 432, 433, 434</td>
+<td>Without this feature, the game is still playable.</td>
+</tr>
+<tr>
+<td>435</td>
+<td>The other subtasks of this task would benefit from this.</td>
+</tr>
+<tr>
+<td>436</td>
+<td>This is a minor change that is not essential for the game. It addresses a minor nuisance.</td>
+</tr>
+<tr>
+<td>437</td>
+<td>Starting the game accidentally without all players in the game is very annoying, and should be addressed before the playtesting.</td>
+</tr>
+<tr>
+<td>439, 440, 441, 442, 443, 444, 445</td>
+<td>This has to be done before the draft deadline on thursday.</td>
+</tr>
+<tr>
+<td>368</td>
+<td>If the playtesting is not correctly prepared, we can not get the most out of a playtest session.</td>
+</tr>
+<tr>
+<td>369</td>
+<td>Playtesting needs to be performed (testing, testing, testing!).</td>
+</tr>
+<tr>
+<td>370</td>
+<td>All feedback should be taken into account when making further decisions for the game.</td>
+</tr>
+<tr>
+<td>446</td>
+<td>Balancing is key in the last stages of the game and this activity will aid us in improving the balancing.</td>
+</tr>
+<tr>
+<td>447</td>
+<td>We want to hold the balancing session before the playtest session, so we can get feedback on what we think is a balanced game.</td>
+</tr>
+<tr>
+<td>449</td>
+<td>The gate currently has no artwork in the game, so we cannot display them yet.</td>
+</tr>
+<tr>
+<td>450, 453</td>
+<td>Not essential for the gameplay.</td>
+</tr>
+<tr>
+<td>451</td>
+<td>This is just an improvement to the current pictures, so it’s not mandatory.</td>
+</tr>
+<tr>
+<td>452</td>
+<td>Having a clear tutorial is pretty important for our game and pictures will make it clearer.</td>
+</tr>
+<tr>
+<td>454</td>
+<td>Not essential for the gameplay, but would significant improve the "cave feel".</td>
+</tr>
+<tr>
+<td>455</td>
+<td>It is important that our game runs fluently, otherwise the game is a lot more nauseating, and thus less fun.</td>
+</tr>
+<tr>
+<td>457</td>
+<td>While this is not a feature of the game itself, it is very preferable to have this so we can create a lot of rooms this sprint.</td>
+</tr>
+<tr>
+<td>458</td>
+<td>Depends on the Map editor, and is important for making the game more fun.</td>
+</tr>
+<tr>
+<td>459</td>
+<td>If not completed before Thursday, then you have failed this part of the project, so this task is pretty essential.</td>
+</tr>
+<tr>
+<td>460</td>
+<td>The tutorial is an essential part of our game. Without it, players will be confused and find the game less fun.</td>
+</tr>
+<tr>
+<td>462</td>
+<td>The trailer script must be delivered this sprint.</td>
+</tr>
+<tr>
+<td>463</td>
+<td>Must be done before the next sprint ends, but sooner is better.</td>
+</tr>
+<tr>
+<td>465</td>
+<td>Sound effects are preferable, but not essential for the game.</td>
+</tr>
+<tr>
+<td>466</td>
+<td>Depends on the other subtask.</td>
+</tr>
+<tr>
+<td>467</td>
+<td>Makes boxes great again!</td>
+</tr>
+<tr>
+<td>469</td>
+<td>This is only a visible effect, but it can be confusing when the held items do not follow where you are walking to.</td>
+</tr>
+<tr>
+<td>470</td>
+<td>It is crucial for the player to see his health.</td>
+</tr>
+<tr>
+<td>471</td>
+<td>It is not clear for the player when the game ends.</td>
+</tr>
+<tr>
+<td>472</td>
+<td>This is only a visual bug, and it does not break any functionality.</td>
+</tr>
+<tr>
+<td>473</td>
+<td>The player must be able to see all elements on the HUD</td>
+</tr>
+<tr>
+<td>474</td>
+<td>Improves the realism of the game.</td>
+</tr>
+<tr>
+<td>475</td>
+<td>Is needed for the creation of the map maker.</td>
+</tr>
+<tr>
+<td>476</td>
+<td>If pausing the game breaks the game, then we either need to remove pause or fix it.</td>
+</tr>
+<tr>
+<td>477, 478, 479</td>
+<td>This feature improves the immersion factor in our game, but isn't essential.</td>
+</tr>
+<tr>
+<td>480</td>
+<td>This feature improves the immersion factor in our game, but isn't essential. Dark corridors currently don't exist due to ambient lighting, but the immersion can be improved if this is disabled.</td>
+</tr>
+<tr>
+<td>482, 483</td>
+<td>This task is important because the final version of the EAD will need to be handed in soon.</td>
+</tr>
+<tr>
+<td>484</td>
+<td>While this does not directly involve the game, it does involve a part that will make up a large part of the grade.</td>
+</tr>
+</table>

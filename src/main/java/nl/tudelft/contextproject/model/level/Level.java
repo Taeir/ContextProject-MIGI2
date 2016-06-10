@@ -1,32 +1,58 @@
 package nl.tudelft.contextproject.model.level;
 
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.jme3.light.Light;
+import com.jme3.math.Vector3f;
+
+import nl.tudelft.contextproject.model.entities.Entity;
 
 /**
  * Class representing the entire level in the game.
- * An instance of this contains all the tiles in the maze and (in the future)
- * players and other entities.
+ * An instance of this class contains all the tiles and entities in the maze.
  */
 public class Level {
 	private MazeTile[][] mazeTiles;
 	private List<Light> lightList;
+	private Set<Entity> entities;
+	private Vector3f playerSpawnPosition;
 
 	/**
-	 * Constructor to create a maze with specific mazeTiles.
+	 * Constructor to create a level with specific entities, mazeTiles and lights.
 	 *
 	 * @param maze
-	 * 		the set of tiles to include in the maze
+	 * 		the set of tiles to include in the level
 	 * @param lights
 	 * 		a list with all the lights in the level
+	 * @param entities
+	 * 		the set of entities to include in the level
 	 */
-	public Level(MazeTile[][] maze, List<Light> lights) {
+	public Level(MazeTile[][] maze, List<Light> lights, Set<Entity> entities) {
+		this(maze, lights, entities, new Vector3f());
+	}
+	
+	/**
+	 * Constructor to create a maze with specific entities, mazeTiles, lights and a player spawn
+	 * position.
+	 *
+	 * @param maze
+	 * 		the set of tiles to include in the level
+	 * @param lights
+	 * 		a list with all the lights in the level
+	 * @param entities
+	 * 		the set of entities to include in the level
+	 * @param playerSpawnPosition
+	 * 		the position the player will spawn at
+	 */
+	public Level(MazeTile[][] maze, List<Light> lights, Set<Entity> entities, Vector3f playerSpawnPosition) {
 		this.mazeTiles = maze;
 		this.lightList = lights;
+		this.entities = entities;
+		this.playerSpawnPosition = playerSpawnPosition;
 	}
 
 	/**
@@ -43,6 +69,14 @@ public class Level {
 	 */
 	public int getWidth() {
 		return mazeTiles.length;
+	}
+	
+	/**
+	 * @return
+	 * 		the position at which the player will spawn in this level
+	 */
+	public Vector3f getPlayerSpawnPosition() {
+		return playerSpawnPosition;
 	}
 
 	/**
@@ -75,10 +109,18 @@ public class Level {
 
 	/**
 	 * @return
-	 * 		a list with all lights in the scene.
+	 * 		a list with all lights in the scene
 	 */
 	public List<Light> getLights() {
 		return lightList;
+	}
+	
+	/**
+	 * @return
+	 * 		the set of entities of this level
+	 */
+	public Set<Entity> getEntities() {
+		return entities;
 	}
 	
 	/**
@@ -97,11 +139,11 @@ public class Level {
 		//Store all the tiles in a JSONObject.
 		JSONObject jsonTiles = new JSONObject();
 		for (int x = 0; x < mazeTiles.length; x++) {
-			MazeTile[] row = mazeTiles[x];
+			MazeTile[] column = mazeTiles[x];
 
 			JSONArray jArray = new JSONArray();
 
-			for (MazeTile tile : row) {
+			for (MazeTile tile : column) {
 				if (tile == null) {
 					jArray.put(0);
 				} else {
@@ -127,13 +169,13 @@ public class Level {
 	public JSONObject toExploredWebJSON() {
 		JSONObject json = new JSONObject();
 		for (int x = 0; x < mazeTiles.length; x++) {
-			MazeTile[] row = mazeTiles[x];
+			MazeTile[] column = mazeTiles[x];
 
 			JSONArray jArray = new JSONArray();
 			
-			for (int y = 0; y < row.length; y++) {
+			for (int y = 0; y < column.length; y++) {
 				//We are only interested in explored tiles
-				if (row[y] == null || !row[y].isExplored()) continue;
+				if (column[y] == null || !column[y].isExplored()) continue;
 				
 				jArray.put(y);
 			}

@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.model;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.model.entities.Entity;
@@ -14,7 +13,6 @@ import nl.tudelft.contextproject.model.level.Level;
 public class Game {
 	private Level level;
 	private VRPlayer player;
-	private Set<Entity> entities;
 	private GameController controller;
 	private float timeLimit;
 	
@@ -25,17 +23,14 @@ public class Game {
 	 * 		the level for this game
 	 * @param player
 	 * 		the VRPlayer in this game
-	 * @param entities
-	 * 		a list containing all entities in the game
 	 * @param controller
 	 * 		the controller instantiating this game
 	 * @param timeLimit
 	 * 		the time limit for this game
 	 */
-	public Game(Level level, VRPlayer player, Set<Entity> entities, GameController controller, float timeLimit) {
+	public Game(Level level, VRPlayer player, GameController controller, float timeLimit) {
 		this.level = level;
 		this.player = player;
-		this.entities = entities;
 		this.controller = controller;
 		this.timeLimit = timeLimit;
 	}
@@ -53,7 +48,7 @@ public class Game {
 	public Game(Level level, GameController controller, float timeLimit) {
 		this.level = level;
 		this.player = new VRPlayer();
-		this.entities = ConcurrentHashMap.newKeySet();
+		this.player.move(level.getPlayerSpawnPosition());
 		this.controller = controller;
 		this.timeLimit = timeLimit;
 	}
@@ -67,7 +62,7 @@ public class Game {
 	 * 		true if the entity was added, false otherwise
 	 */
 	public boolean addEntity(Entity entity) {
-		return entities.add(entity);
+		return level.getEntities().add(entity);
 	}
 
 	/**
@@ -80,10 +75,10 @@ public class Game {
 
 	/**
 	 * @return
-	 * 		a set with all the entities
+	 * 		the set with all the entities
 	 */
 	public Set<Entity> getEntities() {
-		return entities;
+		return level.getEntities();
 	}
 
 	/**

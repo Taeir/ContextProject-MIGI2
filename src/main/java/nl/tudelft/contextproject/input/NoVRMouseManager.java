@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject;
+package nl.tudelft.contextproject.input;
 
 import com.jme3.input.CameraInput;
 import com.jme3.input.InputManager;
@@ -124,17 +124,17 @@ public class NoVRMouseManager implements AnalogListener {
 
 		Vector3f up = cam.getUp();
 		Vector3f left = cam.getLeft();
-		Vector3f dir = cam.getDirection();
+		Vector3f direction = cam.getDirection();
 
 		mat.mult(up, up);
 		mat.mult(left, left);
-		mat.mult(dir, dir);
+		mat.mult(direction, direction);
 
-		Quaternion q = new Quaternion();
-		q.fromAxes(left, up, dir);
-		q.normalizeLocal();
+		Quaternion quaternion = new Quaternion();
+		quaternion.fromAxes(left, up, direction);
+		quaternion.normalizeLocal();
 
-		cam.setAxes(q);
+		cam.setAxes(quaternion);
 	}
 	
 	/**
@@ -146,19 +146,19 @@ public class NoVRMouseManager implements AnalogListener {
 	 * 		if true, moves the camera sideways
 	 */
 	protected void moveCamera(float value, boolean sideways) {
-		Vector3f vel = new Vector3f();
-		Vector3f pos = cam.getLocation().clone();
+		Vector3f moveVector = new Vector3f();
+		Vector3f position = cam.getLocation().clone();
 
 		if (sideways) {
-			cam.getLeft(vel);
+			cam.getLeft(moveVector);
 		} else {
-			cam.getDirection(vel);
+			cam.getDirection(moveVector);
 		}
-		vel.multLocal(value * moveSpeed);
+		moveVector.multLocal(value * moveSpeed);
 
-		pos.addLocal(vel);
+		position.addLocal(moveVector);
 
-		cam.setLocation(pos);
+		cam.setLocation(position);
 	}
 
 	@Override
