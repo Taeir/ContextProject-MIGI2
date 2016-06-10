@@ -3,7 +3,6 @@ package nl.tudelft.contextproject.util.webinterface;
 import java.util.Set;
 
 import nl.tudelft.contextproject.model.entities.Bomb;
-import nl.tudelft.contextproject.model.entities.EntityType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

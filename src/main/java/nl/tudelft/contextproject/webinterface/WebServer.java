@@ -30,6 +30,7 @@ public class WebServer {
 	private Server server;
 	private SessionIdManager sessionIdManager = new SessionIdManager();
 	private NormalHandler normalHandler = new NormalHandler(this);
+	private WebInventory inventory = new WebInventory();
 	
 	/**
 	 * @return
@@ -150,6 +151,14 @@ public class WebServer {
 	 */
 	public WebClient getUser(String session) {
 		return clients.get(session);
+	}
+	
+	/**
+	 * @return
+	 * 		the inventory of this server
+	 */
+	public WebInventory getInventory() {
+		return inventory;
 	}
 	
 	/**

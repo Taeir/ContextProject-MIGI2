@@ -136,6 +136,7 @@ public class Main extends VRApplication implements TickProducer {
 			getStateManager().attach(controller);
 			if (webServer != null) {
 				webServer.clearCooldowns();
+				webServer.getInventory().reset();
 			}
 			
 			return true;
@@ -211,7 +212,7 @@ public class Main extends VRApplication implements TickProducer {
 		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
 		
 		VRGuiManager.setPositioningMode(POSITIONING_MODE.AUTO_CAM_ALL);
-		VRGuiManager.setGuiScale(0.40f);
+		VRGuiManager.setGuiScale(0.60f);
 		VRGuiManager.setPositioningElasticity(0f);
 		
 		setupControlMappings();

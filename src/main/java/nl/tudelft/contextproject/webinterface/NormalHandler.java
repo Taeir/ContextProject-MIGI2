@@ -333,6 +333,11 @@ public class NormalHandler {
 			client.sendMessage(COCErrorCode.ACTION_ILLEGAL.toString(), response);
 			return;
 		}
+		
+		if (!WebUtil.checkOutsideRadius(xCoord, yCoord, action)) {
+			client.sendMessage(COCErrorCode.ACTION_RADIUS.toString(), response);
+			return;
+		}
 
 		if (!WebUtil.checkValidLocation(xCoord, yCoord, action)) {
 			client.sendMessage(COCErrorCode.ACTION_ILLEGAL_LOCATION.toString(), response);
@@ -341,6 +346,11 @@ public class NormalHandler {
 
 		if (!WebUtil.checkWithinCooldown(action, client)) {
 			client.sendMessage(COCErrorCode.ACTION_COOLDOWN.toString(), response);
+			return;
+		}
+		
+		if (!server.getInventory().performAction(client.getTeam(), action)) {
+			client.sendMessage(COCErrorCode.ACTION_INVENTORY.toString(), response);
 			return;
 		}
 
@@ -406,7 +416,7 @@ public class NormalHandler {
 				//Fall through to running
 			case RUNNING:
 				json.put("entities", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
-				
+				json.put("inventory", server.getInventory().toWebJson(client.getTeam()));
 				if (client.isElf()) {
 					json.put("explored", game.getLevel().toExploredWebJSON());
 				}
