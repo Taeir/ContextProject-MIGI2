@@ -279,11 +279,11 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	}
 
 	/**
-	 * @param inv
+	 * @param inventory
 	 * 		inventory to be set
 	 */
-	public void setInventory(Inventory inv) {
-		inventory = inv;
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 
 	@Override
