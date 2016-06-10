@@ -18,6 +18,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import com.jme3.math.Vector3f;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
@@ -727,6 +729,29 @@ public class NormalHandlerTest extends WebTestBase {
 		verify(clientMock).sendMessage(COCErrorCode.ACTION_COOLDOWN.toString(), response);
 	}
 
+	/**
+	 * Test method for {@link NormalHandler#attemptAction}, when the action is on an invalid location.
+	 *
+	 * @throws IOException
+	 * 		will not occur because of mocks
+	 */
+	@Test
+	public void testAttemptAction_radius() throws IOException {
+		HttpServletResponse response = createMockedResponse();
+
+		mockLevel(TileType.FLOOR);
+		when(Main.getInstance().getCurrentGame().getPlayer().getLocation()).thenReturn(new Vector3f());
+
+		WebClient clientMock = mockClient(Team.DWARFS);
+		clientMock.getPerformedActions().put(Action.SPAWNENEMY, new ArrayList<>());
+
+		//Try to spawn a rabbit as a dwarf
+		handler.attemptAction(clientMock, Action.SPAWNENEMY, 0, 0, response);
+
+		//Verify the action is rejected for radius
+		verify(clientMock).sendMessage(COCErrorCode.ACTION_RADIUS.toString(), response);
+	}
+	
 	/**
 	 * Test method for {@link NormalHandler#attemptAction}, when the action is valid.
 	 *

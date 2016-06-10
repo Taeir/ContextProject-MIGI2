@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.util.webinterface;
 import nl.tudelft.contextproject.Main;
 
 import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.webinterface.Action;
@@ -36,60 +37,7 @@ public final class WebUtil {
 	 * 		true if the action is valid, false otherwise
 	 */
 	public static boolean checkValidAction(Action action, Team team) {
-		switch (team) {
-			case ELVES:
-				return checkValidElves(action);
-			case DWARFS:
-				return checkValidDwarfs(action);
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Check if an action is valid for elves.
-	 *
-	 * @param action
-	 * 		the action to check for
-	 * @return
-	 * 		true if the action is valid, false otherwise
-	 */
-	protected static boolean checkValidElves(Action action) {
-		switch (action) {
-			case DROPBAIT:
-				return true;
-			case PLACETILE:
-				return true;
-			case DROPCRATE:
-				return true;
-			case OPENGATE:
-				return true;
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Check if an action is valid for dwarfs.
-	 *
-	 * @param action
-	 * 		the action to check for
-	 * @return
-	 * 		true if the action is valid, false otherwise
-	 */
-	protected static boolean checkValidDwarfs(Action action) {
-		switch (action) {
-			case PLACEBOMB:
-				return true;
-			case PLACEPITFALL:
-				return true;
-			case PLACEMINE:
-				return true;
-			case SPAWNENEMY:
-				return true;
-			default:
-				return false;
-		}
+		return team.getActions().contains(action);
 	}
 
 	/**
@@ -106,10 +54,6 @@ public final class WebUtil {
 	 */
 	public static boolean checkValidLocation(int xCoord, int yCoord, Action action) {
 		MazeTile tile = Main.getInstance().getCurrentGame().getLevel().getTile(xCoord, yCoord);
-		if (withinPlayerRadius(xCoord, yCoord, action)) {
-			return false;
-		}
-		
 		if (tile == null && action.isAllowedVoid()) {
 			return checkValidLocationEntities(xCoord, yCoord);
 		} else if (tile == null || tile.getTileType() == TileType.WALL) {
@@ -189,8 +133,8 @@ public final class WebUtil {
 	}
 
 	/**
-	 * Returns true if the action is performed within the player radius.
-	 * Returns false if there is no player or it is outside of the player radius.
+	 * Returns true if the player is null or the action is outside of the player radius.
+	 * Returns false if the action is within the player radius.
 	 * 
 	 * @param xCoord
 	 * 		the x coordinate of the location
@@ -199,13 +143,13 @@ public final class WebUtil {
 	 * @param action
 	 * 		the action to check for 
 	 * @return
-	 * 		true if the action is within the player radius
+	 * 		true if the action is outside of the player radius
 	 */
-	public static boolean withinPlayerRadius(int xCoord, int yCoord, Action action) {
-		if (Main.getInstance().getCurrentGame().getPlayer() != null) {
-			Vector3f vec = Main.getInstance().getCurrentGame().getPlayer().getLocation();
-			return (Math.abs((Math.abs(vec.x) + Math.abs(vec.z) - Math.abs(xCoord) - Math.abs(yCoord))) < action.getRadius());
-		}
-		return false;
+	public static boolean checkOutsideRadius(int xCoord, int yCoord, Action action) {
+		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
+		if (player == null) return false;
+		
+		Vector3f vec = player.getLocation();
+		return Math.abs((Math.abs(vec.x) + Math.abs(vec.z) - Math.abs(xCoord) - Math.abs(yCoord))) >= action.getRadius();
 	}
 }
