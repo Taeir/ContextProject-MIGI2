@@ -3,7 +3,6 @@ package nl.tudelft.contextproject.model.level.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.jme3.light.DirectionalLight;
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
 import com.jme3.light.SpotLight;
