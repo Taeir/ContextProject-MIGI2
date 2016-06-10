@@ -106,7 +106,7 @@ public class HUDTest extends TestBase {
 		Picture p = hud.getKeyImage(1, 2, ColorRGBA.Red);
 		Vector3f loc = p.getLocalTranslation();
 		assertEquals(145f, loc.x, 1e-5);
-		assertEquals(60f, loc.y, 1e-5);
+		assertEquals(200f, loc.y, 1e-5);
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class HUDTest extends TestBase {
 		Vector3f loc = p.getLocalTranslation();
 		float start = .5f - (VRPlayer.PLAYER_MAX_HEALTH / 2) * 0.06f;
 		assertEquals(200 * (start + 0.12f), loc.x, 1e-5);
-		assertEquals(180f, loc.y, 1e-5);
+		assertEquals(160f, loc.y, 1e-5);
 	}
 	
 	/**
