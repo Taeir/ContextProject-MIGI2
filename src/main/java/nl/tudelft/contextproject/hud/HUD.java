@@ -67,16 +67,15 @@ public class HUD implements TickListener {
 	 * Attaches the Hud to the renderer.
 	 */
 	public void attachHud() {		
+		attachHelmet();
+		attachGameTimer();				
+		attachHeartContainers();
+		attachNose();
 		keyContainer = new Node("Keys");
 		controller.addGuiElement(keyContainer);	
 		
 		bombNode = new Node("Bombs");
 		controller.addGuiElement(bombNode);
-
-		attachHelmet();
-		attachGameTimer();				
-		attachHeartContainers();
-		attachNose();
 		
 		// Attach listeners
 		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
@@ -120,7 +119,7 @@ public class HUD implements TickListener {
 			textBomb.setSize(screenHeight / 30);
 			textBomb.setColor(ColorRGBA.White);
 			float w = screenWidth / 2f - (screenHeight / 30) * .8f;
-			float h = textBomb.getLineHeight() + screenHeight / 7;
+			float h = screenHeight - (textBomb.getLineHeight() + screenHeight / 5);
 			textBomb.setLocalTranslation(w, h, 0);
 			bombNode.attachChild(textBomb);
 		}
@@ -190,8 +189,8 @@ public class HUD implements TickListener {
 		keypic.setPosition(screenWidth * 0.15f + screenWidth * (start + 0.05f * pos), 60);
 		
 		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", color);
 		mat.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/keyicon.png"));
+		mat.setColor("Color", color);
 		keypic.setMaterial(mat);
 		
 		return keypic;
