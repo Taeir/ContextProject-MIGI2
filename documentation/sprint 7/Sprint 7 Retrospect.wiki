@@ -449,8 +449,8 @@ Every week, we also spend additional time that is not task related. Think about 
 </tr>
 <tr>
 <td>Chiel + Bram + Taico</td>
-<td>0.75</td>
-<td>Chiel, Bram and Taico spent an additional 45 minutes on this to create the backlog document itself.</td>
+<td>1 / 0.5 / 2 </td>
+<td>Chiel, Bram and Taico spent additional time on this to create the backlog document itself.</td>
 </tr>
 <tr>
 <td rowspan=2>Create Retrospect</td>
