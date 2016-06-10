@@ -118,9 +118,9 @@ public class HUD implements TickListener {
 			BitmapText textBomb = new BitmapText(Main.getInstance().getGuiFont(), false);
 			textBomb.setSize(screenHeight / 30);
 			textBomb.setColor(ColorRGBA.White);
-			float w = screenWidth / 2f - (screenHeight / 30) * .8f;
-			float h = screenHeight - (textBomb.getLineHeight() + screenHeight / 5);
-			textBomb.setLocalTranslation(w, h, 0);
+			float width = screenWidth / 2f - (screenHeight / 30) * .8f;
+			float height = screenHeight - (textBomb.getLineHeight() + screenHeight / 5);
+			textBomb.setLocalTranslation(width, height, 0);
 			bombNode.attachChild(textBomb);
 		}
 		((BitmapText) bombNode.getChild(0)).setText("" + Math.round(bomb.getTimer() * 10) / 10.f);
@@ -129,18 +129,18 @@ public class HUD implements TickListener {
 	/**
 	 * Returns a picture of a healthContainer.
 	 * 
-	 * @param pos
+	 * @param position
 	 * 		position of the healthContainer
 	 * @return
 	 * 		picture of the health container
 	 */
-	public Picture getHealthContainer(int pos) {
-		Picture heart = new Picture("heartcontainer" + pos);
+	public Picture getHealthContainer(int position) {
+		Picture heart = new Picture("heartcontainer" + position);
 		heart.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
 		heart.setWidth(screenWidth / 20);
 		heart.setHeight(screenHeight / 20);
 		float start = .5f - .06f * (VRPlayer.PLAYER_MAX_HEALTH / 2);
-		heart.setPosition(screenWidth * (start + 0.06f * pos), screenHeight * .80f);
+		heart.setPosition(screenWidth * (start + 0.06f * position), screenHeight * .80f);
 		
 		return heart;
 	}
@@ -174,26 +174,26 @@ public class HUD implements TickListener {
 	 * 
 	 * @param total
 	 * 		the total amount of keys
-	 * @param pos 
+	 * @param position 
 	 * 		position of the key
 	 * @param color
 	 * 		the color of the key
 	 * @return
 	 * 		picture of the key
 	 */
-	public Picture getKeyImage(int total, int pos, ColorRGBA color) {
-		Picture keypic = new Picture("key Picture");
-		keypic.setWidth(screenWidth / 30);
-		keypic.setHeight(screenHeight / 12);
+	public Picture getKeyImage(int total, int position, ColorRGBA color) {
+		Picture keyPicture = new Picture("key Picture");
+		keyPicture.setWidth(screenWidth / 30);
+		keyPicture.setHeight(screenHeight / 12);
 		float start = 0.5f - (0.025f * total);
-		keypic.setPosition(screenWidth * 0.15f + screenWidth * (start + 0.05f * pos), 200);
+		keyPicture.setPosition(screenWidth * 0.15f + screenWidth * (start + 0.05f * position), 200);
 		
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/keyicon.png"));
-		mat.setColor("Color", color);
-		keypic.setMaterial(mat);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		material.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/keyicon.png"));
+		material.setColor("Color", color);
+		keyPicture.setMaterial(material);
 		
-		return keypic;
+		return keyPicture;
 	}
 	
 	/**
@@ -213,22 +213,22 @@ public class HUD implements TickListener {
 	@Override
 	public void update(float tpf) {
 		VRPlayer player = controller.getGame().getPlayer();
-		Inventory inv = player.getInventory();
-		updateBombs(inv);
+		Inventory inventory = player.getInventory();
+		updateBombs(inventory);
 
-		updateKeys(inv);
+		updateKeys(inventory);
 		updateHearts(player);
 	}
 
 	/**
 	 * Update the bomb display.
 	 * 
-	 * @param inv
+	 * @param inventory
 	 * 		the inventory that contains the bomb
 	 */
-	protected void updateBombs(Inventory inv) {
-		if (inv.isHolding() && inv.getHolding() instanceof Bomb) {
-			attachBomb((Bomb) inv.getHolding());
+	protected void updateBombs(Inventory inventory) {
+		if (inventory.isHolding() && inventory.getHolding() instanceof Bomb) {
+			attachBomb((Bomb) inventory.getHolding());
 		} else {
 			bombNode.detachAllChildren();
 		}
@@ -242,12 +242,12 @@ public class HUD implements TickListener {
 	 */
 	protected void updateHearts(VRPlayer player) {
 		int health = Math.round(player.getHealth());
-		for (int j = 0; j < VRPlayer.PLAYER_MAX_HEALTH; j++) {
-			Picture p = (Picture) heartContainer.getChild(j);
-			if (j <= health) {
-				p.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
+		for (int i = 0; i < VRPlayer.PLAYER_MAX_HEALTH; i++) {
+			Picture picture = (Picture) heartContainer.getChild(i);
+			if (i <= health) {
+				picture.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
 			} else {
-				p.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);					
+				picture.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);					
 			}
 		}
 	}
@@ -261,9 +261,9 @@ public class HUD implements TickListener {
 	protected void updateKeys(Inventory inventory) {
 		keyContainer.detachAllChildren();
 		int i = 0;
-		List<ColorRGBA> keys = inventory.getKeyColors();
-		for (ColorRGBA c : keys) {
-			keyContainer.attachChild(getKeyImage(keys.size(), i, c));
+		List<ColorRGBA> keyColors = inventory.getKeyColors();
+		for (ColorRGBA color : keyColors) {
+			keyContainer.attachChild(getKeyImage(keyColors.size(), i, color));
 			i++;
 		}
 	}
