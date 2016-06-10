@@ -22,6 +22,8 @@ public enum COCErrorCode {
 	ACTION_COOLDOWN(201),
 	/** The action is illegal for the current team / action is not known. */
 	ACTION_ILLEGAL(202),
+	/** The action cannot be performed so close to the player. */
+	ACTION_RADIUS(203),
 	
 	/** The client is not authorized. */
 	UNAUTHORIZED(300),

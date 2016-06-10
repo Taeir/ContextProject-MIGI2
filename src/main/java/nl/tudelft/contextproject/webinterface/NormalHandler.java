@@ -333,6 +333,11 @@ public class NormalHandler {
 			client.sendMessage(COCErrorCode.ACTION_ILLEGAL.toString(), response);
 			return;
 		}
+		
+		if (!WebUtil.checkOutsideRadius(xCoord, yCoord, action)) {
+			client.sendMessage(COCErrorCode.ACTION_RADIUS.toString(), response);
+			return;
+		}
 
 		if (!WebUtil.checkValidLocation(xCoord, yCoord, action)) {
 			client.sendMessage(COCErrorCode.ACTION_ILLEGAL_LOCATION.toString(), response);
