@@ -5,6 +5,8 @@ import com.jme3.effect.ParticleMesh;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
@@ -15,6 +17,7 @@ import nl.tudelft.contextproject.model.PhysicsObject;
 public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 	private ParticleEmitter fire;
 	private boolean torchtype;
+	private Spatial torchSpatial;
 
 	/**
 	 * Constructor for a torch.
@@ -37,18 +40,21 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 		fire.setLowLife(0.2f);
 		fire.setHighLife(0.5f);
 		fire.getParticleInfluencer().setVelocityVariation(0.0f);
+		spatial = new Node("torch");
+		((Node) spatial).attachChild(fire);
 		if (type) {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/torch.blend");
+			torchSpatial = Main.getInstance().getAssetManager().loadModel("Models/torch.blend");
 			fire.setStartSize(0.15f);
 			fire.setEndSize(0.05f);
 			fire.move(-0.09f, 0.27f, -0.003f);
 		} else {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/ceilinglamp.blend");
+			torchSpatial = Main.getInstance().getAssetManager().loadModel("Models/ceilinglamp.blend");
 			fire.setStartSize(0.1f);
 			fire.setEndSize(0.04f);
 			fire.move(0, 0.11f, 0);
 			this.move(0, 5.32f, 0);
 		}
+		((Node) spatial).attachChild(spatial);
 	}
 
 	@Override
