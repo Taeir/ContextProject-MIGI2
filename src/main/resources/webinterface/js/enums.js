@@ -103,6 +103,9 @@ ErrorCodes = Object.freeze({
     203: {name: "ACTION_RADIUS",
           msg: "You cannot do this so close to the player.",
           severity: Severity.Warning},
+    204: {name: "ACTION_INVENTORY",
+          msg: "You don't have any more of this item!",
+          severity: Severity.Warning},
 
     300: {name: "UNAUTHORIZED",
           msg: "You are not in the current game!",

@@ -24,6 +24,8 @@ public enum COCErrorCode {
 	ACTION_ILLEGAL(202),
 	/** The action cannot be performed so close to the player. */
 	ACTION_RADIUS(203),
+	/** You don't have any left of this item. */
+	ACTION_INVENTORY(204),
 	
 	/** The client is not authorized. */
 	UNAUTHORIZED(300),

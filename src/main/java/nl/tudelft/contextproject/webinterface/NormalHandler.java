@@ -348,6 +348,11 @@ public class NormalHandler {
 			client.sendMessage(COCErrorCode.ACTION_COOLDOWN.toString(), response);
 			return;
 		}
+		
+		if (!server.getInventory().performAction(client.getTeam(), action)) {
+			client.sendMessage(COCErrorCode.ACTION_INVENTORY.toString(), response);
+			return;
+		}
 
 		try {
 			ActionUtil.perform(action, xCoord, yCoord);

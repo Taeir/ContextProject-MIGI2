@@ -136,6 +136,7 @@ public class Main extends VRApplication implements TickProducer {
 			getStateManager().attach(controller);
 			if (webServer != null) {
 				webServer.clearCooldowns();
+				webServer.getInventory().reset();
 			}
 			
 			return true;

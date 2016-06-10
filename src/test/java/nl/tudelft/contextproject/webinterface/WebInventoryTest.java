@@ -46,7 +46,7 @@ public class WebInventoryTest extends TestBase {
 	@Test
 	public void testPerformAction() {
 		//Action should be performable for the max amount of times.
-		for (int i = 0; i < Action.SPAWNENEMY.getGlobalMaxAmount(); i++) {
+		for (int i = 1; i <= Action.SPAWNENEMY.getGlobalMaxAmount(); i++) {
 			assertTrue(inventory.performAction(Team.DWARFS, Action.SPAWNENEMY));
 			assertEquals(Action.SPAWNENEMY.getGlobalMaxAmount() - i, inventory.getActionCount(Team.DWARFS, Action.SPAWNENEMY));
 		}
