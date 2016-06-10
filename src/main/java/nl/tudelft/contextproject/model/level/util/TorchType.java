@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.model.level.util;
 
+import nl.tudelft.contextproject.model.level.MazeTile;
+
 /**
  * Enum that represents the different configurations of point light models.
  */
@@ -33,7 +35,20 @@ public enum TorchType {
 	/**
 	 * Constructor to complete enum body.
 	 */
-	TorchType() {}
+	TorchType() {};
 	
-	
+	/**
+	 * Find out the torch type from the maze and a location.
+	 * 
+	 * @param map
+	 * 		the map to check
+	 * @param location
+	 * 		location of the point light.
+	 * @return
+	 * 		torch type of the point light.
+	 */
+	public static TorchType getTorchType(MazeTile[][] map, Vec2I location) {
+		
+		return null;
+	}
 }
