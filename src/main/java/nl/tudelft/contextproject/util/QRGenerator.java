@@ -129,15 +129,15 @@ public final class QRGenerator {
 			networkInterfaces = NetworkInterface.getNetworkInterfaces();
 
 			while (networkInterfaces.hasMoreElements()) {
-				NetworkInterface e = networkInterfaces.nextElement();
-				Enumeration<InetAddress> a = e.getInetAddresses();
+				NetworkInterface networkInterface = networkInterfaces.nextElement();
+				Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
 
-				while (a.hasMoreElements()) {
-					InetAddress addr = a.nextElement();
-					String hostAddress = addr.getHostAddress();
+				while (addresses.hasMoreElements()) {
+					InetAddress addres = addresses.nextElement();
+					String hostAddress = addres.getHostAddress();
 					if (!hostAddress.startsWith("127.") 
 							&& !hostAddress.contains(":")) {
-						hostingAddress = addr.getHostAddress();
+						hostingAddress = addres.getHostAddress();
 					}
 				}
 			}

@@ -12,8 +12,8 @@ public class MSTEdgeWeightComparatorReverse implements Comparator<MSTEdge>, Seri
 	private static final long serialVersionUID = -8232031617208160265L;
 
 	@Override
-	public int compare(MSTEdge e1, MSTEdge e2) {
-		return Double.compare(e2.weight, e1.weight);
+	public int compare(MSTEdge edge1, MSTEdge edge2) {
+		return Double.compare(edge2.weight, edge1.weight);
 	}
 
 }
