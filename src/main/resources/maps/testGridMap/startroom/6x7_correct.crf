@@ -1,5 +1,5 @@
 # The starting room of the game
-6 7 1 1
+6 7 1 4
 # # # # X #
 # O O O O #
 # O O O O #
@@ -8,4 +8,7 @@
 # O O O O #
 # X # # # #
 3.5 0 4 Player
-4 0 3 PointLight 1/1/1/1 20
+4 0 3 PointLight 1/1/1/1 7
+1 0 3 PointLight 1/1/1/1 7
+2 0 1 PointLight 1/1/1/1 7
+2 0 5 PointLight 1/1/1/1 7

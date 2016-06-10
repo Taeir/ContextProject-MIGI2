@@ -49,7 +49,7 @@ public class Main extends VRApplication implements TickProducer {
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
 	//If the mirror window is shown
-	public static final boolean MIRROR_WINDOW = true;
+	public static final boolean MIRROR_WINDOW = false;
 	public static final Float TIME_LIMIT = 300f;
 	
 	private static boolean hideQR;

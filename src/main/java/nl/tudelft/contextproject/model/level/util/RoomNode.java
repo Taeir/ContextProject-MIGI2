@@ -222,7 +222,7 @@ public class RoomNode {
 				position = pl.getPosition();
 				Vec2I newLightPosition = new Vec2I(Math.round(position.x), Math.round(position.z));
 				room.entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), 
-						new Vector3f(newLightPosition.x, 7, newLightPosition.y)));
+						new Vector3f(newLightPosition.x, 4.5f, newLightPosition.y)));
 			}
 			if (l instanceof SpotLight) {
 				SpotLight sl = ((SpotLight) l);

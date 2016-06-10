@@ -92,23 +92,19 @@ public enum TorchType {
 		switch (torchType) {
 			case NORTH_WALL_LIGHT:
 				torch = new Torch(true);
-				
-				torch.rotateNorth();
+				torch.rotateSouth();
 				break;
 			case SOUTH_WALL_LIGHT:
 				torch = new Torch(true);
-				torch.rotateSouth();
-				
+				torch.rotateNorth();
 				break;
 			case WEST_WALL_LIGHT:
 				torch = new Torch(true);
-				torch.rotateWest();
-				
+				torch.rotateEast();
 				break;
 			case EAST_WALL_LIGHT:
 				torch = new Torch(true);
-				
-				torch.rotateEast();
+				torch.rotateWest();
 				break;
 			case CEILING_LIGHT:
 				torch = new Torch(false);
