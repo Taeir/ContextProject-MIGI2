@@ -69,16 +69,16 @@ public final class LightParser {
 	protected static Light getLight(String type, float x, float y, float z, String color, String[] data) {
 		switch (type) {
 			case "AmbientLight":
-				AmbientLight al = new AmbientLight(ParserUtil.getColor(color));
-				return al;
+				AmbientLight ambientLight = new AmbientLight(ParserUtil.getColor(color));
+				return ambientLight;
 			case "PointLight":
 				if (data.length != 6) throw new IllegalArgumentException("You should specify the radius for a pointLight.");
 
-				PointLight pl = new PointLight();
-				pl.setColor(ParserUtil.getColor(color));
-				pl.setPosition(new Vector3f(x, y, z));
-				pl.setRadius(Float.parseFloat(data[5]));
-				return pl;
+				PointLight pointLight = new PointLight();
+				pointLight.setColor(ParserUtil.getColor(color));
+				pointLight.setPosition(new Vector3f(x, y, z));
+				pointLight.setRadius(Float.parseFloat(data[5]));
+				return pointLight;
 			default:
 				throw new IllegalArgumentException(type + " is not a known Light type!");
 		}

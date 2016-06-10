@@ -42,8 +42,8 @@ public class VRLookManager implements AnalogListener {
 		
 		Joystick[] joysticks = inputManager.getJoysticks();
 		if (joysticks != null && joysticks.length > 0) {
-			for (Joystick j : joysticks) {
-				mapJoystick(j);
+			for (Joystick joystick : joysticks) {
+				mapJoystick(joystick);
 			}
 		}
 	}
@@ -76,17 +76,17 @@ public class VRLookManager implements AnalogListener {
 
 		Vector3f up = cam.getUp();
 		Vector3f left = cam.getLeft();
-		Vector3f dir = cam.getDirection();
+		Vector3f direction = cam.getDirection();
 
 		mat.mult(up, up);
 		mat.mult(left, left);
-		mat.mult(dir, dir);
+		mat.mult(direction, direction);
 
-		Quaternion q = new Quaternion();
-		q.fromAxes(left, up, dir);
-		q.normalizeLocal();
+		Quaternion quaternion = new Quaternion();
+		quaternion.fromAxes(left, up, direction);
+		quaternion.normalizeLocal();
 		
-		cam.setAxes(q);
+		cam.setAxes(quaternion);
 	}
 	
 	@Override

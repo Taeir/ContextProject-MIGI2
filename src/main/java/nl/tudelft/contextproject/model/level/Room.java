@@ -77,10 +77,10 @@ public class Room {
 		int width = 0;
 		int height = 0;
 		String fileName = RoomParser.getMapFile(folder).getName();
-		Matcher m = PATTERN.matcher(fileName);
-		if (m.matches()) {
-			width = Integer.parseInt(m.group("width"));
-			height = Integer.parseInt(m.group("height"));
+		Matcher matcher = PATTERN.matcher(fileName);
+		if (matcher.matches()) {
+			width = Integer.parseInt(matcher.group("width"));
+			height = Integer.parseInt(matcher.group("height"));
 			return size = new Size(width, height);
 		} else {
 			throw new IOException("Expected a .crf file present in the folder with the correct name");

@@ -238,9 +238,9 @@ public class RandomLevelFactory implements LevelFactory {
 		for (int i = 1; i < rooms.size(); i++) {
 			Vector2f prevCenter = rooms.get(i - 1).getCenter();
 			Vector2f currCenter = rooms.get(i).getCenter();
-			int rn = getRandom(0, 2);
+			int randomNumber = getRandom(0, 2);
 
-			if (rn == 1) {
+			if (randomNumber == 1) {
 				map = hCorridor(map, prevCenter.getX(), currCenter.getX(), prevCenter.getY());
 				map = vCorridor(map, prevCenter.getY(), currCenter.getY(), currCenter.getX());
 			} else {

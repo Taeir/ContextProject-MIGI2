@@ -33,16 +33,16 @@ public enum COCErrorCode {
 	/** The server encountered an exception while handling a client request. */
 	SERVER_ERROR(500);
 
-	private final int nr;
+	private final int errorCodeNumber;
 
 	/**
 	 * Creates a new COCErrorCode with the given number.
 	 * 
-	 * @param nr
+	 * @param errorCodeNumber
 	 * 		the error code number
 	 */
-	COCErrorCode(int nr) {
-		this.nr = nr;
+	COCErrorCode(int errorCodeNumber) {
+		this.errorCodeNumber = errorCodeNumber;
 	}
 
 	/**
@@ -50,11 +50,11 @@ public enum COCErrorCode {
 	 * 		a json string for this error message
 	 */
 	public String toJSON() {
-		return "{error: " + nr + "}";
+		return "{error: " + errorCodeNumber + "}";
 	}
 	
 	@Override
 	public String toString() {
-		return "" + nr;
+		return "" + errorCodeNumber;
 	}
 }

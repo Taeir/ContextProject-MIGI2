@@ -12,8 +12,8 @@ public class MSTEdgeWeightComparator implements Comparator<MSTEdge>, Serializabl
 	private static final long serialVersionUID = -2661444468166732734L;
 
 	@Override
-	public int compare(MSTEdge e1, MSTEdge e2) {
-		return Double.compare(e1.weight, e2.weight);
+	public int compare(MSTEdge edge1, MSTEdge edge2) {
+		return Double.compare(edge1.weight, edge2.weight);
 	}
 
 }

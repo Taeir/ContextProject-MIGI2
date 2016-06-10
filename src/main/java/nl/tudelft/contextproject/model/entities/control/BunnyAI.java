@@ -58,10 +58,10 @@ public class BunnyAI implements EntityControl {
 
 		randomJump(tpf);
 		Entity target = findTarget(playerdist, tpf);
-		Spatial sp = owner.getSpatial();
-		if (sp != null) {
-			sp.lookAt(target.getLocation(), Vector3f.UNIT_Y);
-			sp.rotate(0, (float) Math.toRadians(-90), 0);
+		Spatial spatial = owner.getSpatial();
+		if (spatial != null) {
+			spatial.lookAt(target.getLocation(), Vector3f.UNIT_Y);
+			spatial.rotate(0, (float) Math.toRadians(-90), 0);
 			}
 		Vector3f move = target.getLocation().subtract(owner.getLocation()).normalize().mult(tpf);
 		owner.move(move.x, move.y, move.z);
@@ -71,24 +71,24 @@ public class BunnyAI implements EntityControl {
 	 * Finds the closest target.
 	 * This is either a carrot or the player.
 	 * 
-	 * @param playerDist
+	 * @param playerDistance
 	 * 		the distance to the player
 	 * @param tpf
 	 * 		the time per frame of this update tick
 	 * @return
 	 * 		the target entity
 	 */
-	protected Entity findTarget(float playerDist, float tpf) {
-		Carrot c = findClosestCarrot();
-		if (c == null) return player;
+	protected Entity findTarget(float playerDistance, float tpf) {
+		Carrot carrot = findClosestCarrot();
+		if (carrot == null) return player;
 		
-		float carrotDist = c.getLocation().distance(owner.getLocation());
+		float carrotDist = carrot.getLocation().distance(owner.getLocation());
 		if (carrotDist < ATTACK_RANGE) {
-			c.eat(tpf);
+			carrot.eat(tpf);
 		}
 		
-		if (carrotDist < playerDist) {
-			return c;
+		if (carrotDist < playerDistance) {
+			return carrot;
 		} else {
 			return player;
 		}
@@ -101,18 +101,18 @@ public class BunnyAI implements EntityControl {
 	 * 		the closest carrot or null when no carrot is found
 	 */
 	protected Carrot findClosestCarrot() {
-		Carrot c = null;
-		float dist = Float.MAX_VALUE;
-		for (Entity e : entities) {
-			if (!(e instanceof Carrot)) continue;
+		Carrot carrot = null;
+		float distance = Float.MAX_VALUE;
+		for (Entity entity : entities) {
+			if (!(entity instanceof Carrot)) continue;
 			
-			float d = e.getLocation().distance(owner.getLocation());
-			if (c == null || d < dist) {
-				c = (Carrot) e;
-				dist = d;
+			float entityDistanaceOfOwner = entity.getLocation().distance(owner.getLocation());
+			if (carrot == null || entityDistanaceOfOwner < distance) {
+				carrot = (Carrot) entity;
+				distance = entityDistanaceOfOwner;
 			}
 		}
-		return c;
+		return carrot;
 	}
 
 	/**

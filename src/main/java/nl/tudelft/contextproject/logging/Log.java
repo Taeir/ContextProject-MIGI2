@@ -155,11 +155,11 @@ public class Log {
 	 * 
 	 * @param msg
 	 * 		the message to log
-	 * @param ex
+	 * @param exception
 	 * 		the throwable (exception) to log
 	 */
-	public void info(String msg, Throwable ex) {
-		logger.log(Level.INFO, msg, ex);
+	public void info(String msg, Throwable exception) {
+		logger.log(Level.INFO, msg, exception);
 	}
 	
 	/**
@@ -177,11 +177,11 @@ public class Log {
 	 * 
 	 * @param msg
 	 * 		the message to log
-	 * @param ex
+	 * @param exception
 	 * 		the throwable (exception) to log
 	 */
-	public void warning(String msg, Throwable ex) {
-		logger.log(Level.WARNING, msg, ex);
+	public void warning(String msg, Throwable exception) {
+		logger.log(Level.WARNING, msg, exception);
 	}
 	
 	/**
@@ -199,11 +199,11 @@ public class Log {
 	 * 
 	 * @param msg
 	 * 		the message to log
-	 * @param ex
+	 * @param exception
 	 * 		the throwable (exception) to log
 	 */
-	public void severe(String msg, Throwable ex) {
-		logger.log(Level.SEVERE, msg, ex);
+	public void severe(String msg, Throwable exception) {
+		logger.log(Level.SEVERE, msg, exception);
 	}
 	
 	/**
@@ -221,11 +221,11 @@ public class Log {
 	 * 
 	 * @param msg
 	 * 		the message to log
-	 * @param ex
+	 * @param exception
 	 * 		the throwable (exception) to log
 	 */
-	public void fatal(String msg, Throwable ex) {
-		logger.log(FATAL, msg, ex);
+	public void fatal(String msg, Throwable exception) {
+		logger.log(FATAL, msg, exception);
 	}
 
 	/**
@@ -235,23 +235,23 @@ public class Log {
 	 * 		the level to log at
 	 * @param msg
 	 * 		the message to log
-	 * @param ex
+	 * @param exception
 	 * 		the throable (exception) to log
 	 */
-	public void log(Level lvl, String msg, Throwable ex) {
-		logger.log(lvl, msg, ex);
+	public void log(Level lvl, String msg, Throwable exception) {
+		logger.log(lvl, msg, exception);
 	}
 
 	/**
 	 * Logs the given message at the given level.
 	 * 
-	 * @param lvl
+	 * @param level
 	 * 		the level to log at
 	 * @param msg
 	 * 		the message to log
 	 */
-	public void log(Level lvl, String msg) {
-		logger.log(lvl, msg);
+	public void log(Level level, String msg) {
+		logger.log(level, msg);
 	}
 	
 	/**
@@ -276,12 +276,12 @@ public class Log {
 	 */
 	@SneakyThrows(IOException.class)
 	public static Log getLog(String name) {
-		Log tbr = LOGGERS.get(name);
+		Log loggerInstance = LOGGERS.get(name);
 		
-		if (tbr == null) {
+		if (loggerInstance == null) {
 			return new Log(name, true);
 		} else {
-			return tbr;
+			return loggerInstance;
 		}
 	}
 	

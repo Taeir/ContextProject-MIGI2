@@ -32,11 +32,11 @@ public class Explosion extends Entity {
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-		Sphere b = new Sphere(10, 10, .1f);
-		spatial = new Geometry("BOOM!", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/explosion.png"));
-		spatial.setMaterial(mat);
+		Sphere sphere = new Sphere(10, 10, .1f);
+		spatial = new Geometry("BOOM!", sphere);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		material.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/explosion.png"));
+		spatial.setMaterial(material);
 		return spatial;
 	}
 
@@ -54,8 +54,8 @@ public class Explosion extends Entity {
 		}
 		damageEntities(scale.x / 5f, tpf);
 
-		float m = maxRadius * tpf;
-		spatial.setLocalScale(scale.x + m);
+		float concurrentMaxRadius = this.maxRadius * tpf;
+		spatial.setLocalScale(scale.x + concurrentMaxRadius);
 	}
 
 	/**
@@ -67,14 +67,14 @@ public class Explosion extends Entity {
 	 * 		the damage each entity will take
 	 */
 	protected void damageEntities(float range, float damage) {
-		VRPlayer p = game.getPlayer();
-		if (p.getLocation().distance(this.getLocation()) < range) {
-			p.takeDamage(damage);
+		VRPlayer player = game.getPlayer();
+		if (player.getLocation().distance(this.getLocation()) < range) {
+			player.takeDamage(damage);
 		}
-		for (Entity e : game.getEntities()) {
-			if (!(e instanceof Health)) continue;
-			if (e.getLocation().distance(this.getLocation()) < range) {
-				((Health) e).takeDamage(damage);
+		for (Entity entity : game.getEntities()) {
+			if (!(entity instanceof Health)) continue;
+			if (entity.getLocation().distance(this.getLocation()) < range) {
+				((Health) entity).takeDamage(damage);
 			}
 		}
 	}

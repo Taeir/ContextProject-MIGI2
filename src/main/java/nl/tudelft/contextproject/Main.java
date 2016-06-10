@@ -121,19 +121,19 @@ public class Main extends VRApplication implements TickProducer {
 	 * Set the controller for the current scene.
 	 * Cleans up the old scene before initializing the new one.
 	 *
-	 * @param c
+	 * @param newController
 	 * 		the new controller
 	 * @return
 	 * 		true is the controller was changed, false otherwise
 	 */
-	public boolean setController(Controller c) {
-		if (c != controller && c != null) {
-			if (controller != null) {
-				getStateManager().detach(controller);
+	public boolean setController(Controller newController) {
+		if (newController != this.controller && newController != null) {
+			if (this.controller != null) {
+				getStateManager().detach(this.controller);
 			}
 
-			controller = c;
-			getStateManager().attach(controller);
+			this.controller = newController;
+			getStateManager().attach(this.controller);
 			if (webServer != null) {
 				webServer.clearCooldowns();
 				webServer.getInventory().reset();
@@ -164,22 +164,22 @@ public class Main extends VRApplication implements TickProducer {
 	 * Method used for testing.
 	 * Sets the rootNode of Main to a new Node.
 	 *
-	 * @param rn
+	 * @param rootNode
 	 * 		the new node to replace the rootNode
 	 */
-	public void setRootNode(Node rn) {
-		rootNode = rn;
+	public void setRootNode(Node rootNode) {
+		this.rootNode = rootNode;
 	}
 
 	/**
 	 * Method used for testing.
 	 * Sets the guiNode of Main to a new Node.
 	 *
-	 * @param gn
+	 * @param guiNode
 	 * 		the new node to replace the guiNode.
 	 */
-	public void setGuiNode(Node gn) {
-		guiNode = gn;
+	public void setGuiNode(Node guiNode) {
+		this.guiNode = guiNode;
 	}
 
 	/**
@@ -254,36 +254,36 @@ public class Main extends VRApplication implements TickProducer {
 	 */
 	@SneakyThrows
 	protected void setupControlMappings() {
-		InputManager im = getInputManager();
-		im.setCursorVisible(false);
+		InputManager inputManager = getInputManager();
+		inputManager.setCursorVisible(false);
 
 		if (mouseEnabled) {
-			new NoVRMouseManager(getCamera()).registerWithInput(im);
+			new NoVRMouseManager(getCamera()).registerWithInput(inputManager);
 		} else if (VRApplication.isInVR()) {
-			new VRLookManager(VRApplication.getObserver()).registerWithInput(im);
+			new VRLookManager(VRApplication.getObserver()).registerWithInput(inputManager);
 		}
 		
 		if (isControllerConnected()) {
-			Joystick j = im.getJoysticks()[0];
+			Joystick joystick = inputManager.getJoysticks()[0];
 
-			mapJoystickAxes(j);
+			mapJoystickAxes(joystick);
 
-			j.getButton("0").assignButton("Jump");				// A
-			j.getButton("3").assignButton("Unmapped");			// Y
-			j.getButton("2").assignButton("Drop");				// X
-			j.getButton("1").assignButton("Pickup");			// B
+			joystick.getButton("0").assignButton("Jump");			// A
+			joystick.getButton("3").assignButton("Unmapped");		// Y
+			joystick.getButton("2").assignButton("Drop");			// X
+			joystick.getButton("1").assignButton("Pickup");			// B
 		} else {
-			im.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
-			im.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
-			im.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
-			im.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
-			im.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-			im.addMapping("Drop", new KeyTrigger(KeyInput.KEY_Q));
-			im.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
+			inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
+			inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
+			inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
+			inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
+			inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+			inputManager.addMapping("Drop", new KeyTrigger(KeyInput.KEY_Q));
+			inputManager.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
 
-		im.addMapping("Exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
-		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+		inputManager.addMapping("Exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
+		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
 
 	/**

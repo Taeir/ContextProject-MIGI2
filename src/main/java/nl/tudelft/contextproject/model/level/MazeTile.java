@@ -74,19 +74,19 @@ public class MazeTile implements Drawable, PhysicsObject {
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
-		Box b = new Box(.5f, .5f + height, .5f);
-		this.spatial = new Geometry("Box", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-		TangentBinormalGenerator.generate(b);
-		mat.setBoolean("UseMaterialColors", true);    
-		mat.setColor("Diffuse", color);
-		mat.setColor("Specular", ColorRGBA.White);
-		mat.setFloat("Shininess", 64f);
-		mat.setColor("Ambient", color);
-		mat.setTexture("DiffuseMap", texture);
-		mat.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/wallnormalmap.png"));
-		mat.setBoolean("UseMaterialColors", true);
-		this.spatial.setMaterial(mat);
+		Box box = new Box(.5f, .5f + height, .5f);
+		this.spatial = new Geometry("Box", box);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+		TangentBinormalGenerator.generate(box);
+		material.setBoolean("UseMaterialColors", true);    
+		material.setColor("Diffuse", color);
+		material.setColor("Specular", ColorRGBA.White);
+		material.setFloat("Shininess", 64f);
+		material.setColor("Ambient", color);
+		material.setTexture("DiffuseMap", texture);
+		material.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/wallnormalmap.png"));
+		material.setBoolean("UseMaterialColors", true);
+		this.spatial.setMaterial(material);
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
 	}

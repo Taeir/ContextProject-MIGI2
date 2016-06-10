@@ -86,8 +86,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	private VRPlayer(Vector3f location) {
 		super(new NoControl());
 		
-		Sphere b = new Sphere(10, 10, .2f);
-		spatial = new Geometry("blue cube", b);
+		Sphere sphere = new Sphere(10, 10, .2f);
+		spatial = new Geometry("blue cube", sphere);
 		spatial.move(location.add(0, SPAWN_HEIGHT, 0));
 	}
 
@@ -95,11 +95,11 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
-		Sphere b = new Sphere(10, 10, .2f);
-		spatial = new Geometry("blue cube", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.randomColor());
-		spatial.setMaterial(mat);
+		Sphere sphere = new Sphere(10, 10, .2f);
+		spatial = new Geometry("blue cube", sphere);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		material.setColor("Color", ColorRGBA.randomColor());
+		spatial.setMaterial(material);
 		spatial.move(0, SPAWN_HEIGHT, 0);
 		return spatial;
 	}
@@ -166,11 +166,11 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 
 			//Create a void platform at player location
 			if (!(Main.getInstance().getCurrentGame().getLevel().isTileAtPosition((int) getLocation().x, (int) getLocation().z))) {
-				VoidPlatform vp = new VoidPlatform();
-				Vector3f vploc = getLocation().clone();
-				vploc.y = 0;
-				vp.move(vploc);
-				Main.getInstance().getCurrentGame().addEntity(vp);
+				VoidPlatform voidPlatform = new VoidPlatform();
+				Vector3f voidPlatformLocation = getLocation().clone();
+				voidPlatformLocation.y = 0;
+				voidPlatform.move(voidPlatformLocation);
+				Main.getInstance().getCurrentGame().addEntity(voidPlatform);
 			}
 			
 			return;
@@ -279,11 +279,11 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	}
 
 	/**
-	 * @param inv
+	 * @param inventory
 	 * 		inventory to be set
 	 */
-	public void setInventory(Inventory inv) {
-		inventory = inv;
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 
 	@Override

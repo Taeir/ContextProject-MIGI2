@@ -78,19 +78,19 @@ public final class BackgroundMusic implements TickListener {
 	 * 
 	 * This stops playing any song that was already running.
 	 * 
-	 * @param an
+	 * @param audioNode
 	 * 		the AudioNode to play
 	 */
-	public synchronized void playSong(AudioNode an) {
-		AudioManager.getInstance().registerVolume(an, SoundType.BACKGROUND_MUSIC);
+	public synchronized void playSong(AudioNode audioNode) {
+		AudioManager.getInstance().registerVolume(audioNode, SoundType.BACKGROUND_MUSIC);
 
-		an.play();
+		audioNode.play();
 		
 		if (current != null) {
 			stop();
 		}
 		
-		current = an;
+		current = audioNode;
 	}
 	
 	/**
@@ -179,10 +179,10 @@ public final class BackgroundMusic implements TickListener {
 	
 	@Override
 	public void update(float tpf) {
-		AudioNode an = current;
-		if (an == null) return;
+		AudioNode audioNode = current;
+		if (audioNode == null) return;
 
-		if (an.getStatus() == AudioSource.Status.Stopped) {
+		if (audioNode.getStatus() == AudioSource.Status.Stopped) {
 			next();
 		}
 	}

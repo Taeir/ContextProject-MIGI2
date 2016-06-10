@@ -176,14 +176,14 @@ public final class ActionUtil {
 	 * 		the y coordinate to use
 	 */
 	private static void openGate(int xCoord, int yCoord) {
-		for (Entity ent : Main.getInstance().getCurrentGame().getEntities()) {
-			if (!(ent instanceof Gate)) continue;
+		for (Entity entity : Main.getInstance().getCurrentGame().getEntities()) {
+			if (!(entity instanceof Gate)) continue;
 			
 			//The z is intentional, the y coordinates of the web interface map to the z coordinate in the maze.
-			Vector3f loc = ent.getLocation();
-			if (loc.x - xCoord > GATE_RADIUS || loc.z - yCoord > GATE_RADIUS) continue;
+			Vector3f location = entity.getLocation();
+			if (location.x - xCoord > GATE_RADIUS || location.z - yCoord > GATE_RADIUS) continue;
 			
-			((Gate) ent).openGate();
+			((Gate) entity).openGate();
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class WebServer {
 	 * 		the amount of dwarfs
 	 */
 	public int getDwarfsCount() {
-		return (int) clients.values().stream().filter(c -> c.isDwarf()).count();
+		return (int) clients.values().stream().filter(client -> client.isDwarf()).count();
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class WebServer {
 	 * 		the amount of elves
 	 */
 	public int getElvesCount() {
-		return (int) clients.values().stream().filter(c -> c.isElf()).count();
+		return (int) clients.values().stream().filter(client -> client.isElf()).count();
 	}
 	
 	/**
@@ -90,12 +90,12 @@ public class WebServer {
 		server.setHandler(contextHandler);
 
 		//Add a servlet for handling web sockets
-		COCWebSocketServlet ws = new COCWebSocketServlet(this);
-		contextHandler.addServlet(new ServletHolder(ws), "/ws/");
+		COCWebSocketServlet webServlet = new COCWebSocketServlet(this);
+		contextHandler.addServlet(new ServletHolder(webServlet), "/ws/");
 
 		//Add a servlet for handling sessions
-		ClientServlet cs = new ClientServlet(this);
-		contextHandler.addServlet(new ServletHolder(cs), "/");
+		ClientServlet clientServlet = new ClientServlet(this);
+		contextHandler.addServlet(new ServletHolder(clientServlet), "/");
 
 		//Start the webserver
 		server.start();

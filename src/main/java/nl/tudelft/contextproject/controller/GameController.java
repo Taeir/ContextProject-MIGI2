@@ -84,8 +84,8 @@ public class GameController extends Controller {
 	public void cleanup() {
 		super.cleanup();
 
-		for (Entity e : game.getEntities()) {
-			e.setState(EntityState.NEW);
+		for (Entity entity : game.getEntities()) {
+			entity.setState(EntityState.NEW);
 		}
 	}
 
@@ -100,23 +100,23 @@ public class GameController extends Controller {
 			hud.attachHud();
 		}
 		
-		GameController t = this;
+		GameController gameController = this;
 
 		//Listener for stop the game
-		addInputListener((ActionListener) (n, ip, tpf) -> Main.getInstance().stop(), "Exit");
+		addInputListener((ActionListener) (name, ip, tpf) -> Main.getInstance().stop(), "Exit");
 
-		ActionListener al = new ActionListener() {
+		ActionListener actionListener = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
 				if (!isPressed) {
 					removeInputListener(this);
 					Main main = Main.getInstance();
-					Main.getInstance().setController(new PauseController(t, main));
+					Main.getInstance().setController(new PauseController(gameController, main));
 				}
 			}
 		};
 
-		addInputListener(al, "pause");
+		addInputListener(actionListener, "pause");
 
 		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Drop", "Pickup");
 	}
@@ -130,13 +130,13 @@ public class GameController extends Controller {
 
 		attachMazeTiles(level);
 		addDrawable(game.getPlayer());
-		for (Light l : level.getLights()) {
-			addLight(l);
+		for (Light light : level.getLights()) {
+			addLight(light);
 		}
 		
-		AmbientLight al = new AmbientLight();
-		al.setColor(ColorRGBA.White.mult(.9f));
-		addLight(al);
+		AmbientLight ambientLight = new AmbientLight();
+		ambientLight.setColor(ColorRGBA.White.mult(.9f));
+		addLight(ambientLight);
 	}
 
 	/**
@@ -153,10 +153,9 @@ public class GameController extends Controller {
 			for (int y = 0; y < level.getHeight(); y++) {
 				attachRoofTile(x, y);
 				if (level.isTileAtPosition(x, y)) {
-					//TODO add starting room with starting location
-					TileType t = level.getTile(x, y).getTileType();
+					TileType type = level.getTile(x, y).getTileType();
 					
-					if ((t == TileType.FLOOR || t == TileType.CORRIDOR) && start.x == 0 && start.y == 0) {
+					if ((type == TileType.FLOOR || type == TileType.CORRIDOR) && start.x == 0 && start.y == 0) {
 						start.x = x;
 						start.y = y;
 					}

@@ -27,28 +27,28 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 	 */
 	public Bomb() {
 		spatial = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
-		mat.setColor("Color", ColorRGBA.White);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		material.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
+		material.setColor("Color", ColorRGBA.White);
 		spatial.move(0, 1, 0);
-		spatial.setMaterial(mat);
+		spatial.setMaterial(material);
 	}
 
 	@Override
 	public void update(float tpf) {
 		if (this.isPickedUp()) {
-			Quaternion rot = Main.getInstance().getCamera().getRotation();
-			Vector3f vec = rot.getRotationColumn(2).mult(2f);
+			Quaternion rotation = Main.getInstance().getCamera().getRotation();
+			Vector3f vec = rotation.getRotationColumn(2).mult(2f);
 			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
 			rigidBody.setPhysicsLocation(vec2);
-			rigidBody.setPhysicsRotation(rot);
+			rigidBody.setPhysicsRotation(rotation);
 		}
 		if (active) {
 			timer -= tpf;
 			if (timer < 0) {
-				Explosion exp = new Explosion(40f);
-				exp.move(this.getLocation());
-				Main.getInstance().getCurrentGame().getEntities().add(exp);
+				Explosion explosion = new Explosion(40f);
+				explosion.move(this.getLocation());
+				Main.getInstance().getCurrentGame().getEntities().add(explosion);
 				active = false;
 				this.setState(EntityState.DEAD);
 			}

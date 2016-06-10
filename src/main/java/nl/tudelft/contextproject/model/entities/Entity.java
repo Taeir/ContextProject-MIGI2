@@ -58,15 +58,15 @@ public abstract class Entity implements Drawable, TickListener {
 	/**
 	 * Checks if this object is closer to the player than the specified distance.
 	 *
-	 * @param dist
+	 * @param distance
 	 * 		the maximum distance to the player to detect the collision
 	 * @return
 	 * 		true if the player is closert than dist
 	 */
-	public boolean collidesWithPlayer(float dist) {
+	public boolean collidesWithPlayer(float distance) {
 		Vector3f playerLoc = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation();
 		Vector3f thisLoc = getSpatial().getLocalTranslation();
-		return thisLoc.distance(playerLoc) < dist;
+		return thisLoc.distance(playerLoc) < distance;
 	}
 
 	/**

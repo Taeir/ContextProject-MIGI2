@@ -46,8 +46,8 @@ public class ScriptLoader {
 	 * 		when something goes wrong while loading/casting the instance
 	 */
 	public static <T> T getInstanceFrom(String path, String name, Class<T> type) throws ScriptLoaderException {
-		ScriptLoader sl = new ScriptLoader(path);
-		return sl.getInstanceOf(name, type);
+		ScriptLoader scriptLoader = new ScriptLoader(path);
+		return scriptLoader.getInstanceOf(name, type);
 	}
 	
 	/**

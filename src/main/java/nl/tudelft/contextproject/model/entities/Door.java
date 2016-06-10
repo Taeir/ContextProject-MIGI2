@@ -19,11 +19,11 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 	/**
 	 * Constructor for a door.
 	 *
-	 * @param col
+	 * @param color
 	 * 		Color of the door's lock
 	 */
-	public Door(ColorRGBA col) {
-		color = col;
+	public Door(ColorRGBA color) {
+		this.color = color;
 		spatial = Main.getInstance().getAssetManager().loadModel("Models/newDoor.blend");
 		spatial.scale(1f, 1f, 0.75f);
 		spatial.move(0, 0.55f, 0);
@@ -33,7 +33,7 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 			Geometry geometry = (Geometry) ((Node) node.getChild("Cylinder")).getChild(0);
 			Geometry geometry2 = (Geometry) ((Node) node.getChild("Cylinder")).getChild(2);
 			Material mat = geometry.getMaterial();
-			mat.setColor("Ambient", color);
+			mat.setColor("Ambient", this.color);
 			geometry.setMaterial(mat);
 			geometry2.setMaterial(mat);
 		}
@@ -42,11 +42,11 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 	/**
 	 * Sets the color of the doors lock.
 	 * 
-	 * @param col
+	 * @param color
 	 * 		the color of the doors lock
 	 */
-	public void setColor(ColorRGBA col) {
-		color = col;
+	public void setColor(ColorRGBA color) {
+		this.color = color;
 	}
 
 	/**

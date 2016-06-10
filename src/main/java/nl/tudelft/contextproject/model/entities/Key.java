@@ -18,17 +18,17 @@ public class Key extends AbstractPhysicsEntity implements PhysicsObject {
 	/**
 	 * Constructor for a key.
 	 *
-	 * @param col
+	 * @param color
 	 * 		The color of the key
 	 */
-	public Key(ColorRGBA col) {
-		color = col;
+	public Key(ColorRGBA color) {
+		this.color = color;
 		spatial = Main.getInstance().getAssetManager().loadModel("Models/key.blend");
 		spatial.move(0, 1, 0);
 		Node node = (Node) spatial;
 		Geometry geometry = (Geometry) ((Node) node.getChild("Cube")).getChild(0);
-		Material mat = geometry.getMaterial();
-		mat.setColor("Ambient", color);
+		Material material = geometry.getMaterial();
+		material.setColor("Ambient", this.color);
 	}
 
 	/**
@@ -44,11 +44,11 @@ public class Key extends AbstractPhysicsEntity implements PhysicsObject {
 	/**
 	 * Sets the color of the key.
 	 *
-	 * @param col
+	 * @param color
 	 * 		the color that gets set
 	 */
-	public void setColor(ColorRGBA col) {
-		color = col;
+	public void setColor(ColorRGBA color) {
+		this.color = color;
 	}
 
 	/**

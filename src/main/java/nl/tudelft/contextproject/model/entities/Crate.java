@@ -44,17 +44,17 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 		
-		Box b = new Box(.4f, .4f, .4f);
-		this.spatial = new Geometry("box", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-		mat.setBoolean("UseMaterialColors", true);  
+		Box box = new Box(.4f, .4f, .4f);
+		this.spatial = new Geometry("box", box);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+		material.setBoolean("UseMaterialColors", true);  
 		ColorRGBA color = ColorRGBA.Yellow;
-		mat.setColor("Diffuse", color);
-		mat.setColor("Specular", color);
-		mat.setFloat("Shininess", 64f);
-		mat.setColor("Ambient", color);
-		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/crate.png"));
-		this.spatial.setMaterial(mat); 
+		material.setColor("Diffuse", color);
+		material.setColor("Specular", color);
+		material.setFloat("Shininess", 64f);
+		material.setColor("Ambient", color);
+		material.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/crate.png"));
+		this.spatial.setMaterial(material); 
 		this.spatial.move(0, 0.5f, 0);
 		return spatial;
 	}
@@ -139,11 +139,11 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 	@Override
 	public void update(float tpf) {
 		if (this.isPickedUp()) {
-			Quaternion rot = Main.getInstance().getCamera().getRotation();
-			Vector3f vec = rot.getRotationColumn(2).mult(2f);
+			Quaternion rotation = Main.getInstance().getCamera().getRotation();
+			Vector3f vec = rotation.getRotationColumn(2).mult(2f);
 			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
 			control.setPhysicsLocation(vec2);
-			control.setPhysicsRotation(rot);
+			control.setPhysicsRotation(rotation);
 		}
 	}
 
