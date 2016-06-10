@@ -19,7 +19,6 @@ import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.TickProducer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
-import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.model.entities.control.NoControl;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 
