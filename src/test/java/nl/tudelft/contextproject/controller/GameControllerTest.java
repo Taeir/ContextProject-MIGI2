@@ -128,23 +128,23 @@ public class GameControllerTest extends ControllerTest {
 	@Test
 	public void testUpdateEntityNEW() {
 		Set<Entity> set = controller.getGame().getEntities();
-		Entity eMock = mock(Entity.class);
-		Node rn = mock(Node.class);
-		Geometry geom = mock(Geometry.class);
+		Entity entityMock = mock(Entity.class);
+		Node rootNode = mock(Node.class);
+		Geometry geometry = mock(Geometry.class);
 
-		when(eMock.getState()).thenReturn(EntityState.NEW);
-		when(eMock.getSpatial()).thenReturn(geom);
+		when(entityMock.getState()).thenReturn(EntityState.NEW);
+		when(entityMock.getSpatial()).thenReturn(geometry);
 		
 
-		set.add(eMock);
+		set.add(entityMock);
 
-		controller.setRootNode(rn);
+		controller.setRootNode(rootNode);
 		controller.updateEntities(0.5f);
 
-		verify(eMock, times(1)).update(0.5f);
-		verify(eMock, times(1)).setState(EntityState.ALIVE);
+		verify(entityMock, times(1)).update(0.5f);
+		verify(entityMock, times(1)).setState(EntityState.ALIVE);
 
-		verify(rn, times(1)).attachChild(geom);    
+		verify(rootNode, times(1)).attachChild(geometry);    
 	}
 
 	/**
@@ -200,14 +200,14 @@ public class GameControllerTest extends ControllerTest {
 	@Test
 	public void testAttachLevel() {
 		Game game = controller.getGame();
-		Spatial pSpatial = game.getPlayer().getSpatial();
-		Spatial tSpatial = game.getLevel().getTile(0, 0).getSpatial();
+		Spatial playerSpatial = game.getPlayer().getSpatial();
+		Spatial tileSpatial = game.getLevel().getTile(0, 0).getSpatial();
 		Light light = game.getLevel().getLights().get(0);
 
 		controller.attachLevel();
 
-		verify(rootNode, times(4)).attachChild(tSpatial);
-		verify(rootNode, times(1)).attachChild(pSpatial);
+		verify(rootNode, times(4)).attachChild(tileSpatial);
+		verify(rootNode, times(1)).attachChild(playerSpatial);
 		verify(rootNode, times(1)).addLight(light);
 	}
 
