@@ -103,10 +103,10 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testGetKeyImagePosition() {
-		Picture p = hud.getKeyImage(1, 2, ColorRGBA.Red);
-		Vector3f loc = p.getLocalTranslation();
-		assertEquals(145f, loc.x, 1e-5);
-		assertEquals(200f, loc.y, 1e-5);
+		Picture picture = hud.getKeyImage(1, 2, ColorRGBA.Red);
+		Vector3f location = picture.getLocalTranslation();
+		assertEquals(145f, location.x, 1e-5);
+		assertEquals(200f, location.y, 1e-5);
 	}
 	
 	/**
@@ -114,11 +114,11 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testGetHeartPosition() {
-		Picture p = hud.getHealthContainer(2);
-		Vector3f loc = p.getLocalTranslation();
+		Picture picture = hud.getHealthContainer(2);
+		Vector3f location = picture.getLocalTranslation();
 		float start = .5f - (VRPlayer.PLAYER_MAX_HEALTH / 2) * 0.06f;
-		assertEquals(200 * (start + 0.12f), loc.x, 1e-5);
-		assertEquals(160f, loc.y, 1e-5);
+		assertEquals(200 * (start + 0.12f), location.x, 1e-5);
+		assertEquals(160f, location.y, 1e-5);
 	}
 	
 	/**
@@ -126,9 +126,9 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testGetKeyImageColor() {
-		Picture p = hud.getKeyImage(1, 2, ColorRGBA.Red);
-		ColorRGBA c = (ColorRGBA) p.getMaterial().getParam("Color").getValue();
-		assertEquals(ColorRGBA.Red, c);
+		Picture picture = hud.getKeyImage(1, 2, ColorRGBA.Red);
+		ColorRGBA color = (ColorRGBA) picture.getMaterial().getParam("Color").getValue();
+		assertEquals(ColorRGBA.Red, color);
 	}
 	
 	/**
@@ -136,15 +136,15 @@ public class HUDTest extends TestBase {
 	 */
 	@Test 
 	public void testUpdateKeys() {
-		Node c = mock(Node.class);
-		hud.setKeyContainer(c);
-		Inventory inv = Main.getInstance().getCurrentGame().getPlayer().getInventory();
-		inv.add(new Key(ColorRGBA.Blue));
+		Node node = mock(Node.class);
+		hud.setKeyContainer(node);
+		Inventory inventory = Main.getInstance().getCurrentGame().getPlayer().getInventory();
+		inventory.add(new Key(ColorRGBA.Blue));
 		
-		hud.updateKeys(inv);
+		hud.updateKeys(inventory);
 		
-		verify(c, times(1)).detachAllChildren();
-		verify(c, times(1)).attachChild(any(Picture.class));
+		verify(node, times(1)).detachAllChildren();
+		verify(node, times(1)).attachChild(any(Picture.class));
 	}
 	
 	/**
@@ -152,12 +152,12 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testSetGameTimerMAX_VALUE() {
-		BitmapText m = mock(BitmapText.class);
-		hud.setTimerNode(m);
+		BitmapText bitmapText = mock(BitmapText.class);
+		hud.setTimerNode(bitmapText);
 		
 		hud.setGameTimer(Integer.MAX_VALUE);
 		
-		verify(m, times(1)).setText("");
+		verify(bitmapText, times(1)).setText("");
 	}
 	
 	/**
