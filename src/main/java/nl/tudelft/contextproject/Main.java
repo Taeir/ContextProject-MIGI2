@@ -26,6 +26,8 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
+import nl.tudelft.contextproject.debug.COCDebug;
+import nl.tudelft.contextproject.debug.COCStatsAppState;
 import nl.tudelft.contextproject.input.NoVRMouseManager;
 import nl.tudelft.contextproject.input.VRLookManager;
 import nl.tudelft.contextproject.util.FileUtil;
@@ -104,6 +106,10 @@ public class Main extends VRApplication implements TickProducer {
 		main.preconfigureResolutionMultiplier(RESOLUTION);
 
 		main.start();
+	}
+	
+	public Main() {
+		super(new COCStatsAppState());
 	}
 
 	/**
@@ -236,6 +242,8 @@ public class Main extends VRApplication implements TickProducer {
 				onGameStopped();
 			}
 		});
+		
+		COCDebug.init();
 	}
 
 	/**
@@ -326,17 +334,8 @@ public class Main extends VRApplication implements TickProducer {
 		getCamera().setLocation(newLoc);
 	}
 	
-	private int jj = 0;
-	private float kk = 0f;
 	@Override
 	public void simpleUpdate(float tpf) {
-		kk += tpf;
-		if (jj++ >= 10) {
-			jj = 0;
-			System.out.println(10 / kk);
-			kk = 0f;
-		}
-		
 		updateTickListeners(tpf);
 	}
 

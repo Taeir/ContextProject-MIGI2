@@ -106,6 +106,14 @@ public class PlayerTrigger extends Entity {
 	}
 	
 	/**
+	 * @return
+	 * 		the action of this player trigger
+	 */
+	public TickListener getAction() {
+		return action;
+	}
+	
+	/**
 	 * Loads a player trigger entity from an array of String data.
 	 * 
 	 * @param position
