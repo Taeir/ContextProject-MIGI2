@@ -326,8 +326,17 @@ public class Main extends VRApplication implements TickProducer {
 		getCamera().setLocation(newLoc);
 	}
 	
+	private int jj = 0;
+	private float kk = 0f;
 	@Override
 	public void simpleUpdate(float tpf) {
+		kk += tpf;
+		if (jj++ >= 10) {
+			jj = 0;
+			System.out.println(1 / kk);
+			kk = 0f;
+		}
+		
 		updateTickListeners(tpf);
 	}
 

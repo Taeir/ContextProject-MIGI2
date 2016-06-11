@@ -20,6 +20,7 @@ import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.LevelFactory;
 import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.Optimize;
 import nl.tudelft.contextproject.model.level.RoomLevelFactory;
 import nl.tudelft.contextproject.model.level.TileType;
 
@@ -129,6 +130,7 @@ public class GameController extends Controller {
 		if (level == null) throw new IllegalStateException("No level set!");
 
 		attachMazeTiles(level);
+		Optimize.optimize(this);
 		addDrawable(game.getPlayer());
 		for (Light light : level.getLights()) {
 			addLight(light);

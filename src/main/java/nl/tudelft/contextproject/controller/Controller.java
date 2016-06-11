@@ -18,14 +18,17 @@ import com.jme3.util.TangentBinormalGenerator;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 
 /**
  * Abstract class for controllers.
  */
 public abstract class Controller extends AbstractAppState {
-	private Node rootNode = new Node();
+	public Node rootNode = new Node();
 	private Node guiNode = new Node();
+	public Node wallsNode = new Node();
+	public Node floorsNode = new Node();
 	private BulletAppState physicsEnvironment = new BulletAppState();
 	private InputManager inputManager;
 
@@ -41,11 +44,17 @@ public abstract class Controller extends AbstractAppState {
 		this.rootNode = new Node(name + "RootNode");
 		this.guiNode = new Node(name + "GuiNode"); 
 		this.inputManager = app.getInputManager();
+		
+		this.wallsNode = new Node(name + "WallsNode");
+		this.floorsNode = new Node(name + "FloorsNode");
 	}
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
+		
+		rootNode.attachChild(wallsNode);
+		rootNode.attachChild(floorsNode);
 		
 		Main main = Main.getInstance();
 		main.getRootNode().attachChild(rootNode);
@@ -95,6 +104,22 @@ public abstract class Controller extends AbstractAppState {
 		if (drawable instanceof PhysicsObject) {
 			physicsEnvironment.getPhysicsSpace().add(((PhysicsObject) drawable).getPhysicsObject());
 		}
+		
+		if (drawable instanceof MazeTile) {
+			MazeTile tile = (MazeTile) drawable;
+			if (tile.getTileType() != null) {
+				switch (tile.getTileType()) {
+					case FLOOR:
+						floorsNode.attachChild(drawable.getSpatial());
+						return;
+					case WALL:
+						wallsNode.attachChild(drawable.getSpatial());
+						return;
+					default:
+						break;
+				}
+			}
+		}
 
 		rootNode.attachChild(drawable.getSpatial());
 	}
@@ -110,6 +135,18 @@ public abstract class Controller extends AbstractAppState {
 	public boolean removeDrawable(Drawable drawable) {
 		if (drawable instanceof PhysicsObject) {
 			physicsEnvironment.getPhysicsSpace().remove(((PhysicsObject) drawable).getPhysicsObject());
+		}
+		
+		if (drawable instanceof MazeTile) {
+			MazeTile tile = (MazeTile) drawable;
+			switch (tile.getTileType()) {
+				case FLOOR:
+					return floorsNode.detachChild(drawable.getSpatial()) != -1;
+				case WALL:
+					return wallsNode.detachChild(drawable.getSpatial()) != -1;
+				default:
+					break;
+			}
 		}
 
 		return rootNode.detachChild(drawable.getSpatial()) != -1;
