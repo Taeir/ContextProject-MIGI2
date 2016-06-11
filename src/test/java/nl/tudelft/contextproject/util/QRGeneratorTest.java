@@ -39,8 +39,8 @@ public class QRGeneratorTest extends TestBase {
 	 */
 	@Test
 	public void testUniqueness() {
-		QRGenerator qrGen2 = QRGenerator.getInstance();
-		assertEquals(qrGenerator, qrGen2);
+		QRGenerator qrGenerator2 = QRGenerator.getInstance();
+		assertEquals(qrGenerator, qrGenerator2);
 	}
 	
 	/**
