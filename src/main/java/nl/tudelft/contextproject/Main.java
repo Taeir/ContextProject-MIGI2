@@ -333,7 +333,7 @@ public class Main extends VRApplication implements TickProducer {
 		kk += tpf;
 		if (jj++ >= 10) {
 			jj = 0;
-			System.out.println(1 / kk);
+			System.out.println(10 / kk);
 			kk = 0f;
 		}
 		
