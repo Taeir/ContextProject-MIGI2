@@ -90,13 +90,13 @@ public abstract class EntityTest extends DrawableTest {
 		setupEntity();
 		TestUtil.mockGame();
 		
-		Spatial eSpat = mock(Spatial.class);
-		Spatial pSpat = mock(Spatial.class);
-		entity.setSpatial(eSpat);
-		Main.getInstance().getCurrentGame().getPlayer().setSpatial(pSpat);
+		Spatial entitySpatial = mock(Spatial.class);
+		Spatial playerSpatial = mock(Spatial.class);
+		entity.setSpatial(entitySpatial);
+		Main.getInstance().getCurrentGame().getPlayer().setSpatial(playerSpatial);
 		
-		when(eSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
-		when(pSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, .199f));
+		when(entitySpatial.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+		when(playerSpatial.getLocalTranslation()).thenReturn(new Vector3f(0, 0, .199f));
 		
 		assertTrue(entity.collidesWithPlayer(.2f));
 	}
@@ -109,13 +109,13 @@ public abstract class EntityTest extends DrawableTest {
 		TestUtil.mockGame();
 		setupEntity();
 		
-		Spatial eSpat = mock(Spatial.class);
-		Spatial pSpat = mock(Spatial.class);
-		entity.setSpatial(eSpat);		
-		Main.getInstance().getCurrentGame().getPlayer().setSpatial(pSpat);
+		Spatial entitySpatial = mock(Spatial.class);
+		Spatial playerSpatial = mock(Spatial.class);
+		entity.setSpatial(entitySpatial);		
+		Main.getInstance().getCurrentGame().getPlayer().setSpatial(playerSpatial);
 		
-		when(eSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
-		when(pSpat.getLocalTranslation()).thenReturn(new Vector3f(0, 0, .201f));
+		when(entitySpatial.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+		when(playerSpatial.getLocalTranslation()).thenReturn(new Vector3f(0, 0, .201f));
 		
 		assertFalse(entity.collidesWithPlayer(.2f));
 	}

@@ -67,10 +67,10 @@ public class BombTest extends EntityTest {
 	@Test
 	public void testUpdateactive() {
 		bomb.activate();
-		Spatial mock = mock(Spatial.class);
-		bomb.setSpatial(mock);
-		when(mock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
-		when(mock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
+		Spatial spatialMock = mock(Spatial.class);
+		bomb.setSpatial(spatialMock);
+		when(spatialMock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
+		when(spatialMock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
 		bomb.update(1);
 		assertEquals(9, bomb.getTimer(), 1E-5);
 	}

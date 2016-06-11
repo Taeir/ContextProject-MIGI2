@@ -29,10 +29,10 @@ public abstract class MovingEnemyTest extends EntityTest {
 	 */
 	@Test
 	public void testSetAI() {
-		EntityControl ai = mock(EntityControl.class);
-		MovingEntity e = getEnemy();
-		e.setAI(ai);
-		verify(ai, times(1)).setOwner(e);
+		EntityControl entityControl = mock(EntityControl.class);
+		MovingEntity enemy = getEnemy();
+		enemy.setAI(entityControl);
+		verify(entityControl, times(1)).setOwner(enemy);
 	}
 	
 	/**
