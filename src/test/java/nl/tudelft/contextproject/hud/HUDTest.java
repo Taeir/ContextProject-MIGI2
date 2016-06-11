@@ -165,12 +165,12 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testSetGameTimer() {
-		BitmapText m = mock(BitmapText.class);
-		hud.setTimerNode(m);
+		BitmapText bitmapText = mock(BitmapText.class);
+		hud.setTimerNode(bitmapText);
 		
 		hud.setGameTimer(12);
 		
-		verify(m, times(1)).setText("12");
+		verify(bitmapText, times(1)).setText("12");
 	}
 	
 	/**
@@ -180,10 +180,10 @@ public class HUDTest extends TestBase {
 	public void updateBombsNotInInventory() {
 		Node node = mock(Node.class);
 		hud.setBombNode(node);
-		Inventory inv = Main.getInstance().getCurrentGame().getPlayer().getInventory();
-		inv.remove(new Bomb());
+		Inventory inventory = Main.getInstance().getCurrentGame().getPlayer().getInventory();
+		inventory.remove(new Bomb());
 		
-		hud.updateBombs(inv);
+		hud.updateBombs(inventory);
 		
 		verify(node, times(1)).detachAllChildren();
 	}
@@ -195,12 +195,12 @@ public class HUDTest extends TestBase {
 	public void updateBombsInInventory() {
 		Node node = mock(Node.class);
 		hud.setBombNode(node);
-		Inventory inv = Main.getInstance().getCurrentGame().getPlayer().getInventory();
-		inv.pickUp(new Bomb());
+		Inventory inventory = Main.getInstance().getCurrentGame().getPlayer().getInventory();
+		inventory.pickUp(new Bomb());
 		when(node.getChildren()).thenReturn(new ArrayList<>());
 		when(node.getChild(0)).thenReturn(mock(BitmapText.class));
 		
-		hud.updateBombs(inv);
+		hud.updateBombs(inventory);
 		
 		verify(node, times(1)).attachChild(any(BitmapText.class));
 	}
