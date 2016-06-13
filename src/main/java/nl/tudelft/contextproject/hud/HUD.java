@@ -116,8 +116,9 @@ public class HUD implements TickListener {
 		gameTimer = new BitmapText(Main.getInstance().getGuiFont(), false);
 		gameTimer.setSize(screenHeight / 30);
 		gameTimer.setColor(ColorRGBA.White);
-		float h = gameTimer.getLineHeight() + screenHeight / 10;
-		gameTimer.setLocalTranslation(100, h, 0);
+		float height = gameTimer.getLineHeight() + screenHeight / 6;
+		float width = gameTimer.getLineWidth() + screenWidth / 10;
+		gameTimer.setLocalTranslation(width, height, 0);
 		controller.addGuiElement(gameTimer);
 	}
 
