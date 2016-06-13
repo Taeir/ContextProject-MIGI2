@@ -44,9 +44,9 @@ public class ExplosionTest extends EntityTest {
 	 */
 	@Test
 	public void testUpdateMaxRadius() {
-		Spatial mock = mock(Spatial.class);
-		explosion.setSpatial(mock);
-		when(mock.getLocalScale()).thenReturn(new Vector3f(11, 11, 11));
+		Spatial spatialMock = mock(Spatial.class);
+		explosion.setSpatial(spatialMock);
+		when(spatialMock.getLocalScale()).thenReturn(new Vector3f(11, 11, 11));
 		explosion.update(1);
 		assertEquals(EntityState.DEAD, explosion.getState());
 	}
@@ -56,12 +56,12 @@ public class ExplosionTest extends EntityTest {
 	 */
 	@Test
 	public void testUpdateScale() {
-		Spatial mock = mock(Spatial.class);
-		explosion.setSpatial(mock);
-		when(mock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
-		when(mock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
+		Spatial spatialMock = mock(Spatial.class);
+		explosion.setSpatial(spatialMock);
+		when(spatialMock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
+		when(spatialMock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
 		explosion.update(1);
-		verify(mock, times(1)).setLocalScale(AdditionalMatchers.gt(1f));
+		verify(spatialMock, times(1)).setLocalScale(AdditionalMatchers.gt(1f));
 	}
 	
 	/**
@@ -69,9 +69,9 @@ public class ExplosionTest extends EntityTest {
 	 */
 	@Test
 	public void testDamageEntitiesPlayer() {
-		VRPlayer p = Main.getInstance().getCurrentGame().getPlayer();
+		VRPlayer vrPlayer = Main.getInstance().getCurrentGame().getPlayer();
 		explosion.damageEntities(100, 2);
-		assertEquals(VRPlayer.PLAYER_MAX_HEALTH - 2, p.getHealth(), 1e-6);
+		assertEquals(VRPlayer.PLAYER_MAX_HEALTH - 2, vrPlayer.getHealth(), 1e-6);
 	}
 	
 	/**
@@ -79,14 +79,14 @@ public class ExplosionTest extends EntityTest {
 	 */
 	@Test
 	public void testDamageEntitiesOther() {
-		Game g = Main.getInstance().getCurrentGame();
-		InvisibleWall i = new InvisibleWall();
-		i.getSpatial();	// prevent nullpointer
-		i.setHealth(6);
-		g.getEntities().add(i);
+		Game game = Main.getInstance().getCurrentGame();
+		InvisibleWall invisibleWall = new InvisibleWall();
+		invisibleWall.getSpatial();	// prevent nullpointer
+		invisibleWall.setHealth(6);
+		game.getEntities().add(invisibleWall);
 		
 		explosion.damageEntities(10, 5);
-		assertEquals(1, i.getHealth(), 1e-6);
+		assertEquals(1, invisibleWall.getHealth(), 1e-6);
 	}
 
 }

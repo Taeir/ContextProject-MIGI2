@@ -285,18 +285,18 @@ public final class TestUtil extends TestBase {
 		Vector3f playerSpawn = new Vector3f();
 		Level levelSpy = spy(new Level(tiles, lights, entities, playerSpawn));
 		
-		GameController gc = new GameController(main, levelSpy, 10f);
+		GameController gameController = new GameController(main, levelSpy, 10f);
 		
 		//Spy on the game
-		Game gameSpy = spy(gc.getGame());
-		gc.setGame(gameSpy);
+		Game gameSpy = spy(gameController.getGame());
+		gameController.setGame(gameSpy);
 		
 		//Fake player
 		VRPlayer player = spy(VRPlayer.loadEntity(playerSpawn, new String[4]));
 		doReturn(player).when(gameSpy).getPlayer();
 		
 		//Spy on the game controller
-		main.setController(spy(gc));
+		main.setController(spy(gameController));
 		
 		doCallRealMethod().when(main).getCurrentGame();
 	}

@@ -20,13 +20,13 @@ import nl.tudelft.contextproject.test.TestUtil;
  */
 public class PlayerTriggerTest extends EntityTest {
 
-	private PlayerTrigger pt;
+	private PlayerTrigger playerTrigger;
 	private TickListener action;
 	
 	@Override
 	public Entity getEntity() {
 		setUp();
-		return pt;
+		return playerTrigger;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class PlayerTriggerTest extends EntityTest {
 		TestUtil.mockGame();
 		
 		action = mock(TickListener.class);
-		pt = new PlayerTrigger(0.2f, 1, action);	
+		playerTrigger = new PlayerTrigger(0.2f, 1, action);	
 	}
 	
 	/**
@@ -50,13 +50,13 @@ public class PlayerTriggerTest extends EntityTest {
 	 */
 	@Test
 	public void testUpdateCoolingDown() {
-		Spatial pSpat = Main.getInstance().getCurrentGame().getPlayer().getSpatial();
-		pSpat.setLocalTranslation(pt.getSpatial().getLocalTranslation());
-		pt.update(.001f);
+		Spatial playerSpatial = Main.getInstance().getCurrentGame().getPlayer().getSpatial();
+		playerSpatial.setLocalTranslation(playerTrigger.getSpatial().getLocalTranslation());
+		playerTrigger.update(.001f);
 
-		pt.update(.5f);
+		playerTrigger.update(.5f);
 		verify(action, times(1)).update(anyFloat());
-		pSpat.setLocalTranslation(0, 10, 0);
+		playerSpatial.setLocalTranslation(0, 10, 0);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class PlayerTriggerTest extends EntityTest {
 	 */
 	@Test
 	public void testUpdateNoCollision() {
-		pt.update(2f);
+		playerTrigger.update(2f);
 		verify(action, times(0)).update(anyFloat());		
 	}
 
@@ -73,12 +73,12 @@ public class PlayerTriggerTest extends EntityTest {
 	 */
 	@Test
 	public void testUpdateTrigger() {
-		Spatial pSpat = Main.getInstance().getCurrentGame().getPlayer().getSpatial();
-		pSpat.setLocalTranslation(pt.getSpatial().getLocalTranslation());
-		pt.update(1.2f);
+		Spatial playerSpatial = Main.getInstance().getCurrentGame().getPlayer().getSpatial();
+		playerSpatial.setLocalTranslation(playerTrigger.getSpatial().getLocalTranslation());
+		playerTrigger.update(1.2f);
 
 		verify(action, times(1)).update(0f);
-		pSpat.setLocalTranslation(0, 10, 0);
+		playerSpatial.setLocalTranslation(0, 10, 0);
 	}
 	
 	/**

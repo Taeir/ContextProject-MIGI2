@@ -13,7 +13,7 @@ import nl.tudelft.contextproject.model.TickListener;
  */
 public class ScriptLoaderTest extends TestBase {
 
-	private ScriptLoader sl;
+	private ScriptLoader scriptLoader;
 
 	/**
 	 * Create a fresh instance for each test.
@@ -23,7 +23,7 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Before
 	public void setUp() throws ScriptLoaderException {
-		sl = new ScriptLoader(ScriptLoaderTest.class.getResource("/").getPath());
+		scriptLoader = new ScriptLoader(ScriptLoaderTest.class.getResource("/").getPath());
 	}
 	
 	/**
@@ -34,9 +34,9 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Test (expected = IllegalMonitorStateException.class)
 	public void testGetCorrectTickLister() throws ScriptLoaderException {
-		TickListener tl = sl.getInstanceOf("TestTickListener", TickListener.class);
-		assertNotNull(tl);
-		tl.update(.5f);
+		TickListener tickListener = scriptLoader.getInstanceOf("TestTickListener", TickListener.class);
+		assertNotNull(tickListener);
+		tickListener.update(.5f);
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Test (expected = ScriptLoaderException.class)
 	public void testGetNotATickLister() throws ScriptLoaderException {
-		sl.getInstanceOf("NotATickListener", TickListener.class);
+		scriptLoader.getInstanceOf("NotATickListener", TickListener.class);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Test (expected = ScriptLoaderException.class)
 	public void testGetNonExistingTickLister() throws ScriptLoaderException {
-		sl.getInstanceOf("IDoNotExist", TickListener.class);
+		scriptLoader.getInstanceOf("IDoNotExist", TickListener.class);
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Test (expected = ScriptLoaderException.class)
 	public void testGetObjectWithPrivateConstructor() throws ScriptLoaderException {
-		sl.getInstanceOf("NotATickListener", Object.class);
+		scriptLoader.getInstanceOf("NotATickListener", Object.class);
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Test (expected = IllegalMonitorStateException.class)
 	public void testStaticGetInstance() throws ScriptLoaderException {
-		TickListener tl = ScriptLoader.getInstanceFrom(ScriptLoaderTest.class.getResource("/").getPath(), "TestTickListener", TickListener.class);
-		tl.update(.5f);
+		TickListener tickListener = ScriptLoader.getInstanceFrom(ScriptLoaderTest.class.getResource("/").getPath(), "TestTickListener", TickListener.class);
+		tickListener.update(.5f);
 	}
 }
