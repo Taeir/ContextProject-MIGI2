@@ -20,6 +20,23 @@ public class RandomUtilTest {
 		assertEquals(39, RandomUtil.getRandomIntegerFromInterval(rand, 0, 42));
 	}
 	
+	/**
+	 * Test a random integer from exponentional distribution.
+	 */
+	@Test
+	public void getRandomIntegerFromExponentionalDistribution1() {
+		Random rand = new Random(1L);
+		assertEquals(1, RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 1, 5, 1.0));
+	}
+	
+	/**
+	 * Test a random integer from exponentional distribution.
+	 */
+	@Test
+	public void getRandomIntegerFromExponentionalDistribution2() {
+		Random rand = new Random(43534534L);
+		assertEquals(2, RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 1, 5, 2));
+	}
 	
 	/**
 	 * Test ensure interval with lower bound.
