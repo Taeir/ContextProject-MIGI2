@@ -94,7 +94,7 @@ public class CrateTest extends EntityTest {
 		
 		assertFalse(instance.isPickedUp());	
 		RigidBodyControl rigidBody = ((RigidBodyControl) instance.getPhysicsObject());
-		assertEquals(new Vector3f(0, 13.333334f, 10), rigidBody.getLinearVelocity());
+		assertEquals(new Vector3f(0, 6, 4), rigidBody.getLinearVelocity());
 	}
 	
 	/**

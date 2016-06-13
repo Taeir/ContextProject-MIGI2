@@ -68,7 +68,7 @@ public class GateTest extends EntityTest {
 	public void testLoadEntity() {
 		Gate gate = Gate.loadEntity(loadPosition, new String[]{"1", "1", "1", EntityType.GATE.getName()});
 		
-		assertEquals(loadPosition.add(0, .5f, 0), gate.getLocation());
+		assertEquals(loadPosition.add(0, .6f, 0), gate.getLocation());
 	}
 	
 	/**
