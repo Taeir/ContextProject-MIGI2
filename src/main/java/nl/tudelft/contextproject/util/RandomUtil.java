@@ -47,8 +47,7 @@ public final class RandomUtil {
 	 * 		the integer between zero and max, with generated from the exponential distribution
 	 */
 	public static int getRandomIntegerFromExponentialDistribution(Random rand, int min, int max, double lambda) {
-		double randomDoubleFromUniformeDistrubtion = rand.nextDouble();
-		double doubleResult = -Math.log(1 - (1 - Math.exp(-lambda)) * randomDoubleFromUniformeDistrubtion) / lambda;
+		double doubleResult = Math.log(1 - rand.nextDouble()) / (-lambda);
 		return RandomUtil.ensureInterval((int) Math.round(doubleResult), min, max);
 	}
 
@@ -92,14 +91,14 @@ public final class RandomUtil {
 	public static ArrayList<Integer> testExponentialDistribution(Random rand, int max, double lambda, int numberOfSimulations) {
 		ArrayList<Integer> resultList = new ArrayList<Integer>(max + 1);
 		
-		for (int i = 0; i < numberOfSimulations; i++) {
+		for (int i = 0; i < max; i++) {
 			resultList.add(i, 0);
 		}
 		
 		int simulation;
 		for (int i = 0; i < numberOfSimulations; i++) {
 			simulation = RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 0, max, lambda);
-			resultList.add(simulation, resultList.get(simulation) + 1);
+			resultList.set(simulation, resultList.get(simulation) + 1);
 		} 
 		
 		return resultList;
