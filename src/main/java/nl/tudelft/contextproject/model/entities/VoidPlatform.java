@@ -28,6 +28,7 @@ public class VoidPlatform extends AbstractPhysicsEntity implements PhysicsObject
 		material.setColor("Specular", color);
 		material.setFloat("Shininess", 114f);
 		material.setColor("Ambient", color);
+		material.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/voidplatform.png"));
 		this.spatial.setMaterial(material); 
 		this.spatial.move(0, 0.5f, 0);
 		return spatial;	
