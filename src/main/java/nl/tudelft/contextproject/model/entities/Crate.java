@@ -141,7 +141,7 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 	
 	@Override
 	public void update(float tpf) {
-		if (this.isPickedUp()) {
+		if (this.isPickedUp() && VRApplication.getVRViewManager() != null) {
 			Camera camera = VRApplication.getVRViewManager().getCamLeft();
 			Vector3f vec = camera.getDirection().mult(2f);
 			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
@@ -166,8 +166,12 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 	@Override
 	public void drop() {
 		isPickedUp = false;
-		Vector3f move = VRApplication.getVRViewManager().getCamLeft().getDirection();
-		System.out.println(move);
+		Vector3f move;
+		if (VRApplication.getVRViewManager() != null) {
+			move = VRApplication.getVRViewManager().getCamLeft().getDirection();
+		} else {
+			move = Main.getInstance().getCamera().getDirection();
+		}
 		move.y = 1.5f;
 		doThrow(move.mult(6));
 	}
