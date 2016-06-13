@@ -6,9 +6,10 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 
+import jmevr.app.VRApplication;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
 
@@ -36,12 +37,12 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 
 	@Override
 	public void update(float tpf) {
-		if (this.isPickedUp()) {
-			Quaternion rotation = Main.getInstance().getCamera().getRotation();
-			Vector3f vec = rotation.getRotationColumn(2).mult(2f);
+		if (this.isPickedUp() && VRApplication.getVRViewManager() != null) {
+			Camera camera = VRApplication.getVRViewManager().getCamLeft();
+			Vector3f vec = camera.getDirection().mult(2f);
 			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
 			rigidBody.setPhysicsLocation(vec2);
-			rigidBody.setPhysicsRotation(rotation);
+			rigidBody.setPhysicsRotation(camera.getRotation());
 		}
 		if (active) {
 			timer -= tpf;
