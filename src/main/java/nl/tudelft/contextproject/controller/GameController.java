@@ -20,10 +20,10 @@ import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.LevelFactory;
 import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
 import nl.tudelft.contextproject.model.level.MazeTile;
-import nl.tudelft.contextproject.model.level.Optimize;
 import nl.tudelft.contextproject.model.level.RoomLevelFactory;
 import nl.tudelft.contextproject.model.level.TileType;
 
+import jme3tools.optimize.GeometryBatchFactory;
 import jmevr.app.VRApplication;
 
 /**
@@ -138,9 +138,14 @@ public class GameController extends Controller {
 	protected void attachLevel() {
 		Level level = game.getLevel();
 		if (level == null) throw new IllegalStateException("No level set!");
-
+		
 		attachMazeTiles(level);
-		Optimize.optimize(this);
+		
+		//Optimize the roof, walls and floors
+		GeometryBatchFactory.optimize(roofNode, false, true);
+		GeometryBatchFactory.optimize(wallsNode, false, true);
+		GeometryBatchFactory.optimize(floorsNode, false, true);
+		
 		addDrawable(game.getPlayer());
 		for (Light light : level.getLights()) {
 			addLight(light);

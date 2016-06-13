@@ -25,11 +25,15 @@ import nl.tudelft.contextproject.model.level.TileType;
  * Abstract class for controllers.
  */
 public abstract class Controller extends AbstractAppState {
-	private Node rootNode = new Node();
-	private Node guiNode = new Node();
-	public Node wallsNode = new Node();
-	public Node floorsNode = new Node();
-	private BulletAppState physicsEnvironment = new BulletAppState();
+	protected Node wallsNode;
+	protected Node floorsNode;
+	protected Node roofNode;
+	protected BulletAppState physicsEnvironment = new BulletAppState();
+	
+	private Node rootNode;
+	private Node guiNode;
+	
+	
 	private InputManager inputManager;
 
 	/**
@@ -45,6 +49,7 @@ public abstract class Controller extends AbstractAppState {
 		this.guiNode = new Node(name + "GuiNode"); 
 		this.inputManager = app.getInputManager();
 		
+		this.roofNode = new Node(name + "RoofNode");
 		this.wallsNode = new Node(name + "WallsNode");
 		this.floorsNode = new Node(name + "FloorsNode");
 	}
@@ -55,10 +60,12 @@ public abstract class Controller extends AbstractAppState {
 		
 		rootNode.attachChild(wallsNode);
 		rootNode.attachChild(floorsNode);
+		rootNode.attachChild(roofNode);
 		
 		Main main = Main.getInstance();
 		main.getRootNode().attachChild(rootNode);
 		main.getGuiNode().attachChild(guiNode);
+		
 		main.getStateManager().attach(physicsEnvironment);
 	}
 
@@ -106,18 +113,13 @@ public abstract class Controller extends AbstractAppState {
 		}
 		
 		if (drawable instanceof MazeTile) {
-			MazeTile tile = (MazeTile) drawable;
-			if (tile.getTileType() != null) {
-				switch (tile.getTileType()) {
-					case FLOOR:
-						floorsNode.attachChild(drawable.getSpatial());
-						return;
-					case WALL:
-						wallsNode.attachChild(drawable.getSpatial());
-						return;
-					default:
-						break;
-				}
+			TileType type = ((MazeTile) drawable).getTileType();
+			if (type == TileType.FLOOR) {
+				floorsNode.attachChild(drawable.getSpatial());
+				return;
+			} else if (type == TileType.WALL) {
+				wallsNode.attachChild(drawable.getSpatial());
+				return;
 			}
 		}
 
@@ -258,7 +260,7 @@ public abstract class Controller extends AbstractAppState {
 	 * @param y
 	 * 		the y location of the tile
 	 */
-	public void attachRoofTile(int x, int y) {	
+	public void attachRoofTile(int x, int y) {
 		Quad quad = new Quad(1, 1);
 		Geometry roofTile = new Geometry("roofTile", quad);
 		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"); 
@@ -275,6 +277,6 @@ public abstract class Controller extends AbstractAppState {
 
 		roofTile.rotate((float) Math.toRadians(90), 0, 0);
 		roofTile.move(x - .5f, TileType.WALL.getHeight() * 2, y - .5f);
-		rootNode.attachChild(roofTile);
+		roofNode.attachChild(roofTile);
 	}
 }
