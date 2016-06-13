@@ -113,7 +113,7 @@ public class BombTest extends EntityTest {
 		bomb.update(1);
 		bomb.getPhysicsObject().update(1);
 		Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(2f);
-		Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
+		Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x + 1, 0, vec.z - 1);
 		assertEquals(vec2, bomb.getLocation());
 	}
 }
