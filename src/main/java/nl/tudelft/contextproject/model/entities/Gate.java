@@ -15,10 +15,10 @@ public class Gate extends AbstractPhysicsEntity implements PhysicsObject {
 	 * Constructor for a gate.
 	 */
 	public Gate() {
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
-		spatial.scale(1.2f, 2.2f, 1.2f);
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/gate.blend");
+		spatial.scale(0.5f, 1, 0.5f);
 		spatial.rotate(0, (float) (Math.PI), 0);
-		spatial.move(0, .5f, 0);
+		spatial.move(0, .6f, 0);
 		open = false;
 	}
 
@@ -31,7 +31,7 @@ public class Gate extends AbstractPhysicsEntity implements PhysicsObject {
 				open = false;
 			}
 		} else {
-			if (spatial.getLocalTranslation().y > .5f) {
+			if (spatial.getLocalTranslation().y > 1) {
 				this.move(0, -0.5f * tpf, 0);
 			}
 		}
