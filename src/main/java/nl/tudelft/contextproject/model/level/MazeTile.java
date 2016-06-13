@@ -22,8 +22,6 @@ import nl.tudelft.contextproject.model.PhysicsObject;
  * Class representing a tile in the maze.
  */
 public class MazeTile implements Drawable, PhysicsObject {
-	private static Material wallMaterial, floorMaterial;
-	
 	private RigidBodyControl rigidBody;
 	private Spatial spatial;
 	private Vector2f position;
@@ -71,52 +69,22 @@ public class MazeTile implements Drawable, PhysicsObject {
 	public Vector2f getPosition() {
 		return position;
 	}
-
+	
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 		
-		Material material;
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+		material.setBoolean("UseMaterialColors", true);    
+		material.setColor("Diffuse", color);
+		material.setColor("Specular", ColorRGBA.White);
+		material.setFloat("Shininess", 64f);
+		material.setColor("Ambient", color);
+		material.setTexture("DiffuseMap", texture);
 		if (type == TileType.WALL) {
-			if (wallMaterial == null) {
-				wallMaterial = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-				wallMaterial.setBoolean("UseMaterialColors", true);    
-				wallMaterial.setColor("Diffuse", color);
-				wallMaterial.setColor("Specular", ColorRGBA.White);
-				wallMaterial.setFloat("Shininess", 64f);
-				wallMaterial.setColor("Ambient", color);
-				wallMaterial.setTexture("DiffuseMap", texture);
-				wallMaterial.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/wallnormalmap.png"));
-				wallMaterial.setBoolean("UseMaterialColors", true);
-			}
-			
-			material = wallMaterial;
-		} else if (type == TileType.FLOOR) {
-			if (floorMaterial == null) {
-				floorMaterial = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-				floorMaterial.setBoolean("UseMaterialColors", true);    
-				floorMaterial.setColor("Diffuse", color);
-				floorMaterial.setColor("Specular", ColorRGBA.White);
-				floorMaterial.setFloat("Shininess", 64f);
-				floorMaterial.setColor("Ambient", color);
-				floorMaterial.setTexture("DiffuseMap", texture);
-				floorMaterial.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/wallnormalmap.png"));
-				floorMaterial.setBoolean("UseMaterialColors", true);
-			}
-			
-			material = floorMaterial;
-		} else {
-			material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-			
-			material.setBoolean("UseMaterialColors", true);    
-			material.setColor("Diffuse", color);
-			material.setColor("Specular", ColorRGBA.White);
-			material.setFloat("Shininess", 64f);
-			material.setColor("Ambient", color);
-			material.setTexture("DiffuseMap", texture);
 			material.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/wallnormalmap.png"));
-			material.setBoolean("UseMaterialColors", true);
 		}
+		material.setBoolean("UseMaterialColors", true);
 
 		Box box = new Box(.5f, .5f + height, .5f);
 		this.spatial = new Geometry("Box", box);
@@ -133,14 +101,9 @@ public class MazeTile implements Drawable, PhysicsObject {
 
 	@Override
 	public PhysicsControl getPhysicsObject() {
-		if (spatial == null) {
-			this.getSpatial();
-		}
-		if (rigidBody != null) {
-			return rigidBody;
-		}
-
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(spatial);
+		if (rigidBody != null) return rigidBody;
+		
+		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(getSpatial());
 		rigidBody = new RigidBodyControl(sceneShape, 0);
 		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
 		return rigidBody;

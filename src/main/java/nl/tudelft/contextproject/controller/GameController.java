@@ -171,7 +171,7 @@ public class GameController extends Controller {
 				attachRoofTile(x, y);
 				if (level.isTileAtPosition(x, y)) {
 					TileType type = level.getTile(x, y).getTileType();
-					
+
 					if ((type == TileType.FLOOR || type == TileType.CORRIDOR) && start.x == 0 && start.y == 0) {
 						start.x = x;
 						start.y = y;
@@ -180,6 +180,7 @@ public class GameController extends Controller {
 				}
 			}
 		}
+		
 		return start;
 	}
 
