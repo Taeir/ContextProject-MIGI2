@@ -21,7 +21,7 @@ public class RandomUtilTest {
 	}
 	
 	/**
-	 * Test a random integer from exponentional distribution.
+	 * Test a random integer from exponential distribution.
 	 */
 	@Test
 	public void getRandomIntegerFromExponentionalDistribution1() {
@@ -30,12 +30,12 @@ public class RandomUtilTest {
 	}
 	
 	/**
-	 * Test a random integer from exponentional distribution.
+	 * Test a random integer from exponential distribution.
 	 */
 	@Test
 	public void getRandomIntegerFromExponentionalDistribution2() {
-		Random rand = new Random(43534534L);
-		assertEquals(2, RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 1, 5, 2));
+		Random rand = new Random(432423L);
+		assertEquals(2, RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 0, 5, 0.5));
 	}
 	
 	/**
