@@ -9,6 +9,8 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
+import com.jme3.scene.Spatial;
+import com.jme3.util.SkyFactory;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.hud.HUD;
@@ -137,6 +139,11 @@ public abstract class GameThreadController extends Controller {
 		AmbientLight ambientLight = new AmbientLight();
 		ambientLight.setColor(ColorRGBA.White.mult(.9f));
 		addLight(ambientLight);
+		
+		Spatial sky = SkyFactory.createSky(
+                Main.getInstance().getAssetManager(), "Textures/lavatexture.jpg", SkyFactory.EnvMapType.EquirectMap);
+		getRootNode().attachChild(sky);
+
 	}
 
 	/**
