@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.util.webinterface;
 
 import java.util.Set;
 
+import nl.tudelft.contextproject.model.entities.Bomb;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -30,13 +31,15 @@ public final class EntityUtil {
 	public static JSONArray entitiesToJson(Set<Entity> entities, Entity player) {
 		JSONArray jArray = new JSONArray();
 
-		for (Entity e : entities) {
-			JSONObject entity = entityToJson(e);
-			jArray.put(entity);
+		for (Entity entity : entities) {
+			if (entity.getType().getWebId() == 0) continue;
+			
+			JSONObject entityJson = entityToJson(entity);
+			jArray.put(entityJson);
 		}
 
-		JSONObject entity = entityToJson(player);
-		jArray.put(entity);
+		JSONObject entityJson = entityToJson(player);
+		jArray.put(entityJson);
 
 		return jArray;
 	}
@@ -44,16 +47,19 @@ public final class EntityUtil {
 	/**
 	 * Turn one entity into a json object.
 	 *
-	 * @param e
+	 * @param entity
 	 * 		the entity to turn into a json
 	 * @return
 	 * 		the json
 	 */
-	protected static JSONObject entityToJson(Entity e) {
-		JSONObject entity = new JSONObject();
-		entity.put("x", Math.round(e.getLocation().getX()));
-		entity.put("y", Math.round(e.getLocation().getZ()));
-		entity.put("type", e.getType().getWebId());
-		return entity;
+	protected static JSONObject entityToJson(Entity entity) {
+		JSONObject json = new JSONObject();
+		json.put("x", Math.round(entity.getLocation().getX()));
+		json.put("y", Math.round(entity.getLocation().getZ()));
+		json.put("t", entity.getType().getWebId());
+		if (entity instanceof Bomb) {
+			json.put("d", Math.round(((Bomb) entity).getTimer()));
+		}
+		return json;
 	}
 }

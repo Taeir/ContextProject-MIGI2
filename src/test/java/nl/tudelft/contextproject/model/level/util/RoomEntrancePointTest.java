@@ -28,7 +28,7 @@ public class RoomEntrancePointTest extends DoorLocationTest {
 	
 	@Override
 	public void testHashCode() {
-		assertEquals(1023, doorLocation.hashCode());
+		assertEquals(992, doorLocation.hashCode());
 	}
 	
 	@Override

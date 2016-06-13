@@ -2,11 +2,10 @@ package nl.tudelft.contextproject;
 
 import java.awt.Desktop;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
-
-
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.font.BitmapFont;
@@ -27,6 +26,8 @@ import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
+import nl.tudelft.contextproject.input.NoVRMouseManager;
+import nl.tudelft.contextproject.input.VRLookManager;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
@@ -53,13 +54,13 @@ public class Main extends VRApplication implements TickProducer {
 	
 	private static boolean hideQR;
 	
-	private static Main instance;
+	private static volatile Main instance;
 	private static boolean mouseEnabled;
 	
 	private Controller controller;
 	private WebServer webServer;
+	private Set<TickListener> tickListeners = ConcurrentHashMap.newKeySet();
 	private BitmapFont guifont;
-	private List<TickListener> tickListeners = new ArrayList<>();
 	
 	/**
 	 * Main method that is called when the program is started.
@@ -120,21 +121,22 @@ public class Main extends VRApplication implements TickProducer {
 	 * Set the controller for the current scene.
 	 * Cleans up the old scene before initializing the new one.
 	 *
-	 * @param c
+	 * @param newController
 	 * 		the new controller
 	 * @return
 	 * 		true is the controller was changed, false otherwise
 	 */
-	public boolean setController(Controller c) {
-		if (c != controller && c != null) {
-			if (controller != null) {
-				getStateManager().detach(controller);
+	public boolean setController(Controller newController) {
+		if (newController != this.controller && newController != null) {
+			if (this.controller != null) {
+				getStateManager().detach(this.controller);
 			}
 
-			controller = c;
-			getStateManager().attach(controller);
+			this.controller = newController;
+			getStateManager().attach(this.controller);
 			if (webServer != null) {
 				webServer.clearCooldowns();
+				webServer.getInventory().reset();
 			}
 			
 			return true;
@@ -162,37 +164,37 @@ public class Main extends VRApplication implements TickProducer {
 	 * Method used for testing.
 	 * Sets the rootNode of Main to a new Node.
 	 *
-	 * @param rn
+	 * @param rootNode
 	 * 		the new node to replace the rootNode
 	 */
-	public void setRootNode(Node rn) {
-		rootNode = rn;
+	public void setRootNode(Node rootNode) {
+		this.rootNode = rootNode;
 	}
 
 	/**
 	 * Method used for testing.
 	 * Sets the guiNode of Main to a new Node.
 	 *
-	 * @param gn
+	 * @param guiNode
 	 * 		the new node to replace the guiNode.
 	 */
-	public void setGuiNode(Node gn) {
-		guiNode = gn;
+	public void setGuiNode(Node guiNode) {
+		this.guiNode = guiNode;
 	}
 
 	/**
 	 * Method used for testing.
-	 * Sets the list of tickListeners to the specified list.
+	 * Sets the set of tickListeners to the specified set.
 	 *
 	 * @param listeners
-	 * 		the new List of TickListeners
+	 * 		the new Set of TickListeners
 	 */
-	public void setTickListeners(List<TickListener> listeners) {
+	public void setTickListeners(Set<TickListener> listeners) {
 		tickListeners = listeners;
 	}
 	
 	@Override
-	public List<TickListener> getTickListeners() {
+	public Set<TickListener> getTickListeners() {
 		return tickListeners;
 	}
 
@@ -210,7 +212,7 @@ public class Main extends VRApplication implements TickProducer {
 		getCamera().lookAtDirection(new Vector3f(0, 0, 1), new Vector3f(0, 1, 0));
 		
 		VRGuiManager.setPositioningMode(POSITIONING_MODE.AUTO_CAM_ALL);
-		VRGuiManager.setGuiScale(0.40f);
+		VRGuiManager.setGuiScale(0.60f);
 		VRGuiManager.setPositioningElasticity(0f);
 		
 		setupControlMappings();
@@ -223,8 +225,7 @@ public class Main extends VRApplication implements TickProducer {
 			showQRCode();
 		}
 
-		AudioManager.getInstance().init();
-		BackgroundMusic.getInstance().start();
+		setupAudio();
 		
 		//Register an AppState to properly clean up the game.
 		getStateManager().attach(new AbstractAppState() {
@@ -238,40 +239,51 @@ public class Main extends VRApplication implements TickProducer {
 	}
 
 	/**
+	 * Sets up everything audio related.
+	 */
+	private void setupAudio() {
+		AudioManager.getInstance().init(getAudioRenderer(), getListener());
+		attachTickListener(AudioManager.getInstance());
+		
+		BackgroundMusic.getInstance().start();
+		attachTickListener(BackgroundMusic.getInstance());
+	}
+
+	/**
 	 * Setup all the key mappings.
 	 */
 	@SneakyThrows
 	protected void setupControlMappings() {
-		InputManager im = getInputManager();
-		im.setCursorVisible(false);
+		InputManager inputManager = getInputManager();
+		inputManager.setCursorVisible(false);
 
 		if (mouseEnabled) {
-			new NoVRMouseManager(getCamera()).registerWithInput(im);
+			new NoVRMouseManager(getCamera()).registerWithInput(inputManager);
 		} else if (VRApplication.isInVR()) {
-			new VRLookManager2(getCamera()).registerWithInput(im);
+			new VRLookManager(VRApplication.getObserver()).registerWithInput(inputManager);
 		}
 		
 		if (isControllerConnected()) {
-			Joystick j = im.getJoysticks()[0];
+			Joystick joystick = inputManager.getJoysticks()[0];
 
-			mapJoystickAxes(j);
+			mapJoystickAxes(joystick);
 
-			j.getButton("0").assignButton("Jump");				// A
-			j.getButton("3").assignButton("Unmapped");			// Y
-			j.getButton("2").assignButton("Bomb");				// X
-			j.getButton("1").assignButton("Pickup");			// B
+			joystick.getButton("0").assignButton("Jump");			// A
+			joystick.getButton("3").assignButton("Unmapped");		// Y
+			joystick.getButton("2").assignButton("Drop");			// X
+			joystick.getButton("1").assignButton("Pickup");			// B
 		} else {
-			im.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
-			im.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
-			im.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
-			im.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
-			im.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-			im.addMapping("Bomb", new KeyTrigger(KeyInput.KEY_Q));
-			im.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
+			inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
+			inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
+			inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
+			inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
+			inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+			inputManager.addMapping("Drop", new KeyTrigger(KeyInput.KEY_Q));
+			inputManager.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
 
-		im.addMapping("Exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
-		im.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+		inputManager.addMapping("Exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
+		inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
 	}
 
 	/**
@@ -317,11 +329,6 @@ public class Main extends VRApplication implements TickProducer {
 	@Override
 	public void simpleUpdate(float tpf) {
 		updateTickListeners(tpf);
-
-		getListener().setLocation(getCamera().getLocation());
-		getListener().setRotation(getCamera().getRotation());
-
-		BackgroundMusic.getInstance().update();
 	}
 
 	/**
@@ -336,6 +343,7 @@ public class Main extends VRApplication implements TickProducer {
 		}
 		return instance;
 	}
+	
 	/**
 	 * Opens the QR code to join the game in the default browser.
 	 */

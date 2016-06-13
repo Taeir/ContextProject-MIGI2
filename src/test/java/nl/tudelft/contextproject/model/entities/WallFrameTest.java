@@ -16,7 +16,7 @@ import com.jme3.scene.Spatial;
  * Test class for {@link WallFrame}.
  */
 public class WallFrameTest extends EntityTest {
-	private WallFrame wf;
+	private WallFrame wallFrame;
 	
 	@Override
 	public Entity getEntity() {
@@ -33,7 +33,7 @@ public class WallFrameTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
-		wf = new WallFrame(new Vector3f(), "logo.png", Direction.NORTH, 1, 3);		
+		wallFrame = new WallFrame(new Vector3f(), "logo.png", Direction.NORTH, 1, 3);		
 	}
 	
 	/**
@@ -41,12 +41,12 @@ public class WallFrameTest extends EntityTest {
 	 */
 	@Test
 	public void testSnapToWallNorth() {
-		Spatial sp = mock(Spatial.class);
-		wf.setSpatial(sp);
-		wf.snapToWall(Direction.NORTH);
+		Spatial spatial = mock(Spatial.class);
+		wallFrame.setSpatial(spatial);
+		wallFrame.snapToWall(Direction.NORTH);
 
-		verify(sp, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
-		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
+		verify(spatial, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
+		verify(spatial, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
 	
 	/**
@@ -54,12 +54,12 @@ public class WallFrameTest extends EntityTest {
 	 */
 	@Test
 	public void testSnapToWallWest() {
-		Spatial sp = mock(Spatial.class);
-		wf.setSpatial(sp);
-		wf.snapToWall(Direction.WEST);
+		Spatial spatial = mock(Spatial.class);
+		wallFrame.setSpatial(spatial);
+		wallFrame.snapToWall(Direction.WEST);
 
-		verify(sp, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
-		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
+		verify(spatial, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
+		verify(spatial, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
 	
 	/**
@@ -67,11 +67,11 @@ public class WallFrameTest extends EntityTest {
 	 */
 	@Test
 	public void testSnapToWallSouth() {
-		Spatial sp = mock(Spatial.class);
-		wf.setSpatial(sp);
-		wf.snapToWall(Direction.SOUTH);
+		Spatial spatial = mock(Spatial.class);
+		wallFrame.setSpatial(spatial);
+		wallFrame.snapToWall(Direction.SOUTH);
 
-		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
+		verify(spatial, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
 	
 	/**
@@ -79,12 +79,12 @@ public class WallFrameTest extends EntityTest {
 	 */
 	@Test
 	public void testSnapToWallEast() {
-		Spatial sp = mock(Spatial.class);
-		wf.setSpatial(sp);
-		wf.snapToWall(Direction.EAST);
+		Spatial spatial = mock(Spatial.class);
+		wallFrame.setSpatial(spatial);
+		wallFrame.snapToWall(Direction.EAST);
 
-		verify(sp, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
-		verify(sp, times(1)).move(anyFloat(), anyFloat(), anyFloat());
+		verify(spatial, times(1)).rotate(anyFloat(), anyFloat(), anyFloat());
+		verify(spatial, times(1)).move(anyFloat(), anyFloat(), anyFloat());
 	}
 	
 	/**

@@ -1,6 +1,6 @@
 package nl.tudelft.contextproject.model;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Interface for classes that produce ticks that can be listened to.
@@ -9,9 +9,9 @@ public interface TickProducer {
 
 	/**
 	 * @return
-	 * 		a list with all the attached tickListeners
+	 * 		a set with all the attached tickListeners
 	 */
-	List<TickListener> getTickListeners();
+	Set<TickListener> getTickListeners();
 
 	/**
 	 * Update all attached {@link TickListener}s with 0 as tpf.
@@ -27,28 +27,28 @@ public interface TickProducer {
 	 * 		the tpf value for the update
 	 */
 	default void updateTickListeners(float tpf) {
-		for (TickListener tl : getTickListeners()) {
-			tl.update(tpf);
+		for (TickListener tickListener : getTickListeners()) {
+			tickListener.update(tpf);
 		}
 	}
 
 	/**
 	 * Attach a {@link TickListener}.
 	 * 
-	 * @param tl
+	 * @param tickListener
 	 * 		the {@link TickListener} to attach
 	 */
-	default void attachTickListener(TickListener tl) {
-		getTickListeners().add(tl);		
+	default void attachTickListener(TickListener tickListener) {
+		getTickListeners().add(tickListener);		
 	}
 	
 	/**
 	 * Remove a registered TickListener.
 	 *
-	 * @param tl
+	 * @param tickListener
 	 * 		the TickListener to remove
 	 */
-	default void removeTickListener(TickListener tl) {
-		getTickListeners().remove(tl);
+	default void removeTickListener(TickListener tickListener) {
+		getTickListeners().remove(tickListener);
 	}
 }

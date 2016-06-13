@@ -41,9 +41,9 @@ public class TreasureTest extends EntityTest {
 	@Test
 	public void testOnTrigger() {
 		TestUtil.mockGame();
-		Game g = Main.getInstance().getCurrentGame();
+		Game game = Main.getInstance().getCurrentGame();
 		instance.onTrigger();
-		verify(g, times(1)).endGame(true);
+		verify(game, times(1)).endGame(true);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class TreasureTest extends EntityTest {
 	@Test
 	public void testLoadEntity() {
 		Treasure treasure = Treasure.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.TREASURE.getName()});
-		assertEquals(expectedPosition, treasure.getLocation());
+		assertEquals(loadPosition.add(0, 1, 0), treasure.getLocation());
 	}
 
 	/**

@@ -102,6 +102,14 @@ public final class QRGenerator {
 	public ByteArrayOutputStream streamQRcode() {
 		return QRCode.from(hostingAddress).to(ImageType.PNG).withCharset("UTF-8").withSize(WIDTH, HEIGTH).stream();
 	}
+	
+	/**
+	 * @return
+	 * 		the address used for the QR codes
+	 */
+	public String getQRAddress() {
+		return hostingAddress;
+	}
 
 	/**
 	 * Set the correct ipv4 address of this computer.
@@ -121,15 +129,15 @@ public final class QRGenerator {
 			networkInterfaces = NetworkInterface.getNetworkInterfaces();
 
 			while (networkInterfaces.hasMoreElements()) {
-				NetworkInterface e = networkInterfaces.nextElement();
-				Enumeration<InetAddress> a = e.getInetAddresses();
+				NetworkInterface networkInterface = networkInterfaces.nextElement();
+				Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
 
-				while (a.hasMoreElements()) {
-					InetAddress addr = a.nextElement();
-					String hostAddress = addr.getHostAddress();
+				while (addresses.hasMoreElements()) {
+					InetAddress addres = addresses.nextElement();
+					String hostAddress = addres.getHostAddress();
 					if (!hostAddress.startsWith("127.") 
 							&& !hostAddress.contains(":")) {
-						hostingAddress = addr.getHostAddress();
+						hostingAddress = addres.getHostAddress();
 					}
 				}
 			}

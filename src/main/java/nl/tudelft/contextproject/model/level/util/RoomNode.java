@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.jme3.light.Light;
+import com.jme3.light.PointLight;
+import com.jme3.light.SpotLight;
+import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
@@ -20,6 +23,12 @@ public class RoomNode {
 	 * Minimum distance between rooms and boundaries.
 	 */
 	public static final int MIN_DIST = 3;
+	
+	/**
+	 * Render torches. 
+	 * At the moment the torches require a lot of GPU power to be rendered, so they are turned off.
+	 */
+	public static boolean renderTorches;
 	
 	public int id;
 	public Vec2I coordinates;
@@ -207,10 +216,49 @@ public class RoomNode {
 				tiles[coordinates.x + x][coordinates.y + y].replace(coordinates.x + x, coordinates.y + y);
 			}
 		}
+		updateEntityPositions(coordinates);
+		updateLights(tiles, coordinates);
+		updateDoorLocations();
+	}
+
+	/**
+	 * Update the entity positions with the off set.
+	 * @param coordinates
+	 * 		the off set the room is being placed on.
+	 */
+	private void updateEntityPositions(Vec2I coordinates) {
 		for (Entity e : room.entities) {
 			e.move(coordinates.x, 0, coordinates.y);
 		}
-		updateDoorLocations();
+	}
+
+	/**
+	 * Method that updates the lights of the room.
+	 * Will also create Torch entities to render if enabled.
+	 * 
+	 * @param tiles
+	 * 		the current map
+	 * @param coordinates
+	 * 		the offset of the room
+	 */
+	private void updateLights(MazeTile[][] tiles, Vec2I coordinates) {
+		for (Light l : room.lights) {
+			if (l instanceof PointLight) {
+				PointLight pl = ((PointLight) l);
+				Vector3f position = pl.getPosition();
+				pl.setPosition(position.add(coordinates.x, 0, coordinates.y));
+				if (renderTorches) {
+					position = pl.getPosition();
+					Vec2I newLightPosition = new Vec2I(Math.round(position.x), Math.round(position.z));
+					room.entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), 
+							new Vector3f(newLightPosition.x, 4.5f, newLightPosition.y)));
+				}
+			}
+			if (l instanceof SpotLight) {
+				SpotLight sl = ((SpotLight) l);
+				sl.setPosition(sl.getPosition().add(coordinates.x, 0, coordinates.y));
+			}			
+		}
 	}
 
 	/**
@@ -269,10 +317,7 @@ public class RoomNode {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
+		return id;
 	}
 
 	/**
@@ -280,12 +325,10 @@ public class RoomNode {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof RoomNode) {
-			RoomNode other = (RoomNode) obj;
-			if (id != other.id) return false;
-			return true;
-		}
-		return false;
+		if (obj == this) return true;
+		if (!(obj instanceof RoomNode)) return false;
+		
+		return id == ((RoomNode) obj).id;
 	}
 		
 }

@@ -9,8 +9,10 @@ import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.light.Light;
+import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.level.roomIO.EntityParser;
 import nl.tudelft.contextproject.model.level.roomIO.MapParser;
 import nl.tudelft.contextproject.model.level.util.CorridorBeautification;
 import nl.tudelft.contextproject.model.level.util.CorridorBreadthFirstSearch;
@@ -69,7 +71,6 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	public ArrayList<Light> lights;
 	public MazeTile[][] mazeTiles;
 
-
 	/**
 	 * Constructor.
 	 * 
@@ -103,11 +104,16 @@ public class MSTBasedLevelFactory implements LevelFactory {
 		createReverseMST();
 		placeCorridors();
 		beautifyCorridors();
+		
+		//Put all the entities in the different rooms into a global entities collection.
 		for (RoomNode roomNode: usedNodes) {
 			Room room = roomNode.room;
 			entities.addAll(room.entities);
 		}
-		return new Level(mazeTiles, lights);
+		
+		Vector3f playerSpawnLocation = EntityParser.getPlayerSpawnLocation(entities, rand);
+		
+		return new Level(mazeTiles, lights, entities, playerSpawnLocation);
 	}
 
 	/**
@@ -219,6 +225,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Extend the corridors and add walls to them.
 	 */
 	protected void beautifyCorridors() {
+		CorridorBeautification.simpleCorridorWidening(mazeTiles);
 		CorridorBeautification.carveCorridorWalls(mazeTiles);
 	}
 	

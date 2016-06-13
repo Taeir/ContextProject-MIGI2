@@ -24,8 +24,8 @@ public class EndingControllerTest extends TestBase {
 	public void setUp() {
 		instance = new EndingController(Main.getInstance(), true);
 		
-		AppStateManager asm = Mockito.mock(AppStateManager.class);
-		instance.initialize(asm, Main.getInstance());
+		AppStateManager appStateManager = Mockito.mock(AppStateManager.class);
+		instance.initialize(appStateManager, Main.getInstance());
 	}
 	
 	/**

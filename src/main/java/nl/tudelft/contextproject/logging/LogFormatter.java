@@ -46,12 +46,12 @@ public class LogFormatter extends Formatter {
         String throwable = "";
 
         if (record.getThrown() != null) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            pw.println();
-            record.getThrown().printStackTrace(pw);
-            pw.close();
-            throwable = sw.toString();
+            StringWriter stringWriter = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(stringWriter);
+            printWriter.println();
+            record.getThrown().printStackTrace(printWriter);
+            printWriter.close();
+            throwable = stringWriter.toString();
         }
 
         return String.format(format, record.getMillis(), record.getLoggerName(), record.getLevel().getLocalizedName(), message, throwable);

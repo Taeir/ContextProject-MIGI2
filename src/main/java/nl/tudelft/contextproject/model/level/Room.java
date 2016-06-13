@@ -77,10 +77,10 @@ public class Room {
 		int width = 0;
 		int height = 0;
 		String fileName = RoomParser.getMapFile(folder).getName();
-		Matcher m = PATTERN.matcher(fileName);
-		if (m.matches()) {
-			width = Integer.parseInt(m.group("width"));
-			height = Integer.parseInt(m.group("height"));
+		Matcher matcher = PATTERN.matcher(fileName);
+		if (matcher.matches()) {
+			width = Integer.parseInt(matcher.group("width"));
+			height = Integer.parseInt(matcher.group("height"));
 			return size = new Size(width, height);
 		} else {
 			throw new IOException("Expected a .crf file present in the folder with the correct name");
@@ -120,14 +120,11 @@ public class Room {
 	}
 
 	/**
-	 * Simple hash code of tiles used for testing.
+	 * Simple hash code of tiles.
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.deepHashCode(mazeTiles);
-		return result;
+		return Arrays.deepHashCode(mazeTiles);
 	}
 
 	/**
@@ -136,25 +133,24 @@ public class Room {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		
 		Room other = (Room) obj;
-		if (!other.size.equals(size)) 
-			return false;
+		if (!other.size.equals(size)) return false;
 
 		for (int i = 0; i < size.getWidth(); i++) {
 			for (int j = 0; j < size.getHeight(); j++) {
-				if (mazeTiles[i][j] == null && mazeTiles[i][j] == null) {
-					if (mazeTiles[i][j] == null) return true;
+				if (mazeTiles[i][j] == null) {
+					if (other.mazeTiles[i][j] != null) return false;
+					
+					continue;
+				} else if (other.mazeTiles[i][j] == null) {
 					return false;
 				}
-				else if (mazeTiles[i][j].getTileType() != other.mazeTiles[i][j].getTileType()) {
-					return false;
-				}
+				
+				if (mazeTiles[i][j].getTileType() != other.mazeTiles[i][j].getTileType()) return false;
 			}
 		}
 

@@ -8,6 +8,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.Game;
 
 /**
  * Landmine that explodes when the player steps on it.
@@ -27,30 +28,30 @@ public class LandMine extends PlayerTrigger {
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
-		Box b = new Box(.1f, .01f, .1f);
-		this.spatial = new Geometry("plate", b);
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
-		mat.setBoolean("UseMaterialColors", true);    
-		mat.setColor("Diffuse", ColorRGBA.Green.mult(.4f));
-		mat.setColor("Specular", ColorRGBA.White);
-		mat.setFloat("Shininess", 64f);
-		mat.setColor("Ambient", ColorRGBA.Green.mult(.4f));
-		this.spatial.setMaterial(mat); 
+		Box box = new Box(.1f, .01f, .1f);
+		this.spatial = new Geometry("plate", box);
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+		material.setBoolean("UseMaterialColors", true);    
+		material.setColor("Diffuse", ColorRGBA.Green.mult(.4f));
+		material.setColor("Specular", ColorRGBA.White);
+		material.setFloat("Shininess", 64f);
+		material.setColor("Ambient", ColorRGBA.Green.mult(.4f));
+		this.spatial.setMaterial(material); 
 		this.spatial.move(0, 0.505f, 0);
 		return spatial;
 	}
 	
 	@Override
-	public void setSpatial(Spatial s) {
-		this.spatial = s;
+	public void setSpatial(Spatial spatial) {
+		this.spatial = spatial;
 	}
 	
 	@Override
 	public void onTrigger() {
-		Explosion e = new Explosion(20f);
-		Vector3f m = getLocation();
-		e.move(m.x, m.y, m.z);
-		Main.getInstance().getCurrentGame().addEntity(e);
+		Explosion explosion = new Explosion(20f);
+		Vector3f location = getLocation();
+		explosion.move(location.x, location.y, location.z);
+		Main.getInstance().getCurrentGame().addEntity(explosion);
 		this.setState(EntityState.DEAD);
 	}
 
@@ -77,5 +78,16 @@ public class LandMine extends PlayerTrigger {
 	@Override
 	public EntityType getType() {
 		return EntityType.LANDMINE;
+	}
+	
+	@Override
+	public boolean collidesWithPlayer(float distance) {
+		Game game = Main.getInstance().getCurrentGame();
+		Vector3f playerLoc = game.getPlayer().getLocation();
+		if (getLocation().distance(playerLoc) < distance) return true;
+		for (Entity entity : game.getEntities()) {
+			if (entity instanceof Crate && getLocation().distance(entity.getLocation()) < distance + .3f) return true;
+		}
+		return false;
 	}
 }

@@ -60,8 +60,8 @@ public class BunnyAITest {
 	 */
 	@Test
 	public void testFindClosestCarrotNull() {
-		Carrot c = ai.findClosestCarrot();
-		assertNull(c);
+		Carrot carrot = ai.findClosestCarrot();
+		assertNull(carrot);
 	}
 	
 	/**
@@ -70,12 +70,12 @@ public class BunnyAITest {
 	@Test
 	public void testFindClosestCarrot() {
 		Set<Entity> entities = Main.getInstance().getCurrentGame().getEntities();
-		Carrot c = mock(Carrot.class);
-		when(c.getLocation()).thenReturn(new Vector3f(1, 1, 1));
+		Carrot carrot = mock(Carrot.class);
+		when(carrot.getLocation()).thenReturn(new Vector3f(1, 1, 1));
 		entities.add(mock(Entity.class));
-		entities.add(c);
+		entities.add(carrot);
 		
-		assertEquals(c, ai.findClosestCarrot());
+		assertEquals(carrot, ai.findClosestCarrot());
 	}
 	
 	/**
@@ -93,9 +93,9 @@ public class BunnyAITest {
 	@Test
 	public void testFindTargetPlayerCloser() {
 		Set<Entity> entities = Main.getInstance().getCurrentGame().getEntities();
-		Carrot c = mock(Carrot.class);
-		when(c.getLocation()).thenReturn(new Vector3f(1, 1, 1));
-		entities.add(c);
+		Carrot carrot = mock(Carrot.class);
+		when(carrot.getLocation()).thenReturn(new Vector3f(1, 1, 1));
+		entities.add(carrot);
 		
 		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
 		assertEquals(player, ai.findTarget(.2f, .3f));
@@ -107,11 +107,11 @@ public class BunnyAITest {
 	@Test
 	public void testFindTargetCarrotCloser() {
 		Set<Entity> entities = Main.getInstance().getCurrentGame().getEntities();
-		Carrot c = mock(Carrot.class);
-		when(c.getLocation()).thenReturn(new Vector3f(1, 1, 1));
-		entities.add(c);
+		Carrot carrot = mock(Carrot.class);
+		when(carrot.getLocation()).thenReturn(new Vector3f(1, 1, 1));
+		entities.add(carrot);
 		
-		assertEquals(c, ai.findTarget(6f, .3f));
+		assertEquals(carrot, ai.findTarget(6f, .3f));
 	}
 	
 	/**
@@ -120,12 +120,12 @@ public class BunnyAITest {
 	@Test
 	public void testFindTargetEatCarrot() {
 		Set<Entity> entities = Main.getInstance().getCurrentGame().getEntities();
-		Carrot c = mock(Carrot.class);
-		when(c.getLocation()).thenReturn(new Vector3f(0, 0, 0));
-		entities.add(c);
+		Carrot carrot = mock(Carrot.class);
+		when(carrot.getLocation()).thenReturn(new Vector3f(0, 0, 0));
+		entities.add(carrot);
 		
-		assertEquals(c, ai.findTarget(6f, .3f));
-		verify(c, times(1)).eat(.3f);
+		assertEquals(carrot, ai.findTarget(6f, .3f));
+		verify(carrot, times(1)).eat(.3f);
 	}
 
 }

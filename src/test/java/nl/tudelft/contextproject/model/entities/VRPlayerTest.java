@@ -1,9 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +14,6 @@ import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
-import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
@@ -79,8 +76,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testGetSpatialCheckFallspeed() {
-		Object ob = player.getPhysicsObject();
-		CharacterControl playerControl = (CharacterControl) ob;
+		Object obj = player.getPhysicsObject();
+		CharacterControl playerControl = (CharacterControl) obj;
 		assertEquals(playerControl.getFallSpeed(), VRPlayer.FALL_SPEED, EPSILON);
 	}
 
@@ -89,8 +86,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testGetSpatialCheckJumpSpeed() {
-		Object ob = player.getPhysicsObject();
-		CharacterControl playerControl = (CharacterControl) ob;
+		Object obj = player.getPhysicsObject();
+		CharacterControl playerControl = (CharacterControl) obj;
 		assertEquals(playerControl.getJumpSpeed(), VRPlayer.JUMP_SPEED, EPSILON);
 	}
 
@@ -99,8 +96,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testGetSpatialCheckGravity() {
-		Object ob = player.getPhysicsObject();
-		CharacterControl playerControl = (CharacterControl) ob;
+		Object obj = player.getPhysicsObject();
+		CharacterControl playerControl = (CharacterControl) obj;
 		assertEquals(playerControl.getGravity(), VRPlayer.PLAYER_GRAVITY, EPSILON);
 	}
 
@@ -109,8 +106,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test 
 	public void testDropBomb() {
-		player.getInventory().add(new Bomb());
-		player.dropBomb();
+		player.getInventory().pickUp(new Bomb());
+		player.drop();
 		assertSame(player.getInventory().size(), 0);
 	}
 
@@ -120,7 +117,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 	@Test
 	public void testDropNoBomb() {
 		player.getInventory().add(new Key(ColorRGBA.Yellow));
-		player.dropBomb();
+		player.drop();
 		assertSame(player.getInventory().size(), 1);
 	}
 	
@@ -149,9 +146,9 @@ public class VRPlayerTest extends MovingEnemyTest {
 		MazeTile tile = mock1x1Level();
 		
 		//Mock the player's spatial to the appropriate location
-		Spatial spatial = mock(Spatial.class);
-		when(spatial.getLocalTranslation()).thenReturn(new Vector3f(0, 2, 0));
-		player.setSpatial(spatial);
+		Spatial playerSpatial = mock(Spatial.class);
+		when(playerSpatial.getLocalTranslation()).thenReturn(new Vector3f(0, 2, 0));
+		player.setSpatial(playerSpatial);
 		
 		//When we now call updateExploration with a too low TPF
 		player.updateExploration(VRPlayer.EXPLORATION_INTERVAL - 0.1f);
@@ -172,7 +169,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 		
 		//Mock the player's spatial to the appropriate location
 		Spatial spatial = mock(Spatial.class);
-		when(spatial.getLocalTranslation()).thenReturn(new Vector3f(VRPlayer.EXPLORATION_RADIUS, 2, VRPlayer.EXPLORATION_RADIUS));
+		when(spatial.getLocalTranslation()).thenReturn(new Vector3f(VRPlayer.EXPLORATION_RADIUS, VRPlayer.SPAWN_HEIGHT, VRPlayer.EXPLORATION_RADIUS));
 		player.setSpatial(spatial);
 		
 		//When we now call updateExploration
@@ -188,11 +185,11 @@ public class VRPlayerTest extends MovingEnemyTest {
 	@Test
 	public void testPickUpBomb() {
 		Bomb bomb = new Bomb();
-		Vector3f vec = player.getSpatial().getLocalTranslation();
-		bomb.move(vec.x + 1, vec.y, vec.z);
+		Vector3f location = player.getSpatial().getLocalTranslation();
+		bomb.move(location.x + 1, location.y, location.z);
 		Main.getInstance().getCurrentGame().getEntities().add(bomb);
 		player.pickUp();
-		assertTrue(bomb.isPickedup());
+		assertTrue(bomb.isPickedUp());
 	}
 	
 	/**
@@ -201,8 +198,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	@Test
 	public void testPickUpKey() {
 		Key key = new Key(ColorRGBA.Yellow);
-		Vector3f vec = player.getSpatial().getLocalTranslation();
-		key.move(vec.x + 1, vec.y, vec.z);
+		Vector3f location = player.getSpatial().getLocalTranslation();
+		key.move(location.x + 1, location.y, location.z);
 		Main.getInstance().getCurrentGame().getEntities().add(key);
 		player.pickUp();
 		player.getInventory().containsKey();
@@ -222,9 +219,9 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testsetInventory() {
-		Inventory inv = new Inventory();
-		player.setInventory(inv);
-		assertEquals(player.getInventory(), inv);
+		Inventory inventory = new Inventory();
+		player.setInventory(inventory);
+		assertEquals(player.getInventory(), inventory);
 	}
 	
 	/**
@@ -239,7 +236,7 @@ public class VRPlayerTest extends MovingEnemyTest {
 		
 		//Mock the player's spatial to the appropriate location
 		Spatial spatial = mock(Spatial.class);
-		when(spatial.getLocalTranslation()).thenReturn(new Vector3f(VRPlayer.EXPLORATION_RADIUS + 1, 2, VRPlayer.EXPLORATION_RADIUS + 1));
+		when(spatial.getLocalTranslation()).thenReturn(new Vector3f(VRPlayer.EXPLORATION_RADIUS + 1, VRPlayer.SPAWN_HEIGHT, VRPlayer.EXPLORATION_RADIUS + 1));
 		player.setSpatial(spatial);
 		
 		//When we now call updateExploration
@@ -254,9 +251,9 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testTakeDamage() {
-		float exp = player.getHealth() - .2f;
+		float expectedHeath = player.getHealth() - .2f;
 		player.takeDamage(.2f);
-		assertEquals(exp, player.getHealth(), 1e-8);
+		assertEquals(expectedHeath, player.getHealth(), 1e-8);
 	}
 	
 	/**
@@ -264,8 +261,8 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 */
 	@Test
 	public void testKill() {
-		float dmg = player.getHealth() + .2f;
-		player.takeDamage(dmg);
+		float damage = player.getHealth() + .2f;
+		player.takeDamage(damage);
 		assertEquals(GameState.ENDED, Main.getInstance().getGameState());
 	}
 	
@@ -295,15 +292,10 @@ public class VRPlayerTest extends MovingEnemyTest {
 	 * 		the one and only MazeTile in the level
 	 */
 	private MazeTile mock1x1Level() {
-		Level level = mock(Level.class);
-		when(level.getHeight()).thenReturn(1);
-		when(level.getWidth()).thenReturn(1);
+		Level level = Main.getInstance().getCurrentGame().getLevel();
 		
 		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
 		when(level.getTile(anyInt(), anyInt())).thenReturn(tile);
-		
-		Game game = new Game(level, null, 10f);
-		when(Main.getInstance().getCurrentGame()).thenReturn(game);
 		return tile;
 	}	
 }

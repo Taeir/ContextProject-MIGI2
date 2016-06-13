@@ -1,14 +1,12 @@
 package nl.tudelft.contextproject.model.entities;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -46,11 +44,11 @@ public class GateTest extends EntityTest {
 	 */
 	@Test
 	public void testUpdate() {
-		Spatial mock = mock(Spatial.class);
-		gate.setSpatial(mock);
-		when(mock.getLocalTranslation()).thenReturn(new Vector3f(1, .5f, 1));
+		Spatial spatialMock = mock(Spatial.class);
+		gate.setSpatial(spatialMock);
+		when(spatialMock.getLocalTranslation()).thenReturn(new Vector3f(1, .5f, 1));
 		gate.update(0.f);
-		verify(mock, never()).move(anyFloat(), anyFloat(), anyFloat());
+		verify(spatialMock, never()).move(anyFloat(), anyFloat(), anyFloat());
 	}
 
 	/**
@@ -92,7 +90,7 @@ public class GateTest extends EntityTest {
 		gate.openGate();
 		when(mock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
 		gate.update(0.f);
-		Mockito.verify(mock, atLeastOnce()).move(anyFloat(), anyFloat(), anyFloat());
+		verify(mock, atLeastOnce()).move(anyFloat(), anyFloat(), anyFloat());
 	}
 	
 	/**

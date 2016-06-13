@@ -1,9 +1,7 @@
 package nl.tudelft.contextproject.model.entities;
 
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -18,10 +16,8 @@ import nl.tudelft.contextproject.model.level.TileType;
 /**
  * A damaged wall that can be destroyed by explosions.
  */
-public class DamagedWall extends Entity implements Health, PhysicsObject {
+public class DamagedWall extends AbstractPhysicsEntity implements Health, PhysicsObject {
 
-	private Spatial spatial;
-	private RigidBodyControl phControl;
 	private Material material;
 	private float health = 1.5f;
 
@@ -29,8 +25,8 @@ public class DamagedWall extends Entity implements Health, PhysicsObject {
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 		
-		Box b = new Box(.5f, TileType.WALL.getHeight(), .5f);
-		this.spatial = new Geometry("Box", b);
+		Box box = new Box(.5f, TileType.WALL.getHeight(), .5f);
+		this.spatial = new Geometry("Box", box);
 		material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
 		material.setBoolean("UseMaterialColors", true);  
 		material.setFloat("Shininess", 64f);
@@ -42,31 +38,19 @@ public class DamagedWall extends Entity implements Health, PhysicsObject {
 	}
 
 	@Override
-	public void setSpatial(Spatial spatial) {
-		this.spatial = spatial;
-	}
-
-	@Override
-	public void update(float tpf) { }
-
-	@Override
 	public PhysicsControl getPhysicsObject() {
-		if (phControl != null) return phControl;
-		
-		if (spatial == null) {
-			this.getSpatial();
-		}
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(spatial);
-		phControl = new RigidBodyControl(sceneShape, 0);
-		phControl.setPhysicsLocation(spatial.getLocalTranslation());
-		return phControl;
+		if (rigidBody != null) return rigidBody;
+
+		rigidBody = new RigidBodyControl(1.5f);
+		getSpatial().addControl(rigidBody);
+		return rigidBody;
 	}
 
 	@Override
 	public void move(float x, float y, float z) {
 		getPhysicsObject();
-		phControl.setPhysicsLocation(getLocation().add(x, y, z));
-		spatial.setLocalTranslation(phControl.getPhysicsLocation());
+		rigidBody.setPhysicsLocation(getLocation().add(x, y, z));
+		spatial.setLocalTranslation(rigidBody.getPhysicsLocation());
 	}
 
 	@Override

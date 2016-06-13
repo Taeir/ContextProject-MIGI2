@@ -11,6 +11,7 @@ import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.webinterface.Action;
+import nl.tudelft.contextproject.webinterface.Team;
 import nl.tudelft.contextproject.webinterface.WebClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,9 +33,6 @@ import static org.mockito.Mockito.when;
  * Test for the WebUtil class.
  */
 public class WebUtilTest extends TestBase {
-	private static final String DWARFS = "Dwarfs";
-	private static final String ELVES = "Elves";
-
 	private Game mockedGame;
 	private Level mockedLevel;
 	private Vector3f zeroVector;
@@ -56,48 +54,13 @@ public class WebUtilTest extends TestBase {
 	}
 
 	/**
-	 * Test for decoding actions.
-	 */
-	@Test
-	public void testDecode() {
-		assertEquals(WebUtil.decodeAction(0), Action.PLACEBOMB);
-		assertEquals(WebUtil.decodeAction(1), Action.PLACEPITFALL);
-		assertEquals(WebUtil.decodeAction(2), Action.PLACEMINE);
-		assertEquals(WebUtil.decodeAction(3), Action.SPAWNENEMY);
-		assertEquals(WebUtil.decodeAction(4), Action.DROPBAIT);
-		assertEquals(WebUtil.decodeAction(-1), Action.INVALID);
-	}
-
-	/**
 	 * Test for checking if an action is valid.
 	 */
 	@Test
 	public void testCheckValidAction() {
-		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, ELVES));
-		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, DWARFS));
-		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, "hax0r"));
-	}
-
-	/**
-	 * Test for checking if an action is valid as an elf.
-	 */
-	@Test
-	public void testCheckValidElves() {
-		assertTrue(WebUtil.checkValidElves(Action.DROPBAIT));
-		assertTrue(WebUtil.checkValidElves(Action.PLACETILE));
-		assertFalse(WebUtil.checkValidElves(Action.PLACEBOMB));
-	}
-
-	/**
-	 * Test for checking if an action is valid as a dwarf.
-	 */
-	@Test
-	public void testCheckValidDwarfs() {
-		assertTrue(WebUtil.checkValidDwarfs(Action.PLACEBOMB));
-		assertTrue(WebUtil.checkValidDwarfs(Action.PLACEPITFALL));
-		assertTrue(WebUtil.checkValidDwarfs(Action.PLACEMINE));
-		assertTrue(WebUtil.checkValidDwarfs(Action.SPAWNENEMY));
-		assertFalse(WebUtil.checkValidDwarfs(Action.DROPBAIT));
+		assertTrue(WebUtil.checkValidAction(Action.DROPBAIT, Team.ELVES));
+		assertTrue(WebUtil.checkValidAction(Action.PLACEBOMB, Team.DWARFS));
+		assertFalse(WebUtil.checkValidAction(Action.PLACEMINE, Team.NONE));
 	}
 
 	/**
@@ -139,37 +102,31 @@ public class WebUtilTest extends TestBase {
 	}
 
 	/**
-	 * Test for checking if placing in the player is not a valid location.
+	 * Test if placing inside of the player radius is invalid.
 	 */
 	@Test
-	public void testCheckValidLocationPlayer() {
-		MazeTile tile = new MazeTile(0, 0, TileType.FLOOR);
-		when(mockedLevel.getTile(0, 0)).thenReturn(tile);
+	public void testCheckRadiusInvalid() {
 		Set<Entity> entities = new HashSet<>();
 		when(mockedGame.getEntities()).thenReturn(entities);
 
 		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
 		when(mockedPlayer.getLocation()).thenReturn(zeroVector);
 
-		assertFalse(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
+		assertFalse(WebUtil.checkOutsideRadius(0, 0, Action.SPAWNENEMY));
 	}
 
 	/**
-	 * Check if placing on a valid location is indeed a valid location.
+	 * Check if placing outside of the player radius is valid.
 	 */
 	@Test
-	public void testCheckValidLocationValid() {
-		MazeTile tile = new MazeTile(2, 3, TileType.FLOOR);
-		when(mockedLevel.getTile(2, 3)).thenReturn(tile);
+	public void testCheckRadiusValid() {
 		Set<Entity> entities = new HashSet<>();
 		when(mockedGame.getEntities()).thenReturn(entities);
 
-
 		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
-		Vector3f oneVector = new Vector3f(1, 1, 1);
-		when(mockedPlayer.getLocation()).thenReturn(oneVector);
+		when(mockedPlayer.getLocation()).thenReturn(zeroVector);
 
-		assertTrue(WebUtil.checkValidLocation(2, 3, Action.PLACEBOMB));
+		assertTrue(WebUtil.checkOutsideRadius(Action.SPAWNENEMY.getRadius() + 1, Action.SPAWNENEMY.getRadius() + 1, Action.SPAWNENEMY));
 	}
 
 	/**
@@ -199,7 +156,7 @@ public class WebUtilTest extends TestBase {
 		List<Long> timestamps = new ArrayList<>();
 		performedActions.put(Action.PLACEBOMB, timestamps);
 
-		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getTeam()).thenReturn(Team.DWARFS);
 		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
@@ -222,7 +179,7 @@ public class WebUtilTest extends TestBase {
 
 		performedActions.put(Action.PLACEBOMB, timestamps);
 
-		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getTeam()).thenReturn(Team.DWARFS);
 		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		assertFalse(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
@@ -244,7 +201,7 @@ public class WebUtilTest extends TestBase {
 
 		performedActions.put(Action.PLACEBOMB, timestamps);
 
-		when(mockedClient.getTeam()).thenReturn(DWARFS);
+		when(mockedClient.getTeam()).thenReturn(Team.DWARFS);
 		when(mockedClient.getPerformedActions()).thenReturn(performedActions);
 
 		assertTrue(WebUtil.checkWithinCooldown(Action.PLACEBOMB, mockedClient));
@@ -265,6 +222,6 @@ public class WebUtilTest extends TestBase {
 		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
 		when(mockedPlayer.getLocation()).thenReturn(oneVector);
 		
-		assertFalse(WebUtil.checkValidLocation(2, 2, Action.PLACEBOMB));
+		assertFalse(WebUtil.checkValidLocation(1 + Action.PLACEMINE.getRadius(), 1, Action.PLACEMINE));
 	}
 }

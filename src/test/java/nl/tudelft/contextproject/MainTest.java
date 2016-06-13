@@ -3,6 +3,8 @@ package nl.tudelft.contextproject;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.jme3.input.DefaultJoystickAxis;
 import com.jme3.input.InputManager;
 import com.jme3.input.Joystick;
@@ -87,14 +89,14 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testSetController() {
-		Controller cOld = mock(Controller.class);
-		Controller c = mock(Controller.class);
+		Controller oldController = mock(Controller.class);
+		Controller newController = mock(Controller.class);
 
-		main.setController(cOld);
-		assertTrue(main.setController(c));
+		main.setController(oldController);
+		assertTrue(main.setController(newController));
 
-		assertFalse(main.getStateManager().attach(c));
-		assertTrue(main.getStateManager().attach(cOld));
+		assertFalse(main.getStateManager().attach(newController));
+		assertTrue(main.getStateManager().attach(oldController));
 	}
 	
 	/**
@@ -102,10 +104,10 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testSetControllerAgain() {
-		Controller c = mock(Controller.class);
+		Controller controller = mock(Controller.class);
 
-		main.setController(c);
-		assertFalse(main.setController(c));
+		main.setController(controller);
+		assertFalse(main.setController(controller));
 	}
 	
 	/**
@@ -113,8 +115,8 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testGetCurrentGameIllegalState() {
-		Controller c = mock(Controller.class);		
-		main.setController(c);		
+		Controller controller = mock(Controller.class);		
+		main.setController(controller);		
 		assertNull(main.getCurrentGame());
 	}
 	
@@ -123,10 +125,10 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testGetCurrentGameGameController() {
-		GameController c = mock(GameController.class);
+		GameController controller = mock(GameController.class);
 		Game game = mock(Game.class);
-		when(c.getGame()).thenReturn(game);
-		main.setController(c);		
+		when(controller.getGame()).thenReturn(game);
+		main.setController(controller);		
 		assertEquals(game, main.getCurrentGame());
 	}
 	
@@ -135,12 +137,12 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testGetCurrentGamePauseController() {
-		GameController gc = mock(GameController.class);
-		PauseController c = mock(PauseController.class);
-		when(c.getPausedController()).thenReturn(gc);
+		GameController gameController = mock(GameController.class);
+		PauseController pauseController = mock(PauseController.class);
+		when(pauseController.getPausedController()).thenReturn(gameController);
 		Game game = mock(Game.class);
-		when(gc.getGame()).thenReturn(game);
-		main.setController(c);		
+		when(gameController.getGame()).thenReturn(game);
+		main.setController(pauseController);		
 		assertEquals(game, main.getCurrentGame());
 	}
 	
@@ -157,9 +159,9 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testGetGameState() {
-		Controller c = mock(Controller.class);
-		when(c.getGameState()).thenReturn(GameState.RUNNING);
-		main.setController(c);
+		Controller controller = mock(Controller.class);
+		when(controller.getGameState()).thenReturn(GameState.RUNNING);
+		main.setController(controller);
 		assertEquals(GameState.RUNNING, main.getGameState());
 	}
 	
@@ -168,18 +170,19 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testTickListeners() {
-		TickListener tl = mock(TickListener.class);
+		main.setTickListeners(ConcurrentHashMap.newKeySet());
+		TickListener tickListener = mock(TickListener.class);
 
 		main.simpleUpdate(0.1f);
-		verify(tl, times(0)).update(0.1f);
+		verify(tickListener, times(0)).update(0.1f);
 
-		main.attachTickListener(tl);
+		main.attachTickListener(tickListener);
 		main.simpleUpdate(0.1f);
-		verify(tl, times(1)).update(0.1f);
+		verify(tickListener, times(1)).update(0.1f);
 
-		main.removeTickListener(tl);
+		main.removeTickListener(tickListener);
 		main.simpleUpdate(0.1f);
-		verifyNoMoreInteractions(tl);
+		verifyNoMoreInteractions(tickListener);
 	}
 	
 	/**
@@ -203,9 +206,9 @@ public class MainTest extends TestBase {
 		when(joystick.getPovXAxis()).thenReturn(mock(JoystickAxis.class));
 		when(joystick.getPovYAxis()).thenReturn(mock(JoystickAxis.class));
 		
-		InputManager im = main.getInputManager();
+		InputManager inputManager = main.getInputManager();
 		Joystick[] sticks = new Joystick[] { joystick };
-		when(im.getJoysticks()).thenReturn(sticks);
+		when(inputManager.getJoysticks()).thenReturn(sticks);
 		
 		main.setupControlMappings();
 		

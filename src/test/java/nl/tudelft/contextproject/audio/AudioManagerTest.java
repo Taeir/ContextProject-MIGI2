@@ -3,6 +3,8 @@ package nl.tudelft.contextproject.audio;
 import static org.mockito.Mockito.*;
 
 import com.jme3.audio.AudioNode;
+import com.jme3.audio.AudioRenderer;
+import com.jme3.audio.Listener;
 
 import nl.tudelft.contextproject.TestBase;
 
@@ -14,14 +16,17 @@ import org.junit.Test;
  * Test class for {@link AudioManager}.
  */
 public class AudioManagerTest extends TestBase {
-	public AudioNode an;
+	public AudioNode audioNode;
+	public Listener listener;
 	
 	/**
-	 * Mock an AudioNode before every test.
+	 * Mock an AudioNode before every test, and reinitialize the AudioManager.
 	 */
 	@Before
 	public void setUp() {
-		an = mock(AudioNode.class);
+		audioNode = mock(AudioNode.class);
+		listener = mock(Listener.class);
+		AudioManager.getInstance().init(mock(AudioRenderer.class), listener);
 	}
 	
 	/**
@@ -30,9 +35,9 @@ public class AudioManagerTest extends TestBase {
 	@After
 	public void tearDown() {
 		//Unregister the mocked AudioNode, to prevent further unwanted interactions
-		AudioManager.getInstance().unregisterVolume(an, SoundType.AMBIENT);
-		AudioManager.getInstance().unregisterVolume(an, SoundType.BACKGROUND_MUSIC);
-		AudioManager.getInstance().unregisterVolume(an, SoundType.EFFECT);
+		AudioManager.getInstance().unregisterVolume(audioNode, SoundType.AMBIENT);
+		AudioManager.getInstance().unregisterVolume(audioNode, SoundType.BACKGROUND_MUSIC);
+		AudioManager.getInstance().unregisterVolume(audioNode, SoundType.EFFECT);
 	}
 
 	/**
@@ -42,19 +47,19 @@ public class AudioManagerTest extends TestBase {
 	@Test
 	public void testRegisterVolume() {
 		//Register the volume
-		AudioManager.getInstance().registerVolume(an, SoundType.AMBIENT);
+		AudioManager.getInstance().registerVolume(audioNode, SoundType.AMBIENT);
 
 		//Registering should set the volume to the correct type.
-		verify(an, times(1)).setVolume(SoundType.AMBIENT.getGain());
+		verify(audioNode, times(1)).setVolume(SoundType.AMBIENT.getGain());
 
 		//Reset the mock
-		reset(an);
+		reset(audioNode);
 
 		//Change the gain
 		SoundType.AMBIENT.setGain(2.0f);
 
 		//The volume should have been updated
-		verify(an, times(1)).setVolume(2.0f);
+		verify(audioNode, times(1)).setVolume(2.0f);
 	}
 
 	/**
@@ -64,22 +69,22 @@ public class AudioManagerTest extends TestBase {
 	@Test
 	public void testUnregisterVolume() {
 		//Register the volume
-		AudioManager.getInstance().registerVolume(an, SoundType.AMBIENT);
+		AudioManager.getInstance().registerVolume(audioNode, SoundType.AMBIENT);
 
 		//Registering should set the volume to the correct type.
-		verify(an, times(1)).setVolume(SoundType.AMBIENT.getGain());
+		verify(audioNode, times(1)).setVolume(SoundType.AMBIENT.getGain());
 
 		//Reset the mock
-		reset(an);
+		reset(audioNode);
 
 		//Unregister the AudioNode
-		AudioManager.getInstance().unregisterVolume(an, SoundType.AMBIENT);
+		AudioManager.getInstance().unregisterVolume(audioNode, SoundType.AMBIENT);
 
 		//Change the gain
 		SoundType.AMBIENT.setGain(2.0f);
 
 		//The volume should not have been updated
-		verify(an, times(0)).setVolume(anyFloat());
+		verify(audioNode, times(0)).setVolume(anyFloat());
 	}
 
 	/**
@@ -88,12 +93,12 @@ public class AudioManagerTest extends TestBase {
 	@Test
 	public void testAddCaveFeel() {
 		//Mock a positional AudioNode
-		when(an.isPositional()).thenReturn(true);
+		when(audioNode.isPositional()).thenReturn(true);
 
-		AudioManager.getInstance().addCaveFeel(an);
+		AudioManager.getInstance().addCaveFeel(audioNode);
 
 		//The reverb should have been enabled
-		verify(an).setReverbEnabled(true);
+		verify(audioNode).setReverbEnabled(true);
 	}
 	
 	/**
@@ -103,10 +108,10 @@ public class AudioManagerTest extends TestBase {
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddCaveFeel_nonPositional() {
 		//Mock a non-positional AudioNode
-		when(an.isPositional()).thenReturn(false);
+		when(audioNode.isPositional()).thenReturn(false);
 
 		//Adding the cave feel should be impossible
-		AudioManager.getInstance().addCaveFeel(an);
+		AudioManager.getInstance().addCaveFeel(audioNode);
 	}
 
 	/**
@@ -135,6 +140,17 @@ public class AudioManagerTest extends TestBase {
 		//Clean up
 		AudioManager.getInstance().unregisterVolume(anAmbient, SoundType.AMBIENT);
 		AudioManager.getInstance().unregisterVolume(anBackground, SoundType.BACKGROUND_MUSIC);
+	}
+	
+	/**
+	 * Tests if {@link AudioManager#update(float)} correctly updates the Listener.
+	 */
+	@Test
+	public void testUpdate() {
+		AudioManager.getInstance().update(10f);
+		
+		verify(listener, times(1)).setLocation(any());
+		verify(listener, times(1)).setRotation(any());
 	}
 
 }

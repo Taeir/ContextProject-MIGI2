@@ -6,8 +6,11 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jme3.math.Vector3f;
+
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.model.level.Level;
 
 /**
  * Test class for {@link Game}.
@@ -23,7 +26,10 @@ public class GameTest extends TestBase {
 	@Before
 	public void setUp() {
 		controller = mock(GameController.class);
-		instance = new Game(null, controller, 10);
+
+		Level level = mock(Level.class);
+		when(level.getPlayerSpawnPosition()).thenReturn(new Vector3f());
+		instance = new Game(level, controller, 10);
 	}
 
 	/**

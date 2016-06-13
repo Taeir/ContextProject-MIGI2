@@ -19,7 +19,7 @@ import nl.tudelft.contextproject.model.Drawable;
  */
 public abstract class DrawableTest extends TestBase {
 
-	private Drawable dable;
+	private Drawable drawable;
 	
 	/**
 	 * Getter for a specific instance of Drawable.
@@ -33,10 +33,10 @@ public abstract class DrawableTest extends TestBase {
 	 * Method to setup the drawables for a test.
 	 */
 	private void setupDrawable() {
-		dable = getDrawable();
-		Geometry geom = mock(Geometry.class);
-		dable.setSpatial(geom);
-		when(geom.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+		drawable = getDrawable();
+		Geometry geometry = mock(Geometry.class);
+		drawable.setSpatial(geometry);
+		when(geometry.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public abstract class DrawableTest extends TestBase {
 	@Test
 	public void testGetGeometryNotNull_drawable() {
 		setupDrawable();
-		assertNotNull(dable.getSpatial());
+		assertNotNull(drawable.getSpatial());
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public abstract class DrawableTest extends TestBase {
 	@Test
 	public void testPersistentGeometry_drawable() {
 		setupDrawable();
-		Spatial s = dable.getSpatial();
-		assertEquals(s, dable.getSpatial());
+		Spatial spatial = drawable.getSpatial();
+		assertEquals(spatial, drawable.getSpatial());
 	}
 }

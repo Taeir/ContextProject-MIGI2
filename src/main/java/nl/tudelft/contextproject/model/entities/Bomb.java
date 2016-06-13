@@ -6,8 +6,8 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
@@ -15,43 +15,40 @@ import nl.tudelft.contextproject.model.PhysicsObject;
 /**
  * Class representing a bomb.
  */
-public class Bomb extends Entity implements PhysicsObject {
+public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdable {
 	private static final float TIMER = 10;
-	private Spatial sp;
-	private RigidBodyControl rb;
+	
 	private boolean active;
 	private float timer;
 	private boolean pickedup;
+	
 	/**
 	 * Constructor for a bomb.
 	 */
 	public Bomb() {
-		sp = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
-		Material mat = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
-		mat.setColor("Color", ColorRGBA.White);
-		sp.move(0, 1, 0);
-		sp.setMaterial(mat);
-	}
-
-	@Override
-	public Spatial getSpatial() {
-		return sp;
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		material.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
+		material.setColor("Color", ColorRGBA.White);
+		spatial.move(0, 1, 0);
+		spatial.setMaterial(material);
 	}
 
 	@Override
 	public void update(float tpf) {
-		if (this.isPickedup()) {
-			Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(1.5f);
-			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation().add(vec.x, 1, vec.z);
-			this.getSpatial().setLocalTranslation(vec2);
+		if (this.isPickedUp()) {
+			Quaternion rotation = Main.getInstance().getCamera().getRotation();
+			Vector3f vec = rotation.getRotationColumn(2).mult(2f);
+			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
+			rigidBody.setPhysicsLocation(vec2);
+			rigidBody.setPhysicsRotation(rotation);
 		}
 		if (active) {
 			timer -= tpf;
 			if (timer < 0) {
-				Explosion exp = new Explosion(40f);
-				exp.move(this.getLocation());
-				Main.getInstance().getCurrentGame().getEntities().add(exp);
+				Explosion explosion = new Explosion(40f);
+				explosion.move(this.getLocation());
+				Main.getInstance().getCurrentGame().getEntities().add(explosion);
 				active = false;
 				this.setState(EntityState.DEAD);
 			}
@@ -59,26 +56,21 @@ public class Bomb extends Entity implements PhysicsObject {
 	}
 
 	@Override
-	public void setSpatial(Spatial spatial) {
-		sp = spatial;
-	}
-
-	@Override
 	public PhysicsControl getPhysicsObject() {
-		if (rb != null) return rb;
+		if (rigidBody != null) return rigidBody;
 
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sp);
-		rb = new RigidBodyControl(sceneShape, 0);
-		rb.setPhysicsLocation(sp.getLocalTranslation());
-		return rb;
+		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(getSpatial());
+		rigidBody = new RigidBodyControl(sceneShape, 0);
+		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
+		spatial.addControl(rigidBody);
+		return rigidBody;
 	}
 
 	@Override
 	public void move(float x, float y, float z) {
-		sp.move(x, y, z);
-		if (rb == null) getPhysicsObject();
-
-		rb.setPhysicsLocation(rb.getPhysicsLocation().add(x, y, z));
+		if (rigidBody == null) getPhysicsObject();
+		rigidBody.setPhysicsLocation(rigidBody.getPhysicsLocation().add(x, y, z));
+		rigidBody.update(0);
 	}
 
 	/**
@@ -134,18 +126,22 @@ public class Bomb extends Entity implements PhysicsObject {
 	}
 
 	/**
-	 * @param bool
-	 * 		decides whether the bomb is picked up 
-	 */
-	public void setPickedup(Boolean bool) {
-		pickedup = bool;
-	}
-
-	/**
 	 * @return 
 	 * 		returns wether the bomb is picked up or not
 	 */
-	public boolean isPickedup() {
+	@Override
+	public boolean isPickedUp() {
 		return pickedup;
+	}
+
+	@Override
+	public void pickUp() {
+		pickedup = true;
+		activate();
+	}
+
+	@Override
+	public void drop() {
+		pickedup = false;
 	}
 }

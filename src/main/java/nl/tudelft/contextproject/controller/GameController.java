@@ -1,14 +1,6 @@
 package nl.tudelft.contextproject.controller;
 
-import java.io.File;
-
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -17,19 +9,20 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
+
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
-import nl.tudelft.contextproject.model.entities.Treasure;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
+import nl.tudelft.contextproject.model.level.LevelFactory;
 import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.model.level.RoomLevelFactory;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
+
 import jmevr.app.VRApplication;
 
 /**
@@ -41,6 +34,7 @@ public class GameController extends Controller {
 	 * This ensures that a big lag-spike wont allow entities to glitch through walls.
 	 */
 	public static final float MAX_TPF = .033f;
+
 	private Game game;
 	private HUD hud;
 
@@ -74,54 +68,24 @@ public class GameController extends Controller {
 	 */
 	public GameController(Application app, String folder, float timeLimit, boolean isMap) {
 		super(app, "GameController");
+		
+		LevelFactory factory;
 		if (!isMap) {
-			Set<Entity> entities = ConcurrentHashMap.newKeySet();
-			List<Light> lights = new ArrayList<>();
-	
-			try {
-				File file = RoomParser.getMapFile(folder);
-				String[] tmp = file.getName().split("_")[0].split("x");
-				MazeTile[][] tiles = new MazeTile[Integer.parseInt(tmp[0])][Integer.parseInt(tmp[1])];
-				RoomParser.importFile(folder, tiles, entities, lights, 0, 0);
-				Level level = new Level(tiles, lights);
-				Entity e = null;
-				VRPlayer  p = null;
-				for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
-					if (e instanceof VRPlayer) {
-						p = (VRPlayer) e;
-						it.remove();
-					}
-				}
-				if (p == null) p = new VRPlayer();
-				game = new Game(level, p, entities, this, timeLimit);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			
+			factory = new RoomLevelFactory(folder);
 		} else {
-			MSTBasedLevelFactory mstLevelFactory = new MSTBasedLevelFactory("/maps/testGridMap/"); 
-			Level level = mstLevelFactory.generateRandom();
-			Set<Entity> entities = mstLevelFactory.entities;
-			Entity e = null;
-			VRPlayer p = null;
-			for (Iterator<Entity> it = entities.iterator(); it.hasNext();  e = it.next()) {
-				if (e instanceof VRPlayer) {
-					p = (VRPlayer) e;
-					it.remove();
-				}
-			}
-			if (p == null) p = new VRPlayer();
-			game = new Game(level, p, entities, this, timeLimit);			
+			factory = new MSTBasedLevelFactory("/maps/testGridMap/"); 	
 		}
+		
+		Level level = factory.generateRandom();
+		game = new Game(level, this, timeLimit);
 	}
 
 	@Override
 	public void cleanup() {
 		super.cleanup();
 
-		for (Entity e : game.getEntities()) {
-			e.setState(EntityState.NEW);
+		for (Entity entity : game.getEntities()) {
+			entity.setState(EntityState.NEW);
 		}
 	}
 
@@ -136,25 +100,25 @@ public class GameController extends Controller {
 			hud.attachHud();
 		}
 		
-		GameController t = this;
+		GameController gameController = this;
 
 		//Listener for stop the game
-		addInputListener((ActionListener) (n, ip, tpf) -> Main.getInstance().stop(), "Exit");
+		addInputListener((ActionListener) (name, ip, tpf) -> Main.getInstance().stop(), "Exit");
 
-		ActionListener al = new ActionListener() {
+		ActionListener actionListener = new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
 				if (!isPressed) {
 					removeInputListener(this);
 					Main main = Main.getInstance();
-					Main.getInstance().setController(new PauseController(t, main));
+					Main.getInstance().setController(new PauseController(gameController, main));
 				}
 			}
 		};
 
-		addInputListener(al, "pause");
+		addInputListener(actionListener, "pause");
 
-		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Bomb", "Pickup");
+		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Drop", "Pickup");
 	}
 
 	/**
@@ -166,16 +130,13 @@ public class GameController extends Controller {
 
 		attachMazeTiles(level);
 		addDrawable(game.getPlayer());
-		for (Light l : level.getLights()) {
-			addLight(l);
+		for (Light light : level.getLights()) {
+			addLight(light);
 		}
-
-		placeTreasure(game);
-
 		
-		AmbientLight al = new AmbientLight();
-		al.setColor(ColorRGBA.White.mult(.9f));
-		addLight(al);
+		AmbientLight ambientLight = new AmbientLight();
+		ambientLight.setColor(ColorRGBA.White.mult(.9f));
+		addLight(ambientLight);
 	}
 
 	/**
@@ -192,15 +153,11 @@ public class GameController extends Controller {
 			for (int y = 0; y < level.getHeight(); y++) {
 				attachRoofTile(x, y);
 				if (level.isTileAtPosition(x, y)) {
-					//TODO add starting room with starting location
-					TileType t = level.getTile(x, y).getTileType();
+					TileType type = level.getTile(x, y).getTileType();
 					
-					if (t == TileType.FLOOR || t == TileType.CORRIDOR) {
-						
-						if (start.x == 0 && start.y == 0) {
-							start.x = x;
-							start.y = y;
-						}
+					if ((type == TileType.FLOOR || type == TileType.CORRIDOR) && start.x == 0 && start.y == 0) {
+						start.x = x;
+						start.y = y;
 					}
 					addDrawable(level.getTile(x, y));
 				}
@@ -226,22 +183,22 @@ public class GameController extends Controller {
 	 * 		the time per frame for this update
 	 */
 	void updateEntities(float tpf) {
-		for (Iterator<Entity> i = game.getEntities().iterator(); i.hasNext();) {
-			Entity e = i.next();
-			EntityState state = e.getState();
+		for (Iterator<Entity> it = game.getEntities().iterator(); it.hasNext();) {
+			Entity entity = it.next();
+			EntityState state = entity.getState();
 
 			switch (state) {
 				case DEAD:
-					removeDrawable(e);
-					i.remove();
+					removeDrawable(entity);
+					it.remove();
 					break;
 				case NEW:
-					addDrawable(e);
-					e.setState(EntityState.ALIVE);
-					e.update(tpf);
+					addDrawable(entity);
+					entity.setState(EntityState.ALIVE);
+					entity.update(tpf);
 					break;
 				default:
-					e.update(tpf);
+					entity.update(tpf);
 					break;
 			}
 		}
@@ -277,27 +234,6 @@ public class GameController extends Controller {
 	 */
 	public void setGame(Game game) {
 		this.game = game;
-	}
-
-	/**
-	 * Place a treasure in the level.
-	 * 
-	 * @param game
-	 * 		the game that contains the level
-	 */
-	protected void placeTreasure(Game game) {
-		Level level = game.getLevel();
-
-		for (int x = level.getWidth() - 1; x >= 0; x--) {
-			for (int y = level.getHeight() - 1; y >= 0; y--) {
-				if (level.isTileAtPosition(x, y) && level.getTile(x, y).getTileType() == TileType.FLOOR) {
-					Treasure e = new Treasure();
-					e.move(x, 0, y);
-					game.getEntities().add(e);
-					return;
-				}
-			}
-		}
 	}
 	
 	/**

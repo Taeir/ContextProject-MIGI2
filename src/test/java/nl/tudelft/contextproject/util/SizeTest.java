@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,10 +46,12 @@ public class SizeTest extends TestBase {
 	
 	/**
 	 * Test same object with equal method.
+	 * 
+	 * NOTE: This test might seem pointless, but it tests our equals method for same objects.
 	 */
 	@Test
 	public void testEqualsSame() {
-		assertTrue(size.equals(size));
+		assertEquals(size, size);
 	}
 	
 	/**

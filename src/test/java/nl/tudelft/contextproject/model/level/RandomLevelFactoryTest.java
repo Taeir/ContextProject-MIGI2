@@ -279,7 +279,7 @@ public class RandomLevelFactoryTest extends TestBase {
 	@Test
 	public void testCarveCorridorAllDirections() {
 		TileType[][] testMap1 = createBaseTileTypeMap();
-		TileType[][]	testMap2 = createBaseTileTypeMap();
+		TileType[][] testMap2 = createBaseTileTypeMap();
 		RandomLevelFactory.carveCorridorWalls(testMap1);
 		testMap2[0][1] = TileType.WALL;
 		testMap2[1][0] = TileType.WALL;
