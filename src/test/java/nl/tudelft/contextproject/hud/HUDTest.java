@@ -16,7 +16,7 @@ import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Key;
@@ -28,7 +28,7 @@ import nl.tudelft.contextproject.test.TestUtil;
  */
 public class HUDTest extends TestBase {
 
-	private GameController controller;
+	private GameThreadController controller;
 	private HUD hud;
 
 	/**
@@ -38,7 +38,7 @@ public class HUDTest extends TestBase {
 	public void setUp() {
 		TestUtil.mockGame();
 		Main.getInstance().setGuiFont();
-		controller = mock(GameController.class);
+		controller = mock(GameThreadController.class);
 		hud = new HUD(controller, 200, 200);
 	}
 

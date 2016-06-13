@@ -14,7 +14,7 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
 import nl.tudelft.contextproject.controller.Controller;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.model.Game;
@@ -125,7 +125,7 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testGetCurrentGameGameController() {
-		GameController controller = mock(GameController.class);
+		GameThreadController controller = mock(GameThreadController.class);
 		Game game = mock(Game.class);
 		when(controller.getGame()).thenReturn(game);
 		main.setController(controller);		
@@ -137,7 +137,7 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testGetCurrentGamePauseController() {
-		GameController gameController = mock(GameController.class);
+		GameThreadController gameController = mock(GameThreadController.class);
 		PauseController pauseController = mock(PauseController.class);
 		when(pauseController.getPausedController()).thenReturn(gameController);
 		Game game = mock(Game.class);

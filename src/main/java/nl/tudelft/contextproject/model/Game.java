@@ -2,7 +2,7 @@ package nl.tudelft.contextproject.model;
 
 import java.util.Set;
 
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
@@ -13,7 +13,7 @@ import nl.tudelft.contextproject.model.level.Level;
 public class Game {
 	private Level level;
 	private VRPlayer player;
-	private GameController controller;
+	private GameThreadController controller;
 	private float timeLimit;
 	
 	/**
@@ -28,7 +28,7 @@ public class Game {
 	 * @param timeLimit
 	 * 		the time limit for this game
 	 */
-	public Game(Level level, VRPlayer player, GameController controller, float timeLimit) {
+	public Game(Level level, VRPlayer player, GameThreadController controller, float timeLimit) {
 		this.level = level;
 		this.player = player;
 		this.controller = controller;
@@ -45,7 +45,7 @@ public class Game {
 	 * @param timeLimit
 	 * 		the time limit for this game
 	 */
-	public Game(Level level, GameController controller, float timeLimit) {
+	public Game(Level level, GameThreadController controller, float timeLimit) {
 		this.level = level;
 		this.player = new VRPlayer();
 		this.player.move(level.getPlayerSpawnPosition());

@@ -26,9 +26,9 @@ import nl.tudelft.contextproject.model.level.TileType;
 import jmevr.app.VRApplication;
 
 /**
- * Controller for the main game.
+ * Controller for a game thread.
  */
-public class GameController extends Controller {
+public abstract class GameThreadController extends Controller {
 	/**
 	 * The highest tpf that will be passed to all entities.
 	 * This ensures that a big lag-spike wont allow entities to glitch through walls.
@@ -39,7 +39,7 @@ public class GameController extends Controller {
 	private HUD hud;
 
 	/**
-	 * Constructor for the game controller.
+	 * Constructor for a game thread.
 	 *
 	 * @param app
 	 * 		The Main instance of this game
@@ -48,14 +48,14 @@ public class GameController extends Controller {
 	 * @param timeLimit
 	 * 		the time limit for this game
 	 */
-	public GameController(Application app, Level level, float timeLimit) {
+	public GameThreadController(Application app, Level level, float timeLimit) {
 		super(app, "GameController");
 		
 		game = new Game(level, this, timeLimit);
 	}
 
 	/**
-	 * Create a game with a level loaded from a file.
+	 * Create a game thread with a level loaded from a file.
 	 *
 	 * @param app
 	 * 		the main app that this controller is attached to
@@ -66,7 +66,7 @@ public class GameController extends Controller {
 	 * @param isMap
 	 * 		if the level is a map, otherwise the map is a single room file
 	 */
-	public GameController(Application app, String folder, float timeLimit, boolean isMap) {
+	public GameThreadController(Application app, String folder, float timeLimit, boolean isMap) {
 		super(app, "GameController");
 		
 		LevelFactory factory;
@@ -100,7 +100,7 @@ public class GameController extends Controller {
 			hud.attachHud();
 		}
 		
-		GameController gameController = this;
+		GameThreadController gameController = this;
 
 		//Listener for stop the game
 		addInputListener((ActionListener) (name, ip, tpf) -> Main.getInstance().stop(), "Exit");
@@ -212,11 +212,6 @@ public class GameController extends Controller {
 		return game.getLevel();
 	}
 
-	@Override
-	public GameState getGameState() {
-		return GameState.RUNNING;
-	}
-
 	/**
 	 * @return
 	 * 		the current game
@@ -255,5 +250,13 @@ public class GameController extends Controller {
 	 */
 	protected void setHUD(HUD hud) {
 		this.hud = hud;
+	}
+	
+	/**
+	 * @return
+	 * 		the hud
+	 */
+	public HUD getHUD() {
+		return hud;
 	}
 }

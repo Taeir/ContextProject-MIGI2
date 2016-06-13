@@ -9,7 +9,7 @@ import com.jme3.scene.Node;
 import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.Bomb;
@@ -21,7 +21,7 @@ import jmevr.util.VRGuiManager;
  */
 public class HUD implements TickListener {
 
-	private GameController controller;
+	private GameThreadController controller;
 
 	private Node keyContainer;
 	private Node heartContainer;
@@ -31,6 +31,9 @@ public class HUD implements TickListener {
 	private float screenWidth;
 
 	private BitmapText gameTimer;
+	private BitmapText popupText;
+
+	private float popupTimer;
 
 	
 	
@@ -40,7 +43,7 @@ public class HUD implements TickListener {
 	 * @param controller
 	 * 		the GameController
 	 */
-	public HUD(GameController controller) {
+	public HUD(GameThreadController controller) {
 		this.controller = controller;
 		this.screenHeight = VRGuiManager.getCanvasSize().getY();
 		this.screenWidth = VRGuiManager.getCanvasSize().getX();
@@ -57,7 +60,7 @@ public class HUD implements TickListener {
 	 * @param height
 	 * 		the screen height
 	 */
-	protected HUD(GameController controller, float width, float height) {
+	protected HUD(GameThreadController controller, float width, float height) {
 		this.controller = controller;
 		this.screenHeight = height;
 		this.screenWidth = width;
@@ -66,7 +69,7 @@ public class HUD implements TickListener {
 	/**
 	 * Attaches the Hud to the renderer.
 	 */
-	public void attachHud() {		
+	public void attachHud() {
 		attachHelmet();
 		attachGameTimer();				
 		attachHeartContainers();
@@ -80,6 +83,30 @@ public class HUD implements TickListener {
 		// Attach listeners
 		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
 		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
+	}
+
+	/**
+	 * Show a popup text in the HUD.
+	 * 
+	 * @param text
+	 * 		the text to show
+	 * @param color
+	 * 		the color of the text
+	 * @param duration
+	 * 		the duration this text is shown
+	 */
+	public void showPopupText(String text, ColorRGBA color, float duration) {
+		popupText = new BitmapText(Main.getInstance().getGuiFont(), false);
+		popupText.setSize(screenHeight / 10);
+		popupText.setColor(color);
+		popupText.setText(text);
+		float height = (screenHeight - popupText.getLineHeight()) / 2;
+		float width = (screenWidth - popupText.getLineWidth()) / 2;
+		
+		popupText.setLocalTranslation(width, height, 0);
+		controller.addGuiElement(popupText);
+		popupTimer = duration;
+		Main.getInstance().attachTickListener(this::updatePopupText);
 	}
 
 	/**
@@ -298,5 +325,22 @@ public class HUD implements TickListener {
 	 */
 	public void setTimerNode(BitmapText bitmapText) {
 		gameTimer = bitmapText;
+	}
+	
+	/**
+	 * Update the popup text. 
+	 * Removes the text when the timer is over.
+	 * 
+	 * @param tpf
+	 * 		the tpf for this update
+	 */
+	public void updatePopupText(float tpf) {
+		if (popupTimer == Float.NEGATIVE_INFINITY) return;
+		if (popupTimer > 0) {
+			popupTimer -= tpf;
+		} else {
+			controller.removeGuiElement(popupText);
+			popupTimer = Float.NEGATIVE_INFINITY;
+		}
 	}
 }
