@@ -241,13 +241,15 @@ public class HUD implements TickListener {
 	 * 		the player to get the health from
 	 */
 	protected void updateHearts(VRPlayer player) {
-		int health = Math.round(player.getHealth());
 		for (int i = 0; i < VRPlayer.PLAYER_MAX_HEALTH; i++) {
 			Picture picture = (Picture) heartContainer.getChild(i);
-			if (i <= health) {
+			float heartFill = -i + player.getHealth();
+			if (heartFill < .25f) {
+				picture.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
+			} else if (heartFill > .75f) {
 				picture.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
 			} else {
-				picture.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);					
+				picture.setImage(Main.getInstance().getAssetManager(), "Textures/halfheart.png", true);
 			}
 		}
 	}
