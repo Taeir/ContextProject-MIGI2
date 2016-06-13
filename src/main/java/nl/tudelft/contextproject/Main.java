@@ -65,6 +65,13 @@ public class Main extends VRApplication implements TickProducer {
 	private BitmapFont guifont;
 	
 	/**
+	 * Constructor for Main.
+	 */
+	public Main() {
+		super(new COCStatsAppState());
+	}
+	
+	/**
 	 * Main method that is called when the program is started.
 	 *
 	 * @param args
@@ -106,10 +113,6 @@ public class Main extends VRApplication implements TickProducer {
 		main.preconfigureResolutionMultiplier(RESOLUTION);
 
 		main.start();
-	}
-	
-	public Main() {
-		super(new COCStatsAppState());
 	}
 
 	/**

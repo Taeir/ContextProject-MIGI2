@@ -25,7 +25,7 @@ import nl.tudelft.contextproject.model.level.TileType;
  * Abstract class for controllers.
  */
 public abstract class Controller extends AbstractAppState {
-	public Node rootNode = new Node();
+	private Node rootNode = new Node();
 	private Node guiNode = new Node();
 	public Node wallsNode = new Node();
 	public Node floorsNode = new Node();

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.InputListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
 import com.jme3.math.ColorRGBA;
@@ -15,7 +16,6 @@ import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.EntityState;
-import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.LevelFactory;
 import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
@@ -36,8 +36,18 @@ public class GameController extends Controller {
 	 */
 	public static final float MAX_TPF = .033f;
 
-	private Game game;
+	protected Game game;
 	private HUD hud;
+	
+	/**
+	 * Protected constructor for overriding classes.
+	 * 
+	 * @param app
+	 * 		the Main instance of this game
+	 */
+	protected GameController(Application app) {
+		super(app, "GameController");
+	}
 
 	/**
 	 * Constructor for the game controller.
@@ -119,7 +129,7 @@ public class GameController extends Controller {
 
 		addInputListener(actionListener, "pause");
 
-		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Drop", "Pickup");
+		addInputListener((InputListener) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Drop", "Pickup");
 	}
 
 	/**
@@ -184,7 +194,7 @@ public class GameController extends Controller {
 	 * @param tpf
 	 * 		the time per frame for this update
 	 */
-	void updateEntities(float tpf) {
+	protected void updateEntities(float tpf) {
 		for (Iterator<Entity> it = game.getEntities().iterator(); it.hasNext();) {
 			Entity entity = it.next();
 			EntityState state = entity.getState();
