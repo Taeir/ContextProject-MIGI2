@@ -19,5 +19,45 @@ public class RandomUtilTest {
 		Random rand = new Random(1L);
 		assertEquals(39, RandomUtil.getRandomIntegerFromInterval(rand, 0, 42));
 	}
+	
+	
+	/**
+	 * Test ensure interval with lower bound.
+	 */
+	@Test
+	public void testEnsureIntervalLowerBound() {
+		assertEquals(0, RandomUtil.ensureInterval(0, 0, 5));
+	}
+	
+	/**
+	 * Test ensure interval with upper bound.
+	 */
+	@Test
+	public void testEnsureIntervalUpperBound() {
+		assertEquals(5, RandomUtil.ensureInterval(5, 0, 5));
+	}
 
+	/**
+	 * Test ensure interval with within interval.
+	 */
+	@Test
+	public void testEnsureIntervalWithinInterval() {
+		assertEquals(2, RandomUtil.ensureInterval(2, 0, 5));
+	}
+	
+	/**
+	 * Test ensure interval with outside interval, lower than lower bound.
+	 */
+	@Test
+	public void testEnsureIntervalOutsideIntervalLower() {
+		assertEquals(0, RandomUtil.ensureInterval(-5, 0, 5));
+	}
+	
+	/**
+	 * Test ensure interval with outside interval, above the upper bound.
+	 */
+	@Test
+	public void testEnsureIntervalOutsideIntervalAbove() {
+		assertEquals(5, RandomUtil.ensureInterval(6, 0, 5));
+	}
 }
