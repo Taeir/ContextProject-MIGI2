@@ -337,9 +337,8 @@ public class HUD implements TickListener {
 	 */
 	public void updatePopupText(float tpf) {
 		if (popupTimer == Float.NEGATIVE_INFINITY) return;
-		if (popupTimer > 0) {
-			popupTimer -= tpf;
-		} else {
+		popupTimer -= tpf;
+		if (popupTimer < 0) {
 			controller.removeGuiElement(popupText);
 			popupTimer = Float.NEGATIVE_INFINITY;
 		}

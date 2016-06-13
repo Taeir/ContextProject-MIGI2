@@ -18,6 +18,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
+import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Key;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
@@ -203,5 +204,35 @@ public class HUDTest extends TestBase {
 		hud.updateBombs(inventory);
 		
 		verify(node, times(1)).attachChild(any(BitmapText.class));
+	}
+	
+	/**
+	 * Test if showing the popup attaches the gui element.
+	 */
+	@Test
+	public void testShowPopupText() {
+		hud.showPopupText("TEST", ColorRGBA.Red, 12);
+		verify(Main.getInstance(), times(1)).attachTickListener(any(TickListener.class));
+		verify(controller, times(1)).addGuiElement(any(BitmapText.class));
+	}
+	
+	/**
+	 * Test if exceeding the duration of a popup removes the text.
+	 */
+	@Test
+	public void testUpdatePopupTextRemove() {
+		hud.showPopupText("TEST", ColorRGBA.Red, 1);
+		hud.updatePopupText(5);
+		verify(controller, times(1)).removeGuiElement(any(BitmapText.class));
+	}
+	
+	/**
+	 * Test if updating keeps the text shown.
+	 */
+	@Test
+	public void testUpdatePopupText() {
+		hud.showPopupText("TEST", ColorRGBA.Red, 1);
+		hud.updatePopupText(.5f);
+		verify(controller, times(0)).removeGuiElement(any(BitmapText.class));
 	}
 }
