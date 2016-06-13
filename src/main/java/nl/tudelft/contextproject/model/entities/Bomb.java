@@ -51,6 +51,7 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 				explosion.move(this.getLocation());
 				Main.getInstance().getCurrentGame().getEntities().add(explosion);
 				active = false;
+				pickedup = false;
 				this.setState(EntityState.DEAD);
 			}
 		}
