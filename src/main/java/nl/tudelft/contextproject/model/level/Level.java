@@ -90,6 +90,9 @@ public class Level {
 	 * 		true when there is a tile at that position, false otherwise
 	 */
 	public boolean isTileAtPosition(int x, int y) {
+		if (x >= getWidth() || x < 0) return false;
+		if (y >= getHeight() || y < 0) return false;
+		
 		return mazeTiles[x][y] != null;
 	}
 
