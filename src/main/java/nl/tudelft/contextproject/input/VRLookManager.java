@@ -17,7 +17,7 @@ public class VRLookManager implements AnalogListener {
 	
 	private Camera cam;
 	private Vector3f initialUpVec;
-	private float rotationSpeed = 0.8f;
+	private float rotationSpeed = 0.4f;
 
 	/**
 	 * Creates a new NoVRMouseManager to control the given Camera object.
