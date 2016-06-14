@@ -44,11 +44,11 @@ public class GateTest extends EntityTest {
 	 */
 	@Test
 	public void testUpdate() {
-		Spatial mock = mock(Spatial.class);
-		gate.setSpatial(mock);
-		when(mock.getLocalTranslation()).thenReturn(new Vector3f(1, .5f, 1));
+		Spatial spatialMock = mock(Spatial.class);
+		gate.setSpatial(spatialMock);
+		when(spatialMock.getLocalTranslation()).thenReturn(new Vector3f(1, .5f, 1));
 		gate.update(0.f);
-		verify(mock, never()).move(anyFloat(), anyFloat(), anyFloat());
+		verify(spatialMock, never()).move(anyFloat(), anyFloat(), anyFloat());
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class GateTest extends EntityTest {
 	public void testLoadEntity() {
 		Gate gate = Gate.loadEntity(loadPosition, new String[]{"1", "1", "1", EntityType.GATE.getName()});
 		
-		assertEquals(loadPosition.add(0, .5f, 0), gate.getLocation());
+		assertEquals(loadPosition.add(0, .6f, 0), gate.getLocation());
 	}
 	
 	/**

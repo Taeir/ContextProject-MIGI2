@@ -44,8 +44,8 @@ public class MapReaderTest {
 			RoomTuple startAndTreasureRoom = MapParser.readMap(TEST_MAP_LOCATION, rooms);
 			Room startRoom = new Room(TEST_MAP_LOCATION + "startroom/");
 			assertTrue(startAndTreasureRoom.getStarterRoom().equals(startRoom));
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 			fail();
 		}
 	}
@@ -60,8 +60,8 @@ public class MapReaderTest {
 			RoomTuple startAndTreasureRoom = MapParser.readMap(TEST_MAP_LOCATION, rooms);
 			Room treasureRoom = new Room(TEST_MAP_LOCATION + "endroom/");
 			assertTrue(startAndTreasureRoom.getTreasureRoom().equals(treasureRoom));
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 			fail();
 		}
 	}
@@ -76,8 +76,8 @@ public class MapReaderTest {
 			MapParser.readMap(TEST_MAP_LOCATION, rooms);
 			Room room = new Room(TEST_MAP_LOCATION + "room1/");
 			assertTrue(rooms.get(0).equals(room));
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 			fail();
 		}
 	}

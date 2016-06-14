@@ -279,4 +279,12 @@ public abstract class Controller extends AbstractAppState {
 		roofTile.move(x - .5f, TileType.WALL.getHeight() * 2, y - .5f);
 		roofNode.attachChild(roofTile);
 	}
+	
+	/**
+	 * @return
+	 * 		the root node
+	 */
+	public Node getRootNode() {
+		return rootNode;
+	}
 }

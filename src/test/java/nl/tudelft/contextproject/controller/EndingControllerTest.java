@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.controller;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import com.jme3.app.state.AppStateManager;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
+import nl.tudelft.contextproject.hud.HUD;
 
 /**
  * Test class for {@link EndingController}.
@@ -24,8 +26,9 @@ public class EndingControllerTest extends TestBase {
 	public void setUp() {
 		instance = new EndingController(Main.getInstance(), true);
 		
-		AppStateManager asm = Mockito.mock(AppStateManager.class);
-		instance.initialize(asm, Main.getInstance());
+		AppStateManager appStateManager = Mockito.mock(AppStateManager.class);
+		instance.setHUD(mock(HUD.class));
+		instance.initialize(appStateManager, Main.getInstance());
 	}
 	
 	/**

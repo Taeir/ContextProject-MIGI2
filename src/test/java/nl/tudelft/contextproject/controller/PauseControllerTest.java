@@ -31,7 +31,7 @@ public class PauseControllerTest extends ControllerTest {
 	private Node guiNode;
 	private Main main;
 	private InputManager inputManager;
-	private GameController old;
+	private GameThreadController old;
 
 	/**
 	 * Setup all the mocks for each test.
@@ -40,8 +40,8 @@ public class PauseControllerTest extends ControllerTest {
 	public void setUp() {
 		controller = getController();
 		main = Main.getInstance();
-		AssetManager am = mock(AssetManager.class);
-		doReturn(am).when(main).getAssetManager();
+		AssetManager assetManager = mock(AssetManager.class);
+		doReturn(assetManager).when(main).getAssetManager();
 		rootNode = mock(Node.class);
 		guiNode = mock(Node.class);
 		inputManager = mock(InputManager.class);
@@ -65,10 +65,10 @@ public class PauseControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testInitialize() {
-		BitmapFont bf = mock(BitmapFont.class);
-		when(main.getAssetManager().loadFont(anyString())).thenReturn(bf);
+		BitmapFont bitmapFont = mock(BitmapFont.class);
+		when(main.getAssetManager().loadFont(anyString())).thenReturn(bitmapFont);
 		BitmapText text = mock(BitmapText.class);
-		when(bf.createLabel(anyString())).thenReturn(text);
+		when(bitmapFont.createLabel(anyString())).thenReturn(text);
 		
 		AppStateManager sm = mock(AppStateManager.class);
 		controller.initialize(sm, main);
@@ -82,20 +82,20 @@ public class PauseControllerTest extends ControllerTest {
 	 */
 	@Test
 	public void testInitializeInputListener() {
-		BitmapFont bf = mock(BitmapFont.class);
-		when(main.getAssetManager().loadFont(anyString())).thenReturn(bf);
+		BitmapFont bitmapFont = mock(BitmapFont.class);
+		when(main.getAssetManager().loadFont(anyString())).thenReturn(bitmapFont);
 		BitmapText text = mock(BitmapText.class);
-		when(bf.createLabel(anyString())).thenReturn(text);
+		when(bitmapFont.createLabel(anyString())).thenReturn(text);
 		
-		AppStateManager sm = mock(AppStateManager.class);
-		controller.initialize(sm, main);
+		AppStateManager appStateManager = mock(AppStateManager.class);
+		controller.initialize(appStateManager, main);
 		
 		ArgumentCaptor<InputListener> captor = ArgumentCaptor.forClass(InputListener.class);
 		verify(inputManager).addListener(captor.capture(), anyString());
 
-		ActionListener l = (ActionListener) captor.getValue();
+		ActionListener actionListener = (ActionListener) captor.getValue();
 		
-		l.onAction("", false, 0.1f);
+		actionListener.onAction("", false, 0.1f);
 		assertNull(main.getStateManager().getState(PauseController.class));
 		assertNotNull(main.getStateManager().getState(old.getClass()));
 	}
@@ -110,7 +110,7 @@ public class PauseControllerTest extends ControllerTest {
 	
 	@Override
 	public PauseController getController() {
-		old = mock(GameController.class);
+		old = mock(GameThreadController.class);
 		return new PauseController(old, getMain());
 	}
 

@@ -16,8 +16,9 @@ import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
+import nl.tudelft.contextproject.model.TickListener;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Key;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
@@ -28,7 +29,7 @@ import nl.tudelft.contextproject.test.TestUtil;
  */
 public class HUDTest extends TestBase {
 
-	private GameController controller;
+	private GameThreadController controller;
 	private HUD hud;
 
 	/**
@@ -38,7 +39,7 @@ public class HUDTest extends TestBase {
 	public void setUp() {
 		TestUtil.mockGame();
 		Main.getInstance().setGuiFont();
-		controller = mock(GameController.class);
+		controller = mock(GameThreadController.class);
 		hud = new HUD(controller, 200, 200);
 	}
 
@@ -103,10 +104,10 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testGetKeyImagePosition() {
-		Picture p = hud.getKeyImage(1, 2, ColorRGBA.Red);
-		Vector3f loc = p.getLocalTranslation();
-		assertEquals(145f, loc.x, 1e-5);
-		assertEquals(200f, loc.y, 1e-5);
+		Picture picture = hud.getKeyImage(1, 2, ColorRGBA.Red);
+		Vector3f location = picture.getLocalTranslation();
+		assertEquals(145f, location.x, 1e-5);
+		assertEquals(200f, location.y, 1e-5);
 	}
 	
 	/**
@@ -114,11 +115,11 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testGetHeartPosition() {
-		Picture p = hud.getHealthContainer(2);
-		Vector3f loc = p.getLocalTranslation();
+		Picture picture = hud.getHealthContainer(2);
+		Vector3f location = picture.getLocalTranslation();
 		float start = .5f - (VRPlayer.PLAYER_MAX_HEALTH / 2) * 0.06f;
-		assertEquals(200 * (start + 0.12f), loc.x, 1e-5);
-		assertEquals(160f, loc.y, 1e-5);
+		assertEquals(200 * (start + 0.12f), location.x, 1e-5);
+		assertEquals(160f, location.y, 1e-5);
 	}
 	
 	/**
@@ -126,9 +127,9 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testGetKeyImageColor() {
-		Picture p = hud.getKeyImage(1, 2, ColorRGBA.Red);
-		ColorRGBA c = (ColorRGBA) p.getMaterial().getParam("Color").getValue();
-		assertEquals(ColorRGBA.Red, c);
+		Picture picture = hud.getKeyImage(1, 2, ColorRGBA.Red);
+		ColorRGBA color = (ColorRGBA) picture.getMaterial().getParam("Color").getValue();
+		assertEquals(ColorRGBA.Red, color);
 	}
 	
 	/**
@@ -136,15 +137,15 @@ public class HUDTest extends TestBase {
 	 */
 	@Test 
 	public void testUpdateKeys() {
-		Node c = mock(Node.class);
-		hud.setKeyContainer(c);
-		Inventory inv = Main.getInstance().getCurrentGame().getPlayer().getInventory();
-		inv.add(new Key(ColorRGBA.Blue));
+		Node node = mock(Node.class);
+		hud.setKeyContainer(node);
+		Inventory inventory = Main.getInstance().getCurrentGame().getPlayer().getInventory();
+		inventory.add(new Key(ColorRGBA.Blue));
 		
-		hud.updateKeys(inv);
+		hud.updateKeys(inventory);
 		
-		verify(c, times(1)).detachAllChildren();
-		verify(c, times(1)).attachChild(any(Picture.class));
+		verify(node, times(1)).detachAllChildren();
+		verify(node, times(1)).attachChild(any(Picture.class));
 	}
 	
 	/**
@@ -152,12 +153,12 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testSetGameTimerMAX_VALUE() {
-		BitmapText m = mock(BitmapText.class);
-		hud.setTimerNode(m);
+		BitmapText bitmapText = mock(BitmapText.class);
+		hud.setTimerNode(bitmapText);
 		
 		hud.setGameTimer(Integer.MAX_VALUE);
 		
-		verify(m, times(1)).setText("");
+		verify(bitmapText, times(1)).setText("");
 	}
 	
 	/**
@@ -165,12 +166,12 @@ public class HUDTest extends TestBase {
 	 */
 	@Test
 	public void testSetGameTimer() {
-		BitmapText m = mock(BitmapText.class);
-		hud.setTimerNode(m);
+		BitmapText bitmapText = mock(BitmapText.class);
+		hud.setTimerNode(bitmapText);
 		
 		hud.setGameTimer(12);
 		
-		verify(m, times(1)).setText("12");
+		verify(bitmapText, times(1)).setText("12");
 	}
 	
 	/**
@@ -180,10 +181,10 @@ public class HUDTest extends TestBase {
 	public void updateBombsNotInInventory() {
 		Node node = mock(Node.class);
 		hud.setBombNode(node);
-		Inventory inv = Main.getInstance().getCurrentGame().getPlayer().getInventory();
-		inv.remove(new Bomb());
+		Inventory inventory = Main.getInstance().getCurrentGame().getPlayer().getInventory();
+		inventory.remove(new Bomb());
 		
-		hud.updateBombs(inv);
+		hud.updateBombs(inventory);
 		
 		verify(node, times(1)).detachAllChildren();
 	}
@@ -195,13 +196,43 @@ public class HUDTest extends TestBase {
 	public void updateBombsInInventory() {
 		Node node = mock(Node.class);
 		hud.setBombNode(node);
-		Inventory inv = Main.getInstance().getCurrentGame().getPlayer().getInventory();
-		inv.pickUp(new Bomb());
+		Inventory inventory = Main.getInstance().getCurrentGame().getPlayer().getInventory();
+		inventory.pickUp(new Bomb());
 		when(node.getChildren()).thenReturn(new ArrayList<>());
 		when(node.getChild(0)).thenReturn(mock(BitmapText.class));
 		
-		hud.updateBombs(inv);
+		hud.updateBombs(inventory);
 		
 		verify(node, times(1)).attachChild(any(BitmapText.class));
+	}
+	
+	/**
+	 * Test if showing the popup attaches the gui element.
+	 */
+	@Test
+	public void testShowPopupText() {
+		hud.showPopupText("TEST", ColorRGBA.Red, 12);
+		verify(Main.getInstance(), times(1)).attachTickListener(any(TickListener.class));
+		verify(controller, times(1)).addGuiElement(any(BitmapText.class));
+	}
+	
+	/**
+	 * Test if exceeding the duration of a popup removes the text.
+	 */
+	@Test
+	public void testUpdatePopupTextRemove() {
+		hud.showPopupText("TEST", ColorRGBA.Red, 1);
+		hud.updatePopupText(5);
+		verify(controller, times(1)).removeGuiElement(any(BitmapText.class));
+	}
+	
+	/**
+	 * Test if updating keeps the text shown.
+	 */
+	@Test
+	public void testUpdatePopupText() {
+		hud.showPopupText("TEST", ColorRGBA.Red, 1);
+		hud.updatePopupText(.5f);
+		verify(controller, times(0)).removeGuiElement(any(BitmapText.class));
 	}
 }

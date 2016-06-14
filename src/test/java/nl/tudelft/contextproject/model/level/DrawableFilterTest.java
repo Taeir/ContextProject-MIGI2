@@ -15,7 +15,7 @@ import org.junit.Test;
  */
 public class DrawableFilterTest extends TestBase {
 	private DrawableFilter filter;
-	private Entity e;
+	private Entity entity;
 
 	/**
 	 * Setup method.
@@ -24,7 +24,7 @@ public class DrawableFilterTest extends TestBase {
 	@Before
 	public void setUp() {
 		filter = new DrawableFilter(true);
-		e = mock(Entity.class);
+		entity = mock(Entity.class);
 	}
 	
 	/**
@@ -32,7 +32,7 @@ public class DrawableFilterTest extends TestBase {
 	 */
 	@Test
 	public void testNotInFilter() {
-		assertFalse(filter.entity(e));
+		assertFalse(filter.entity(entity));
 	}
 	
 	/**
@@ -40,8 +40,8 @@ public class DrawableFilterTest extends TestBase {
 	 */
 	@Test
 	public void testInFilter() {
-		filter.addEntity(e);
-		assertTrue(filter.entity(e));
+		filter.addEntity(entity);
+		assertTrue(filter.entity(entity));
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class DrawableFilterTest extends TestBase {
 	 */
 	@Test
 	public void testInFilterSameType() {
-		filter.addEntity(e);
+		filter.addEntity(entity);
 		assertTrue(filter.entity(mock(Entity.class)));
 	}
 	

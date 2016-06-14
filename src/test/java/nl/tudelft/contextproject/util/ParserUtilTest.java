@@ -19,8 +19,8 @@ public class ParserUtilTest extends TestBase {
 	 */
 	@Test
 	public void testGetColorRandom() {
-		ColorRGBA res = ParserUtil.getColor("randomColor");
-		assertNotNull(res);
+		ColorRGBA color = ParserUtil.getColor("randomColor");
+		assertNotNull(color);
 	}
 
 	/**
@@ -28,11 +28,11 @@ public class ParserUtilTest extends TestBase {
 	 */
 	@Test
 	public void testGetColor() {
-		ColorRGBA res = ParserUtil.getColor(".5/.3/.2/.1");
-		assertEquals(.5, res.getRed(), 1e-6);
-		assertEquals(.3, res.getGreen(), 1e-6);
-		assertEquals(.2, res.getBlue(), 1e-6);
-		assertEquals(.1, res.getAlpha(), 1e-6);
+		ColorRGBA color = ParserUtil.getColor(".5/.3/.2/.1");
+		assertEquals(.5, color.getRed(), 1e-6);
+		assertEquals(.3, color.getGreen(), 1e-6);
+		assertEquals(.2, color.getBlue(), 1e-6);
+		assertEquals(.1, color.getAlpha(), 1e-6);
 	}
 
 	/**

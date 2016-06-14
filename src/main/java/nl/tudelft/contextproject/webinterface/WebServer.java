@@ -85,6 +85,7 @@ public class WebServer {
 		ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		contextHandler.setContextPath("/");
 		contextHandler.setResourceBase(FileUtil.getFile("/webinterface/").getAbsolutePath());
+		contextHandler.setInitParameter("cacheControl", "max-age=0,public");
 
 		//Add the handler to the server
 		server.setHandler(contextHandler);

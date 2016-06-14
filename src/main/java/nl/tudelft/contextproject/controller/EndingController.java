@@ -1,11 +1,13 @@
 package nl.tudelft.contextproject.controller;
 
 import com.jme3.app.Application;
+import com.jme3.app.state.AppStateManager;
+import com.jme3.math.ColorRGBA;
 
 /**
  * GameController for the ending state.
  */
-public class EndingController extends GameController {
+public class EndingController extends GameThreadController {
 	
 	private static final String WIN_LEVEL = "WinLevel";
 	private static final String LOSE_LEVEL = "LoseLevel";
@@ -22,6 +24,16 @@ public class EndingController extends GameController {
 	public EndingController(Application app, boolean elvesWin) {
 		super(app, "/maps/" + (elvesWin ? WIN_LEVEL : LOSE_LEVEL) + "/", Float.MAX_VALUE, false);
 		this.elvesWin = elvesWin;
+	}
+	
+	@Override
+	public void initialize(AppStateManager stateManager, Application app) {
+		super.initialize(stateManager, app);
+		if (elvesWin) {
+			getHUD().showPopupText("You've won!", ColorRGBA.Green, 4);
+		} else {
+			getHUD().showPopupText("You've lost!", ColorRGBA.Red, 4);
+		}
 	}
 	
 	@Override

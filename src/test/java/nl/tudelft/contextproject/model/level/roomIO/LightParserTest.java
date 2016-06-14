@@ -34,9 +34,9 @@ public class LightParserTest extends TestBase {
 	@Test
 	public void testGetPointLight() {
 		String[] data = {"", "", "", "", "", "20"};
-		Light res = LightParser.getLight("PointLight", 0, 0, 0, "randomColor", data);
-		assertEquals(PointLight.class, res.getClass());
-		assertEquals(20f, ((PointLight) res).getRadius(), 1e-10);
+		Light light = LightParser.getLight("PointLight", 0, 0, 0, "randomColor", data);
+		assertEquals(PointLight.class, light.getClass());
+		assertEquals(20f, ((PointLight) light).getRadius(), 1e-10);
 	}
 	
 	/**
@@ -53,8 +53,8 @@ public class LightParserTest extends TestBase {
 	 */
 	@Test
 	public void testGetAmbientLight() {
-		Light res = LightParser.getLight("AmbientLight", 0, 0, 0, "randomColor", null);
-		assertEquals(AmbientLight.class, res.getClass());
+		Light light = LightParser.getLight("AmbientLight", 0, 0, 0, "randomColor", null);
+		assertEquals(AmbientLight.class, light.getClass());
 	}
 	
 	/**
@@ -66,8 +66,8 @@ public class LightParserTest extends TestBase {
 	@Test
 	public void testReadLights() throws IOException {
 		ArrayList<Light> lights = new ArrayList<>();
-		String in = "0 1 2 AmbientLight randomColor";
-		BufferedReader br = new BufferedReader(new StringReader(in));
+		String input = "0 1 2 AmbientLight randomColor";
+		BufferedReader br = new BufferedReader(new StringReader(input));
 		LightParser.readLights(lights, 1, 0, 0, br);
 		assertEquals(1, lights.size());
 		assertEquals(AmbientLight.class, lights.get(0).getClass());
@@ -96,8 +96,8 @@ public class LightParserTest extends TestBase {
 	@Test (expected = IllegalArgumentException.class)
 	public void testReadLightsTooFewArguments() throws IOException {
 		ArrayList<Light> lights = new ArrayList<>();
-		String in = "0 2 AmbientLight randomColor";
-		BufferedReader br = new BufferedReader(new StringReader(in));
+		String input = "0 2 AmbientLight randomColor";
+		BufferedReader br = new BufferedReader(new StringReader(input));
 		LightParser.readLights(lights, 1, 0, 0, br);
 	}
 

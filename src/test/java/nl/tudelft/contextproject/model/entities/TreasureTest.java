@@ -41,9 +41,9 @@ public class TreasureTest extends EntityTest {
 	@Test
 	public void testOnTrigger() {
 		TestUtil.mockGame();
-		Game g = Main.getInstance().getCurrentGame();
+		Game game = Main.getInstance().getCurrentGame();
 		instance.onTrigger();
-		verify(g, times(1)).endGame(true);
+		verify(game, times(1)).endGame(true);
 	}
 
 	/**

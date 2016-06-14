@@ -15,14 +15,14 @@ import nl.tudelft.contextproject.TestBase;
  */
 public class TickProducerTest extends TestBase {
 	
-	private TickProducer tp;
+	private TickProducer tickProducer;
 
 	/**
 	 * Create a fresh instance of {@link TickProducer} for each test.
 	 */
 	@Before
 	public void setUp() {
-		tp = new TickProducer() {
+		tickProducer = new TickProducer() {
 			private Set<TickListener> listeners = new HashSet<>();
 			
 			@Override
@@ -37,10 +37,10 @@ public class TickProducerTest extends TestBase {
 	 */
 	@Test
 	public void testSimpleUpdate() {
-		TickListener tl = mock(TickListener.class);
-		tp.attachTickListener(tl);
-		tp.updateTickListeners();
-		verify(tl, times(1)).update(0f);
+		TickListener tickListener = mock(TickListener.class);
+		tickProducer.attachTickListener(tickListener);
+		tickProducer.updateTickListeners();
+		verify(tickListener, times(1)).update(0f);
 	}
 	
 	/**
@@ -48,10 +48,10 @@ public class TickProducerTest extends TestBase {
 	 */
 	@Test
 	public void testUpdate() {
-		TickListener tl = mock(TickListener.class);
-		tp.attachTickListener(tl);
-		tp.updateTickListeners(2f);
-		verify(tl, times(1)).update(2f);
+		TickListener tickListener = mock(TickListener.class);
+		tickProducer.attachTickListener(tickListener);
+		tickProducer.updateTickListeners(2f);
+		verify(tickListener, times(1)).update(2f);
 	}
 
 	/**
@@ -59,13 +59,13 @@ public class TickProducerTest extends TestBase {
 	 */
 	@Test
 	public void testRemove() {
-		TickListener tl = mock(TickListener.class);
-		tp.attachTickListener(tl);
-		tp.updateTickListeners();
-		verify(tl, times(1)).update(0f);
+		TickListener tickListener = mock(TickListener.class);
+		tickProducer.attachTickListener(tickListener);
+		tickProducer.updateTickListeners();
+		verify(tickListener, times(1)).update(0f);
 		
-		tp.removeTickListener(tl);
-		tp.updateTickListeners();
-		verifyNoMoreInteractions(tl);	
+		tickProducer.removeTickListener(tickListener);
+		tickProducer.updateTickListeners();
+		verifyNoMoreInteractions(tickListener);	
 	}
 }

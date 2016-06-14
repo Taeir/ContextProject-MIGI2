@@ -23,7 +23,7 @@ import nl.tudelft.contextproject.TestBase;
 public class LogTest extends TestBase {
 
 	@Rule
-	public TemporaryFolder temp = new TemporaryFolder();
+	public TemporaryFolder tempFolder = new TemporaryFolder();
 	public Log log;
 	public Handler handler;
 	
@@ -35,7 +35,7 @@ public class LogTest extends TestBase {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		log = new Log("test", temp.getRoot().getAbsolutePath(), false);
+		log = new Log("test", tempFolder.getRoot().getAbsolutePath(), false);
 		log.setLevel(Level.ALL);
 		
 		//Create a mock handler, that accepts any message as logable.
@@ -58,17 +58,17 @@ public class LogTest extends TestBase {
 	 */
 	public void verifyLogged(Level level, String msg, Exception ex) {
 		//We need to capture arguments
-		ArgumentCaptor<LogRecord> ac = ArgumentCaptor.forClass(LogRecord.class);
-		verify(handler, times(1)).publish(ac.capture());
+		ArgumentCaptor<LogRecord> argumentCaptor = ArgumentCaptor.forClass(LogRecord.class);
+		verify(handler, times(1)).publish(argumentCaptor.capture());
 
 		//Check if the level was correct
-		assertEquals(level, ac.getValue().getLevel());
+		assertEquals(level, argumentCaptor.getValue().getLevel());
 
 		//Check if the message was correct
-		assertEquals(msg, ac.getValue().getMessage());
+		assertEquals(msg, argumentCaptor.getValue().getMessage());
 
 		//Check if the trowable was the same
-		assertSame(ex, ac.getValue().getThrown());
+		assertSame(ex, argumentCaptor.getValue().getThrown());
 	}
 	
 	/**
@@ -79,10 +79,10 @@ public class LogTest extends TestBase {
 	 */
 	@Test
 	public void testLog() throws IOException {
-		Log nlog = new Log("hello", true);
+		Log otherlog = new Log("hello", true);
 
 		//There should be a filehandler and a consolehandler.
-		assertEquals(2, nlog.getLogger().getHandlers().length);
+		assertEquals(2, otherlog.getLogger().getHandlers().length);
 	}
 
 	/**
@@ -248,9 +248,9 @@ public class LogTest extends TestBase {
 	 */
 	@Test
 	public void testGetLog_create() {
-		Log rlog = Log.getLog("aRandomName");
+		Log createlog = Log.getLog("aRandomName");
 		
-		assertNotNull(rlog);
+		assertNotNull(createlog);
 	}
 	
 	/**
@@ -298,24 +298,24 @@ public class LogTest extends TestBase {
 	@Test
 	public void testSetConsoleLevel() throws IOException {
 		//Create a new log that logs to the console
-		Log logToConsole = new Log("test2", temp.getRoot().getAbsolutePath(), true);
+		Log logToConsole = new Log("test2", tempFolder.getRoot().getAbsolutePath(), true);
 
 		//Create the console handler
-		ConsoleHandler ch = null;
-		for (Handler h : logToConsole.getLogger().getHandlers()) {
-			if (h instanceof ConsoleHandler) {
-				ch = (ConsoleHandler) h;
+		ConsoleHandler consoleHandler = null;
+		for (Handler handler : logToConsole.getLogger().getHandlers()) {
+			if (handler instanceof ConsoleHandler) {
+				consoleHandler = (ConsoleHandler) handler;
 			}
 		}
 
 		//The console handler should not be null
-		assertNotNull(ch);
+		assertNotNull(consoleHandler);
 
 		//Change the level
 		Log.setConsoleLevel(Level.CONFIG);
 
 		//Verify that the level was changed
-		assertEquals(Level.CONFIG, ch.getLevel());
+		assertEquals(Level.CONFIG, consoleHandler.getLevel());
 	}
 
 }

@@ -67,10 +67,10 @@ public class BombTest extends EntityTest {
 	@Test
 	public void testUpdateactive() {
 		bomb.activate();
-		Spatial mock = mock(Spatial.class);
-		bomb.setSpatial(mock);
-		when(mock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
-		when(mock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
+		Spatial spatialMock = mock(Spatial.class);
+		bomb.setSpatial(spatialMock);
+		when(spatialMock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
+		when(spatialMock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
 		bomb.update(1);
 		assertEquals(9, bomb.getTimer(), 1E-5);
 	}
@@ -113,7 +113,7 @@ public class BombTest extends EntityTest {
 		bomb.update(1);
 		bomb.getPhysicsObject().update(1);
 		Vector3f vec = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(2f);
-		Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
+		Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x + 1, 0, vec.z - 1);
 		assertEquals(vec2, bomb.getLocation());
 	}
 }
