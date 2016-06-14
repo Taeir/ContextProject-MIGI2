@@ -64,7 +64,6 @@ public final class CorridorExponentialExtension {
 			case LOWER_RIGHT:
 				return lowerRightExtension(location, rand);
 			default:
-				System.out.println("errors");
 				return new ArrayList<Vec2I>(0);
 		}
 	}

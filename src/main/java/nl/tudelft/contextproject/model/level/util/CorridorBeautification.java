@@ -73,6 +73,7 @@ public final class CorridorBeautification {
 			for (int j = 0; j < heigth; j++) {
 				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
 					corridorType = CorridorType.getCorridorTypeFromMap(map, i, j);
+					System.out.println(corridorType);
 					newCorridorTiles.addAll(CorridorExponentialExtension.getExtendLocationsUsingCorridorType(corridorType, new Vec2I(i, j), rand));
 				}
 			}
@@ -145,7 +146,6 @@ public final class CorridorBeautification {
 				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
 					//Check North
 					if (j != 0 && map[i][j - 1] == null) {
-						System.out.println("missed");
 						extraCorridorMap[i][j - 1] = new MazeTile(i, j - 1, TileType.CORRIDOR);
 					}
 

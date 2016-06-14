@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Random;
+
 import org.junit.Test;
 
 import nl.tudelft.contextproject.model.level.MazeTile;
@@ -15,6 +17,18 @@ import nl.tudelft.contextproject.model.level.TileType;
  */
 public class CorridorBeautificationTest {
 
+	/**
+	 * Test widenCorridors with a vertical corridor.
+	 */
+	@Test
+	public void testWidenCorridorsVertical() {
+		MazeTile[][] testMap = createBaseTileTypeMap();
+		testMap[0][1] = new MazeTile(0, 1, TileType.CORRIDOR);
+		testMap[2][1] = new MazeTile(2, 1, TileType.CORRIDOR);
+		Random rand = new Random(1L);
+		CorridorBeautification.widenCorridors(testMap, rand);
+		assertEquals(TileType.CORRIDOR, testMap[1][2].getTileType());
+	}
 	
 	/**
 	 * Test validLocation with an x that is too small.
