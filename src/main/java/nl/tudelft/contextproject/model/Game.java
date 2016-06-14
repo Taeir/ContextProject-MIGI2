@@ -4,7 +4,7 @@ import java.util.Set;
 
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 
 /**

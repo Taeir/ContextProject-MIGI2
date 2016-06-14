@@ -6,7 +6,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;

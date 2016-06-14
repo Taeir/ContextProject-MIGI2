@@ -7,8 +7,8 @@ import java.util.Set;
 
 import com.jme3.math.ColorRGBA;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.Holdable;
 import nl.tudelft.contextproject.model.entities.Key;
+import nl.tudelft.contextproject.model.entities.util.Holdable;
 
 /**
  * Class representing the players inventory.

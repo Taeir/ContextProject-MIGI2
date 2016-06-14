@@ -12,8 +12,8 @@ import java.util.Set;
 import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.EntityType;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 
 /**

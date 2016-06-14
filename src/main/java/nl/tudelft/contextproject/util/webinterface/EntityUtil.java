@@ -2,11 +2,11 @@ package nl.tudelft.contextproject.util.webinterface;
 
 import java.util.Set;
 
-import nl.tudelft.contextproject.model.entities.Bomb;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.exploding.Bomb;
 
 /**
  * Class used to make entities usable for the web interface.

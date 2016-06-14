@@ -19,9 +19,9 @@ import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.Observer;
-import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Key;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.exploding.Bomb;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**

@@ -5,6 +5,10 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import nl.tudelft.contextproject.model.Drawable;
+import nl.tudelft.contextproject.model.DrawableTest;
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
+
 import org.junit.Test;
 
 import com.jme3.math.Vector3f;

@@ -11,6 +11,8 @@ import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.entities.util.AbstractPhysicsEntity;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * A platform that can be placed in the void.
