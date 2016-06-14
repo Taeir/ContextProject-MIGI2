@@ -16,16 +16,16 @@ import nl.tudelft.contextproject.controller.EndingController;
 import nl.tudelft.contextproject.controller.TutorialController;
 import nl.tudelft.contextproject.controller.WaitingController;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.entities.Bomb;
+import nl.tudelft.contextproject.model.entities.exploding.Bomb;
 import nl.tudelft.contextproject.model.entities.Carrot;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityState;
 import nl.tudelft.contextproject.model.entities.Gate;
-import nl.tudelft.contextproject.model.entities.KillerBunny;
-import nl.tudelft.contextproject.model.entities.LandMine;
+import nl.tudelft.contextproject.model.entities.moving.KillerBunny;
+import nl.tudelft.contextproject.model.entities.exploding.LandMine;
 import nl.tudelft.contextproject.model.entities.Pitfall;
-import nl.tudelft.contextproject.model.entities.PlayerTrigger;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.environment.PlayerTrigger;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.model.entities.VoidPlatform;
 import nl.tudelft.contextproject.webinterface.Team;
 import nl.tudelft.contextproject.webinterface.WebClient;
@@ -314,7 +314,7 @@ public final class COCDebug {
 		im.addMapping(FLY_DOWN, new KeyTrigger(KeyInput.KEY_Z));
 		im.addMapping(NOCLIP, new KeyTrigger(KeyInput.KEY_N));
 		im.addListener(LISTENER_GAME, KILL_ENEMIES, KILL_NEAREST, RESPAWN, JUMP_HIGH, FLY, NOCLIP);
-		Main.getInstance().attachTickListener(COCDebug::update);
+		Main.getInstance().registerObserver(COCDebug::update);
 		
 		//Web interface
 		im.addMapping(KICK_ALL_WEB, new KeyTrigger(KeyInput.KEY_F5));

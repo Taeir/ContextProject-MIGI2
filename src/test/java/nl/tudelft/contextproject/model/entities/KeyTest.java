@@ -6,6 +6,8 @@ import static org.mockito.Mockito.*;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 
+import nl.tudelft.contextproject.model.entities.util.EntityType;
+
 import org.junit.Before;
 import org.junit.Test;
 

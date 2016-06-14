@@ -22,6 +22,8 @@ public class EndingController extends GameThreadController {
 	 * 		true when the elves won, false when the dwarfs won
 	 */
 	public EndingController(Application app, boolean elvesWin) {
+		//We use a ternary if here because a call to the super class must be the first line, so
+		//we cannot use a proper if statement.
 		super(app, "/maps/" + (elvesWin ? WIN_LEVEL : LOSE_LEVEL) + "/", Float.MAX_VALUE, false);
 		this.elvesWin = elvesWin;
 	}

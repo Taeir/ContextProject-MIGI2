@@ -32,8 +32,6 @@ public abstract class Controller extends AbstractAppState {
 	
 	private Node rootNode;
 	private Node guiNode;
-	
-	
 	private InputManager inputManager;
 
 	/**
@@ -222,7 +220,7 @@ public abstract class Controller extends AbstractAppState {
 	 * Set the physic environment.
 	 *
 	 * @param phe
-	 * 		A bullet app state
+	 * 		a bullet app state
 	 */
 	protected void setPhysicsEnvironmentNode(BulletAppState phe) {
 		physicsEnvironment = phe;
@@ -262,18 +260,19 @@ public abstract class Controller extends AbstractAppState {
 	 */
 	public void attachRoofTile(int x, int y) {
 		Quad quad = new Quad(1, 1);
+		TangentBinormalGenerator.generate(quad);
+
 		Geometry roofTile = new Geometry("roofTile", quad);
 		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md"); 
 		material.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/rocktexture.png"));
-		TangentBinormalGenerator.generate(quad);
-		material.setBoolean("UseMaterialColors", true);    
+		material.setBoolean("UseMaterialColors", true);
 		material.setColor("Diffuse", ColorRGBA.Gray);
 		material.setColor("Specular", ColorRGBA.White);
 		material.setFloat("Shininess", 64f);
 		material.setColor("Ambient", ColorRGBA.Gray);
 		material.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/rocknormalmap.jpg"));
 		material.setBoolean("UseMaterialColors", true);
-		roofTile.setMaterial(material); 
+		roofTile.setMaterial(material);
 
 		roofTile.rotate((float) Math.toRadians(90), 0, 0);
 		roofTile.move(x - .5f, TileType.WALL.getHeight() * 2, y - .5f);

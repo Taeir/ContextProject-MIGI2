@@ -3,6 +3,8 @@ package nl.tudelft.contextproject.model.entities;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**

@@ -9,10 +9,10 @@ import org.junit.Test;
 import com.jme3.math.ColorRGBA;
 
 import nl.tudelft.contextproject.TestBase;
-import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Door;
-import nl.tudelft.contextproject.model.entities.Holdable;
 import nl.tudelft.contextproject.model.entities.Key;
+import nl.tudelft.contextproject.model.entities.exploding.Bomb;
+import nl.tudelft.contextproject.model.entities.util.Holdable;
 
 /**
  * Test class for the Key class.

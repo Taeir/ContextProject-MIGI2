@@ -4,6 +4,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * A carrot that can be eaten.

@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**

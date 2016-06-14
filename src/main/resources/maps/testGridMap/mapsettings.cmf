@@ -1,9 +1,7 @@
 #
 # Test map layout 
 #
-STARTROOM: startroom
-ENDROOM: endroom
-NOROOMS: 6
+startroom endroom 6
 room1
 room2
 room3

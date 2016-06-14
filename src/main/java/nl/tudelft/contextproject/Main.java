@@ -32,8 +32,8 @@ import nl.tudelft.contextproject.input.VRLookManager;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.TickListener;
-import nl.tudelft.contextproject.model.TickProducer;
+import nl.tudelft.contextproject.model.Observer;
+import nl.tudelft.contextproject.model.Observable;
 import nl.tudelft.contextproject.webinterface.WebServer;
 
 import jmevr.app.VRApplication;
@@ -45,7 +45,7 @@ import lombok.SneakyThrows;
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
-public class Main extends VRApplication implements TickProducer {
+public class Main extends VRApplication implements Observable {
 	public static final int PORT_NUMBER = 8080;
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
@@ -60,7 +60,7 @@ public class Main extends VRApplication implements TickProducer {
 	
 	private GameThreadController controller;
 	private WebServer webServer;
-	private Set<TickListener> tickListeners = ConcurrentHashMap.newKeySet();
+	private Set<Observer> observers = ConcurrentHashMap.newKeySet();
 	private BitmapFont guifont;
 	private int paused;
 	
@@ -190,18 +190,18 @@ public class Main extends VRApplication implements TickProducer {
 
 	/**
 	 * Method used for testing.
-	 * Sets the set of tickListeners to the specified set.
+	 * Sets the observers of this instance to the given set.
 	 *
-	 * @param listeners
-	 * 		the new Set of TickListeners
+	 * @param observers
+	 * 		the new Set of observers
 	 */
-	public void setTickListeners(Set<TickListener> listeners) {
-		tickListeners = listeners;
+	public void setObservers(Set<Observer> observers) {
+		this.observers = observers;
 	}
 	
 	@Override
-	public Set<TickListener> getTickListeners() {
-		return tickListeners;
+	public Set<Observer> getObservers() {
+		return observers;
 	}
 
 	@Override
@@ -251,10 +251,10 @@ public class Main extends VRApplication implements TickProducer {
 	 */
 	private void setupAudio() {
 		AudioManager.getInstance().init(getAudioRenderer(), getListener());
-		attachTickListener(AudioManager.getInstance());
+		registerObserver(AudioManager.getInstance());
 		
 		BackgroundMusic.getInstance().start();
-		attachTickListener(BackgroundMusic.getInstance());
+		registerObserver(BackgroundMusic.getInstance());
 	}
 
 	/**
@@ -366,7 +366,7 @@ public class Main extends VRApplication implements TickProducer {
 	
 	@Override
 	public void simpleUpdate(float tpf) {
-		updateTickListeners(tpf);
+		updateObservers(tpf);
 	}
 
 	/**

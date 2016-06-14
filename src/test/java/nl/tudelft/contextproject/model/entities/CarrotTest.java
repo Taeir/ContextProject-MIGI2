@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
+
 /**
  * Test class for the {@link Carrot} class.
  */

@@ -73,6 +73,10 @@ public class MazeTile implements Drawable, PhysicsObject {
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
+
+		Box box = new Box(.5f, .5f + height, .5f);
+		this.spatial = new Geometry("Box", box);
+		TangentBinormalGenerator.generate(box);
 		
 		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
 		material.setBoolean("UseMaterialColors", true);    
@@ -81,16 +85,14 @@ public class MazeTile implements Drawable, PhysicsObject {
 		material.setFloat("Shininess", 64f);
 		material.setColor("Ambient", color);
 		material.setTexture("DiffuseMap", texture);
-		if (type == TileType.WALL) {
+
+		if (this.type == TileType.WALL) {
 			material.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/wallnormalmap.png"));
 		}
 		material.setBoolean("UseMaterialColors", true);
-
-		Box box = new Box(.5f, .5f + height, .5f);
-		this.spatial = new Geometry("Box", box);
-		TangentBinormalGenerator.generate(box);
-		this.spatial.move(position.x, height, position.y);
+		
 		this.spatial.setMaterial(material);
+		this.spatial.move(position.x, height, position.y);
 		return spatial;
 	}
 
@@ -102,7 +104,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 	@Override
 	public PhysicsControl getPhysicsObject() {
 		if (rigidBody != null) return rigidBody;
-		
+
 		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(getSpatial());
 		rigidBody = new RigidBodyControl(sceneShape, 0);
 		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
@@ -122,12 +124,13 @@ public class MazeTile implements Drawable, PhysicsObject {
 	 */
 	public void replace(int x, int y) {
 		position.x = x;
-		position.y = y;		
+		position.y = y;
 		if (spatial == null) {
 			this.getSpatial();
 		} else {
 			spatial.setLocalTranslation(position.x, height, position.y);
 		}
+		
 		if (rigidBody == null) {
 			this.getPhysicsObject();
 		} else {
