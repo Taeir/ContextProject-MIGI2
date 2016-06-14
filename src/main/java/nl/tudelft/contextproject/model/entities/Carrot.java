@@ -13,7 +13,7 @@ import nl.tudelft.contextproject.Main;
 public class Carrot extends Entity {
 
 	private float health;
-	private Node node;
+	private Spatial spatial;
 	private Spatial carrot, carrot2, carrot3, carrot4;
 	private boolean updated;
 
@@ -26,9 +26,10 @@ public class Carrot extends Entity {
 
 	@Override
 	public Spatial getSpatial() {
-		if (node != null) return node;
+		if (spatial != null) return spatial;
 		
-		node = new Node("CarrotNode");
+		Node node = new Node("CarrotNode");
+		spatial = node;
 		
 		carrot = Main.getInstance().getAssetManager().loadModel("Models/carrot.blend");
 		carrot2 = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
@@ -51,7 +52,7 @@ public class Carrot extends Entity {
 
 	@Override
 	public void setSpatial(Spatial spatial) {
-		throw new IllegalArgumentException("Cannot set the spatial of carrot!");
+		this.spatial = spatial;
 	}
 
 	@Override
