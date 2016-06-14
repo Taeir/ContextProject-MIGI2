@@ -33,8 +33,8 @@ import org.junit.Test;
 /**
  * Test class for the GameController.
  */
-public class GameControllerTest extends ControllerTest {
-	private GameController controller;
+public class GameThreadControllerTest extends ControllerTest {
+	private GameThreadController controller;
 	private Main main;
 	private Game game;
 	private Level level;
@@ -96,6 +96,7 @@ public class GameControllerTest extends ControllerTest {
 		controller.setRootNode(rootNode);
 		controller.setGame(game);
 		controller.setPhysicsEnvironmentNode(phe);
+		controller.setHUD(mock(HUD.class));
 	}
 
 	/**
@@ -119,7 +120,7 @@ public class GameControllerTest extends ControllerTest {
 		controller.update(0.5f);
 		
 		verify(hud, times(1)).setGameTimer(anyInt());
-		verify(game.getPlayer(), times(1)).update(Math.min(GameController.MAX_TPF, .5f));
+		verify(game.getPlayer(), times(1)).update(Math.min(GameThreadController.MAX_TPF, .5f));
 	}
 
 	/**
