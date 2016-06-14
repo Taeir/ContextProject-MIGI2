@@ -24,7 +24,6 @@ import nl.tudelft.contextproject.audio.BackgroundMusic;
 import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.controller.GameState;
-import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
 import nl.tudelft.contextproject.input.NoVRMouseManager;
 import nl.tudelft.contextproject.input.VRLookManager;
@@ -57,11 +56,11 @@ public class Main extends VRApplication implements TickProducer {
 	private static volatile Main instance;
 	private static boolean mouseEnabled;
 	
-	private Controller controller;
+	private GameThreadController controller;
 	private WebServer webServer;
 	private Set<TickListener> tickListeners = ConcurrentHashMap.newKeySet();
 	private BitmapFont guifont;
-	private boolean paused;
+	private int paused;
 	
 	/**
 	 * Main method that is called when the program is started.
@@ -127,22 +126,22 @@ public class Main extends VRApplication implements TickProducer {
 	 * @return
 	 * 		true is the controller was changed, false otherwise
 	 */
-	public boolean setController(Controller newController) {
-		if (newController != this.controller && newController != null) {
-			if (this.controller != null) {
-				getStateManager().detach(this.controller);
-			}
+	public boolean setController(GameThreadController newController) {
+		if (this.controller == newController || newController == null) return false;
 
-			this.controller = newController;
-			getStateManager().attach(this.controller);
-			if (webServer != null) {
-				webServer.clearCooldowns();
-				webServer.getInventory().reset();
-			}
-			
-			return true;
+		if (this.controller != null) {
+			getStateManager().detach(this.controller);
 		}
-		return false;
+
+		this.controller = newController;
+		getStateManager().attach(this.controller);
+		
+		if (webServer != null) {
+			webServer.clearCooldowns();
+			webServer.getInventory().reset();
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -152,13 +151,8 @@ public class Main extends VRApplication implements TickProducer {
 	 * 		the current instance of the game or null when no game is running
 	 */
 	public Game getCurrentGame() {
-		if (controller instanceof GameThreadController) {
-			return ((GameThreadController) controller).getGame();				
-		}
-		if (controller instanceof PauseController) {
-			return ((PauseController) controller).getPausedController().getGame();				
-		}
-		return null;
+		if (controller == null) return null;
+		return controller.getGame();
 	}
 	
 	/**
@@ -329,16 +323,20 @@ public class Main extends VRApplication implements TickProducer {
 	
 	@Override
 	public void update() {
-		if (!paused) {
+		if (paused == 0) {
 			super.update();
+		} else if (paused == 1 || paused == 2) {
+			super.update();
+			paused++;
 		} else {
 			runQueuedTasks();
-			getInputManager().update(0f);
+			getInputManager().update(1f);
 			
 	        try {
 	            Thread.sleep(50); // throttle the CPU when paused
 	        } catch (InterruptedException ex) {
-	            paused = false;
+	            paused = 0;
+	            ex.printStackTrace();
 	        }
 		}
 	}
@@ -451,13 +449,17 @@ public class Main extends VRApplication implements TickProducer {
 	 * 		true if the game is paused, false otherwise
 	 */
 	public boolean isPaused() {
-		return paused;
+		return paused != 0;
 	}
 	
 	/**
 	 * Toggles pausing the game.
 	 */
 	public void togglePause() {
-		paused = !paused;
+		if (isPaused()) {
+			paused = 0;
+		} else {
+			paused = 1;
+		}
 	}
 }
