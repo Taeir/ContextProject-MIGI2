@@ -178,6 +178,9 @@ public class Inventory implements TickProducer {
 	public void update(float tpf) {
 		if (holding != null) {
 			holding.update(tpf);
+			if (!holding.isPickedUp()) {
+				holding = null;
+			}
 			updateTickListeners();
 		}
 	}
