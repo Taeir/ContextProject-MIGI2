@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.jme3.app.state.AppStateManager;
 
@@ -26,7 +25,7 @@ public class EndingControllerTest extends TestBase {
 	public void setUp() {
 		instance = new EndingController(Main.getInstance(), true);
 		
-		AppStateManager appStateManager = Mockito.mock(AppStateManager.class);
+		AppStateManager appStateManager = mock(AppStateManager.class);
 		instance.setHUD(mock(HUD.class));
 		instance.initialize(appStateManager, Main.getInstance());
 	}
