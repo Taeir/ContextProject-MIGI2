@@ -37,7 +37,7 @@ public abstract class GameThreadController extends Controller {
 	 * This ensures that a big lag-spike wont allow entities to glitch through walls.
 	 */
 	public static final float MAX_TPF = .033f;
-
+	
 	private Game game;
 	private HUD hud;
 
@@ -102,24 +102,12 @@ public abstract class GameThreadController extends Controller {
 			hud = new HUD(this);
 			hud.attachHud();
 		}
-		
-		GameThreadController gameController = this;
 
 		//Listener for stop the game
 		addInputListener((ActionListener) (name, ip, tpf) -> Main.getInstance().stop(), "Exit");
 
-		ActionListener actionListener = new ActionListener() {
-			@Override
-			public void onAction(String name, boolean isPressed, float tpf) {
-				if (!isPressed) {
-					removeInputListener(this);
-					Main main = Main.getInstance();
-					Main.getInstance().setController(new PauseController(gameController, main));
-				}
-			}
-		};
-
-		addInputListener(actionListener, "pause");
+		//Listener to pause the game
+		addInputListener((ActionListener) this::onPause, "pause");
 
 		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Drop", "Pickup");
 	}
@@ -272,5 +260,26 @@ public abstract class GameThreadController extends Controller {
 	 */
 	public HUD getHUD() {
 		return hud;
+	}
+	
+	/**
+	 * @param name
+	 * 		the name of the event
+	 * @param isPressed
+	 * 		if the key was pressed (true) or released (false)
+	 * @param tpf
+	 * 		the time per frame
+	 */
+	public void onPause(String name, boolean isPressed, float tpf) {
+		if (isPressed) return;
+		
+		Main main = Main.getInstance();
+		main.togglePause();
+		
+		if (main.isPaused()) {
+			getHUD().showPopupText("Paused", ColorRGBA.White, 2);
+		} else {
+			getHUD().showPopupText("Unpaused", ColorRGBA.White, 2);
+		}
 	}
 }
