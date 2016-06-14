@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.model.level.util;
 
+import java.util.ArrayList;
+
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 
@@ -83,13 +85,8 @@ public enum CorridorType {
 	NOT_DEFINED;
 	
 	/**
-	 * Constructor to finish enum body type.
-	 */
-	CorridorType() {}
-	
-	/**
 	 * Get CorridorType from Map.
-	 * Scan for each possible corridor tile around the i, j corridor tile.
+	 * Scan for each possible corridor tile around the x, y corridor tile.
 	 * 
 	 * @param map
 	 * 		map to check
@@ -113,25 +110,142 @@ public enum CorridorType {
 		boolean downPossible  = down + 1 < mapHeigth;
 		boolean leftPossible  = left >= 0;
 		boolean rightPossible = right < mapWidth;
-		//Check if up is possible
-		if (upPossible) {
-			//Check above current tile
-			if (checkTileType(map[up][y])) {
-				if (downPossible && checkTileType(map[down][y])) {
-					return CorridorType.VERTICAL;
-				} else if (leftPossible && checkTileType(map[x][left])) {
-					return CorridorType.UPPER_RIGHT;
+		
+
+		if (upPossible && checkTileType(map[up][y])) {
+			if (downPossible && checkTileType(map[down][y])) {
+				return VERTICAL;
+			} else if (leftPossible && checkTileType(map[x][left])) {
+				return LOWER_RIGHT;
+			} else if (rightPossible && checkTileType(map[x][right])) {
+				return LOWER_LEFT;
+			} 
+		} else if (downPossible) {
+			if (checkTileType(map[down][y])) {
+				if (leftPossible && checkTileType(map[x][left])) {
+					return UPPER_RIGHT;
 				} else if (rightPossible && checkTileType(map[x][right])) {
-					return CorridorType.UPPER_LEFT;
+					return UPPER_RIGHT;
 				}
 			}
+		} else if (leftPossible && rightPossible && checkTileType(map[x][left]) && checkTileType(map[x][right])) {
+			return HORIZONTAL;
+		} 
+		return NOT_DEFINED;
+	}
+
+	/**
+	 * Find out what extend method to use depending on each corridor type.
+	 * Will return that method's extensions, consisting out of a list of Vec2Is where the extra corridor tiles should be placed.
+	 * Returns an empty list if tile type is invalid.
+	 * 
+	 * @param type
+	 * 		the type of corridor
+	 * @param location
+	 * 		the location of the corridor tile that is extended
+	 * @return
+	 * 		a list of locations in the map that should be turned into corridors
+	 */
+	public ArrayList<Vec2I> getExtendLocationsUsingCorridorType(CorridorType type, Vec2I location) {
+		switch (type) {
+			case HORIZONTAL:
+				return horizontalExtension(location);
+			case VERTICAL:
+				return verticalExtension(location);
+			case UPPER_LEFT:
+				return upperLeftExtension(location);
+			case UPPER_RIGHT:
+				return upperRightExtension(location);
+			case LOWER_LEFT:
+				return lowerLeftExtension(location);
+			case LOWER_RIGHT:
+				return lowerRightExtension(location);
+			default:
+				return new ArrayList<Vec2I>(0);
 		}
-		
+	}
+	
+	/**
+	 * Extend from the horizontal direction.
+	 * 
+	 * @param location
+	 * 		location of original corridor tile
+	 * @return
+	 * 		list of location on which the new corridor tiles should be placed
+	 */
+	protected ArrayList<Vec2I> horizontalExtension(Vec2I location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * Extend from the vertical direction.
+	 * 
+	 * @param location
+	 * 		location of original corridor tile
+	 * @return
+	 * 		list of location on which the new corridor tiles should be placed
+	 */
+	protected ArrayList<Vec2I> verticalExtension(Vec2I location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * Extend in the lower left direction.
+	 * 
+	 * @param location
+	 * 		location of original corridor tile
+	 * @return
+	 * 		list of location on which the new corridor tiles should be placed
+	 */
+	protected ArrayList<Vec2I> lowerLeftExtension(Vec2I location) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/**
-	 * Check if the tile is a valid tile.
+	 * Extend in the lower right direction.
+	 * 
+	 * @param location
+	 * 		location of original corridor tile
+	 * @return
+	 * 		list of location on which the new corridor tiles should be placed
+	 */
+	protected ArrayList<Vec2I> lowerRightExtension(Vec2I location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Extend in the upper left direction.
+	 * 
+	 * @param location
+	 * 		location of original corridor tile
+	 * @return
+	 * 		list of location on which the new corridor tiles should be placed
+	 */
+	protected ArrayList<Vec2I> upperLeftExtension(Vec2I location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Extend in the upper right direction.
+	 * 
+	 * @param location
+	 * 		location of original corridor tile
+	 * @return
+	 * 		list of location on which the new corridor tiles should be placed
+	 */
+	protected ArrayList<Vec2I> upperRightExtension(Vec2I location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * Check from the tile is a valid tile.
+	 * 
 	 * @param mazeTile
 	 * 		MazeTile to check
 	 * @return
