@@ -14,9 +14,8 @@ import nl.tudelft.contextproject.model.entities.Key;
  * Class representing the players inventory.
  */
 public class Inventory implements TickProducer {
-	ArrayList<ColorRGBA> keys;
-	Holdable holding;
-	
+	private ArrayList<ColorRGBA> keys;
+	private Holdable holding;
 	private Set<TickListener> listeners;
 
 	/**
@@ -176,12 +175,12 @@ public class Inventory implements TickProducer {
 	 * 		the tpf for this update
 	 */
 	public void update(float tpf) {
-		if (holding != null) {
-			holding.update(tpf);
-			if (!holding.isPickedUp()) {
-				holding = null;
-			}
-			updateTickListeners();
+		if (holding == null) return;
+		
+		holding.update(tpf);
+		if (!holding.isPickedUp()) {
+			holding = null;
 		}
+		updateTickListeners();
 	}
 }
