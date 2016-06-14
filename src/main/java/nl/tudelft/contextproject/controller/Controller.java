@@ -24,8 +24,8 @@ import nl.tudelft.contextproject.model.level.TileType;
  * Abstract class for controllers.
  */
 public abstract class Controller extends AbstractAppState {
-	private Node rootNode = new Node();
-	private Node guiNode = new Node();
+	private Node rootNode;
+	private Node guiNode;
 	private BulletAppState physicsEnvironment = new BulletAppState();
 	private InputManager inputManager;
 
