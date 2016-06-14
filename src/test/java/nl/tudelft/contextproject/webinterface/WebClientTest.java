@@ -103,6 +103,7 @@ public class WebClientTest extends WebTestBase {
 	public void testSendMessage_socket() throws IOException {
 		COCSocket socket = mock(COCSocket.class);
 		when(socket.getRemote()).thenReturn(mock(RemoteEndpoint.class));
+		when(socket.isConnected()).thenReturn(true);
 		
 		WebClient client = new WebClient();
 		client.setWebSocket(socket);
@@ -144,6 +145,7 @@ public class WebClientTest extends WebTestBase {
 	public void testSendMessage_json_socket() throws IOException {
 		COCSocket socket = mock(COCSocket.class);
 		when(socket.getRemote()).thenReturn(mock(RemoteEndpoint.class));
+		when(socket.isConnected()).thenReturn(true);
 		
 		WebClient client = new WebClient();
 		client.setWebSocket(socket);
