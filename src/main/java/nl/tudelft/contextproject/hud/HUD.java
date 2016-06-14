@@ -31,9 +31,9 @@ public class HUD implements TickListener {
 	private float screenWidth;
 
 	private BitmapText gameTimer;
-	private BitmapText popupText;
+	private volatile BitmapText popupText;
 
-	private float popupTimer;
+	private volatile float popupTimer;
 
 	
 	
@@ -83,6 +83,7 @@ public class HUD implements TickListener {
 		// Attach listeners
 		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
 		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
+		Main.getInstance().attachTickListener(this::updatePopupText);
 	}
 
 	/**
@@ -96,17 +97,22 @@ public class HUD implements TickListener {
 	 * 		the duration this text is shown
 	 */
 	public void showPopupText(String text, ColorRGBA color, float duration) {
-		popupText = new BitmapText(Main.getInstance().getGuiFont(), false);
-		popupText.setSize(screenHeight / 10);
-		popupText.setColor(color);
-		popupText.setText(text);
-		float height = (screenHeight - popupText.getLineHeight()) / 2;
-		float width = (screenWidth - popupText.getLineWidth()) / 2;
+		BitmapText oldText = popupText;
+		if (oldText != null) {
+			controller.removeGuiElement(oldText);
+		}
 		
-		popupText.setLocalTranslation(width, height, 0);
-		controller.addGuiElement(popupText);
+		BitmapText newText = new BitmapText(Main.getInstance().getGuiFont(), false);
+		newText.setSize(screenHeight / 10);
+		newText.setColor(color);
+		newText.setText(text);
+		float height = (screenHeight - newText.getLineHeight()) / 2;
+		float width = (screenWidth - newText.getLineWidth()) / 2;
+		
+		newText.setLocalTranslation(width, height, 0);
+		controller.addGuiElement(newText);
+		popupText = newText;
 		popupTimer = duration;
-		Main.getInstance().attachTickListener(this::updatePopupText);
 	}
 
 	/**
@@ -336,11 +342,16 @@ public class HUD implements TickListener {
 	 * 		the tpf for this update
 	 */
 	public void updatePopupText(float tpf) {
-		if (popupTimer == Float.NEGATIVE_INFINITY) return;
+		BitmapText text = popupText;
+		if (popupText == null) return;
+		
 		popupTimer -= tpf;
 		if (popupTimer < 0) {
-			controller.removeGuiElement(popupText);
-			popupTimer = Float.NEGATIVE_INFINITY;
+			controller.removeGuiElement(text);
+			if (popupText == text) {
+				popupText = null;
+				popupTimer = 0;
+			}
 		}
 	}
 }
