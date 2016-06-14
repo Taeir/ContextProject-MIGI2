@@ -125,7 +125,7 @@ public enum CorridorType {
 				if (leftPossible && checkTileType(map[x][left])) {
 					return UPPER_RIGHT;
 				} else if (rightPossible && checkTileType(map[x][right])) {
-					return UPPER_RIGHT;
+					return UPPER_LEFT;
 				}
 			}
 		} else if (leftPossible && rightPossible && checkTileType(map[x][left]) && checkTileType(map[x][right])) {

@@ -225,7 +225,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Extend the corridors and add walls to them.
 	 */
 	protected void beautifyCorridors() {
-		CorridorBeautification.simpleCorridorWidening(mazeTiles);
+		CorridorBeautification.widenCorridors(mazeTiles, rand);
 		CorridorBeautification.carveCorridorWalls(mazeTiles);
 	}
 	

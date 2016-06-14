@@ -3,8 +3,6 @@ package nl.tudelft.contextproject.model.level.util;
 import java.util.ArrayList;
 import java.util.Random;
 
-import nl.tudelft.contextproject.model.level.MazeTile;
-import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.util.RandomUtil;
 
 /**
@@ -142,8 +140,18 @@ public final class CorridorExponentialExtension {
 		boolean insideCorner = rand.nextBoolean();
 		int outSideDown = getExponentialNumber(rand);
 		int outSideLeft = getExponentialNumber(rand);
+		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(outSideDown * outSideLeft + (insideCorner ? 1 : 0));
 		
-		return null;
+		if (insideCorner) {
+			extensions.add(new Vec2I(x - 1, y + 1));
+		}
+		
+		for (int i = x - outSideDown + 1; i <= x; i++) {
+			for (int j = y - outSideLeft + 1; j <= y; j++) {
+				extensions.add(new Vec2I(i, j));
+			}
+		}
+		return extensions;
 	}
 
 	/**
@@ -157,8 +165,24 @@ public final class CorridorExponentialExtension {
 	 * 		list of location on which the new corridor tiles should be placed
 	 */
 	protected static ArrayList<Vec2I> lowerRightExtension(Vec2I location, Random rand) {
-		// TODO Auto-generated method stub
-		return null;
+		int x = location.x;
+		int y = location.y;
+		
+		boolean insideCorner = rand.nextBoolean();
+		int outSideDown = getExponentialNumber(rand);
+		int outSideRight = getExponentialNumber(rand);
+		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(outSideDown * outSideRight + (insideCorner ? 1 : 0));
+		
+		if (insideCorner) {
+			extensions.add(new Vec2I(x - 1, y - 1));
+		}
+		
+		for (int i = x - outSideDown; i <= x; i++) {
+			for (int j = y; j < y + outSideRight; j++) {
+				extensions.add(new Vec2I(i, j));
+			}
+		}
+		return extensions;
 	}
 
 	/**
@@ -172,8 +196,24 @@ public final class CorridorExponentialExtension {
 	 * 		list of location on which the new corridor tiles should be placed
 	 */
 	protected static ArrayList<Vec2I> upperLeftExtension(Vec2I location, Random rand) {
-		// TODO Auto-generated method stub
-		return null;
+		int x = location.x;
+		int y = location.y;
+		
+		boolean insideCorner = rand.nextBoolean();
+		int outSideUp = getExponentialNumber(rand);
+		int outSideLeft = getExponentialNumber(rand);
+		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(outSideUp * outSideLeft + (insideCorner ? 1 : 0));
+		
+		if (insideCorner) {
+			extensions.add(new Vec2I(x - 1, y - 1));
+		}
+		
+		for (int i = x; i < x + outSideUp; i++) {
+			for (int j = y - outSideLeft; j <= y; j++) {
+				extensions.add(new Vec2I(i, j));
+			}
+		}
+		return extensions;
 	}
 
 	/**
@@ -187,8 +227,24 @@ public final class CorridorExponentialExtension {
 	 * 		list of location on which the new corridor tiles should be placed
 	 */
 	protected static ArrayList<Vec2I> upperRightExtension(Vec2I location, Random rand) {
-		// TODO Auto-generated method stub
-		return null;
+		int x = location.x;
+		int y = location.y;
+		
+		boolean insideCorner = rand.nextBoolean();
+		int outSideUp = getExponentialNumber(rand);
+		int outSideRight = getExponentialNumber(rand);
+		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(outSideUp * outSideRight + (insideCorner ? 1 : 0));
+		
+		if (insideCorner) {
+			extensions.add(new Vec2I(x - 1, y - 1));
+		}
+		
+		for (int i = x; i < x + outSideUp; i++) {
+			for (int j = y; j < y + outSideRight; j++) {
+				extensions.add(new Vec2I(i, j));
+			}
+		}
+		return extensions;
 	}
 	
 	/**
@@ -205,23 +261,4 @@ public final class CorridorExponentialExtension {
 				MINIMUM_EXTENSION, 
 				LAMBA);
 	}
-	
-	/**
-	 * Check from the tile is a valid tile.
-	 * 
-	 * @param mazeTile
-	 * 		MazeTile to check
-	 * @return
-	 * 		true if tile is a corridor, door entrance or a door exit.
-	 */
-	protected static boolean checkTileType(MazeTile mazeTile) {
-		if (mazeTile != null 
-				&& (mazeTile.getTileType() == TileType.CORRIDOR
-				 || mazeTile.getTileType() == TileType.DOOR_ENTRANCE
-				 || mazeTile.getTileType() == TileType.DOOR_EXIT)) {
-			return true;
-		}
-		return false;
-	}
-	
 }
