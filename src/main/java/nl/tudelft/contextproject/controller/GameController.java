@@ -113,9 +113,10 @@ public class GameController extends Controller {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
 				if (!isPressed) {
-					removeInputListener(this);
-					Main main = Main.getInstance();
-					Main.getInstance().setController(new PauseController(gameController, main));
+					Main.getInstance().togglePause();
+//					removeInputListener(this);
+//					Main main = Main.getInstance();
+//					Main.getInstance().setController(new PauseController(gameController, main));
 				}
 			}
 		};
@@ -220,7 +221,11 @@ public class GameController extends Controller {
 
 	@Override
 	public GameState getGameState() {
-		return GameState.RUNNING;
+		if (Main.getInstance().isPaused()) {
+			return GameState.PAUSED;
+		} else {
+			return GameState.RUNNING;
+		}
 	}
 
 	/**

@@ -61,6 +61,7 @@ public class Main extends VRApplication implements TickProducer {
 	private WebServer webServer;
 	private Set<TickListener> tickListeners = ConcurrentHashMap.newKeySet();
 	private BitmapFont guifont;
+	private boolean paused;
 	
 	/**
 	 * Main method that is called when the program is started.
@@ -327,6 +328,22 @@ public class Main extends VRApplication implements TickProducer {
 	}
 	
 	@Override
+	public void update() {
+		if (!paused) {
+			super.update();
+		} else {
+			runQueuedTasks();
+			getInputManager().update(0f);
+			
+	        try {
+	            Thread.sleep(50); // throttle the CPU when paused
+	        } catch (InterruptedException ex) {
+	            paused = false;
+	        }
+		}
+	}
+	
+	@Override
 	public void simpleUpdate(float tpf) {
 		updateTickListeners(tpf);
 	}
@@ -427,5 +444,20 @@ public class Main extends VRApplication implements TickProducer {
 	 */
 	public void setGuiFont() {
 		guifont = getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+	}
+	
+	/**
+	 * @return
+	 * 		true if the game is paused, false otherwise
+	 */
+	public boolean isPaused() {
+		return paused;
+	}
+	
+	/**
+	 * Toggles pausing the game.
+	 */
+	public void togglePause() {
+		paused = !paused;
 	}
 }
