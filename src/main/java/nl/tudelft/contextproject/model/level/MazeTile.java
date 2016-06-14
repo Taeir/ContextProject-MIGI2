@@ -103,14 +103,9 @@ public class MazeTile implements Drawable, PhysicsObject {
 
 	@Override
 	public PhysicsControl getPhysicsObject() {
-		if (spatial == null) {
-			this.getSpatial();
-		}
-		if (rigidBody != null) {
-			return rigidBody;
-		}
+		if (rigidBody != null) return rigidBody;
 
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(spatial);
+		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(getSpatial());
 		rigidBody = new RigidBodyControl(sceneShape, 0);
 		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
 		return rigidBody;
@@ -129,12 +124,13 @@ public class MazeTile implements Drawable, PhysicsObject {
 	 */
 	public void replace(int x, int y) {
 		position.x = x;
-		position.y = y;		
+		position.y = y;
 		if (spatial == null) {
 			this.getSpatial();
 		} else {
 			spatial.setLocalTranslation(position.x, height, position.y);
 		}
+		
 		if (rigidBody == null) {
 			this.getPhysicsObject();
 		} else {
