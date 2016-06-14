@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.webinterface.websockets;
 
 import java.io.IOException;
 
-import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.StatusCode;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
@@ -52,8 +51,7 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 		
 		String[] parts = msg.split(" ");
 		if (parts.length != 3) {
-			RemoteEndpoint remote = getRemote();
-			if (remote != null) remote.sendStringByFuture(COCErrorCode.ACTION_ILLEGAL.toString());
+			client.sendMessage(COCErrorCode.ACTION_ILLEGAL.toString(), null);
 			return;
 		}
 		
