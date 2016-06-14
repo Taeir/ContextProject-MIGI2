@@ -16,7 +16,7 @@ public final class TestRandomUtil {
 	 * 		not used here
 	 */
 	public static void main(String[] args) {
-		String toPrint = RandomUtil.testDistribution(0L, 20, 1, 1000000);
+		String toPrint = RandomUtil.testDistribution(0L, 20, 3.0, 1000000);
 		System.out.println(toPrint);
 	}
 

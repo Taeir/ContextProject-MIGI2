@@ -14,7 +14,7 @@ import nl.tudelft.contextproject.model.level.TileType;
  * 
  */
 public enum CorridorType {
-	
+
 	/**
 	 * A Vertical corridor.
 	 * <p>
@@ -23,7 +23,7 @@ public enum CorridorType {
 	 * &ensp;C&ensp;<br>
 	 */
 	VERTICAL,
-	
+
 	/**
 	 * An Horizontal corridor.
 	 * <p>
@@ -33,7 +33,7 @@ public enum CorridorType {
 	 * <br>
 	 */
 	HORIZONTAL,
-	
+
 	/**
 	 * An Upper Right corridor.
 	 * <p>
@@ -43,7 +43,7 @@ public enum CorridorType {
 	 * <br>
 	 */
 	UPPER_RIGHT,
-	
+
 	/**
 	 * An Upper Left corridor.
 	 * <p>
@@ -53,7 +53,7 @@ public enum CorridorType {
 	 * <br>
 	 */
 	UPPER_LEFT,
-	
+
 	/**
 	 * A Lower Right corridor.
 	 * <p>
@@ -63,7 +63,7 @@ public enum CorridorType {
 	 * <br>
 	 */
 	LOWER_RIGHT,
-	
+
 	/**
 	 * A Lower Left corridor.
 	 * <p>
@@ -73,7 +73,7 @@ public enum CorridorType {
 	 * <br>
 	 */
 	LOWER_LEFT,
-	
+
 	/**
 	 * A Not defined corridor.
 	 * <p>
@@ -83,7 +83,7 @@ public enum CorridorType {
 	 * <br>
 	 */
 	NOT_DEFINED;
-	
+
 	/**
 	 * Get CorridorType from Map.
 	 * Scan for each possible corridor tile around the x, y corridor tile.
@@ -100,17 +100,17 @@ public enum CorridorType {
 	public static CorridorType getCorridorTypeFromMap(MazeTile[][] map, int x, int y) {
 		int mapWidth = map.length;
 		int mapHeigth = map[0].length;
-		
+
 		int up = x - 1;
 		int down = x + 1;
 		int left = y - 1;
 		int right = y + 1;
-		
+
 		boolean upPossible    = up >= 0;
 		boolean downPossible  = down + 1 < mapHeigth;
 		boolean leftPossible  = left >= 0;
 		boolean rightPossible = right < mapWidth;
-		
+
 
 		if (upPossible && checkTileType(map[up][y])) {
 			if (downPossible && checkTileType(map[down][y])) {
@@ -120,20 +120,22 @@ public enum CorridorType {
 			} else if (rightPossible && checkTileType(map[x][right])) {
 				return LOWER_LEFT;
 			} 
-		} else if (downPossible) {
-			if (checkTileType(map[down][y])) {
-				if (leftPossible && checkTileType(map[x][left])) {
-					return UPPER_RIGHT;
-				} else if (rightPossible && checkTileType(map[x][right])) {
-					return UPPER_LEFT;
-				}
+		}
+		
+		if (downPossible && checkTileType(map[down][y])) {
+			if (leftPossible && checkTileType(map[x][left])) {
+				return UPPER_RIGHT;
+			} else if (rightPossible && checkTileType(map[x][right])) {
+				return UPPER_LEFT;
 			}
-		} else if (leftPossible && rightPossible && checkTileType(map[x][left]) && checkTileType(map[x][right])) {
+		}
+		
+		if (leftPossible && rightPossible && checkTileType(map[x][left]) && checkTileType(map[x][right])) {
 			return HORIZONTAL;
 		} 
 		return NOT_DEFINED;
 	}
-	
+
 	/**
 	 * Check from the tile is a valid tile.
 	 * 
@@ -145,8 +147,8 @@ public enum CorridorType {
 	protected static boolean checkTileType(MazeTile mazeTile) {
 		if (mazeTile != null 
 				&& (mazeTile.getTileType() == TileType.CORRIDOR
-				 || mazeTile.getTileType() == TileType.DOOR_ENTRANCE
-				 || mazeTile.getTileType() == TileType.DOOR_EXIT)) {
+				|| mazeTile.getTileType() == TileType.DOOR_ENTRANCE
+				|| mazeTile.getTileType() == TileType.DOOR_EXIT)) {
 			return true;
 		}
 		return false;

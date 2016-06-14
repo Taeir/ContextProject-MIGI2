@@ -97,7 +97,7 @@ public final class RandomUtil {
 		
 		int simulation;
 		for (int i = 0; i < numberOfSimulations; i++) {
-			simulation = RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 0, max, lambda);
+			simulation = RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 0, max - 1, lambda);
 			resultList.set(simulation, resultList.get(simulation) + 1);
 		} 
 		

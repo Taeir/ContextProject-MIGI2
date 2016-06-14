@@ -23,7 +23,7 @@ public final class CorridorExponentialExtension {
 	/**
 	 * Parameter of exponential distribution used in corridor extending with exponential distribution.
 	 */
-	public static final double LAMBA = 1.0;
+	public static final double LAMBA = 1;
 	
 	/**
 	 * Private constructor to prevent initialization.
@@ -59,6 +59,7 @@ public final class CorridorExponentialExtension {
 			case LOWER_RIGHT:
 				return lowerRightExtension(location, rand);
 			default:
+				System.out.println("errors");
 				return new ArrayList<Vec2I>(0);
 		}
 	}
@@ -81,13 +82,13 @@ public final class CorridorExponentialExtension {
 		int numberOfDownExtensions = getExponentialNumber(rand);
 		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(numberOfUpExtensions + numberOfDownExtensions);
 		
-		//Extend left
-		for (int i = 1; i < numberOfDownExtensions; i++) {
+		//Extend up
+		for (int i = 1; i <= numberOfDownExtensions; i++) {
 			extensions.add(new Vec2I(x - i, y));
 		}
 		
-		//Extend right
-		for (int i = 1; i < numberOfUpExtensions; i++) {
+		//Extend down
+		for (int i = 1; i <= numberOfUpExtensions; i++) {
 			extensions.add(new Vec2I(x + i, y));
 		}
 		return extensions;
@@ -112,12 +113,12 @@ public final class CorridorExponentialExtension {
 		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(numberOfLeftExtensions + numberOfRightExtensions);
 		
 		//Extend left
-		for (int i = 1; i < numberOfLeftExtensions; i++) {
+		for (int i = 1; i <= numberOfLeftExtensions; i++) {
 			extensions.add(new Vec2I(x, y - i));
 		}
 		
 		//Extend right
-		for (int i = 1; i < numberOfRightExtensions; i++) {
+		for (int i = 1; i <= numberOfRightExtensions; i++) {
 			extensions.add(new Vec2I(x, y + i));
 		}
 		return extensions;
@@ -256,9 +257,11 @@ public final class CorridorExponentialExtension {
 	 * 		the required exponential extension number
 	 */
 	protected static int getExponentialNumber(Random rand) {
-		return RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 
+		int test = RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 
 				MINIMUM_EXTENSION, 
-				MINIMUM_EXTENSION, 
+				MAXIMUM_EXTENSION, 
 				LAMBA);
+		System.out.println(test);
+		return test;
 	}
 }
