@@ -10,21 +10,6 @@ import nl.tudelft.contextproject.model.level.TileType;
  * Class that holds some methods to enhance the single tile wide corridor creation.
  */
 public final class CorridorBeautification {
-
-	/**
-	 * Minimum extension of corridors.
-	 */
-	public static final int MINIMUM_EXTENSION = 0;
-	
-	/**
-	 * Maximum extension of corridors.
-	 */
-	public static final int MAXIMUM_EXTENSION = 3;
-	
-	/**
-	 * Parameter of exponential distribution used in corridor extending with exponential distribution.
-	 */
-	public static final double LAMBA = 1.0;
 	
 	/**
 	 * Private constructor to prevent initialization.

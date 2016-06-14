@@ -13,6 +13,21 @@ import nl.tudelft.contextproject.util.RandomUtil;
 public final class CorridorExponentialExtension {
 	
 	/**
+	 * Minimum extension of corridors.
+	 */
+	public static final int MINIMUM_EXTENSION = 0;
+	
+	/**
+	 * Maximum extension of corridors.
+	 */
+	public static final int MAXIMUM_EXTENSION = 3;
+	
+	/**
+	 * Parameter of exponential distribution used in corridor extending with exponential distribution.
+	 */
+	public static final double LAMBA = 1.0;
+	
+	/**
 	 * Private constructor to prevent initialization.
 	 */
 	private CorridorExponentialExtension() {};
@@ -121,7 +136,13 @@ public final class CorridorExponentialExtension {
 	 * 		list of location on which the new corridor tiles should be placed
 	 */
 	protected static ArrayList<Vec2I> lowerLeftExtension(Vec2I location, Random rand) {
-		// TODO Auto-generated method stub
+		int x = location.x;
+		int y = location.y;
+		
+		boolean insideCorner = rand.nextBoolean();
+		int outSideDown = getExponentialNumber(rand);
+		int outSideLeft = getExponentialNumber(rand);
+		
 		return null;
 	}
 
@@ -180,9 +201,9 @@ public final class CorridorExponentialExtension {
 	 */
 	protected static int getExponentialNumber(Random rand) {
 		return RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 
-				CorridorBeautification.MINIMUM_EXTENSION, 
-				CorridorBeautification.MINIMUM_EXTENSION, 
-				CorridorBeautification.LAMBA);
+				MINIMUM_EXTENSION, 
+				MINIMUM_EXTENSION, 
+				LAMBA);
 	}
 	
 	/**
