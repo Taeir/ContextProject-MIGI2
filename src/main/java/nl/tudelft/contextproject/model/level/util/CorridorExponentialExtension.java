@@ -18,12 +18,17 @@ public final class CorridorExponentialExtension {
 	/**
 	 * Maximum extension of corridors.
 	 */
-	public static final int MAXIMUM_EXTENSION = 3;
+	public static final int MAXIMUM_EXTENSION = 2;
+	
+	/**
+	 * Extra corridor extensions for the corridor corners.
+	 */
+	public static final int EXTRA_CORNER_EXTENSION = 1;
 	
 	/**
 	 * Parameter of exponential distribution used in corridor extending with exponential distribution.
 	 */
-	public static final double LAMBA = 1;
+	public static final double LAMBA = 0.4;
 	
 	/**
 	 * Private constructor to prevent initialization.
@@ -139,8 +144,8 @@ public final class CorridorExponentialExtension {
 		int y = location.y;
 		
 		boolean insideCorner = rand.nextBoolean();
-		int outSideDown = getExponentialNumber(rand);
-		int outSideLeft = getExponentialNumber(rand);
+		int outSideDown = getExponentialNumber(rand) + EXTRA_CORNER_EXTENSION;
+		int outSideLeft = getExponentialNumber(rand) + EXTRA_CORNER_EXTENSION;
 		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(outSideDown * outSideLeft + (insideCorner ? 1 : 0));
 		
 		if (insideCorner) {
@@ -170,8 +175,8 @@ public final class CorridorExponentialExtension {
 		int y = location.y;
 		
 		boolean insideCorner = rand.nextBoolean();
-		int outSideDown = getExponentialNumber(rand);
-		int outSideRight = getExponentialNumber(rand);
+		int outSideDown = getExponentialNumber(rand) + EXTRA_CORNER_EXTENSION;
+		int outSideRight = getExponentialNumber(rand) + EXTRA_CORNER_EXTENSION;
 		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(outSideDown * outSideRight + (insideCorner ? 1 : 0));
 		
 		if (insideCorner) {
@@ -201,8 +206,8 @@ public final class CorridorExponentialExtension {
 		int y = location.y;
 		
 		boolean insideCorner = rand.nextBoolean();
-		int outSideUp = getExponentialNumber(rand);
-		int outSideLeft = getExponentialNumber(rand);
+		int outSideUp = getExponentialNumber(rand) + EXTRA_CORNER_EXTENSION;
+		int outSideLeft = getExponentialNumber(rand) + EXTRA_CORNER_EXTENSION;
 		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(outSideUp * outSideLeft + (insideCorner ? 1 : 0));
 		
 		if (insideCorner) {
@@ -232,8 +237,8 @@ public final class CorridorExponentialExtension {
 		int y = location.y;
 		
 		boolean insideCorner = rand.nextBoolean();
-		int outSideUp = getExponentialNumber(rand);
-		int outSideRight = getExponentialNumber(rand);
+		int outSideUp = getExponentialNumber(rand) + EXTRA_CORNER_EXTENSION;
+		int outSideRight = getExponentialNumber(rand) + EXTRA_CORNER_EXTENSION;
 		ArrayList<Vec2I> extensions = new ArrayList<Vec2I>(outSideUp * outSideRight + (insideCorner ? 1 : 0));
 		
 		if (insideCorner) {
@@ -257,11 +262,9 @@ public final class CorridorExponentialExtension {
 	 * 		the required exponential extension number
 	 */
 	protected static int getExponentialNumber(Random rand) {
-		int test = RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 
+		return RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 
 				MINIMUM_EXTENSION, 
 				MAXIMUM_EXTENSION, 
 				LAMBA);
-		System.out.println(test);
-		return test;
 	}
 }

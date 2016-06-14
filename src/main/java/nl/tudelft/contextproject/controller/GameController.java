@@ -151,8 +151,8 @@ public class GameController extends Controller {
 		Vector2f start = new Vector2f();
 		for (int x = 0; x < level.getWidth(); x++) {
 			for (int y = 0; y < level.getHeight(); y++) {
-				attachRoofTile(x, y);
 				if (level.isTileAtPosition(x, y)) {
+					attachRoofTile(x, y);
 					TileType type = level.getTile(x, y).getTileType();
 					
 					if ((type == TileType.FLOOR || type == TileType.CORRIDOR) && start.x == 0 && start.y == 0) {
