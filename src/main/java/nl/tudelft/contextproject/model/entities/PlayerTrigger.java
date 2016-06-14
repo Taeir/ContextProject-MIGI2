@@ -8,7 +8,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 import nl.tudelft.contextproject.util.ScriptLoader;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 
@@ -18,7 +18,7 @@ import nl.tudelft.contextproject.util.ScriptLoaderException;
 public class PlayerTrigger extends Entity {
 
 	private float triggerDist;
-	private TickListener action;
+	private Observer action;
 	private Spatial spatial;
 	private float timer;
 	private float coolDown;
@@ -33,7 +33,7 @@ public class PlayerTrigger extends Entity {
 	 * @param action
 	 * 		a TickListener that is updated when the action is triggered
 	 */
-	public PlayerTrigger(float triggerDist, float coolDown, TickListener action) {
+	public PlayerTrigger(float triggerDist, float coolDown, Observer action) {
 		this.triggerDist = triggerDist;
 		this.action = action;
 		this.coolDown = coolDown;
@@ -52,7 +52,7 @@ public class PlayerTrigger extends Entity {
 	protected PlayerTrigger(float triggerDist, float coolDown) {
 		this.triggerDist = triggerDist;
 		this.coolDown = coolDown;
-		this.action = new TickListener() {			
+		this.action = new Observer() {			
 			@Override
 			public void update(float tpf) { }
 		};
@@ -129,7 +129,7 @@ public class PlayerTrigger extends Entity {
 		float coolDown = Float.parseFloat(data[5]);
 		
 		ScriptLoader loader = new ScriptLoader(PlayerTrigger.class.getResource(data[3]).getPath());
-		TickListener listener = loader.getInstanceOf(data[6], TickListener.class);
+		Observer listener = loader.getInstanceOf(data[6], Observer.class);
 		
 		PlayerTrigger trigger = new PlayerTrigger(triggerDist, coolDown, listener);
 		trigger.move(position);

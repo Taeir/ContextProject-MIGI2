@@ -106,7 +106,7 @@ public class COCSocketTest extends WebTestBase {
 		socket.onWebSocketConnect(session);
 		
 		verify(session.getRemote()).sendString("" + GameState.RUNNING.ordinal());
-		verify(Main.getInstance()).attachTickListener(socket);
+		verify(Main.getInstance()).registerObserver(socket);
 		assertSame(socket, client.getWebSocket());
 	}
 	
@@ -138,7 +138,7 @@ public class COCSocketTest extends WebTestBase {
 	public void testOnWebSocketClose() {
 		socket.onWebSocketClose(StatusCode.NORMAL, null);
 		
-		verify(Main.getInstance()).removeTickListener(socket);
+		verify(Main.getInstance()).removeObserver(socket);
 		assertNull(client.getWebSocket());
 	}
 

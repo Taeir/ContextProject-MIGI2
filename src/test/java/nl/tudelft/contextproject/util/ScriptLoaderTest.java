@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.TestBase;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 
 /**
  * Test class for {@link ScriptLoader}.
@@ -34,7 +34,7 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Test (expected = IllegalMonitorStateException.class)
 	public void testGetCorrectTickLister() throws ScriptLoaderException {
-		TickListener tickListener = scriptLoader.getInstanceOf("TestTickListener", TickListener.class);
+		Observer tickListener = scriptLoader.getInstanceOf("TestTickListener", Observer.class);
 		assertNotNull(tickListener);
 		tickListener.update(.5f);
 	}
@@ -47,7 +47,7 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Test (expected = ScriptLoaderException.class)
 	public void testGetNotATickLister() throws ScriptLoaderException {
-		scriptLoader.getInstanceOf("NotATickListener", TickListener.class);
+		scriptLoader.getInstanceOf("NotATickListener", Observer.class);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Test (expected = ScriptLoaderException.class)
 	public void testGetNonExistingTickLister() throws ScriptLoaderException {
-		scriptLoader.getInstanceOf("IDoNotExist", TickListener.class);
+		scriptLoader.getInstanceOf("IDoNotExist", Observer.class);
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class ScriptLoaderTest extends TestBase {
 	 */
 	@Test (expected = IllegalMonitorStateException.class)
 	public void testStaticGetInstance() throws ScriptLoaderException {
-		TickListener tickListener = ScriptLoader.getInstanceFrom(ScriptLoaderTest.class.getResource("/").getPath(), "TestTickListener", TickListener.class);
+		Observer tickListener = ScriptLoader.getInstanceFrom(ScriptLoaderTest.class.getResource("/").getPath(), "TestTickListener", Observer.class);
 		tickListener.update(.5f);
 	}
 }

@@ -18,7 +18,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Key;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
@@ -53,8 +53,8 @@ public class HUDTest extends TestBase {
 		verify(controller, times(6)).addGuiElement(any(Spatial.class));
 		
 		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
-		assertTrue(player.getTickListeners().contains(hud));
-		assertTrue(player.getInventory().getTickListeners().contains(hud));
+		assertTrue(player.getObservers().contains(hud));
+		assertTrue(player.getInventory().getObservers().contains(hud));
 	}
 	
 	/**
@@ -212,7 +212,7 @@ public class HUDTest extends TestBase {
 	@Test
 	public void testShowPopupText() {
 		hud.showPopupText("TEST", ColorRGBA.Red, 12);
-		verify(Main.getInstance(), times(1)).attachTickListener(any(TickListener.class));
+		verify(Main.getInstance(), times(1)).registerObserver(any(Observer.class));
 		verify(controller, times(1)).addGuiElement(any(BitmapText.class));
 	}
 	

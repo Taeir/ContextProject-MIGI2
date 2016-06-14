@@ -13,17 +13,17 @@ import nl.tudelft.contextproject.model.entities.Key;
 /**
  * Class representing the players inventory.
  */
-public class Inventory implements TickProducer {
+public class Inventory implements Observable {
 	private ArrayList<ColorRGBA> keys;
 	private Holdable holding;
-	private Set<TickListener> listeners;
+	private Set<Observer> observers;
 
 	/**
 	 * Constructor for the inventory, starts empty with 0 keys and doors.
 	 */
 	public Inventory() {
 		this.keys = new ArrayList<>();
-		this.listeners = new HashSet<>();
+		this.observers = new HashSet<>();
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class Inventory implements TickProducer {
 	 */
 	public void add(Key key) {
 		keys.add(key.getColor());
-		updateTickListeners();
+		updateObservers();
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class Inventory implements TickProducer {
 	public void pickUp(Holdable holdable) {
 		this.holding = holdable;
 		holdable.pickUp();
-		updateTickListeners();
+		updateObservers();
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class Inventory implements TickProducer {
 		if (entity instanceof Key) {
 			ColorRGBA c = ((Key) entity).getColor();
 			keys.remove(c);
-			updateTickListeners();
+			updateObservers();
 		}
 	}
 	
@@ -84,7 +84,7 @@ public class Inventory implements TickProducer {
 		holding.drop();
 		Holdable res = holding;
 		holding = null;
-		updateTickListeners();
+		updateObservers();
 		return res;
 	}
 	
@@ -164,8 +164,8 @@ public class Inventory implements TickProducer {
 	}
 
 	@Override
-	public Set<TickListener> getTickListeners() {
-		return listeners;
+	public Set<Observer> getObservers() {
+		return observers;
 	}
 	
 	/**
@@ -181,6 +181,6 @@ public class Inventory implements TickProducer {
 		if (!holding.isPickedUp()) {
 			holding = null;
 		}
-		updateTickListeners();
+		updateObservers();
 	}
 }

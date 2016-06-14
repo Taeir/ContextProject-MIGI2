@@ -11,7 +11,7 @@ import com.jme3.ui.Picture;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import jmevr.util.VRGuiManager;
@@ -19,7 +19,7 @@ import jmevr.util.VRGuiManager;
 /**
  * Class to represent a Head Up Display.
  */
-public class HUD implements TickListener {
+public class HUD implements Observer {
 
 	private GameThreadController controller;
 
@@ -81,8 +81,8 @@ public class HUD implements TickListener {
 		controller.addGuiElement(bombNode);
 		
 		// Attach listeners
-		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
-		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
+		Main.getInstance().getCurrentGame().getPlayer().getInventory().registerObserver(this);
+		Main.getInstance().getCurrentGame().getPlayer().registerObserver(this);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class HUD implements TickListener {
 		popupText.setLocalTranslation(width, height, 0);
 		controller.addGuiElement(popupText);
 		popupTimer = duration;
-		Main.getInstance().attachTickListener(this::updatePopupText);
+		Main.getInstance().registerObserver(this::updatePopupText);
 	}
 
 	/**

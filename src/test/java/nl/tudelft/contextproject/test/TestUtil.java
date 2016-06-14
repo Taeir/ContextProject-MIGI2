@@ -142,7 +142,7 @@ public final class TestUtil extends TestBase {
 		mainNoSpy.setGuiNode(guiNode);
 		
 		//Reset the controller and tick listeners
-		mainNoSpy.setTickListeners(ConcurrentHashMap.newKeySet());
+		mainNoSpy.setObservers(ConcurrentHashMap.newKeySet());
 		mainNoSpy.setController(null);
 		return mainSpy;
 	}
