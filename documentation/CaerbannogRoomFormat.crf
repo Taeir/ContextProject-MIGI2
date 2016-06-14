@@ -17,7 +17,7 @@
 # After the tiles all entities are written.
 # Each entity needs at least the following values:
 # <xPosition> <yPosition> <zPosition> <EntityType>
-# This are all the entities and their needed values:
+# These are all the entities and their needed values:
 #  Bomb: 					<X> <Y> <Z> Bomb
 #  LandMine:  		<X> <Y> <Z> LandMine
 #  Pitfall:				<X> <Y> <Z> Pitfall <Width: float>
