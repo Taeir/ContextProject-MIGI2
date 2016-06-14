@@ -72,7 +72,6 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 		try {
 			session.getRemote().sendString("" + Main.getInstance().getGameState().ordinal());
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			session.close(StatusCode.SERVER_ERROR, null);
 			return;
 		}
