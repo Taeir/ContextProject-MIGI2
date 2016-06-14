@@ -41,11 +41,12 @@ public class VRLookManagerTest extends TestBase {
 		doNothing().when(vrManager).mapJoystick(any());
 		InputManager mockedInputManager = mock(InputManager.class);
 		
-		when(mockedInputManager.getJoysticks()).thenReturn(new Joystick[] {null});
+		Joystick mockedJoystick = mock(Joystick.class);
+		when(mockedInputManager.getJoysticks()).thenReturn(new Joystick[] {mockedJoystick});
 		vrManager.registerWithInput(mockedInputManager);
 		
 		verify(mockedInputManager).addListener(vrManager,  CameraInput.FLYCAM_LEFT, CameraInput.FLYCAM_RIGHT);
-		verify(vrManager).mapJoystick(null);
+		verify(vrManager).mapJoystick(mockedJoystick);
 	}
 
 	/**
