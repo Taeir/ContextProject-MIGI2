@@ -31,7 +31,7 @@ public class PauseControllerTest extends ControllerTest {
 	private Node guiNode;
 	private Main main;
 	private InputManager inputManager;
-	private GameController old;
+	private GameThreadController old;
 
 	/**
 	 * Setup all the mocks for each test.
@@ -110,7 +110,7 @@ public class PauseControllerTest extends ControllerTest {
 	
 	@Override
 	public PauseController getController() {
-		old = mock(GameController.class);
+		old = mock(GameThreadController.class);
 		return new PauseController(old, getMain());
 	}
 

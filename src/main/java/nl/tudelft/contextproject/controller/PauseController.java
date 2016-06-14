@@ -13,7 +13,7 @@ import nl.tudelft.contextproject.Main;
  */
 public class PauseController extends Controller {
 
-	private GameController controller;
+	private GameThreadController controller;
 
 	/**
 	 * Constructor for the PauseController.
@@ -23,7 +23,7 @@ public class PauseController extends Controller {
 	 * @param app
 	 * 		the main app
 	 */
-	public PauseController(GameController old, Application app) {
+	public PauseController(GameThreadController old, Application app) {
 		super(app, "PauseController");
 
 		this.controller = old;
@@ -62,7 +62,7 @@ public class PauseController extends Controller {
 	 * @return
 	 * 		the paused controller
 	 */
-	public GameController getPausedController() {
+	public GameThreadController getPausedController() {
 		return controller;
 	}
 }

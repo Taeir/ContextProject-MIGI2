@@ -22,7 +22,7 @@ import com.jme3.system.AppSettings;
 import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.audio.BackgroundMusic;
 import nl.tudelft.contextproject.controller.Controller;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
@@ -152,8 +152,8 @@ public class Main extends VRApplication implements TickProducer {
 	 * 		the current instance of the game or null when no game is running
 	 */
 	public Game getCurrentGame() {
-		if (controller instanceof GameController) {
-			return ((GameController) controller).getGame();				
+		if (controller instanceof GameThreadController) {
+			return ((GameThreadController) controller).getGame();				
 		}
 		if (controller instanceof PauseController) {
 			return ((PauseController) controller).getPausedController().getGame();				
