@@ -50,11 +50,7 @@ public class GameController extends GameThreadController {
 
 	@Override
 	public GameState getGameState() {
-		if (Main.getInstance().isPaused()) {
-			return GameState.PAUSED;
-		} else {
-			return GameState.RUNNING;
-		}
+		return GameState.RUNNING;
 	}
 
 }

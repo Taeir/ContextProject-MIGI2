@@ -380,7 +380,12 @@ public class Main extends VRApplication implements TickProducer {
 	 */
 	public GameState getGameState() {
 		if (controller == null) return null;
-		return controller.getGameState();
+		
+		if (isPaused()) {
+			return GameState.PAUSED;
+		} else {
+			return controller.getGameState();
+		}
 	}
 	
 	/**
