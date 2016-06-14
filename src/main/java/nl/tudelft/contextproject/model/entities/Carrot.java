@@ -12,6 +12,7 @@ public class Carrot extends Entity {
 
 	private float health;
 	private Spatial spatial;
+	private boolean updated;
 
 	/**
 	 * Creates a carrot.
@@ -34,15 +35,15 @@ public class Carrot extends Entity {
 	}
 
 	@Override
-	public void update(float tpf) { 
-		if (health <= 5) {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
-		}
-		if (health <= 3) {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
-		}
+	public void update(float tpf) {
+		if (!updated) return;
+		
 		if (health <= 1) {
 			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot4.blend");
+		} else if (health <= 3) {
+			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
+		} else if (health <= 5) {
+			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
 		}
 	}
 
@@ -57,7 +58,8 @@ public class Carrot extends Entity {
 	 * @param amount
 	 * 		the amount eaten.
 	 */
-	public void eat(float amount) {		
+	public void eat(float amount) {
+		updated = true;
 		health -= amount;
 		if (health < 0) {
 			setState(EntityState.DEAD);
