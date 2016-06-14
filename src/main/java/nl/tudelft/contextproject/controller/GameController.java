@@ -7,7 +7,7 @@ import com.jme3.math.ColorRGBA;
 import nl.tudelft.contextproject.model.level.Level;
 
 /**
- * A controller for the main game.
+ * Controller class for the main game.
  */
 public class GameController extends GameThreadController {
 
@@ -15,9 +15,9 @@ public class GameController extends GameThreadController {
 	 * Constructor for the game controller.
 	 *
 	 * @param app
-	 * 		The Main instance of this game
+	 * 		the Main instance of this game
 	 * @param level
-	 * 		The level for this game
+	 * 		the level for this game
 	 * @param timeLimit
 	 * 		the time limit for this game
 	 */

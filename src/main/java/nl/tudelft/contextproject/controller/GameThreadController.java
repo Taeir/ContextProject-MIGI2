@@ -28,7 +28,7 @@ import nl.tudelft.contextproject.model.level.TileType;
 import jmevr.app.VRApplication;
 
 /**
- * Controller for a game thread.
+ * Abstract controller class for a game thread.
  */
 public abstract class GameThreadController extends Controller {
 	/**
@@ -44,9 +44,9 @@ public abstract class GameThreadController extends Controller {
 	 * Constructor for a game thread.
 	 *
 	 * @param app
-	 * 		The Main instance of this game
+	 * 		the Main instance of this game
 	 * @param level
-	 * 		The level for this game
+	 * 		the level for this game
 	 * @param timeLimit
 	 * 		the time limit for this game
 	 */
@@ -149,8 +149,8 @@ public abstract class GameThreadController extends Controller {
 	/**
 	 * Attach all {@link MazeTile}s in the level to the renderer.
 	 * 
-	 * @param 
-	 * 		level the level that contains all the mazetiles
+	 * @param level
+	 * 		the level that contains all the mazetiles
 	 * @return 
 	 * 		the starting position of the player
 	 */
