@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.util;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -71,66 +70,5 @@ public final class RandomUtil {
 		} else {
 			return inputInteger;
 		}
-	}
-	
-	/**
-	 * Test method for testing the correctness of the exponentional distribution.
-	 * 
-	 * @param rand
-	 * 		the integer to check
-	 * @param lambda
-	 * 		the parameter of the exponential distribution
-	 * @param max
-	 * 		maximum value
-	 * @param numberOfSimulations
-	 * 		the number of simulations that have to run
-	 * @return
-	 * 		the integer if it is in the interval, the lower bound if it is below the interval and the upper bound if it is above the interval
-	 
-	 */
-	public static ArrayList<Integer> testExponentialDistribution(Random rand, int max, double lambda, int numberOfSimulations) {
-		ArrayList<Integer> resultList = new ArrayList<Integer>(max + 1);
-		
-		for (int i = 0; i < max; i++) {
-			resultList.add(i, 0);
-		}
-		
-		int simulation;
-		for (int i = 0; i < numberOfSimulations; i++) {
-			simulation = RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 0, max - 1, lambda);
-			resultList.set(simulation, resultList.get(simulation) + 1);
-		} 
-		
-		return resultList;
-	}
-	
-	/**
-	 * Test method that creates a string which shows the simulation of the exponential distribution.
-	 * 
-	 * @param seed
-	 * 		the seed for the random
-	 * @param max
-	 * 		the maximum number that can be returned
-	 * @param lambda
-	 * 		the parameter of the exponential distribution
-	 * @param numberOfSimulations
-	 * 		the total number of simulations that should be run.
-	 * @return
-	 * 		a string that can be printed that shows the distribution.
-	 */
-	public static String testDistribution(Long seed, int max, double lambda, int numberOfSimulations) {
-		Random rand = new Random(seed);
-		ArrayList<Integer> resultList = RandomUtil.testExponentialDistribution(rand, max, lambda, numberOfSimulations);
-		int size = resultList.size();
-		int total = 0;
-		for (Integer number : resultList) {
-			total += number;
-		}
-		
-		String result = "Test results of Test distribution = \n";
-		for (int i = 0; i < size; i++) {
-			result += "For the number " + i + " were " + resultList.get(i) + " occurenses, which is " + resultList.get(i) * 100.0 / total + "%.\n";
-		}
-		return result;
 	}
 }
