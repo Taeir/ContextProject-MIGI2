@@ -6,23 +6,49 @@
 # <RoomWidth> <RoomHeight> <EntityCount> <LightCount>
 #
 # After this line the 2D tile array starts.
-# For each tile the TileType (with the same names as the enum values) or a '#' for  an empty tile must be given.
+# For each tile one of the following values must be given:
+# 'C' for corridors	
+# 'O' for floors
+# '#' for walls
+# 'I' for entrance door
+# 'X' for exit door
+# '-' for empty tiles
 #
 # After the tiles all entities are written.
-# Each entity needs at least the following values (but some will require more):
-# <xPosition> <yPosition> <zPosition> <EntityType> [optionalValues]
+# Each entity needs at least the following values:
+# <xPosition> <yPosition> <zPosition> <EntityType>
+# This are all the entities and their needed values:
+#  Bomb: 					<X> <Y> <Z> Bomb
+#  LandMine:  		<X> <Y> <Z> LandMine
+#  Pitfall:				<X> <Y> <Z> Pitfall <Width: float>
+#  Door:					<X> <Y> <Z> Door <Color> <Direction>			
+#  Key:						<X> <Y> <Z> Key <Color>
+#  Gate:					<X> <Y> <Z> Gate <Direction>
+#  Crate:					<X> <Y> <Z> Crate <Health: float>
+#  Carrot:				<X> <Y> <Z> Carrot
+#  KillerBunny:		<X> <Y> <Z> KillerBunny
+#  VoidPlatform:	<X> <Y> <Z> VoidPlatform
+#  InvisibleWall:	<X> <Y> <Z> InvisibleWall
+#  DamagedWall:		<X> <Y> <Z> DamagedWall
+#  Player:				<X> <Y> <Z> Player
+#  PlayerTrigger:	<X> <Y> <Z> PlayerTrigger <TriggerDistance: float> <Cooldown: float> <File>
+#  Treasure:			<X> <Y> <Z> Treasure
+#  WallFrame:			<X> <Y> <Z> WallFrame <Direction> <Texture> <Width: float> <Height: float>
+#  Torch:					<X> <Y> <Z> Torch <Type {true = wall, false = ceiling}> 
+# Where color is specified by '<Red>/<Green>/<Blue>/<Alpha>' and Direction is one of [NORTH, EAST, SOUTH, WEST].
 #
 # Lastly all the lights are written in the same way as entities but with the addition of a color.
-# This collor is in the following format: <r/g/b/a>, which results in this syntax for lights:
-# <xPosition> <yPosition> <zPosition> <LightType> <Color> [optionalValues]
+# The following types of lights are supported:
+# AmbientLight:	<X> <Y> <Z> AmbientLight <Color>
+# PointLight:		<X> <Y> <Z> PointLight <Color> <Radius>
 #
 # Note also that the filename must be of the format '<width>x<height>_<someName>.crf'
 # Except that requirement this file is a fully functional map file.
 4 4 2 1
-WALL WALL FLOOR FLOOR
-WALL CORRIDOR FLOOR FLOOR
-FLOOR FLOOR # FLOOR
-FLOOR # WALL WALL
+# # # #
+# O O #
+X O - #
+# # # #
 0 0 0 Key
 0 1.5 4 WallFrame NORTH imageToDisplayRelativePath.png
 4 12 2 PointLight .5/.5/0/.9 20
