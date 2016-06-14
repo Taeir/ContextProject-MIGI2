@@ -382,9 +382,10 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>**/StartGame.class</exclude>
 						<exclude>**/Healer.class</exclude>
-						<exclude>**/SpawnBunnies.class</exclude>
+						<exclude>**/StartGame.class</exclude>
+						<exclude>**/StartTutorial.class</exclude>
+						<exclude>**/ToMenu.class</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
