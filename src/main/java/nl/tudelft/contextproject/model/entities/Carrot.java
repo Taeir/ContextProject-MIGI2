@@ -1,7 +1,9 @@
 package nl.tudelft.contextproject.model.entities;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 
 import nl.tudelft.contextproject.Main;
 
@@ -11,7 +13,8 @@ import nl.tudelft.contextproject.Main;
 public class Carrot extends Entity {
 
 	private float health;
-	private Spatial spatial;
+	private Node node;
+	private Spatial carrot, carrot2, carrot3, carrot4;
 	private boolean updated;
 
 	/**
@@ -23,15 +26,32 @@ public class Carrot extends Entity {
 
 	@Override
 	public Spatial getSpatial() {
-		if (spatial != null) return spatial;
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot.blend");
-		spatial.move(0, 1, 0);
-		return spatial;
+		if (node != null) return node;
+		
+		node = new Node("CarrotNode");
+		
+		carrot = Main.getInstance().getAssetManager().loadModel("Models/carrot.blend");
+		carrot2 = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
+		carrot3 = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
+		carrot4 = Main.getInstance().getAssetManager().loadModel("Models/carrot4.blend");
+		
+		carrot2.setCullHint(CullHint.Always);
+		carrot3.setCullHint(CullHint.Always);
+		carrot4.setCullHint(CullHint.Always);
+		
+		node.attachChild(carrot);
+		node.attachChild(carrot2);
+		node.attachChild(carrot3);
+		node.attachChild(carrot4);
+		
+		node.move(0, 1, 0);
+		
+		return node;
 	}
 
 	@Override
 	public void setSpatial(Spatial spatial) {
-		this.spatial = spatial;
+		throw new IllegalArgumentException("Cannot set the spatial of carrot!");
 	}
 
 	@Override
@@ -39,11 +59,20 @@ public class Carrot extends Entity {
 		if (!updated) return;
 		
 		if (health <= 1) {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot4.blend");
+			carrot.setCullHint(CullHint.Always);
+			carrot2.setCullHint(CullHint.Always);
+			carrot3.setCullHint(CullHint.Always);
+			carrot4.setCullHint(CullHint.Inherit);
 		} else if (health <= 3) {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
+			carrot.setCullHint(CullHint.Always);
+			carrot2.setCullHint(CullHint.Always);
+			carrot3.setCullHint(CullHint.Inherit);
+			carrot4.setCullHint(CullHint.Always);
 		} else if (health <= 5) {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
+			carrot.setCullHint(CullHint.Always);
+			carrot2.setCullHint(CullHint.Inherit);
+			carrot3.setCullHint(CullHint.Always);
+			carrot4.setCullHint(CullHint.Always);
 		}
 	}
 
