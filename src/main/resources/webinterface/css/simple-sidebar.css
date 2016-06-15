@@ -61,7 +61,7 @@
 }
 
 .sidebar-nav li {
-    text-indent: 20px;
+    text-indent: 65px;
     line-height: 40px;
 }
 
@@ -113,4 +113,55 @@
     #wrapper.toggled #sidebar-wrapper-dwarfs {
         width: 250px;
     }
+}
+
+/* Sidebar Icons */
+#sidebar-wrapper-elves .buttonIcon, #sidebar-wrapper-dwarfs .buttonIcon {
+	background-repeat: no-repeat;
+	background-position: 10%;
+	background-size: 35px 35px;
+}
+#sidebar-wrapper-elves .buttonIcon.timerContainer, #sidebar-wrapper-dwarfs .buttonIcon.timerContainer {
+	background-image: url("../icons/clock.png");
+}
+#sidebar-wrapper-elves .buttonIcon.cancelAction, #sidebar-wrapper-dwarfs .buttonIcon.cancelAction {
+	background-image: url("../icons/cancel.png");
+}
+#sidebar-wrapper-elves .buttonIcon.fullscreenAction, #sidebar-wrapper-dwarfs .buttonIcon.fullscreenAction {
+	background-image: url("../icons/fullscreen.png");
+}
+#sidebar-wrapper-elves .buttonIcon.carrotAction {
+	background-image: url("../icons/carrot.png");
+	background-color: #FFA500;
+}
+#sidebar-wrapper-dwarfs .buttonIcon.bombAction {
+	background-image: url("../icons/bomb.png");
+	background-color: #000000;
+}
+#sidebar-wrapper-dwarfs .buttonIcon.pitAction {
+	background-image: url("../icons/pitfall.png");
+	background-color: #4A7023;
+}
+#sidebar-wrapper-dwarfs .buttonIcon.mineAction {
+	background-image: url("../icons/mine.png");
+	background-color: #FF6C6C;
+}
+#sidebar-wrapper-dwarfs .buttonIcon.enemyAction {
+	background-image: url("../icons/bunny.png");
+	background-color: #FFFFFF;
+}
+#sidebar-wrapper-dwarfs .buttonIcon.enemyAction a {
+	color: #000000;
+}
+#sidebar-wrapper-elves .buttonIcon.tileAction {
+	background-image: url("../icons/voidplatform.png");
+	background-color: #769f50;
+}
+#sidebar-wrapper-elves .buttonIcon.crateAction {
+	background-image: url("../icons/crate.png");
+	background-color: #FFCC00;
+}
+#sidebar-wrapper-elves .buttonIcon.gateAction {
+	background-image: url("../icons/opengate.png");
+	background-color: #424242;
 }
