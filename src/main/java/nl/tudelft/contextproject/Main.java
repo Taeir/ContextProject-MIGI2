@@ -134,6 +134,8 @@ public class Main extends VRApplication implements Observable {
 		if (this.controller != null) {
 			getStateManager().detach(this.controller);
 		}
+		
+		GameState oldState = getGameState();
 
 		this.controller = newController;
 		getStateManager().attach(this.controller);
@@ -141,6 +143,11 @@ public class Main extends VRApplication implements Observable {
 		if (webServer != null) {
 			webServer.clearCooldowns();
 			webServer.getInventory().reset();
+			
+			//When switching from the ENDED state to the WAITING state, kick all clients
+			if (oldState == GameState.ENDED && getGameState() == GameState.WAITING) {
+				webServer.disconnectAll();
+			}
 		}
 		
 		return true;

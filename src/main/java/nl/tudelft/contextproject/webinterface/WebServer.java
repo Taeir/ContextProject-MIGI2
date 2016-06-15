@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.webinterface;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,6 +15,7 @@ import nl.tudelft.contextproject.webinterface.websockets.COCWebSocketServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.websocket.api.StatusCode;
 
 /**
  * Class to run the web interface.
@@ -175,6 +178,27 @@ public class WebServer {
 		if (socket != null) socket.getSession().close(statusCode, null);
 		
 		clients.values().remove(client);
+	}
+	
+	/**
+	 * Disconnects all clients.
+	 */
+	public void disconnectAll() {
+		List<COCSocket> sockets = new ArrayList<>();
+		for (WebClient client : clients.values()) {
+			COCSocket socket = client.getWebSocket();
+			if (socket != null) {
+				sockets.add(socket);
+			}
+		}
+		
+		clients.clear();
+		
+		for (COCSocket socket : sockets) {
+			if (socket.isConnected()) {
+				socket.getSession().close(StatusCode.NORMAL, null);
+			}
+		}
 	}
 	
 	/**
