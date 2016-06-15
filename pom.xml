@@ -389,6 +389,21 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<instrumentation>
+						<excludes>
+							<!-- We exclude the debug classes from coverage, as they will be removed upon release. -->
+							<exclude>nl/tudelft/contextproject/debug/*.class</exclude>
+							<exclude>nl/tudelft/contextproject/input/NoVRMouseManager.class</exclude>
+						</excludes>
+					</instrumentation>
+				</configuration>
+			</plugin>
 		</plugins>
 		
 		<pluginManagement>
@@ -481,6 +496,12 @@
 				</configuration>
 				<version>2.5</version>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -497,26 +518,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.18.1</version>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
-				<configuration>
-					<instrumentation>
-						<ignores>
-							<!-- We exclude the debug classes from coverage, as they will be removed upon release. -->
-							<ignore>nl.tudelft.contextproject.debug.*</ignore>
-							<ignore>nl.tudelft.contextproject.input.NoVRMouseManager</ignore>
-						</ignores>
-						<excludes>
-							<!-- We exclude the debug classes from coverage, as they will be removed upon release. -->
-							<exclude>nl/tudelft/contextproject/debug/*.class</exclude>
-							<exclude>nl/tudelft/contextproject/input/NoVRMouseManager*.class</exclude>
-						</excludes>
-					</instrumentation>
-				</configuration>
 			</plugin>
 
 			<!-- PMD configuration for JUnit tests -->
