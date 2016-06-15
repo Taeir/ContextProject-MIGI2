@@ -6,7 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.anyFloat;
 
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ import nl.tudelft.contextproject.test.TestUtil;
 public class PlayerTriggerTest extends EntityTest {
 
 	private PlayerTrigger playerTrigger;
-	private TickListener action;
+	private Observer action;
 	
 	@Override
 	public Entity getEntity() {
@@ -41,7 +41,7 @@ public class PlayerTriggerTest extends EntityTest {
 	public void setUp() {
 		TestUtil.mockGame();
 		
-		action = mock(TickListener.class);
+		action = mock(Observer.class);
 		playerTrigger = new PlayerTrigger(0.2f, 1, action);	
 	}
 	

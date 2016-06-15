@@ -12,12 +12,12 @@ import com.jme3.audio.AudioSource;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 
 /**
  * Class for playing/managing background music.
  */
-public final class BackgroundMusic implements TickListener {
+public final class BackgroundMusic implements Observer {
 	private static final BackgroundMusic INSTANCE = new BackgroundMusic();
 	
 	private List<String> music = new ArrayList<String>();

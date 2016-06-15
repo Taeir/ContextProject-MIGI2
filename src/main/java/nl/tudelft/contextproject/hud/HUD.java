@@ -12,7 +12,7 @@ import com.jme3.ui.Picture;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.VRPlayer;
 import jmevr.util.VRGuiManager;
@@ -20,7 +20,7 @@ import jmevr.util.VRGuiManager;
 /**
  * Class to represent a Head Up Display.
  */
-public class HUD implements TickListener {
+public class HUD implements Observer {
 
 	private GameThreadController controller;
 
@@ -84,9 +84,9 @@ public class HUD implements TickListener {
 		controller.addGuiElement(bombNode);
 		
 		// Attach listeners
-		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
-		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
-		Main.getInstance().attachTickListener(this::updatePopupText);
+		Main.getInstance().getCurrentGame().getPlayer().getInventory().registerObserver(this);
+		Main.getInstance().getCurrentGame().getPlayer().registerObserver(this);
+		Main.getInstance().registerObserver(this::updatePopupText);
 	}
 
 	/**
@@ -160,7 +160,10 @@ public class HUD implements TickListener {
 			textBomb.setLocalTranslation(width, height, 0);
 			bombNode.attachChild(textBomb);
 		}
-		((BitmapText) bombNode.getChild(0)).setText("" + Math.round(bomb.getTimer() * 10) / 10.f);
+		
+		BitmapText textBomb = (BitmapText) bombNode.getChild(0);
+		String text = "" + Math.round(bomb.getTimer() * 10) / 10f;
+		textBomb.setText(text);
 	}
 	
 	/**
@@ -252,8 +255,8 @@ public class HUD implements TickListener {
 	public void update(float tpf) {
 		VRPlayer player = controller.getGame().getPlayer();
 		Inventory inventory = player.getInventory();
+		
 		updateBombs(inventory);
-
 		updateKeys(inventory);
 		updateHearts(player);
 	}

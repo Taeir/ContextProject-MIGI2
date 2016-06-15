@@ -53,8 +53,8 @@ public class HUDTest extends TestBase {
 		verify(controller, times(6)).addGuiElement(any(Spatial.class));
 		
 		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
-		assertTrue(player.getTickListeners().contains(hud));
-		assertTrue(player.getInventory().getTickListeners().contains(hud));
+		assertTrue(player.getObservers().contains(hud));
+		assertTrue(player.getInventory().getObservers().contains(hud));
 	}
 	
 	/**
@@ -212,6 +212,7 @@ public class HUDTest extends TestBase {
 	@Test
 	public void testShowPopupText() {
 		hud.showPopupText("TEST", ColorRGBA.Red, 12);
+
 		verify(controller, times(1)).addGuiElement(any(BitmapText.class));
 	}
 	

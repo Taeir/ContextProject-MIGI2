@@ -15,8 +15,8 @@ import com.jme3.scene.shape.Sphere;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
-import nl.tudelft.contextproject.model.TickListener;
-import nl.tudelft.contextproject.model.TickProducer;
+import nl.tudelft.contextproject.model.Observer;
+import nl.tudelft.contextproject.model.Observable;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.entities.control.NoControl;
@@ -25,7 +25,7 @@ import nl.tudelft.contextproject.model.entities.control.PlayerControl;
 /**
  * Class representing the player wearing the VR headset.
  */
-public class VRPlayer extends MovingEntity implements PhysicsObject, TickProducer, Health {
+public class VRPlayer extends MovingEntity implements PhysicsObject, Observable, Health {
 
 	//Physics interaction constants.
 	public static final float JUMP_SPEED = 7f;
@@ -66,7 +66,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	private float fallingTimer;
 	private float explorationTimer;
 	private float health = PLAYER_HEALTH;
-	private Set<TickListener> listeners = new HashSet<>();
+	private Set<Observer> observers = new HashSet<>();
 
 	/**
 	 * Constructor for a default player.
@@ -294,7 +294,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	@Override
 	public void setHealth(float heal) {
 		this.health = Math.min(PLAYER_MAX_HEALTH, health);
-		updateTickListeners();
+		updateObservers();
 	}
 	
 	@Override
@@ -303,7 +303,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 		if (health < 0) {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
-		updateTickListeners();
+		updateObservers();
 	}
 	
 	/**
@@ -333,7 +333,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, TickProduce
 	}
 
 	@Override
-	public Set<TickListener> getTickListeners() {
-		return listeners;
+	public Set<Observer> getObservers() {
+		return observers;
 	}
 }

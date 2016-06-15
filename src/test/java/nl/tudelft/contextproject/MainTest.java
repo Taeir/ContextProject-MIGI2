@@ -16,7 +16,7 @@ import com.jme3.scene.Node;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -152,17 +152,17 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testTickListeners() {
-		main.setTickListeners(ConcurrentHashMap.newKeySet());
-		TickListener tickListener = mock(TickListener.class);
+		main.setObservers(ConcurrentHashMap.newKeySet());
+		Observer tickListener = mock(Observer.class);
 
 		main.simpleUpdate(0.1f);
 		verify(tickListener, times(0)).update(0.1f);
 
-		main.attachTickListener(tickListener);
+		main.registerObserver(tickListener);
 		main.simpleUpdate(0.1f);
 		verify(tickListener, times(1)).update(0.1f);
 
-		main.removeTickListener(tickListener);
+		main.removeObserver(tickListener);
 		main.simpleUpdate(0.1f);
 		verifyNoMoreInteractions(tickListener);
 	}

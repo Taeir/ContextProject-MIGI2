@@ -2,13 +2,12 @@ package nl.tudelft.contextproject.webinterface.websockets;
 
 import java.io.IOException;
 
-import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.StatusCode;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 import nl.tudelft.contextproject.webinterface.Action;
 import nl.tudelft.contextproject.webinterface.COCErrorCode;
 import nl.tudelft.contextproject.webinterface.WebClient;
@@ -19,7 +18,7 @@ import lombok.SneakyThrows;
 /**
  * Class that is a WebSocket to a single client.
  */
-public class COCSocket extends WebSocketAdapter implements TickListener {
+public class COCSocket extends WebSocketAdapter implements Observer {
 	public static final float UPDATE_INTERVAL = 0.15f;
 	
 	private final WebServer server;
@@ -52,8 +51,7 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 		
 		String[] parts = msg.split(" ");
 		if (parts.length != 3) {
-			RemoteEndpoint remote = getRemote();
-			if (remote != null) remote.sendStringByFuture(COCErrorCode.ACTION_ILLEGAL.toString());
+			client.sendMessage(COCErrorCode.ACTION_ILLEGAL.toString(), null);
 			return;
 		}
 		
@@ -74,7 +72,6 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 		try {
 			session.getRemote().sendString("" + Main.getInstance().getGameState().ordinal());
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			session.close(StatusCode.SERVER_ERROR, null);
 			return;
 		}
@@ -83,14 +80,14 @@ public class COCSocket extends WebSocketAdapter implements TickListener {
 		server.getNormalHandler().onMapRequest(client);
 		
 		this.client.setWebSocket(this);
-		Main.getInstance().attachTickListener(this);
+		Main.getInstance().registerObserver(this);
 	}
 	
 	@Override
 	public void onWebSocketClose(int statusCode, String reason) {
 		super.onWebSocketClose(statusCode, reason);
 
-		Main.getInstance().removeTickListener(this);
+		Main.getInstance().removeObserver(this);
 		this.client.removeWebSocket(this);
 	}
 
