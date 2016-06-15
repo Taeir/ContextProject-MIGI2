@@ -116,63 +116,43 @@
 }
 
 /* Sidebar Icons */
-#sidebar-wrapper-elves .carrotAction {
-	background-image: url("../icons/carrot.png");
+#sidebar-wrapper-elves .buttonIcon, #sidebar-wrapper-dwarfs .buttonIcon {
 	background-repeat: no-repeat;
 	background-position: 10%;
 	background-size: 35px 35px;
+}
+#sidebar-wrapper-elves .buttonIcon.carrotAction {
+	background-image: url("../icons/carrot.png");
 	background-color: #FFA500;
 }
-#sidebar-wrapper-dwarfs .bombAction {
+#sidebar-wrapper-dwarfs .buttonIcon.bombAction {
 	background-image: url("../icons/bomb.png");
-	background-repeat: no-repeat;
-	background-position: 10%;
-	background-size: 35px 35px;
 	background-color: #000000;
-	color: #FFFFFF;
 }
-#sidebar-wrapper-dwarfs .pitAction {
+#sidebar-wrapper-dwarfs .buttonIcon.pitAction {
 	background-image: url("../icons/pitfall.png");
-	background-repeat: no-repeat;
-	background-position: 10%;
-	background-size: 35px 35px;
 	background-color: #4A7023;
 }
-#sidebar-wrapper-dwarfs .mineAction {
+#sidebar-wrapper-dwarfs .buttonIcon.mineAction {
 	background-image: url("../icons/mine.png");
-	background-repeat: no-repeat;
-	background-position: 10%;
-	background-size: 35px 35px;
 	background-color: #FF6C6C;
 }
-#sidebar-wrapper-dwarfs .enemyAction {
+#sidebar-wrapper-dwarfs .buttonIcon.enemyAction {
 	background-image: url("../icons/bunny.png");
-	background-repeat: no-repeat;
-	background-position: 10%;
-	background-size: 35px 35px;
 	background-color: #FFFFFF;
 }
-#sidebar-wrapper-dwarfs .enemyAction a {
+#sidebar-wrapper-dwarfs .buttonIcon.enemyAction a {
 	color: #000000;
 }
-#sidebar-wrapper-elves .tileAction {
+#sidebar-wrapper-elves .buttonIcon.tileAction {
 	background-image: url("../icons/voidplatform.png");
-	background-repeat: no-repeat;
-	background-position: 10%;
-	background-size: 35px 35px;
 	background-color: #769f50;
 }
-#sidebar-wrapper-elves .crateAction {
+#sidebar-wrapper-elves .buttonIcon.crateAction {
 	background-image: url("../icons/crate.png");
-	background-repeat: no-repeat;
-	background-position: 10%;
-	background-size: 35px 35px;
 	background-color: #FFCC00;
 }
-#sidebar-wrapper-elves .gateAction {
+#sidebar-wrapper-elves .buttonIcon.gateAction {
 	background-image: url("../icons/opengate.png");
-	background-repeat: no-repeat;
-	background-position: 10%;
-	background-size: 35px 35px;
 	background-color: #424242;
 }
