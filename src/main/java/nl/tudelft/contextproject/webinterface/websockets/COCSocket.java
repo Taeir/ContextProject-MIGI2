@@ -5,8 +5,10 @@ import java.io.IOException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.StatusCode;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
+import org.eclipse.jetty.websocket.api.WriteCallback;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Observer;
 import nl.tudelft.contextproject.webinterface.Action;
 import nl.tudelft.contextproject.webinterface.COCErrorCode;
@@ -24,6 +26,7 @@ public class COCSocket extends WebSocketAdapter implements Observer {
 	private final WebServer server;
 	private final WebClient client;
 	private float timer;
+	private volatile long lastMessage;
 	
 	/**
 	 * Creates a new COCSocket for the given client.
@@ -41,6 +44,7 @@ public class COCSocket extends WebSocketAdapter implements Observer {
 	@SneakyThrows(IOException.class)
 	@Override
 	public void onWebSocketText(String msg) {
+		lastMessage = System.currentTimeMillis();
 		if ("quit".equals(msg)) {
 			server.disconnect(client, StatusCode.NORMAL);
 			return;
@@ -67,15 +71,16 @@ public class COCSocket extends WebSocketAdapter implements Observer {
 	@Override
 	public void onWebSocketConnect(Session session) {
 		super.onWebSocketConnect(session);
+		lastMessage = System.currentTimeMillis();
 		timer = 0f;
-		
+
 		try {
 			session.getRemote().sendString("" + Main.getInstance().getGameState().ordinal());
 		} catch (Exception ex) {
 			session.close(StatusCode.SERVER_ERROR, null);
 			return;
 		}
-		
+
 		//Send the map
 		server.getNormalHandler().onMapRequest(client);
 		
@@ -101,5 +106,30 @@ public class COCSocket extends WebSocketAdapter implements Observer {
 		
 		timer = 0f;
 		server.getNormalHandler().sendStatusUpdate(client, null);
+	}
+	
+	/**
+	 * Sends a message over this socket.
+	 * 
+	 * @param msg
+	 * 		the message to send to this client
+	 * @return
+	 * 		true if the message was queued, false otherwise
+	 */
+	public boolean sendMessage(String msg) {
+		try {
+			getRemote().sendString(msg, new WriteCallback() {
+				@Override
+				public void writeSuccess() {
+					lastMessage = System.currentTimeMillis();
+				}
+				
+				@Override
+				public void writeFailed(Throwable x) { }
+			});
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
 	}
 }

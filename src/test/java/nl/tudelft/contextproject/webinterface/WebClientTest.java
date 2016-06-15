@@ -8,7 +8,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.http.HttpStatus;
-import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.json.JSONObject;
 import org.junit.Test;
 
@@ -102,15 +101,13 @@ public class WebClientTest extends WebTestBase {
 	@Test
 	public void testSendMessage_socket() throws IOException {
 		COCSocket socket = mock(COCSocket.class);
-		when(socket.getRemote()).thenReturn(mock(RemoteEndpoint.class));
-		when(socket.isConnected()).thenReturn(true);
 		
 		WebClient client = new WebClient();
 		client.setWebSocket(socket);
 		
 		client.sendMessage("A", null);
 		
-		verify(socket.getRemote()).sendStringByFuture("A");
+		verify(socket).sendMessage("A");
 	}
 	
 	/**
@@ -144,8 +141,6 @@ public class WebClientTest extends WebTestBase {
 	@Test
 	public void testSendMessage_json_socket() throws IOException {
 		COCSocket socket = mock(COCSocket.class);
-		when(socket.getRemote()).thenReturn(mock(RemoteEndpoint.class));
-		when(socket.isConnected()).thenReturn(true);
 		
 		WebClient client = new WebClient();
 		client.setWebSocket(socket);
@@ -154,7 +149,7 @@ public class WebClientTest extends WebTestBase {
 		
 		client.sendMessage(json, null);
 		
-		verify(socket.getRemote()).sendStringByFuture(json.toString());
+		verify(socket).sendMessage(json.toString());
 	}
 	
 	/**
