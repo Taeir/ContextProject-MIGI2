@@ -80,21 +80,26 @@
 			<div id="indexView">
 				<img src="logo.png" width="300" height="210" id="logo"/>
 				<hr>
-				<button type="button" class="btn btn-default" onClick="enableFullScreen(); switchTo(Views.INSTRUCTION)">Instructions</button>
-				<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+				<div class="btn-group btn-group-lg" role="group">
+					<button type="button" class="btn btn-default" onClick="enableFullScreen(); switchTo(Views.INSTRUCTION)">Instructions</button>
+					<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+				</div>
 			</div>
 			
 			<div id="instructionsView" class="centered" style="display: none">
 				PLACEHOLDER FOR INSTRUCTIONS
 				<hr>
-				<button type="button" class="btn btn-default btnMenu" onClick="enableFullScreen(); switchTo(Views.INDEX)">Back to menu</button>
-				<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+				<div class="btn-group btn-group-lg" role="group">
+					<button type="button" class="btn btn-default btnMenu" onClick="enableFullScreen(); switchTo(Views.INDEX)">Back to menu</button>
+					<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+				</div>
 			</div>
 			
 			<div class="btn-group btn-group-lg" role="group" id="teamView" style="display: none">
 				<button type="button" class="btn btn-default" onClick="requestSetTeam('ELVES')" id="elvesButton">Elves</button>
 				<button type="button" class="btn btn-default" onClick="requestSetTeam('DWARFS')" id="dwarfsButton">Dwarfs</button>
 				<button type="button" class="btn btn-success" onClick="requestSetTeam('NONE')" id="noneButton">No team</button>
+				<button type="button" class="btn btn-danger" onClick="disableFullScreen(); requestQuitGame()">Quit</button>
 			</div>
 
 			<div id="gameView" style="display: none">
@@ -108,20 +113,27 @@
 				<hr>
 				<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
 				<button type="button" class="btn btn-default" onClick="requestQuitGame(); switchTo(Views.INDEX)">Back to menu</button>
+				<button type="button" class="btn btn-danger" onClick="disableFullScreen(); requestQuitGame()">Quit</button>
 			</div>
 			
 			<div id="pausedView" class="centered" style="display: none">
 				<h1 class="pausemessage">Paused</h1>
 				<p class="pausemessage">The game has been paused, just sit back and relax!</p>
 				<hr>
-				<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
+				<div class="btn-group btn-group-lg" role="group">
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
+					<button type="button" class="btn btn-danger" onClick="disableFullScreen(); requestQuitGame()">Quit</button>
+				</div>
 			</div>
 			
 			<div id="tutorialView" class="centered" style="display: none">
 				<h1 class="tutorialmessage">Tutorial</h1>
 				<p class="tutorialmessage">Please wait until the Knight of Caerbannog has finished the tutorial. Just sit back and relax!</p>
 				<hr>
-				<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
+				<div class="btn-group btn-group-lg" role="group">
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
+					<button type="button" class="btn btn-danger" onClick="disableFullScreen(); requestQuitGame()">Quit</button>
+				</div>
 			</div>
 		</div>
 				
