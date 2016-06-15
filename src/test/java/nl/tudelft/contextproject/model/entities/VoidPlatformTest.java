@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.model.entities.util.EntityType;
+
 /**
  * Test class for {@link VoidPlatform}.
  */

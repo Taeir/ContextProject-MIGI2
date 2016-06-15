@@ -3,9 +3,9 @@ package nl.tudelft.contextproject.util.webinterface;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.TestBase;
-import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.exploding.Bomb;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -8,6 +8,8 @@ import org.junit.Test;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**

@@ -8,7 +8,7 @@ import com.jme3.scene.Spatial;
 
 import jmevr.app.VRApplication;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 
 /**
  * {@link EntityControl} that moves the player.

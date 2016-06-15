@@ -7,6 +7,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.entities.util.AbstractPhysicsEntity;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.util.ParserUtil;
 
 /**

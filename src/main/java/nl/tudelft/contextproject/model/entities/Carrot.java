@@ -6,6 +6,8 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * A carrot that can be eaten.

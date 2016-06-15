@@ -1,6 +1,6 @@
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Observer;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 
 /**
  * Script class for a Healer. The Healer will heal the player for 1 every update, until

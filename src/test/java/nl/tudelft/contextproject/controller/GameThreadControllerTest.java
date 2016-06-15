@@ -21,9 +21,9 @@ import com.jme3.scene.Spatial;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.EntityState;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
+import nl.tudelft.contextproject.model.entities.util.EntityState;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 
