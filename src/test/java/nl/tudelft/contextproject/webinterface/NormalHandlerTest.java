@@ -655,8 +655,8 @@ public class NormalHandlerTest extends WebTestBase {
 		ArgumentCaptor<JSONObject> ac = ArgumentCaptor.forClass(JSONObject.class);
 		verify(client).sendMessage(ac.capture(), eq(response));
 		
-		assertEquals(GameState.RUNNING.ordinal(), ac.getValue().getInt("state"));
-		assertEquals(Team.ELVES.ordinal(), ac.getValue().getInt("team"));
+		assertEquals(GameState.RUNNING.ordinal(), ac.getValue().getInt("s"));
+		assertEquals(Team.ELVES.ordinal(), ac.getValue().getInt("t"));
 	}
 
 	/**

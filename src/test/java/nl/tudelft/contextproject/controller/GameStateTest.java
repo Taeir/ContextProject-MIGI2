@@ -12,11 +12,11 @@ import nl.tudelft.contextproject.TestBase;
 public class GameStateTest extends TestBase {
 
 	/**
-	 * Check that {@link GameState#ENDED} does not count as started.
+	 * Check that {@link GameState#ENDED} does count as started.
 	 */
 	@Test
 	public void testIsStartedENDED() {
-		assertFalse(GameState.ENDED.isStarted());
+		assertTrue(GameState.ENDED.isStarted());
 	}
 	
 	/**

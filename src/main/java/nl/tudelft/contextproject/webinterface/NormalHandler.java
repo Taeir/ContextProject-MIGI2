@@ -403,31 +403,31 @@ public class NormalHandler {
 		GameState state = main.getGameState();
 		
 		JSONObject json = new JSONObject();
-		json.put("team", client.getTeam().ordinal());
-		json.put("state", state.ordinal());
+		json.put("t", client.getTeam().ordinal());
+		json.put("s", state.ordinal());
 		
 		switch (state) {
 			case TUTORIAL:
 				break;
 			case WAITING:
-				json.put("dwarfs", server.getDwarfsCount());
-				json.put("elves", server.getElvesCount());
+				json.put("dc", server.getDwarfsCount());
+				json.put("ec", server.getElvesCount());
 				
 				//Fall through to running
 			case RUNNING:
-				json.put("entities", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
-				json.put("inventory", server.getInventory().toWebJson(client.getTeam()));
+				json.put("e", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
+				json.put("i", server.getInventory().toWebJson(client.getTeam()));
 				if (client.isElf()) {
-					json.put("explored", game.getLevel().toExploredWebJSON());
+					json.put("x", game.getLevel().toExploredWebJSON());
 				}
-				json.put("timer", game.getTimeRemaining());
+				json.put("r", game.getTimeRemaining());
 				break;
 			case PAUSED:
 				//We don't send any other data when the game is paused
 				break;
 			case ENDED:
 				Boolean elvesWin = ((EndingController) main.getController()).didElvesWin();
-				json.put("winner", elvesWin);
+				json.put("w", elvesWin);
 				break;
 			default:
 				break;

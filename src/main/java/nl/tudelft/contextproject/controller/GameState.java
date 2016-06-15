@@ -36,7 +36,7 @@ public enum GameState {
 	 * 		true if the state represents a started game, false otherwise
 	 */
 	public boolean isStarted() {
-		return this == RUNNING || this == PAUSED;
+		return this == RUNNING || this == PAUSED || this == ENDED;
 	}
 }
 
