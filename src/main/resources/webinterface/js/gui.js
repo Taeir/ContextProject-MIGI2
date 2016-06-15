@@ -1,6 +1,8 @@
 var gView;
 var lastPressedX;
 var lastPressedY;
+var prevPressedX;
+var prevPressedY;
 
 // ================================================================================================
 // ======================================== VIEW SWITCHING ========================================
@@ -222,7 +224,14 @@ function updateTeamButtons() {
  */
 function showGameButtons() {
     editLegend();
-    
+	
+    if (document.getElementById("wrapper").className.indexOf("toggled") > -1) {
+    	hideGameButtons();
+		return;
+    }
+	
+    $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
+	
     if (gTeam === "DWARFS") {
         $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
@@ -267,6 +276,8 @@ function hideGameButtons() {
     $("#wrapper").toggleClass("toggled", false);
     $("#sidebar-wrapper-dwarfs").css("visibility", "hidden");
     $("#sidebar-wrapper-elves").css("visibility", "hidden");
+    $("#y" + lastPressedY + "x" + lastPressedX).css("border", "none");
+    $("#y" + prevPressedY + "x" + prevPressedX).css("border", "none");
 }
 
 // ================================================================================================

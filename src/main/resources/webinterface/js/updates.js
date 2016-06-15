@@ -162,7 +162,9 @@ function resizeMapTable(nWidth, nHeight) {
  */
 function createClickableFunc(x, y) {
     return function() {
+        prevPressedX = lastPressedX;
         lastPressedX = x;
+        prevPressedY = lastPressedY;
         lastPressedY = y;
         showGameButtons();
     };

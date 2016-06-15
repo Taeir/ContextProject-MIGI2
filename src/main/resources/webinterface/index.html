@@ -3,7 +3,6 @@
 	<head>
         <title>The Cave of Caerbanogh</title>
 
-        <!-- <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css"  media="screen,projection"/> -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
         <link href="css/simple-sidebar.css" rel="stylesheet">
@@ -150,14 +149,26 @@
 			 */
 			$(function() {
 				$("#map").swipe( {
-				pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom) {
-					zoom("in");
-				},
-				pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom) {
-					zoom("out");
-				},
-				fingers:2,  
-				pinchThreshold:30
+					pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+						zoom("in");
+					},
+					pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+						zoom("out");
+					},
+					fingers:2,  
+					pinchThreshold:30
+				});
+			});
+			
+			/**
+			 * Handle swipe events.
+			 */
+			$(function() {
+				$("#wrapper").swipe( {
+					swipeRight:function(event, direction, distance, duration, fingerCount) {
+						hideGameButtons();  
+					},
+					threshold:25
 				});
 			});
 		</script>
