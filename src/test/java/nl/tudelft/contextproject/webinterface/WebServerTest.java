@@ -275,6 +275,7 @@ public class WebServerTest extends WebTestBase {
 	public void testDisconnectAll() {
 		COCSocket socket = mock(COCSocket.class);
 		when(socket.getSession()).thenReturn(mock(Session.class));
+		when(socket.isConnected()).thenReturn(true);
 		
 		WebClient client1 = new WebClient();
 		WebClient client2 = new WebClient();
