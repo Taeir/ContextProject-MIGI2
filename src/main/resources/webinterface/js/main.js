@@ -2,6 +2,7 @@
  * Function that is called on load of the page.
  */
 function onLoad() {
+    iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     //Check for websocket support
     doWebSocketCheck(function(result, state) {
         if (result === false) {

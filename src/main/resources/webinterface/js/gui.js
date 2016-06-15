@@ -3,6 +3,7 @@ var lastPressedX;
 var lastPressedY;
 var prevPressedX;
 var prevPressedY;
+var iOS;
 
 // ================================================================================================
 // ======================================== VIEW SWITCHING ========================================
@@ -231,11 +232,11 @@ function showGameButtons() {
     }
 	
     if (gTeam === "DWARFS") {
-        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
+        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px inset black");
         $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else if (gTeam === "ELVES") {
-        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
+        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px inset black");
         $("#sidebar-wrapper-elves").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else {
@@ -278,6 +279,10 @@ function hideGameButtons() {
     $("#sidebar-wrapper-elves").css("visibility", "hidden");
     $("#y" + lastPressedY + "x" + lastPressedX).css("border", "0px");
     $("#y" + prevPressedY + "x" + prevPressedX).css("border", "0px");
+    if (iOS) {
+        $("#y" + lastPressedY + "x" + lastPressedX).css("webkit-transform", "scale(1)");
+        $("#y" + prevPressedY + "x" + prevPressedX).css("webkit-transform", "scale(1)");
+    }
 }
 
 // ================================================================================================
