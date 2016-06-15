@@ -208,11 +208,11 @@ function updateTeamButtons() {
     if (gTeam === "DWARFS") {
         dwarfsButton.removeClass("btn-default");
         dwarfsButton.addClass("btn-success");
-		noneButton.prop("disabled", true);
+        noneButton.prop("disabled", true);
     } else if (gTeam === "ELVES") {
         elvesButton.removeClass("btn-default");
         elvesButton.addClass("btn-success");
-		noneButton.prop("disabled", true);
+        noneButton.prop("disabled", true);
     } else {
         noneButton.removeClass("btn-default");
         noneButton.addClass("btn-success");
