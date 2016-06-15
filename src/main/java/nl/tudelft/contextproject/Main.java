@@ -52,7 +52,7 @@ public class Main extends VRApplication implements TickProducer {
 	public static final Float TIME_LIMIT = 300f;
 	
 	private static boolean hideQR;
-	
+	private static boolean noWebServer;
 	private static volatile Main instance;
 	private static boolean mouseEnabled;
 	
@@ -73,6 +73,8 @@ public class Main extends VRApplication implements TickProducer {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		hideQR = a.contains("--hideQR");
+		
+		noWebServer = a.contains("--noWebServer");
 		
 		boolean dvr = a.contains("--disableVR");
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, dvr);
@@ -299,15 +301,25 @@ public class Main extends VRApplication implements TickProducer {
 	}
 	
 	/**
+	 * @return
+	 * 		the WebServer of this game
+	 */
+	public WebServer getWebServer() {
+		return webServer;
+	}
+	
+	/**
 	 * Creates the web server and starts it.
 	 */
 	protected void setupWebServer() {
 		webServer = new WebServer();
 		
-		try {
-			webServer.start(PORT_NUMBER);
-		} catch (Exception ex) {
-			Log.getLog("WebInterface").severe("Exception while trying to start webserver", ex);
+		if (!noWebServer) {
+			try {
+				webServer.start(PORT_NUMBER);
+			} catch (Exception ex) {
+				Log.getLog("WebInterface").severe("Exception while trying to start webserver", ex);
+			}
 		}
 	}
 	
