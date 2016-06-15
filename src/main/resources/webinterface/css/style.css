@@ -86,6 +86,17 @@ body {
 	text-align: center;
 	font-size: 0px;
 }
+#map.overview td, #map.overview th {
+	min-width: 20px;
+	max-width: 20px;
+	width: 20px;
+	min-height: 20px;
+	max-height: 20px;
+	height: 20px;
+}
+#map.overview .Bomb.explored {
+	font-size: 12px;
+}
 #map .Wall.explored {
 	background-color: #D3D3D3;
 }
