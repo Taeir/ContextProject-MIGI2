@@ -391,32 +391,9 @@ function disableFullScreen() {
  *		the direction in which to zoom
  */
 function zoom(direction) {
-	var scale;
-	var fSize;
 	if (direction === "in") {
-		scale = "40px";
-		fSize = "24px";
+        $("#map").toggleClass("overview", false);
 	} else if (direction === "out") {
-		scale = "20px";
-		fSize = "12px";
-	} else {
-		return;
-	}
-	var tds = document.getElementsByTagName('td');
-	for (var i = 0; i < tds.length; i++) {
-		tds[i].style.width = scale;
-		tds[i].style.minWidth = scale;
-		tds[i].style.maxWidth = scale;
-		tds[i].style.height = scale;
-		tds[i].style.minHeight = scale;
-		tds[i].style.maxHeight = scale;
-	}
-	var bombs = document.getElementsByClassName("Bomb");
-	for (var i = 0; i < bombs.length; i++) {
-		console.log(bombs[i]);
-		console.log(bombs[i].fontSize);
-		bombs[i].style.fontSize = fSize;
-		console.log("--------------------");
-		console.log(bombs[i].fontSize);
+        $("#map").toggleClass("overview", true);
 	}
 }
