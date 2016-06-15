@@ -84,7 +84,7 @@ public class HUD implements Observer {
 		bombNode = new Node("Bombs");
 		controller.addGuiElement(bombNode);
 		
-		// Attach listeners
+		// Register observers
 		Main.getInstance().getCurrentGame().getPlayer().getInventory().registerObserver(this);
 		Main.getInstance().getCurrentGame().getPlayer().registerObserver(this);
 		Main.getInstance().registerObserver(this::updatePopupText);

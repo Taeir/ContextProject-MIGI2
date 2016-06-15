@@ -4,7 +4,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.math.ColorRGBA;
 
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.level.Level;
 
 /**
@@ -45,6 +44,7 @@ public class GameController extends GameThreadController {
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
+		
 		getHUD().showPopupText("Go!", ColorRGBA.White, 4);
 	}
 
