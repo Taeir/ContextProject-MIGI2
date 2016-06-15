@@ -1,3 +1,4 @@
+/* General */
 html, body {
 	height: 100%;
 	width: 100%;
@@ -31,46 +32,8 @@ body {
 	overflow-y: auto;
 	z-index: 0;
 }
-#map .Key.explored {
-	background-color: #FFFF00 !important;
-}
-#map .Bomb.explored {
-	background-color: #000000 !important;
-	font-size: 24px;
-}
-#map .Door.explored {
-	background-color: #7A5230 !important;
-}
-#map .Player, #map .Player.Explored {
-	background-color: #FF00FF !important;
-}
-#map .Player_Trigger.explored {
-	background-color: #9A32CD !important;
-}
-#map .Pitfall.explored {
-	background-color: #4A7023 !important;
-}
-#map .Landmine.explored {
-	background-color: #FF6C6C !important;
-}
-#map .Carrot.explored {
-	background-color: #FFA500 !important;
-}
-#map .Killer_Bunny.explored {
-	background-color: #FFFFFF !important;
-}
-#map .Invisible_Wall.explored {
-	background-color: #E6E6E6 !important;
-}
-#map .Damaged_Wall.explored {
-	background-color: #BFBFBF !important;
-}
-#map .Gate.explored {
-	background-color: #424242 !important;
-}
-#map .Crate.explored {
-	background-color: #ffcc00 !important;
-}
+
+/* Map */
 #map {
 	border-spacing: 0px;
 }
@@ -94,29 +57,71 @@ body {
 	max-height: 20px;
 	height: 20px;
 }
-#map.overview .Bomb.explored {
-	font-size: 12px;
+
+/* The different map elements */
+#map .Floor.explored, #map .Corridor.explored, #map .Platform, #map .Platform.explored {
+	background-color: #769f50;
 }
 #map .Wall.explored {
 	background-color: #D3D3D3;
 }
-#map .Floor.explored, #map .Corridor.explored, #map .Platform {
-	background-color: #769f50;
+#map .Carrot.explored {
+	background-color: #FFA500;
 }
-#endedWinners, #endedMessage, .pausemessage, .tutorialmessage {
+#map .Key.explored {
+	background-color: #FFFF00;
+}
+#map .Bomb.explored {
+	background-color: #000000;
+	font-size: 24px;
+}
+#map.overview .Bomb.explored {
+	font-size: 12px;
+}
+#map .Door.explored {
+	background-color: #7A5230;
+}
+#map .Gate.explored {
+	background-color: #424242;
+}
+#map .Pitfall.explored {
+	background-color: #4A7023;
+}
+#map .Landmine.explored {
+	background-color: #FF6C6C;
+}
+#map .Crate.explored {
+	background-color: #ffcc00;
+}
+#map .Killer_Bunny.explored {
+	background-color: #FFFFFF;
+}
+#map .Invisible_Wall.explored {
+	background-color: #E6E6E6;
+}
+#map .Damaged_Wall.explored {
+	background-color: #BFBFBF;
+}
+#map .Player_Trigger.explored {
+	background-color: #9A32CD;
+}
+#map .Player, #map .Player.explored {
+	background-color: #FF00FF;
+}
+
+#endedWinners, #endedMessage, .pausemessage, .tutorialmessage, .centered {
 	text-align: center;
 }
-#endedView, #pausedView, #tutorialView {
+
+/* Views are centered on the page. */
+#indexView, #endedView, #pausedView, #tutorialView {
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
-#disableFS {
-	position: fixed;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
+
+/* Messages */
 #dangerBox, #warningBox, #successBox {
 	position: absolute;
 	z-index: 1400;
@@ -125,9 +130,4 @@ body {
 	margin: 0px auto;
 	text-align: center;
 	display: none;
-}
-.btnMenu {
-	position: fixed;
-	left: 50%;
-	transform: translate(-50%, -50%);
 }
