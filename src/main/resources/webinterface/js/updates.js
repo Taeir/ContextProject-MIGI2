@@ -61,7 +61,7 @@ function updateTimer(time) {
     if (time > 3600) {
         $(".timer").html("&infin;")
     } else {
-        $(".timer").html(time);
+        $(".timer").html(Math.round(time));
     }
 }
 
