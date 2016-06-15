@@ -276,8 +276,8 @@ function hideGameButtons() {
     $("#wrapper").toggleClass("toggled", false);
     $("#sidebar-wrapper-dwarfs").css("visibility", "hidden");
     $("#sidebar-wrapper-elves").css("visibility", "hidden");
-    $("#y" + lastPressedY + "x" + lastPressedX).css("border", "none");
-    $("#y" + prevPressedY + "x" + prevPressedX).css("border", "none");
+    $("#y" + lastPressedY + "x" + lastPressedX).css("border", "0px");
+    $("#y" + prevPressedY + "x" + prevPressedX).css("border", "0px");
 }
 
 // ================================================================================================
