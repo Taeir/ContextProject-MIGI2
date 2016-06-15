@@ -232,11 +232,11 @@ function showGameButtons() {
     }
 	
     if (gTeam === "DWARFS") {
-        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px inset black");
+        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
         $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else if (gTeam === "ELVES") {
-        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px inset black");
+        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
         $("#sidebar-wrapper-elves").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else {
