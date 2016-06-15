@@ -12,6 +12,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
@@ -157,7 +158,7 @@ public class HUDTest extends TestBase {
 		
 		hud.setGameTimer(Integer.MAX_VALUE);
 		
-		verify(bitmapText, times(1)).setText("");
+		verify(bitmapText, times(1)).setCullHint(CullHint.Always);
 	}
 	
 	/**
