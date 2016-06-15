@@ -92,9 +92,15 @@ public class COCSocket extends WebSocketAdapter implements Observer {
 	@Override
 	public void onWebSocketClose(int statusCode, String reason) {
 		super.onWebSocketClose(statusCode, reason);
-
+		
 		Main.getInstance().removeObserver(this);
 		this.client.removeWebSocket(this);
+		
+		//Remove the client if they drop in the waiting state
+		if (Main.getInstance().getGameState() == GameState.WAITING) {
+			server.getClients().values().remove(client);
+			return;
+		}
 	}
 
 	@SneakyThrows(IOException.class)
