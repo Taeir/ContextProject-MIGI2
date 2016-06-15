@@ -22,6 +22,7 @@ import lombok.SneakyThrows;
  */
 public class COCSocket extends WebSocketAdapter implements Observer {
 	public static final float UPDATE_INTERVAL = 0.15f;
+	public static final long TIMEOUT = 10_000;
 	
 	private final WebServer server;
 	private final WebClient client;
@@ -103,8 +104,14 @@ public class COCSocket extends WebSocketAdapter implements Observer {
 		
 		timer += tpf;
 		if (timer < UPDATE_INTERVAL) return;
-		
 		timer = 0f;
+		
+		//Kick clients from the the game after a timeout.
+		if (Main.getInstance().getGameState() == GameState.WAITING && System.currentTimeMillis() - lastMessage > TIMEOUT) {
+			server.disconnect(client, StatusCode.NORMAL);
+			return;
+		}
+		
 		server.getNormalHandler().sendStatusUpdate(client, null);
 	}
 	
