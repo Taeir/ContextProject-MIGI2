@@ -151,11 +151,14 @@
 			 */
 			$(function() {
 				$("#map").swipe( {
-				pinchStatus:function(event, phase, direction, distance, duration, fingerCount, pinchZoom) {
-					zoom(direction)
+				pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+					zoom("in");
+				},
+				pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+					zoom("out");
 				},
 				fingers:2,  
-				pinchThreshold:75
+				pinchThreshold:30
 				});
 			});
 		</script>
