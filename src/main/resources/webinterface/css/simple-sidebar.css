@@ -121,6 +121,15 @@
 	background-position: 10%;
 	background-size: 35px 35px;
 }
+#sidebar-wrapper-elves .buttonIcon.timerContainer, #sidebar-wrapper-dwarfs .buttonIcon.timerContainer {
+	background-image: url("../icons/clock.png");
+}
+#sidebar-wrapper-elves .buttonIcon.cancelAction, #sidebar-wrapper-dwarfs .buttonIcon.cancelAction {
+	background-image: url("../icons/cancel.png");
+}
+#sidebar-wrapper-elves .buttonIcon.fullscreenAction, #sidebar-wrapper-dwarfs .buttonIcon.fullscreenAction {
+	background-image: url("../icons/fullscreen.png");
+}
 #sidebar-wrapper-elves .buttonIcon.carrotAction {
 	background-image: url("../icons/carrot.png");
 	background-color: #FFA500;
