@@ -4,7 +4,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.math.ColorRGBA;
 
-import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.level.Level;
 
 /**

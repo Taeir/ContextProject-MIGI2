@@ -505,6 +505,11 @@
 				<version>2.7</version>
 				<configuration>
 					<instrumentation>
+						<ignores>
+							<!-- We exclude the debug classes from coverage, as they will be removed upon release. -->
+							<ignore>nl.tudelft.contextproject.debug.*</ignore>
+							<ignore>nl.tudelft.contextproject.input.NoVRMouseManager</ignore>
+						</ignores>
 						<excludes>
 							<!-- We exclude the debug classes from coverage, as they will be removed upon release. -->
 							<exclude>nl/tudelft/contextproject/debug/*.class</exclude>
