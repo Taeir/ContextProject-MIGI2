@@ -9,11 +9,7 @@ import nl.tudelft.contextproject.webinterface.WebServer;
  * Servlet class to handle client requests to create WebSockets.
  */
 public class COCWebSocketServlet extends WebSocketServlet {
-
 	private static final long serialVersionUID = -3247862472092878820L;
-
-	//The client timeout in milliseconds
-	private static final long CLIENT_TIMEOUT = 10_000L;
 	
 	private final transient WebServer server;
 	
@@ -29,7 +25,6 @@ public class COCWebSocketServlet extends WebSocketServlet {
 
 	@Override
 	public void configure(WebSocketServletFactory factory) {
-		factory.getPolicy().setIdleTimeout(CLIENT_TIMEOUT);
 		factory.register(COCSocket.class);
 		factory.setCreator(new COCWebSocketCreator(server));
 	}
