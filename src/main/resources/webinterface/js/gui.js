@@ -363,3 +363,21 @@ function disableFullScreen() {
         document.webkitExitFullscreen();
     }
 }
+
+// ================================================================================================
+// =========================================== SCALING ============================================
+// ================================================================================================
+
+/**
+ * Zoom on the map.
+ *
+ * @param direction
+ *		the direction in which to zoom
+ */
+function zoom(direction) {
+	if (direction === "in") {
+        $("#map").toggleClass("overview", false);
+	} else if (direction === "out") {
+        $("#map").toggleClass("overview", true);
+	}
+}

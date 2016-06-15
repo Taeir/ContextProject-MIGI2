@@ -128,7 +128,8 @@
 				
         <!-- Load all javascript -->
         <script src="js/jquery-1.12.3.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.touchSwipe.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 		<script src="js/enums.js"></script>
 		<script src="js/websockets.js"></script>
 		<script src="js/requests.js"></script>
@@ -143,6 +144,22 @@
 			
 			//On load
 			$(document).ready(onLoad);
+			
+			/**
+			 * Handle zoom events.
+			 */
+			$(function() {
+				$("#map").swipe( {
+				pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+					zoom("in");
+				},
+				pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+					zoom("out");
+				},
+				fingers:2,  
+				pinchThreshold:30
+				});
+			});
 		</script>
     </body>
 </html>
