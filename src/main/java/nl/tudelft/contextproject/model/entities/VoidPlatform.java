@@ -1,14 +1,18 @@
 package nl.tudelft.contextproject.model.entities;
 
 import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.entities.util.AbstractPhysicsEntity;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * A platform that can be placed in the void.
@@ -28,6 +32,9 @@ public class VoidPlatform extends AbstractPhysicsEntity implements PhysicsObject
 		material.setColor("Specular", color);
 		material.setFloat("Shininess", 114f);
 		material.setColor("Ambient", color);
+		material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+		this.spatial.setQueueBucket(Bucket.Transparent);
+		material.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/voidplatform.png"));
 		this.spatial.setMaterial(material); 
 		this.spatial.move(0, 0.5f, 0);
 		return spatial;	

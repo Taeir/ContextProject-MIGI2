@@ -14,8 +14,8 @@ import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.Carrot;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.KillerBunny;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.moving.KillerBunny;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**

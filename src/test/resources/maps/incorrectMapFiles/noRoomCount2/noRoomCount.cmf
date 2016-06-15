@@ -1,4 +1,2 @@
 #
-STARTROOM: startroom
-ENDROOM: endroom
-NOROOMS:
+startroom endroom 

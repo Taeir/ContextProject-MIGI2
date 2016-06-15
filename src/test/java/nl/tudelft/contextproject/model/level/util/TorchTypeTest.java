@@ -11,7 +11,7 @@ import org.junit.Test;
 import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.TestBase;
-import nl.tudelft.contextproject.model.entities.Torch;
+import nl.tudelft.contextproject.model.entities.environment.Torch;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 

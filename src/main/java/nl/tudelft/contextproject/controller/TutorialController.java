@@ -5,7 +5,7 @@ import com.jme3.app.Application;
 /**
  * Controller for the tutorial.
  */
-public class TutorialController extends GameController {
+public class TutorialController extends GameThreadController {
 	private static final String TUTORIAL_LEVEL = "TutorialLevel";
 
 	/**

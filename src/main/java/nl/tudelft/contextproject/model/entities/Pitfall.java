@@ -9,6 +9,10 @@ import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.entities.environment.PlayerTrigger;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * An entity that drops the player through the level when stepped on.

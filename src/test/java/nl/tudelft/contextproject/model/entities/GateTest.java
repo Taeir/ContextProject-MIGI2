@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
@@ -68,7 +69,7 @@ public class GateTest extends EntityTest {
 	public void testLoadEntity() {
 		Gate gate = Gate.loadEntity(loadPosition, new String[]{"1", "1", "1", EntityType.GATE.getName()});
 		
-		assertEquals(loadPosition.add(0, .5f, 0), gate.getLocation());
+		assertEquals(loadPosition.add(0, .6f, 0), gate.getLocation());
 	}
 	
 	/**

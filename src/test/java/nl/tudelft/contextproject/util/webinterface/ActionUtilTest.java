@@ -10,14 +10,14 @@ import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Pitfall;
 import nl.tudelft.contextproject.model.entities.Carrot;
 import nl.tudelft.contextproject.model.entities.Crate;
 import nl.tudelft.contextproject.model.entities.Gate;
-import nl.tudelft.contextproject.model.entities.LandMine;
-import nl.tudelft.contextproject.model.entities.KillerBunny;
 import nl.tudelft.contextproject.model.entities.VoidPlatform;
+import nl.tudelft.contextproject.model.entities.exploding.Bomb;
+import nl.tudelft.contextproject.model.entities.exploding.LandMine;
+import nl.tudelft.contextproject.model.entities.moving.KillerBunny;
 import nl.tudelft.contextproject.test.TestUtil;
 import nl.tudelft.contextproject.webinterface.Action;
 

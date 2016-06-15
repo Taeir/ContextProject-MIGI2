@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,15 +13,16 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
-import nl.tudelft.contextproject.model.entities.Bomb;
 import nl.tudelft.contextproject.model.entities.Key;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.exploding.Bomb;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
@@ -28,7 +30,7 @@ import nl.tudelft.contextproject.test.TestUtil;
  */
 public class HUDTest extends TestBase {
 
-	private GameController controller;
+	private GameThreadController controller;
 	private HUD hud;
 
 	/**
@@ -38,7 +40,7 @@ public class HUDTest extends TestBase {
 	public void setUp() {
 		TestUtil.mockGame();
 		Main.getInstance().setGuiFont();
-		controller = mock(GameController.class);
+		controller = mock(GameThreadController.class);
 		hud = new HUD(controller, 200, 200);
 	}
 
@@ -52,8 +54,8 @@ public class HUDTest extends TestBase {
 		verify(controller, times(6)).addGuiElement(any(Spatial.class));
 		
 		VRPlayer player = Main.getInstance().getCurrentGame().getPlayer();
-		assertTrue(player.getTickListeners().contains(hud));
-		assertTrue(player.getInventory().getTickListeners().contains(hud));
+		assertTrue(player.getObservers().contains(hud));
+		assertTrue(player.getInventory().getObservers().contains(hud));
 	}
 	
 	/**
@@ -157,7 +159,7 @@ public class HUDTest extends TestBase {
 		
 		hud.setGameTimer(Integer.MAX_VALUE);
 		
-		verify(bitmapText, times(1)).setText("");
+		verify(bitmapText, times(1)).setCullHint(CullHint.Always);
 	}
 	
 	/**
@@ -203,5 +205,35 @@ public class HUDTest extends TestBase {
 		hud.updateBombs(inventory);
 		
 		verify(node, times(1)).attachChild(any(BitmapText.class));
+	}
+	
+	/**
+	 * Test if showing the popup attaches the gui element.
+	 */
+	@Test
+	public void testShowPopupText() {
+		hud.showPopupText("TEST", ColorRGBA.Red, 12);
+
+		verify(controller, times(1)).addGuiElement(any(BitmapText.class));
+	}
+	
+	/**
+	 * Test if exceeding the duration of a popup removes the text.
+	 */
+	@Test
+	public void testUpdatePopupTextRemove() {
+		hud.showPopupText("TEST", ColorRGBA.Red, 1);
+		hud.updatePopupText(5);
+		verify(controller, times(1)).removeGuiElement(any(BitmapText.class));
+	}
+	
+	/**
+	 * Test if updating keeps the text shown.
+	 */
+	@Test
+	public void testUpdatePopupText() {
+		hud.showPopupText("TEST", ColorRGBA.Red, 1);
+		hud.updatePopupText(.5f);
+		verify(controller, times(0)).removeGuiElement(any(BitmapText.class));
 	}
 }

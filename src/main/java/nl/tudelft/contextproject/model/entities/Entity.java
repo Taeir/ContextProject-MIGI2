@@ -4,13 +4,15 @@ import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Drawable;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * Abstract parent class for all entities.
  * All entities have a state, are Drawable and are Collidable.
  */
-public abstract class Entity implements Drawable, TickListener {
+public abstract class Entity implements Drawable, Observer {
 	private EntityState state = EntityState.NEW;
 
 	/**

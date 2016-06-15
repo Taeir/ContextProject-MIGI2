@@ -23,11 +23,12 @@ import com.jme3.texture.Texture;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.controller.GameController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 
@@ -141,7 +142,7 @@ public final class TestUtil extends TestBase {
 		mainNoSpy.setGuiNode(guiNode);
 		
 		//Reset the controller and tick listeners
-		mainNoSpy.setTickListeners(ConcurrentHashMap.newKeySet());
+		mainNoSpy.setObservers(ConcurrentHashMap.newKeySet());
 		mainNoSpy.setController(null);
 		return mainSpy;
 	}
@@ -264,7 +265,7 @@ public final class TestUtil extends TestBase {
 	 * <p>This method ensures the following:
 	 * <ul>
 	 * <li>{@link Main#getController()} will return a spied GameController</li>
-	 * <li>{@link Main#getCurrentGame()} and {@link GameController#getGame()} will return a spied Game</li>
+	 * <li>{@link Main#getCurrentGame()} and {@link GameThreadController#getGame()} will return a spied Game</li>
 	 * <li>{@link Game#getLevel()} will return a spied level</li>
 	 * <li>The level will be 1x1, with no tiles, no entities and no lights.</li>
 	 * <li>{@link Game#getPlayer()} will return a spied dummy player (see {@link VRPlayer#loadEntity}).</li>
@@ -285,7 +286,7 @@ public final class TestUtil extends TestBase {
 		Vector3f playerSpawn = new Vector3f();
 		Level levelSpy = spy(new Level(tiles, lights, entities, playerSpawn));
 		
-		GameController gameController = new GameController(main, levelSpy, 10f);
+		GameThreadController gameController = new GameController(main, levelSpy, 10f);
 		
 		//Spy on the game
 		Game gameSpy = spy(gameController.getGame());

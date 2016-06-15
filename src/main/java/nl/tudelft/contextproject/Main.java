@@ -22,18 +22,20 @@ import com.jme3.system.AppSettings;
 import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.audio.BackgroundMusic;
 import nl.tudelft.contextproject.controller.Controller;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.controller.GameState;
-import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.controller.WaitingController;
+import nl.tudelft.contextproject.debug.COCDebug;
+import nl.tudelft.contextproject.debug.COCStatsAppState;
 import nl.tudelft.contextproject.input.NoVRMouseManager;
 import nl.tudelft.contextproject.input.VRLookManager;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.TickListener;
-import nl.tudelft.contextproject.model.TickProducer;
+import nl.tudelft.contextproject.model.Observer;
+import nl.tudelft.contextproject.model.Observable;
 import nl.tudelft.contextproject.webinterface.WebServer;
+import nl.tudelft.contextproject.webinterface.websockets.COCSocket;
 
 import jmevr.app.VRApplication;
 import jmevr.util.VRGuiManager;
@@ -44,7 +46,7 @@ import lombok.SneakyThrows;
 /**
  * Main class of the game 'The Cave of Caerbannog'.
  */
-public class Main extends VRApplication implements TickProducer {
+public class Main extends VRApplication implements Observable {
 	public static final int PORT_NUMBER = 8080;
 	//Decrease for better performance and worse graphics
 	public static final float RESOLUTION = 1.0f;
@@ -53,14 +55,22 @@ public class Main extends VRApplication implements TickProducer {
 	public static final Float TIME_LIMIT = 300f;
 	
 	private static boolean hideQR;
-	
+	private static boolean noWebServer;
 	private static volatile Main instance;
 	private static boolean mouseEnabled;
 	
-	private Controller controller;
+	private GameThreadController controller;
 	private WebServer webServer;
-	private Set<TickListener> tickListeners = ConcurrentHashMap.newKeySet();
+	private Set<Observer> observers = ConcurrentHashMap.newKeySet();
 	private BitmapFont guifont;
+	private int paused;
+	
+	/**
+	 * Constructor for Main.
+	 */
+	public Main() {
+		super(new COCStatsAppState());
+	}
 	
 	/**
 	 * Main method that is called when the program is started.
@@ -73,6 +83,8 @@ public class Main extends VRApplication implements TickProducer {
 		Main main = getInstance();
 		List<String> a = Arrays.asList(args);
 		hideQR = a.contains("--hideQR");
+		
+		noWebServer = a.contains("--noWebServer");
 		
 		boolean dvr = a.contains("--disableVR");
 		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, dvr);
@@ -126,22 +138,29 @@ public class Main extends VRApplication implements TickProducer {
 	 * @return
 	 * 		true is the controller was changed, false otherwise
 	 */
-	public boolean setController(Controller newController) {
-		if (newController != this.controller && newController != null) {
-			if (this.controller != null) {
-				getStateManager().detach(this.controller);
-			}
+	public boolean setController(GameThreadController newController) {
+		if (this.controller == newController || newController == null) return false;
 
-			this.controller = newController;
-			getStateManager().attach(this.controller);
-			if (webServer != null) {
-				webServer.clearCooldowns();
-				webServer.getInventory().reset();
-			}
-			
-			return true;
+		if (this.controller != null) {
+			getStateManager().detach(this.controller);
 		}
-		return false;
+		
+		GameState oldState = getGameState();
+
+		this.controller = newController;
+		getStateManager().attach(this.controller);
+		
+		if (webServer != null) {
+			webServer.clearCooldowns();
+			webServer.getInventory().reset();
+			
+			//When switching from the ENDED state to the WAITING state, kick all clients
+			if (oldState == GameState.ENDED && getGameState() == GameState.WAITING) {
+				webServer.disconnectAll();
+			}
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -151,13 +170,8 @@ public class Main extends VRApplication implements TickProducer {
 	 * 		the current instance of the game or null when no game is running
 	 */
 	public Game getCurrentGame() {
-		if (controller instanceof GameController) {
-			return ((GameController) controller).getGame();				
-		}
-		if (controller instanceof PauseController) {
-			return ((PauseController) controller).getPausedController().getGame();				
-		}
-		return null;
+		if (controller == null) return null;
+		return controller.getGame();
 	}
 	
 	/**
@@ -184,18 +198,18 @@ public class Main extends VRApplication implements TickProducer {
 
 	/**
 	 * Method used for testing.
-	 * Sets the set of tickListeners to the specified set.
+	 * Sets the observers of this instance to the given set.
 	 *
-	 * @param listeners
-	 * 		the new Set of TickListeners
+	 * @param observers
+	 * 		the new Set of observers
 	 */
-	public void setTickListeners(Set<TickListener> listeners) {
-		tickListeners = listeners;
+	public void setObservers(Set<Observer> observers) {
+		this.observers = observers;
 	}
 	
 	@Override
-	public Set<TickListener> getTickListeners() {
-		return tickListeners;
+	public Set<Observer> getObservers() {
+		return observers;
 	}
 
 	@Override
@@ -236,6 +250,8 @@ public class Main extends VRApplication implements TickProducer {
 				onGameStopped();
 			}
 		});
+		
+		COCDebug.init();
 	}
 
 	/**
@@ -243,10 +259,10 @@ public class Main extends VRApplication implements TickProducer {
 	 */
 	private void setupAudio() {
 		AudioManager.getInstance().init(getAudioRenderer(), getListener());
-		attachTickListener(AudioManager.getInstance());
+		registerObserver(AudioManager.getInstance());
 		
 		BackgroundMusic.getInstance().start();
-		attachTickListener(BackgroundMusic.getInstance());
+		registerObserver(BackgroundMusic.getInstance());
 	}
 
 	/**
@@ -304,15 +320,25 @@ public class Main extends VRApplication implements TickProducer {
 	}
 	
 	/**
+	 * @return
+	 * 		the WebServer of this game
+	 */
+	public WebServer getWebServer() {
+		return webServer;
+	}
+	
+	/**
 	 * Creates the web server and starts it.
 	 */
 	protected void setupWebServer() {
 		webServer = new WebServer();
 		
-		try {
-			webServer.start(PORT_NUMBER);
-		} catch (Exception ex) {
-			Log.getLog("WebInterface").severe("Exception while trying to start webserver", ex);
+		if (!noWebServer) {
+			try {
+				webServer.start(PORT_NUMBER);
+			} catch (Exception ex) {
+				Log.getLog("WebInterface").severe("Exception while trying to start webserver", ex);
+			}
 		}
 	}
 	
@@ -327,8 +353,40 @@ public class Main extends VRApplication implements TickProducer {
 	}
 	
 	@Override
+	public void update() {
+		if (paused == 0) {
+			super.update();
+		} else if (paused == 1 || paused == 2) {
+			super.update();
+			paused++;
+		} else {
+			runQueuedTasks();
+			getInputManager().update(1f);
+
+			//Keep updating websockets
+			for (Observer observer : observers) {
+				if (observer instanceof COCSocket) {
+					observer.update(0.05f);
+				}
+			}
+			
+			//Keep VR active
+			if (VRApplication.getVRViewManager() != null) {
+				VRApplication.getVRViewManager().update(0.05f);
+			}
+			
+	        try {
+	            Thread.sleep(50); // throttle the CPU when paused
+	        } catch (InterruptedException ex) {
+	            paused = 0;
+	            ex.printStackTrace();
+	        }
+		}
+	}
+	
+	@Override
 	public void simpleUpdate(float tpf) {
-		updateTickListeners(tpf);
+		updateObservers(tpf);
 	}
 
 	/**
@@ -365,7 +423,12 @@ public class Main extends VRApplication implements TickProducer {
 	 */
 	public GameState getGameState() {
 		if (controller == null) return null;
-		return controller.getGameState();
+		
+		if (isPaused()) {
+			return GameState.PAUSED;
+		} else {
+			return controller.getGameState();
+		}
 	}
 	
 	/**
@@ -427,5 +490,24 @@ public class Main extends VRApplication implements TickProducer {
 	 */
 	public void setGuiFont() {
 		guifont = getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+	}
+	
+	/**
+	 * @return
+	 * 		true if the game is paused, false otherwise
+	 */
+	public boolean isPaused() {
+		return paused != 0;
+	}
+	
+	/**
+	 * Toggles pausing the game.
+	 */
+	public void togglePause() {
+		if (isPaused()) {
+			paused = 0;
+		} else {
+			paused = 1;
+		}
 	}
 }

@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.TestBase;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.level.Level;
 
 /**
@@ -18,14 +18,14 @@ import nl.tudelft.contextproject.model.level.Level;
 public class GameTest extends TestBase {
 
 	private Game instance;
-	private GameController controller;
+	private GameThreadController controller;
 	
 	/**
 	 * Create a fresh game for each test.
 	 */
 	@Before
 	public void setUp() {
-		controller = mock(GameController.class);
+		controller = mock(GameThreadController.class);
 
 		Level level = mock(Level.class);
 		when(level.getPlayerSpawnPosition()).thenReturn(new Vector3f());

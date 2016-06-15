@@ -6,7 +6,7 @@ import com.jme3.app.Application;
  * A controller for the waiting state of the game.
  * In this state players can connect to the web interface and the player is placed in a tutorial level.
  */
-public class WaitingController extends GameController {
+public class WaitingController extends GameThreadController {
 	
 	private static final String MENU_LEVEL = "MenuLevel";
 
