@@ -63,6 +63,7 @@ function switchToIndex() {
     $(document.getElementById("teamView")).hide();
     $(document.getElementById("gameView")).hide();
     $(document.getElementById("pausedView")).hide();
+	$(document.getElementById("tutorialView")).hide();
     $(document.getElementById("indexView")).show();
 }
 
