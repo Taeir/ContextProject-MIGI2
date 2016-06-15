@@ -3,7 +3,6 @@
 	<head>
         <title>The Cave of Caerbanogh</title>
 
-        <!-- <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css"  media="screen,projection"/> -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
         <link href="css/simple-sidebar.css" rel="stylesheet">
@@ -85,7 +84,7 @@
 				<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
 			</div>
 			
-			<div id="instructionsView" style="display: none">
+			<div id="instructionsView" class="centered" style="display: none">
 				PLACEHOLDER FOR INSTRUCTIONS
 				<hr>
 				<button type="button" class="btn btn-default btnMenu" onClick="enableFullScreen(); switchTo(Views.INDEX)">Back to menu</button>
@@ -103,34 +102,33 @@
 				</table>
 			</div>
 	
-			<div id="endedView" style="display: none">
+			<div id="endedView" class="centered" style="display: none">
 				<h1 id="endedWinners"></h1>
 				<p id="endedMessage"></p>
 				<hr>
-				<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
-				<hr>
-				<button type="button" class="btn btn-default btnMenu" onClick="requestQuitGame(); switchTo(Views.INDEX)">Back to menu</button>
+				<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
+				<button type="button" class="btn btn-default" onClick="requestQuitGame(); switchTo(Views.INDEX)">Back to menu</button>
 			</div>
 			
-			<div id="pausedView" style="display: none">
+			<div id="pausedView" class="centered" style="display: none">
 				<h1 class="pausemessage">Paused</h1>
 				<p class="pausemessage">The game has been paused, just sit back and relax!</p>
 				<hr>
-				<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
+				<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
 			</div>
 			
-			<div id="tutorialView" style="display: none">
+			<div id="tutorialView" class="centered" style="display: none">
 				<h1 class="tutorialmessage">Tutorial</h1>
-				<p class="tutorialmessage">Please wait until the player with the Oculus has finished the tutorial. Just sit back and relax!</p>
+				<p class="tutorialmessage">Please wait until the Knight of Caerbannog has finished the tutorial. Just sit back and relax!</p>
 				<hr>
-				<button type="button" class="btn btn-default" onClick="disableFullScreen()" id="disableFS">Disable FullScreen</button>
+				<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
 			</div>
 		</div>
 				
         <!-- Load all javascript -->
         <script src="js/jquery-1.12.3.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-		<script src="js/jquery.touchSwipe.min.js"></script>
+        <script src="js/jquery.touchSwipe.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 		<script src="js/enums.js"></script>
 		<script src="js/websockets.js"></script>
 		<script src="js/requests.js"></script>
@@ -151,11 +149,14 @@
 			 */
 			$(function() {
 				$("#map").swipe( {
-					pinchStatus:function(event, phase, direction, distance, duration, fingerCount, pinchZoom) {
-						zoom(direction)
+					pinchIn:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+						zoom("in");
+					},
+					pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom) {
+						zoom("out");
 					},
 					fingers:2,  
-					pinchThreshold:75
+					pinchThreshold:30
 				});
 			});
 			
