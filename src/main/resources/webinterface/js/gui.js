@@ -222,7 +222,12 @@ function updateTeamButtons() {
  */
 function showGameButtons() {
     editLegend();
-    
+	
+    if (document.getElementById("wrapper").className.indexOf("toggled") > -1) {
+    	hideGameButtons();
+		return;
+    }
+	
     if (gTeam === "DWARFS") {
         $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
