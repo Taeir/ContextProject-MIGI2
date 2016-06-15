@@ -284,6 +284,8 @@ public class WebServerTest extends WebTestBase {
 		webServer.getClients().put("A", client1);
 		webServer.getClients().put("B", client2);
 		
+		webServer.disconnectAll();
+		
 		verify(socket.getSession(), times(2)).close(StatusCode.NORMAL, null);
 		assertTrue(webServer.getClients().isEmpty());
 	}
