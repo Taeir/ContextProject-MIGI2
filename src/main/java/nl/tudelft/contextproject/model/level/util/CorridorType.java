@@ -110,8 +110,7 @@ public enum CorridorType {
 		boolean downPossible  = down < mapHeigth;
 		boolean leftPossible  = left >= 0;
 		boolean rightPossible = right < mapWidth;
-		System.out.println("UP: " + upPossible + ", DP: " + downPossible + ", LP: " + leftPossible + ", RP: " + rightPossible);
-
+		
 		if (upPossible && checkTileType(map[up][y])) {
 			if (downPossible && checkTileType(map[down][y])) {
 				return VERTICAL;

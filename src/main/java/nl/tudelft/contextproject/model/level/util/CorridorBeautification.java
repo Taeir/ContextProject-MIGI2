@@ -73,7 +73,6 @@ public final class CorridorBeautification {
 			for (int j = 0; j < heigth; j++) {
 				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
 					corridorType = CorridorType.getCorridorTypeFromMap(map, i, j);
-					System.out.println(corridorType);
 					newCorridorTiles.addAll(CorridorExponentialExtension.getExtendLocationsUsingCorridorType(corridorType, new Vec2I(i, j), rand));
 				}
 			}
