@@ -94,9 +94,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Observable,
 	private VRPlayer(Vector3f location) {
 		super(new NoControl());
 		
-		Sphere sphere = new Sphere(10, 10, .2f);
-		spatial = new Geometry("blue cube", sphere);
-		spatial.move(location.add(0, SPAWN_HEIGHT, 0));
+		getSpatial().move(location);
 	}
 
 	@Override

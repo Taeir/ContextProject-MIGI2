@@ -3,6 +3,7 @@ var lastPressedX;
 var lastPressedY;
 var prevPressedX;
 var prevPressedY;
+var iOS;
 
 // ================================================================================================
 // ======================================== VIEW SWITCHING ========================================
@@ -232,12 +233,12 @@ function showGameButtons() {
 		return;
     }
 	
-    $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
-	
     if (gTeam === "DWARFS") {
+        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
         $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else if (gTeam === "ELVES") {
+        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
         $("#sidebar-wrapper-elves").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else {
@@ -278,8 +279,15 @@ function hideGameButtons() {
     $("#wrapper").toggleClass("toggled", false);
     $("#sidebar-wrapper-dwarfs").css("visibility", "hidden");
     $("#sidebar-wrapper-elves").css("visibility", "hidden");
-    $("#y" + lastPressedY + "x" + lastPressedX).css("border", "none");
-    $("#y" + prevPressedY + "x" + prevPressedX).css("border", "none");
+    $("#y" + lastPressedY + "x" + lastPressedX).css("border", "0px");
+    $("#y" + prevPressedY + "x" + prevPressedX).css("border", "0px");
+    //Dirty trick to force devices running iOS to actually update the view.
+    //This scales the cell to 100% (which it's already at). This forces
+    //the css to be reloaded, fixing the view.
+    if (iOS) {
+        $("#y" + lastPressedY + "x" + lastPressedX).css("webkit-transform", "scale(1)");
+        $("#y" + prevPressedY + "x" + prevPressedX).css("webkit-transform", "scale(1)");
+    }
 }
 
 // ================================================================================================

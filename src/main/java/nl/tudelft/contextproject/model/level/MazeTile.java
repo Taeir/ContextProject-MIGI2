@@ -69,7 +69,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 	public Vector2f getPosition() {
 		return position;
 	}
-
+	
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
@@ -85,7 +85,7 @@ public class MazeTile implements Drawable, PhysicsObject {
 		material.setFloat("Shininess", 64f);
 		material.setColor("Ambient", color);
 		material.setTexture("DiffuseMap", texture);
-		
+
 		if (this.type == TileType.WALL) {
 			material.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/wallnormalmap.png"));
 		}

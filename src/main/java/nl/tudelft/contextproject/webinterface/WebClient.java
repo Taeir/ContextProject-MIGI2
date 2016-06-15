@@ -145,8 +145,8 @@ public class WebClient {
 	public void sendMessage(JSONObject msg, HttpServletResponse response) throws IOException {
 		if (response == null) {
 			COCSocket socket = this.webSocket;
-			if (socket != null && socket.isConnected()) {
-				socket.getRemote().sendStringByFuture(msg.toString());
+			if (socket != null) {
+				socket.sendMessage(msg.toString());
 			}
 		} else {
 			response.setStatus(HttpStatus.OK_200);
@@ -168,8 +168,8 @@ public class WebClient {
 	public void sendMessage(String msg, HttpServletResponse response) throws IOException {
 		if (response == null) {
 			COCSocket socket = this.webSocket;
-			if (socket != null && socket.isConnected()) {
-				socket.getRemote().sendStringByFuture(msg);
+			if (socket != null) {
+				socket.sendMessage(msg);
 			}
 		} else {
 			response.setStatus(HttpStatus.OK_200);

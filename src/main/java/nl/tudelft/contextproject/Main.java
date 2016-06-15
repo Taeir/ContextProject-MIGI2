@@ -25,6 +25,8 @@ import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.WaitingController;
+import nl.tudelft.contextproject.debug.COCDebug;
+import nl.tudelft.contextproject.debug.COCStatsAppState;
 import nl.tudelft.contextproject.input.NoVRMouseManager;
 import nl.tudelft.contextproject.input.VRLookManager;
 import nl.tudelft.contextproject.util.FileUtil;
@@ -62,6 +64,13 @@ public class Main extends VRApplication implements Observable {
 	private Set<Observer> observers = ConcurrentHashMap.newKeySet();
 	private BitmapFont guifont;
 	private int paused;
+	
+	/**
+	 * Constructor for Main.
+	 */
+	public Main() {
+		super(new COCStatsAppState());
+	}
 	
 	/**
 	 * Main method that is called when the program is started.
@@ -135,6 +144,8 @@ public class Main extends VRApplication implements Observable {
 		if (this.controller != null) {
 			getStateManager().detach(this.controller);
 		}
+		
+		GameState oldState = getGameState();
 
 		this.controller = newController;
 		getStateManager().attach(this.controller);
@@ -142,6 +153,11 @@ public class Main extends VRApplication implements Observable {
 		if (webServer != null) {
 			webServer.clearCooldowns();
 			webServer.getInventory().reset();
+			
+			//When switching from the ENDED state to the WAITING state, kick all clients
+			if (oldState == GameState.ENDED && getGameState() == GameState.WAITING) {
+				webServer.disconnectAll();
+			}
 		}
 		
 		return true;
@@ -234,6 +250,8 @@ public class Main extends VRApplication implements Observable {
 				onGameStopped();
 			}
 		});
+		
+		COCDebug.init();
 	}
 
 	/**
