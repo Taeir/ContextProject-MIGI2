@@ -28,7 +28,7 @@ public final class CorridorExponentialExtension {
 	/**
 	 * Parameter of exponential distribution used in corridor extending with exponential distribution.
 	 */
-	public static final double LAMBA = 0.4;
+	public static final double LAMBDA = 0.4;
 	
 	/**
 	 * Private constructor to prevent initialization.
@@ -264,6 +264,6 @@ public final class CorridorExponentialExtension {
 		return RandomUtil.getRandomIntegerFromExponentialDistribution(rand, 
 				MINIMUM_EXTENSION, 
 				MAXIMUM_EXTENSION, 
-				LAMBA);
+				LAMBDA);
 	}
 }
