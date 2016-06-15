@@ -1,7 +1,9 @@
 package nl.tudelft.contextproject.model.entities;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.entities.util.EntityState;
@@ -14,6 +16,8 @@ public class Carrot extends Entity {
 
 	private float health;
 	private Spatial spatial;
+	private Spatial carrot, carrot2, carrot3, carrot4;
+	private boolean updated;
 
 	/**
 	 * Creates a carrot.
@@ -25,9 +29,27 @@ public class Carrot extends Entity {
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot.blend");
-		spatial.move(0, 1, 0);
-		return spatial;
+		
+		Node node = new Node("CarrotNode");
+		spatial = node;
+		
+		carrot = Main.getInstance().getAssetManager().loadModel("Models/carrot.blend");
+		carrot2 = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
+		carrot3 = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
+		carrot4 = Main.getInstance().getAssetManager().loadModel("Models/carrot4.blend");
+		
+		carrot2.setCullHint(CullHint.Always);
+		carrot3.setCullHint(CullHint.Always);
+		carrot4.setCullHint(CullHint.Always);
+		
+		node.attachChild(carrot);
+		node.attachChild(carrot2);
+		node.attachChild(carrot3);
+		node.attachChild(carrot4);
+		
+		node.move(0, 1, 0);
+		
+		return node;
 	}
 
 	@Override
@@ -36,15 +58,24 @@ public class Carrot extends Entity {
 	}
 
 	@Override
-	public void update(float tpf) { 
-		if (health <= 5) {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
-		}
-		if (health <= 3) {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
-		}
+	public void update(float tpf) {
+		if (!updated) return;
+		
 		if (health <= 1) {
-			spatial = Main.getInstance().getAssetManager().loadModel("Models/carrot4.blend");
+			carrot.setCullHint(CullHint.Always);
+			carrot2.setCullHint(CullHint.Always);
+			carrot3.setCullHint(CullHint.Always);
+			carrot4.setCullHint(CullHint.Inherit);
+		} else if (health <= 3) {
+			carrot.setCullHint(CullHint.Always);
+			carrot2.setCullHint(CullHint.Always);
+			carrot3.setCullHint(CullHint.Inherit);
+			carrot4.setCullHint(CullHint.Always);
+		} else if (health <= 5) {
+			carrot.setCullHint(CullHint.Always);
+			carrot2.setCullHint(CullHint.Inherit);
+			carrot3.setCullHint(CullHint.Always);
+			carrot4.setCullHint(CullHint.Always);
 		}
 	}
 
@@ -59,7 +90,8 @@ public class Carrot extends Entity {
 	 * @param amount
 	 * 		the amount eaten.
 	 */
-	public void eat(float amount) {		
+	public void eat(float amount) {
+		updated = true;
 		health -= amount;
 		if (health < 0) {
 			setState(EntityState.DEAD);

@@ -6,6 +6,7 @@ import com.jme3.font.BitmapText;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial.CullHint;
 import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
@@ -36,7 +37,9 @@ public class HUD implements Observer {
 
 	private volatile float popupTimer;
 
-	
+	//Variables for caching
+	private float lastHealth;
+	private int oldKeyColorHash;
 	
 	/**
 	 * Creates a new HUD for the given controller.
@@ -242,8 +245,9 @@ public class HUD implements Observer {
 	 */
 	public void setGameTimer(int timer) {
 		if (timer == Integer.MAX_VALUE) {
-			gameTimer.setText("");
+			gameTimer.setCullHint(CullHint.Always);
 		} else {
+			gameTimer.setCullHint(CullHint.Inherit);
 			gameTimer.setText("" + timer);
 		}
 	}
@@ -279,9 +283,13 @@ public class HUD implements Observer {
 	 * 		the player to get the health from
 	 */
 	protected void updateHearts(VRPlayer player) {
+		float currentHealth = player.getHealth();
+		if (lastHealth == currentHealth) return;
+		
+		lastHealth = currentHealth;
 		for (int i = 0; i < VRPlayer.PLAYER_MAX_HEALTH; i++) {
 			Picture picture = (Picture) heartContainer.getChild(i);
-			float heartFill = -i + player.getHealth();
+			float heartFill = -i + currentHealth;
 			if (heartFill < .25f) {
 				picture.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
 			} else if (heartFill > .75f) {
@@ -299,9 +307,15 @@ public class HUD implements Observer {
 	 * 		the inventory that contains the keys
 	 */
 	protected void updateKeys(Inventory inventory) {
+		List<ColorRGBA> keyColors = inventory.getKeyColors();
+		int currentHash = keyColors.hashCode();
+		
+		//Don't update if nothing changed
+		if (oldKeyColorHash == currentHash) return;
+		
+		oldKeyColorHash = currentHash;
 		keyContainer.detachAllChildren();
 		int i = 0;
-		List<ColorRGBA> keyColors = inventory.getKeyColors();
 		for (ColorRGBA color : keyColors) {
 			keyContainer.attachChild(getKeyImage(keyColors.size(), i, color));
 			i++;
