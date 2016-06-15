@@ -33,6 +33,7 @@ import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.Observer;
 import nl.tudelft.contextproject.model.Observable;
 import nl.tudelft.contextproject.webinterface.WebServer;
+import nl.tudelft.contextproject.webinterface.websockets.COCSocket;
 
 import jmevr.app.VRApplication;
 import jmevr.util.VRGuiManager;
@@ -343,6 +344,18 @@ public class Main extends VRApplication implements Observable {
 		} else {
 			runQueuedTasks();
 			getInputManager().update(1f);
+
+			//Keep updating websockets
+			for (Observer observer : observers) {
+				if (observer instanceof COCSocket) {
+					observer.update(0.05f);
+				}
+			}
+			
+			//Keep VR active
+			if (VRApplication.getVRViewManager() != null) {
+				VRApplication.getVRViewManager().update(0.05f);
+			}
 			
 	        try {
 	            Thread.sleep(50); // throttle the CPU when paused
