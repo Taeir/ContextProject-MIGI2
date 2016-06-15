@@ -18,7 +18,6 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
-import nl.tudelft.contextproject.model.Observer;
 import nl.tudelft.contextproject.model.entities.Key;
 import nl.tudelft.contextproject.model.entities.exploding.Bomb;
 import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
@@ -212,7 +211,7 @@ public class HUDTest extends TestBase {
 	@Test
 	public void testShowPopupText() {
 		hud.showPopupText("TEST", ColorRGBA.Red, 12);
-		verify(Main.getInstance(), times(1)).registerObserver(any(Observer.class));
+
 		verify(controller, times(1)).addGuiElement(any(BitmapText.class));
 	}
 	
