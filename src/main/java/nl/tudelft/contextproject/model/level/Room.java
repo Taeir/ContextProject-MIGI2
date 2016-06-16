@@ -59,7 +59,6 @@ public class Room {
 			RoomParser.importFile(folder, mazeTiles, entities, lights, 0, 0);	
 			setDoors();
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
 			Logger.getLogger("MazeGeneration").severe("Unable to correctly read name!");
 		}
 	}
