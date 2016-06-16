@@ -1,6 +1,6 @@
 package nl.tudelft.contextproject.model.entities.moving;
 
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
+import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.math.Vector3f;
@@ -33,7 +33,6 @@ public class KillerBunny extends MovingEntity implements PhysicsObject, Health {
 		spatial = getSpatial();
 		spatial.setLocalTranslation(position.add(0, 1, 0));
 		getPhysicsObject();
-
 	}
 
 	@Override
@@ -59,9 +58,8 @@ public class KillerBunny extends MovingEntity implements PhysicsObject, Health {
 	public PhysicsControl getPhysicsObject() {
 		if (control != null) return control;
 		
-		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(.3f, .15f, 1);
-
-		control = new CharacterControl(capsuleShape, .1f);
+		BoxCollisionShape boxShape = new BoxCollisionShape(new Vector3f(0.2f, 0.2f, 0.2f));
+		control = new CharacterControl(boxShape, .1f);
 
 		control.setJumpSpeed(5f);
 		control.setFallSpeed(15);
