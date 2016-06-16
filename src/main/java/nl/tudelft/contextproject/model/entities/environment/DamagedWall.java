@@ -1,7 +1,5 @@
 package nl.tudelft.contextproject.model.entities.environment;
 
-import com.jme3.bullet.control.PhysicsControl;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -39,15 +37,6 @@ public class DamagedWall extends AbstractPhysicsEntity implements Health, Physic
 		this.spatial.setMaterial(material);
 		spatial.move(0, TileType.WALL.getHeight() + .5f, 0);
 		return spatial;	
-	}
-
-	@Override
-	public PhysicsControl getPhysicsObject() {
-		if (rigidBody != null) return rigidBody;
-
-		rigidBody = new RigidBodyControl(1.5f);
-		getSpatial().addControl(rigidBody);
-		return rigidBody;
 	}
 
 	@Override
