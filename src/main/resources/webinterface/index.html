@@ -16,26 +16,26 @@
                     <li class="sidebar-brand">
                         <a id="clickedDwarfs">Dwarfs</a>
                     </li>
-                    <li>
+                    <li class="buttonIcon timerContainer">
                         <a><strong>Time:</strong> <em class="timer"></em></a>
                     </li>
-                    <li>
+                    <li class="buttonIcon bombAction">
                         <a href="#" onClick="requestAction('BOMB')">Place bomb</a>
                     </li>
-                    <li>
+                    <li class="buttonIcon pitAction">
                         <a href="#" onClick="requestAction('PIT')">Place pitfall</a>
                     </li>
-                    <li>
+                    <li class="buttonIcon mineAction">
                         <a href="#" onClick="requestAction('MINE')">Place landmine</a>
                     </li>
-                    <li>
+                    <li class="buttonIcon enemyAction">
                         <a href="#" onClick="requestAction('ENEMY')">Spawn enemy</a>
                     </li>
-                    <li>
+                    <li class="buttonIcon cancelAction">
                         <a href="#" onClick="hideGameButtons()">Cancel</a>
                     </li>
-                    <li>
-                        <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
+                    <li class="buttonIcon fullscreenAction">
+                        <a href="#" onClick="toggleFullscreen()">Toggle Fullscreen</a>
                     </li>
                 </ul>
             </div>
@@ -46,26 +46,26 @@
                     <li class="sidebar-brand">
                         <a id="clickedElves">Elves</a>
                     </li>
-                    <li>
+                    <li class="buttonIcon timerContainer">
                         <a><strong>Time:</strong> <em class="timer"></em></a>
                     </li>
-                    <li>
-                        <a href="#" onClick="requestAction('BAIT')">Drop bait</a>
+                    <li class="buttonIcon carrotAction">
+                        <a href="#" onClick="requestAction('BAIT')">Drop carrot</a>
                     </li>
-                    <li>
-                        <a href="#" onClick="requestAction('TILE')">Place tile</a>
+                    <li class="buttonIcon tileAction">
+                        <a href="#" onClick="requestAction('TILE')">Place platform</a>
                     </li>
-					<li>
+					<li class="buttonIcon crateAction">
                         <a href="#" onClick="requestAction('CRATE')">Drop crate</a>
                     </li>
-					<li>
+					<li class="buttonIcon gateAction">
                         <a href="#" onClick="requestAction('GATE')">Open gate</a>
                     </li>
-                    <li>
+                    <li class="buttonIcon cancelAction">
                         <a href="#" onClick="hideGameButtons()">Cancel</a>
                     </li>
-                    <li>
-                        <a href="#" onClick="toggleFullscreen()">Toggle fullscreen</a>
+                    <li class="buttonIcon fullscreenAction">
+                        <a href="#" onClick="toggleFullscreen()">Toggle Fullscreen</a>
                     </li>
                 </ul>
             </div>
@@ -80,21 +80,51 @@
 			<div id="indexView">
 				<img src="logo.png" width="300" height="210" id="logo"/>
 				<hr>
-				<button type="button" class="btn btn-default" onClick="enableFullScreen(); switchTo(Views.INSTRUCTION)">Instructions</button>
-				<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+				<div class="btn-group btn-group-lg" role="group">
+					<button type="button" class="btn btn-default" onClick="enableFullScreen(); switchTo(Views.INSTRUCTION)">Instructions</button>
+					<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+				</div>
 			</div>
 			
 			<div id="instructionsView" class="centered" style="display: none">
-				PLACEHOLDER FOR INSTRUCTIONS
+				<h3 class="instructionmessage">Instructions</h3>
+				<p id="instructionmessage">
+					Dwarfs: Against the Knight<br>
+					Elves: Helping the Knight<br>
+					You can perform actions by clicking on a tile and then clicking on an action.<br>
+					The colours on the map mean the following things:<br>
+					<table id="legend">
+						<tr><td class="Floor">Floors</tr></td>
+						<tr><td class="Wall">Walls</tr></td>
+						<tr><td class="Carrot">Carrots</tr></td>
+						<tr><td class="Key">Keys</tr></td>
+						<tr><td class="Bomb">Bombs</tr></td>
+						<tr><td class="Door">Doors</tr></td>
+						<tr><td class="Gate">Gates</tr></td>
+						<tr><td class="Pitfall">Pitfalls</tr></td>
+						<tr><td class="Landmine">Landmines</tr></td>
+						<tr><td class="Crate">Crates</tr></td>
+						<tr><td class="Killer_Bunny">Killer bunnies</tr></td>
+						<tr><td class="Invisible_Wall">Invisible walls</tr></td>
+						<tr><td class="Damaged_Wall">Damaged walls</tr></td>
+						<tr><td class="Player_Trigger">Player triggers</tr></td>
+						<tr><td class="Player">Players</tr></td>
+					</table><br>
+					Don't worry if you can't remember all of these, you can always click on a tile and the description will be shown in the top right!
+				</p>
+				
 				<hr>
-				<button type="button" class="btn btn-default btnMenu" onClick="enableFullScreen(); switchTo(Views.INDEX)">Back to menu</button>
-				<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+				<div class="btn-group btn-group-lg" role="group">
+					<button type="button" class="btn btn-default btnMenu" onClick="enableFullScreen(); switchTo(Views.INDEX)">Back to menu</button>
+					<button type="button" class="btn btn-default btnJoinGame" onClick="enableFullScreen(); requestJoinGame()">Join Game</button>
+				</div>
 			</div>
 			
 			<div class="btn-group btn-group-lg" role="group" id="teamView" style="display: none">
 				<button type="button" class="btn btn-default" onClick="requestSetTeam('ELVES')" id="elvesButton">Elves</button>
 				<button type="button" class="btn btn-default" onClick="requestSetTeam('DWARFS')" id="dwarfsButton">Dwarfs</button>
 				<button type="button" class="btn btn-success" onClick="requestSetTeam('NONE')" id="noneButton">No team</button>
+				<button type="button" class="btn btn-danger" onClick="disableFullScreen(); requestQuitGame()">Quit</button>
 			</div>
 
 			<div id="gameView" style="display: none">
@@ -108,20 +138,27 @@
 				<hr>
 				<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
 				<button type="button" class="btn btn-default" onClick="requestQuitGame(); switchTo(Views.INDEX)">Back to menu</button>
+				<button type="button" class="btn btn-danger" onClick="disableFullScreen(); requestQuitGame()">Quit</button>
 			</div>
 			
 			<div id="pausedView" class="centered" style="display: none">
 				<h1 class="pausemessage">Paused</h1>
 				<p class="pausemessage">The game has been paused, just sit back and relax!</p>
 				<hr>
-				<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
+				<div class="btn-group btn-group-lg" role="group">
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
+					<button type="button" class="btn btn-danger" onClick="disableFullScreen(); requestQuitGame()">Quit</button>
+				</div>
 			</div>
 			
 			<div id="tutorialView" class="centered" style="display: none">
 				<h1 class="tutorialmessage">Tutorial</h1>
 				<p class="tutorialmessage">Please wait until the Knight of Caerbannog has finished the tutorial. Just sit back and relax!</p>
 				<hr>
-				<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
+				<div class="btn-group btn-group-lg" role="group">
+					<button type="button" class="btn btn-default" onClick="disableFullScreen()">Disable FullScreen</button>
+					<button type="button" class="btn btn-danger" onClick="disableFullScreen(); requestQuitGame()">Quit</button>
+				</div>
 			</div>
 		</div>
 				

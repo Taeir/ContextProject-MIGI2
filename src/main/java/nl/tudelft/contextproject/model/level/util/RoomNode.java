@@ -28,7 +28,7 @@ public class RoomNode {
 	 * Render torches. 
 	 * At the moment the torches require a lot of GPU power to be rendered, so they are turned off.
 	 */
-	public static boolean renderTorches;
+	public static boolean renderTorches = true;
 	
 	public int id;
 	public Vec2I coordinates;

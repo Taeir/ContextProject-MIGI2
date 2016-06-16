@@ -5,14 +5,14 @@ package nl.tudelft.contextproject.webinterface;
  */
 public enum Action {
 	//Cooldowns are set in seconds	
-	PLACEBOMB(10, 		3, 					-1, 1, false, true),
-	PLACEPITFALL(10, 	2, 					-1, 3, false, true),
-	PLACEMINE(10, 		4, 					-1, 3, false, true),
-	SPAWNENEMY(10, 		1, 					5, 	2, false, true),
-	DROPBAIT(10, 		5, 					-1, 0, false, true),
+	PLACEBOMB(10, 		2, 					-1, 3, false, true),
+	PLACEPITFALL(10, 	1, 					-1, 3, false, true),
+	PLACEMINE(10, 		1, 					-1, 3, false, true),
+	SPAWNENEMY(15, 		1, 					8, 	3, false, true),
+	DROPBAIT(10, 		1, 					-1, 0, false, true),
 	PLACETILE(0, 		Integer.MAX_VALUE,  -1, 0, true,  false),
 	OPENGATE(5, 		1, 					-1, 0, false, true),
-	DROPCRATE(10, 		1, 					5,	0, false, true),
+	DROPCRATE(10, 		1, 					-1,	0, false, true),
 	INVALID(0, 			0, 					0, 	0, false, false);
 
 	private int cooldown;

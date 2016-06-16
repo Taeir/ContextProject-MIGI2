@@ -76,7 +76,7 @@ public class BombTest extends EntityTest {
 		when(spatialMock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
 		when(spatialMock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
 		bomb.update(1);
-		assertEquals(9, bomb.getTimer(), 1E-5);
+		assertEquals(Bomb.TIMER - 1, bomb.getTimer(), 1E-5);
 	}
 	/**
 	 * Tests if an active bomb disappears after 5 seconds.
