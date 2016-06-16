@@ -340,7 +340,16 @@ public class RoomNode {
 	 * 		true if the location is the room
 	 */
 	public boolean locationInRoom(Vec2I locationToCheck) {
-		// TODO Auto-generated method stub
+		int xStartOfRoom = this.coordinates.x;
+		int yStartOfRoom = this.coordinates.y;
+		int xEndOfRoom = this.room.size.getHeight() + xStartOfRoom;
+		int yEndOfroom = this.room.size.getWidth() + yStartOfRoom;
+		if (xStartOfRoom <= locationToCheck.x 
+				&& locationToCheck.x <= xEndOfRoom
+				&& yStartOfRoom <= locationToCheck.y
+				&& locationToCheck.y <= yEndOfroom) {
+					return true;
+				}
 		return false;
 	}
 		

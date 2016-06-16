@@ -13,7 +13,7 @@ public final class CorridorExponentialExtension {
 	/**
 	 * The minimum amount of extension that should be given to each direction of a corridor tile.
 	 */
-	public static final int MINIMUM_EXTENSION = 0;
+	public static final int MINIMUM_EXTENSION = 1;
 	
 	/**
 	 * The maximum amount of extension that should be given to each direction of a corridor tile.
