@@ -169,15 +169,17 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 
 	@Override
 	public void drop() {
-		isPickedUp = false;
-		Vector3f move;
-		if (VRApplication.getVRViewManager() != null) {
-			move = VRApplication.getVRViewManager().getCamLeft().getDirection();
-		} else {
-			move = Main.getInstance().getCamera().getDirection();
+		if (isPickedUp) {
+			isPickedUp = false;
+			Vector3f move;
+			if (VRApplication.getVRViewManager() != null) {
+				move = VRApplication.getVRViewManager().getCamLeft().getDirection();
+			} else {
+				move = Main.getInstance().getCamera().getDirection();
+			}
+			move.y = 1.5f;
+			doThrow(move.mult(6));
 		}
-		move.y = 1.5f;
-		doThrow(move.mult(6));
 	}
 
 }

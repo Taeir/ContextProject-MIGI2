@@ -16,9 +16,9 @@ import nl.tudelft.contextproject.controller.EndingController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.util.QRGenerator;
-import nl.tudelft.contextproject.util.webinterface.ActionUtil;
-import nl.tudelft.contextproject.util.webinterface.EntityUtil;
-import nl.tudelft.contextproject.util.webinterface.WebUtil;
+import nl.tudelft.contextproject.webinterface.util.ActionUtil;
+import nl.tudelft.contextproject.webinterface.util.EntityUtil;
+import nl.tudelft.contextproject.webinterface.util.WebUtil;
 
 /**
  * Handler for non websocket requests.

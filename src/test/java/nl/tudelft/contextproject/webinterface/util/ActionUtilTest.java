@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.util.webinterface;
+package nl.tudelft.contextproject.webinterface.util;
 
 import static org.mockito.Mockito.*;
 
