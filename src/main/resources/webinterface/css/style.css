@@ -58,6 +58,62 @@ body {
 	height: 20px;
 }
 
+/* The legend elements */
+#legend .Floor {
+	background-color: #769f50;
+}
+#legend .Wall {
+	background-color: #D3D3D3;
+}
+#legend .Carrot {
+	background-color: #FFA500;
+}
+#legend .Key {
+	background-color: #FFFF00;
+}
+#legend .Bomb {
+	background-color: #000000;
+	color: #FFFFFF;
+}
+#legend .Door {
+	background-color: #7A5230;
+	color: #FFFFFF;
+}
+#legend .Gate {
+	background-color: #424242;
+	color: #FFFFFF;
+}
+#legend .Pitfall {
+	background-color: #4A7023;
+	color: #FFFFFF;
+}
+#legend .Landmine {
+	background-color: #FF6C6C;
+}
+#legend .Crate {
+	background-color: #FFCC00;
+}
+#legend .Killer_Bunny {
+	background-color: #FFFFFF;
+}
+#legend .Invisible_Wall {
+	background-color: #E6E6E6;
+}
+#legend .Damaged_Wall {
+	background-color: #BFBFBF;
+}
+#legend .Player_Trigger {
+	background-color: #9A32CD;
+	color: #FFFFFF;
+}
+#legend .Player {
+	background-color: #FF00FF;
+	color: #FFFFFF;
+}
+#legend {
+	margin: 0 auto;
+}
+
 /* The different map elements */
 #map .Floor.explored, #map .Corridor.explored, #map .Platform, #map .Platform.explored {
 	background-color: #769f50;
@@ -109,7 +165,7 @@ body {
 	background-color: #FF00FF;
 }
 
-#endedWinners, #endedMessage, .pausemessage, .tutorialmessage, .centered {
+#endedWinners, #endedMessage, .pausemessage, .tutorialmessage, .instructionmessage, .centered {
 	text-align: center;
 }
 
