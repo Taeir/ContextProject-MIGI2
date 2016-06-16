@@ -84,7 +84,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	}
 
 	/**
-	 * Generate a level in 6 steps.
+	 * Generate a level in 7 steps.
 	 *<ol>
 	 *	<li>Place start and treasure room.</li>
 	 *	<li>Place randomly rooms for some amount of attempts.</li>
@@ -225,7 +225,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Extend the corridors and add walls to them.
 	 */
 	protected void beautifyCorridors() {
-		CorridorBeautification.simpleCorridorWidening(mazeTiles);
+		CorridorBeautification.widenCorridors(mazeTiles, rand);
 		CorridorBeautification.carveCorridorWalls(mazeTiles);
 	}
 	

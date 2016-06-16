@@ -44,7 +44,6 @@ public class GameController extends GameThreadController {
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-		
 		getHUD().showPopupText("Go!", ColorRGBA.White, 4);
 	}
 
