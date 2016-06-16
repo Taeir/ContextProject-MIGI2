@@ -7,5 +7,5 @@ I O O O O O O O O O O O O O O O O O O #
 # O O O O O # O O O O O O # O O O O O #
 # O O O O O # O O O O O O # O O O O O #
 # # # # # # # # # # # # # # # # # X # #
-13 0 3 Gate EAST
-6 0 3 Gate EAST
+13 0 3 Gate WEST
+6 0 3 Gate WEST

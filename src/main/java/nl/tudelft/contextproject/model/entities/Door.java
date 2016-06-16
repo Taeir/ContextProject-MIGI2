@@ -52,10 +52,16 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 	 */
 	public Door(ColorRGBA color, Direction direction) {
 		this(color);
-		this.rotate(direction);
+		this.setRotation(direction);
 	}
 
-	private void rotate(Direction direction) {
+	/**
+	 * Sets the rotation of the door.
+	 * 
+	 * @param direction
+	 * 		the new rotation of the door
+	 */
+	private void setRotation(Direction direction) {
 		switch (direction) {
 			case SOUTH:
 				spatial.rotate(0, (float) (.5 * Math.PI), 0);
