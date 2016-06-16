@@ -181,7 +181,7 @@ public class HUD implements Observer {
 		heart.setWidth(screenWidth / 20);
 		heart.setHeight(screenHeight / 20);
 		float start = .5f - .06f * (VRPlayer.PLAYER_MAX_HEALTH / 2);
-		heart.setPosition(screenWidth * (start + 0.06f * position), screenHeight * .80f);
+		heart.setPosition(screenWidth * (start + 0.06f * position), screenHeight * .70f);
 		
 		return heart;
 	}
