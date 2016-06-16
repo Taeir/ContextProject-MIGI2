@@ -1,10 +1,14 @@
 #
 # Test map layout 
 #
-startroom endroom 6
+startroom endroom 10
 room1
 room2
 room3
-room4
 room5
 room6
+hiddenkey
+ejunction
+airlock
+funnel
+parcour

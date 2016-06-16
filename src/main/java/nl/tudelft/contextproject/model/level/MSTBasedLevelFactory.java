@@ -42,12 +42,12 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	/**
 	 * Max width of the level, at the moment only square maps are supported.
 	 */
-	protected static final int MAX_WIDTH = 50;
+	protected static final int MAX_WIDTH = 75;
 	
 	/**
 	 * Max height of the level, at the moment only square maps are supported.
 	 */
-	protected static final int MAX_HEIGHT = 50;
+	protected static final int MAX_HEIGHT = 75;
 
 	/**
 	 * Number of tries when placing rooms randomly.
@@ -225,7 +225,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Extend the corridors and add walls to them.
 	 */
 	protected void beautifyCorridors() {
-		CorridorBeautification.widenCorridors(mazeTiles, rand);
+		CorridorBeautification.simpleCorridorWidening(mazeTiles);
 		CorridorBeautification.carveCorridorWalls(mazeTiles);
 	}
 	

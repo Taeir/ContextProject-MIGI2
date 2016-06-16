@@ -18,7 +18,7 @@
 - - # O O O O # - - - - - -
 - - # # # # # # - - - - - -
 5 0 4 Key 1/0/0/1
-8.5 0 3 Door 1/0/0/1
+8.5 0 3 Door 1/0/0/1 WEST
 4.5 0 13.5 PlayerTrigger 1 .5 StartTutorial
 12 0 3 PlayerTrigger 1 .5 StartGame
 -1 0 -1 PlayerTrigger 100 2 Healer
