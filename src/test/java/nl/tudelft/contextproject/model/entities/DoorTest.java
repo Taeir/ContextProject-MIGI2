@@ -65,7 +65,7 @@ public class DoorTest extends EntityTest {
 	 */
 	@Test
 	public void testLoadEntity() {
-		Door door = Door.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.DOOR.getName(), "1/0/0/1"});
+		Door door = Door.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.DOOR.getName(), "1/0/0/1", "EAST"});
 		
 		assertEquals(expectedPosition.add(0, 0.05f, 0), door.getLocation());
 		assertEquals(ColorRGBA.Red, door.getColor());

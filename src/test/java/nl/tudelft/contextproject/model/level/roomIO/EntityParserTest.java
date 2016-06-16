@@ -38,7 +38,7 @@ public class EntityParserTest extends TestBase {
 	 */
 	@Test
 	public void testReadEntities() throws IOException {
-		String input = "0 1 2 Door 1/0/0/0";
+		String input = "0 1 2 Door 1/0/0/0 EAST";
 		EntityParser.readEntities(entities, 1, 0, 0, createReader(input), "/");
 		
 		assertEquals(1, entities.size());

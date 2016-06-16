@@ -13,7 +13,7 @@
 4 0 5 WallFrame NORTH general.png 4 5
 8 0 2 Key 1/0/0/1
 8 0 4 Key 1/1/0/1
-9.5 0 3 Door 1/0/0/1
+9.5 0 3 Door 1/0/0/1 EAST
 6 0 1 WallFrame SOUTH key.png 4 5
 9 0 5 WallFrame NORTH key.png 4 5
 13 0 2 Bomb

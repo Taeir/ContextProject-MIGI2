@@ -72,7 +72,7 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 	 * 		if the given data array is of incorrect length
 	 */
 	public static Door loadEntity(Vector3f position, String[] data) {
-		//if (data.length <= 6) throw new IllegalArgumentException("Invalid data length for loading door! Expected \"<X> <Y> <Z> Door <Color>\".");
+		if (data.length != 6) throw new IllegalArgumentException("Invalid data length for loading door! Expected \"<X> <Y> <Z> Door <Color> <orientation>\".");
 		
 		Door door = new Door(ParserUtil.getColor(data[4]));
 		door.move(position);
