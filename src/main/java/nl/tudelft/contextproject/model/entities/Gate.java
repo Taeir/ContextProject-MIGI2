@@ -52,7 +52,7 @@ public class Gate extends AbstractPhysicsEntity implements PhysicsObject {
 	 * 		if the given data array is of incorrect length
 	 */
 	public static Gate loadEntity(Vector3f position, String[] data) {
-		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading gate! Expected \"<X> <Y> <Z> Gate\".");
+		//if (data.length <= 5) throw new IllegalArgumentException("Invalid data length for loading gate! Expected \"<X> <Y> <Z> Gate\".");
 		Gate gate = new Gate();
 		gate.move(position);
 		return gate;

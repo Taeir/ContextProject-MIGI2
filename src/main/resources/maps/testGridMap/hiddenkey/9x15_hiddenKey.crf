@@ -1,0 +1,31 @@
+# A room with a door that must be opened using a key that is hiding in plain sight
+9 15 13 1
+# # # # I # # # #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# O O O O O O O #
+# # # # X # # # #
+6 0 7 Key 0.3/0.4/0.8/1.0
+4 0 14 Door 0.3/0.4/0.8/1.0 NORTH
+7 0 1 Bomb
+7 0 13 Bomb
+7 0 5 InvisibleWall
+6 0 5 InvisibleWall
+5 0 5 InvisibleWall
+5 0 6 InvisibleWall
+5 0 7 InvisibleWall
+5 0 8 InvisibleWall
+5 0 9 InvisibleWall
+6 0 9 InvisibleWall
+7 0 9 InvisibleWall
+7 4 4 PointLight 1.0/0.6/0.4/1.0 10.0

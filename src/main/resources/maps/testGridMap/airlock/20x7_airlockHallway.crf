@@ -1,0 +1,11 @@
+# A hallway containing two gates that form an airlock.
+20 7 2 0
+# # # I # # # # # # # # # # # # # # # #
+# O O O O O # O O O O O O # O O O O O #
+# O O O O O # O O O O O O # O O O O O #
+I O O O O O O O O O O O O O O O O O O #
+# O O O O O # O O O O O O # O O O O O #
+# O O O O O # O O O O O O # O O O O O #
+# # # # # # # # # # # # # # # # # X # #
+13 0 3 Gate EAST
+6 0 3 Gate EAST
