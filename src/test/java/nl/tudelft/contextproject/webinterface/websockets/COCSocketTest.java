@@ -80,14 +80,14 @@ public class COCSocketTest extends WebTestBase {
 	
 	/**
 	 * Tests if {@link COCSocket#onWebSocketText} properly handles invalid messages.
+	 * @throws IOException
+	 * 		will not occur because of mocks
 	 */
 	@Test
-	public void testOnWebSocketText_invalid() {
-		when(socket.getRemote()).thenReturn(mock(RemoteEndpoint.class));
-		
+	public void testOnWebSocketText_invalid() throws IOException {
 		socket.onWebSocketText("3 4");
 		
-		verify(socket.getRemote()).sendStringByFuture(COCErrorCode.ACTION_ILLEGAL.toString());
+		verify(client).sendMessage(COCErrorCode.ACTION_ILLEGAL.toString(), null);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class COCSocketTest extends WebTestBase {
 		socket.onWebSocketConnect(session);
 		
 		verify(session.getRemote()).sendString("" + GameState.RUNNING.ordinal());
-		verify(Main.getInstance()).attachTickListener(socket);
+		verify(Main.getInstance()).registerObserver(socket);
 		assertSame(socket, client.getWebSocket());
 	}
 	
@@ -138,7 +138,7 @@ public class COCSocketTest extends WebTestBase {
 	public void testOnWebSocketClose() {
 		socket.onWebSocketClose(StatusCode.NORMAL, null);
 		
-		verify(Main.getInstance()).removeTickListener(socket);
+		verify(Main.getInstance()).removeObserver(socket);
 		assertNull(client.getWebSocket());
 	}
 

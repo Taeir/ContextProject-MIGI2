@@ -10,8 +10,8 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Carrot;
 import nl.tudelft.contextproject.model.entities.Entity;
-import nl.tudelft.contextproject.model.entities.KillerBunny;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.entities.moving.KillerBunny;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 
 /**
  * A simple AI for a bunny.
@@ -61,8 +61,8 @@ public class BunnyAI implements EntityControl {
 		Spatial spatial = owner.getSpatial();
 		if (spatial != null) {
 			spatial.lookAt(target.getLocation(), Vector3f.UNIT_Y);
-			spatial.rotate(0, (float) Math.toRadians(-90), 0);
-			}
+			spatial.rotate(0, (float) Math.toRadians(-100), 0);
+		}
 		Vector3f move = target.getLocation().subtract(owner.getLocation()).normalize().mult(tpf);
 		owner.move(move.x, move.y, move.z);
 	}

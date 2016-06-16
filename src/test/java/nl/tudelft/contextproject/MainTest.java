@@ -13,12 +13,10 @@ import com.jme3.input.JoystickButton;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.scene.Node;
 
-import nl.tudelft.contextproject.controller.Controller;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.controller.GameState;
-import nl.tudelft.contextproject.controller.PauseController;
 import nl.tudelft.contextproject.model.Game;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -78,7 +76,7 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testSetControllerFromNull() {
-		Controller c = mock(Controller.class);
+		GameThreadController c = mock(GameThreadController.class);
 		assertNull(main.getStateManager().getState(c.getClass()));
 		assertTrue(main.setController(c));
 		assertNotNull(main.getStateManager().getState(c.getClass()));
@@ -89,8 +87,8 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testSetController() {
-		Controller oldController = mock(Controller.class);
-		Controller newController = mock(Controller.class);
+		GameThreadController oldController = mock(GameThreadController.class);
+		GameThreadController newController = mock(GameThreadController.class);
 
 		main.setController(oldController);
 		assertTrue(main.setController(newController));
@@ -104,19 +102,17 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testSetControllerAgain() {
-		Controller controller = mock(Controller.class);
+		GameThreadController controller = mock(GameThreadController.class);
 
 		main.setController(controller);
 		assertFalse(main.setController(controller));
 	}
 	
 	/**
-	 * Try to get the current game from a state that does not have a current game.
+	 * Get the current game when there is no controller.
 	 */
 	@Test
-	public void testGetCurrentGameIllegalState() {
-		Controller controller = mock(Controller.class);		
-		main.setController(controller);		
+	public void testGetCurrentGameNoController() {
 		assertNull(main.getCurrentGame());
 	}
 	
@@ -125,24 +121,10 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testGetCurrentGameGameController() {
-		GameController controller = mock(GameController.class);
+		GameThreadController controller = mock(GameThreadController.class);
 		Game game = mock(Game.class);
 		when(controller.getGame()).thenReturn(game);
 		main.setController(controller);		
-		assertEquals(game, main.getCurrentGame());
-	}
-	
-	/**
-	 * Get the current game from a PauseController.
-	 */
-	@Test
-	public void testGetCurrentGamePauseController() {
-		GameController gameController = mock(GameController.class);
-		PauseController pauseController = mock(PauseController.class);
-		when(pauseController.getPausedController()).thenReturn(gameController);
-		Game game = mock(Game.class);
-		when(gameController.getGame()).thenReturn(game);
-		main.setController(pauseController);		
 		assertEquals(game, main.getCurrentGame());
 	}
 	
@@ -159,7 +141,7 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testGetGameState() {
-		Controller controller = mock(Controller.class);
+		GameThreadController controller = mock(GameThreadController.class);
 		when(controller.getGameState()).thenReturn(GameState.RUNNING);
 		main.setController(controller);
 		assertEquals(GameState.RUNNING, main.getGameState());
@@ -170,17 +152,17 @@ public class MainTest extends TestBase {
 	 */
 	@Test
 	public void testTickListeners() {
-		main.setTickListeners(ConcurrentHashMap.newKeySet());
-		TickListener tickListener = mock(TickListener.class);
+		main.setObservers(ConcurrentHashMap.newKeySet());
+		Observer tickListener = mock(Observer.class);
 
 		main.simpleUpdate(0.1f);
 		verify(tickListener, times(0)).update(0.1f);
 
-		main.attachTickListener(tickListener);
+		main.registerObserver(tickListener);
 		main.simpleUpdate(0.1f);
 		verify(tickListener, times(1)).update(0.1f);
 
-		main.removeTickListener(tickListener);
+		main.removeObserver(tickListener);
 		main.simpleUpdate(0.1f);
 		verifyNoMoreInteractions(tickListener);
 	}

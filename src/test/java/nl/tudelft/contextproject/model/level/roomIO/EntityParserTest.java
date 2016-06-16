@@ -38,8 +38,8 @@ public class EntityParserTest extends TestBase {
 	 */
 	@Test
 	public void testReadEntities() throws IOException {
-		String in = "0 1 2 Door 1/0/0/0";
-		EntityParser.readEntities(entities, 1, 0, 0, createReader(in), "/");
+		String input = "0 1 2 Door 1/0/0/0 EAST";
+		EntityParser.readEntities(entities, 1, 0, 0, createReader(input), "/");
 		
 		assertEquals(1, entities.size());
 		assertEquals(Door.class, entities.iterator().next().getClass());
@@ -53,8 +53,8 @@ public class EntityParserTest extends TestBase {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testReadEntitiesInvalidEntity() throws IOException {
-		String in = "0 1 2 NotAnEntity";
-		EntityParser.readEntities(entities, 1, 0, 0, createReader(in), "/");
+		String input = "0 1 2 NotAnEntity";
+		EntityParser.readEntities(entities, 1, 0, 0, createReader(input), "/");
 	}
 	
 	/**
@@ -65,8 +65,8 @@ public class EntityParserTest extends TestBase {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testReadEntitiesNull() throws IOException {
-		String in = "";
-		EntityParser.readEntities(entities, 1, 0, 0, createReader(in), "/");
+		String input = "";
+		EntityParser.readEntities(entities, 1, 0, 0, createReader(input), "/");
 	}
 	
 	/**
@@ -77,8 +77,8 @@ public class EntityParserTest extends TestBase {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testReadEntitiesTooFewArguments() throws IOException {
-		String in = "1 1 EntityName";
-		EntityParser.readEntities(entities, 1, 0, 0, createReader(in), "/");
+		String input = "1 1 EntityName";
+		EntityParser.readEntities(entities, 1, 0, 0, createReader(input), "/");
 	}
 	
 	/**

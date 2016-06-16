@@ -146,7 +146,7 @@ public class WebClient {
 		if (response == null) {
 			COCSocket socket = this.webSocket;
 			if (socket != null) {
-				socket.getRemote().sendStringByFuture(msg.toString());
+				socket.sendMessage(msg.toString());
 			}
 		} else {
 			response.setStatus(HttpStatus.OK_200);
@@ -169,7 +169,7 @@ public class WebClient {
 		if (response == null) {
 			COCSocket socket = this.webSocket;
 			if (socket != null) {
-				socket.getRemote().sendStringByFuture(msg);
+				socket.sendMessage(msg);
 			}
 		} else {
 			response.setStatus(HttpStatus.OK_200);

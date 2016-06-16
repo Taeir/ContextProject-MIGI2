@@ -25,8 +25,8 @@ public class WaitingControllerTest extends TestBase {
 		instance = new WaitingController(Main.getInstance());
 		
 		//Initialize the WaitingController
-		AppStateManager asm = Mockito.mock(AppStateManager.class);
-		instance.initialize(asm, Main.getInstance());
+		AppStateManager appStateManager = Mockito.mock(AppStateManager.class);
+		instance.initialize(appStateManager, Main.getInstance());
 	}
 	
 	/**

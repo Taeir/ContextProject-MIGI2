@@ -28,7 +28,7 @@ public class RoomNode {
 	 * Render torches. 
 	 * At the moment the torches require a lot of GPU power to be rendered, so they are turned off.
 	 */
-	public static boolean renderTorches;
+	public static boolean renderTorches = true;
 	
 	public int id;
 	public Vec2I coordinates;
@@ -329,6 +329,28 @@ public class RoomNode {
 		if (!(obj instanceof RoomNode)) return false;
 		
 		return id == ((RoomNode) obj).id;
+	}
+	
+	/**
+	 * Checks if location is in room.
+	 * 
+	 * @param locationToCheck
+	 * 		location to check
+	 * @return
+	 * 		true if the location is the room
+	 */
+	public boolean locationInRoom(Vec2I locationToCheck) {
+		int xStartOfRoom = this.coordinates.x;
+		int yStartOfRoom = this.coordinates.y;
+		int xEndOfRoom = this.room.size.getHeight() + xStartOfRoom;
+		int yEndOfroom = this.room.size.getWidth() + yStartOfRoom;
+		if (xStartOfRoom <= locationToCheck.x 
+				&& locationToCheck.x <= xEndOfRoom
+				&& yStartOfRoom <= locationToCheck.y
+				&& locationToCheck.y <= yEndOfroom) {
+					return true;
+				}
+		return false;
 	}
 		
 }

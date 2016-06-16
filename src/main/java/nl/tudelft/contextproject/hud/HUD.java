@@ -6,22 +6,24 @@ import com.jme3.font.BitmapText;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial.CullHint;
 import com.jme3.ui.Picture;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.controller.GameController;
+import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.model.Inventory;
-import nl.tudelft.contextproject.model.TickListener;
-import nl.tudelft.contextproject.model.entities.Bomb;
-import nl.tudelft.contextproject.model.entities.VRPlayer;
+import nl.tudelft.contextproject.model.Observer;
+import nl.tudelft.contextproject.model.entities.exploding.Bomb;
+import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
+
 import jmevr.util.VRGuiManager;
 
 /**
  * Class to represent a Head Up Display.
  */
-public class HUD implements TickListener {
+public class HUD implements Observer {
 
-	private GameController controller;
+	private GameThreadController controller;
 
 	private Node keyContainer;
 	private Node heartContainer;
@@ -31,8 +33,13 @@ public class HUD implements TickListener {
 	private float screenWidth;
 
 	private BitmapText gameTimer;
+	private volatile BitmapText popupText;
 
-	
+	private volatile float popupTimer;
+
+	//Variables for caching
+	private float lastHealth;
+	private int oldKeyColorHash;
 	
 	/**
 	 * Creates a new HUD for the given controller.
@@ -40,7 +47,7 @@ public class HUD implements TickListener {
 	 * @param controller
 	 * 		the GameController
 	 */
-	public HUD(GameController controller) {
+	public HUD(GameThreadController controller) {
 		this.controller = controller;
 		this.screenHeight = VRGuiManager.getCanvasSize().getY();
 		this.screenWidth = VRGuiManager.getCanvasSize().getX();
@@ -57,7 +64,7 @@ public class HUD implements TickListener {
 	 * @param height
 	 * 		the screen height
 	 */
-	protected HUD(GameController controller, float width, float height) {
+	protected HUD(GameThreadController controller, float width, float height) {
 		this.controller = controller;
 		this.screenHeight = height;
 		this.screenWidth = width;
@@ -66,7 +73,7 @@ public class HUD implements TickListener {
 	/**
 	 * Attaches the Hud to the renderer.
 	 */
-	public void attachHud() {		
+	public void attachHud() {
 		attachHelmet();
 		attachGameTimer();				
 		attachHeartContainers();
@@ -77,9 +84,39 @@ public class HUD implements TickListener {
 		bombNode = new Node("Bombs");
 		controller.addGuiElement(bombNode);
 		
-		// Attach listeners
-		Main.getInstance().getCurrentGame().getPlayer().getInventory().attachTickListener(this);
-		Main.getInstance().getCurrentGame().getPlayer().attachTickListener(this);
+		// Register observers
+		Main.getInstance().getCurrentGame().getPlayer().getInventory().registerObserver(this);
+		Main.getInstance().getCurrentGame().getPlayer().registerObserver(this);
+		Main.getInstance().registerObserver(this::updatePopupText);
+	}
+
+	/**
+	 * Show a popup text in the HUD.
+	 * 
+	 * @param text
+	 * 		the text to show
+	 * @param color
+	 * 		the color of the text
+	 * @param duration
+	 * 		the duration this text is shown
+	 */
+	public void showPopupText(String text, ColorRGBA color, float duration) {
+		BitmapText oldText = popupText;
+		if (oldText != null) {
+			controller.removeGuiElement(oldText);
+		}
+		
+		BitmapText newText = new BitmapText(Main.getInstance().getGuiFont(), false);
+		newText.setSize(screenHeight / 10);
+		newText.setColor(color);
+		newText.setText(text);
+		float height = (screenHeight - newText.getLineHeight()) / 2;
+		float width = (screenWidth - newText.getLineWidth()) / 2;
+		
+		newText.setLocalTranslation(width, height, 0);
+		controller.addGuiElement(newText);
+		popupText = newText;
+		popupTimer = duration;
 	}
 
 	/**
@@ -89,8 +126,9 @@ public class HUD implements TickListener {
 		gameTimer = new BitmapText(Main.getInstance().getGuiFont(), false);
 		gameTimer.setSize(screenHeight / 30);
 		gameTimer.setColor(ColorRGBA.White);
-		float h = gameTimer.getLineHeight() + screenHeight / 10;
-		gameTimer.setLocalTranslation(100, h, 0);
+		float height = gameTimer.getLineHeight() + screenHeight / 4.5f;
+		float width = gameTimer.getLineWidth() + screenWidth / 3.2f;
+		gameTimer.setLocalTranslation(width, height, 0);
 		controller.addGuiElement(gameTimer);
 	}
 
@@ -123,7 +161,10 @@ public class HUD implements TickListener {
 			textBomb.setLocalTranslation(width, height, 0);
 			bombNode.attachChild(textBomb);
 		}
-		((BitmapText) bombNode.getChild(0)).setText("" + Math.round(bomb.getTimer() * 10) / 10.f);
+		
+		BitmapText textBomb = (BitmapText) bombNode.getChild(0);
+		String text = "" + Math.round(bomb.getTimer() * 10) / 10f;
+		textBomb.setText(text);
 	}
 	
 	/**
@@ -140,7 +181,7 @@ public class HUD implements TickListener {
 		heart.setWidth(screenWidth / 20);
 		heart.setHeight(screenHeight / 20);
 		float start = .5f - .06f * (VRPlayer.PLAYER_MAX_HEALTH / 2);
-		heart.setPosition(screenWidth * (start + 0.06f * position), screenHeight * .80f);
+		heart.setPosition(screenWidth * (start + 0.06f * position), screenHeight * .70f);
 		
 		return heart;
 	}
@@ -151,9 +192,9 @@ public class HUD implements TickListener {
 	public void attachNose() {
 		Picture nose = new Picture("Nose");
 		nose.setImage(Main.getInstance().getAssetManager(), "Textures/nose.png", true);
-		nose.setWidth(screenWidth * 0.6f);
-		nose.setHeight(screenHeight * 0.6f);
-		nose.setPosition(screenWidth * 0.15f, screenHeight * -0.25f);
+		nose.setWidth(screenWidth * 0.24f);
+		nose.setHeight(screenHeight * 0.3f);
+		nose.setPosition(screenWidth * 0.38f, screenHeight * -0.10f);
 		controller.addGuiElement(nose);
 	}
 	
@@ -204,8 +245,9 @@ public class HUD implements TickListener {
 	 */
 	public void setGameTimer(int timer) {
 		if (timer == Integer.MAX_VALUE) {
-			gameTimer.setText("");
+			gameTimer.setCullHint(CullHint.Always);
 		} else {
+			gameTimer.setCullHint(CullHint.Inherit);
 			gameTimer.setText("" + timer);
 		}
 	}
@@ -214,8 +256,8 @@ public class HUD implements TickListener {
 	public void update(float tpf) {
 		VRPlayer player = controller.getGame().getPlayer();
 		Inventory inventory = player.getInventory();
+		
 		updateBombs(inventory);
-
 		updateKeys(inventory);
 		updateHearts(player);
 	}
@@ -241,13 +283,19 @@ public class HUD implements TickListener {
 	 * 		the player to get the health from
 	 */
 	protected void updateHearts(VRPlayer player) {
-		int health = Math.round(player.getHealth());
+		float currentHealth = player.getHealth();
+		if (lastHealth == currentHealth) return;
+		
+		lastHealth = currentHealth;
 		for (int i = 0; i < VRPlayer.PLAYER_MAX_HEALTH; i++) {
 			Picture picture = (Picture) heartContainer.getChild(i);
-			if (i <= health) {
+			float heartFill = -i + currentHealth;
+			if (heartFill < .25f) {
+				picture.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);
+			} else if (heartFill > .75f) {
 				picture.setImage(Main.getInstance().getAssetManager(), "Textures/fullheart.png", true);
 			} else {
-				picture.setImage(Main.getInstance().getAssetManager(), "Textures/emptyheart.png", true);					
+				picture.setImage(Main.getInstance().getAssetManager(), "Textures/halfheart.png", true);
 			}
 		}
 	}
@@ -259,9 +307,15 @@ public class HUD implements TickListener {
 	 * 		the inventory that contains the keys
 	 */
 	protected void updateKeys(Inventory inventory) {
+		List<ColorRGBA> keyColors = inventory.getKeyColors();
+		int currentHash = keyColors.hashCode();
+		
+		//Don't update if nothing changed
+		if (oldKeyColorHash == currentHash) return;
+		
+		oldKeyColorHash = currentHash;
 		keyContainer.detachAllChildren();
 		int i = 0;
-		List<ColorRGBA> keyColors = inventory.getKeyColors();
 		for (ColorRGBA color : keyColors) {
 			keyContainer.attachChild(getKeyImage(keyColors.size(), i, color));
 			i++;
@@ -296,5 +350,26 @@ public class HUD implements TickListener {
 	 */
 	public void setTimerNode(BitmapText bitmapText) {
 		gameTimer = bitmapText;
+	}
+	
+	/**
+	 * Update the popup text. 
+	 * Removes the text when the timer is over.
+	 * 
+	 * @param tpf
+	 * 		the tpf for this update
+	 */
+	public void updatePopupText(float tpf) {
+		BitmapText text = popupText;
+		if (popupText == null) return;
+		
+		popupTimer -= tpf;
+		if (popupTimer < 0) {
+			controller.removeGuiElement(text);
+			if (popupText == text) {
+				popupText = null;
+				popupTimer = 0;
+			}
+		}
 	}
 }

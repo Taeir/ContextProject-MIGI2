@@ -69,23 +69,28 @@ public class MazeTile implements Drawable, PhysicsObject {
 	public Vector2f getPosition() {
 		return position;
 	}
-
+	
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
 		Box box = new Box(.5f, .5f + height, .5f);
 		this.spatial = new Geometry("Box", box);
-		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
 		TangentBinormalGenerator.generate(box);
+		
+		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
 		material.setBoolean("UseMaterialColors", true);    
 		material.setColor("Diffuse", color);
 		material.setColor("Specular", ColorRGBA.White);
 		material.setFloat("Shininess", 64f);
 		material.setColor("Ambient", color);
 		material.setTexture("DiffuseMap", texture);
-		material.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/wallnormalmap.png"));
+
+		if (this.type == TileType.WALL) {
+			material.setTexture("NormalMap", Main.getInstance().getAssetManager().loadTexture("Textures/wallnormalmap.png"));
+		}
 		material.setBoolean("UseMaterialColors", true);
+		
 		this.spatial.setMaterial(material);
 		this.spatial.move(position.x, height, position.y);
 		return spatial;
@@ -98,14 +103,9 @@ public class MazeTile implements Drawable, PhysicsObject {
 
 	@Override
 	public PhysicsControl getPhysicsObject() {
-		if (spatial == null) {
-			this.getSpatial();
-		}
-		if (rigidBody != null) {
-			return rigidBody;
-		}
+		if (rigidBody != null) return rigidBody;
 
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(spatial);
+		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(getSpatial());
 		rigidBody = new RigidBodyControl(sceneShape, 0);
 		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
 		return rigidBody;
@@ -124,12 +124,13 @@ public class MazeTile implements Drawable, PhysicsObject {
 	 */
 	public void replace(int x, int y) {
 		position.x = x;
-		position.y = y;		
+		position.y = y;
 		if (spatial == null) {
 			this.getSpatial();
 		} else {
 			spatial.setLocalTranslation(position.x, height, position.y);
 		}
+		
 		if (rigidBody == null) {
 			this.getPhysicsObject();
 		} else {

@@ -1,14 +1,13 @@
 package nl.tudelft.contextproject.webinterface;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.StatusCode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -257,6 +256,7 @@ public class WebServerTest extends WebTestBase {
 	public void testDisconnect() {
 		COCSocket socket = mock(COCSocket.class);
 		when(socket.getSession()).thenReturn(mock(Session.class));
+		when(socket.isConnected()).thenReturn(true);
 		
 		WebClient client = new WebClient();
 		client.setWebSocket(socket);
@@ -266,5 +266,28 @@ public class WebServerTest extends WebTestBase {
 		
 		verify(socket.getSession()).close(10, null);
 		assertFalse(webServer.getClients().containsValue(client));
+	}
+	
+	/**
+	 * Tests if {@link WebServer#disconnectAll} properly disconnects all clients.
+	 */
+	@Test
+	public void testDisconnectAll() {
+		COCSocket socket = mock(COCSocket.class);
+		when(socket.getSession()).thenReturn(mock(Session.class));
+		when(socket.isConnected()).thenReturn(true);
+		
+		WebClient client1 = new WebClient();
+		WebClient client2 = new WebClient();
+		client1.setWebSocket(socket);
+		client2.setWebSocket(socket);
+		
+		webServer.getClients().put("A", client1);
+		webServer.getClients().put("B", client2);
+		
+		webServer.disconnectAll();
+		
+		verify(socket.getSession(), times(2)).close(StatusCode.NORMAL, null);
+		assertTrue(webServer.getClients().isEmpty());
 	}
 }

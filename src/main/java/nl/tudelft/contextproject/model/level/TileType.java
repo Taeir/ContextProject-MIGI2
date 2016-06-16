@@ -17,15 +17,14 @@ public enum TileType {
 	FLOOR(1, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
 	WALL(2, 3, ColorRGBA.Gray, "Textures/walltexture.png"),
 	CORRIDOR(3, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
-	DOOR_ENTRANCE(4, 0, ColorRGBA.White, "Textures/grasstexture.png"),
-	DOOR_EXIT(5, 0, ColorRGBA.Red, "Textures/grasstexture.png");
-	
+	DOOR_ENTRANCE(3, 0, ColorRGBA.White, "Textures/grasstexture.png"),
+	DOOR_EXIT(3, 0, ColorRGBA.Red, "Textures/grasstexture.png");
+
 	private int jsonid;
 	private int height;
 	private ColorRGBA color;
 	private Texture texture;
-	
-	
+
 	/**
 	 * @param jsonid
 	 *		the id of the TileType when encoded in JSON
@@ -40,12 +39,7 @@ public enum TileType {
 		this.jsonid = jsonid;
 		this.height = height;
 		this.color = color;
-		
-		if (!(Main.getInstance().getAssetManager() == null)) {
-			this.texture = Main.getInstance().getAssetManager().loadTexture(texture);
-		} else {
-			this.texture = null;
-		}
+		this.texture = Main.getInstance().getAssetManager().loadTexture(texture);
 	}
 	
 	/**

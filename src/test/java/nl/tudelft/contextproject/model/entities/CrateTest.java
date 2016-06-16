@@ -8,6 +8,8 @@ import org.junit.Test;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
@@ -93,8 +95,8 @@ public class CrateTest extends EntityTest {
 		instance.drop();
 		
 		assertFalse(instance.isPickedUp());	
-		RigidBodyControl rb = ((RigidBodyControl) instance.getPhysicsObject());
-		assertEquals(new Vector3f(0, 13.333334f, 10), rb.getLinearVelocity());
+		RigidBodyControl rigidBody = ((RigidBodyControl) instance.getPhysicsObject());
+		assertEquals(new Vector3f(0, 6, 4), rigidBody.getLinearVelocity());
 	}
 	
 	/**

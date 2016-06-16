@@ -89,10 +89,10 @@ function handleStatusUpdateMessage(data) {
     }
     
     //Update the team
-    updateTeam(Teams[data.team]);
+    updateTeam(Teams[data.t]);
     
     //Switch to the correct view
-    switchTo(GameStates[data.state].view);
+    switchTo(GameStates[data.s].view);
     
     //Update the game with the received information
     updateGame(data);

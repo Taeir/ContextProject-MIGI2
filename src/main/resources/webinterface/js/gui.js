@@ -1,6 +1,9 @@
 var gView;
 var lastPressedX;
 var lastPressedY;
+var prevPressedX;
+var prevPressedY;
+var iOS;
 
 // ================================================================================================
 // ======================================== VIEW SWITCHING ========================================
@@ -60,6 +63,7 @@ function switchToIndex() {
     $(document.getElementById("teamView")).hide();
     $(document.getElementById("gameView")).hide();
     $(document.getElementById("pausedView")).hide();
+    $(document.getElementById("tutorialView")).hide();
     $(document.getElementById("indexView")).show();
 }
 
@@ -204,9 +208,11 @@ function updateTeamButtons() {
     if (gTeam === "DWARFS") {
         dwarfsButton.removeClass("btn-default");
         dwarfsButton.addClass("btn-success");
+        noneButton.prop("disabled", true);
     } else if (gTeam === "ELVES") {
         elvesButton.removeClass("btn-default");
         elvesButton.addClass("btn-success");
+        noneButton.prop("disabled", true);
     } else {
         noneButton.removeClass("btn-default");
         noneButton.addClass("btn-success");
@@ -222,11 +228,18 @@ function updateTeamButtons() {
  */
 function showGameButtons() {
     editLegend();
-    
+	
+    if (document.getElementById("wrapper").className.indexOf("toggled") > -1) {
+    	hideGameButtons();
+		return;
+    }
+	
     if (gTeam === "DWARFS") {
+        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
         $("#sidebar-wrapper-dwarfs").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else if (gTeam === "ELVES") {
+        $("#y" + lastPressedY + "x" + lastPressedX).css("border", "3px solid black");
         $("#sidebar-wrapper-elves").css("visibility", "visible");
         $("#wrapper").toggleClass("toggled", true);
     } else {
@@ -267,6 +280,15 @@ function hideGameButtons() {
     $("#wrapper").toggleClass("toggled", false);
     $("#sidebar-wrapper-dwarfs").css("visibility", "hidden");
     $("#sidebar-wrapper-elves").css("visibility", "hidden");
+    $("#y" + lastPressedY + "x" + lastPressedX).css("border", "0px");
+    $("#y" + prevPressedY + "x" + prevPressedX).css("border", "0px");
+    //Dirty trick to force devices running iOS to actually update the view.
+    //This scales the cell to 100% (which it's already at). This forces
+    //the css to be reloaded, fixing the view.
+    if (iOS) {
+        $("#y" + lastPressedY + "x" + lastPressedX).css("webkit-transform", "scale(1)");
+        $("#y" + prevPressedY + "x" + prevPressedX).css("webkit-transform", "scale(1)");
+    }
 }
 
 // ================================================================================================
@@ -282,10 +304,10 @@ function hideGameButtons() {
 function displayWinner(data) {
     var winHeader = document.getElementById("endedWinners");
     var winMessage = document.getElementById("endedMessage");
-    var winner = (data.winner ? "ELVES" : "DWARFS");
-    winHeader.innerHTML = (data.winner ? "Elves won!" : "Dwarfs won!");
+    var winner = (data.w ? "ELVES" : "DWARFS");
+    winHeader.innerHTML = (data.w ? "Elves won!" : "Dwarfs won!");
     
-    if (winner === Teams[data.team]) {
+    if (winner === Teams[data.t]) {
         winMessage.innerHTML = "Congratulations!";
     } else {
         winMessage.innerHTML = "Better luck next time!";
@@ -362,4 +384,22 @@ function disableFullScreen() {
     } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
     }
+}
+
+// ================================================================================================
+// =========================================== SCALING ============================================
+// ================================================================================================
+
+/**
+ * Zoom on the map.
+ *
+ * @param direction
+ *		the direction in which to zoom
+ */
+function zoom(direction) {
+	if (direction === "in") {
+        $("#map").toggleClass("overview", false);
+	} else if (direction === "out") {
+        $("#map").toggleClass("overview", true);
+	}
 }

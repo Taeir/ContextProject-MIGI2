@@ -14,17 +14,17 @@ var gWidth = 0;
  *      the status data sent from the server
  */
 function updateGame(data) {
-    var state = GameStates[data.state];
+    var state = GameStates[data.s];
     switch (state.name) {
         case "RUNNING":
         case "WAITING":
-            updateEntities(data.entities);
-            updateTimer(data.timer);
+            updateEntities(data.e);
+            updateTimer(data.r);
             
-            if (Teams[data.team] === "DWARFS") {
+            if (Teams[data.t] === "DWARFS") {
                 exploreAll();
-            } else if (data.explored !== undefined) {
-                updateExplored(data.explored);
+            } else if (data.x !== undefined) {
+                updateExplored(data.x);
             }
             break;
         case "ENDED":
@@ -61,7 +61,7 @@ function updateTimer(time) {
     if (time > 3600) {
         $(".timer").html("&infin;")
     } else {
-        $(".timer").html(time);
+        $(".timer").html(Math.round(time));
     }
 }
 
@@ -162,7 +162,9 @@ function resizeMapTable(nWidth, nHeight) {
  */
 function createClickableFunc(x, y) {
     return function() {
+        prevPressedX = lastPressedX;
         lastPressedX = x;
+        prevPressedY = lastPressedY;
         lastPressedY = y;
         showGameButtons();
     };

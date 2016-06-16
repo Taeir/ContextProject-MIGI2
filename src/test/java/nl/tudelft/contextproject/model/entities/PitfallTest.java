@@ -3,6 +3,8 @@ package nl.tudelft.contextproject.model.entities;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.test.TestUtil;
 
 /**
@@ -16,9 +18,9 @@ public class PitfallTest extends EntityTest {
 	@Test
 	public void testOnTrigger() {
 		TestUtil.mockGame();
-		Pitfall p = new Pitfall(1);
-		p.onTrigger();
-		assertEquals(EntityState.DEAD, p.getState());
+		Pitfall pitfall = new Pitfall(1);
+		pitfall.onTrigger();
+		assertEquals(EntityState.DEAD, pitfall.getState());
 	}
 	
 	@Override
@@ -36,8 +38,8 @@ public class PitfallTest extends EntityTest {
 	 */
 	@Test
 	public void testGetWidth() {
-		Pitfall pit = new Pitfall(2);
-		assertEquals(2f, pit.getWidth(), 1E-5);
+		Pitfall pitfall = new Pitfall(2);
+		assertEquals(2f, pitfall.getWidth(), 1E-5);
 	}
 
 	/**
@@ -45,11 +47,11 @@ public class PitfallTest extends EntityTest {
 	 */
 	@Test
 	public void testLoadEntity() {
-		Pitfall pit = Pitfall.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.PITFALL.getName(), "1.5"});
+		Pitfall pitfall = Pitfall.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.PITFALL.getName(), "1.5"});
 		
 		//Pitfalls are placed slightly lower than the provided height
-		assertEquals(loadPosition.subtract(0f, 0.2f, 0f), pit.getLocation());
-		assertEquals(1.5f, pit.getWidth(), 1E-5);
+		assertEquals(loadPosition.subtract(0f, 0.2f, 0f), pitfall.getLocation());
+		assertEquals(1.5f, pitfall.getWidth(), 1E-5);
 	}
 	
 	/**

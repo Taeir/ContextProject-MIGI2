@@ -18,7 +18,7 @@ import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
  */
 public class MinimumSpanningTreeTest extends TestBase {
 
-	private MinimumSpanningTree mst;
+	private MinimumSpanningTree minimumSpanningTree;
 	private MSTBasedLevelFactory factoryMST;
 	
 	/**
@@ -31,7 +31,7 @@ public class MinimumSpanningTreeTest extends TestBase {
 		factoryMST.placeStartAndTreasureRoom();
 		factoryMST.placeOtherRooms();
 		factoryMST.createEdges();
-		mst = new MinimumSpanningTree(factoryMST.usedNodes, factoryMST.edges);
+		minimumSpanningTree = new MinimumSpanningTree(factoryMST.usedNodes, factoryMST.edges);
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class MinimumSpanningTreeTest extends TestBase {
 	 */
 	@Test
 	public void testMinimumSpanningTreeUsedNodes() {
-		assertEquals(factoryMST.usedNodes, mst.roomNodes);
+		assertEquals(factoryMST.usedNodes, minimumSpanningTree.roomNodes);
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class MinimumSpanningTreeTest extends TestBase {
 	 */
 	@Test
 	public void testMinimumSpanningTreeEdges() {
-		assertEquals(factoryMST.edges, mst.corridorEdges);
+		assertEquals(factoryMST.edges, minimumSpanningTree.corridorEdges);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class MinimumSpanningTreeTest extends TestBase {
 	 */
 	@Test
 	public void testMinimumSpanningTreeNotNullgraphNodes() {
-		assertNotNull(mst.graphNodes);
+		assertNotNull(minimumSpanningTree.graphNodes);
 	}
 	
 	/**
@@ -63,8 +63,8 @@ public class MinimumSpanningTreeTest extends TestBase {
 	 */
 	@Test
 	public void testCreateTransformedGraphExitNodeInGraph() {
-		mst.createTransformedGraph();
-		assertEquals(7, mst.graphNodes.size());
+		minimumSpanningTree.createTransformedGraph();
+		assertEquals(7, minimumSpanningTree.graphNodes.size());
 	}
 	
 	/**
@@ -89,8 +89,8 @@ public class MinimumSpanningTreeTest extends TestBase {
 		graphNodesSimple.add(node1);
 		graphNodesSimple.add(node2);
 		graphNodesSimple.add(node3);
-		mst.graphNodes = graphNodesSimple;
-		assertTrue(mst.checkConnectionAfterRemoval(edge1));
+		minimumSpanningTree.graphNodes = graphNodesSimple;
+		assertTrue(minimumSpanningTree.checkConnectionAfterRemoval(edge1));
 	}
 	
 	/**
@@ -107,8 +107,8 @@ public class MinimumSpanningTreeTest extends TestBase {
 		
 		graphNodesSimple.add(node1);
 		graphNodesSimple.add(node2);
-		mst.graphNodes = graphNodesSimple;
-		assertFalse(mst.checkConnectionAfterRemoval(edge1));
+		minimumSpanningTree.graphNodes = graphNodesSimple;
+		assertFalse(minimumSpanningTree.checkConnectionAfterRemoval(edge1));
 	}
 	
 	/**
@@ -118,8 +118,8 @@ public class MinimumSpanningTreeTest extends TestBase {
 	 */
 	@Test
 	public void testRunReverseDeleteAlgorithmSameNumberOfNodes() {
-		mst.runReverseDeleteAlgorithm();
-		assertEquals(7, mst.graphNodes.size());
+		minimumSpanningTree.runReverseDeleteAlgorithm();
+		assertEquals(7, minimumSpanningTree.graphNodes.size());
 	}
 	
 	/**
@@ -129,7 +129,7 @@ public class MinimumSpanningTreeTest extends TestBase {
 	 */
 	@Test
 	public void testRunReverseDeleteAlgorithmNumberOfSelectedCorridors() {
-		mst.runReverseDeleteAlgorithm();
-		assertEquals(2, mst.getCorridorIDsReverseAlgorithm().size());
+		minimumSpanningTree.runReverseDeleteAlgorithm();
+		assertEquals(2, minimumSpanningTree.getCorridorIDsReverseAlgorithm().size());
 	}
 }

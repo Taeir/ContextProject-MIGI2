@@ -6,12 +6,18 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
+import jmevr.app.VRApplication;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.entities.util.EntityState;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
+import nl.tudelft.contextproject.model.entities.util.Health;
+import nl.tudelft.contextproject.model.entities.util.Holdable;
 
 /**
  * A crate that can be thrown and damaged.
@@ -93,6 +99,7 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 	 */
 	public void doThrow(Vector3f move) {
 		if (control == null) getPhysicsObject();
+		control.setPhysicsRotation(new Quaternion());
 		control.applyImpulse(move, new Vector3f());
 	}
 	
@@ -138,12 +145,15 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 	
 	@Override
 	public void update(float tpf) {
-		if (this.isPickedUp()) {
-			Quaternion rotation = Main.getInstance().getCamera().getRotation();
-			Vector3f vec = rotation.getRotationColumn(2).mult(2f);
+		if (this.isPickedUp() && VRApplication.getVRViewManager() != null) {
+			Camera camera = VRApplication.getVRViewManager().getCamLeft();
+			Vector3f vec = camera.getDirection().mult(2f);
 			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
 			control.setPhysicsLocation(vec2);
-			control.setPhysicsRotation(rotation);
+			control.setPhysicsRotation(camera.getRotation());
+		}
+		if (getLocation().y < 0.5f) {
+			move(0, 0.5f, 0);
 		}
 	}
 
@@ -159,10 +169,17 @@ public class Crate extends Entity implements PhysicsObject, Health, Holdable {
 
 	@Override
 	public void drop() {
-		isPickedUp = false;
-		Vector3f move = Main.getInstance().getCamera().getRotation().getRotationColumn(2).mult(1.5f);
-		move.y = 2;
-		doThrow(move.mult(10));
+		if (isPickedUp) {
+			isPickedUp = false;
+			Vector3f move;
+			if (VRApplication.getVRViewManager() != null) {
+				move = VRApplication.getVRViewManager().getCamLeft().getDirection();
+			} else {
+				move = Main.getInstance().getCamera().getDirection();
+			}
+			move.y = 1.5f;
+			doThrow(move.mult(6));
+		}
 	}
 
 }

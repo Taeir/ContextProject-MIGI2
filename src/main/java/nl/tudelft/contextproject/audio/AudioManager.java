@@ -12,12 +12,12 @@ import com.jme3.audio.Listener;
 import com.jme3.renderer.Camera;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.TickListener;
+import nl.tudelft.contextproject.model.Observer;
 
 /**
  * Singleton class to manage audio.
  */
-public final class AudioManager implements TickListener {
+public final class AudioManager implements Observer {
 	private static final AudioManager INSTANCE = new AudioManager();
 	
 	private HashMap<SoundType, Set<AudioNode>> sounds = new HashMap<>();

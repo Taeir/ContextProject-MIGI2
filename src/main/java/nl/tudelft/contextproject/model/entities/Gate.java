@@ -4,6 +4,9 @@ import com.jme3.math.Vector3f;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
+import nl.tudelft.contextproject.model.entities.util.AbstractPhysicsEntity;
+import nl.tudelft.contextproject.model.entities.util.Direction;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * Class representing a gate.
@@ -12,14 +15,48 @@ public class Gate extends AbstractPhysicsEntity implements PhysicsObject {
 	private Boolean open;
 	
 	/**
-	 * Constructor for a gate.
+	 * Constructor for a gate with default orientation (WEST).
 	 */
 	public Gate() {
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/door.blend");
-		spatial.scale(1.2f, 2.2f, 1.2f);
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/gate.blend");
+		spatial.scale(0.5f, 1, 0.5f);
 		spatial.rotate(0, (float) (Math.PI), 0);
-		spatial.move(0, .5f, 0);
+		spatial.move(0, .6f, 0);
 		open = false;
+	}
+	
+	/**
+	 * Constructor for a gate with orientation.
+	 * 
+	 * @param orientation
+	 * 		the orientation of the gate
+	 */
+	public Gate(Direction orientation) {
+		this();
+		getPhysicsObject();
+		setRotation(orientation);
+	}
+
+	/**
+	 * Sets the rotation of the gate.
+	 * 
+	 * @param direction
+	 * 		the new rotation of the gate
+	 */
+	private void setRotation(Direction direction) {
+		switch (direction) {
+			case SOUTH:
+				spatial.rotate(0, (float) (.5 * Math.PI), 0);
+				break;	
+			case EAST:
+				spatial.rotate(0, (float) Math.PI, 0);
+				break;
+			case NORTH:
+				spatial.rotate(0, (float) (1.5 * Math.PI), 0);
+				break;
+			default:	// WEST
+				break;	
+		}
 	}
 
 	@Override
@@ -31,7 +68,7 @@ public class Gate extends AbstractPhysicsEntity implements PhysicsObject {
 				open = false;
 			}
 		} else {
-			if (spatial.getLocalTranslation().y > .5f) {
+			if (spatial.getLocalTranslation().y > 1) {
 				this.move(0, -0.5f * tpf, 0);
 			}
 		}
@@ -50,8 +87,8 @@ public class Gate extends AbstractPhysicsEntity implements PhysicsObject {
 	 * 		if the given data array is of incorrect length
 	 */
 	public static Gate loadEntity(Vector3f position, String[] data) {
-		if (data.length != 4) throw new IllegalArgumentException("Invalid data length for loading gate! Expected \"<X> <Y> <Z> Gate\".");
-		Gate gate = new Gate();
+		if (data.length != 5) throw new IllegalArgumentException("Invalid data length for loading gate! Expected \"<X> <Y> <Z> Gate <orientation>\".");
+		Gate gate = new Gate(Direction.valueOf(data[4]));
 		gate.move(position);
 		return gate;
 	}
