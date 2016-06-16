@@ -10,6 +10,7 @@ import org.eclipse.jetty.websocket.api.WriteCallback;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Observer;
+import nl.tudelft.contextproject.model.level.util.Vec2I;
 import nl.tudelft.contextproject.webinterface.Action;
 import nl.tudelft.contextproject.webinterface.COCErrorCode;
 import nl.tudelft.contextproject.webinterface.WebClient;
@@ -65,7 +66,7 @@ public class COCSocket extends WebSocketAdapter implements Observer {
 		int x = Integer.parseInt(parts[1]);
 		int y = Integer.parseInt(parts[2]);
 		
-		server.getNormalHandler().onActionRequest(client, x, y, action);
+		server.getNormalHandler().onActionRequest(client, new Vec2I(x, y), action);
 	}
 	
 	@SneakyThrows
