@@ -88,7 +88,8 @@ public abstract class GameThreadController extends Controller {
 		super.cleanup();
 
 		for (Entity entity : game.getEntities()) {
-			entity.setState(EntityState.NEW);
+			entity.setState(EntityState.DEAD);
+			removeDrawable(entity);
 		}
 	}
 
