@@ -330,5 +330,18 @@ public class RoomNode {
 		
 		return id == ((RoomNode) obj).id;
 	}
+	
+	/**
+	 * Checks if location is in room.
+	 * 
+	 * @param locationToCheck
+	 * 		location to check
+	 * @return
+	 * 		true if the location is the room
+	 */
+	public boolean locationInRoom(Vec2I locationToCheck) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 		
 }
