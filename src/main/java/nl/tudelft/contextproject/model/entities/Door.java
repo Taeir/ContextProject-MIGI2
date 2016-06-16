@@ -9,6 +9,7 @@ import com.jme3.scene.Node;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.PhysicsObject;
 import nl.tudelft.contextproject.model.entities.util.AbstractPhysicsEntity;
+import nl.tudelft.contextproject.model.entities.util.Direction;
 import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.util.ParserUtil;
 
@@ -19,7 +20,7 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 	private ColorRGBA color;
 
 	/**
-	 * Constructor for a door.
+	 * Constructor for a door with default orientation (WEST).
 	 *
 	 * @param color
 	 * 		Color of the door's lock
@@ -39,6 +40,37 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 			geometry.setMaterial(mat);
 			geometry2.setMaterial(mat);
 		}
+	}
+	
+	/**
+	 * Constructor for a door with a color and rotation.
+	 * 
+	 * @param color
+	 * 		the color of the door
+	 * @param direction
+	 * 		the direction of the door
+	 */
+	public Door(ColorRGBA color, Direction direction) {
+		this(color);
+		this.rotate(direction);
+	}
+
+	private void rotate(Direction direction) {
+		switch (direction) {
+			case SOUTH:
+				spatial.rotate(0, (float) (.5 * Math.PI), 0);
+				break;	
+			case EAST:
+				spatial.rotate(0, (float) Math.PI, 0);
+				break;
+			case NORTH:
+				spatial.rotate(0, (float) (1.5 * Math.PI), 0);
+				break;
+			default:	// WEST
+				break;
+		}
+		getPhysicsObject();
+		rigidBody.setPhysicsRotation(spatial.getLocalRotation());
 	}
 
 	/**
@@ -74,7 +106,7 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 	public static Door loadEntity(Vector3f position, String[] data) {
 		if (data.length != 6) throw new IllegalArgumentException("Invalid data length for loading door! Expected \"<X> <Y> <Z> Door <Color> <orientation>\".");
 		
-		Door door = new Door(ParserUtil.getColor(data[4]));
+		Door door = new Door(ParserUtil.getColor(data[4]), Direction.valueOf(data[5]));
 		door.move(position);
 		
 		return door;
