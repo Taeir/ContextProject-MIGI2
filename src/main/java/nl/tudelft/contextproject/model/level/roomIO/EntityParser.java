@@ -33,10 +33,6 @@ public final class EntityParser {
 	 * 		the set to add all loaded entities to
 	 * @param entityCount
 	 * 		the number of entities to load
-	 * @param xOffset
-	 * 		the horizontal offset used for all entities
-	 * @param yOffset
-	 * 		the vertical offset used for all entities
 	 * @param br
 	 * 		the bufferedReader to read from
 	 * @param path
@@ -46,8 +42,7 @@ public final class EntityParser {
 	 * @throws ScriptLoaderException
 	 * 		when loading of a script goes wrong
 	 */
-	public static void readEntities(Set<Entity> entities, int entityCount, int xOffset, int yOffset, 
-			BufferedReader br, String path) throws IOException, ScriptLoaderException {
+	public static void readEntities(Set<Entity> entities, int entityCount, BufferedReader br, String path) throws IOException, ScriptLoaderException {
 
 		for (int i = 0; i < entityCount; i++) {
 			String in = br.readLine();
@@ -57,9 +52,9 @@ public final class EntityParser {
 			if (data.length < 4) throw new IllegalArgumentException("You must specify at least the location and entity type for entity[" + i + "].");
 			
 			//Load the position
-			float posx = Float.parseFloat(data[0]) + xOffset;
+			float posx = Float.parseFloat(data[0]);
 			float posy = Float.parseFloat(data[1]);
-			float posz = Float.parseFloat(data[2]) + yOffset;
+			float posz = Float.parseFloat(data[2]);
 			Vector3f position = new Vector3f(posx, posy, posz);
 
 			//Get the entity type
