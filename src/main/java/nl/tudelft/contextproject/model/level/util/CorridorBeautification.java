@@ -20,7 +20,7 @@ public final class CorridorBeautification {
 	
 	/**
 	 * This method adds walls to corridors on the map.
-	 * Checks if a Tile is a corridor, if true add a wall to all Null TileTypes.
+	 * Checks if a Tile is a corridor, if true add a wall to all null TileTypes.
 	 *
 	 * @param map
 	 *		the map in which to place the corridor walls
@@ -61,7 +61,7 @@ public final class CorridorBeautification {
 	 * @param map
 	 *		the map in which to place the corridor walls
 	 * @param rand
-	 * 		Random object that is used in maze creation
+	 * 		random generator object that is used in maze creation
 	 */
 	public static void widenCorridors(MazeTile[][] map, Random rand) {
 		int width = map.length;

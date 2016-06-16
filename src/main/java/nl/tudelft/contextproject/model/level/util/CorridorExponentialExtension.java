@@ -11,22 +11,25 @@ import nl.tudelft.contextproject.util.RandomUtil;
 public final class CorridorExponentialExtension {
 	
 	/**
-	 * Minimum extension of corridors.
+	 * The minimum amount of extension that should be given to each direction of a corridor tile.
 	 */
 	public static final int MINIMUM_EXTENSION = 0;
 	
 	/**
-	 * Maximum extension of corridors.
+	 * The maximum amount of extension that should be given to each direction of a corridor tile.
 	 */
 	public static final int MAXIMUM_EXTENSION = 2;
 	
 	/**
-	 * Extra corridor extensions for the corridor corners.
+	 * How much more each corridor corner should be extended, 
+	 * this constant is to prevent small and tiny corners, 
+	 * giving a much larger feel to the corners of corridors.
 	 */
 	public static final int EXTRA_CORNER_EXTENSION = 1;
 	
 	/**
-	 * Parameter of exponential distribution used in corridor extending with exponential distribution.
+	 * The parameter of the exponential distribution, a higher lambda mean a higher concentrations of values near zero, 
+	 * a lower lambda means a more spread out distribution.
 	 */
 	public static final double LAMBDA = 0.4;
 	
