@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.level.util;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -62,8 +63,10 @@ public final class CorridorBeautification {
 	 *		the map in which to place the corridor walls
 	 * @param rand
 	 * 		random generator object that is used in maze creation
+	 * @param usedNodes 
+	 * 		list of used room nodes.
 	 */
-	public static void widenCorridors(MazeTile[][] map, Random rand) {
+	public static void widenCorridors(MazeTile[][] map, Random rand, ArrayList<RoomNode> usedNodes) {
 		int width = map.length;
 		int heigth = map[0].length;
 		HashSet<Vec2I> newCorridorTiles = new HashSet<Vec2I>(4 * width * heigth);
@@ -80,7 +83,7 @@ public final class CorridorBeautification {
 		//Add new corridor tiles
 		Iterator<Vec2I> it = newCorridorTiles.iterator();
 		while (it.hasNext()) {
-			placeCorridor(map, it.next());
+			placeCorridor(map, it.next(), usedNodes);
 		}
 	}
 		
@@ -91,14 +94,35 @@ public final class CorridorBeautification {
 	 * 		map to check
 	 * @param corridorLocation
 	 * 		location to check
+	 * @param usedNodes 
+	 * 		list of used room nodes
 	 */
-	protected static void placeCorridor(MazeTile[][] map, Vec2I corridorLocation) {
+	protected static void placeCorridor(MazeTile[][] map, Vec2I corridorLocation, ArrayList<RoomNode> usedNodes) {
 		int x = corridorLocation.x;
 		int y = corridorLocation.y;
 		
-		if (validLocation(map, x, y) && map[x][y] == null) {
+		if (validLocation(map, x, y) && map[x][y] == null && checkIfNotInRoom(corridorLocation, usedNodes)) {
 			map[x][y] = new MazeTile(x, y, TileType.CORRIDOR);
 		}
+	}
+
+	/**
+	 * Check if a location is not in a placed room.
+	 * 
+	 * @param corridorLocation
+	 * 		location to check
+	 * @param usedNodes
+	 * 		used RoomNodes
+	 * @return
+	 * 		true if location is not in a placed room.
+	 */
+	protected static boolean checkIfNotInRoom(Vec2I corridorLocation, ArrayList<RoomNode> usedNodes) {
+		for (RoomNode roomNode : usedNodes) {
+			if (roomNode.locationInRoom(corridorLocation)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -114,9 +138,9 @@ public final class CorridorBeautification {
 	 * 		true if locations lies within the map
 	 */
 	protected static boolean validLocation(MazeTile[][] map, int x, int y) {
-		if (x < 0 || y < 0) {
+		if (x < 1 || y < 1) {
 			return false;
-		} else if (x < map.length && y < map[0].length) {
+		} else if (x < map.length - 1 && y < map[0].length - 1) {
 			return true;
 		}
 		return false;

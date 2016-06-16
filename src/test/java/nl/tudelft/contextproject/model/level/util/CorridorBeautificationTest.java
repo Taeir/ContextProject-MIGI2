@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.junit.Test;
@@ -19,6 +20,7 @@ public class CorridorBeautificationTest {
 
 	/**
 	 * Test widenCorridors with a vertical corridor.
+	 * Should be null because location is not valid.
 	 */
 	@Test
 	public void testWidenCorridorsVertical() {
@@ -26,8 +28,8 @@ public class CorridorBeautificationTest {
 		testMap[0][1] = new MazeTile(0, 1, TileType.CORRIDOR);
 		testMap[2][1] = new MazeTile(2, 1, TileType.CORRIDOR);
 		Random rand = new Random(1L);
-		CorridorBeautification.widenCorridors(testMap, rand);
-		assertEquals(TileType.CORRIDOR, testMap[1][2].getTileType());
+		CorridorBeautification.widenCorridors(testMap, rand, new ArrayList<RoomNode>(0));
+		assertNull(testMap[1][2]);
 	}
 	
 	/**
@@ -71,8 +73,8 @@ public class CorridorBeautificationTest {
 	 */
 	@Test
 	public void testValidLocationValid() {
-		MazeTile[][] testMap = new MazeTile[1][1];
-		assertTrue(CorridorBeautification.validLocation(testMap, 0, 0));
+		MazeTile[][] testMap = new MazeTile[3][3];
+		assertTrue(CorridorBeautification.validLocation(testMap, 1, 1));
 	}
 	
 	/**
@@ -81,7 +83,7 @@ public class CorridorBeautificationTest {
 	@Test
 	public void testPlaceCorridorIncorrectLocation() {
 		MazeTile[][] testMap = new MazeTile[1][1];
-		CorridorBeautification.placeCorridor(testMap, new Vec2I(-1, 0));
+		CorridorBeautification.placeCorridor(testMap, new Vec2I(-1, 0), new ArrayList<RoomNode>(0));
 		assertNull(testMap[0][0]);
 	}
 	
@@ -92,18 +94,19 @@ public class CorridorBeautificationTest {
 	public void testPlaceCorridorNotNull() {
 		MazeTile[][] testMap = new MazeTile[1][1];
 		testMap[0][0] = new MazeTile(0, 0, TileType.FLOOR);
-		CorridorBeautification.placeCorridor(testMap, new Vec2I(0, 0));
+		CorridorBeautification.placeCorridor(testMap, new Vec2I(0, 0), new ArrayList<RoomNode>(0));
 		assertEquals(TileType.FLOOR, testMap[0][0].getTileType());
 	}
 	
 	/**
 	 * Test placeCorridor with correct placement.
+	 * Should be null as corridor location is invalid.
 	 */
 	@Test
 	public void testPlaceCorridorCorrectPlacement() {
 		MazeTile[][] testMap = new MazeTile[1][1];
-		CorridorBeautification.placeCorridor(testMap, new Vec2I(0, 0));
-		assertEquals(TileType.CORRIDOR, testMap[0][0].getTileType());
+		CorridorBeautification.placeCorridor(testMap, new Vec2I(0, 0), new ArrayList<RoomNode>(0));
+		assertNull(testMap[0][0]);
 	}
 	
 	/**

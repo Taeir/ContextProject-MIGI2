@@ -330,5 +330,27 @@ public class RoomNode {
 		
 		return id == ((RoomNode) obj).id;
 	}
+	
+	/**
+	 * Checks if location is in room.
+	 * 
+	 * @param locationToCheck
+	 * 		location to check
+	 * @return
+	 * 		true if the location is the room
+	 */
+	public boolean locationInRoom(Vec2I locationToCheck) {
+		int xStartOfRoom = this.coordinates.x;
+		int yStartOfRoom = this.coordinates.y;
+		int xEndOfRoom = this.room.size.getHeight() + xStartOfRoom;
+		int yEndOfroom = this.room.size.getWidth() + yStartOfRoom;
+		if (xStartOfRoom <= locationToCheck.x 
+				&& locationToCheck.x <= xEndOfRoom
+				&& yStartOfRoom <= locationToCheck.y
+				&& locationToCheck.y <= yEndOfroom) {
+					return true;
+				}
+		return false;
+	}
 		
 }
