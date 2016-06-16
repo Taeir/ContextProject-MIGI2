@@ -304,10 +304,10 @@ function hideGameButtons() {
 function displayWinner(data) {
     var winHeader = document.getElementById("endedWinners");
     var winMessage = document.getElementById("endedMessage");
-    var winner = (data.winner ? "ELVES" : "DWARFS");
-    winHeader.innerHTML = (data.winner ? "Elves won!" : "Dwarfs won!");
+    var winner = (data.w ? "ELVES" : "DWARFS");
+    winHeader.innerHTML = (data.w ? "Elves won!" : "Dwarfs won!");
     
-    if (winner === Teams[data.team]) {
+    if (winner === Teams[data.t]) {
         winMessage.innerHTML = "Congratulations!";
     } else {
         winMessage.innerHTML = "Better luck next time!";
