@@ -120,7 +120,7 @@ public class HUDTest extends TestBase {
 		Vector3f location = picture.getLocalTranslation();
 		float start = .5f - (VRPlayer.PLAYER_MAX_HEALTH / 2) * 0.06f;
 		assertEquals(200 * (start + 0.12f), location.x, 1e-5);
-		assertEquals(160f, location.y, 1e-5);
+		assertEquals(140f, location.y, 1e-5);
 	}
 	
 	/**

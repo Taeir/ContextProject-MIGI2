@@ -126,8 +126,8 @@ public class HUD implements Observer {
 		gameTimer = new BitmapText(Main.getInstance().getGuiFont(), false);
 		gameTimer.setSize(screenHeight / 30);
 		gameTimer.setColor(ColorRGBA.White);
-		float height = gameTimer.getLineHeight() + screenHeight / 6;
-		float width = gameTimer.getLineWidth() + screenWidth / 10;
+		float height = gameTimer.getLineHeight() + screenHeight / 4.5f;
+		float width = gameTimer.getLineWidth() + screenWidth / 3.2f;
 		gameTimer.setLocalTranslation(width, height, 0);
 		controller.addGuiElement(gameTimer);
 	}
@@ -181,7 +181,7 @@ public class HUD implements Observer {
 		heart.setWidth(screenWidth / 20);
 		heart.setHeight(screenHeight / 20);
 		float start = .5f - .06f * (VRPlayer.PLAYER_MAX_HEALTH / 2);
-		heart.setPosition(screenWidth * (start + 0.06f * position), screenHeight * .80f);
+		heart.setPosition(screenWidth * (start + 0.06f * position), screenHeight * .70f);
 		
 		return heart;
 	}
@@ -192,9 +192,9 @@ public class HUD implements Observer {
 	public void attachNose() {
 		Picture nose = new Picture("Nose");
 		nose.setImage(Main.getInstance().getAssetManager(), "Textures/nose.png", true);
-		nose.setWidth(screenWidth * 0.6f);
-		nose.setHeight(screenHeight * 0.6f);
-		nose.setPosition(screenWidth * 0.15f, screenHeight * -0.25f);
+		nose.setWidth(screenWidth * 0.24f);
+		nose.setHeight(screenHeight * 0.3f);
+		nose.setPosition(screenWidth * 0.38f, screenHeight * -0.10f);
 		controller.addGuiElement(nose);
 	}
 	

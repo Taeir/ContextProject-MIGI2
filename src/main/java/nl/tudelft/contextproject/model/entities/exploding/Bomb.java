@@ -21,7 +21,7 @@ import nl.tudelft.contextproject.model.entities.util.Holdable;
  * Class representing a bomb.
  */
 public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdable {
-	private static final float TIMER = 10;
+	public static final float TIMER = 5;
 	
 	private boolean active;
 	private float timer;

@@ -219,7 +219,7 @@ public class GameThreadControllerTest extends ControllerTest {
 	public void testCleanUpEntities() {
 		Entity entity = game.getEntities().iterator().next();
 		controller.cleanup();
-		verify(entity, times(1)).setState(EntityState.NEW);
+		verify(entity, times(1)).setState(EntityState.DEAD);
 	}
 
 	@Override

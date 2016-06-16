@@ -9,15 +9,15 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.PhysicsObject;
-import nl.tudelft.contextproject.model.entities.util.AbstractPhysicsEntity;
+import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * Class representing a torch.
  */
-public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
+public class Torch extends Entity {
 	private ParticleEmitter fire;
+	private Spatial spatial;
 	private boolean torchtype;
 	private Spatial torchSpatial;
 
@@ -59,8 +59,6 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 		spatial.move(-0.05f, 0, -0.05f);
 	}
 	
-	
-	
 	/**
 	 * @return the torchtype
 	 */
@@ -68,16 +66,12 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 		return torchtype;
 	}
 
-
-
 	/**
 	 * @param torchtype the torchtype to set
 	 */
 	public void setTorchtype(boolean torchtype) {
 		this.torchtype = torchtype;
 	}
-
-
 
 	/**
 	 * @return
@@ -154,5 +148,23 @@ public class Torch extends AbstractPhysicsEntity implements PhysicsObject {
 	@Override
 	public EntityType getType() {
 		return EntityType.TORCH;
+	}
+
+	@Override
+	public Spatial getSpatial() {
+		return spatial;
+	}
+
+	@Override
+	public void setSpatial(Spatial spatial) {
+		this.spatial = spatial;
+	}
+
+	@Override
+	public void update(float tpf) { }
+
+	@Override
+	public void move(float x, float y, float z) {
+		spatial.move(x, y, z);
 	}
 }
