@@ -71,39 +71,21 @@ public final class CorridorBeautification {
 		int width = map.length;
 		int heigth = map[0].length;
 		HashSet<Vec2I> newCorridorTiles = new HashSet<Vec2I>(4 * width * heigth);
+		CorridorType corridorType;
 		
 		//Generate new corridor tile positions
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < heigth; j++) {
-				addCorridorTiles(map, rand, newCorridorTiles, i, j);
+				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
+					corridorType = CorridorType.getCorridorTypeFromMap(map, i, j);
+					newCorridorTiles.addAll(CorridorExponentialExtension.getExtendLocationsUsingCorridorType(corridorType, new Vec2I(i, j), rand));
+				}
 			}
 		}
 		//Add new corridor tiles
 		Iterator<Vec2I> it = newCorridorTiles.iterator();
 		while (it.hasNext()) {
 			placeCorridor(map, it.next(), usedNodes);
-		}
-	}
-
-	/**
-	 * Add new corridor tiles.
-	 * 
-	 * @param map
-	 * 		map to check
-	 * @param rand
-	 * 		random generator to use
-	 * @param newCorridorTiles
-	 * 		set it should save the new corridor tiles to
-	 * @param x
-	 * 		the x location
-	 * @param y
-	 * 		the y location
-	 */
-	protected static void addCorridorTiles(MazeTile[][] map, Random rand, HashSet<Vec2I> newCorridorTiles, int x,
-			int y) {
-		if (map[x][y] != null && map[x][y].getTileType() == TileType.CORRIDOR) {
-			CorridorType corridorType = CorridorType.getCorridorTypeFromMap(map, x, y);
-			newCorridorTiles.addAll(CorridorExponentialExtension.getExtendLocationsUsingCorridorType(corridorType, new Vec2I(x, y), rand));
 		}
 	}
 		
@@ -188,24 +170,16 @@ public final class CorridorBeautification {
 			for (int j = 0; j < heigth; j++) {
 				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
 					//Check North
-					if (j != 0 && map[i][j - 1] == null) {
-						extraCorridorMap[i][j - 1] = new MazeTile(i, j - 1, TileType.CORRIDOR);
-					}
+					checkNorthSimpleCorridorWidening(map, extraCorridorMap, i, j);
 
 					//Check South
-					if (j != heigth - 1 && map[i][j + 1] == null) {
-						extraCorridorMap[i][j + 1] = new MazeTile(i, j + 1, TileType.CORRIDOR);
-					}
+					checkSouthSimpleCorridorWidening(map, heigth, extraCorridorMap, i, j);
 
 					//Check West
-					if (i != 0 && map[i - 1][j] == null) {
-						extraCorridorMap[i - 1][j] = new MazeTile(i - 1, j, TileType.CORRIDOR);
-					}
+					checkWestSimpleCorridorWidening(map, extraCorridorMap, i, j);
 
 					//Check East
-					if (i != width - 1 && map[i + 1][j] == null) {
-						extraCorridorMap[i + 1][j] = new MazeTile(i + 1, j, TileType.CORRIDOR);
-					}
+					checkNorthSimpleCorridorWidening(map, width, extraCorridorMap, i, j);
 				}
 			}
 		}
@@ -215,6 +189,85 @@ public final class CorridorBeautification {
 			for (int j = 0; j < heigth; j++) {
 				if (extraCorridorMap[i][j] != null) map[i][j] = new MazeTile(i, j, TileType.CORRIDOR);
 			}
+		}
+	}
+
+	/**
+	 * Check in the North direction if a corridor tile can be added, will add corridor tile to extraCorridorMap if possible.
+	 * 
+	 * @param map
+	 * 		map to check
+	 * @param width
+	 * 		width of map
+	 * @param extraCorridorMap
+	 * 		map to add the extra corridor tile
+	 * @param x
+	 * 		x location to check
+	 * @param y
+	 * 		y location to check
+	 */
+	private static void checkNorthSimpleCorridorWidening(MazeTile[][] map, int width, MazeTile[][] extraCorridorMap,
+			int x, int y) {
+		if (x != width - 1 && map[x + 1][y] == null) {
+			extraCorridorMap[x + 1][y] = new MazeTile(x + 1, y, TileType.CORRIDOR);
+		}
+	}
+
+	/**
+	 * Check in the North direction if a corridor tile can be added, will add corridor tile to extraCorridorMap if possible.
+	 * 
+	 * @param map
+	 * 		map to check
+	 * @param extraCorridorMap
+	 * 		map to add the extra corridor tile
+	 * @param x
+	 * 		x location to check
+	 * @param y
+	 * 		y location to check
+	 */
+	private static void checkWestSimpleCorridorWidening(MazeTile[][] map, MazeTile[][] extraCorridorMap, int x, int y) {
+		if (x != 0 && map[x - 1][y] == null) {
+			extraCorridorMap[x - 1][y] = new MazeTile(x - 1, y, TileType.CORRIDOR);
+		}
+	}
+
+	/**
+	 * Check in the North direction if a corridor tile can be added, will add corridor tile to extraCorridorMap if possible.
+	 * 
+	 * @param map
+	 * 		map to check
+	 * @param heigth
+	 * 		height of the map
+	 * @param extraCorridorMap
+	 * 		map to add the extra corridor tile
+	 * @param x
+	 * 		x location to check
+	 * @param y
+	 * 		y location to check
+	 */
+	private static void checkSouthSimpleCorridorWidening(MazeTile[][] map, int heigth, MazeTile[][] extraCorridorMap,
+			int x, int y) {
+		if (y != heigth - 1 && map[x][y + 1] == null) {
+			extraCorridorMap[x][y + 1] = new MazeTile(x, y + 1, TileType.CORRIDOR);
+		}
+	}
+
+	/**
+	 * Check in the North direction if a corridor tile can be added, will add corridor tile to extraCorridorMap if possible.
+	 * 
+	 * @param map
+	 * 		map to check
+	 * @param extraCorridorMap
+	 * 		map to add the extra corridor tile
+	 * @param x
+	 * 		x location to check
+	 * @param y
+	 * 		y location to check
+	 */
+	private static void checkNorthSimpleCorridorWidening(MazeTile[][] map, MazeTile[][] extraCorridorMap, int x,
+			int y) {
+		if (y != 0 && map[x][y - 1] == null) {
+			extraCorridorMap[x][y - 1] = new MazeTile(x, y - 1, TileType.CORRIDOR);
 		}
 	}
 }
