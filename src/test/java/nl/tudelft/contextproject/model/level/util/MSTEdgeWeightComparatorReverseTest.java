@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 /**
- * Test class for the reverse MSTEdgeWeightComparator.
+ * Test class for the reverse MSTEdgeWeightReverseComparator.
  */
 public class MSTEdgeWeightComparatorReverseTest {
 
@@ -67,7 +67,7 @@ public class MSTEdgeWeightComparatorReverseTest {
 		ArrayList<MSTEdge> testList = new ArrayList<MSTEdge>(2);
 		testList.add(edge1);
 		testList.add(edge2);
-		testList.sort(new MSTEdgeWeightComparator());
+		testList.sort(new MSTEdgeWeightComparatorReverse());
 		assertEquals(testList.get(0).corridorID, 1);
 	}
 
