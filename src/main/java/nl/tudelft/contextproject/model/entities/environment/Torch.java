@@ -9,13 +9,13 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.AbstractEntity;
 import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * Class representing a torch.
  */
-public class Torch extends Entity {
+public class Torch extends AbstractEntity {
 	private ParticleEmitter fire;
 	private Spatial spatial;
 	private boolean torchtype;

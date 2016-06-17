@@ -9,14 +9,14 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.AbstractEntity;
 import nl.tudelft.contextproject.model.entities.util.Direction;
 import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * Entity that is a flat panel (mostly used on a wall) that displays an image.
  */
-public class WallFrame extends Entity {
+public class WallFrame extends AbstractEntity {
 	private Spatial spatial;
 
 	/**

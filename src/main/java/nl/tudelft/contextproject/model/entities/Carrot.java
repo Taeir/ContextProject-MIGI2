@@ -12,7 +12,7 @@ import nl.tudelft.contextproject.model.entities.util.EntityType;
 /**
  * A carrot that can be eaten.
  */
-public class Carrot extends Entity {
+public class Carrot extends AbstractEntity {
 
 	private float health;
 	private Spatial spatial;
