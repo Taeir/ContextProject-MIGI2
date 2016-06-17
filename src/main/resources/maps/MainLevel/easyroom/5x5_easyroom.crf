@@ -1,8 +1,8 @@
-# 
-5 5 1 1
+# Easy room with one pitfall in the middle
+5 5 1 0
 # # I # #
 # O O O #
 # O O O #
 # O O O #
 # # X # #
-1 1 1 Pitfall 1.0
+1 0 1 Pitfall 1.0
