@@ -1,0 +1,20 @@
+# The gates lead to a dead end
+10 8 5 5
+# # I # # # # # # #
+# O O O O O O O O #
+# O O O O O O O O #
+# O O O O O O O O #
+# # # O O # # # O #
+# O O O O O O O O #
+# O O O O O O O O #
+# # # # # # # X # #
+7 0 3 InvisibleWall
+4 0 4 Gate NORTH
+3 0 4 Gate NORTH
+6 0 5 InvisibleWall
+6 0 6 InvisibleWall
+3 5 1 PointLight 1.0/1.0/1.0/1.0 5.0
+1 5 1 PointLight 1.0/1.0/1.0/1.0 5.0
+1 5 6 PointLight 1.0/1.0/1.0/1.0 5.0
+8 5 6 PointLight 1.0/1.0/1.0/1.0 5.0
+7 5 1 PointLight 1.0/1.0/1.0/1.0 5.0

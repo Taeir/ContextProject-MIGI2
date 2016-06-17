@@ -1,0 +1,19 @@
+# Easy room if you don't try to get the useless key first
+10 8 8 1
+# I # # # # # # # #
+# O O O O O O O O #
+# O O O O O O O O #
+# - - O - O O O O #
+# - - O - O O O O #
+# O O O - O O O O #
+# O O O - O O O O #
+# # # # # # # # X #
+3 0 3 Door 0.2/0.3019608/0.7019608/1.0 NORTH
+2 0 5 Key 0.2/0.3019608/0.7019608/1.0
+8 0 1 Key 0.6/0.7019608/1.0/1.0
+7 0 1 Crate 3.0
+8 0 7 Door 0.6/0.7019608/1.0/1.0 NORTH
+6 0 1 InvisibleWall
+6 0 2 InvisibleWall
+7 0 3 InvisibleWall
+3 5 1 PointLight 0.4/0.2/0.4/1.0 5.0

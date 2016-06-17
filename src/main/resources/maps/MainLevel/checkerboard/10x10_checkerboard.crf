@@ -1,0 +1,13 @@
+# A room with a checkerboard floor pattern.
+10 10 0 1
+# # # # I # # # # #
+# - - O O - - O O #
+# - - O O - - O O #
+# O O - - O O - - #
+I O O - - O O - - #
+# - - O O - - O O #
+# - - O O - - O O X
+# O O - - O O - - #
+# O O - - O O - - #
+# # # # # # # # # #
+4 10 3 PointLight 1.0/1.0/1.0/1.0 20.0

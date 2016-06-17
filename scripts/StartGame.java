@@ -9,6 +9,6 @@ public class StartGame implements Observer {
 	@Override
 	public void update(float tpf) {
 		Main main = Main.getInstance();
-		main.setController(new GameController(main, "/maps/testGridMap/", 300.0F, true));
+		main.setController(new GameController(main, "/maps/MainLevel/", 300.0F, true));
 	}
 }
