@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Test class for CorridorType enum.
@@ -22,7 +23,7 @@ public class CorridorTypeTest {
 		MazeTile[][] testMap = createBaseTileTypeMap();
 		testMap[0][1] = new MazeTile(0, 0, TileType.CORRIDOR);
 		testMap[2][1] = new MazeTile(0, 0, TileType.CORRIDOR);
-		assertEquals(CorridorType.VERTICAL, CorridorType.getCorridorTypeFromMap(testMap, 1, 1));	
+		assertEquals(CorridorType.VERTICAL, CorridorType.getCorridorTypeFromMap(testMap, new Vec2I(1, 1)));	
 	}
 	
 	/**
@@ -33,7 +34,7 @@ public class CorridorTypeTest {
 		MazeTile[][] testMap = createBaseTileTypeMap();
 		testMap[1][0] = new MazeTile(0, 0, TileType.CORRIDOR);
 		testMap[1][2] = new MazeTile(0, 0, TileType.CORRIDOR);
-		assertEquals(CorridorType.HORIZONTAL, CorridorType.getCorridorTypeFromMap(testMap, 1, 1));	
+		assertEquals(CorridorType.HORIZONTAL, CorridorType.getCorridorTypeFromMap(testMap, new Vec2I(1, 1)));	
 	}
 	
 	/**
@@ -44,7 +45,7 @@ public class CorridorTypeTest {
 		MazeTile[][] testMap = createBaseTileTypeMap();
 		testMap[1][0] = new MazeTile(0, 0, TileType.CORRIDOR);
 		testMap[0][1] = new MazeTile(0, 0, TileType.CORRIDOR);
-		assertEquals(CorridorType.LOWER_RIGHT, CorridorType.getCorridorTypeFromMap(testMap, 1, 1));	
+		assertEquals(CorridorType.LOWER_RIGHT, CorridorType.getCorridorTypeFromMap(testMap, new Vec2I(1, 1)));	
 	}
 	
 	/**
@@ -55,7 +56,7 @@ public class CorridorTypeTest {
 		MazeTile[][] testMap = createBaseTileTypeMap();
 		testMap[0][1] = new MazeTile(0, 0, TileType.CORRIDOR);
 		testMap[1][2] = new MazeTile(0, 0, TileType.CORRIDOR);
-		assertEquals(CorridorType.LOWER_LEFT, CorridorType.getCorridorTypeFromMap(testMap, 1, 1));	
+		assertEquals(CorridorType.LOWER_LEFT, CorridorType.getCorridorTypeFromMap(testMap, new Vec2I(1, 1)));	
 	}
 	
 	/**
@@ -66,7 +67,7 @@ public class CorridorTypeTest {
 		MazeTile[][] testMap = createBaseTileTypeMap();
 		testMap[2][1] = new MazeTile(0, 0, TileType.CORRIDOR);
 		testMap[1][2] = new MazeTile(0, 0, TileType.CORRIDOR);
-		assertEquals(CorridorType.UPPER_LEFT, CorridorType.getCorridorTypeFromMap(testMap, 1, 1));	
+		assertEquals(CorridorType.UPPER_LEFT, CorridorType.getCorridorTypeFromMap(testMap, new Vec2I(1, 1)));	
 	}
 	
 	/**
@@ -77,7 +78,7 @@ public class CorridorTypeTest {
 		MazeTile[][] testMap = createBaseTileTypeMap();
 		testMap[2][1] = new MazeTile(0, 0, TileType.CORRIDOR);
 		testMap[1][0] = new MazeTile(0, 0, TileType.CORRIDOR);
-		assertEquals(CorridorType.UPPER_RIGHT, CorridorType.getCorridorTypeFromMap(testMap, 1, 1));	
+		assertEquals(CorridorType.UPPER_RIGHT, CorridorType.getCorridorTypeFromMap(testMap, new Vec2I(1, 1)));	
 	}
 	
 	/**
@@ -86,7 +87,7 @@ public class CorridorTypeTest {
 	@Test
 	public void testGetCorridorTypeFromMapNonBig() {
 		MazeTile[][] testMap = createBaseTileTypeMap();
-		assertEquals(CorridorType.NOT_DEFINED, CorridorType.getCorridorTypeFromMap(testMap, 1, 1));	
+		assertEquals(CorridorType.NOT_DEFINED, CorridorType.getCorridorTypeFromMap(testMap, new Vec2I(1, 1)));	
 	}
 	
 	/**
@@ -96,7 +97,7 @@ public class CorridorTypeTest {
 	public void testGetCorridorTypeFromMapNonSmall() {
 		MazeTile[][] testMap = new MazeTile[1][1];
 		testMap[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
-		assertEquals(CorridorType.NOT_DEFINED, CorridorType.getCorridorTypeFromMap(testMap, 0, 0));	
+		assertEquals(CorridorType.NOT_DEFINED, CorridorType.getCorridorTypeFromMap(testMap, new Vec2I(0, 0)));	
 	}
 
 	/**

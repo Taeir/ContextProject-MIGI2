@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.model.level.util;
 
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Enum for different kinds of corridor types.
@@ -93,25 +94,23 @@ public enum CorridorType {
 	 * 
 	 * @param map
 	 * 		map to check
-	 * @param x
-	 * 		x coordinate
-	 * @param y
-	 * 		y coordinate
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		corridor type
 	 */
-	public static CorridorType getCorridorTypeFromMap(MazeTile[][] map, int x, int y) {
-		if (verticalCorridorCheck(map, x, y)) {
+	public static CorridorType getCorridorTypeFromMap(MazeTile[][] map, Vec2I location) {
+		if (verticalCorridorCheck(map, location)) {
 			return VERTICAL;
-		} else if (horizontalCorridorCheck(map, x, y)) {
+		} else if (horizontalCorridorCheck(map, location)) {
 			return HORIZONTAL;
-		} else if (lowerRightCorridorCheck(map, x, y)) {
+		} else if (lowerRightCorridorCheck(map, location)) {
 			return LOWER_RIGHT;
-		} else if (lowerLeftCorridorCheck(map, x, y)) {
+		} else if (lowerLeftCorridorCheck(map, location)) {
 			return LOWER_LEFT;
-		} else if (upperRightCorridorCheck(map, x, y)) {
+		} else if (upperRightCorridorCheck(map, location)) {
 			return UPPER_RIGHT;
-		} else if (upperLeftCorridorCheck(map, x, y)) {
+		} else if (upperLeftCorridorCheck(map, location)) {
 			return UPPER_LEFT;
 		} else {
 			return NOT_DEFINED;
@@ -123,17 +122,18 @@ public enum CorridorType {
 	 * 
 	 * @param map
 	 * 		map to check corridor tile on
-	 * @param x
-	 * 		corridor tile x coordinate
-	 * @param y
-	 * 		corridor tile y coordinate
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if corridor is a upper left corridor
 	 */
-	private static boolean upperLeftCorridorCheck(MazeTile[][] map, int x, int y) {
+	private static boolean upperLeftCorridorCheck(MazeTile[][] map, Vec2I location) {
 		int mapWidth  = map.length;
 		int mapHeigth = map[0].length;
 
+		int x = location.x;
+		int y = location.y;
+		
 		int down  = x + 1;
 		int right = y + 1;
 
@@ -148,16 +148,17 @@ public enum CorridorType {
 	 * 
 	 * @param map
 	 * 		map to check corridor tile on
-	 * @param x
-	 * 		corridor tile x coordinate
-	 * @param y
-	 * 		corridor tile y coordinate
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if corridor is a upper right corridor
 	 */
-	private static boolean upperRightCorridorCheck(MazeTile[][] map, int x, int y) {
+	private static boolean upperRightCorridorCheck(MazeTile[][] map, Vec2I location) {
 		int mapHeigth = map[0].length;
 
+		int x = location.x;
+		int y = location.y;
+		
 		int down  = x + 1;
 		int left  = y - 1;
 
@@ -173,15 +174,16 @@ public enum CorridorType {
 	 * 
 	 * @param map
 	 * 		map to check corridor tile on
-	 * @param x
-	 * 		corridor tile x coordinate
-	 * @param y
-	 * 		corridor tile y coordinate
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if corridor is a lower left  corridor
 	 */
-	private static boolean lowerLeftCorridorCheck(MazeTile[][] map, int x, int y) {
+	private static boolean lowerLeftCorridorCheck(MazeTile[][] map, Vec2I location) {
 		int mapWidth  = map.length;
+		
+		int x = location.x;
+		int y = location.y;
 
 		int up    = x - 1;
 		int right = y + 1;
@@ -197,14 +199,15 @@ public enum CorridorType {
 	 * 
 	 * @param map
 	 * 		map to check corridor tile on
-	 * @param x
-	 * 		corridor tile x coordinate
-	 * @param y
-	 * 		corridor tile y coordinate
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if corridor is a lower right  corridor
 	 */
-	private static boolean lowerRightCorridorCheck(MazeTile[][] map, int x, int y) {
+	private static boolean lowerRightCorridorCheck(MazeTile[][] map, Vec2I location) {
+		int x = location.x;
+		int y = location.y;
+		
 		int up    = x - 1;
 		int left  = y - 1;
 
@@ -219,15 +222,16 @@ public enum CorridorType {
 	 * 
 	 * @param map
 	 * 		map to check corridor tile on
-	 * @param x
-	 * 		corridor tile x coordinate
-	 * @param y
-	 * 		corridor tile y coordinate
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if corridor is a horizontal corridor
 	 */
-	private static boolean horizontalCorridorCheck(MazeTile[][] map, int x, int y) {
+	private static boolean horizontalCorridorCheck(MazeTile[][] map, Vec2I location) {
 		int mapWidth  = map.length;
+		
+		int x = location.x;
+		int y = location.y;
 	
 		int left  = y - 1;
 		int right = y + 1;
@@ -243,15 +247,16 @@ public enum CorridorType {
 	 * 
 	 * @param map
 	 * 		map to check corridor tile on
-	 * @param x
-	 * 		corridor tile x coordinate
-	 * @param y
-	 * 		corridor tile y coordinate
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if corridor is a vertical corridor
 	 */
-	private static boolean verticalCorridorCheck(MazeTile[][] map, int x, int y) {
+	private static boolean verticalCorridorCheck(MazeTile[][] map, Vec2I location) {
 		int mapHeigth = map[0].length;
+		
+		int x = location.x;
+		int y = location.y;
 		
 		int up   = x - 1;
 		int down = x + 1;

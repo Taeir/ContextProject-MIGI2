@@ -53,26 +53,24 @@ public enum TorchType {
 	 * 		torch type of the point light.
 	 */
 	public static TorchType getTorchType(MazeTile[][] map, Vec2I location) {
-		int i = location.x;
-		int j = location.y;
 
 		//Check North
-		if (checkForNorthWall(map, i, j)) {
+		if (checkForNorthWall(map, location)) {
 			return TorchType.NORTH_WALL_LIGHT;
 		}
 
 		//Check South
-		if (checkForSouthWall(map, i, j)) {
+		if (checkForSouthWall(map, location)) {
 			return TorchType.SOUTH_WALL_LIGHT;
 		}
 
 		//Check West
-		if (checkForWestWall(map, i, j)) {
+		if (checkForWestWall(map, location)) {
 			return TorchType.WEST_WALL_LIGHT;
 		}
 
 		//Check East
-		if (checkForEastWall(map, i, j)) {
+		if (checkForEastWall(map, location)) {
 			return TorchType.EAST_WALL_LIGHT;
 		}
 
@@ -84,15 +82,16 @@ public enum TorchType {
 	 * 
 	 * @param map
 	 * 		map to check
-	 * @param x
-	 * 		x coordinate of torch
-	 * @param y
-	 * 		y coordinate of torch
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if there is an East wall
 	 */
-	private static boolean checkForEastWall(MazeTile[][] map, int x, int y) {
+	private static boolean checkForEastWall(MazeTile[][] map, Vec2I location) {
 		int width = map.length;
+		int x = location.x;
+		int y = location.y;
+		
 		return x != width - 1 && map[x + 1][y] != null && map[x + 1][y].getTileType() == TileType.WALL;
 	}
 
@@ -101,14 +100,15 @@ public enum TorchType {
 	 * 
 	 * @param map
 	 * 		map to check
-	 * @param x
-	 * 		x coordinate of torch
-	 * @param y
-	 * 		y coordinate of torch
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if there is a West wall
 	 */
-	private static boolean checkForWestWall(MazeTile[][] map, int x, int y) {
+	private static boolean checkForWestWall(MazeTile[][] map, Vec2I location) {
+		int x = location.x;
+		int y = location.y;
+		
 		return x != 0 && map[x - 1][y] != null && map[x - 1][y].getTileType() == TileType.WALL;
 	}
 
@@ -117,15 +117,16 @@ public enum TorchType {
 	 * 
 	 * @param map
 	 * 		map to check
-	 * @param x
-	 * 		x coordinate of torch
-	 * @param y
-	 * 		y coordinate of torch
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if there is a South wall
 	 */
-	private static boolean checkForSouthWall(MazeTile[][] map, int x, int y) {
+	private static boolean checkForSouthWall(MazeTile[][] map, Vec2I location) {
 		int heigth = map[0].length;
+		int x = location.x;
+		int y = location.y;
+		
 		return y != heigth - 1 && map[x][y + 1] != null && map[x][y + 1].getTileType() == TileType.WALL;
 	}
 
@@ -134,14 +135,15 @@ public enum TorchType {
 	 * 
 	 * @param map
 	 * 		map to check
-	 * @param x
-	 * 		x coordinate of torch
-	 * @param y
-	 * 		y coordinate of torch
+	 * @param location
+	 * 		location to check
 	 * @return
 	 * 		true if there is a North wall
 	 */
-	private static boolean checkForNorthWall(MazeTile[][] map, int x, int y) {
+	private static boolean checkForNorthWall(MazeTile[][] map, Vec2I location) {
+		int x = location.x;
+		int y = location.y;
+		
 		return y != 0 && map[x][y - 1] != null && map[x][y - 1].getTileType() == TileType.WALL;
 	}
 	
