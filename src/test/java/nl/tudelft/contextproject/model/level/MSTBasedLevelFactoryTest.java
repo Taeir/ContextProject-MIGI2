@@ -201,7 +201,7 @@ public class MSTBasedLevelFactoryTest extends TestBase {
 	 * @return
 	 * 		boolean true if map1 == map2
 	 */
-	public boolean equalTileTypeMap(MazeTile[][] map1, MazeTile[][] map2) {
+	public static boolean equalTileTypeMap(MazeTile[][] map1, MazeTile[][] map2) {
 		int width = map1.length;
 		int height = map1[0].length;
 		if (width != map2.length || height != map2[0].length) {
@@ -232,7 +232,7 @@ public class MSTBasedLevelFactoryTest extends TestBase {
 	 * @return
 	 * 		a 3 by 3 map which looks like NNN, NCN, NNN where N is null and C a corridor TileType
 	 */
-	public MazeTile[][] createBaseTileTypeMap() {
+	public static MazeTile[][] createBaseTileTypeMap() {
 		MazeTile[][] map = new MazeTile[3][3];
 		map[1][1] = new MazeTile(1, 1, TileType.CORRIDOR);
 		return map;
