@@ -88,6 +88,9 @@ public enum CorridorType {
 	 * Get CorridorType from Map.
 	 * Scan for each possible corridor tile around the x, y corridor tile.
 	 * 
+	 * Note that this method had to be split up a lot to reduce complexity, this method
+	 * is now less efficient, but easier to test and more robust.
+	 * 
 	 * @param map
 	 * 		map to check
 	 * @param x
@@ -98,55 +101,188 @@ public enum CorridorType {
 	 * 		corridor type
 	 */
 	public static CorridorType getCorridorTypeFromMap(MazeTile[][] map, int x, int y) {
-		int mapWidth = map.length;
-		int mapHeigth = map[0].length;
-
-		int up = x - 1;
-		int down = x + 1;
-		int left = y - 1;
-		int right = y + 1;
-
-		boolean upPossible    = topAndLeftBoundCheck(up);
-		boolean downPossible  = bottomAndRightBoundCheck(mapHeigth, down);
-		boolean leftPossible  = topAndLeftBoundCheck(left);
-		boolean rightPossible = bottomAndRightBoundCheck(mapWidth, right);
-		
-		if (upPossible && checkTileType(map[up][y])) {
-			if (downPossible && checkTileType(map[down][y])) {
-				return VERTICAL;
-			} else if (leftPossible && checkTileType(map[x][left])) {
-				return LOWER_RIGHT;
-			} else if (rightPossible && checkTileType(map[x][right])) {
-				return LOWER_LEFT;
-			} 
-		}
-		
-		if (downPossible && checkTileType(map[down][y])) {
-			if (leftPossible && checkTileType(map[x][left])) {
-				return UPPER_RIGHT;
-			} else if (rightPossible && checkTileType(map[x][right])) {
-				return UPPER_LEFT;
-			}
-		}
-		
-		if (leftPossible && rightPossible && checkTileType(map[x][left]) && checkTileType(map[x][right])) {
+		if (verticalCorridorCheck(map, x, y)) {
+			return VERTICAL;
+		} else if (horizontalCorridorCheck(map, x, y)) {
 			return HORIZONTAL;
-		} 
-		return NOT_DEFINED;
+		} else if (lowerRightCorridorCheck(map, x, y)) {
+			return LOWER_RIGHT;
+		} else if (lowerLeftCorridorCheck(map, x, y)) {
+			return LOWER_LEFT;
+		} else if (upperRightCorridorCheck(map, x, y)) {
+			return UPPER_RIGHT;
+		} else if (upperLeftCorridorCheck(map, x, y)) {
+			return UPPER_LEFT;
+		} else {
+			return NOT_DEFINED;
+		}
 	}
 
 	/**
-	 * @param relevantMapSize
-	 * @param direction
+	 * Check if corridor is an upper left corridor.
+	 * 
+	 * @param map
+	 * 		map to check corridor tile on
+	 * @param x
+	 * 		corridor tile x coordinate
+	 * @param y
+	 * 		corridor tile y coordinate
 	 * @return
+	 * 		true if corridor is a upper left corridor
+	 */
+	private static boolean upperLeftCorridorCheck(MazeTile[][] map, int x, int y) {
+		int mapWidth  = map.length;
+		int mapHeigth = map[0].length;
+
+		int down  = x + 1;
+		int right = y + 1;
+
+		boolean downPossible  = bottomAndRightBoundCheck(mapHeigth, down);
+		boolean rightPossible = bottomAndRightBoundCheck(mapWidth, right);
+		
+		return downPossible && rightPossible && checkTileType(map[down][y]) && checkTileType(map[x][right]);
+	}
+
+	/**
+	 * Check if corridor is an upper right corridor.
+	 * 
+	 * @param map
+	 * 		map to check corridor tile on
+	 * @param x
+	 * 		corridor tile x coordinate
+	 * @param y
+	 * 		corridor tile y coordinate
+	 * @return
+	 * 		true if corridor is a upper right corridor
+	 */
+	private static boolean upperRightCorridorCheck(MazeTile[][] map, int x, int y) {
+		int mapHeigth = map[0].length;
+
+		int down  = x + 1;
+		int left  = y - 1;
+
+		boolean downPossible  = bottomAndRightBoundCheck(mapHeigth, down);
+		boolean leftPossible  = topAndLeftBoundCheck(left);
+		
+		return downPossible && leftPossible && checkTileType(map[down][y]) && checkTileType(map[x][left]);
+	}
+
+
+	/**
+	 * Check if corridor is an lower left corridor.
+	 * 
+	 * @param map
+	 * 		map to check corridor tile on
+	 * @param x
+	 * 		corridor tile x coordinate
+	 * @param y
+	 * 		corridor tile y coordinate
+	 * @return
+	 * 		true if corridor is a lower left  corridor
+	 */
+	private static boolean lowerLeftCorridorCheck(MazeTile[][] map, int x, int y) {
+		int mapWidth  = map.length;
+
+		int up    = x - 1;
+		int right = y + 1;
+
+		boolean upPossible    = topAndLeftBoundCheck(up);
+		boolean rightPossible = bottomAndRightBoundCheck(mapWidth, right);
+		
+		return upPossible && rightPossible && checkTileType(map[up][y]) && checkTileType(map[x][right]);
+	}
+
+	/**
+	 * Check if corridor is an lower right corridor.
+	 * 
+	 * @param map
+	 * 		map to check corridor tile on
+	 * @param x
+	 * 		corridor tile x coordinate
+	 * @param y
+	 * 		corridor tile y coordinate
+	 * @return
+	 * 		true if corridor is a lower right  corridor
+	 */
+	private static boolean lowerRightCorridorCheck(MazeTile[][] map, int x, int y) {
+		int up    = x - 1;
+		int left  = y - 1;
+
+		boolean upPossible    = topAndLeftBoundCheck(up);
+		boolean leftPossible  = topAndLeftBoundCheck(left);
+		
+		return upPossible && leftPossible && checkTileType(map[up][y]) && checkTileType(map[x][left]);
+	}
+
+	/**
+	 * Check if corridor is an horizontal corridor.
+	 * 
+	 * @param map
+	 * 		map to check corridor tile on
+	 * @param x
+	 * 		corridor tile x coordinate
+	 * @param y
+	 * 		corridor tile y coordinate
+	 * @return
+	 * 		true if corridor is a horizontal corridor
+	 */
+	private static boolean horizontalCorridorCheck(MazeTile[][] map, int x, int y) {
+		int mapWidth  = map.length;
+	
+		int left  = y - 1;
+		int right = y + 1;
+
+		boolean leftPossible  = topAndLeftBoundCheck(left);
+		boolean rightPossible = bottomAndRightBoundCheck(mapWidth, right);
+		
+		return leftPossible && rightPossible && checkTileType(map[x][left]) && checkTileType(map[x][right]);
+	}
+
+	/**
+	 * Check if corridor is a vertical corridor.
+	 * 
+	 * @param map
+	 * 		map to check corridor tile on
+	 * @param x
+	 * 		corridor tile x coordinate
+	 * @param y
+	 * 		corridor tile y coordinate
+	 * @return
+	 * true if corridor is a vertical corridor
+	 */
+	private static boolean verticalCorridorCheck(MazeTile[][] map, int x, int y) {
+		int mapHeigth = map[0].length;
+		
+		int up   = x - 1;
+		int down = x + 1;
+
+		boolean upPossible    = topAndLeftBoundCheck(up);
+		boolean downPossible  = bottomAndRightBoundCheck(mapHeigth, down);
+		
+		return upPossible && downPossible && checkTileType(map[up][y]) && checkTileType(map[down][y]);
+	}
+
+	/**
+	 * Check if bottom or right is within bounds.
+	 * 
+	 * @param relevantMapSize
+	 * 		relevant map size, width if checking right, height if checking bottom
+	 * @param direction
+	 * 		off set in the direction that is checked in
+	 * @return
+	 * 		true if within map size
 	 */
 	private static boolean bottomAndRightBoundCheck(int relevantMapSize, int direction) {
 		return direction < relevantMapSize;
 	}
 
 	/**
+	 * Check if direction is equal or above zero.
+	 * 
 	 * @param direction
+	 * 		off set in the direction that is checked in
 	 * @return
+	 * 		true if within bounds
 	 */
 	private static boolean topAndLeftBoundCheck(int direction) {
 		return direction >= 0;
