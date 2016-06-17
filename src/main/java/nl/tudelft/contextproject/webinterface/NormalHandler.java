@@ -352,7 +352,7 @@ public class NormalHandler {
 		}
 
 		try {
-			ActionUtil.perform(action, location.x, location.y);
+			ActionUtil.perform(action, location);
 			if (response != null) {
 				client.confirmMessage(response);
 			}
