@@ -336,7 +336,7 @@ public class NormalHandler {
 			return;
 		}
 
-		if (!WebUtil.checkValidLocation(location.x, location.y, action)) {
+		if (!WebUtil.checkValidLocation(location, action)) {
 			client.sendMessage(COCErrorCode.ACTION_ILLEGAL_LOCATION.toString(), response);
 			return;
 		}
