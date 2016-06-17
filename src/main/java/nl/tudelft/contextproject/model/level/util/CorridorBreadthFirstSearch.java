@@ -147,32 +147,47 @@ public final class CorridorBreadthFirstSearch {
 		//Check North
 		Vec2I newVector = new Vec2I(x, y - 1);
 		if (y != 0 
-				&& (mazeTiles[x][y - 1] == null || newVector.equals(endNode))) {
+				&& checkNullOrEnd(mazeTiles[x][y - 1], endNode, newVector)) {
 			neigboursOfCurrentNode.add(newVector);
 		}
 
 		//Check South
 		newVector = new Vec2I(x, y + 1);
 		if (y != mazeTiles.length - 1 
-				&& (mazeTiles[x][y + 1] == null || newVector.equals(endNode))) {
+				&& checkNullOrEnd(mazeTiles[x][y + 1], endNode, newVector)) {
 			neigboursOfCurrentNode.add(newVector);
 		}
 
 		//Check West
 		newVector = new Vec2I(x - 1, y);
 		if (x != 0 
-				&& (mazeTiles[x - 1][y] == null || newVector.equals(endNode))) {
+				&& checkNullOrEnd(mazeTiles[x - 1][y], endNode, newVector)) {
 			neigboursOfCurrentNode.add(newVector);
 		}
 
 		//Check East
 		newVector = new Vec2I(x + 1, y);
 		if (x != mazeTiles[0].length - 1 
-				&& (mazeTiles[x + 1][y] == null || newVector.equals(endNode))) {
+				&& checkNullOrEnd(mazeTiles[x + 1][y], newVector, endNode)) {
 			neigboursOfCurrentNode.add(newVector);
 		}
 
 		return neigboursOfCurrentNode;
 	}
 
+	/**
+	 * Check if maze tile is null, or the end has been reached.
+	 * 
+	 * @param mazeTile
+	 * 		mazeTile to check
+	 * @param endNode
+	 * 		end location
+	 * @param newVector
+	 * 		location of new vector
+	 * @return
+	 * 		true if maze tile is null or the end location is equal to the location of the new vector.
+	 */
+	private static boolean checkNullOrEnd(MazeTile mazeTile, Vec2I endNode, Vec2I newVector) {
+		return mazeTile == null || newVector.equals(endNode);
+	}
 }
