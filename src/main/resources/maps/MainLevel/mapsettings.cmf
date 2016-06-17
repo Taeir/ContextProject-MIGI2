@@ -1,7 +1,7 @@
 #
 # The layout of the rooms in the main game.
 #
-startroom endroom 17
+startroom endroom 27
 voidLevel
 jumpHallway
 bunnyRoom
@@ -19,3 +19,14 @@ dareDevil
 storageDepot
 voidKeyRoom
 bunnyRoom2
+Checkers
+cheeky
+DeadEnd
+easyroom
+fightroom
+GateBait
+GreatDesign
+Greatwall
+Speedrunner
+baited
+

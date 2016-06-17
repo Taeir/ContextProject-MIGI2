@@ -1,0 +1,14 @@
+# 
+24 8 0 4
+# # # I # # # # # # # # # # # # # # # # # # # #
+# - O O O - O - O - - - - O - O O - - O O O O #
+# - - O - - O O O - O O O O O O - O O - O O O #
+# - O - O - O - O - O - - O - O O O - O O O O #
+# - O O O - O - O - O O - O - O O - O O O O O #
+# - O O O - O - O - - - - O - O - - - - O O O #
+# # O O O O # O O # O O O # O # O O O O O O O #
+# # # # # # # # # # # # # # # # # # X # # # # #
+6 1 1 PointLight 1.0/1.0/1.0/1.0 10.0
+14 1 6 PointLight 1.0/1.0/1.0/1.0 10.0
+19 1 0 PointLight 1.0/1.0/1.0/1.0 10.0
+4 1 6 PointLight 1.0/1.0/1.0/1.0 10.0
