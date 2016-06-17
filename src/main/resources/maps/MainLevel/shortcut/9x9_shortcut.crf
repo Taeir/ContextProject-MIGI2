@@ -1,0 +1,18 @@
+# A room where you can take a shortcut
+9 9 6 1
+# # # # # # # # #
+# O O O O O O O #
+I O O O O O O O #
+# O O O O # - - #
+# O O O O # - - #
+# O O O O # - - #
+# O O O O O O O #
+# O O O O O O O #
+# # X # # # # # #
+1 0 4 DamagedWall
+2 0 4 DamagedWall
+3 0 4 DamagedWall
+4 0 4 DamagedWall
+2 0 1 Bomb
+4 0 1 Bomb
+7 5 4 PointLight 1.0/1.0/1.0/1.0 8.0
