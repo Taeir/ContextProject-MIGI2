@@ -59,7 +59,7 @@ public enum TorchType {
 		int j = location.y;
 
 		//Check North
-		if (j != 0 && map[i][j - 1] != null && map[i][j - 1].getTileType() == TileType.WALL) {
+		if (checkForNorthWall(map, i, j)) {
 			return TorchType.NORTH_WALL_LIGHT;
 		}
 
@@ -79,6 +79,16 @@ public enum TorchType {
 		}
 
 		return TorchType.CEILING_LIGHT;
+	}
+
+	/**
+	 * @param map
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	private static boolean checkForNorthWall(MazeTile[][] map, int i, int j) {
+		return j != 0 && map[i][j - 1] != null && map[i][j - 1].getTileType() == TileType.WALL;
 	}
 	
 	/**

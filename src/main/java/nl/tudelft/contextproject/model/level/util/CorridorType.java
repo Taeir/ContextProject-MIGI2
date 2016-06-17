@@ -106,10 +106,10 @@ public enum CorridorType {
 		int left = y - 1;
 		int right = y + 1;
 
-		boolean upPossible    = up >= 0;
-		boolean downPossible  = down < mapHeigth;
-		boolean leftPossible  = left >= 0;
-		boolean rightPossible = right < mapWidth;
+		boolean upPossible    = topAndLeftBoundCheck(up);
+		boolean downPossible  = bottomAndRightBoundCheck(mapHeigth, down);
+		boolean leftPossible  = topAndLeftBoundCheck(left);
+		boolean rightPossible = bottomAndRightBoundCheck(mapWidth, right);
 		
 		if (upPossible && checkTileType(map[up][y])) {
 			if (downPossible && checkTileType(map[down][y])) {
@@ -133,6 +133,23 @@ public enum CorridorType {
 			return HORIZONTAL;
 		} 
 		return NOT_DEFINED;
+	}
+
+	/**
+	 * @param relevantMapSize
+	 * @param direction
+	 * @return
+	 */
+	private static boolean bottomAndRightBoundCheck(int relevantMapSize, int direction) {
+		return direction < relevantMapSize;
+	}
+
+	/**
+	 * @param direction
+	 * @return
+	 */
+	private static boolean topAndLeftBoundCheck(int direction) {
+		return direction >= 0;
 	}
 
 	/**
