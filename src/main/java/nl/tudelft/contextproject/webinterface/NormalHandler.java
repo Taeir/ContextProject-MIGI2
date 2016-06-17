@@ -405,13 +405,11 @@ public class NormalHandler {
 				json.put("dc", server.getDwarfsCount());
 				json.put("ec", server.getElvesCount());
 				
-				//Fall through to running
+				//fallthrough simulation, to avoid old Find bugs error.
+				sendStatusUpdateRunningCase(client, game, json);
+				break;
 			case RUNNING:
-				json.put("e", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
-				if (client.isElf()) {
-					json.put("x", game.getLevel().toExploredWebJSON());
-				}
-				json.put("r", game.getTimeRemaining());
+				sendStatusUpdateRunningCase(client, game, json);
 				break;
 			case PAUSED:
 				//We don't send any other data when the game is paused
@@ -425,5 +423,22 @@ public class NormalHandler {
 		}
 
 		client.sendMessage(json, response);
+	}
+
+	/**
+	 * Send status update in case that the state is RUNNING or WAITING.
+	 * @param client
+	 * 		web client
+	 * @param game
+	 * 		game reference
+	 * @param json
+	 * 		json object
+	 */
+	private void sendStatusUpdateRunningCase(WebClient client, Game game, JSONObject json) {
+		json.put("e", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
+		if (client.isElf()) {
+			json.put("x", game.getLevel().toExploredWebJSON());
+		}
+		json.put("r", game.getTimeRemaining());
 	}
 }
