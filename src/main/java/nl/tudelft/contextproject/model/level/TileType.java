@@ -14,12 +14,15 @@ import nl.tudelft.contextproject.Main;
  */
 public enum TileType {
 
-	FLOOR(1, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
-	WALL(2, 3, ColorRGBA.Gray, "Textures/walltexture.png"),
-	CORRIDOR(3, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
-	DOOR_ENTRANCE(3, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
-	DOOR_EXIT(3, 0, ColorRGBA.Green, "Textures/grasstexture.png");
+	FLOOR(1, 0, ColorRGBA.Green, TileType.GRASS_TEXTURE_LOCATION),
+	WALL(2, 3, ColorRGBA.Gray, TileType.WALL_TEXTURE_LOCATION),
+	CORRIDOR(3, 0, ColorRGBA.Green, TileType.GRASS_TEXTURE_LOCATION),
+	DOOR_ENTRANCE(3, 0, ColorRGBA.Green, TileType.GRASS_TEXTURE_LOCATION),
+	DOOR_EXIT(3, 0, ColorRGBA.Green, TileType.GRASS_TEXTURE_LOCATION);
 
+	private static final String GRASS_TEXTURE_LOCATION = "Textures/grasstexture.png";
+	private static final String WALL_TEXTURE_LOCATION = "Textures/walltexture.png";
+	
 	private int jsonid;
 	private int height;
 	private ColorRGBA color;

@@ -75,7 +75,7 @@ public class RoomLevelFactory implements LevelFactory {
 			if (light instanceof PointLight) {
 				PointLight pointLight = ((PointLight) light);
 				Vector3f position = pointLight.getPosition();
-				if (RoomNode.renderTorches) {
+				if (RoomNode.RENDER_TORCHES) {
 					position = pointLight.getPosition();
 					Vec2I newLightPosition = new Vec2I(Math.round(position.x), Math.round(position.z));
 					entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), 

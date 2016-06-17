@@ -27,9 +27,9 @@ public class RoomNode {
 	
 	/**
 	 * Render torches. 
-	 * At the moment the torches require a lot of GPU power to be rendered, so they are turned off.
+	 * At the moment the torches require a lot of GPU power to be rendered, so this option can be turned off.
 	 */
-	public static boolean renderTorches = true;
+	public static final boolean RENDER_TORCHES = true;
 	
 	public int id;
 	public Vec2I coordinates;
@@ -248,7 +248,7 @@ public class RoomNode {
 				PointLight pl = ((PointLight) l);
 				Vector3f position = pl.getPosition();
 				pl.setPosition(position.add(coordinates.x, 0, coordinates.y));
-				if (renderTorches) {
+				if (RENDER_TORCHES) {
 					position = pl.getPosition();
 					Vec2I newLightPosition = new Vec2I(Math.round(position.x), Math.round(position.z));
 					room.entities.add(TorchType.createTorchOfTorchType(TorchType.getTorchType(tiles, newLightPosition), 

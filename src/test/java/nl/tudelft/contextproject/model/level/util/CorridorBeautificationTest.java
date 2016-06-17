@@ -10,6 +10,7 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import nl.tudelft.contextproject.model.level.MSTBasedLevelFactoryTest;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.util.Vec2I;
@@ -25,7 +26,7 @@ public class CorridorBeautificationTest {
 	 */
 	@Test
 	public void testWidenCorridorsVertical() {
-		MazeTile[][] testMap = createBaseTileTypeMap();
+		MazeTile[][] testMap = MSTBasedLevelFactoryTest.createBaseTileTypeMap();
 		testMap[0][1] = new MazeTile(0, 1, TileType.CORRIDOR);
 		testMap[2][1] = new MazeTile(2, 1, TileType.CORRIDOR);
 		Random rand = new Random(1L);
@@ -212,7 +213,7 @@ public class CorridorBeautificationTest {
 		testMap1[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
 		testMap2[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
 		CorridorBeautification.carveCorridorWalls(testMap1);
-		assertTrue(equalTileTypeMap(testMap2, testMap1));
+		assertTrue(MSTBasedLevelFactoryTest.equalTileTypeMap(testMap2, testMap1));
 	}
 	
 	/**
@@ -222,14 +223,14 @@ public class CorridorBeautificationTest {
 	 */
 	@Test
 	public void testCarveCorridorAllDirections() {
-		MazeTile[][] testMap1 = createBaseTileTypeMap();
-		MazeTile[][] testMap2 = createBaseTileTypeMap();
+		MazeTile[][] testMap1 = MSTBasedLevelFactoryTest.createBaseTileTypeMap();
+		MazeTile[][] testMap2 = MSTBasedLevelFactoryTest.createBaseTileTypeMap();
 		CorridorBeautification.carveCorridorWalls(testMap1);
 		testMap2[0][1] = new MazeTile(0, 1, TileType.WALL);
 		testMap2[1][0] = new MazeTile(1, 0, TileType.WALL);
 		testMap2[1][2] = new MazeTile(1, 2, TileType.WALL);
 		testMap2[2][1] = new MazeTile(2, 1, TileType.WALL);
-		assertTrue(equalTileTypeMap(testMap2, testMap1));
+		assertTrue(MSTBasedLevelFactoryTest.equalTileTypeMap(testMap2, testMap1));
 	}
 	
 	
@@ -238,14 +239,14 @@ public class CorridorBeautificationTest {
 	 */
 	@Test
 	public void testSimpleCorridorWideningAllDirections() {
-		MazeTile[][] testMap1 = createBaseTileTypeMap();
-		MazeTile[][] testMap2 = createBaseTileTypeMap();
+		MazeTile[][] testMap1 = MSTBasedLevelFactoryTest.createBaseTileTypeMap();
+		MazeTile[][] testMap2 = MSTBasedLevelFactoryTest.createBaseTileTypeMap();
 		CorridorBeautification.simpleCorridorWidening(testMap1);
 		testMap2[0][1] = new MazeTile(0, 1, TileType.CORRIDOR);
 		testMap2[1][0] = new MazeTile(1, 0, TileType.CORRIDOR);
 		testMap2[1][2] = new MazeTile(1, 2, TileType.CORRIDOR);
 		testMap2[2][1] = new MazeTile(2, 1, TileType.CORRIDOR);
-		assertTrue(equalTileTypeMap(testMap2, testMap1));
+		assertTrue(MSTBasedLevelFactoryTest.equalTileTypeMap(testMap2, testMap1));
 	}
 	
 	/**
@@ -350,55 +351,6 @@ public class CorridorBeautificationTest {
 		testMap1[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
 		testMap2[0][0] = new MazeTile(0, 0, TileType.CORRIDOR);
 		CorridorBeautification.simpleCorridorWidening(testMap1);
-		assertTrue(equalTileTypeMap(testMap2, testMap1));
+		assertTrue(MSTBasedLevelFactoryTest.equalTileTypeMap(testMap2, testMap1));
 	}
-	
-	/**
-	 * Test if two equaltileTypesMap are the same.
-	 * Does not check for null or maps of size zero.
-	 * 
-	 * @param map1
-	 * 		how the map should look like
-	 * @param map2
-	 * 		the map that is checked
-	 * @return
-	 * 		boolean true if map1 == map2
-	 */
-	public boolean equalTileTypeMap(MazeTile[][] map1, MazeTile[][] map2) {
-		int width = map1.length;
-		int height = map1[0].length;
-		if (width != map2.length || height != map2[0].length) {
-			return false;
-		}
-		MazeTile mazeTile1, mazeTile2;
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				mazeTile1 = map1[i][j];
-				mazeTile2 = map2[i][j];
-				if (mazeTile1 == null && mazeTile2 == null) {
-					continue;
-				}
-				if (mazeTile1 != null && map2[i][j] == null
-					|| map1[i][j] == null && map2[i][j] != null
-					&& map1[i][j].getTileType() != map2[i][j].getTileType()) {
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-	
-	/**
-	 * Create a basic TileType map with a corridor.
-	 * 
-	 * @return
-	 * 		a 3 by 3 map which looks like NNN, NCN, NNN where N is null and C a corridor TileType
-	 */
-	public MazeTile[][] createBaseTileTypeMap() {
-		MazeTile[][] map = new MazeTile[3][3];
-		map[1][1] = new MazeTile(1, 1, TileType.CORRIDOR);
-		return map;
-	}
-
 }
