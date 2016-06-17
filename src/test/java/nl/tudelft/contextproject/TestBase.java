@@ -85,6 +85,8 @@ public abstract class TestBase {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
+		//Ensure strong reference
+		Logger.getGlobal();
 		//Set logger level
 		Logger.getLogger("com.jme3").setLevel(Level.OFF);
 		
