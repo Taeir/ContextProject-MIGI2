@@ -9,29 +9,23 @@ import nl.tudelft.contextproject.model.entities.util.EntityState;
 import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
- * Abstract parent class for all entities.
- * All entities have a state, are Drawable and are Collidable.
+ * Interface to represent an Entity in the game.
+ * Entities are always Drawable and Observer.
  */
-public abstract class Entity implements Drawable, Observer {
-	private EntityState state = EntityState.NEW;
-
+public interface Entity extends Drawable, Observer {
 	/**
 	 * Get the current state of this entity.
 	 *
 	 * @return
 	 * 		the current state
 	 */
-	public EntityState getState() {
-		return state;
-	}
+	EntityState getState();
 
 	/**
 	 * @param newState
 	 * 		the new state of this entity
 	 */
-	public void setState(EntityState newState) {
-		this.state = newState;
-	}
+	void setState(EntityState newState);
 	
 	/**
 	 * Move the entity by the specified amounts.
@@ -40,7 +34,7 @@ public abstract class Entity implements Drawable, Observer {
 	 * @param vector
 	 * 		the amount of movement
 	 */
-	public final void move(Vector3f vector) {
+	default void move(Vector3f vector) {
 		move(vector.getX(), vector.getY(), vector.getZ());
 	}
 	
@@ -55,7 +49,7 @@ public abstract class Entity implements Drawable, Observer {
 	 * @param z
 	 * 		the amount of movement in the z-axis
 	 */
-	public abstract void move(float x, float y, float z);
+	void move(float x, float y, float z);
 
 	/**
 	 * Checks if this object is closer to the player than the specified distance.
@@ -65,7 +59,7 @@ public abstract class Entity implements Drawable, Observer {
 	 * @return
 	 * 		true if the player is closert than dist
 	 */
-	public boolean collidesWithPlayer(float distance) {
+	default boolean collidesWithPlayer(float distance) {
 		Vector3f playerLoc = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation();
 		Vector3f thisLoc = getSpatial().getLocalTranslation();
 		return thisLoc.distance(playerLoc) < distance;
@@ -77,13 +71,13 @@ public abstract class Entity implements Drawable, Observer {
 	 * @return
 	 * 		a Vector3f representing the location
 	 */
-	public Vector3f getLocation() {
-		return this.getSpatial().getLocalTranslation();
+	default Vector3f getLocation() {
+		return getSpatial().getLocalTranslation();
 	}
 
 	/**
 	 * @return
 	 * 		the EntityType of this entity
 	 */
-	public abstract EntityType getType();
+	EntityType getType();
 }

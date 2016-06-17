@@ -8,6 +8,7 @@ import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Game;
+import nl.tudelft.contextproject.model.entities.AbstractEntity;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.model.entities.util.EntityState;
@@ -17,7 +18,7 @@ import nl.tudelft.contextproject.model.entities.util.Health;
 /**
  * An explosion that damages the player when close by.
  */
-public class Explosion extends Entity {
+public class Explosion extends AbstractEntity {
 
 	private float maxRadius;
 	private Spatial spatial;

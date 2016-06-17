@@ -7,12 +7,12 @@ import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.scene.Spatial;
 
 import nl.tudelft.contextproject.model.PhysicsObject;
-import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.AbstractEntity;
 
 /**
  * Abstract base implementation of an entity with Physics.
  */
-public abstract class AbstractPhysicsEntity extends Entity implements PhysicsObject {
+public abstract class AbstractPhysicsEntity extends AbstractEntity implements PhysicsObject {
 	protected Spatial spatial;
 	protected RigidBodyControl rigidBody;
 	
