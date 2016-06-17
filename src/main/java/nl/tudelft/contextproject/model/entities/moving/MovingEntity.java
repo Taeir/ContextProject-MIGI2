@@ -2,13 +2,13 @@ package nl.tudelft.contextproject.model.entities.moving;
 
 import com.jme3.scene.Spatial;
 
-import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.AbstractEntity;
 import nl.tudelft.contextproject.model.entities.control.EntityControl;
 
 /**
  * Class representing an {@link Entity} with {@link EntityControl}.
  */
-public abstract class MovingEntity extends Entity {
+public abstract class MovingEntity extends AbstractEntity {
 
 	private EntityControl control;
 

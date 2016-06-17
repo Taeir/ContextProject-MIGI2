@@ -12,6 +12,7 @@ import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.Room;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Test class for RoomNode.

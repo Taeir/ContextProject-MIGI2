@@ -3,19 +3,20 @@ package nl.tudelft.contextproject.model.entities.environment;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Quad;
 import nl.tudelft.contextproject.Main;
-import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.AbstractEntity;
 import nl.tudelft.contextproject.model.entities.util.Direction;
 import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 /**
  * Entity that is a flat panel (mostly used on a wall) that displays an image.
  */
-public class WallFrame extends Entity {
+public class WallFrame extends AbstractEntity {
 	private Spatial spatial;
 
 	/**
@@ -27,13 +28,11 @@ public class WallFrame extends Entity {
 	 * 		the name of the resource for the displayed image
 	 * @param orientation
 	 * 		the orientation of the panel
-	 * @param width
-	 * 		the width of the frame
-	 * @param height
-	 * 		the height of the frame
+	 * @param size
+	 * 		the size of the frame. The x is the width and the y is the height
 	 */
-	public WallFrame(Vector3f position, String texture, Direction orientation, float width, float height) {
-		Quad quad = new Quad(width, height);
+	public WallFrame(Vector3f position, String texture, Direction orientation, Vector2f size) {
+		Quad quad = new Quad(size.x, size.y);
 		spatial = new Geometry("WallFrame", quad);
 		AssetManager assetManager = Main.getInstance().getAssetManager();
 		Material material = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
@@ -119,7 +118,7 @@ public class WallFrame extends Entity {
 		float width = Float.parseFloat(data[6]);
 		float height = Float.parseFloat(data[7]);
 		
-		WallFrame frame = new WallFrame(position, texture, direction, width, height);
+		WallFrame frame = new WallFrame(position, texture, direction, new Vector2f(width, height));
 		return frame;
 	}
 

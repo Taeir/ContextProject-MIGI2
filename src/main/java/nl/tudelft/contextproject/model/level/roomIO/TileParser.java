@@ -64,7 +64,7 @@ public final class TileParser {
 	 * @throws IOException
 	 * 		when reading from the reader goes wrong
 	 */
-	public static void readTiles(MazeTile[][] tiles, int width, int height, int xOffset, int yOffset, BufferedReader br) throws IOException {
+	public static void readTiles(MazeTile[][] tiles, int width, int height, BufferedReader br) throws IOException {
 		for (int y = 0; y < height; y++) {
 			String in = br.readLine();
 			if (in == null) throw new IllegalArgumentException("Empty line where some data was expected when loading tile row " + y + ".");
@@ -75,13 +75,11 @@ public final class TileParser {
 			}
 
 			for (int x = 0; x < line.length; x++) {
-				int posx = x + xOffset;
-				int posy = y + yOffset;
 				if (line[x].equals(EMPTY_FORMAT)) {
 					// always overwrite old value
-					tiles[posx][posy] = null;
+					tiles[x][y] = null;
 				} else {
-					tiles[posx][posy] = new MazeTile(posx, posy, format(line[x]));
+					tiles[x][y] = new MazeTile(x, y, format(line[x]));
 				}
 			}
 		}

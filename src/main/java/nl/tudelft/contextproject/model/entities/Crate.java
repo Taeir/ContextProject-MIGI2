@@ -22,7 +22,7 @@ import nl.tudelft.contextproject.model.entities.util.Holdable;
 /**
  * A crate that can be thrown and damaged.
  */
-public class Crate extends Entity implements PhysicsObject, Health, Holdable {
+public class Crate extends AbstractEntity implements PhysicsObject, Health, Holdable {
 
 	private Spatial spatial;
 	private RigidBodyControl control;

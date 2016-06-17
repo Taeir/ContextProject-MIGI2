@@ -14,6 +14,7 @@ import org.junit.Test;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.test.TestUtil;
+import nl.tudelft.contextproject.util.Vec2I;
 import nl.tudelft.contextproject.webinterface.Action;
 import nl.tudelft.contextproject.webinterface.COCErrorCode;
 import nl.tudelft.contextproject.webinterface.NormalHandler;
@@ -75,7 +76,7 @@ public class COCSocketTest extends WebTestBase {
 	public void testOnWebSocketText_action() throws IOException {
 		socket.onWebSocketText("0 1 2");
 		
-		verify(handler).onActionRequest(client, 1, 2, Action.getAction(0));
+		verify(handler).onActionRequest(client, new Vec2I(1, 2), Action.getAction(0));
 	}
 	
 	/**

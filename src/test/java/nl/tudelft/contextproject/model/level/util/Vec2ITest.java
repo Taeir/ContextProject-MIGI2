@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import nl.tudelft.contextproject.util.Vec2I;
+
 /**
  * Test class for Vec2I.
  */

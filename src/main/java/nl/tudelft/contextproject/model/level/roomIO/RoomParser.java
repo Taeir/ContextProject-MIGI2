@@ -39,14 +39,10 @@ public final class RoomParser {
 	 * 		the set to add all the loaded entities to
 	 * @param lights
 	 * 		the list to add all the loaded lights to
-	 * @param xOffset
-	 * 		the horizontal offset that is used for moving all loaded items
-	 * @param yOffset
-	 * 		the vertical offset that is used for moving all loaded items
 	 * @throws IOException
 	 * 		when something goes wrong
 	 */
-	public static void importFile(String folder, MazeTile[][] tiles, Set<Entity> entities, List<Light> lights, int xOffset, int yOffset) throws IOException {
+	public static void importFile(String folder, MazeTile[][] tiles, Set<Entity> entities, List<Light> lights) throws IOException {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getMapFile(folder)), StandardCharsets.UTF_8))) {
 			String line = br.readLine();
 
@@ -61,17 +57,17 @@ public final class RoomParser {
 			
 			int width = Integer.parseInt(tmp[0]);
 			int height = Integer.parseInt(tmp[1]);
-			checkDimensions(width + xOffset, height + yOffset, tiles);
+			checkDimensions(width, height, tiles);
 			
-			TileParser.readTiles(tiles, width, height, xOffset, yOffset, br);
+			TileParser.readTiles(tiles, width, height, br);
 
 			try {
-				EntityParser.readEntities(entities, Integer.parseInt(tmp[2]), xOffset, yOffset, br, folder);
+				EntityParser.readEntities(entities, Integer.parseInt(tmp[2]), br, folder);
 			} catch (ScriptLoaderException e) {
 				e.printStackTrace();
 			}
 
-			LightParser.readLights(lights, Integer.parseInt(tmp[3]), xOffset, yOffset, br);
+			LightParser.readLights(lights, Integer.parseInt(tmp[3]), br);
 		}
 	}
 	

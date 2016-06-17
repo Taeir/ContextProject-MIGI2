@@ -9,7 +9,7 @@ import com.jme3.scene.shape.Box;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Observer;
-import nl.tudelft.contextproject.model.entities.Entity;
+import nl.tudelft.contextproject.model.entities.AbstractEntity;
 import nl.tudelft.contextproject.model.entities.util.EntityType;
 import nl.tudelft.contextproject.util.ScriptLoader;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
@@ -17,7 +17,7 @@ import nl.tudelft.contextproject.util.ScriptLoaderException;
 /**
  * Entity that triggers an action when the player is close enough.
  */
-public class PlayerTrigger extends Entity {
+public class PlayerTrigger extends AbstractEntity {
 
 	private float triggerDist;
 	private Observer action;

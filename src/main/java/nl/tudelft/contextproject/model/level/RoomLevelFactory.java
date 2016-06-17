@@ -17,7 +17,8 @@ import nl.tudelft.contextproject.model.level.roomIO.EntityParser;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
 import nl.tudelft.contextproject.model.level.util.RoomNode;
 import nl.tudelft.contextproject.model.level.util.TorchType;
-import nl.tudelft.contextproject.model.level.util.Vec2I;
+import nl.tudelft.contextproject.util.Vec2I;
+
 import lombok.SneakyThrows;
 
 /**
@@ -50,7 +51,7 @@ public class RoomLevelFactory implements LevelFactory {
 		int height = Integer.parseInt(dimensions[1]);
 		
 		MazeTile[][] tiles = new MazeTile[width][height];
-		RoomParser.importFile(this.fileLocation, tiles, entities, lights, 0, 0);
+		RoomParser.importFile(this.fileLocation, tiles, entities, lights);
 		
 		Vector3f playerSpawn = EntityParser.getPlayerSpawnLocation(entities, new Random(seed));
 		
