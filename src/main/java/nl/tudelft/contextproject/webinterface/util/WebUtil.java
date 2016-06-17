@@ -60,9 +60,12 @@ public final class WebUtil {
 			return false;
 		}
 
-		if (action.isAllowedTiles()) {
+		if (action.isAllowedTiles() && !action.equals(Action.OPENGATE)) {
 			return checkValidLocationEntities(xCoord, yCoord);
+		} else if (action.equals(Action.OPENGATE)) {
+			return true;
 		}
+
 
 		return false;
 	}
