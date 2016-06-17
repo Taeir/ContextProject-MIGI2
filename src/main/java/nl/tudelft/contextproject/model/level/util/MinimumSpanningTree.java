@@ -24,7 +24,6 @@ public class MinimumSpanningTree {
 	public List<RoomNode> roomNodes;
 	public HashMap<Integer, CorridorEdge> corridorEdges;
 	public HashSet<MSTNode> graphNodes;
-	public MSTNode startRoomNode;
 
 	/**
 	 * Constructor.
@@ -103,7 +102,7 @@ public class MinimumSpanningTree {
 		int roomID;
 		MSTNode currentNode, connectorNode;
 		MSTEdge newEdge;
-		startRoomNode = null;
+		
 		for (RoomNode roomNode : roomNodes) {
 			roomID = roomNode.id;
 			Iterator<MSTNode> itMSTNodes = getMSTNodesWithSameRoomID(treeNodes, roomID);
@@ -129,9 +128,6 @@ public class MinimumSpanningTree {
 			}
 			//add the connector node with edges to the graph
 			graphNodes.add(connectorNode);
-			if (connectorNode.roomNodeID == MSTBasedLevelFactory.START_ROOM_ID) {
-				startRoomNode = connectorNode;
-			}
 		}
 	}
 
