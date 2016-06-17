@@ -71,20 +71,39 @@ public final class CorridorBeautification {
 		int width = map.length;
 		int heigth = map[0].length;
 		HashSet<Vec2I> newCorridorTiles = new HashSet<Vec2I>(4 * width * heigth);
-		CorridorType corridorType;
+		
 		//Generate new corridor tile positions
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < heigth; j++) {
-				if (map[i][j] != null && map[i][j].getTileType() == TileType.CORRIDOR) {
-					corridorType = CorridorType.getCorridorTypeFromMap(map, i, j);
-					newCorridorTiles.addAll(CorridorExponentialExtension.getExtendLocationsUsingCorridorType(corridorType, new Vec2I(i, j), rand));
-				}
+				addCorridorTiles(map, rand, newCorridorTiles, i, j);
 			}
 		}
 		//Add new corridor tiles
 		Iterator<Vec2I> it = newCorridorTiles.iterator();
 		while (it.hasNext()) {
 			placeCorridor(map, it.next(), usedNodes);
+		}
+	}
+
+	/**
+	 * Add new corridor tiles.
+	 * 
+	 * @param map
+	 * 		map to check
+	 * @param rand
+	 * 		random generator to use
+	 * @param newCorridorTiles
+	 * 		set it should save the new corridor tiles to
+	 * @param x
+	 * 		the x location
+	 * @param y
+	 * 		the y location
+	 */
+	protected static void addCorridorTiles(MazeTile[][] map, Random rand, HashSet<Vec2I> newCorridorTiles, int x,
+			int y) {
+		if (map[x][y] != null && map[x][y].getTileType() == TileType.CORRIDOR) {
+			CorridorType corridorType = CorridorType.getCorridorTypeFromMap(map, x, y);
+			newCorridorTiles.addAll(CorridorExponentialExtension.getExtendLocationsUsingCorridorType(corridorType, new Vec2I(x, y), rand));
 		}
 	}
 		
