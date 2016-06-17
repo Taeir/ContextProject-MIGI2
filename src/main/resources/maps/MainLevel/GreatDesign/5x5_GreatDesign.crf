@@ -1,0 +1,10 @@
+# Simple room that needs the elves to place voidplatforms
+5 5 0 3
+# # I # #
+# - - - #
+# - - - #
+# - - - #
+# # X # #
+1 5 2 PointLight 1.0/1.0/1.0/1.0 5.0
+3 5 2 PointLight 1.0/1.0/1.0/1.0 5.0
+3 5 2 PointLight 1.0/1.0/1.0/1.0 5.0

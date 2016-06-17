@@ -776,34 +776,6 @@ public class NormalHandlerTest extends WebTestBase {
 	}
 	
 	/**
-	 * Test method for {@link NormalHandler#attemptAction}, when the action is not allowed because
-	 * the team has no slots left in their inventory for the action.
-	 *
-	 * @throws IOException
-	 * 		will not occur because of mocks
-	 */
-	@Test
-	public void testAttemptAction_inventory() throws IOException {
-		//Ensure that we can no longer perform the action
-		for (int i = 0; i < Action.SPAWNENEMY.getGlobalMaxAmount(); i++) {
-			server.getInventory().performAction(Team.DWARFS, Action.SPAWNENEMY);
-		}
-		
-		HttpServletResponse response = createMockedResponse();
-
-		mockLevel(TileType.FLOOR);
-
-		WebClient clientMock = mockClient(Team.DWARFS);
-		clientMock.getPerformedActions().put(Action.SPAWNENEMY, new ArrayList<>());
-		
-		//Try to spawn a rabbit as a dwarf
-		handler.attemptAction(clientMock, Action.SPAWNENEMY, new Vec2I(0, 0), response);
-
-		//Verify the action is rejected for inventory
-		verify(clientMock).sendMessage(COCErrorCode.ACTION_INVENTORY.toString(), response);
-	}
-	
-	/**
 	 * Creates a mocked client for the given team.
 	 * 
 	 * @param team

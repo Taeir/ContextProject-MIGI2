@@ -17,8 +17,8 @@ public enum TileType {
 	FLOOR(1, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
 	WALL(2, 3, ColorRGBA.Gray, "Textures/walltexture.png"),
 	CORRIDOR(3, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
-	DOOR_ENTRANCE(3, 0, ColorRGBA.White, "Textures/grasstexture.png"),
-	DOOR_EXIT(3, 0, ColorRGBA.Red, "Textures/grasstexture.png");
+	DOOR_ENTRANCE(3, 0, ColorRGBA.Green, "Textures/grasstexture.png"),
+	DOOR_EXIT(3, 0, ColorRGBA.Green, "Textures/grasstexture.png");
 
 	private int jsonid;
 	private int height;

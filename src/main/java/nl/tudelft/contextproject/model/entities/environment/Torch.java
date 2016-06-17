@@ -56,7 +56,7 @@ public class Torch extends AbstractEntity {
 			fire.move(0, 0.11f, 0);
 		}
 		((Node) spatial).attachChild(torchSpatial);
-		spatial.move(-0.05f, 0, -0.05f);
+		spatial.move(-0.05f, 0.7f, -0.05f);
 	}
 	
 	/**

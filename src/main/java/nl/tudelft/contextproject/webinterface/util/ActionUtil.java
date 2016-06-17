@@ -11,6 +11,7 @@ import nl.tudelft.contextproject.model.entities.VoidPlatform;
 import nl.tudelft.contextproject.model.entities.exploding.Bomb;
 import nl.tudelft.contextproject.model.entities.exploding.LandMine;
 import nl.tudelft.contextproject.model.entities.moving.KillerBunny;
+import nl.tudelft.contextproject.util.Vec2I;
 import nl.tudelft.contextproject.webinterface.Action;
 
 /**
@@ -33,12 +34,13 @@ public final class ActionUtil {
 	 *
 	 * @param action
 	 * 		the action to perform
-	 * @param xCoord
-	 * 		the x coordinate to perform the action on
-	 * @param yCoord
-	 * 		the y coordinate to perform the action on
+	 * @param location
+	 * 		the location to perform the action at
 	 */
-	public static void perform(Action action, int xCoord, int yCoord) {
+	public static void perform(Action action, Vec2I location) {
+		int xCoord = location.x;
+		int yCoord = location.y;
+		
 		switch (action) {
 			case PLACEBOMB:
 				placeBomb(xCoord, yCoord);

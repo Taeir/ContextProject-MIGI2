@@ -1,0 +1,17 @@
+# two gates at the entrance and exit make sure you're stuck in the room with the bunny for at least 5 seconds
+10 10 3 2
+# # I # # # # # # #
+# O O O O O O O O #
+# O O O O O O O O #
+# O O O O O O O O #
+# O O O O O O O O #
+# O O O O O O O O #
+# O O O O O O O O #
+# O O O O O O O O #
+# O O O O O O O O #
+# # # # # # # X # #
+2 0 0 Gate SOUTH
+7 0 9 Gate SOUTH
+2 0 7 KillerBunny
+3 5 1 PointLight 0.4/0.2/0.4/1.0 5.0
+6 5 8 PointLight 0.4/0.2/0.4/1.0 5.0

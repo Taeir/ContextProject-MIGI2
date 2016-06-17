@@ -48,30 +48,6 @@ public class MainTest extends TestBase {
 	}
 	
 	/**
-	 * Test if giving '--hideQR' correctly hides the qr code.
-	 */
-	@Test
-	public void testMainHideQR() {
-		Main mMock = mock(Main.class);
-		Main.setInstance(mMock);
-		String[] args = {"a", "--hideQR", "b"};
-		Main.main(args);
-		assertFalse(Main.isQRShown());
-	}
-	
-	/**
-	 * Test if qr code is not shown when passing other arguments.
-	 */
-	@Test
-	public void testMainShowQR() {
-		Main mMock = mock(Main.class);
-		Main.setInstance(mMock);
-		String[] args = {"a", "--hideQRr", "b"};
-		Main.main(args);
-		assertTrue(Main.isQRShown());
-	}
-	
-	/**
 	 * Set a new controller without a previous one.
 	 */
 	@Test

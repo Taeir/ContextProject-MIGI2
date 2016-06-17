@@ -111,8 +111,6 @@ function requestJoinGame() {
  */
 function requestSetTeam(team) {
     requestNormal_setTeam(team);
-    
-    //TODO WebSocket
 }
 
 /**
