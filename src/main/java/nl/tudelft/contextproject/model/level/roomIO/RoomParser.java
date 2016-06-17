@@ -16,7 +16,7 @@ import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
-import nl.tudelft.contextproject.util.Vec2I;
+import nl.tudelft.contextproject.util.Size;
 
 /**
  * Utility class for loading rooms/levels from file.
@@ -60,7 +60,7 @@ public final class RoomParser {
 			int height = Integer.parseInt(tmp[1]);
 			checkDimensions(width, height, tiles);
 			
-			TileParser.readTiles(tiles, new Vec2I(width, height), br);
+			TileParser.readTiles(tiles, new Size(width, height), br);
 
 			try {
 				EntityParser.readEntities(entities, Integer.parseInt(tmp[2]), br, folder);

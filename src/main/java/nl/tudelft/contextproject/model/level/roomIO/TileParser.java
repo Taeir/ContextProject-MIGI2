@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.util.Vec2I;
+import nl.tudelft.contextproject.util.Size;
 
 /**
  * Utility class for reading MazeTiles.
@@ -53,20 +53,20 @@ public final class TileParser {
 	 * @param tiles
 	 * 		the array to store the tiles in
 	 * @param size
-	 * 		the size of the map. The x represents the width and the y represents the height
+	 * 		the size of the map
 	 * @param br
 	 * 		the BufferedReader used to get the input
 	 * @throws IOException
 	 * 		when reading from the reader goes wrong
 	 */
-	public static void readTiles(MazeTile[][] tiles, Vec2I size, BufferedReader br) throws IOException {
-		for (int y = 0; y < size.y; y++) {
+	public static void readTiles(MazeTile[][] tiles, Size size, BufferedReader br) throws IOException {
+		for (int y = 0; y < size.getHeight(); y++) {
 			String in = br.readLine();
 			if (in == null) throw new IllegalArgumentException("Empty line where some data was expected when loading tile row " + y + ".");
 
 			String[] line = in.split(" ");
-			if (line.length < size.x) {
-				throw new IllegalArgumentException("There are not enoug tiles in this row! expected " + size.x + ", but was " + line.length + ".");
+			if (line.length < size.getWidth()) {
+				throw new IllegalArgumentException("There are not enoug tiles in this row! expected " + size.getWidth() + ", but was " + line.length + ".");
 			}
 
 			for (int x = 0; x < line.length; x++) {

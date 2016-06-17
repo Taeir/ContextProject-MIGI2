@@ -44,7 +44,7 @@ public final class WebUtil {
 	/**
 	 * Check if a location is a valid location to perform an action on.
 	 *
-	 * @param xCoord
+	 * @param location
 	 * 		the location to check
 	 * @param action
 	 * 		the action to check for
