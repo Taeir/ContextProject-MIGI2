@@ -2,8 +2,6 @@ package nl.tudelft.contextproject;
 
 import java.awt.Desktop;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,9 +23,6 @@ import nl.tudelft.contextproject.controller.Controller;
 import nl.tudelft.contextproject.controller.GameThreadController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.controller.WaitingController;
-import nl.tudelft.contextproject.debug.COCDebug;
-import nl.tudelft.contextproject.debug.COCStatsAppState;
-import nl.tudelft.contextproject.input.NoVRMouseManager;
 import nl.tudelft.contextproject.input.VRLookManager;
 import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.logging.Log;
@@ -54,23 +49,13 @@ public class Main extends VRApplication implements Observable {
 	public static final boolean MIRROR_WINDOW = true;
 	public static final Float TIME_LIMIT = 300f;
 	
-	private static boolean hideQR;
-	private static boolean noWebServer;
 	private static volatile Main instance;
-	private static boolean mouseEnabled;
 	
 	private GameThreadController controller;
 	private WebServer webServer;
 	private Set<Observer> observers = ConcurrentHashMap.newKeySet();
 	private BitmapFont guifont;
 	private int paused;
-	
-	/**
-	 * Constructor for Main.
-	 */
-	public Main() {
-		super(new COCStatsAppState());
-	}
 	
 	/**
 	 * Main method that is called when the program is started.
@@ -81,16 +66,9 @@ public class Main extends VRApplication implements Observable {
 	public static void main(String[] args) {
 		FileUtil.init();
 		Main main = getInstance();
-		List<String> a = Arrays.asList(args);
-		hideQR = a.contains("--hideQR");
-		
-		noWebServer = a.contains("--noWebServer");
-		
-		boolean dvr = a.contains("--disableVR");
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, dvr);
-		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, !dvr);
 
-		mouseEnabled = a.contains("--enableMouse");
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.DISABLE_VR, false);
+		main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, true);
 		
 		AppSettings settings = new AppSettings(true);
 		settings.setUseJoysticks(true);
@@ -233,10 +211,7 @@ public class Main extends VRApplication implements Observable {
 		
 		setController(new WaitingController(this));
 		setupWebServer();
-		
-		if (!hideQR) {
-			showQRCode();
-		}
+		showQRCode();
 
 		setupAudio();
 		
@@ -249,8 +224,6 @@ public class Main extends VRApplication implements Observable {
 				onGameStopped();
 			}
 		});
-		
-		COCDebug.init();
 	}
 
 	/**
@@ -272,9 +245,7 @@ public class Main extends VRApplication implements Observable {
 		InputManager inputManager = getInputManager();
 		inputManager.setCursorVisible(false);
 
-		if (mouseEnabled) {
-			new NoVRMouseManager(getCamera()).registerWithInput(inputManager);
-		} else if (VRApplication.isInVR()) {
+		if (VRApplication.isInVR()) {
 			new VRLookManager(VRApplication.getObserver()).registerWithInput(inputManager);
 		}
 		
@@ -319,25 +290,15 @@ public class Main extends VRApplication implements Observable {
 	}
 	
 	/**
-	 * @return
-	 * 		the WebServer of this game
-	 */
-	public WebServer getWebServer() {
-		return webServer;
-	}
-	
-	/**
 	 * Creates the web server and starts it.
 	 */
 	protected void setupWebServer() {
 		webServer = new WebServer();
 		
-		if (!noWebServer) {
-			try {
-				webServer.start(PORT_NUMBER);
-			} catch (Exception ex) {
-				Log.getLog("WebInterface").severe("Exception while trying to start webserver", ex);
-			}
+		try {
+			webServer.start(PORT_NUMBER);
+		} catch (Exception ex) {
+			Log.getLog("WebInterface").severe("Exception while trying to start webserver", ex);
 		}
 	}
 	
@@ -441,16 +402,6 @@ public class Main extends VRApplication implements Observable {
 		}
 
 		BackgroundMusic.getInstance().stop();
-	}
-
-	/**
-	 * Check if the qr code is shown on startup.
-	 *
-	 * @return
-	 * 		true when shown, false otherwise
-	 */
-	public static boolean isQRShown() {
-		return !hideQR;
 	}
 
 	/**
