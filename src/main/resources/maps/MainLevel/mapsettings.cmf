@@ -1,7 +1,7 @@
 #
 # The layout of the rooms in the main game.
 #
-startroom endroom 15
+startroom endroom 17
 voidLevel
 jumpHallway
 bunnyRoom
@@ -17,3 +17,5 @@ bridges
 checkerboard
 dareDevil
 storageDepot
+voidKeyRoom
+bunnyRoom2
