@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nl.tudelft.contextproject.TestBase;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Test class for CorridorExponentialExtension.

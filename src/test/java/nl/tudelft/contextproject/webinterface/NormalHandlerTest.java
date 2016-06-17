@@ -24,8 +24,8 @@ import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.TileType;
-import nl.tudelft.contextproject.model.level.util.Vec2I;
 import nl.tudelft.contextproject.test.TestUtil;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Test class for {@link NormalHandler}.

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Stack;
 
 import nl.tudelft.contextproject.model.level.MazeTile;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Corridor breadth first search utility class.

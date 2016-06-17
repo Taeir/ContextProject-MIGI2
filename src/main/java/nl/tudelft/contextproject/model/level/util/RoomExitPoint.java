@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.model.level.util;
 
+import nl.tudelft.contextproject.util.Vec2I;
+
 /**
  * Exit point of a room.
  * 
