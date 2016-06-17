@@ -343,8 +343,8 @@ public class RoomNode {
 	public boolean locationInRoom(Vec2I locationToCheck) {
 		int xStartOfRoom = this.coordinates.x;
 		int yStartOfRoom = this.coordinates.y;
-		int xEndOfRoom = this.room.size.getHeight() + xStartOfRoom;
-		int yEndOfroom = this.room.size.getWidth() + yStartOfRoom;
+		int xEndOfRoom = this.room.size.getWidth() + xStartOfRoom;
+		int yEndOfroom = this.room.size.getHeight() + yStartOfRoom;
 		if (xStartOfRoom <= locationToCheck.x 
 				&& locationToCheck.x <= xEndOfRoom
 				&& yStartOfRoom <= locationToCheck.y
