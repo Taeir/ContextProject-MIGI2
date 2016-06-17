@@ -58,10 +58,13 @@ public final class WebUtil {
 		} else if (tile == null || tile.getTileType() == TileType.WALL) {
 			return false;
 		}
-
-		if (action.isAllowedTiles()) {
+		
+		if (action.isAllowedTiles() && !action.equals(Action.OPENGATE)) {
 			return checkValidLocationEntities(location.x, location.y);
+		} else if (action.equals(Action.OPENGATE)) {
+			return true;
 		}
+
 
 		return false;
 	}
