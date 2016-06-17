@@ -10,6 +10,7 @@ import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.util.Vec2I;
 import nl.tudelft.contextproject.webinterface.Action;
 import nl.tudelft.contextproject.webinterface.Team;
 import nl.tudelft.contextproject.webinterface.WebClient;
@@ -69,7 +70,7 @@ public class WebUtilTest extends TestBase {
 	@Test
 	public void testCheckValidLocationNull() {
 		when(mockedLevel.getTile(0, 0)).thenReturn(null);
-		assertFalse(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
+		assertFalse(WebUtil.checkValidLocation(new Vec2I(0, 0), Action.PLACEBOMB));
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class WebUtilTest extends TestBase {
 	public void testCheckValidLocationWall() {
 		MazeTile tile = new MazeTile(0, 0, TileType.WALL);
 		when(mockedLevel.getTile(0, 0)).thenReturn(tile);
-		assertFalse(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
+		assertFalse(WebUtil.checkValidLocation(new Vec2I(0, 0), Action.PLACEBOMB));
 	}
 
 	/**
@@ -98,7 +99,7 @@ public class WebUtilTest extends TestBase {
 
 		when(mockedGame.getEntities()).thenReturn(entities);
 
-		assertFalse(WebUtil.checkValidLocation(0, 0, Action.PLACEBOMB));
+		assertFalse(WebUtil.checkValidLocation(new Vec2I(0, 0), Action.PLACEBOMB));
 	}
 
 	/**
@@ -142,7 +143,7 @@ public class WebUtilTest extends TestBase {
 		Vector3f oneVector = new Vector3f(1, 1, 1);
 		when(mockedPlayer.getLocation()).thenReturn(oneVector);
 
-		assertTrue(WebUtil.checkValidLocation(0, 0, Action.PLACETILE));
+		assertTrue(WebUtil.checkValidLocation(new Vec2I(0, 0), Action.PLACETILE));
 	}
 
 	/**
@@ -222,6 +223,6 @@ public class WebUtilTest extends TestBase {
 		when(mockedGame.getPlayer()).thenReturn(mockedPlayer);
 		when(mockedPlayer.getLocation()).thenReturn(oneVector);
 		
-		assertFalse(WebUtil.checkValidLocation(1 + Action.PLACEMINE.getRadius(), 1, Action.PLACEMINE));
+		assertFalse(WebUtil.checkValidLocation(new Vec2I(1 + Action.PLACEMINE.getRadius(), 1), Action.PLACEMINE));
 	}
 }
