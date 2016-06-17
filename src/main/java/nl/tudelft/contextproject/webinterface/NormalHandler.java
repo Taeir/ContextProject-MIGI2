@@ -336,7 +336,7 @@ public class NormalHandler {
 			return;
 		}
 
-		if (!WebUtil.checkValidLocation(location.x, location.y, action)) {
+		if (!WebUtil.checkValidLocation(location, action)) {
 			client.sendMessage(COCErrorCode.ACTION_ILLEGAL_LOCATION.toString(), response);
 			return;
 		}
@@ -345,14 +345,9 @@ public class NormalHandler {
 			client.sendMessage(COCErrorCode.ACTION_COOLDOWN.toString(), response);
 			return;
 		}
-		
-		if (!server.getInventory().performAction(client.getTeam(), action)) {
-			client.sendMessage(COCErrorCode.ACTION_INVENTORY.toString(), response);
-			return;
-		}
 
 		try {
-			ActionUtil.perform(action, location.x, location.y);
+			ActionUtil.perform(action, location);
 			if (response != null) {
 				client.confirmMessage(response);
 			}
@@ -413,7 +408,6 @@ public class NormalHandler {
 				//Fall through to running
 			case RUNNING:
 				json.put("e", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
-				json.put("i", server.getInventory().toWebJson(client.getTeam()));
 				if (client.isElf()) {
 					json.put("x", game.getLevel().toExploredWebJSON());
 				}

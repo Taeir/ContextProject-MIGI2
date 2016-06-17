@@ -36,7 +36,7 @@ function handleJoinGame(data) {
         if (state !== undefined) {
             switchTo(state.view);
         } else {
-            handleError(data);
+            handleErrorCode(data);
         }
     }
 }
@@ -132,9 +132,7 @@ function handleActionResponse(data) {
 /**
  * Called when a socket connection is opened.
  */
-function handleSocketOpen() {
-    console.log("[WebSocket] Connected!");
-}
+function handleSocketOpen() { }
 
 /**
  * Called when the client receives a message from the server via a socket.
@@ -144,7 +142,7 @@ function handleSocketOpen() {
  */
 function handleSocketMessage(evt) {
     if (evt.data === undefined) {
-        console.log("[WebSocket] No data in message!");
+        //No data in message!
         return;
     }
     
@@ -161,13 +159,16 @@ function handleSocketMessage(evt) {
         }
     }
     
-    //TODO try catch?
-    var data = JSON.parse(evt.data);
-    
-    if (data.type === "map") {
-        handleMap(data);
-    } else {
-        handleStatusUpdateMessage(JSON.parse(evt.data));
+    try {
+        var data = JSON.parse(evt.data);
+        
+        if (data.type === "map") {
+            handleMap(data);
+        } else {
+            handleStatusUpdateMessage(JSON.parse(evt.data));
+        }
+    } catch (ex) {
+        handleErrorCode(500);
     }
 };
 /**
@@ -175,7 +176,6 @@ function handleSocketMessage(evt) {
  */
 function handleSocketClose() {
     gSocket = null;
-    console.log("[WebSocket] Disconnected!");
     
     setTimeout(function() { showAlert("Server closed the connection.", Severity.Success); }, 1000);
     switchTo(Views.INDEX);
@@ -186,8 +186,6 @@ function handleSocketClose() {
  */
 function handleSocketError(evt) {
     showAlert("Something went wrong", Severity.Danger, 2000);
-    console.log("[WebSocket] Error!");
-    console.log(evt);
 }
 
 // ================================================================================================
@@ -267,12 +265,11 @@ function handleStatusUpdateRequestError(jqxhr, status, error) {
 function handleErrorCode(code, unauthorizedCallback) {
     var err = ErrorCodes[code];
     if (err !== undefined) {
-        console.log("Error [" + err.name + "] (" + code + "): " + err.msg);
         showAlert(err.msg, err.severity);
         if (unauthorizedCallback !== undefined && err.name === "UNAUTHORIZED") {
             unauthorizedCallback();
         }
     } else {
-        console.log("Error [?] (" + code + "): null");
+        showAlert("An unknown error occurred!", Severity.Danger);
     }
 }

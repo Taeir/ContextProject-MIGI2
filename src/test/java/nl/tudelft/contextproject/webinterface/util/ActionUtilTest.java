@@ -19,6 +19,7 @@ import nl.tudelft.contextproject.model.entities.exploding.Bomb;
 import nl.tudelft.contextproject.model.entities.exploding.LandMine;
 import nl.tudelft.contextproject.model.entities.moving.KillerBunny;
 import nl.tudelft.contextproject.test.TestUtil;
+import nl.tudelft.contextproject.util.Vec2I;
 import nl.tudelft.contextproject.webinterface.Action;
 
 /**
@@ -41,7 +42,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformPlaceBomb() {
-		ActionUtil.perform(Action.PLACEBOMB, 0, 0);
+		ActionUtil.perform(Action.PLACEBOMB, new Vec2I(0, 0));
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(Bomb.class));
 	}
@@ -51,7 +52,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformPlacePitfall() {
-		ActionUtil.perform(Action.PLACEPITFALL, 0, 0);
+		ActionUtil.perform(Action.PLACEPITFALL, new Vec2I(0, 0));
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(Pitfall.class));
 	}
@@ -61,7 +62,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformPlaceMine() {
-		ActionUtil.perform(Action.PLACEMINE, 0, 0);
+		ActionUtil.perform(Action.PLACEMINE, new Vec2I(0, 0));
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(LandMine.class));
 	}
@@ -71,7 +72,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformSpawnEnemy() {
-		ActionUtil.perform(Action.SPAWNENEMY, 0, 0);
+		ActionUtil.perform(Action.SPAWNENEMY, new Vec2I(0, 0));
 		verify(mockedGame, times(1)).addEntity(any(KillerBunny.class));
 	}
 
@@ -80,7 +81,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformDropBait() {
-		ActionUtil.perform(Action.DROPBAIT, 0, 0);
+		ActionUtil.perform(Action.DROPBAIT, new Vec2I(0, 0));
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(Carrot.class));
 	}
@@ -90,7 +91,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformPlaceTile() {
-		ActionUtil.perform(Action.PLACETILE, 0, 0);
+		ActionUtil.perform(Action.PLACETILE, new Vec2I(0, 0));
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(VoidPlatform.class));
 	}
@@ -100,7 +101,7 @@ public class ActionUtilTest extends TestBase {
 	 */
 	@Test
 	public void testPerformDropCrate() {
-		ActionUtil.perform(Action.DROPCRATE, 0, 0);
+		ActionUtil.perform(Action.DROPCRATE, new Vec2I(0, 0));
 		verify(Main.getInstance(), times(1)).getCurrentGame();
 		verify(mockedGame, times(1)).addEntity(any(Crate.class));
 	}
@@ -116,7 +117,7 @@ public class ActionUtilTest extends TestBase {
 		when(gate.getLocation()).thenReturn(new Vector3f());
 		
 		Main.getInstance().getCurrentGame().addEntity(gate);
-		ActionUtil.perform(Action.OPENGATE, 0, 0);
+		ActionUtil.perform(Action.OPENGATE, new Vec2I(0, 0));
 		verify(gate, atLeastOnce()).openGate();
 	}
 }

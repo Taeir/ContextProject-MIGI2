@@ -1,0 +1,20 @@
+# You have to be fast to get through all the gates quickly
+3 11 5 2
+# I #
+# O #
+# O #
+# O #
+# O #
+# O #
+# O #
+# O #
+# O #
+# O #
+# X #
+1 0 2 Gate NORTH
+1 0 4 Gate NORTH
+1 0 6 Gate NORTH
+1 0 8 Gate NORTH
+1 0 5 Crate 5.0
+1 5 3 PointLight 1.0/1.0/1.0/1.0 5.0
+1 5 7 PointLight 1.0/1.0/1.0/1.0 5.0

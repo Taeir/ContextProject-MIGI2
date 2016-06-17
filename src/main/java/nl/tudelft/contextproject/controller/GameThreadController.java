@@ -76,7 +76,7 @@ public abstract class GameThreadController extends Controller {
 		if (!isMap) {
 			factory = new RoomLevelFactory(folder);
 		} else {
-			factory = new MSTBasedLevelFactory("/maps/testGridMap/"); 	
+			factory = new MSTBasedLevelFactory(folder); 	
 		}
 		
 		Level level = factory.generateRandom();

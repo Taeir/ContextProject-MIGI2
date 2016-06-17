@@ -42,7 +42,7 @@ public class TorchTest extends EntityTest {
 	@Test
 	public void testLoadEntity() {
 		Torch torch = Torch.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.TORCH.getName(), "true"});
-		assertEquals(new Vector3f(0.95f, 1.0f, 0.95f), torch.getLocation());
+		assertEquals(new Vector3f(0.95f, 1.7f, 0.95f), torch.getLocation());
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class TorchTest extends EntityTest {
 	@Test
 	public void testLoadEntityLamp() {
 		Torch torch = Torch.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.TORCH.getName(), "false"});
-		assertEquals(new Vector3f(0.95f, 1.0f, 0.95f), torch.getLocation());
+		assertEquals(new Vector3f(0.95f, 1.7f, 0.95f), torch.getLocation());
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class TorchTest extends EntityTest {
 	@Test
 	public void testCeilingLamp() {
 		Torch lamp = new Torch(false);
-		assertEquals(new Vector3f(-0.05f, 0, -0.05f), lamp.getSpatial().getLocalTranslation());	
+		assertEquals(new Vector3f(-0.05f, 0.7f, -0.05f), lamp.getSpatial().getLocalTranslation());	
 	}
 	
 	/**
@@ -109,7 +109,7 @@ public class TorchTest extends EntityTest {
 		lamp.rotateNorth();
 		lamp.rotateSouth();
 		lamp.rotateWest();
-		assertEquals(new Vector3f(-0.05f, 0.0f, -0.05f), lamp.getSpatial().getLocalTranslation());
+		assertEquals(new Vector3f(-0.05f, 0.7f, -0.05f), lamp.getSpatial().getLocalTranslation());
 		
 	}
 	/**

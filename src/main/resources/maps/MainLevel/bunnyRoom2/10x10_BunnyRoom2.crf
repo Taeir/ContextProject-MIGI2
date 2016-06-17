@@ -1,0 +1,40 @@
+# A room with trapped bunnies in the corners
+10 10 28 0
+# # # # # I # # # #
+# O O O O O O O O #
+# O O O O O O O O #
+# O O O O O O O O #
+I O O O O O O O O #
+# O O O O O O O O X
+# O O O O O O O O #
+# O O O O O O O O #
+# O O O O O O O O #
+# # # # X # # # # #
+3 0 1 InvisibleWall
+3 0 2 InvisibleWall
+3 0 3 InvisibleWall
+2 0 3 InvisibleWall
+1 0 3 InvisibleWall
+6 0 1 InvisibleWall
+6 0 2 InvisibleWall
+6 0 3 InvisibleWall
+7 0 3 InvisibleWall
+8 0 3 InvisibleWall
+8 0 6 InvisibleWall
+7 0 6 InvisibleWall
+6 0 6 InvisibleWall
+6 0 7 InvisibleWall
+6 0 8 InvisibleWall
+3 0 8 InvisibleWall
+3 0 7 InvisibleWall
+3 0 6 InvisibleWall
+2 0 6 InvisibleWall
+1 0 6 InvisibleWall
+8 1 1 KillerBunny
+1 1 1 KillerBunny
+1 1 8 KillerBunny
+8 1 8 KillerBunny
+7 0 4 LandMine
+4 0 2 LandMine
+2 0 5 LandMine
+5 0 7 LandMine

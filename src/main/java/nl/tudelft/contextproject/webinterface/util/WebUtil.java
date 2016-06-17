@@ -6,6 +6,7 @@ import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.util.Vec2I;
 import nl.tudelft.contextproject.webinterface.Action;
 import nl.tudelft.contextproject.webinterface.Team;
 import nl.tudelft.contextproject.webinterface.WebClient;
@@ -43,26 +44,27 @@ public final class WebUtil {
 	/**
 	 * Check if a location is a valid location to perform an action on.
 	 *
-	 * @param xCoord
-	 * 		the x coordinate of the location
-	 * @param yCoord
-	 * 		the y coordinate of the location
+	 * @param location
+	 * 		the location to check
 	 * @param action
 	 * 		the action to check for
 	 * @return
 	 * 		true if the location is valid, false otherwise
 	 */
-	public static boolean checkValidLocation(int xCoord, int yCoord, Action action) {
-		MazeTile tile = Main.getInstance().getCurrentGame().getLevel().getTile(xCoord, yCoord);
+	public static boolean checkValidLocation(Vec2I location, Action action) {
+		MazeTile tile = Main.getInstance().getCurrentGame().getLevel().getTile(location.x, location.y);
 		if (tile == null && action.isAllowedVoid()) {
-			return checkValidLocationEntities(xCoord, yCoord);
+			return checkValidLocationEntities(location.x, location.y);
 		} else if (tile == null || tile.getTileType() == TileType.WALL) {
 			return false;
 		}
-
-		if (action.isAllowedTiles()) {
-			return checkValidLocationEntities(xCoord, yCoord);
+		
+		if (action.isAllowedTiles() && !action.equals(Action.OPENGATE)) {
+			return checkValidLocationEntities(location.x, location.y);
+		} else if (action.equals(Action.OPENGATE)) {
+			return true;
 		}
+
 
 		return false;
 	}
@@ -150,6 +152,7 @@ public final class WebUtil {
 		if (player == null) return false;
 		
 		Vector3f location = player.getLocation();
-		return Math.abs((Math.abs(location.x) + Math.abs(location.z) - Math.abs(xCoord) - Math.abs(yCoord))) >= action.getRadius();
+		Vector3f actionLocation = new Vector3f(xCoord, location.y, yCoord);
+		return location.distance(actionLocation) >= action.getRadius();
 	}
 }

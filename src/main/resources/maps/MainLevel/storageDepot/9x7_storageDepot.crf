@@ -1,0 +1,16 @@
+# A storage room with some crates
+9 7 7 0
+# # # # # # # # #
+# O O # O O O O #
+# O O # O O O O #
+I O O O O O O O X
+# O O O O # O O #
+# O O O O # O O #
+# # # # # # # # #
+1 0 5 Key 0.8/0.5019608/0.2/1.0
+8 0 3 Door 0.8/0.5019608/0.2/1.0 WEST
+1 0 4 Crate 0.75
+2 0 5 Crate 0.75
+6 0 1 Crate 0.75
+7 0 1 Crate 0.75
+6 0 5 Crate 0.75
