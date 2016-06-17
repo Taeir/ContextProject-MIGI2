@@ -258,14 +258,6 @@ public class Main extends VRApplication implements Observable {
 			joystick.getButton("3").assignButton("Unmapped");		// Y
 			joystick.getButton("2").assignButton("Drop");			// X
 			joystick.getButton("1").assignButton("Pickup");			// B
-		} else {
-			inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
-			inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
-			inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
-			inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
-			inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-			inputManager.addMapping("Drop", new KeyTrigger(KeyInput.KEY_Q));
-			inputManager.addMapping("Pickup", new KeyTrigger(KeyInput.KEY_E));
 		}
 
 		inputManager.addMapping("Exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
