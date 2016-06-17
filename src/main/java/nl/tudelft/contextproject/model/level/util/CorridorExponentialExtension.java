@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import nl.tudelft.contextproject.util.RandomUtil;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Utility class that contains methods which expand corridors using an exponential distribution.

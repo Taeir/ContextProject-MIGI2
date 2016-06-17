@@ -10,6 +10,7 @@ import org.junit.Test;
 import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Corridor breadth first search test class.

@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.model.level.util;
+package nl.tudelft.contextproject.util;
 
 /**
  * 2d integer vector class.

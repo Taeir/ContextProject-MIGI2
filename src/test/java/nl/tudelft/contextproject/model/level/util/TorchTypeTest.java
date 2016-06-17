@@ -14,6 +14,7 @@ import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.environment.Torch;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Torch type test class.

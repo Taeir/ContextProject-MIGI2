@@ -25,6 +25,7 @@ import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.level.Level;
 import nl.tudelft.contextproject.model.level.TileType;
 import nl.tudelft.contextproject.test.TestUtil;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Test class for {@link NormalHandler}.
@@ -537,7 +538,7 @@ public class NormalHandlerTest extends WebTestBase {
 	 */
 	@Test
 	public void testOnActionRequest_normal_unknown() throws IOException {
-		doNothing().when(handler).attemptAction(any(), any(), anyInt(), anyInt(), any());
+		doNothing().when(handler).attemptAction(any(), any(), any(), any());
 		
 		HttpServletRequest request = createMockedRequest("A");
 		HttpServletResponse response = createMockedResponse();
@@ -556,7 +557,7 @@ public class NormalHandlerTest extends WebTestBase {
 	 */
 	@Test
 	public void testOnActionRequest_normal_known() throws IOException {
-		doNothing().when(handler).attemptAction(any(), any(), anyInt(), anyInt(), any());
+		doNothing().when(handler).attemptAction(any(), any(), any(), any());
 		
 		WebClient client = new WebClient();
 		server.getClients().put("A", client);
@@ -569,7 +570,7 @@ public class NormalHandlerTest extends WebTestBase {
 		
 		handler.onActionRequest(request, response);
 		
-		verify(handler).attemptAction(client, Action.PLACEBOMB, 1, 2, response);
+		verify(handler).attemptAction(client, Action.PLACEBOMB, new Vec2I(1, 2), response);
 	}
 
 	/**
@@ -581,16 +582,16 @@ public class NormalHandlerTest extends WebTestBase {
 	 */
 	@Test
 	public void testOnActionRequest_sockets() throws IOException {
-		doNothing().when(handler).attemptAction(any(), any(), anyInt(), anyInt(), any());
+		doNothing().when(handler).attemptAction(any(), any(), any(), any());
 		
 		WebClient client = new WebClient();
 		int x = 1;
 		int y = 2;
 		Action action = Action.PLACEMINE;
 		
-		handler.onActionRequest(client, x, y, action);
+		handler.onActionRequest(client, new Vec2I(x, y), action);
 		
-		verify(handler).attemptAction(client, action, x, y, null);
+		verify(handler).attemptAction(client, action, new Vec2I(x, y), null);
 	}
 
 	/**
@@ -673,7 +674,7 @@ public class NormalHandlerTest extends WebTestBase {
 		clientMock.getPerformedActions().put(Action.DROPBAIT, new ArrayList<>());
 
 		//Try to place a bomb as an elf, which is impossible
-		handler.attemptAction(clientMock, Action.PLACEBOMB, 0, 0, response);
+		handler.attemptAction(clientMock, Action.PLACEBOMB, new Vec2I(0, 0), response);
 
 		//Verify the action has been denied
 		verify(clientMock).sendMessage(COCErrorCode.ACTION_ILLEGAL.toString(), response);
@@ -695,7 +696,7 @@ public class NormalHandlerTest extends WebTestBase {
 		clientMock.getPerformedActions().put(Action.PLACEBOMB, new ArrayList<>());
 
 		//Try to place a bomb as a dwarf
-		handler.attemptAction(clientMock, Action.PLACEBOMB, 0, 0, response);
+		handler.attemptAction(clientMock, Action.PLACEBOMB, new Vec2I(0, 0), response);
 
 		//Verify the action is rejected for illegal location
 		verify(clientMock).sendMessage(COCErrorCode.ACTION_ILLEGAL_LOCATION.toString(), response);
@@ -722,7 +723,7 @@ public class NormalHandlerTest extends WebTestBase {
 		clientMock.getPerformedActions().put(Action.PLACEBOMB, set);
 
 		//Try to place a bomb as a dwarf
-		handler.attemptAction(clientMock, Action.PLACEBOMB, 0, 0, response);
+		handler.attemptAction(clientMock, Action.PLACEBOMB, new Vec2I(0, 0), response);
 
 		//Verify the action is rejected for cooldown
 		verify(clientMock).sendMessage(COCErrorCode.ACTION_COOLDOWN.toString(), response);
@@ -746,7 +747,7 @@ public class NormalHandlerTest extends WebTestBase {
 		clientMock.getPerformedActions().put(Action.SPAWNENEMY, new ArrayList<>());
 
 		//Try to spawn a rabbit as a dwarf
-		handler.attemptAction(clientMock, Action.SPAWNENEMY, 0, 0, response);
+		handler.attemptAction(clientMock, Action.SPAWNENEMY, new Vec2I(0, 0), response);
 
 		//Verify the action is rejected for radius
 		verify(clientMock).sendMessage(COCErrorCode.ACTION_RADIUS.toString(), response);
@@ -768,7 +769,7 @@ public class NormalHandlerTest extends WebTestBase {
 		clientMock.getPerformedActions().put(Action.PLACEBOMB, new ArrayList<>());
 
 		//Try to place a bomb as a dwarf
-		handler.attemptAction(clientMock, Action.PLACEBOMB, 0, 0, response);
+		handler.attemptAction(clientMock, Action.PLACEBOMB, new Vec2I(0, 0), response);
 
 		//Verify the action has been accepted
 		verify(clientMock).confirmMessage(response);
@@ -796,7 +797,7 @@ public class NormalHandlerTest extends WebTestBase {
 		clientMock.getPerformedActions().put(Action.SPAWNENEMY, new ArrayList<>());
 		
 		//Try to spawn a rabbit as a dwarf
-		handler.attemptAction(clientMock, Action.SPAWNENEMY, 0, 0, response);
+		handler.attemptAction(clientMock, Action.SPAWNENEMY, new Vec2I(0, 0), response);
 
 		//Verify the action is rejected for inventory
 		verify(clientMock).sendMessage(COCErrorCode.ACTION_INVENTORY.toString(), response);

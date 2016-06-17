@@ -17,7 +17,8 @@ import nl.tudelft.contextproject.model.level.roomIO.EntityParser;
 import nl.tudelft.contextproject.model.level.roomIO.RoomParser;
 import nl.tudelft.contextproject.model.level.util.RoomNode;
 import nl.tudelft.contextproject.model.level.util.TorchType;
-import nl.tudelft.contextproject.model.level.util.Vec2I;
+import nl.tudelft.contextproject.util.Vec2I;
+
 import lombok.SneakyThrows;
 
 /**

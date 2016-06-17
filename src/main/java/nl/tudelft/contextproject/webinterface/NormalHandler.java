@@ -16,6 +16,7 @@ import nl.tudelft.contextproject.controller.EndingController;
 import nl.tudelft.contextproject.controller.GameState;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.util.QRGenerator;
+import nl.tudelft.contextproject.util.Vec2I;
 import nl.tudelft.contextproject.webinterface.util.ActionUtil;
 import nl.tudelft.contextproject.webinterface.util.EntityUtil;
 import nl.tudelft.contextproject.webinterface.util.WebUtil;
@@ -291,7 +292,7 @@ public class NormalHandler {
 		int yCoord = Integer.parseInt(request.getParameter("y"));
 		Action action = Action.getAction(Integer.parseInt(request.getParameter("action")));
 
-		attemptAction(client, action, xCoord, yCoord, response);
+		attemptAction(client, action, new Vec2I(xCoord, yCoord), response);
 	}
 	
 	/**
@@ -299,17 +300,15 @@ public class NormalHandler {
 	 * 
 	 * @param client
 	 * 		the webclient that issued the request
-	 * @param xCoord
-	 * 		the x coordinate of the action
-	 * @param yCoord
-	 * 		the y coordinate of the action
+	 * @param location
+	 * 		the location of the action
 	 * @param action
 	 * 		the action to perform
 	 * @throws IOException
 	 * 		if writing to the response causes an IOException
 	 */
-	public void onActionRequest(WebClient client, int xCoord, int yCoord, Action action) throws IOException {
-		attemptAction(client, action, xCoord, yCoord, null);
+	public void onActionRequest(WebClient client, Vec2I location, Action action) throws IOException {
+		attemptAction(client, action, location, null);
 	}
 	
 	/**
@@ -319,27 +318,25 @@ public class NormalHandler {
 	 * 		the client that is attempting the action
 	 * @param action
 	 * 		the action to perform
-	 * @param xCoord
-	 * 		the x coordinate to perform the action at
-	 * @param yCoord
-	 * 		the y coordinate to perform the action at
+	 * @param location
+	 * 		the location to perform the action at
 	 * @param response
 	 * 		the object to write the response to. Can be null for websockets
 	 * @throws IOException
 	 * 		if writing to the response causes an IOException
 	 */
-	protected void attemptAction(WebClient client, Action action, int xCoord, int yCoord, HttpServletResponse response) throws IOException {
+	protected void attemptAction(WebClient client, Action action, Vec2I location, HttpServletResponse response) throws IOException {
 		if (!WebUtil.checkValidAction(action, client.getTeam())) {
 			client.sendMessage(COCErrorCode.ACTION_ILLEGAL.toString(), response);
 			return;
 		}
 		
-		if (!WebUtil.checkOutsideRadius(xCoord, yCoord, action)) {
+		if (!WebUtil.checkOutsideRadius(location.x, location.y, action)) {
 			client.sendMessage(COCErrorCode.ACTION_RADIUS.toString(), response);
 			return;
 		}
 
-		if (!WebUtil.checkValidLocation(xCoord, yCoord, action)) {
+		if (!WebUtil.checkValidLocation(location.x, location.y, action)) {
 			client.sendMessage(COCErrorCode.ACTION_ILLEGAL_LOCATION.toString(), response);
 			return;
 		}
@@ -355,7 +352,7 @@ public class NormalHandler {
 		}
 
 		try {
-			ActionUtil.perform(action, xCoord, yCoord);
+			ActionUtil.perform(action, location.x, location.y);
 			if (response != null) {
 				client.confirmMessage(response);
 			}

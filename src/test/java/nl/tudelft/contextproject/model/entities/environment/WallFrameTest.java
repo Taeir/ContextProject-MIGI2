@@ -9,6 +9,7 @@ import static org.mockito.Mockito.anyFloat;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -25,7 +26,7 @@ public class WallFrameTest extends EntityTest {
 	
 	@Override
 	public Entity getEntity() {
-		return new WallFrame(new Vector3f(), "logo.png", Direction.SOUTH, 1, 3);
+		return new WallFrame(new Vector3f(), "logo.png", Direction.SOUTH, new Vector2f(1, 3));
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class WallFrameTest extends EntityTest {
 	 */
 	@Before
 	public void setUp() {
-		wallFrame = new WallFrame(new Vector3f(), "logo.png", Direction.NORTH, 1, 3);		
+		wallFrame = new WallFrame(new Vector3f(), "logo.png", Direction.NORTH, new Vector2f(1, 3));		
 	}
 	
 	/**

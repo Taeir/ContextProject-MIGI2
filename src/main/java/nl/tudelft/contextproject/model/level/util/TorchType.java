@@ -5,6 +5,7 @@ import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.model.entities.environment.Torch;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Enum that represents the different configurations of point light models.

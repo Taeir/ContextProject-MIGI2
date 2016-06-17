@@ -21,8 +21,8 @@ import nl.tudelft.contextproject.model.level.util.MinimumSpanningTree;
 import nl.tudelft.contextproject.model.level.util.RoomEntrancePoint;
 import nl.tudelft.contextproject.model.level.util.RoomExitPoint;
 import nl.tudelft.contextproject.model.level.util.RoomNode;
-import nl.tudelft.contextproject.model.level.util.Vec2I;
 import nl.tudelft.contextproject.util.RandomUtil;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Minimum Spanning Tree Based Level Factory.

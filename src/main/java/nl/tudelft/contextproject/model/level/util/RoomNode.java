@@ -11,6 +11,7 @@ import com.jme3.math.Vector3f;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.Room;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Room Node, contains placement maze generation related data and methods.

@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import nl.tudelft.contextproject.model.level.MazeTile;
 import nl.tudelft.contextproject.model.level.TileType;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Test class for corridor beautification.

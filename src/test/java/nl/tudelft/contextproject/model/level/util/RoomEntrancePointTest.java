@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.model.level.util;
 import static org.junit.Assert.assertEquals;
 
 import nl.tudelft.contextproject.model.level.Room;
+import nl.tudelft.contextproject.util.Vec2I;
 
 /**
  * Room entrance point test class.
