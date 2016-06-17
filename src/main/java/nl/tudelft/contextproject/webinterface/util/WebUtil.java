@@ -152,6 +152,7 @@ public final class WebUtil {
 		if (player == null) return false;
 		
 		Vector3f location = player.getLocation();
-		return Math.abs((Math.abs(location.x) + Math.abs(location.z) - Math.abs(xCoord) - Math.abs(yCoord))) >= action.getRadius();
+		Vector3f actionLocation = new Vector3f(xCoord, location.y, yCoord);
+		return location.distance(actionLocation) >= action.getRadius();
 	}
 }
