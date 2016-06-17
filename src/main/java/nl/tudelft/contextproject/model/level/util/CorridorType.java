@@ -248,7 +248,7 @@ public enum CorridorType {
 	 * @param y
 	 * 		corridor tile y coordinate
 	 * @return
-	 * true if corridor is a vertical corridor
+	 * 		true if corridor is a vertical corridor
 	 */
 	private static boolean verticalCorridorCheck(MazeTile[][] map, int x, int y) {
 		int mapHeigth = map[0].length;
