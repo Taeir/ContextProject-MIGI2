@@ -173,13 +173,13 @@ public final class CorridorBeautification {
 					checkNorthSimpleCorridorWidening(map, extraCorridorMap, i, j);
 
 					//Check South
-					checkSouthSimpleCorridorWidening(map, heigth, extraCorridorMap, i, j);
+					checkSouthSimpleCorridorWidening(map, extraCorridorMap, i, j);
 
 					//Check West
 					checkWestSimpleCorridorWidening(map, extraCorridorMap, i, j);
 
 					//Check East
-					checkNorthSimpleCorridorWidening(map, width, extraCorridorMap, i, j);
+					checkEastSimpleCorridorWidening(map, extraCorridorMap, i, j);
 				}
 			}
 		}
@@ -193,12 +193,10 @@ public final class CorridorBeautification {
 	}
 
 	/**
-	 * Check in the North direction if a corridor tile can be added, will add corridor tile to extraCorridorMap if possible.
+	 * Check in the East direction if a corridor tile can be added, will add corridor tile to extraCorridorMap if possible.
 	 * 
 	 * @param map
 	 * 		map to check
-	 * @param width
-	 * 		width of map
 	 * @param extraCorridorMap
 	 * 		map to add the extra corridor tile
 	 * @param x
@@ -206,15 +204,16 @@ public final class CorridorBeautification {
 	 * @param y
 	 * 		y location to check
 	 */
-	private static void checkNorthSimpleCorridorWidening(MazeTile[][] map, int width, MazeTile[][] extraCorridorMap,
+	private static void checkEastSimpleCorridorWidening(MazeTile[][] map, MazeTile[][] extraCorridorMap,
 			int x, int y) {
+		int width = map.length;
 		if (x != width - 1 && map[x + 1][y] == null) {
 			extraCorridorMap[x + 1][y] = new MazeTile(x + 1, y, TileType.CORRIDOR);
 		}
 	}
 
 	/**
-	 * Check in the North direction if a corridor tile can be added, will add corridor tile to extraCorridorMap if possible.
+	 * Check in the West direction if a corridor tile can be added, will add corridor tile to extraCorridorMap if possible.
 	 * 
 	 * @param map
 	 * 		map to check
@@ -236,8 +235,6 @@ public final class CorridorBeautification {
 	 * 
 	 * @param map
 	 * 		map to check
-	 * @param heigth
-	 * 		height of the map
 	 * @param extraCorridorMap
 	 * 		map to add the extra corridor tile
 	 * @param x
@@ -245,8 +242,9 @@ public final class CorridorBeautification {
 	 * @param y
 	 * 		y location to check
 	 */
-	private static void checkSouthSimpleCorridorWidening(MazeTile[][] map, int heigth, MazeTile[][] extraCorridorMap,
+	private static void checkSouthSimpleCorridorWidening(MazeTile[][] map, MazeTile[][] extraCorridorMap,
 			int x, int y) {
+		int heigth = map[0].length;
 		if (y != heigth - 1 && map[x][y + 1] == null) {
 			extraCorridorMap[x][y + 1] = new MazeTile(x, y + 1, TileType.CORRIDOR);
 		}
