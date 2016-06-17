@@ -50,7 +50,7 @@ public class RoomLevelFactory implements LevelFactory {
 		int height = Integer.parseInt(dimensions[1]);
 		
 		MazeTile[][] tiles = new MazeTile[width][height];
-		RoomParser.importFile(this.fileLocation, tiles, entities, lights, 0, 0);
+		RoomParser.importFile(this.fileLocation, tiles, entities, lights);
 		
 		Vector3f playerSpawn = EntityParser.getPlayerSpawnLocation(entities, new Random(seed));
 		

@@ -56,7 +56,7 @@ public class Room {
 		try {
 			size = getSizeFromFileName(folder);
 			mazeTiles = new MazeTile[size.getWidth()][size.getHeight()];
-			RoomParser.importFile(folder, mazeTiles, entities, lights, 0, 0);	
+			RoomParser.importFile(folder, mazeTiles, entities, lights);	
 			setDoors();
 		} catch (IOException e) {
 			Logger.getLogger("MazeGeneration").severe("Unable to correctly read name!");
