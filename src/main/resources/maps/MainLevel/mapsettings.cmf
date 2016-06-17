@@ -1,0 +1,14 @@
+#
+# The layout of the rooms in the main game.
+#
+startroom endroom 10
+voidLevel
+jumpHallway
+bunnyRoom
+bunnyCage
+invisibleMaze
+hiddenkey
+ejunction
+airlock
+funnel
+parcour
