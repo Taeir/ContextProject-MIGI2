@@ -345,11 +345,6 @@ public class NormalHandler {
 			client.sendMessage(COCErrorCode.ACTION_COOLDOWN.toString(), response);
 			return;
 		}
-		
-		if (!server.getInventory().performAction(client.getTeam(), action)) {
-			client.sendMessage(COCErrorCode.ACTION_INVENTORY.toString(), response);
-			return;
-		}
 
 		try {
 			ActionUtil.perform(action, location.x, location.y);
@@ -413,7 +408,6 @@ public class NormalHandler {
 				//Fall through to running
 			case RUNNING:
 				json.put("e", EntityUtil.entitiesToJson(game.getEntities(), game.getPlayer()));
-				json.put("i", server.getInventory().toWebJson(client.getTeam()));
 				if (client.isElf()) {
 					json.put("x", game.getLevel().toExploredWebJSON());
 				}
