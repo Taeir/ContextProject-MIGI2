@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import nl.tudelft.contextproject.model.level.MSTBasedLevelFactory;
-
 import java.util.PriorityQueue;
 
 /**
