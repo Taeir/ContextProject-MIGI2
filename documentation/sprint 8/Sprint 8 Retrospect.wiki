@@ -1,0 +1,646 @@
+= Sprint Retrospective, Iteration #8 =
+Context Project: Computer Games<br />
+Group: MIGI 2
+
+= Backlog sprint items =
+
+In here sprint items that were described in the backlog of this sprint are discussed.
+
+<table>
+<tr>
+<td>'''User Story'''</td>
+<td>'''Task'''</td>
+<td>'''Task assigned to'''</td>
+<td>'''Priority''' (A highest)</td>
+<td>'''Estimated Effort Per Task Per Person''' (in hours)</td>
+<td>'''Actual Effort Per Task Per Person''' (in hours)</td>
+<td>'''Done'''</td>
+<td>'''Notes'''</td>
+</tr>
+<tr>
+<td rowspan=8>[https://github.com/Taeir/ContextProject-MIGI2/issues/429 '''#429 Fix Webinterface''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/430 #430 Tutorial]</td>
+<td>Bram</td>
+<td>A</td>
+<td>5</td>
+<td>4</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/522 522]</td>
+<td>Difficult to write, but I went for an easier alternative, hence the slightly less time required.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/431 #431 Overview Map]</td>
+<td>Bram</td>
+<td>C</td>
+<td>3</td>
+<td>2/1</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/509 509]</td>
+<td>Taico helped with getting this working on iOS for 1 hour.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/432 #432 Quit buttons]</td>
+<td>Bram</td>
+<td>C</td>
+<td>1</td>
+<td>1</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/516 516]</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/433 #433 Icons]</td>
+<td>Bram</td>
+<td>C</td>
+<td>2</td>
+<td>2.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/518 518]</td>
+<td>I slightly underestimated the amount of css that had to be changed to accomplish this.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/434 #434 Show Selection]</td>
+<td>Bram</td>
+<td>C</td>
+<td>0.5</td>
+<td>1.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/511 511]</td>
+<td>Showing the selection on iOS proved difficult, as there is a bug in how they update the screen. Working around this bug took some time.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/435 #435 Disable Caching]</td>
+<td>Bram</td>
+<td>B</td>
+<td>1</td>
+<td>0.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/489 489]</td>
+<td>Hard to find how to do it, but really easy to implement (1 line).</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/436 #436 Hide menu with swipe]</td>
+<td>Bram</td>
+<td>D</td>
+<td>1</td>
+<td>0.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/510 510]</td>
+<td>Most of the code needed for this task had already been written for [https://github.com/Taeir/ContextProject-MIGI2/issues/431 431].</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/437 #437 Start conditions]</td>
+<td>Taico</td>
+<td>A</td>
+<td>1</td>
+<td>0</td>
+<td>no</td>
+<td>We decided that this wasn't needed based on the last feedback session. It allows players to play our game with different amounts of players.</td>
+</tr>
+<tr>
+<td rowspan=7>[https://github.com/Taeir/ContextProject-MIGI2/issues/438 '''#438 Report''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/439 #439 Introduction]</td>
+<td>Bram</td>
+<td>A</td>
+<td>1.5</td>
+<td>1</td>
+<td>yes</td>
+<td>Took less time, as this was the only section where it was clear what the contents should be.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/440 #440 Overview]</td>
+<td>Taico</td>
+<td>A</td>
+<td>4</td>
+<td>2</td>
+<td>yes</td>
+<td>I didn't have enough time to work more on this.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/441 #441 Reflection]</td>
+<td>Taico</td>
+<td>A</td>
+<td>4</td>
+<td>2.5</td>
+<td>yes</td>
+<td>I didn't have enough time to work more on this.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/442 #442 Functionality description]</td>
+<td>Chiel</td>
+<td>A</td>
+<td>3</td>
+<td>3.5</td>
+<td>yes</td>
+<td>Guessing both the question and the solution is more work than just creating the solution.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/443 #443 Interaction design]</td>
+<td>Wytze</td>
+<td>A</td>
+<td>4</td>
+<td>4</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/444 #444 Evaluation]</td>
+<td>Robin</td>
+<td>A</td>
+<td>5</td>
+<td>2.5</td>
+<td>yes</td>
+<td>Less important and smaller than expected.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/445 #445 Outlook]</td>
+<td>Bram</td>
+<td>A</td>
+<td>1.5</td>
+<td>1.5</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/366 '''#366 Playtesting''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/368 #368 Prepare]</td>
+<td>Everyone</td>
+<td>A</td>
+<td>1.5 (x5)</td>
+<td>1.5 (x5)</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/369 #369 Playtest]</td>
+<td>Everyone</td>
+<td>A</td>
+<td>1.5 (x5)</td>
+<td>1 (x5)</td>
+<td>yes</td>
+<td>We were able to finish the testing in less time, as the game didn't crash and there were no significant problems like previous times.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/370 #370 Process feedback]</td>
+<td>Everyone</td>
+<td>A</td>
+<td>1 (x5)</td>
+<td>1 (x5)</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/446 #446 Play test with family]</td>
+<td>Robin</td>
+<td>A</td>
+<td>3</td>
+<td>3</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/447 '''#447 Balancing Session''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/447 #447 Balancing Session]</td>
+<td>Everyone</td>
+<td>A</td>
+<td>4 (x5)</td>
+<td>2.5 C / 2.5 B / 2.5 W / 4.5 R / 4 T</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/523 523]</td>
+<td>The game was in a better shape than expected. This mostly as a result of us addressing a lot of feedback that was given last week.</td>
+</tr>
+<tr>
+<td rowspan=6>[https://github.com/Taeir/ContextProject-MIGI2/issues/448 '''#448 Artwork''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/449 #449 Gates]</td>
+<td>Wytze</td>
+<td>A</td>
+<td>3</td>
+<td>3</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/492 492]</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/450 #450 Void platform]</td>
+<td>Wytze</td>
+<td>C</td>
+<td>2</td>
+<td>2</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/492 492]</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/451 #451 Wallframes]</td>
+<td>Wytze</td>
+<td>D</td>
+<td>3</td>
+<td>3</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/500 500]</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/452 #452 Tutorial]</td>
+<td>Wytze</td>
+<td>A</td>
+<td>3</td>
+<td>3</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/500 500]</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/453 #453 Action icons]</td>
+<td>Wytze</td>
+<td>C</td>
+<td>3</td>
+<td>3.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/513 513]</td>
+<td>Also includes additional icons for cancel, fullscreen and the time remaining (see [https://github.com/Taeir/ContextProject-MIGI2/issues/520 #520]).</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/454 #454 Skymap]</td>
+<td>Wytze</td>
+<td>B</td>
+<td>1</td>
+<td>1</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/492 492]</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/455 '''#455 Simplify torch model''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/455 #455 Simplify torch model]</td>
+<td>Wytze</td>
+<td>A</td>
+<td>1</td>
+<td>0</td>
+<td>no</td>
+<td>We found out that the torch model wasn't the cause of the lag (or that the optimizations made this week improved performance enough), so this wasn't necessary.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/456 '''#456 Levels and rooms''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/457 #457 Map Editor]</td>
+<td>Bram</td>
+<td>A</td>
+<td>4</td>
+<td>10</td>
+<td>yes</td>
+<td>I underestimated how easy it is to work with JavaFX. Most of the additional hours were spent trying to get the interface working.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/458 #458 Create 5x 10 rooms]</td>
+<td>Everyone</td>
+<td>B</td>
+<td>2 (x5)</td>
+<td>3 C / 1 B / 2.5 W</td>
+<td>partially</td>
+<td>Robin and Taico did not have enough time to create the rooms, so Chiel made some additional rooms.</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/459 '''#459 Group Interaction''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/459 #459 Group Interaction]</td>
+<td>Everyone</td>
+<td>A</td>
+<td>3 (x5)</td>
+<td>3 (x5)</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/460 '''#460 Update tutorial''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/460 #460 Update tutorial]</td>
+<td>Taico</td>
+<td>A</td>
+<td>2</td>
+<td>0</td>
+<td>yes</td>
+<td>Wytze did this as part of #452.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/461 '''#461 Trailer script''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/462 #462 Trailer script]</td>
+<td>Chiel</td>
+<td>A</td>
+<td>4</td>
+<td>3.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/559 559]</td>
+<td>Slightly less work than expected.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/463 #463 Gameplay footage]</td>
+<td>Chiel</td>
+<td>C</td>
+<td>1</td>
+<td>0</td>
+<td>no</td>
+<td>Our last minute changes prevented us from making proper footage, as the game was constantly changing over the course of this week.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/464 '''#464 Sound''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/465 #465 Search for sound effects]</td>
+<td>Taico</td>
+<td>B</td>
+<td>3</td>
+<td>2</td>
+<td>yes*</td>
+<td>Task taken over by Chiel.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/466 #466 Attach sound effects]</td>
+<td>Taico</td>
+<td>C</td>
+<td>1</td>
+<td>0</td>
+<td>no</td>
+<td>Unfortunately, we did not have enough time to add the sounds.</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/467 '''#467 Boxes''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/467 #467 Improve box throwing]</td>
+<td>Chiel</td>
+<td>A</td>
+<td>2</td>
+<td>1.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/491 491]</td>
+<td>The fix was simpler than I anticipated.</td>
+</tr>
+<tr>
+<td rowspan=5>[https://github.com/Taeir/ContextProject-MIGI2/issues/468 '''#468 HUD update''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/469 #469 Holdable turning]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>2</td>
+<td>1</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/493 493]</td>
+<td>I already figured out how to fix it in [https://github.com/Taeir/ContextProject-MIGI2/issues/467 #467 - Boxes] (See above).</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/470 #470 Health display]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>1</td>
+<td>1</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/493 493]</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/471 #471 Game ending indication]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>2</td>
+<td>1.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/493 493]</td>
+<td>Slightly easier than expected.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/472 #472 Bomb timer]</td>
+<td>Chiel</td>
+<td>C</td>
+<td>1</td>
+<td>0.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/493 493]</td>
+<td>Slightly easier than expected.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/473 #473 HUD element positions]</td>
+<td>Chiel</td>
+<td>A</td>
+<td>1</td>
+<td>0.5 C / 0.25 R / 0.25 T</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/493 493]</td>
+<td>Taico and Robin moved elements some more, to make them shown properly on the Oculus as well.</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/474 '''#474 Roof collisions''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/474 #474 Roof collisions]</td>
+<td>Chiel</td>
+<td>B</td>
+<td>1</td>
+<td>0</td>
+<td>no</td>
+<td>This feature is not needed now that boxes are fixed.</td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/475 '''#475 .crf file format explanation''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/475 #475 .crf file format explanation]</td>
+<td>Chiel</td>
+<td>A</td>
+<td>2</td>
+<td>2</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/495 495]</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/476 '''#476 Fix pause''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/476 #476 Fix pause]</td>
+<td>Taico</td>
+<td>A</td>
+<td>2</td>
+<td>2</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/501 501] + [https://github.com/Taeir/ContextProject-MIGI2/issues/514 514]</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=4>[https://github.com/Taeir/ContextProject-MIGI2/issues/485 '''#485 Advanced Corridor Generation''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/477 #477 Exponential probability generator]</td>
+<td>Robin</td>
+<td>C</td>
+<td>2</td>
+<td>2</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/519 519]</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/478 #478 Identify corridor type]</td>
+<td>Robin</td>
+<td>C</td>
+<td>2</td>
+<td>2</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/519 519]</td>
+<td></td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/479 #479 Extend corridors]</td>
+<td>Robin</td>
+<td>C</td>
+<td>4</td>
+<td>9</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/519 519]</td>
+<td>Testing took more time than expected, due to our finicky coordinate system.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/480 #480 Add dynamic lighting entity creation to corridors]</td>
+<td>Robin</td>
+<td>C</td>
+<td>2</td>
+<td>0</td>
+<td>no</td>
+<td>I didn't have time left to do this. We decided to scrap this feature.</td>
+</tr>
+<tr>
+<td rowspan=2>[https://github.com/Taeir/ContextProject-MIGI2/issues/481 '''#481 Emergent Architecture Design''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/482 #482 Update UML]</td>
+<td>Taico</td>
+<td>B</td>
+<td>2</td>
+<td>1 T / 1.5 C</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/566 566]</td>
+<td>Our many changes this week meant that this could not be updated before friday. Draw.IO then decided to throw away some changes while Taico was working on this in the train, so Chiel finished this.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/483 #483 Maze generation]</td>
+<td>Robin</td>
+<td>B</td>
+<td>3</td>
+<td>3</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/566 566]</td>
+<td></td>
+</tr>
+<tr>
+<td rowspan=1>[https://github.com/Taeir/ContextProject-MIGI2/issues/484 '''#484 Refactoring''']</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/484 #484 Refactoring]</td>
+<td>Taico</td>
+<td>B</td>
+<td>4</td>
+<td>4</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/504 #504] + [https://github.com/Taeir/ContextProject-MIGI2/issues/505 #505]</td>
+<td></td>
+</tr>
+</table>
+
+= Old and unplanned sprint items =
+
+Here old items from previous sprints that were not included in the backlog or unplanned sprint items that appeared during the sprint are discussed.
+
+<table>
+<tr>
+<td>'''Item or category'''</td>
+<td>'''Task'''</td>
+<td>'''Task assigned to'''</td>
+<td>'''Priority''' (A highest)</td>
+<td>'''Effort per Task''' (in hours)</td>
+<td>'''Done'''</td>
+<td>'''Notes'''<br />(Discuss why item was added to this sprint and status of item if not completed)</td>
+</tr>
+<tr>
+<td rowspan=9>'''Unplanned Tasks'''</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/488 #488 Refactor variable names in tests]</td>
+<td>Robin</td>
+<td>-</td>
+<td>3.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/488 488]</td>
+<td>The variable names in the tests had not been refactored to make them unambiguous yet.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/496 #496 Fixed websocket crash]</td>
+<td>Taico</td>
+<td>-</td>
+<td>0.5</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/497 497]</td>
+<td>We don't want our game to crash.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/527 #527 Added door and gate rotations]</td>
+<td>Chiel</td>
+<td>-</td>
+<td>1</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/527 527]</td>
+<td>Gates and doors used to always face the same way. While creating more rooms, we saw that gates had incorrect rotation, so Chiel added the rotation to the map file.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/528 #528 Fix bunny]</td>
+<td>Wytze, Taico</td>
+<td>-</td>
+<td>0.5 / 1</td>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/528 528]</td>
+<td>Bunnies were clipping into walls, and didn't face the player properly. This fixes that.</td>
+</tr>
+<tr>
+<td>Various fixes</td>
+<td>Chiel, Robin, Taico</td>
+<td>-</td>
+<td>2 / 4 / 4</td>
+<td>yes</td>
+<td>Chiel, Taico and Robin did a lot of fixes: [https://github.com/Taeir/ContextProject-MIGI2/issues/514 514], [https://github.com/Taeir/ContextProject-MIGI2/issues/524 524], [https://github.com/Taeir/ContextProject-MIGI2/issues/525 525], [https://github.com/Taeir/ContextProject-MIGI2/issues/526 526], [https://github.com/Taeir/ContextProject-MIGI2/issues/529 529], [https://github.com/Taeir/ContextProject-MIGI2/issues/550 550], [https://github.com/Taeir/ContextProject-MIGI2/issues/551 551] and possibly some more.</td>
+</tr>
+<tr>
+<td>Refactoring for SIG</td>
+<td>Robin, Taico</td>
+<td>-</td>
+<td>4 / 1</td>
+<td>yes</td>
+<td>We still had to perform some more refactorings to fix some problems outlined by SIG. This task consists of many pull requests.</td>
+</tr>
+<tr>
+<td>Web interface EAD</td>
+<td>Taico</td>
+<td>-</td>
+<td>1</td>
+<td>yes</td>
+<td>The Web Interface had to be updated in the EAD.</td>
+</tr>
+<tr>
+<td>[https://github.com/Taeir/ContextProject-MIGI2/issues/512 #512 Web interface styling + fixes]</td>
+<td>Taico</td>
+<td>-</td>
+<td>2</td>
+<td>yes</td>
+<td>Improves some of the styling in the web interface and fixes the order of what entity is shown on top.</td>
+</tr>
+<tr>
+<td>Optimizations</td>
+<td>Taico</td>
+<td>-</td>
+<td>3</td>
+<td>yes</td>
+<td>We noticed that as we increased the map size and started to add more entities, our FPS dropped significantly. Taico did a lot of optimization, in order to bring our FPS back to speed. This task consists of many different pull requests.</td>
+</tr>
+</table>
+
+= Additional time spent =
+
+Every week, we also spend additional time that is not task related. Think about lectures, meetings, presentations, etcetera.
+
+<table>
+<tr>
+<td>'''Item'''</td>
+<td>'''People Involved'''</td>
+<td>'''Effort''' (in hours per person)</td>
+<td>'''Description'''</td>
+</tr>
+<tr>
+<td>Meetings</td>
+<td>Everyone</td>
+<td>2</td>
+<td>Sprint meetings, retrospect meeting and TA meeting</td>
+</tr>
+<tr>
+<td>Create Retrospect</td>
+<td>Taico</td>
+<td>2</td>
+<td>Taico spent two hours on creating the retrospect document from our hours.</td>
+</tr>
+</table>
+
+= Pull requests =
+
+Every week, each group member also reviews pull requests of other members. Since we put a lot of time into this we also want to document time spent reviewing a separate table.
+
+{|
+! '''Group Member name'''
+! '''Time Spent Reviewing and creating Pull Requests (in hours)'''
+|-
+| Robin
+| 4
+|-
+| Bram
+| 4
+|-
+| Taico
+| 4
+|-
+| Wytze
+| 1
+|-
+| Chiel
+| 4.5
+|}
+
+= Main Problems Encountered =
+
+== Problem 1: Documentation Clarity ==
+
+'''Description:''' The description of what had to be done for the final report wasnt clear.
+
+'''Reaction:''' We asked our TA about what to do, and he explained it.
+
+
