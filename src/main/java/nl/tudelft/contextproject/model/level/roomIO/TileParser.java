@@ -55,10 +55,6 @@ public final class TileParser {
 	 * 		the width of the array to read
 	 * @param height
 	 * 		the height of the array to read
-	 * @param xOffset
-	 * 		the horizontal offset to apply on the tiles
-	 * @param yOffset
-	 * 		the vertical offset to apply to the tiles
 	 * @param br
 	 * 		the BufferedReader used to get the input
 	 * @throws IOException
