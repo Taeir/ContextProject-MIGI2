@@ -89,9 +89,12 @@ public class LandMine extends PlayerTrigger {
 	public boolean collidesWithPlayer(float distance) {
 		Game game = Main.getInstance().getCurrentGame();
 		Vector3f playerLoc = game.getPlayer().getLocation();
-		if (getLocation().distance(playerLoc) < distance) return true;
+		Vector3f ownLoc = getLocation();
+		if (ownLoc.distanceSquared(playerLoc) < distance * distance) return true;
+		
+		float crateDistance = (distance + .3f) * (distance + .3f);
 		for (Entity entity : game.getEntities()) {
-			if (entity instanceof Crate && getLocation().distance(entity.getLocation()) < distance + .3f) return true;
+			if (entity instanceof Crate && ownLoc.distanceSquared(entity.getLocation()) < crateDistance) return true;
 		}
 		return false;
 	}

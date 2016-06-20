@@ -62,7 +62,7 @@ public interface Entity extends Drawable, Observer {
 	default boolean collidesWithPlayer(float distance) {
 		Vector3f playerLoc = Main.getInstance().getCurrentGame().getPlayer().getSpatial().getLocalTranslation();
 		Vector3f thisLoc = getSpatial().getLocalTranslation();
-		return thisLoc.distance(playerLoc) < distance;
+		return thisLoc.distanceSquared(playerLoc) < distance * distance;
 	}
 
 	/**
