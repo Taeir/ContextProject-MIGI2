@@ -1,11 +1,11 @@
 package nl.tudelft.contextproject.util;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -130,7 +130,7 @@ public final class FileUtil {
 		String outputName = entry.getName().replace('/', File.separatorChar);
 		File outputFile = new File(outputName);
 		
-		Log.getLog("FileManager").fine("Extracting " + entry.getName() + " to " + outputFile.getAbsolutePath());
+		Log.getLog("FileManager").info("Extracting " + entry.getName() + " to " + outputFile.getAbsolutePath());
 		
 		if (outputFile.exists()) {
 			return;
@@ -144,11 +144,8 @@ public final class FileUtil {
 		}
 		
 		//Write the file to the new location
-		try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
-			InputStream inputStream = jar.getInputStream(entry)) {
-			while (inputStream.available() > 0) {
-				fileOutputStream.write(inputStream.read());
-			}
+		try (InputStream inputStream = jar.getInputStream(entry)) {
+			Files.copy(inputStream, outputFile.getAbsoluteFile().toPath());
 		}
 	}
 	
