@@ -92,6 +92,9 @@ public class Main extends VRApplication implements Observable {
 		
 		//You can downsample for performance reasons
 		main.preconfigureResolutionMultiplier(RESOLUTION);
+		
+		//Extract the maps
+		FileUtil.getFile("/maps/");
 
 		main.start();
 	}

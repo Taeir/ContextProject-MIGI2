@@ -11,6 +11,7 @@ import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Observer;
 import nl.tudelft.contextproject.model.entities.AbstractEntity;
 import nl.tudelft.contextproject.model.entities.util.EntityType;
+import nl.tudelft.contextproject.util.FileUtil;
 import nl.tudelft.contextproject.util.ScriptLoader;
 import nl.tudelft.contextproject.util.ScriptLoaderException;
 
@@ -137,8 +138,8 @@ public class PlayerTrigger extends AbstractEntity {
 		
 		float triggerDist = Float.parseFloat(data[4]);
 		float coolDown = Float.parseFloat(data[5]);
-		
-		ScriptLoader loader = new ScriptLoader(PlayerTrigger.class.getResource(data[3]).getPath());
+
+		ScriptLoader loader = new ScriptLoader(FileUtil.getFile(data[3]));
 		Observer listener = loader.getInstanceOf(data[6], Observer.class);
 		
 		PlayerTrigger trigger = new PlayerTrigger(triggerDist, coolDown, listener);
