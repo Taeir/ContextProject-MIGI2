@@ -121,22 +121,14 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 * Start room is placed in left-most quarter, treasure-room in right most quarter.
 	 */
 	public void placeStartAndTreasureRoom() {
-		int endLeftMostQuarter = (int) Math.round(MAX_WIDTH / 4.0);
-		int beginningRightMostQuarter = (int) Math.round(3.0 * MAX_WIDTH / 4.0);
-
 		//Place start room
-		Vec2I startLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
-				RoomNode.MIN_DIST, endLeftMostQuarter), 
-				RandomUtil.getRandomIntegerFromInterval(rand, 
-				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getStarterRoom().size.getWidth() + RoomNode.MIN_DIST + 1)));
+		Vec2I startLocation = new Vec2I(RoomNode.MIN_DIST, RoomNode.MIN_DIST);
 		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), START_ROOM_ID);
 		addRoomNode(startNode, startLocation);
 
 		//Place treasure room
-		Vec2I treasureLocation = new Vec2I(RandomUtil.getRandomIntegerFromInterval(rand, 
-				beginningRightMostQuarter, MAX_WIDTH - (startAndEndRooms.getTreasureRoom().size.getWidth() + RoomNode.MIN_DIST + 1)), 
-				RandomUtil.getRandomIntegerFromInterval(rand, 
-				RoomNode.MIN_DIST, MAX_HEIGHT - (startAndEndRooms.getTreasureRoom().size.getHeight() + RoomNode.MIN_DIST + 1)));
+		Vec2I treasureLocation = new Vec2I(MAX_WIDTH - RoomNode.MIN_DIST - startAndEndRooms.getTreasureRoom().size.getWidth(), 
+				MAX_HEIGHT - RoomNode.MIN_DIST - startAndEndRooms.getTreasureRoom().size.getHeight());
 		RoomNode treasureNode = new RoomNode(startAndEndRooms.getTreasureRoom(), TREASURE_ROOM_ID);
 		addRoomNode(treasureNode, treasureLocation);
 	}
