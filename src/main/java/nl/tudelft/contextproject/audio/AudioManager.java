@@ -16,6 +16,8 @@ import com.jme3.renderer.Camera;
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Observer;
 
+import jmevr.app.VRApplication;
+
 /**
  * Singleton class to manage audio.
  */
@@ -148,7 +150,13 @@ public final class AudioManager implements Observer {
 	
 	@Override
 	public void update(float tpf) {
-		Camera cam = Main.getInstance().getCamera();
+		Camera cam;
+		if (VRApplication.getVRViewManager() != null) {
+			cam = VRApplication.getVRViewManager().getCamLeft();
+		} else {
+			cam = Main.getInstance().getCamera();
+		}
+		
 		listener.setLocation(cam.getLocation());
 		listener.setRotation(cam.getRotation());
 	}
