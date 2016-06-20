@@ -122,7 +122,7 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	 */
 	public void placeStartAndTreasureRoom() {
 		//Place start room
-		Vec2I startLocation = new Vec2I(RoomNode.MIN_DIST, RoomNode.MIN_DIST);
+		Vec2I startLocation = new Vec2I(2, 2);
 		RoomNode startNode = new RoomNode(startAndEndRooms.getStarterRoom(), START_ROOM_ID);
 		addRoomNode(startNode, startLocation);
 
