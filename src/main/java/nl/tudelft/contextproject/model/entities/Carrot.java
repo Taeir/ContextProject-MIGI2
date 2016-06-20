@@ -36,10 +36,10 @@ public class Carrot extends AbstractEntity {
 		Node node = new Node("CarrotNode");
 		spatial = node;
 		
-		carrot = Main.getInstance().getAssetManager().loadModel("Models/carrot.blend");
-		carrot2 = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
-		carrot3 = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
-		carrot4 = Main.getInstance().getAssetManager().loadModel("Models/carrot4.blend");
+		carrot = Main.getInstance().getAssetManager().loadModel("Models/carrot.j3o");
+		carrot2 = Main.getInstance().getAssetManager().loadModel("Models/carrot2.j3o");
+		carrot3 = Main.getInstance().getAssetManager().loadModel("Models/carrot3.j3o");
+		carrot4 = Main.getInstance().getAssetManager().loadModel("Models/carrot4.j3o");
 		eatSound = AudioManager.newPositionalSoundEffect("Sound/Effects/carrot_eat.ogg");
 		eatSound.setRefDistance(0.2f);
 		
