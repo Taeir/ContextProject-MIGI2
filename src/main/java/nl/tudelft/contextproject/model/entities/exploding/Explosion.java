@@ -70,7 +70,6 @@ public class Explosion extends AbstractEntity {
 	public void update(float tpf) {
 		Vector3f scale = spatial.getLocalScale();
 		if (scale.x > maxRadius) {
-			AudioManager.stop(explodeSound);
 			setState(EntityState.DEAD);
 			return;
 		} else if (!soundStarted) {
