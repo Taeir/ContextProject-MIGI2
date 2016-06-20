@@ -8,7 +8,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+
+import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
+import com.jme3.audio.AudioData;
+import com.jme3.audio.AudioKey;
 import com.jme3.audio.AudioRenderer;
 import com.jme3.audio.Listener;
 import com.jme3.input.InputManager;
@@ -39,12 +45,32 @@ import jmevr.app.VRApplication.PRECONFIG_PARAMETER;
  * 
  * <p>This class has an excessive amount of comments, as it does quite complicated things.
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public final class TestUtil extends TestBase {
 	private static Main globalMain;
-	private static final AssetManager ASSET_MANAGER = JmeSystem.newAssetManager(JmeSystem.getPlatformAssetConfigURL());
+	private static final AssetManager ASSET_MANAGER = spy(JmeSystem.newAssetManager(JmeSystem.getPlatformAssetConfigURL()));
 	private static final Texture TEST_TEXTURE = ASSET_MANAGER.loadTexture("Textures/simple.png");
 	
 	private TestUtil() { }
+	
+	static {
+		//Ensure that audio does not get loaded during the tests
+		doAnswer(new Answer() {
+			@Override
+			public Object answer(InvocationOnMock invocation) throws Throwable {
+				AssetKey<?> key = invocation.getArgumentAt(0, AssetKey.class);
+				if (key instanceof AudioKey) {
+					return mock(AudioData.class);
+				} else {
+					return invocation.callRealMethod();
+				}
+			}
+			
+		}).when(ASSET_MANAGER).loadAsset(any(AssetKey.class));
+		
+		//Ensure that textures are mocked
+		doReturn(TEST_TEXTURE).when(ASSET_MANAGER).loadTexture(anyString());
+	}
 	
 	/**
 	 * This method should be called in an {@code @BeforeClass} method.
@@ -83,7 +109,6 @@ public final class TestUtil extends TestBase {
 		Main.setInstance(mainSpy);
 		
 		//Get all necessary fields before resetting.
-		AssetManager assetManager 	= mainNoSpy.getAssetManager();
 		AudioRenderer audioRenderer = mainNoSpy.getAudioRenderer();
 		Camera camera 				= mainNoSpy.getCamera();
 		Listener listener 			= mainNoSpy.getListener();
@@ -95,11 +120,7 @@ public final class TestUtil extends TestBase {
 		when(mainSpy.toString()).thenReturn("TestUtilSpyMain");
 
 		//Ensure that there is a spy AssetManager.
-		assetManager = toMockito(assetManager, () -> ASSET_MANAGER);
-		doReturn(assetManager).when(mainSpy).getAssetManager();
-		
-		//Ensure that textures are mocked
-		doReturn(TEST_TEXTURE).when(assetManager).loadTexture(anyString());
+		doReturn(ASSET_MANAGER).when(mainSpy).getAssetManager();
 
 		//Ensure that there is a mock AudioRenderer
 		audioRenderer = toMockito(audioRenderer, AudioRenderer.class, false);

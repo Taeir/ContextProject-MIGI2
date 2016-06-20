@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.entities.control;
 
+import com.jme3.audio.AudioNode;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.math.Vector3f;
@@ -7,6 +8,8 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Spatial;
 
 import jmevr.app.VRApplication;
+
+import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 
@@ -27,12 +30,13 @@ public class PlayerControl implements EntityControl, ActionListener {
 	private Spatial spatial;
 	private CharacterControl playerControl;
 	private VRPlayer owner;
+	private AudioNode walkSound;
 
 	@Override
 	public void move(float tpf) {
 		if (VRApplication.getVRViewManager() != null) {
 			Camera camera = VRApplication.getVRViewManager().getCamLeft();
-			Vector3f camDir = camera.getDirection().mult(2.0f);
+			Vector3f camDir = camera.getDirection();
 			Vector3f camLeft = camera.getLeft().mult(2.0f);
 			walkDirection = new Vector3f();
 
@@ -40,13 +44,13 @@ public class PlayerControl implements EntityControl, ActionListener {
 				walkDirection.addLocal(camLeft.normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
 			}
 			if (right) {
-				walkDirection.addLocal(camLeft.negate().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
+				walkDirection.addLocal(camLeft.negateLocal().normalizeLocal().multLocal(SIDE_WAY_SPEED_MULTIPLIER));
 			}
 			if (up) {
-				walkDirection.addLocal(new Vector3f(camDir.getX(), 0, camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
+				walkDirection.addLocal(new Vector3f(camDir.getX() * 2f, 0, camDir.getZ() * 2f).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
 			}
 			if (down) {
-				walkDirection.addLocal(new Vector3f(-camDir.getX(), 0, -camDir.getZ()).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
+				walkDirection.addLocal(new Vector3f(-camDir.getX() * 2f, 0, -camDir.getZ() * 2f).normalizeLocal().multLocal(STRAIGHT_SPEED_MULTIPLIER));
 			}
 
 			playerControl.setWalkDirection(walkDirection);
@@ -94,6 +98,25 @@ public class PlayerControl implements EntityControl, ActionListener {
 				break;
 			default:
 				break;
+		}
+		
+		updateWalkingSound();
+	}
+	
+	/**
+	 * Starts/stops the walking sound.
+	 */
+	public void updateWalkingSound() {
+		if (walkSound == null) {
+			walkSound = AudioManager.newPositionalSoundEffect("Sound/Effects/walking.ogg");
+			walkSound.setPositional(false);
+			walkSound.setReverbEnabled(false);
+		}
+		
+		if (!left && !right && !up && !down) {
+			AudioManager.stop(walkSound);
+		} else {
+			AudioManager.ensurePlaying(walkSound);
 		}
 	}
 }
