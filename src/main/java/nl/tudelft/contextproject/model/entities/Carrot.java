@@ -41,7 +41,6 @@ public class Carrot extends AbstractEntity {
 		carrot3 = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
 		carrot4 = Main.getInstance().getAssetManager().loadModel("Models/carrot4.blend");
 		eatSound = AudioManager.newPositionalSoundEffect("Sound/Effects/carrot_eat.ogg");
-		eatSound.setRefDistance(0.2f);
 		
 		carrot2.setCullHint(CullHint.Always);
 		carrot3.setCullHint(CullHint.Always);

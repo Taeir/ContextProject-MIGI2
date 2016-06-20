@@ -173,7 +173,7 @@ public final class AudioManager implements Observer {
 	 */
 	public static AudioNode newPositionalSoundEffect(String location) {
 		AudioNode audioNode = new AudioNode(Main.getInstance().getAssetManager(), location, DataType.Buffer);
-		audioNode.setRefDistance(0.3f);
+		audioNode.setRefDistance(10f);
 		audioNode.setPositional(true);
 		audioNode.setReverbEnabled(true);
 		AudioManager.getInstance().registerVolume(audioNode, SoundType.EFFECT);
