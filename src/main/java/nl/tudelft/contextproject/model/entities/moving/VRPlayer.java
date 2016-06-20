@@ -323,7 +323,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Observable,
 		if (health < 0) {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
-		AudioManager.ensurePlaying(damageSound);
+		if (amount > 0) AudioManager.ensurePlaying(damageSound);
 		updateObservers();
 	}
 	
