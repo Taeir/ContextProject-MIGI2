@@ -9,6 +9,8 @@ import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioRenderer;
 import com.jme3.audio.Environment;
 import com.jme3.audio.Listener;
+import com.jme3.audio.AudioData.DataType;
+import com.jme3.audio.AudioSource.Status;
 import com.jme3.renderer.Camera;
 
 import nl.tudelft.contextproject.Main;
@@ -146,5 +148,48 @@ public final class AudioManager implements Observer {
 		Camera cam = Main.getInstance().getCamera();
 		listener.setLocation(cam.getLocation());
 		listener.setRotation(cam.getRotation());
+	}
+	
+
+	/**
+	 * Creates a new positional AudioNode with the given source.
+	 * The returned AudioNode will have reverb enabled.
+	 * 
+	 * @param location
+	 * 		the location of the audio file
+	 * @return
+	 * 		the newly created AudioNode
+	 */
+	public static AudioNode newPositionalSoundEffect(String location) {
+		AudioNode audioNode = new AudioNode(Main.getInstance().getAssetManager(), location, DataType.Buffer);
+		audioNode.setPositional(true);
+		audioNode.setReverbEnabled(true);
+		AudioManager.getInstance().registerVolume(audioNode, SoundType.EFFECT);
+		
+		return audioNode;
+	}
+	
+	/**
+	 * Ensures that the given audio node is playing, starting it if it has stopped.
+	 * 
+	 * @param node
+	 * 		the AudioNode to play
+	 */
+	public static void ensurePlaying(AudioNode node) {
+		if (node != null && node.getStatus() != Status.Playing) {
+			Main.getInstance().enqueue(node::play);
+		}
+	}
+	
+	/**
+	 * Stops the given AudioNode from playing.
+	 * 
+	 * @param node
+	 * 		the audio node to stop
+	 */
+	public static void stop(AudioNode node) {
+		if (node != null && node.getStatus() != Status.Stopped) {
+			Main.getInstance().enqueue(node::stop);
+		}
 	}
 }
