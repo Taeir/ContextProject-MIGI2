@@ -129,7 +129,7 @@ public class VRPlayerTest extends MovingEntityTest {
 	 */
 	@Test
 	public void testUpdateFallingTimer() {
-		when(player.getSpatial()).thenReturn(mock(Spatial.class));
+		player.setSpatial(new Geometry(""));
 		player.move(0, -20, 0);
 		player.updateFallingTimer(4);
 		player.updateFallingTimer(.5f);

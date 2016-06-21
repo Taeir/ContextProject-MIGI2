@@ -9,10 +9,14 @@ import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioRenderer;
 import com.jme3.audio.Environment;
 import com.jme3.audio.Listener;
+import com.jme3.audio.AudioData.DataType;
+import com.jme3.audio.AudioSource.Status;
 import com.jme3.renderer.Camera;
 
 import nl.tudelft.contextproject.Main;
 import nl.tudelft.contextproject.model.Observer;
+
+import jmevr.app.VRApplication;
 
 /**
  * Singleton class to manage audio.
@@ -52,6 +56,9 @@ public final class AudioManager implements Observer {
 		if (renderer != null) {
 			renderer.setEnvironment(Environment.Cavern);
 		}
+		
+		SoundType.BACKGROUND_MUSIC.setGain(2f);
+		SoundType.EFFECT.setGain(6f);
 	}
 	
 	/**
@@ -143,8 +150,56 @@ public final class AudioManager implements Observer {
 	
 	@Override
 	public void update(float tpf) {
-		Camera cam = Main.getInstance().getCamera();
+		Camera cam;
+		if (VRApplication.getVRViewManager() != null) {
+			cam = VRApplication.getVRViewManager().getCamLeft();
+		} else {
+			cam = Main.getInstance().getCamera();
+		}
+		
 		listener.setLocation(cam.getLocation());
 		listener.setRotation(cam.getRotation());
+	}
+	
+
+	/**
+	 * Creates a new positional AudioNode with the given source.
+	 * 
+	 * @param location
+	 * 		the location of the audio file
+	 * @return
+	 * 		the newly created AudioNode
+	 */
+	public static AudioNode newPositionalSoundEffect(String location) {
+		AudioNode audioNode = new AudioNode(Main.getInstance().getAssetManager(), location, DataType.Buffer);
+		audioNode.setPositional(true);
+		audioNode.setRefDistance(0.8f);
+		AudioManager.getInstance().registerVolume(audioNode, SoundType.EFFECT);
+		
+		return audioNode;
+	}
+	
+	/**
+	 * Ensures that the given audio node is playing, starting it if it has stopped.
+	 * 
+	 * @param node
+	 * 		the AudioNode to play
+	 */
+	public static void ensurePlaying(AudioNode node) {
+		if (node != null && node.getStatus() != Status.Playing) {
+			Main.getInstance().enqueue(node::play);
+		}
+	}
+	
+	/**
+	 * Stops the given AudioNode from playing.
+	 * 
+	 * @param node
+	 * 		the audio node to stop
+	 */
+	public static void stop(AudioNode node) {
+		if (node != null && node.getStatus() != Status.Stopped) {
+			Main.getInstance().enqueue(node::stop);
+		}
 	}
 }

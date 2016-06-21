@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.model.entities.exploding;
 
+import com.jme3.audio.AudioNode;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -8,9 +9,12 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 import jmevr.app.VRApplication;
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.model.PhysicsObject;
 import nl.tudelft.contextproject.model.entities.util.AbstractPhysicsEntity;
 import nl.tudelft.contextproject.model.entities.util.EntityState;
@@ -26,17 +30,37 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 	private boolean active;
 	private float timer;
 	private boolean pickedup;
+	private AudioNode fuseSound;
+	private Spatial modelSpatial;
 	
 	/**
 	 * Constructor for a bomb.
 	 */
 	public Bomb() {
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
+		getSpatial();
+	}
+	
+	@Override
+	public Spatial getSpatial() {
+		if (spatial != null) return spatial;
+		
+		Node node = new Node("Bomb");
+		spatial = node;
+		
+		modelSpatial = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
 		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		material.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
 		material.setColor("Color", ColorRGBA.White);
-		spatial.move(0, 1, 0);
-		spatial.setMaterial(material);
+		modelSpatial.setMaterial(material);
+		
+		fuseSound = AudioManager.newPositionalSoundEffect("Sound/Effects/fuse.ogg");
+		
+		node.attachChild(modelSpatial);
+		node.attachChild(fuseSound);
+		
+		node.move(0, 1, 0);
+		
+		return node;
 	}
 
 	@Override
@@ -51,6 +75,8 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 		if (active) {
 			timer -= tpf;
 			if (timer < 0) {
+				AudioManager.stop(fuseSound);
+				
 				Explosion explosion = new Explosion(40f);
 				explosion.move(this.getLocation());
 				Main.getInstance().getCurrentGame().getEntities().add(explosion);
@@ -64,8 +90,9 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 	@Override
 	public PhysicsControl getPhysicsObject() {
 		if (rigidBody != null) return rigidBody;
+		if (spatial == null) getSpatial();
 
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(getSpatial());
+		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(modelSpatial);
 		rigidBody = new RigidBodyControl(sceneShape, 0);
 		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
 		spatial.addControl(rigidBody);
@@ -86,6 +113,7 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 		if (!active) {
 			this.active = true;
 			this.timer = TIMER;
+			AudioManager.ensurePlaying(fuseSound);
 		}
 	}
 

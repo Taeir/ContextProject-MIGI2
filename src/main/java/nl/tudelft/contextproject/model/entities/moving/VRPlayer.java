@@ -3,16 +3,19 @@ package nl.tudelft.contextproject.model.entities.moving;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.jme3.audio.AudioNode;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.model.Inventory;
 import nl.tudelft.contextproject.model.PhysicsObject;
 import nl.tudelft.contextproject.model.Observer;
@@ -68,6 +71,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Observable,
 	public static final float SPAWN_HEIGHT = 2f;
 
 	private Spatial spatial;
+	private AudioNode damageSound;
 	private CharacterControl playerControl;
 	private Inventory inventory = new Inventory();
 	private Vector3f resp;
@@ -100,14 +104,24 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Observable,
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
+		
+		Node node = new Node("Player");
+		spatial = node;
 
 		Sphere sphere = new Sphere(10, 10, .2f);
-		spatial = new Geometry("blue cube", sphere);
+		Spatial spatial = new Geometry("PlayerGeometry", sphere);
 		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		material.setColor("Color", ColorRGBA.randomColor());
 		spatial.setMaterial(material);
-		spatial.move(0, SPAWN_HEIGHT, 0);
-		return spatial;
+		
+		damageSound = AudioManager.newPositionalSoundEffect("Sound/Effects/player_damage.ogg");
+		
+		node.attachChild(spatial);
+		node.attachChild(damageSound);
+		
+		node.move(0, SPAWN_HEIGHT, 0);
+		
+		return node;
 	}
 
 	@Override
@@ -261,7 +275,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Observable,
 				Door door = (Door) ent;
 				if (inventory.containsColorKey(door.getColor())) {
 					inventory.remove(new Key(door.getColor()));
-					ent.setState(EntityState.DEAD);
+					door.open();
 					return;
 				}
 			}
@@ -309,6 +323,7 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Observable,
 		if (health < 0) {
 			Main.getInstance().getCurrentGame().endGame(false);
 		}
+		if (amount > 0) AudioManager.ensurePlaying(damageSound);
 		updateObservers();
 	}
 	

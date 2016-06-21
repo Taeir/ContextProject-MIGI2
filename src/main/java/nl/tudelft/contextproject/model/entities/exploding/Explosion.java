@@ -1,12 +1,15 @@
 package nl.tudelft.contextproject.model.entities.exploding;
 
+import com.jme3.audio.AudioNode;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.AbstractEntity;
 import nl.tudelft.contextproject.model.entities.Entity;
@@ -22,6 +25,8 @@ public class Explosion extends AbstractEntity {
 
 	private float maxRadius;
 	private Spatial spatial;
+	private AudioNode explodeSound;
+	private boolean soundStarted;
 	private Game game;
 
 	/**
@@ -38,12 +43,22 @@ public class Explosion extends AbstractEntity {
 	@Override
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
+		
+		Node node = new Node("Explosion");
+		spatial = node;
+		
 		Sphere sphere = new Sphere(10, 10, .1f);
-		spatial = new Geometry("BOOM!", sphere);
+		Spatial spatial = new Geometry("BOOM!", sphere);
 		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		material.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/explosion.png"));
 		spatial.setMaterial(material);
-		return spatial;
+		
+		explodeSound = AudioManager.newPositionalSoundEffect("Sound/Effects/explosion.ogg");
+		
+		node.attachChild(spatial);
+		node.attachChild(explodeSound);
+		
+		return node;
 	}
 
 	@Override
@@ -57,7 +72,11 @@ public class Explosion extends AbstractEntity {
 		if (scale.x > maxRadius) {
 			setState(EntityState.DEAD);
 			return;
+		} else if (!soundStarted) {
+			soundStarted = true;
+			AudioManager.ensurePlaying(explodeSound);
 		}
+		
 		damageEntities(scale.x / 5f, tpf);
 
 		float concurrentMaxRadius = this.maxRadius * tpf;
