@@ -147,8 +147,8 @@ public class Crate extends AbstractEntity implements PhysicsObject, Health, Hold
 	public void update(float tpf) {
 		if (this.isPickedUp() && VRApplication.getVRViewManager() != null) {
 			Camera camera = VRApplication.getVRViewManager().getCamLeft();
-			Vector3f vec = camera.getDirection().mult(2f);
-			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x, 1.5f, vec.z);
+			Vector3f vec = camera.getDirection();
+			Vector3f vec2 = Main.getInstance().getCurrentGame().getPlayer().getLocation().add(vec.x * 2f, 1.5f, vec.z * 2f);
 			control.setPhysicsLocation(vec2);
 			control.setPhysicsRotation(camera.getRotation());
 		}

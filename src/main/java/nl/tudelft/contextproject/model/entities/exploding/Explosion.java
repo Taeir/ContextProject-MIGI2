@@ -92,13 +92,17 @@ public class Explosion extends AbstractEntity {
 	 * 		the damage each entity will take
 	 */
 	protected void damageEntities(float range, float damage) {
+		float sqrRange = range * range;
 		VRPlayer player = game.getPlayer();
-		if (player.getLocation().distance(this.getLocation()) < range) {
+		Vector3f ownLoc = getLocation();
+		if (player.getLocation().distanceSquared(ownLoc) < sqrRange) {
 			player.takeDamage(damage);
 		}
+		
 		for (Entity entity : game.getEntities()) {
 			if (!(entity instanceof Health)) continue;
-			if (entity.getLocation().distance(this.getLocation()) < range) {
+			
+			if (entity.getLocation().distanceSquared(ownLoc) < sqrRange) {
 				((Health) entity).takeDamage(damage);
 			}
 		}

@@ -21,6 +21,7 @@ public class Pitfall extends PlayerTrigger {
 
 	private Spatial spatial;
 	private final float width;
+	private final float crateSqrWidth;
 	
 	/**
 	 * Constructor for Pitfall.
@@ -32,6 +33,7 @@ public class Pitfall extends PlayerTrigger {
 		super(width, 2f);
 		
 		this.width = width;
+		this.crateSqrWidth = (width + .3f) * (width + .3f);
 	}
 	
 	/**
@@ -45,10 +47,13 @@ public class Pitfall extends PlayerTrigger {
 	@Override
 	public void onTrigger() {
 		this.setState(EntityState.DEAD);
-		VRPlayer vrPlayer = Main.getInstance().getCurrentGame().getPlayer();
-		if (vrPlayer.getLocation().distance(getLocation()) > width) {
-			for (Entity entity : Main.getInstance().getCurrentGame().getEntities()) {
-				if (entity instanceof Crate && entity.getLocation().distance(getLocation()) < width + .3f) {
+		
+		Game game = Main.getInstance().getCurrentGame();
+		VRPlayer vrPlayer = game.getPlayer();
+		Vector3f ownLoc = getLocation();
+		if (vrPlayer.getLocation().distanceSquared(ownLoc) > width * width) {
+			for (Entity entity : game.getEntities()) {
+				if (entity instanceof Crate && entity.getLocation().distanceSquared(ownLoc) < crateSqrWidth) {
 					entity.setState(EntityState.DEAD);
 					return;
 				}
@@ -112,10 +117,13 @@ public class Pitfall extends PlayerTrigger {
 	@Override
 	public boolean collidesWithPlayer(float distance) {
 		Game game = Main.getInstance().getCurrentGame();
+		Vector3f ownLoc = getLocation();
 		Vector3f playerLoc = game.getPlayer().getLocation();
-		if (getLocation().distance(playerLoc) < distance) return true;
+		if (ownLoc.distanceSquared(playerLoc) < distance * distance) return true;
+		
+		float sqrDistance = (distance + .3f) * (distance + .3f);
 		for (Entity entity : game.getEntities()) {
-			if (entity instanceof Crate && entity.getLocation().distance(getLocation()) < distance + .3f) return true;
+			if (entity instanceof Crate && entity.getLocation().distanceSquared(ownLoc) < sqrDistance) return true;
 		}
 		return false;
 	}
