@@ -57,8 +57,8 @@ public final class AudioManager implements Observer {
 			renderer.setEnvironment(Environment.Cavern);
 		}
 		
-		SoundType.BACKGROUND_MUSIC.setGain(1f);
-		SoundType.EFFECT.setGain(5f);
+		SoundType.BACKGROUND_MUSIC.setGain(2f);
+		SoundType.EFFECT.setGain(6f);
 	}
 	
 	/**
@@ -164,7 +164,6 @@ public final class AudioManager implements Observer {
 
 	/**
 	 * Creates a new positional AudioNode with the given source.
-	 * The returned AudioNode will have reverb enabled.
 	 * 
 	 * @param location
 	 * 		the location of the audio file
@@ -173,9 +172,8 @@ public final class AudioManager implements Observer {
 	 */
 	public static AudioNode newPositionalSoundEffect(String location) {
 		AudioNode audioNode = new AudioNode(Main.getInstance().getAssetManager(), location, DataType.Buffer);
-		audioNode.setRefDistance(10f);
 		audioNode.setPositional(true);
-		audioNode.setReverbEnabled(true);
+		audioNode.setRefDistance(0.8f);
 		AudioManager.getInstance().registerVolume(audioNode, SoundType.EFFECT);
 		
 		return audioNode;
