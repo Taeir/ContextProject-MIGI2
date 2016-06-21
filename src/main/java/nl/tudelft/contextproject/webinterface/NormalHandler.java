@@ -439,6 +439,11 @@ public class NormalHandler {
 		if (client.isElf()) {
 			json.put("x", game.getLevel().toExploredWebJSON());
 		}
-		json.put("r", game.getTimeRemaining());
+		
+		if (game.getTimeRemaining() > 9999) {
+			json.put("r", 9999);
+		} else {
+			json.put("r", Math.round(game.getTimeRemaining()));
+		}
 	}
 }
