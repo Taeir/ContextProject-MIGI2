@@ -6,6 +6,7 @@ import nl.tudelft.contextproject.TestBase;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.exploding.Bomb;
 import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
+import nl.tudelft.contextproject.model.entities.util.EntityType;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -14,7 +15,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Class for testing the EntityUtil.
@@ -42,10 +42,11 @@ public class EntityUtilTest extends TestBase {
 	@Test
 	public void testEntityToJson() {
 		Bomb bomb = new Bomb();
-		JSONObject json = EntityUtil.entityToJson(bomb);
-		assertEquals(json.getInt("x"), 0);
-		assertEquals(json.getInt("y"), 0);
-		assertEquals(json.getInt("t"), 1);
-		assertEquals(json.getInt("d"), 0);
+		bomb.move(3, 0, 2);
+		JSONArray json = EntityUtil.entityToJson(bomb);
+		assertEquals(json.getInt(0), EntityType.BOMB.getWebId()); //Type
+		assertEquals(json.getInt(1), 3); //X
+		assertEquals(json.getInt(2), 2); //Y
+		assertEquals(json.getInt(3), 0); //Counter
 	}
 }
