@@ -96,7 +96,7 @@ public final class ActionUtil {
 	private static void placeBomb(int xCoord, int yCoord) {
 		Bomb bomb = new Bomb();
 		bomb.move(xCoord, 0, yCoord);
-		bomb.activate();
+		bomb.activate(true);
 		Main.getInstance().getCurrentGame().addEntity(bomb);
 	}
 

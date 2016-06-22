@@ -25,7 +25,8 @@ import nl.tudelft.contextproject.model.entities.util.Holdable;
  * Class representing a bomb.
  */
 public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdable {
-	public static final float TIMER = 5;
+	public static final float DWARF_TIMER = 5;
+	public static final float KNIGHT_TIMER = 10;
 	
 	private boolean active;
 	private float timer;
@@ -107,12 +108,16 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 	}
 
 	/**
-	 * activates the bomb, it will explode in 5 seconds.
+	 * Activates the bomb, it will explode after {@value #DWARF_TIMER} seconds for dwarf bombs, and
+	 * after {@value #KNIGHT_TIMER} seconds for bombs the knight picks up.
+	 * 
+	 * @param dwarf
+	 * 		true if a dwarf is placing this bomb, false if the knight is picking it up
 	 */
-	public void activate() {
+	public void activate(boolean dwarf) {
 		if (!active) {
 			this.active = true;
-			this.timer = TIMER;
+			this.timer = dwarf ? DWARF_TIMER : KNIGHT_TIMER;
 			AudioManager.ensurePlaying(fuseSound);
 		}
 	}
@@ -171,7 +176,7 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 	@Override
 	public void pickUp() {
 		pickedup = true;
-		activate();
+		activate(false);
 	}
 
 	@Override
