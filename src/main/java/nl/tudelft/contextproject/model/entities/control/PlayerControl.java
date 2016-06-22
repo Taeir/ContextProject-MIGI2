@@ -111,6 +111,7 @@ public class PlayerControl implements EntityControl, ActionListener {
 			walkSound = AudioManager.newPositionalSoundEffect("Sound/Effects/walking.ogg");
 			walkSound.setPositional(false);
 			walkSound.setReverbEnabled(false);
+			walkSound.setLooping(true);
 		}
 		
 		if (!left && !right && !up && !down) {
