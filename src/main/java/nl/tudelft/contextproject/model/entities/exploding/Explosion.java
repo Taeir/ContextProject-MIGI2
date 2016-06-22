@@ -23,8 +23,8 @@ import nl.tudelft.contextproject.model.entities.util.Health;
  */
 public class Explosion extends AbstractEntity {
 
-	public static final float DAMAGE_MULTIPLIER = 1.5f;
 	private float maxRadius;
+	private float dmgMultiplier;
 	private Spatial spatial;
 	private AudioNode explodeSound;
 	private boolean soundStarted;
@@ -34,10 +34,13 @@ public class Explosion extends AbstractEntity {
 	 * Create an explosion with a certain maximal radius.
 	 * 
 	 * @param radius
-	 * 		the maximal radius of the explosion.	
+	 * 		the maximal radius of the explosion
+	 * @param damageMultiplier
+	 * 		the multiplier on the damage of the explosion
 	 */
-	public Explosion(float radius) {
+	public Explosion(float radius, float damageMultiplier) {
 		this.maxRadius = radius;
+		this.dmgMultiplier = damageMultiplier;
 		this.game = Main.getInstance().getCurrentGame();
 	}
 
@@ -75,7 +78,7 @@ public class Explosion extends AbstractEntity {
 			AudioManager.ensurePlaying(explodeSound);
 		}
 		
-		damageEntities(scale.x / 5, tpf * DAMAGE_MULTIPLIER);
+		damageEntities(scale.x / 5, tpf * dmgMultiplier);
 
 		float newScale = scale.x + this.maxRadius * tpf;
 		if (newScale >= maxRadius) {

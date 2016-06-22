@@ -32,7 +32,7 @@ public class ExplosionTest extends EntityTest {
 	@Before
 	public void setUp() {
 		TestUtil.mockGame();
-		explosion = spy(new Explosion(10));
+		explosion = spy(new Explosion(10, 1));
 	}
 
 	@Override

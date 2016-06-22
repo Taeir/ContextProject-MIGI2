@@ -28,6 +28,7 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 	public static final float DWARF_TIMER = 5;
 	public static final float KNIGHT_TIMER = 10;
 	public static final float RADIUS = 30f;
+	public static final float DAMAGE_MULTIPLIER = 1.5f;
 	
 	private boolean active;
 	private float timer;
@@ -79,7 +80,7 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 			if (timer < 0) {
 				AudioManager.stop(fuseSound);
 				
-				Explosion explosion = new Explosion(RADIUS);
+				Explosion explosion = new Explosion(RADIUS, DAMAGE_MULTIPLIER);
 				explosion.move(this.getLocation());
 				Main.getInstance().getCurrentGame().getEntities().add(explosion);
 				active = false;
