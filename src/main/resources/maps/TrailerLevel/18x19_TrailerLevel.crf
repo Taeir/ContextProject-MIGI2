@@ -1,0 +1,30 @@
+# The level that is used for the gameplay part of the trailer
+18 19 5 4
+- - # O # # # # # # # # # # # # # #
+- - # O O O O O O # # # O O O O O #
+# # # # # # O O O O O O O # O O O #
+# O O # # # # O O O O O O # # O O #
+# O O O O O # # # # # O # O O # # #
+# O O O O O O O O # O O O O O O O #
+# O O O O O # # O # O O O O O O O #
+# O O O O O # O O # O O O O O O O #
+# O O O # # # # O # # # # # # # O #
+# # # # # # # O O O # # O O O O O #
+- - - - - # - - - - # O O O O O O #
+- - - - - # - - - - # O # O O O # #
+- - - - - # O - - - # O # # # # # -
+- - - - - # # O O # # O # # # # - -
+- - - - - - # O O O O O # # # # - -
+- - - - - - # O O O O O O # O # - -
+- - - - - - # # O O O O O O O # - -
+- - - - - - - # # # # # # O O # - -
+- - - - - - - - - - - - # O O # - -
+15 0 3 Treasure
+13 0 10 Landmine
+4 0 5 Key 0/1/0/1
+6 0 5 Door 0/1/0/1 WEST
+1.5 0 6 Player
+2 6 6 PointLight 1/1/1/1 10
+10 4 2 PointLight 1/.8/.3/1 5
+7 6 8 PointLight 1/1/1/1 10
+16 4 10 PointLight 1/.8/.3/1 5
