@@ -61,11 +61,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.jme3.vr</groupId>
-			<artifactId>jme3-blender</artifactId>
-			<version>${jme3.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jme3.vr</groupId>
 			<artifactId>jme3-core</artifactId>
 			<version>${jme3.version}</version>
 		</dependency>

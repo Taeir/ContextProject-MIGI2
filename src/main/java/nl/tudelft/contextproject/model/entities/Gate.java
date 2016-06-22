@@ -50,7 +50,7 @@ public class Gate extends AbstractPhysicsEntity implements PhysicsObject {
 		Node node = new Node("Gate");
 		spatial = node;
 		
-		modelSpatial = Main.getInstance().getAssetManager().loadModel("Models/gate.blend");
+		modelSpatial = Main.getInstance().getAssetManager().loadModel("Models/gate.j3o");
 		modelSpatial.scale(0.5f, 1, 0.5f);
 		modelSpatial.rotate(0, (float) Math.PI, 0);
 		

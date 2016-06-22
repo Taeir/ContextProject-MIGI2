@@ -45,12 +45,12 @@ public class Torch extends AbstractEntity {
 		spatial = new Node("torch");
 		((Node) spatial).attachChild(fire);
 		if (type) {
-			torchSpatial = Main.getInstance().getAssetManager().loadModel("Models/torch.blend");
+			torchSpatial = Main.getInstance().getAssetManager().loadModel("Models/torch.j3o");
 			fire.setStartSize(0.15f);
 			fire.setEndSize(0.05f);
 			fire.move(-0.09f, 0.27f, -0.003f);
 		} else {
-			torchSpatial = Main.getInstance().getAssetManager().loadModel("Models/ceilinglamp.blend");
+			torchSpatial = Main.getInstance().getAssetManager().loadModel("Models/ceilinglamp.j3o");
 			fire.setStartSize(0.1f);
 			fire.setEndSize(0.04f);
 			fire.move(0, 0.11f, 0);
