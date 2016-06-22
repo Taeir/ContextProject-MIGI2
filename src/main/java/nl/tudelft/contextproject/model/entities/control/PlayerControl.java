@@ -10,6 +10,7 @@ import com.jme3.scene.Spatial;
 import jmevr.app.VRApplication;
 
 import nl.tudelft.contextproject.audio.AudioManager;
+import nl.tudelft.contextproject.audio.SoundType;
 import nl.tudelft.contextproject.model.entities.Entity;
 import nl.tudelft.contextproject.model.entities.moving.VRPlayer;
 
@@ -112,6 +113,7 @@ public class PlayerControl implements EntityControl, ActionListener {
 			walkSound.setPositional(false);
 			walkSound.setReverbEnabled(false);
 			walkSound.setLooping(true);
+			walkSound.setVolume(SoundType.EFFECT.getGain() * 0.65f);
 		}
 		
 		if (!left && !right && !up && !down) {
