@@ -47,7 +47,7 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 		Node node = new Node("Bomb");
 		spatial = node;
 		
-		modelSpatial = Main.getInstance().getAssetManager().loadModel("Models/bomb.blend");
+		modelSpatial = Main.getInstance().getAssetManager().loadModel("Models/bomb.j3o");
 		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		material.setTexture("LightMap", Main.getInstance().getAssetManager().loadTexture("Textures/bombtexture.png"));
 		material.setColor("Color", ColorRGBA.White);

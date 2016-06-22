@@ -25,7 +25,7 @@ public class Key extends AbstractPhysicsEntity implements PhysicsObject {
 	 */
 	public Key(ColorRGBA color) {
 		this.color = color;
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/key.blend");
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/key.j3o");
 		spatial.move(0, 1, 0);
 		Node node = (Node) spatial;
 		Geometry geometry = (Geometry) ((Node) node.getChild("Cube")).getChild(0);

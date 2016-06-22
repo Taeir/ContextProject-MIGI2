@@ -61,7 +61,7 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 		Node node = new Node("Door");
 		spatial = node;
 		
-		modelSpatial = Main.getInstance().getAssetManager().loadModel("Models/newDoor.blend");
+		modelSpatial = Main.getInstance().getAssetManager().loadModel("Models/newDoor.j3o");
 		modelSpatial.scale(1f, 1f, 0.75f);
 		modelSpatial.rotate(0, (float) Math.PI, 0);
 

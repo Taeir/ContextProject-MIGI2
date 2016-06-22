@@ -29,7 +29,7 @@ public class Treasure extends PlayerTrigger {
 	public Spatial getSpatial() {
 		if (spatial != null) return spatial;
 
-		spatial = Main.getInstance().getAssetManager().loadModel("Models/chest.blend");
+		spatial = Main.getInstance().getAssetManager().loadModel("Models/chest.j3o");
 		spatial.move(0, 1f, 0);
 		return spatial;
 	}
