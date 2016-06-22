@@ -20,6 +20,8 @@ import nl.tudelft.contextproject.model.entities.util.EntityType;
  */
 public class LandMine extends PlayerTrigger {
 
+	public static final float RADIUS = 20f;
+	public static final float DAMAGE_MULTIPLIER = 1f;
 	private Spatial spatial;
 
 	/**
@@ -53,7 +55,7 @@ public class LandMine extends PlayerTrigger {
 	
 	@Override
 	public void onTrigger() {
-		Explosion explosion = new Explosion(20f);
+		Explosion explosion = new Explosion(RADIUS, DAMAGE_MULTIPLIER);
 		Vector3f location = getLocation();
 		explosion.move(location.x, location.y, location.z);
 		Main.getInstance().getCurrentGame().addEntity(explosion);

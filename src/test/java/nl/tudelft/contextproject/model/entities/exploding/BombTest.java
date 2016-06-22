@@ -59,24 +59,23 @@ public class BombTest extends EntityTest {
 	 * Tests if activating the bomb sets it to active.
 	 */
 	@Test
-	public void testactive() {
-		bomb.activate();
+	public void testActive() {
+		bomb.activate(false);
 		assertTrue(bomb.getActive());
-
 	}
 
 	/**
 	 * Tests if updating an active bomb increases the timer.
 	 */
 	@Test
-	public void testUpdateactive() {
-		bomb.activate();
+	public void testUpdateActive() {
+		bomb.activate(true);
 		Spatial spatialMock = mock(Spatial.class);
 		bomb.setSpatial(spatialMock);
 		when(spatialMock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
 		when(spatialMock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
 		bomb.update(1);
-		assertEquals(Bomb.TIMER - 1, bomb.getTimer(), 1E-5);
+		assertEquals(Bomb.DWARF_TIMER - 1, bomb.getTimer(), 1E-5);
 	}
 	/**
 	 * Tests if an active bomb disappears after 5 seconds.
@@ -84,7 +83,7 @@ public class BombTest extends EntityTest {
 	@Test
 	public void testUpdateActiveFiveSeconds() {
 		TestUtil.mockGame();
-		bomb.activate();
+		bomb.activate(true);
 		bomb.update(11.1f);
 		assertEquals(EntityState.DEAD, bomb.getState());
 	}

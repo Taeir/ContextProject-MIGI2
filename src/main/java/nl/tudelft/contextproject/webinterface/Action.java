@@ -8,7 +8,7 @@ public enum Action {
 	PLACEBOMB(10, 		2, 					3, false),
 	PLACEPITFALL(10, 	1, 					3, false),
 	PLACEMINE(10, 		1, 					3, false),
-	SPAWNENEMY(15, 		1, 					3, false),
+	SPAWNENEMY(20, 		1, 					3, false),
 	DROPBAIT(10, 		1, 					0, false),
 	PLACETILE(0, 		Integer.MAX_VALUE,  0, true),
 	OPENGATE(5, 		1, 					0, false),

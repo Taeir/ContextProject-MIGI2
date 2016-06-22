@@ -24,6 +24,7 @@ import nl.tudelft.contextproject.model.entities.util.Health;
 public class Explosion extends AbstractEntity {
 
 	private float maxRadius;
+	private float dmgMultiplier;
 	private Spatial spatial;
 	private AudioNode explodeSound;
 	private boolean soundStarted;
@@ -33,10 +34,13 @@ public class Explosion extends AbstractEntity {
 	 * Create an explosion with a certain maximal radius.
 	 * 
 	 * @param radius
-	 * 		the maximal radius of the explosion.	
+	 * 		the maximal radius of the explosion
+	 * @param damageMultiplier
+	 * 		the multiplier on the damage of the explosion
 	 */
-	public Explosion(float radius) {
+	public Explosion(float radius, float damageMultiplier) {
 		this.maxRadius = radius;
+		this.dmgMultiplier = damageMultiplier;
 		this.game = Main.getInstance().getCurrentGame();
 	}
 
@@ -47,7 +51,7 @@ public class Explosion extends AbstractEntity {
 		Node node = new Node("Explosion");
 		spatial = node;
 		
-		Sphere sphere = new Sphere(10, 10, .1f);
+		Sphere sphere = new Sphere(10, 10, .2f);
 		Spatial spatial = new Geometry("BOOM!", sphere);
 		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		material.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/explosion.png"));
@@ -69,18 +73,19 @@ public class Explosion extends AbstractEntity {
 	@Override
 	public void update(float tpf) {
 		Vector3f scale = spatial.getLocalScale();
-		if (scale.x > maxRadius) {
-			setState(EntityState.DEAD);
-			return;
-		} else if (!soundStarted) {
+		if (!soundStarted) {
 			soundStarted = true;
 			AudioManager.ensurePlaying(explodeSound);
 		}
 		
-		damageEntities(scale.x / 5f, tpf);
+		damageEntities(scale.x / 5, tpf * dmgMultiplier);
 
-		float concurrentMaxRadius = this.maxRadius * tpf;
-		spatial.setLocalScale(scale.x + concurrentMaxRadius);
+		float newScale = scale.x + this.maxRadius * tpf;
+		if (newScale >= maxRadius) {
+			setState(EntityState.DEAD);
+		} else {
+			spatial.setLocalScale(newScale);
+		}
 	}
 
 	/**
