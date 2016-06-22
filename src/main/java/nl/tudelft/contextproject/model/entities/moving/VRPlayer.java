@@ -61,8 +61,8 @@ public class VRPlayer extends MovingEntity implements PhysicsObject, Observable,
 	public static final int EXPLORATION_RADIUS = 8;
 	
 	//Health constants
-	public static final float PLAYER_MAX_HEALTH = 8f;
-	public static final float PLAYER_HEALTH = 8f;
+	public static final float PLAYER_MAX_HEALTH = 4f;
+	public static final float PLAYER_HEALTH = 4f;
 	
 	//The range in which the player can interact with entities (e.g. picking up bombs/keys and opening doors)
 	public static final float INTERACT_RANGE = 2f;
