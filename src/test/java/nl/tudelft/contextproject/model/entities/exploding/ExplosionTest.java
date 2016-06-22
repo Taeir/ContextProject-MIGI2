@@ -32,7 +32,7 @@ public class ExplosionTest extends EntityTest {
 	@Before
 	public void setUp() {
 		TestUtil.mockGame();
-		explosion = new Explosion(10);
+		explosion = spy(new Explosion(10));
 	}
 
 	@Override
@@ -50,6 +50,8 @@ public class ExplosionTest extends EntityTest {
 	 */
 	@Test
 	public void testUpdateMaxRadius() {
+		doNothing().when(explosion).damageEntities(anyFloat(), anyFloat());
+		
 		Spatial spatialMock = mock(Spatial.class);
 		explosion.setSpatial(spatialMock);
 		when(spatialMock.getLocalScale()).thenReturn(new Vector3f(11, 11, 11));
@@ -66,7 +68,7 @@ public class ExplosionTest extends EntityTest {
 		explosion.setSpatial(spatialMock);
 		when(spatialMock.getLocalScale()).thenReturn(new Vector3f(1, 1, 1));
 		when(spatialMock.getLocalTranslation()).thenReturn(new Vector3f(1, 1, 1));
-		explosion.update(1);
+		explosion.update(0.1f);
 		verify(spatialMock, times(1)).setLocalScale(AdditionalMatchers.gt(1f));
 	}
 	

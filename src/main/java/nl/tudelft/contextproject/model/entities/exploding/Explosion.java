@@ -23,6 +23,7 @@ import nl.tudelft.contextproject.model.entities.util.Health;
  */
 public class Explosion extends AbstractEntity {
 
+	public static final float DAMAGE_MULTIPLIER = 1.5f;
 	private float maxRadius;
 	private Spatial spatial;
 	private AudioNode explodeSound;
@@ -47,7 +48,7 @@ public class Explosion extends AbstractEntity {
 		Node node = new Node("Explosion");
 		spatial = node;
 		
-		Sphere sphere = new Sphere(10, 10, .1f);
+		Sphere sphere = new Sphere(10, 10, .2f);
 		Spatial spatial = new Geometry("BOOM!", sphere);
 		Material material = new Material(Main.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
 		material.setTexture("ColorMap", Main.getInstance().getAssetManager().loadTexture("Textures/explosion.png"));
@@ -69,18 +70,19 @@ public class Explosion extends AbstractEntity {
 	@Override
 	public void update(float tpf) {
 		Vector3f scale = spatial.getLocalScale();
-		if (scale.x > maxRadius) {
-			setState(EntityState.DEAD);
-			return;
-		} else if (!soundStarted) {
+		if (!soundStarted) {
 			soundStarted = true;
 			AudioManager.ensurePlaying(explodeSound);
 		}
 		
-		damageEntities(scale.x / 5f, tpf);
+		damageEntities(scale.x / 5, tpf * DAMAGE_MULTIPLIER);
 
-		float concurrentMaxRadius = this.maxRadius * tpf;
-		spatial.setLocalScale(scale.x + concurrentMaxRadius);
+		float newScale = scale.x + this.maxRadius * tpf;
+		if (newScale >= maxRadius) {
+			setState(EntityState.DEAD);
+		} else {
+			spatial.setLocalScale(newScale);
+		}
 	}
 
 	/**
