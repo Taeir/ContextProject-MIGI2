@@ -27,6 +27,7 @@ import nl.tudelft.contextproject.model.entities.util.Holdable;
 public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdable {
 	public static final float DWARF_TIMER = 5;
 	public static final float KNIGHT_TIMER = 10;
+	public static final float RADIUS = 30f;
 	
 	private boolean active;
 	private float timer;
@@ -78,7 +79,7 @@ public class Bomb extends AbstractPhysicsEntity implements PhysicsObject, Holdab
 			if (timer < 0) {
 				AudioManager.stop(fuseSound);
 				
-				Explosion explosion = new Explosion(40f);
+				Explosion explosion = new Explosion(RADIUS);
 				explosion.move(this.getLocation());
 				Main.getInstance().getCurrentGame().getEntities().add(explosion);
 				active = false;
