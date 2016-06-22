@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.audio.AudioNode;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.Light;
@@ -13,6 +14,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.util.SkyFactory;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.hud.HUD;
 import nl.tudelft.contextproject.model.Game;
 import nl.tudelft.contextproject.model.entities.Entity;
@@ -111,6 +113,8 @@ public abstract class GameThreadController extends Controller {
 		addInputListener((ActionListener) this::onPause, "pause");
 
 		addInputListener((PlayerControl) game.getPlayer().getControl(), "Left", "Right", "Up", "Down", "Jump", "Drop", "Pickup");
+		
+		registerSounds();
 	}
 
 	/**
@@ -282,5 +286,21 @@ public abstract class GameThreadController extends Controller {
 		} else {
 			getHUD().showPopupText("Unpaused", ColorRGBA.White, 2);
 		}
+	}
+	
+	/**
+	 * Registers all global sound effects.
+	 */
+	public void registerSounds() {
+		AudioNode jumpNode = AudioManager.newPositionalSoundEffect("Sound/Effects/jump.ogg");
+		jumpNode.setPositional(false);
+		jumpNode.setReverbEnabled(false);
+		
+		addInputListener((ActionListener) (name, isPressed, tpf) -> {
+			if (!isPressed) return;
+			if (!getGame().getPlayer().getPhysicsObject().onGround()) return;
+			
+			jumpNode.playInstance();
+		}, "Jump");
 	}
 }

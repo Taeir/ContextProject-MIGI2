@@ -1,11 +1,13 @@
 package nl.tudelft.contextproject.model.entities;
 
+import com.jme3.audio.AudioNode;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
 
 import nl.tudelft.contextproject.Main;
+import nl.tudelft.contextproject.audio.AudioManager;
 import nl.tudelft.contextproject.model.entities.util.EntityState;
 import nl.tudelft.contextproject.model.entities.util.EntityType;
 
@@ -17,6 +19,7 @@ public class Carrot extends AbstractEntity {
 	private float health;
 	private Spatial spatial;
 	private Spatial carrot, carrot2, carrot3, carrot4;
+	private AudioNode eatSound;
 	private boolean updated;
 
 	/**
@@ -33,10 +36,11 @@ public class Carrot extends AbstractEntity {
 		Node node = new Node("CarrotNode");
 		spatial = node;
 		
-		carrot = Main.getInstance().getAssetManager().loadModel("Models/carrot.blend");
-		carrot2 = Main.getInstance().getAssetManager().loadModel("Models/carrot2.blend");
-		carrot3 = Main.getInstance().getAssetManager().loadModel("Models/carrot3.blend");
-		carrot4 = Main.getInstance().getAssetManager().loadModel("Models/carrot4.blend");
+		carrot = Main.getInstance().getAssetManager().loadModel("Models/carrot.j3o");
+		carrot2 = Main.getInstance().getAssetManager().loadModel("Models/carrot2.j3o");
+		carrot3 = Main.getInstance().getAssetManager().loadModel("Models/carrot3.j3o");
+		carrot4 = Main.getInstance().getAssetManager().loadModel("Models/carrot4.j3o");
+		eatSound = AudioManager.newPositionalSoundEffect("Sound/Effects/carrot_eat.ogg");
 		
 		carrot2.setCullHint(CullHint.Always);
 		carrot3.setCullHint(CullHint.Always);
@@ -46,6 +50,7 @@ public class Carrot extends AbstractEntity {
 		node.attachChild(carrot2);
 		node.attachChild(carrot3);
 		node.attachChild(carrot4);
+		node.attachChild(eatSound);
 		
 		node.move(0, 1, 0);
 		
@@ -94,7 +99,10 @@ public class Carrot extends AbstractEntity {
 		updated = true;
 		health -= amount;
 		if (health < 0) {
+			AudioManager.stop(eatSound);
 			setState(EntityState.DEAD);
+		} else {
+			AudioManager.ensurePlaying(eatSound);
 		}
 	}
 

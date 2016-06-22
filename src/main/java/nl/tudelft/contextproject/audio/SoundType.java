@@ -8,7 +8,7 @@ public enum SoundType {
 	BACKGROUND_MUSIC,
 	AMBIENT;
 	
-	private float gain = 10f;
+	private float gain = 1f;
 	
 	/**
 	 * Gets the gain for sounds of this type.

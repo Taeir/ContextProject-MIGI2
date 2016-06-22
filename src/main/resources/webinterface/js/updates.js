@@ -273,10 +273,10 @@ function updateEntities(data) {
         if (gEntities !== null) {
             //Remove the old data
             for (var i = 0, len = gEntities.length; i < len; i++) {
-                var type = EntityTypes[gEntities[i].t];
+                var type = EntityTypes[gEntities[i][0]];
                 if (type === undefined) continue;
                 
-                var element = document.getElementById("y" + gEntities[i].y + "x" + gEntities[i].x);
+                var element = document.getElementById("y" + gEntities[i][2] + "x" + gEntities[i][1]);
                 if (element == null) continue;
                 
                 element.classList.remove(type);
@@ -287,25 +287,25 @@ function updateEntities(data) {
         }
         
         for (var i = 0, len = data.length; i < len; i++) {
-            var type = EntityTypes[data[i].t];
+            var type = EntityTypes[data[i][0]];
             if (type === undefined) continue;
             
-            var element = document.getElementById("y" + data[i].y + "x" + data[i].x);
+            var element = document.getElementById("y" + data[i][2] + "x" + data[i][1]);
             if (element == null) continue;
             
             element.classList.add(type);
             if (type === "Bomb") {
-                element.innerHTML = data[i].d;
+                element.innerHTML = data[i][3];
             }
         }
     } else {
         if (gEntities !== null) {
             //Remove the old data
             for (var i = 0, len = gEntities.length; i < len; i++) {
-                var type = EntityTypes[gEntities[i].t];
+                var type = EntityTypes[gEntities[i][0]];
                 if (type === undefined) continue;
                 
-                $(document.getElementById("y" + gEntities[i].y + "x" + gEntities[i].x)).removeClass(type);
+                $(document.getElementById("y" + gEntities[i][2] + "x" + gEntities[i][1])).removeClass(type);
                 if (type === "Bomb") {
                     element.innerHTML = "";
                 }
@@ -313,12 +313,12 @@ function updateEntities(data) {
         }
         
         for (var i = 0, len = data.length; i < len; i++) {
-            var type = EntityTypes[data[i].t];
+            var type = EntityTypes[data[i][0]];
             if (type === undefined) continue;
             
-            $(document.getElementById("y" + data[i].y + "x" + data[i].x)).addClass(type);
+            $(document.getElementById("y" + data[i][2] + "x" + data[i][1])).addClass(type);
             if (type === "Bomb") {
-                element.innerHTML = data[i].d;
+                element.innerHTML = data[i][3];
             }
         }
     }

@@ -21,8 +21,8 @@ public class BunnyAI implements EntityControl {
 
 	//The damage per second that a bunny will do
 	private static final float ATTACK_DAMAGE = 1f;
-	//The range in which the bunny attacks
-	private static final double ATTACK_RANGE = .8;
+	//The range in which the bunny attacks (squared)
+	private static final float ATTACK_RANGE = .8f * .8f;
 	//The frequency of jumps of the bunny
 	private static final float JUMP_FREQUENCY = 2;
 	
@@ -50,7 +50,7 @@ public class BunnyAI implements EntityControl {
 		if (player == null) return;
 		this.entities = game.getEntities();
 		
-		float playerdist = player.getLocation().distance(owner.getLocation());
+		float playerdist = player.getLocation().distanceSquared(owner.getLocation());
 		if (playerdist < ATTACK_RANGE) {
 			player.takeDamage(tpf * ATTACK_DAMAGE);
 			return;
@@ -63,7 +63,7 @@ public class BunnyAI implements EntityControl {
 			spatial.lookAt(target.getLocation(), Vector3f.UNIT_Y);
 			spatial.rotate(0, (float) Math.toRadians(-100), 0);
 		}
-		Vector3f move = target.getLocation().subtract(owner.getLocation()).normalize().mult(tpf);
+		Vector3f move = target.getLocation().subtract(owner.getLocation()).normalizeLocal().multLocal(tpf);
 		owner.move(move.x, move.y, move.z);
 	}
 
@@ -82,7 +82,7 @@ public class BunnyAI implements EntityControl {
 		Carrot carrot = findClosestCarrot();
 		if (carrot == null) return player;
 		
-		float carrotDist = carrot.getLocation().distance(owner.getLocation());
+		float carrotDist = carrot.getLocation().distanceSquared(owner.getLocation());
 		if (carrotDist < ATTACK_RANGE) {
 			carrot.eat(tpf);
 		}
@@ -106,7 +106,7 @@ public class BunnyAI implements EntityControl {
 		for (Entity entity : entities) {
 			if (!(entity instanceof Carrot)) continue;
 			
-			float entityDistanaceOfOwner = entity.getLocation().distance(owner.getLocation());
+			float entityDistanaceOfOwner = entity.getLocation().distanceSquared(owner.getLocation());
 			if (carrot == null || entityDistanaceOfOwner < distance) {
 				carrot = (Carrot) entity;
 				distance = entityDistanaceOfOwner;

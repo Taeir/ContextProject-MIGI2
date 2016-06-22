@@ -20,8 +20,20 @@ public class ScriptLoader {
 	 * 		when the given path is an invalid location
 	 */
 	public ScriptLoader(String path) throws ScriptLoaderException {
+		this(new File(path.replace("%20", " ")));
+	}
+	
+	/**
+	 * Constructor for ScriptLoader.
+	 *
+	 * @param path
+	 * 		the folder in which the scripts are located
+	 * @throws ScriptLoaderException
+	 * 		when the given path is an invalid location
+	 */
+	public ScriptLoader(File path) throws ScriptLoaderException {
 		try {
-			URL url = (new File(path.replace("%20", " "))).toURI().toURL();
+			URL url = path.toURI().toURL();
 			URL[] urls = {url};
 		    cl = new URLClassLoader(urls);
 		} catch (MalformedURLException e) {
