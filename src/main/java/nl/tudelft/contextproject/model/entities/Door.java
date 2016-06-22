@@ -90,7 +90,7 @@ public class Door extends AbstractPhysicsEntity implements PhysicsObject {
 		if (rigidBody != null) return rigidBody;
 		if (spatial == null) getSpatial();
 
-		CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(modelSpatial);
+		CollisionShape sceneShape = CollisionShapeFactory.createBoxShape(modelSpatial);
 		rigidBody = new RigidBodyControl(sceneShape, 0);
 		rigidBody.setPhysicsLocation(spatial.getLocalTranslation());
 		return rigidBody;
