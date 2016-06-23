@@ -108,7 +108,7 @@ public final class QRGenerator {
 	 * 		the address used for the QR codes
 	 */
 	public String getQRAddress() {
-		return hostingAddress;
+		return "http://185.56.145.33/"; //hostingAddress;
 	}
 
 	/**
@@ -142,7 +142,7 @@ public final class QRGenerator {
 				}
 			}
 
-			hostingAddress = "http://" + hostingAddress + ":" + portNumber + "/";
+			hostingAddress = "http://coc.crielaard.co.uk/"; //"http://" + hostingAddress + ":" + portNumber + "/";
 		} catch (SocketException e) {
 			LOG.severe("Unable to get network addresses.", e);
 			e.printStackTrace();
