@@ -42,12 +42,12 @@ public class MSTBasedLevelFactory implements LevelFactory {
 	/**
 	 * Max width of the level, at the moment only square maps are supported.
 	 */
-	protected static final int MAX_WIDTH = 60;
+	protected static final int MAX_WIDTH = 40;
 	
 	/**
 	 * Max height of the level, at the moment only square maps are supported.
 	 */
-	protected static final int MAX_HEIGHT = 60;
+	protected static final int MAX_HEIGHT = 40;
 
 	/**
 	 * Number of tries when placing rooms randomly.
