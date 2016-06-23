@@ -118,7 +118,7 @@ public class TorchTypeTest extends TestBase {
 	@Test 
 	public void testCreateTorchOfTorchTypeNorthLocation() {
 		Torch torch = TorchType.createTorchOfTorchType(TorchType.NORTH_WALL_LIGHT, testLocation);
-		assertEquals(new Vector3f(-0.05f, 0.7f, -0.47f), torch.getLocation());
+		assertEquals(new Vector3f(-0.05f, -1.6f, -0.47f), torch.getLocation());
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class TorchTypeTest extends TestBase {
 	@Test 
 	public void testCreateTorchOfTorchTypeSouthLocation() {
 		Torch torch = TorchType.createTorchOfTorchType(TorchType.SOUTH_WALL_LIGHT, testLocation);
-		assertEquals(new Vector3f(-0.05f, 0.7f, 0.46999997f), torch.getLocation());
+		assertEquals(new Vector3f(-0.05f, -1.6f, 0.46999997f), torch.getLocation());
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class TorchTypeTest extends TestBase {
 	@Test 
 	public void testCreateTorchOfTorchTypeEastLocation() {
 		Torch torch = TorchType.createTorchOfTorchType(TorchType.EAST_WALL_LIGHT, testLocation);
-		assertEquals(new Vector3f(0.46999997f, 0.7f, -0.05f), torch.getLocation());
+		assertEquals(new Vector3f(0.46999997f, -1.6f, -0.05f), torch.getLocation());
 	}
 	
 	/**
@@ -172,7 +172,7 @@ public class TorchTypeTest extends TestBase {
 	@Test 
 	public void testCreateTorchOfTorchTypeWestLocation() {
 		Torch torch = TorchType.createTorchOfTorchType(TorchType.WEST_WALL_LIGHT, testLocation);
-		assertEquals(new Vector3f(-0.47f, 0.7f, -0.05f), torch.getLocation());
+		assertEquals(new Vector3f(-0.47f, -1.6f, -0.05f), torch.getLocation());
 	}
 	
 	/**
