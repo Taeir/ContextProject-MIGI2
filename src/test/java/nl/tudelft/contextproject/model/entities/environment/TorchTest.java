@@ -42,7 +42,7 @@ public class TorchTest extends EntityTest {
 	@Test
 	public void testLoadEntity() {
 		Torch torch = Torch.loadEntity(loadPosition, new String[] {"1", "1", "1", EntityType.TORCH.getName(), "true"});
-		assertEquals(new Vector3f(0.95f, 1.7f, 0.95f), torch.getLocation());
+		assertEquals(new Vector3f(0.95f, -0.6f, 0.95f), torch.getLocation());
 	}
 	
 	/**
