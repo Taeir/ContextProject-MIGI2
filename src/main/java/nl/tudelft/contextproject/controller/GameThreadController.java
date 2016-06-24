@@ -81,7 +81,7 @@ public abstract class GameThreadController extends Controller {
 			factory = new MSTBasedLevelFactory(folder); 	
 		}
 		
-		Level level = factory.generateRandom();
+		Level level = factory.generateSeeded(5);
 		game = new Game(level, this, timeLimit);
 	}
 
