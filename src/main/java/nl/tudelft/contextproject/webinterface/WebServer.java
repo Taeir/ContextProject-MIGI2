@@ -23,9 +23,9 @@ import org.eclipse.jetty.websocket.api.StatusCode;
 public class WebServer {
 	public static final String COOKIE_NAME = "COC_SESSION";
 	public static final int COOKIE_MAX_AGE = 24 * 60;
-	public static final int MAX_PLAYERS = 4;
-	public static final int MAX_DWARFS = 2;
-	public static final int MAX_ELVES = 2;
+	public static final int MAX_PLAYERS = 8;
+	public static final int MAX_DWARFS = 4;
+	public static final int MAX_ELVES = 4;
 	
 	private Map<String, WebClient> clients = new ConcurrentHashMap<>();
 	private boolean running;
