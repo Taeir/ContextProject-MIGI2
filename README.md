@@ -15,7 +15,7 @@ This project is made by the group *MIGI2* for the [TU Delft] context project 201
 *View the trailer on Youtube*
 
 ### About the game
-The Cave of Caerbannog is a dungeon slash maze game with a simple goal: get to the treasure without
+The Cave of Caerbannog is an award winning dungeon slash maze game with a simple goal: get to the treasure without
 dying. At least, that is the goal for some of the players.
 
 The players are divided into 2 teams, with 3 different roles:
